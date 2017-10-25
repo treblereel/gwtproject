@@ -27,13 +27,23 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.google.jsinterop</groupId>
+            <artifactId>jsinterop-annotations</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
+        <!-- As the nature of this project is to move the "xml" module to jsinterop, gwt2 is no longer a dependency -->
+        <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-user</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-dev</artifactId>
+            <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -79,14 +89,9 @@
                 <extensions>true</extensions>
                 <configuration>
                     <moduleName>org.gwtproject.xml.XML</moduleName>
-
                     <includes>**/*GwtTest.java</includes>
-
                 </configuration>
-
             </plugin>
-
-
         </plugins>
     </build>
 </project>
