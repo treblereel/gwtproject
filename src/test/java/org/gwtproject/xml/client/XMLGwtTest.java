@@ -315,7 +315,6 @@ public class XMLGwtTest extends GWTTestCase {
      * At one point, this test was failing on one Safari configuration in
      * Production Mode in the 1.5 release branch.
      */
-    @DoNotRunWith({Platform.HtmlUnitUnknown})
     public void testParse() {
         Document docA = XMLParser.parse("<!--hello-->   <a spam=\"ham\">\n  <?pi hello ?>dfgdfg  <b/>\t</a>");
 
