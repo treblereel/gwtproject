@@ -18,20 +18,8 @@ package org.gwtproject.user.window.client;
 import static elemental2.dom.DomGlobal.document;
 import static elemental2.dom.DomGlobal.window;
 
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.event.logical.shared.HasCloseHandlers;
-import com.google.gwt.event.logical.shared.HasResizeHandlers;
-import com.google.gwt.event.logical.shared.ResizeEvent;
-import com.google.gwt.event.logical.shared.ResizeHandler;
-import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.http.client.URL;
-import com.google.gwt.http.client.UrlBuilder;
 import elemental2.dom.CSSProperties.MarginUnionType;
 import elemental2.dom.DomGlobal;
-import elemental2.dom.Event;
 import elemental2.dom.HTMLElement;
 import elemental2.dom.Window.OnbeforeunloadCallbackFn;
 import elemental2.dom.Window.OnresizeCallbackFn;
@@ -41,6 +29,17 @@ import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.base.Js;
+import org.gwtproject.event.logical.shared.CloseEvent;
+import org.gwtproject.event.logical.shared.CloseHandler;
+import org.gwtproject.event.logical.shared.HasCloseHandlers;
+import org.gwtproject.event.logical.shared.HasResizeHandlers;
+import org.gwtproject.event.logical.shared.ResizeEvent;
+import org.gwtproject.event.logical.shared.ResizeHandler;
+import org.gwtproject.event.shared.Event;
+import org.gwtproject.event.shared.HandlerRegistration;
+import org.gwtproject.event.shared.SimpleEventBus;
+import org.gwtproject.http.client.URL;
+import org.gwtproject.http.client.UrlBuilder;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -58,7 +57,7 @@ public class Window {
    * Fired just before the browser window closes or navigates to a different
    * site.
    */
-  public static class ClosingEvent extends GwtEvent<Window.ClosingHandler> {
+  public static class ClosingEvent extends Event<ClosingHandler> {
     /**
      * The event type.
      */
@@ -111,7 +110,7 @@ public class Window {
   /**
    * Handler for {@link Window.ClosingEvent} events.
    */
-  public interface ClosingHandler extends com.google.gwt.event.shared.EventHandler {
+  public interface ClosingHandler {
     /**
      * Fired just before the browser window closes or navigates to a different
      * site. No user-interface may be displayed during shutdown.
@@ -435,7 +434,7 @@ public class Window {
   /**
    * Fired when the browser window is scrolled.
    */
-  public static class ScrollEvent extends GwtEvent<Window.ScrollHandler> {
+  public static class ScrollEvent extends Event<Window.ScrollHandler> {
     /**
      * The event type.
      */
@@ -491,7 +490,7 @@ public class Window {
   /**
    * Handler for {@link Window.ScrollEvent} events.
    */
-  public interface ScrollHandler extends com.google.gwt.event.shared.EventHandler {
+  public interface ScrollHandler {
     /**
      * Fired when the browser window is scrolled.
      *
@@ -500,12 +499,8 @@ public class Window {
     void onWindowScroll(Window.ScrollEvent event);
   }
 
-  private static class WindowHandlers extends HandlerManager implements
+  private static class WindowHandlers extends SimpleEventBus implements
       HasCloseHandlers<Window>, HasResizeHandlers {
-
-    public WindowHandlers() {
-      super(null);
-    }
 
     public HandlerRegistration addCloseHandler(CloseHandler<Window> handler) {
       return addHandler(CloseEvent.getType(), handler);
@@ -513,10 +508,6 @@ public class Window {
 
     public HandlerRegistration addResizeHandler(ResizeHandler handler) {
       return addHandler(ResizeEvent.getType(), handler);
-    }
-
-    public HandlerManager getHandlers() {
-      return this;
     }
   }
 
@@ -833,8 +824,8 @@ public class Window {
    * @param handler the handler
    * @return {@link HandlerRegistration} used to remove the handler
    */
-  private static <H extends com.google.gwt.event.shared.EventHandler> HandlerRegistration addHandler(
-      GwtEvent.Type<H> type, final H handler) {
+  private static <H> HandlerRegistration addHandler(
+      Event.Type<H> type, final H handler) {
     return getHandlers().addHandler(type, handler);
   }
 
@@ -843,7 +834,7 @@ public class Window {
    *
    * @param event the event
    */
-  private static void fireEvent(GwtEvent<?> event) {
+  private static void fireEvent(Event<?> event) {
     if (handlers != null) {
       handlers.fireEvent(event);
     }
@@ -869,7 +860,7 @@ public class Window {
 
     window.onbeforeunload = new OnbeforeunloadCallbackFn() {
       @Override
-      public Object onInvoke(Event evt) {
+      public Object onInvoke(elemental2.dom.Event evt) {
         Object ret, oldRet;
         try {
           ret = onClosing();
@@ -889,7 +880,7 @@ public class Window {
 
     window.onunload = new OnunloadCallbackFn() {
       @Override
-      public Object onInvoke(Event evt) {
+      public Object onInvoke(elemental2.dom.Event evt) {
         try {
           onClosed();
         } finally {
@@ -917,7 +908,7 @@ public class Window {
     OnresizeCallbackFn oldOnResize = window.onresize;
     window.onresize = new OnresizeCallbackFn() {
       @Override
-      public Object onInvoke(Event evt) {
+      public Object onInvoke(elemental2.dom.Event evt) {
         try {
           onResize();
         } finally {
@@ -941,7 +932,7 @@ public class Window {
     OnscrollCallbackFn oldOnScroll = window.onscroll;
     window.onscroll = new OnscrollCallbackFn () {
       @Override
-      public Object onInvoke(Event evt) {
+      public Object onInvoke(elemental2.dom.Event evt) {
         try {
           onScroll();
         } finally {
