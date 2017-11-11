@@ -18,7 +18,6 @@ package org.gwtproject.user.window.client;
 import static elemental2.dom.DomGlobal.document;
 import static elemental2.dom.DomGlobal.window;
 
-import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.logical.shared.HasCloseHandlers;
@@ -33,6 +32,7 @@ import com.google.gwt.http.client.UrlBuilder;
 import elemental2.dom.CSSProperties.MarginUnionType;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.Event;
+import elemental2.dom.HTMLElement;
 import elemental2.dom.Window.OnbeforeunloadCallbackFn;
 import elemental2.dom.Window.OnresizeCallbackFn;
 import elemental2.dom.Window.OnscrollCallbackFn;
@@ -605,7 +605,7 @@ public class Window {
    * @param enable <code>false</code> to disable window scrolling
    */
   public static void enableScrolling(boolean enable) {
-    Document.get().enableScrolling(enable);
+    ((HTMLElement) document.documentElement).style.overflow = enable ? "auto" : "hidden";
   }
 
   /**
@@ -615,7 +615,7 @@ public class Window {
    * @return the window's client height
    */
   public static int getClientHeight() {
-    return Document.get().getClientHeight();
+    return (int) document.documentElement.clientHeight;
   }
 
   /**
@@ -625,7 +625,7 @@ public class Window {
    * @return the window's client width
    */
   public static int getClientWidth() {
-    return Document.get().getClientWidth();
+    return (int) document.documentElement.clientWidth;
   }
 
   /**
@@ -634,7 +634,7 @@ public class Window {
    * @return window's scroll left
    */
   public static int getScrollLeft() {
-    return Document.get().getScrollLeft();
+    return (int) document.documentElement.scrollLeft;
   }
 
   /**
@@ -643,7 +643,7 @@ public class Window {
    * @return the window's scroll top
    */
   public static int getScrollTop() {
-    return Document.get().getScrollTop();
+    return (int) document.documentElement.scrollTop;
   }
 
   /**
