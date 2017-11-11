@@ -18,8 +18,6 @@ package org.gwtproject.user.window.client;
 import static elemental2.dom.DomGlobal.document;
 import static elemental2.dom.DomGlobal.window;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.JavaScriptException;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
@@ -327,9 +325,8 @@ public class Window {
           String val = kv.length > 1 ? kv[1] : "";
           try {
             val = URL.decodeQueryString(val);
-          } catch (JavaScriptException e) {
-            GWT.log("Cannot decode a URL query string parameter=" + key +
-                " value=" + val, e);
+          } catch (Throwable e) {
+            // ignore error, keep undecoded name
           }
 
           List<String> values = out.get(key);
@@ -860,7 +857,7 @@ public class Window {
   }
 
   private static void maybeInitializeCloseHandlers() {
-    if (GWT.isClient() && !closeHandlersInitialized) {
+    if (!closeHandlersInitialized) {
       initWindowCloseHandler();
       closeHandlersInitialized = true;
     }
@@ -910,7 +907,7 @@ public class Window {
   }
 
   private static void maybeInitializeResizeHandlers() {
-    if (GWT.isClient() && !resizeHandlersInitialized) {
+    if (!resizeHandlersInitialized) {
       initWindowResizeHandler();
       resizeHandlersInitialized = true;
     }
@@ -934,7 +931,7 @@ public class Window {
   }
 
   private static void maybeInitializeScrollHandlers() {
-    if (GWT.isClient() && !scrollHandlersInitialized) {
+    if (!scrollHandlersInitialized) {
       initWindowScrollHandler();
       scrollHandlersInitialized = true;
     }
