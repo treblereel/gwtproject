@@ -30,7 +30,6 @@ import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.http.client.UrlBuilder;
-import org.gwtproject.user.window.client.impl.WindowImpl;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -169,9 +168,9 @@ public class Window {
      *
      * @return the string to the right of the URL's hash.
      */
-    public static String getHash() {
-      return impl.getHash();
-    }
+    public static native String getHash() /*-{
+      return $wnd.location.hash;
+    }-*/;
 
     /**
      * Gets the URL's host and port name.
@@ -263,9 +262,9 @@ public class Window {
      *
      * @return the URL's query string
      */
-    public static String getQueryString() {
-      return impl.getQueryString();
-    }
+    public static native String getQueryString() /*-{
+      return $wnd.location.search;
+    }-*/;
 
     /**
      * Reloads the current browser window. All GWT state will be lost.
@@ -510,8 +509,6 @@ public class Window {
   private static boolean resizeHandlersInitialized;
   private static int lastResizeWidth;
   private static int lastResizeHeight;
-
-  private static final WindowImpl impl = GWT.create(WindowImpl.class);
 
   /**
    * Adds a {@link CloseEvent} handler.
@@ -779,13 +776,13 @@ public class Window {
     $doc.title = title;
   }-*/;
 
-  static void onClosed() {
+  private static void onClosed() {
     if (closeHandlersInitialized) {
       CloseEvent.fire(getHandlers(), null);
     }
   }
 
-  static String onClosing() {
+  private static String onClosing() {
     if (closeHandlersInitialized) {
       Window.ClosingEvent event = new Window.ClosingEvent();
       fireEvent(event);
@@ -794,7 +791,7 @@ public class Window {
     return null;
   }
 
-  static void onResize() {
+  private static void onResize() {
     if (resizeHandlersInitialized) {
       // On webkit and IE we sometimes get duplicate window resize events.
       // Here, we manually filter them.
@@ -808,7 +805,7 @@ public class Window {
     }
   }
 
-  static void onScroll() {
+  private static void onScroll() {
     if (scrollHandlersInitialized) {
       fireEvent(new Window.ScrollEvent(getScrollLeft(), getScrollTop()));
     }
@@ -847,24 +844,80 @@ public class Window {
 
   private static void maybeInitializeCloseHandlers() {
     if (GWT.isClient() && !closeHandlersInitialized) {
-      impl.initWindowCloseHandler();
+      initWindowCloseHandler();
       closeHandlersInitialized = true;
     }
   }
 
+  private static native void initWindowCloseHandler() /*-{
+    var oldOnBeforeUnload = $wnd.onbeforeunload;
+    var oldOnUnload =  $wnd.onunload;
+
+    $wnd.onbeforeunload = function(evt) {
+      var ret, oldRet;
+      try {
+        ret = $entry(@org.gwtproject.user.window.client.Window::onClosing())();
+      } finally {
+        oldRet = oldOnBeforeUnload && oldOnBeforeUnload(evt);
+      }
+      // Ensure that "" gets returned properly.
+      if (ret != null) {
+        return ret;
+      }
+      if (oldRet != null) {
+        return oldRet;
+      }
+      // returns undefined.
+    };
+
+    $wnd.onunload = $entry(function(evt) {
+      try {
+        @org.gwtproject.user.window.client.Window::onClosed()();
+      } finally {
+        oldOnUnload && oldOnUnload(evt);
+        $wnd.onresize = null;
+        $wnd.onscroll = null;
+        $wnd.onbeforeunload = null;
+        $wnd.onunload = null;
+      }
+    });
+  }-*/;
+
   private static void maybeInitializeResizeHandlers() {
     if (GWT.isClient() && !resizeHandlersInitialized) {
-      impl.initWindowResizeHandler();
+      initWindowResizeHandler();
       resizeHandlersInitialized = true;
     }
   }
 
+  private static native void initWindowResizeHandler() /*-{
+    var oldOnResize = $wnd.onresize;
+    $wnd.onresize = $entry(function(evt) {
+      try {
+        @org.gwtproject.user.window.client.Window::onResize()();
+      } finally {
+        oldOnResize && oldOnResize(evt);
+      }
+    });
+  }-*/;
+
   private static void maybeInitializeScrollHandlers() {
     if (GWT.isClient() && !scrollHandlersInitialized) {
-      impl.initWindowScrollHandler();
+      initWindowScrollHandler();
       scrollHandlersInitialized = true;
     }
   }
+
+  private static native void initWindowScrollHandler() /*-{
+    var oldOnScroll = $wnd.onscroll;
+    $wnd.onscroll = $entry(function(evt) {
+      try {
+        @org.gwtproject.user.window.client.Window::onScroll()();
+      } finally {
+        oldOnScroll && oldOnScroll(evt);
+      }
+    });
+  }-*/;
 
   private Window() {
   }

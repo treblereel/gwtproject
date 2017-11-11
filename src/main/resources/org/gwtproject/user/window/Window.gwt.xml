@@ -17,19 +17,4 @@
   <inherits name="com.google.gwt.dom.DOM"/>
   <inherits name="com.google.gwt.event.Event"/>
   <inherits name="com.google.gwt.http.HTTP"/>
-  <inherits name="com.google.gwt.resources.Resources"/>
-  <inherits name="com.google.gwt.useragent.UserAgent"/>
-
-  <replace-with class="org.gwtproject.user.window.client.impl.WindowImplMozilla">
-    <when-type-is class="org.gwtproject.user.window.client.impl.WindowImpl"/>
-    <when-property-is name="user.agent" value="gecko1_8"/>
-  </replace-with>
-   <replace-with class="org.gwtproject.user.window.client.impl.WindowImplIE">
-      <when-type-is class="org.gwtproject.user.window.client.impl.WindowImpl"/>
-      <any>
-        <when-property-is name="user.agent" value="ie8"/>
-        <when-property-is name="user.agent" value="ie9"/>
-        <when-property-is name="user.agent" value="ie10"/>
-      </any>
-   </replace-with>
 </module>
