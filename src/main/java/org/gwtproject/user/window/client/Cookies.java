@@ -15,10 +15,18 @@
  */
 package org.gwtproject.user.window.client;
 
+import static elemental2.core.Global.decodeURIComponent;
+import static elemental2.core.Global.encodeURIComponent;
+import static elemental2.dom.DomGlobal.document;
+
+import elemental2.core.JsString;
+import jsinterop.base.Js;
+
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Provides access to browser cookies stored on the client. Because of browser
@@ -36,8 +44,7 @@ public class Cookies {
    * Raw cookie string stored to allow cached cookies to be invalidated on
    * write.
    */
-  // Used only in JSNI.
-  static String rawCookies;
+  private static String rawCookies;
 
   /**
    * Indicates whether or not cookies are enabled.
@@ -110,7 +117,7 @@ public class Cookies {
    */
   public static void removeCookie(String name) {
     if (uriEncoding) {
-      name = uriEncode(name);
+      name = encodeURIComponent(name);
     }
     removeCookieNative(name);
   }
@@ -124,7 +131,7 @@ public class Cookies {
    */
   public static void removeCookie(String name, String path) {
     if (uriEncoding) {
-      name = uriEncode(name);
+      name = encodeURIComponent(name);
     }
     removeCookieNative(name, path);
   }
@@ -132,9 +139,9 @@ public class Cookies {
   /**
    * Native method to remove a cookie with a path.
    */
-  public static native void removeCookieNative(String name, String path) /*-{
-    $doc.cookie = name + "=;path=" + path + ";expires=Fri, 02-Jan-1970 00:00:00 GMT"; 
-  }-*/;
+  public static void removeCookieNative(String name, String path) {
+    document.cookie = name + "=;path=" + path + ";expires=Fri, 02-Jan-1970 00:00:00 GMT";
+  }
 
   /**
    * Sets a cookie. The cookie will expire when the current browser session is
@@ -174,8 +181,8 @@ public class Cookies {
   public static void setCookie(String name, String value, Date expires,
       String domain, String path, boolean secure) {
     if (uriEncoding) {
-      name = uriEncode(name);
-      value = uriEncode(value);
+      name = encodeURIComponent(name);
+      value = encodeURIComponent(value);
     } else if (!isValidCookieName(name)) {
       throw new IllegalArgumentException("Illegal cookie format: " + name + " is not a valid cookie name.");
     } else if (!isValidCookieValue(value)) {
@@ -195,36 +202,36 @@ public class Cookies {
     }
   }
 
-  static native void loadCookies(HashMap<String, String> m) /*-{
-    var docCookie = $doc.cookie;
-    if (docCookie && docCookie != '') {
-      var crumbs = docCookie.split('; ');
-      for (var i = crumbs.length - 1; i >= 0; --i) {
-        var name, value;
-        var eqIdx = crumbs[i].indexOf('=');
+  static void loadCookies(HashMap<String, String> m) {
+    String docCookie = document.cookie;
+    if (Js.isTruthy(docCookie) && !docCookie.isEmpty()) {
+      String[] crumbs = Js.<JsString>cast(docCookie).split("; ");
+      for (int i = crumbs.length - 1; i >= 0; --i) {
+        String name, value;
+        int eqIdx = crumbs[i].indexOf('=');
         if (eqIdx == -1) {
           name = crumbs[i];
-          value = '';
+          value = "";
         } else {
           name = crumbs[i].substring(0, eqIdx);
           value = crumbs[i].substring(eqIdx + 1);
         }
-        if (@org.gwtproject.user.window.client.Cookies::uriEncoding) {
+        if (uriEncoding) {
           try {
             name = decodeURIComponent(name);
-          } catch (e) {
+          } catch (Throwable e) {
             // ignore error, keep undecoded name
           }
           try {
             value = decodeURIComponent(value);
-          } catch (e) {
+          } catch (Throwable e) {
             // ignore error, keep undecoded value
           }
         }
-        m.@java.util.Map::put(Ljava/lang/Object;Ljava/lang/Object;)(name,value);
+        m.put(name, value);
       }
     }
-  }-*/;
+  }
 
   private static HashMap<String, String> ensureCookies() {
     if (cachedCookies == null || needsRefresh()) {
@@ -270,43 +277,43 @@ public class Cookies {
     }
   }
 
-  private static native boolean needsRefresh() /*-{
-    var docCookie = $doc.cookie;
-        
+  private static boolean needsRefresh() {
+    String docCookie = document.cookie;
+
     // Check to see if cached cookies need to be invalidated.
-    if (docCookie != @org.gwtproject.user.window.client.Cookies::rawCookies) {
-      @org.gwtproject.user.window.client.Cookies::rawCookies = docCookie;
+    if (!Objects.equals(docCookie, rawCookies)) {
+      rawCookies = docCookie;
       return true;
     } else {
       return false;
-    } 
-  }-*/;
+    }
+  }
 
   /**
    * Native method to remove a cookie.
    */
-  private static native void removeCookieNative(String name) /*-{
-    $doc.cookie = name + "=;expires=Fri, 02-Jan-1970 00:00:00 GMT"; 
-  }-*/;
+  private static void removeCookieNative(String name) {
+    document.cookie = name + "=;expires=Fri, 02-Jan-1970 00:00:00 GMT";
+  }
 
-  private static native void setCookieImpl(String name, String value,
-      double expires, String domain, String path, boolean secure) /*-{
-    var c = name + '=' + value;
-    if ( expires )
-      c += ';expires=' + (new Date(expires)).toGMTString();
-    if (domain)
-      c += ';domain=' + domain;
-    if (path)
-      c += ';path=' + path;
-    if (secure)
-      c += ';secure';
+  private static void setCookieImpl(String name, String value,
+      double expires, String domain, String path, boolean secure) {
+    String c = name + '=' + value;
+    if (Js.isTruthy(expires)) {
+      c += ";expires=" + (new elemental2.core.Date(expires)).toGMTString();
+    }
+    if (Js.isTruthy(domain)) {
+      c += ";domain=" + domain;
+    }
+    if (Js.isTruthy(path)) {
+      c += ";path=" + path;
+    }
+    if (secure) {
+      c += ";secure";
+    }
 
-    $doc.cookie = c;
-  }-*/;
-
-  private static native String uriEncode(String s) /*-{
-    return encodeURIComponent(s);
-  }-*/;
+    document.cookie = c;
+  }
 
   private Cookies() {
   }

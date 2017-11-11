@@ -15,6 +15,9 @@
  */
 package org.gwtproject.user.window.client;
 
+import static elemental2.dom.DomGlobal.document;
+import static elemental2.dom.DomGlobal.window;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptException;
 import com.google.gwt.dom.client.Document;
@@ -24,12 +27,22 @@ import com.google.gwt.event.logical.shared.HasCloseHandlers;
 import com.google.gwt.event.logical.shared.HasResizeHandlers;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
-import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.http.client.UrlBuilder;
+import elemental2.dom.CSSProperties.MarginUnionType;
+import elemental2.dom.DomGlobal;
+import elemental2.dom.Event;
+import elemental2.dom.Window.OnbeforeunloadCallbackFn;
+import elemental2.dom.Window.OnresizeCallbackFn;
+import elemental2.dom.Window.OnscrollCallbackFn;
+import elemental2.dom.Window.OnunloadCallbackFn;
+import jsinterop.annotations.JsMethod;
+import jsinterop.annotations.JsPackage;
+import jsinterop.annotations.JsProperty;
+import jsinterop.base.Js;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -100,7 +113,7 @@ public class Window {
   /**
    * Handler for {@link Window.ClosingEvent} events.
    */
-  public interface ClosingHandler extends EventHandler {
+  public interface ClosingHandler extends com.google.gwt.event.shared.EventHandler {
     /**
      * Fired just before the browser window closes or navigates to a different
      * site. No user-interface may be displayed during shutdown.
@@ -125,9 +138,9 @@ public class Window {
      *
      * @param newURL the new URL
      */
-    public static native void assign(String newURL) /*-{
-      $wnd.location.assign(newURL);
-    }-*/;
+    public static void assign(String newURL) {
+      window.location.assign(newURL);
+    }
 
     /**
      * Create a {@link UrlBuilder} based on this {@link Location}.
@@ -168,36 +181,40 @@ public class Window {
      *
      * @return the string to the right of the URL's hash.
      */
-    public static native String getHash() /*-{
-      return $wnd.location.hash;
-    }-*/;
+    // FIXME: replace with DomGlobal.location.hash when elemental2-dom 1.0.0-beta-2 is released
+    // See https://github.com/google/elemental2/issues/2
+    @JsProperty(namespace = "location")
+    public static native String getHash();
 
     /**
      * Gets the URL's host and port name.
      *
      * @return the host and port name
      */
-    public static native String getHost() /*-{
-      return $wnd.location.host;
-    }-*/;
+    // FIXME: replace with DomGlobal.location.host when elemental2-dom 1.0.0-beta-2 is released
+    // See https://github.com/google/elemental2/issues/2
+    @JsProperty(namespace = "location")
+    public static native String getHost();
 
     /**
      * Gets the URL's host name.
      *
      * @return the host name
      */
-    public static native String getHostName() /*-{
-      return $wnd.location.hostname;
-    }-*/;
+    // FIXME: replace with DomGlobal.location.hostname when elemental2-dom 1.0.0-beta-2 is released
+    // See https://github.com/google/elemental2/issues/2
+    @JsProperty(namespace = "location", name = "hostname")
+    public static native String getHostName();
 
     /**
      * Gets the entire URL.
      *
      * @return the URL
      */
-    public static native String getHref() /*-{
-      return $wnd.location.href;
-    }-*/;
+    // FIXME: replace with DomGlobal.location.href when elemental2-dom 1.0.0-beta-2 is released
+    // See https://github.com/google/elemental2/issues/2
+    @JsProperty(namespace = "location")
+    public static native String getHref();
 
     /**
      * Gets the URL's parameter of the specified name. Note that if multiple
@@ -235,43 +252,47 @@ public class Window {
      *
      * @return the path to the URL.
      */
-    public static native String getPath() /*-{
-      return $wnd.location.pathname;
-    }-*/;
+    // FIXME: replace with DomGlobal.location.pathname when elemental2-dom 1.0.0-beta-2 is released
+    // See https://github.com/google/elemental2/issues/2
+    @JsProperty(namespace = "location", name = "pathname")
+    public static native String getPath();
 
     /**
      * Gets the URL's port.
      *
      * @return the URL's port
      */
-    public static native String getPort() /*-{
-      return $wnd.location.port;
-    }-*/;
+    // FIXME: replace with DomGlobal.location.port when elemental2-dom 1.0.0-beta-2 is released
+    // See https://github.com/google/elemental2/issues/2
+    @JsProperty(namespace = "location")
+    public static native String getPort();
 
     /**
      * Gets the URL's protocol.
      *
      * @return the URL's protocol.
      */
-    public static native String getProtocol() /*-{
-      return $wnd.location.protocol;
-    }-*/;
+    // FIXME: replace with DomGlobal.location.protocol when elemental2-dom 1.0.0-beta-2 is released
+    // See https://github.com/google/elemental2/issues/2
+    @JsProperty(namespace = "location")
+    public static native String getProtocol();
 
     /**
      * Gets the URL's query string.
      *
      * @return the URL's query string
      */
-    public static native String getQueryString() /*-{
-      return $wnd.location.search;
-    }-*/;
+    // FIXME: replace with DomGlobal.location.search when elemental2-dom 1.0.0-beta-2 is released
+    // See https://github.com/google/elemental2/issues/2
+    @JsProperty(namespace = "location", name = "search")
+    public static native String getQueryString();
 
     /**
      * Reloads the current browser window. All GWT state will be lost.
      */
-    public static native void reload() /*-{
-      $wnd.location.reload();
-    }-*/;
+    public static void reload() {
+      window.location.reload();
+    }
 
     /**
      * Replaces the current URL with a new one. All GWT state will be lost. In
@@ -279,9 +300,9 @@ public class Window {
      *
      * @param newURL the new URL
      */
-    public static native void replace(String newURL) /*-{
-      $wnd.location.replace(newURL);
-    }-*/;
+    public static void replace(String newURL) {
+      window.location.replace(newURL);
+    }
 
     /**
      * Builds the immutable map from String to List<String> that we'll return in
@@ -352,45 +373,45 @@ public class Window {
      *
      * @return the window's navigator.appCodeName.
      */
-    public static native String getAppCodeName() /*-{
-      return $wnd.navigator.appCodeName;
-    }-*/;
+    public static String getAppCodeName() {
+      return window.navigator.appCodeName;
+    }
 
     /**
      * Gets the navigator.appName.
      *
      * @return the window's navigator.appName.
      */
-    public static native String getAppName() /*-{
-      return $wnd.navigator.appName;
-    }-*/;
+    public static String getAppName() {
+      return window.navigator.appName;
+    }
 
     /**
      * Gets the navigator.appVersion.
      *
      * @return the window's navigator.appVersion.
      */
-    public static native String getAppVersion() /*-{
-      return $wnd.navigator.appVersion;
-    }-*/;
+    public static String getAppVersion() {
+      return window.navigator.appVersion;
+    }
 
     /**
      * Gets the navigator.platform.
      *
      * @return the window's navigator.platform.
      */
-    public static native String getPlatform() /*-{
-      return $wnd.navigator.platform;
-    }-*/;
+    public static String getPlatform() {
+      return window.navigator.platform;
+    }
 
     /**
      * Gets the navigator.userAgent.
      *
      * @return the window's navigator.userAgent.
      */
-    public static native String getUserAgent() /*-{
-      return $wnd.navigator.userAgent;
-    }-*/;
+    public static String getUserAgent() {
+      return window.navigator.userAgent;
+    }
 
     /**
      * Checks whether or not cookies are enabled or disabled.
@@ -406,9 +427,9 @@ public class Window {
      *
      * @return the window's navigator.javaEnabled.
      */
-    public static native boolean isJavaEnabled() /*-{
-      return $wnd.navigator.javaEnabled();
-    }-*/;
+    public static boolean isJavaEnabled() {
+      return window.navigator.javaEnabled();
+    }
 
     private Navigator() {
     }
@@ -473,7 +494,7 @@ public class Window {
   /**
    * Handler for {@link Window.ScrollEvent} events.
    */
-  public interface ScrollHandler extends EventHandler {
+  public interface ScrollHandler extends com.google.gwt.event.shared.EventHandler {
     /**
      * Fired when the browser window is scrolled.
      *
@@ -563,9 +584,9 @@ public class Window {
    *
    * @param msg the message to be displayed.
    */
-  public static native void alert(String msg) /*-{
-    $wnd.alert(msg);
-  }-*/;
+  public static void alert(String msg) {
+    DomGlobal.alert(msg);
+  }
 
   /**
    * Displays a message in a modal dialog box, along with the standard 'OK' and
@@ -575,9 +596,9 @@ public class Window {
    * @return <code>true</code> if 'OK' is clicked, <code>false</code> if
    *         'Cancel' is clicked.
    */
-  public static native boolean confirm(String msg) /*-{
-    return $wnd.confirm(msg);
-  }-*/;
+  public static boolean confirm(String msg) {
+    return DomGlobal.confirm(msg);
+  }
 
   /**
    * Use this method to explicitly disable the window's scrollbars. Applications
@@ -633,9 +654,9 @@ public class Window {
    *
    * @return the window's title.
    */
-  public static native String getTitle() /*-{
-    return $doc.title;
-  }-*/;
+  public static String getTitle() {
+    return document.title;
+  }
 
   /**
    * Moves a window's left and top edge to a specified number of pixels relative
@@ -650,9 +671,8 @@ public class Window {
    * @param dy A positive or a negative number that specifies how many
    *           pixels to move the top edge by
    */
-  public static native void moveBy(int dx, int dy) /*-{
-    $wnd.moveBy(dx, dy);
-  }-*/;
+  @JsMethod(namespace = JsPackage.GLOBAL)
+  public static native void moveBy(int dx, int dy);
 
   /**
    * Moves a window's left and top edge to the specified coordinates.
@@ -664,9 +684,8 @@ public class Window {
    * @param x The left coordinate
    * @param y The top coordinate
    */
-  public static native void moveTo(int x, int y) /*-{
-    $wnd.moveTo(x, y);
-  }-*/;
+  @JsMethod(namespace = JsPackage.GLOBAL)
+  public static native void moveTo(int x, int y);
 
   /**
    * Opens a new browser window. The "name" and "features" arguments are
@@ -677,17 +696,17 @@ public class Window {
    * @param name     the name of the window (e.g. "_blank")
    * @param features the features to be enabled/disabled on this window
    */
-  public static native void open(String url, String name, String features) /*-{
-    $wnd.open(url, name, features);
-  }-*/;
+  public static void open(String url, String name, String features) {
+    window.open(url, name, features);
+  }
 
   /**
    * Prints the document in the window, as if the user had issued a "Print"
    * command.
    */
-  public static native void print() /*-{
-    $wnd.print();
-  }-*/;
+  public static void print() {
+    window.print();
+  }
 
   /**
    * Displays a request for information in a modal dialog box, along with the
@@ -698,9 +717,9 @@ public class Window {
    * @return the value entered by the user if 'OK' was pressed, or
    *         <code>null</code> if 'Cancel' was pressed
    */
-  public static native String prompt(String msg, String initialValue) /*-{
-    return $wnd.prompt(msg, initialValue);
-  }-*/;
+  public static String prompt(String msg, String initialValue) {
+    return DomGlobal.prompt(msg, initialValue);
+  }
 
   /**
    * Resizes the window by the specified width and height. This method moves the
@@ -717,9 +736,8 @@ public class Window {
    * @param height A positive or a negative number that specifies how many
    *               pixels to resize the height by
    */
-  public static native void resizeBy(int width, int height) /*-{
-    $wnd.resizeBy(width, height);
-  }-*/;
+  @JsMethod(namespace = JsPackage.GLOBAL)
+  public static native void resizeBy(int width, int height);
 
   /**
    * Resizes the window to the specified width and height.
@@ -731,9 +749,8 @@ public class Window {
    * @param width  The width of the window, in pixels
    * @param height The height of the window, in pixels
    */
-  public static native void resizeTo(int width, int height) /*-{
-    $wnd.resizeTo(width, height);
-  }-*/;
+  @JsMethod(namespace = JsPackage.GLOBAL)
+  public static native void resizeTo(int width, int height);
 
   /**
    * Scroll the window to the specified position.
@@ -741,9 +758,9 @@ public class Window {
    * @param left the left scroll position
    * @param top  the top scroll position
    */
-  public static native void scrollTo(int left, int top) /*-{
-    $wnd.scrollTo(left, top);
-  }-*/;
+  public static void scrollTo(int left, int top) {
+    window.scrollTo(left, top);
+  }
 
   /**
    * Sets the size of the margins used within the window's client area. It is
@@ -753,9 +770,9 @@ public class Window {
    *
    * @param size the window's new margin size, in CSS units.
    */
-  public static native void setMargin(String size) /*-{
-    $doc.body.style.margin = size;
-  }-*/;
+  public static void setMargin(String size) {
+    document.body.style.margin = MarginUnionType.of(size);
+  }
 
   /**
    * Sets the status text for the window, if permitted by the browser's
@@ -763,18 +780,18 @@ public class Window {
    *
    * @param status the new message to display.
    */
-  public static native void setStatus(String status) /*-{
-    $wnd.status = status;
-  }-*/;
+  public static void setStatus(String status) {
+    window.status = status;
+  }
 
   /**
    * Sets the browser window's title.
    *
    * @param title the new window title.
    */
-  public static native void setTitle(String title) /*-{
-    $doc.title = title;
-  }-*/;
+  public static void setTitle(String title) {
+    document.title = title;
+  }
 
   private static void onClosed() {
     if (closeHandlersInitialized) {
@@ -819,7 +836,7 @@ public class Window {
    * @param handler the handler
    * @return {@link HandlerRegistration} used to remove the handler
    */
-  private static <H extends EventHandler> HandlerRegistration addHandler(
+  private static <H extends com.google.gwt.event.shared.EventHandler> HandlerRegistration addHandler(
       GwtEvent.Type<H> type, final H handler) {
     return getHandlers().addHandler(type, handler);
   }
@@ -849,39 +866,48 @@ public class Window {
     }
   }
 
-  private static native void initWindowCloseHandler() /*-{
-    var oldOnBeforeUnload = $wnd.onbeforeunload;
-    var oldOnUnload =  $wnd.onunload;
+  private static void initWindowCloseHandler() {
+    OnbeforeunloadCallbackFn oldOnBeforeUnload = window.onbeforeunload;
+    OnunloadCallbackFn oldOnUnload = window.onunload;
 
-    $wnd.onbeforeunload = function(evt) {
-      var ret, oldRet;
-      try {
-        ret = $entry(@org.gwtproject.user.window.client.Window::onClosing())();
-      } finally {
-        oldRet = oldOnBeforeUnload && oldOnBeforeUnload(evt);
+    window.onbeforeunload = new OnbeforeunloadCallbackFn() {
+      @Override
+      public Object onInvoke(Event evt) {
+        Object ret, oldRet;
+        try {
+          ret = onClosing();
+        } finally {
+          oldRet = oldOnBeforeUnload == null ? null : oldOnBeforeUnload.onInvoke(evt);
+        }
+        // Ensure that "" gets returned properly.
+        if (ret != null) {
+          return ret;
+        }
+        if (oldRet != null) {
+          return oldRet;
+        }
+        return Js.undefined();
       }
-      // Ensure that "" gets returned properly.
-      if (ret != null) {
-        return ret;
-      }
-      if (oldRet != null) {
-        return oldRet;
-      }
-      // returns undefined.
     };
 
-    $wnd.onunload = $entry(function(evt) {
-      try {
-        @org.gwtproject.user.window.client.Window::onClosed()();
-      } finally {
-        oldOnUnload && oldOnUnload(evt);
-        $wnd.onresize = null;
-        $wnd.onscroll = null;
-        $wnd.onbeforeunload = null;
-        $wnd.onunload = null;
+    window.onunload = new OnunloadCallbackFn() {
+      @Override
+      public Object onInvoke(Event evt) {
+        try {
+          onClosed();
+        } finally {
+          if (oldOnUnload != null) {
+            oldOnUnload.onInvoke(evt);
+          }
+          window.onresize = null;
+          window.onscroll = null;
+          window.onbeforeunload = null;
+          window.onunload = null;
+        }
+        return Js.undefined();
       }
-    });
-  }-*/;
+    };
+  }
 
   private static void maybeInitializeResizeHandlers() {
     if (GWT.isClient() && !resizeHandlersInitialized) {
@@ -890,16 +916,22 @@ public class Window {
     }
   }
 
-  private static native void initWindowResizeHandler() /*-{
-    var oldOnResize = $wnd.onresize;
-    $wnd.onresize = $entry(function(evt) {
-      try {
-        @org.gwtproject.user.window.client.Window::onResize()();
-      } finally {
-        oldOnResize && oldOnResize(evt);
+  private static void initWindowResizeHandler() {
+    OnresizeCallbackFn oldOnResize = window.onresize;
+    window.onresize = new OnresizeCallbackFn() {
+      @Override
+      public Object onInvoke(Event evt) {
+        try {
+          onResize();
+        } finally {
+          if (oldOnResize != null) {
+            oldOnResize.onInvoke(evt);
+          }
+        }
+        return Js.undefined();
       }
-    });
-  }-*/;
+    };
+  }
 
   private static void maybeInitializeScrollHandlers() {
     if (GWT.isClient() && !scrollHandlersInitialized) {
@@ -908,16 +940,22 @@ public class Window {
     }
   }
 
-  private static native void initWindowScrollHandler() /*-{
-    var oldOnScroll = $wnd.onscroll;
-    $wnd.onscroll = $entry(function(evt) {
-      try {
-        @org.gwtproject.user.window.client.Window::onScroll()();
-      } finally {
-        oldOnScroll && oldOnScroll(evt);
+  private static void initWindowScrollHandler() {
+    OnscrollCallbackFn oldOnScroll = window.onscroll;
+    window.onscroll = new OnscrollCallbackFn () {
+      @Override
+      public Object onInvoke(Event evt) {
+        try {
+          onScroll();
+        } finally {
+          if (oldOnScroll != null) {
+            oldOnScroll.onInvoke(evt);
+          }
+        }
+        return Js.undefined();
       }
-    });
-  }-*/;
+    };
+  }
 
   private Window() {
   }
