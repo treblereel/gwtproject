@@ -54,6 +54,30 @@ test {
   }
 }
 
+task validateGwtModule(type: JavaExec) {
+  def workDir = file("$buildDir/gwt/work")
+  def cacheDir = file("$buildDir/gwt/cache")
+  def outFile = file("$buildDir/gwt/validateGwtModule")
+  doFirst {
+    mkdir(workDir)
+    mkdir(cacheDir)
+
+    standardOutput = errorOutput = outFile.newOutputStream()
+  }
+  doLast {
+    standardOutput.close()
+  }
+
+  inputs.files sourceSets.main.allJava
+  outputs.file outFile
+
+  main = 'com.google.gwt.dev.Compiler'
+  classpath = sourceSets.test.runtimeClasspath + sourceSets.main.allJava.sourceDirectories
+  args '-strict', '-validateOnly', '-workDir', workDir, 'org.gwtproject.user.history.History'
+  systemProperty("gwt.persistentunitcachedir", cacheDir)
+}
+check.dependsOn validateGwtModule
+
 javadoc {
   options.addBooleanOption("Xdoclint:all,-missing", true)
 }
