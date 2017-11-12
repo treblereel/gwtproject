@@ -20,8 +20,6 @@ import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
 import org.gwtproject.user.window.client.Window.Navigator;
 
-import junit.framework.Assert;
-
 /**
  * Calculates the sizes for Window extras such as border, menu, tool bar, and stores the original
  * sizes to restore at the end of test.
@@ -50,9 +48,10 @@ public final class ResizeHelper {
     Window.resizeTo(width, height);
   }
 
+  @SuppressWarnings("deprecation")
   public static void assertSize(int width, int height) {
-    Assert.assertEquals(width, Window.getClientWidth() + extraWidth);
-    Assert.assertEquals(height, Window.getClientHeight() + extraHeight);
+    junit.framework.Assert.assertEquals(width, Window.getClientWidth() + extraWidth);
+    junit.framework.Assert.assertEquals(height, Window.getClientHeight() + extraHeight);
   }
 
   public static boolean isResizeSupported() {
