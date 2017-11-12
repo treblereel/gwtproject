@@ -13,26 +13,19 @@
 <!-- limitations under the License.                                         -->
 
 <module>
-  <inherits name="com.google.gwt.core.Core"/>
   <inherits name="com.google.gwt.event.Event"/>
   <inherits name="com.google.gwt.user.DOM"/>
   <inherits name="elemental2.dom.Dom"/>
-  <!-- Import only to define the history.noDoubleEncoding property. -->
-  <inherits name="com.google.gwt.user.History"/>
 
   <!-- Option to disable GWT double encoding of history tokens.               -->
   <!-- This double encoding is necessary to make History work across          -->
   <!-- browsers (especially Firefox).                                         -->
   <!-- If applications choose to disable double encoding they are responsible -->
   <!-- for ensuring that only tokens are used that work across browsers.      -->
-  <!-- Property is already defined in com.google.gwt.user.History (see above) -->
+  <!-- Property is already defined in com.google.gwt.user.History, and code   -->
+  <!-- won't fail if the property is not defined.                             -->
   <!--
   <define-property name="history.noDoubleEncoding" values="true,false" />
   <set-property name="history.noDoubleEncoding" value="false" />
   -->
-
-  <replace-with class="org.gwtproject.user.history.client.History.NoopHistoryTokenEncoder">
-    <when-type-is class="org.gwtproject.user.history.client.History.HistoryTokenEncoder" />
-    <when-property-is name="history.noDoubleEncoding" value="true" />
-  </replace-with>
 </module>

@@ -19,7 +19,6 @@ import static elemental2.core.Global.decodeURI;
 import static elemental2.core.Global.encodeURI;
 import static elemental2.dom.DomGlobal.window;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -109,8 +108,6 @@ public class History {
   /**
    * NoopHistoryTokenEncoder does not perform any encoding.
    */
-  // Used from rebinding
-  @SuppressWarnings("unused")
   private static class NoopHistoryTokenEncoder extends HistoryTokenEncoder {
     @Override
     public String encode(String toEncode) {
@@ -133,7 +130,10 @@ public class History {
   }
 
   private static HistoryEventSource historyEventSource = new HistoryEventSource();
-  private static HistoryTokenEncoder tokenEncoder = GWT.create(HistoryTokenEncoder.class);
+  // XXX: use 2-args overload of System.getProperty to not fail compilation is property is not defined.
+  @SuppressWarnings("StringEquality") // '==' makes it compile out faster (we're in client-only code)
+  private static HistoryTokenEncoder tokenEncoder = System.getProperty("history.noDoubleEncoding", null) == "true"
+      ? new NoopHistoryTokenEncoder() : new HistoryTokenEncoder();
   private static String token = getDecodedHash();
 
   /**
