@@ -63,13 +63,9 @@ public class HistoryTest extends GWTTestCase {
       History.newItem("something_as_base");
 
       addHistoryListenerImpl(
-          new ValueChangeHandler<String>() {
-
-            @Override
-            public void onValueChange(ValueChangeEvent<String> event) {
-              assertEquals("href1", event.getValue());
-              finishTest();
-            }
+          event -> {
+            assertEquals("href1", event.getValue());
+            finishTest();
           });
 
       delayTestFinish(5000);
@@ -90,13 +86,9 @@ public class HistoryTest extends GWTTestCase {
 
     delayTestFinish(5000);
     addHistoryListenerImpl(
-        new ValueChangeHandler<String>() {
-
-          @Override
-          public void onValueChange(ValueChangeEvent<String> event) {
-            assertEquals(escToken, event.getValue());
-            finishTest();
-          }
+        event -> {
+          assertEquals(escToken, event.getValue());
+          finishTest();
         });
     History.newItem(escToken);
   }
@@ -109,21 +101,17 @@ public class HistoryTest extends GWTTestCase {
     delayTestFinish(5000);
 
     addHistoryListenerImpl(
-        new ValueChangeHandler<String>() {
+        event -> {
+          String historyToken = event.getValue();
+          if (historyToken == null) {
+            fail("historyToken should not be null");
+          }
 
-          @Override
-          public void onValueChange(ValueChangeEvent<String> event) {
-            String historyToken = event.getValue();
-            if (historyToken == null) {
-              fail("historyToken should not be null");
-            }
-
-            if (historyToken.equals("foobar")) {
-              History.newItem("");
-            } else {
-              assertEquals("", historyToken);
-              finishTest();
-            }
+          if (historyToken.equals("foobar")) {
+            History.newItem("");
+          } else {
+            assertEquals("", historyToken);
+            finishTest();
           }
         });
 
@@ -137,14 +125,7 @@ public class HistoryTest extends GWTTestCase {
   public void testNoEvents() {
     delayTestFinish(5000);
 
-    addHistoryListenerImpl(
-        new ValueChangeHandler<String>() {
-
-          @Override
-          public void onValueChange(ValueChangeEvent<String> event) {
-            fail("onHistoryChanged should not have been called");
-          }
-        });
+    addHistoryListenerImpl(event -> fail("onHistoryChanged should not have been called"));
 
     History.newItem("testNoEvents", false);
 
@@ -349,14 +330,7 @@ public class HistoryTest extends GWTTestCase {
 
     History.newItem(historyToken1);
 
-    addHistoryListenerImpl(
-        new ValueChangeHandler<String>() {
-
-          @Override
-          public void onValueChange(ValueChangeEvent<String> event) {
-            fail("No event expected");
-          }
-        });
+    addHistoryListenerImpl(event -> fail("No event expected"));
 
     History.replaceItem(historyToken2, false);
     assertEquals(historyToken2, History.getToken());
@@ -382,14 +356,10 @@ public class HistoryTest extends GWTTestCase {
 
     delayTestFinish(5000);
     addHistoryListenerImpl(
-        new ValueChangeHandler<String>() {
-
-          @Override
-          public void onValueChange(ValueChangeEvent<String> event) {
-            assertEquals(shouldBeEncodedAs, getCurrentLocationHash());
-            assertEquals(shouldBeEncoded, event.getValue());
-            finishTest();
-          }
+        event -> {
+          assertEquals(shouldBeEncodedAs, getCurrentLocationHash());
+          assertEquals(shouldBeEncoded, event.getValue());
+          finishTest();
         });
     History.newItem(shouldBeEncoded);
   }
@@ -431,13 +401,9 @@ public class HistoryTest extends GWTTestCase {
 
     delayTestFinish(5000);
     addHistoryListenerImpl(
-        new ValueChangeHandler<String>() {
-
-          @Override
-          public void onValueChange(ValueChangeEvent<String> event) {
-            assertEquals(shouldNotChange, event.getValue());
-            finishTest();
-          }
+        event -> {
+          assertEquals(shouldNotChange, event.getValue());
+          finishTest();
         });
 
     History.newItem(shouldNotChange);
@@ -453,17 +419,13 @@ public class HistoryTest extends GWTTestCase {
     final String token = "foo?bar";
 
     addHistoryListenerImpl(
-        new ValueChangeHandler<String>() {
-
-          @Override
-          public void onValueChange(ValueChangeEvent<String> event) {
-            String historyToken = event.getValue();
-            if (historyToken == null) {
-              fail("historyToken should not be null");
-            }
-            assertEquals(token, historyToken);
-            finishTest();
+        event -> {
+          String historyToken = event.getValue();
+          if (historyToken == null) {
+            fail("historyToken should not be null");
           }
+          assertEquals(token, historyToken);
+          finishTest();
         });
 
     History.newItem(token);
@@ -477,16 +439,12 @@ public class HistoryTest extends GWTTestCase {
    */
   @DoNotRunWith(Platform.HtmlUnitBug)
   public void testEmptyHistoryToken() {
-    final ArrayList<Object> counter = new ArrayList<Object>();
+    final ArrayList<Object> counter = new ArrayList<>();
 
     addHistoryListenerImpl(
-        new ValueChangeHandler<String>() {
-
-          @Override
-          public void onValueChange(ValueChangeEvent<String> event) {
-            counter.add(new Object());
-            assertFalse("Browser is borked by empty history token", isBorked());
-          }
+        event -> {
+          counter.add(new Object());
+          assertFalse("Browser is borked by empty history token", isBorked());
         });
 
     History.newItem("x");

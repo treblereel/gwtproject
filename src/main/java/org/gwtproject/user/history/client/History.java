@@ -26,8 +26,6 @@ import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Window;
-import elemental2.dom.Event;
-import elemental2.dom.EventListener;
 import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsProperty;
 
@@ -68,7 +66,7 @@ public class History {
 
   private static class HistoryEventSource implements HasValueChangeHandlers<String> {
 
-    private HandlerManager handlers = new HandlerManager(null);
+    private final HandlerManager handlers = new HandlerManager(null);
 
     @Override
     public void fireEvent(GwtEvent<?> event) {
@@ -83,10 +81,6 @@ public class History {
     public void fireValueChangedEvent(String newToken) {
       ValueChangeEvent.fire(this, newToken);
     }
-
-    public HandlerManager getHandlers() {
-      return handlers;
-    }
   }
 
   /**
@@ -94,12 +88,12 @@ public class History {
    * tokens are safe to use in the browsers URL.
    */
   private static class HistoryTokenEncoder {
-    public String encode(String toEncode) {
+    String encode(String toEncode) {
       // encodeURI() does *not* encode the '#' character.
       return encodeURI(toEncode).replace("#", "%23");
     }
 
-    public String decode(String toDecode) {
+    String decode(String toDecode) {
       return decodeURI(toDecode.replace("%23", "#"));
     }
   }
@@ -107,33 +101,26 @@ public class History {
   /** NoopHistoryTokenEncoder does not perform any encoding. */
   private static class NoopHistoryTokenEncoder extends HistoryTokenEncoder {
     @Override
-    public String encode(String toEncode) {
+    String encode(String toEncode) {
       return toEncode;
     }
 
     @Override
-    public String decode(String toDecode) {
+    String decode(String toDecode) {
       return toDecode;
     }
   }
 
   static {
-    window.addEventListener(
-        "hashchange",
-        new EventListener() {
-          @Override
-          public void handleEvent(Event evt) {
-            onHashChanged();
-          }
-        });
+    window.addEventListener("hashchange", evt -> onHashChanged());
   }
 
-  private static HistoryEventSource historyEventSource = new HistoryEventSource();
+  private static final HistoryEventSource historyEventSource = new HistoryEventSource();
   // XXX: use 2-args overload of System.getProperty to not fail compilation is property is not
   // defined.
   @SuppressWarnings(
       "ReferenceEquality") // '==' makes it compile out faster (we're in client-only code)
-  private static HistoryTokenEncoder tokenEncoder =
+  private static final HistoryTokenEncoder tokenEncoder =
       System.getProperty("history.noDoubleEncoding", null) == "true"
           ? new NoopHistoryTokenEncoder()
           : new HistoryTokenEncoder();
