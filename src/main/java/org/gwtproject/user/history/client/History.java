@@ -115,67 +115,15 @@ public class History {
     }
   }
 
-  /**
-   * History implementation using hash tokens.
-   * <p>This is the default implementation for all browsers except IE8.
-   */
-  private static class HistoryImpl {
-
-    public HistoryImpl() {
-      attachListener();
-    }
-
-    protected native void attachListener() /*-{
-      // We explicitly use the third parameter for capture, since Firefox before version 6
-      // throws an exception if the parameter is missing.
-      // See: https://developer.mozilla.org/es/docs/DOM/elemento.addEventListener#Gecko_notes
-      var handler = $entry(@History::onHashChanged());
-      $wnd.addEventListener('hashchange', handler, false);
-    }-*/;
-
-    public native void newToken(String historyToken) /*-{
-      $wnd.location.hash = historyToken;
-    }-*/;
-
-    public void replaceToken(String historyToken) {
-      Window.Location.replace("#" + historyToken);
-    }
+  static {
+    attachListener();
   }
 
-  /**
-   * History implementation for IE8 using onhashchange.
-   */
-  @SuppressWarnings("unused")
-  private static class HistoryImplIE8 extends HistoryImpl {
-    @Override
-    protected native void attachListener() /*-{
-      var handler = $entry(@History::onHashChanged());
-      var oldHandler = $wnd.onhashchange;
-      $wnd.onhashchange = function() {
-        var ex;
+  private static native void attachListener() /*-{
+    var handler = $entry(@History::onHashChanged());
+    $wnd.addEventListener('hashchange', handler);
+  }-*/;
 
-        try {
-          handler();
-        } catch(e) {
-          ex = e;
-        }
-
-        if (oldHandler != null) {
-          try {
-            oldHandler();
-          } catch(e) {
-            ex = ex || e;
-          }
-        }
-
-        if (ex != null) {
-          throw ex;
-        }
-      };
-    }-*/;
-  }
-
-  private static HistoryImpl impl = GWT.create(HistoryImpl.class);
   private static HistoryEventSource historyEventSource = new HistoryEventSource();
   private static HistoryTokenEncoder tokenEncoder = GWT.create(HistoryTokenEncoder.class);
   private static String token = getDecodedHash();
@@ -269,12 +217,16 @@ public class History {
     if (!historyToken.equals(getToken())) {
       token = historyToken;
       String updateToken = encodeHistoryToken(historyToken);
-      impl.newToken(updateToken);
+      newToken(updateToken);
       if (issueEvent) {
         historyEventSource.fireValueChangedEvent(historyToken);
       }
     }
   }
+
+  private static native void newToken(String historyToken) /*-{
+    $wnd.location.hash = historyToken;
+  }-*/;
 
   /**
    * Replace the current history token on top of the browsers history stack.
@@ -313,7 +265,7 @@ public class History {
    */
   public static void replaceItem(String historyToken, boolean issueEvent) {
     token = historyToken;
-    impl.replaceToken(encodeHistoryToken(historyToken));
+    Window.Location.replace("#" + encodeHistoryToken(historyToken));
     if (issueEvent) {
       fireCurrentHistoryState();
     }

@@ -38,13 +38,11 @@ import java.util.ArrayList;
 public class HistoryTest extends GWTTestCase {
 
   private static String getCurrentLocationHash() {
-    // Firefox automatically decodes location.hash so parse it from Window.Location.getHref
-    String href = Window.Location.getHref();
-    String[] split = href.split("#");
-    if (split.length != 2) {
+    String hash = Window.Location.getHash();
+    if (hash.isEmpty()) {
       fail("can not read history token");
     }
-    return split[1];
+    return hash.substring(1);
   }
 
   private HandlerRegistration handlerRegistration;
@@ -53,14 +51,6 @@ public class HistoryTest extends GWTTestCase {
   @Override
   public String getModuleName() {
     return "org.gwtproject.user.history.History";
-  }
-
-  protected String getHistoryToken2() {
-    return "token 2";
-  }
-
-  protected String getHistoryToken2_encoded() {
-    return "token%202";
   }
 
   // TODO(dankurka): Fix up HTML unit hash change handling
@@ -87,11 +77,7 @@ public class HistoryTest extends GWTTestCase {
       NativeEvent clickEvent =
           Document.get().createClickEvent(0, 0, 0, 0, 0, false, false, false, false);
 
-      if (isIE8orIE9()) {
-        click(anchorElement);
-      } else {
-        anchorElement.dispatchEvent(clickEvent);
-      }
+      anchorElement.dispatchEvent(clickEvent);
 
     } finally {
       Document.get().getBody().removeChild(anchorElement);
@@ -184,7 +170,7 @@ public class HistoryTest extends GWTTestCase {
     History.newItem("if-you-see-this-then-history-went-back-too-far");
 
     final String historyToken1 = "token1";
-    final String historyToken2 = getHistoryToken2();
+    final String historyToken2 = "token 2";
     delayTestFinish(10000);
 
     addHistoryListenerImpl(new ValueChangeHandler<String>() {
@@ -275,7 +261,7 @@ public class HistoryTest extends GWTTestCase {
     History.newItem("if-you-see-this-then-history-went-back-too-far");
 
     final String historyToken1 = "token1";
-    final String historyToken2 = getHistoryToken2();
+    final String historyToken2 = "token 2";
     final String historyToken3 = "token3";
 
     delayTestFinish(10000);
@@ -345,8 +331,8 @@ public class HistoryTest extends GWTTestCase {
     History.newItem("if-you-see-this-then-history-went-back-too-far");
 
     final String historyToken1 = "token1";
-    final String historyToken2 = getHistoryToken2();
-    final String historyToken2_encoded = getHistoryToken2_encoded();
+    final String historyToken2 = "token 2";
+    final String historyToken2_encoded = "token%202";
 
     History.newItem(historyToken1);
 
@@ -511,13 +497,4 @@ public class HistoryTest extends GWTTestCase {
   private void addHistoryListenerImpl(ValueChangeHandler<String> handler) {
     this.handlerRegistration = History.addValueChangeHandler(handler);
   }
-
-  private native void click(Element el) /*-{
-   el.click();
-  }-*/;
-
-  private native boolean isIE8orIE9() /*-{
-    return $wnd.navigator.userAgent.toLowerCase().indexOf('msie') != -1 &&
-        ($doc.documentMode == 8 || $doc.documentMode == 9);
-  }-*/;
 }
