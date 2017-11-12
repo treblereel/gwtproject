@@ -1,6 +1,7 @@
 plugins {
   id "java-library"
   id "maven"
+  id "net.ltgt.errorprone" version "0.0.13"
 }
 
 group = "org.gwtproject.user.history"
@@ -11,6 +12,8 @@ repositories {
 }
 
 dependencies {
+  errorprone "com.google.errorprone:error_prone_core:2.1.2"
+
   api "com.google.gwt:gwt-user:2.8.2"
   implementation "com.google.elemental2:elemental2-dom:1.0.0-beta-1"
 

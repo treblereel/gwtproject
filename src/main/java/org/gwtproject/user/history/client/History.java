@@ -131,7 +131,7 @@ public class History {
 
   private static HistoryEventSource historyEventSource = new HistoryEventSource();
   // XXX: use 2-args overload of System.getProperty to not fail compilation is property is not defined.
-  @SuppressWarnings("StringEquality") // '==' makes it compile out faster (we're in client-only code)
+  @SuppressWarnings("ReferenceEquality") // '==' makes it compile out faster (we're in client-only code)
   private static HistoryTokenEncoder tokenEncoder = System.getProperty("history.noDoubleEncoding", null) == "true"
       ? new NoopHistoryTokenEncoder() : new HistoryTokenEncoder();
   private static String token = getDecodedHash();
