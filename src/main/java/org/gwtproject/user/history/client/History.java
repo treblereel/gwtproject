@@ -39,14 +39,6 @@ import jsinterop.annotations.JsProperty;
  * implement the {@link ValueChangeHandler} interface and attach it via {@link
  * #addValueChangeHandler(ValueChangeHandler)}.
  *
- * <p>
- *
- * <h3>Example</h3>
- *
- * {@example com.google.gwt.examples.HistoryExample}
- *
- * <p>
- *
  * <h3>URL Encoding</h3>
  *
  * Any valid characters may be used in the history token and will survive round-trips through {@link
@@ -158,9 +150,8 @@ public class History {
   /**
    * Fire {@link
    * ValueChangeHandler#onValueChange(com.google.gwt.event.logical.shared.ValueChangeEvent)} events
-   * with the current history state. This is most often called at the end of an application's {@link
-   * com.google.gwt.core.client.EntryPoint#onModuleLoad()} to inform history handlers of the initial
-   * application state.
+   * with the current history state. This is most often called at the end of the application's
+   * startup to inform history handlers of the initial application state.
    */
   public static void fireCurrentHistoryState() {
     String currentToken = getToken();
@@ -228,10 +219,6 @@ public class History {
   /**
    * Replace the current history token on top of the browsers history stack.
    *
-   * <p>Note: This method has problems. The URL is updated with window.location.replace, this
-   * unfortunately has side effects when using the deprecated iframe linker (ie. "std" linker). Make
-   * sure you are using the cross site iframe linker when using this method in your code.
-   *
    * <p>Calling this method will cause {@link
    * ValueChangeHandler#onValueChange(com.google.gwt.event.logical.shared.ValueChangeEvent)} to be
    * called as well.
@@ -244,10 +231,6 @@ public class History {
 
   /**
    * Replace the current history token on top of the browsers history stack.
-   *
-   * <p>Note: This method has problems. The URL is updated with window.location.replace, this
-   * unfortunately has side effects when using the deprecated iframe linker (ie. "std" linker). Make
-   * sure you are using the cross site iframe linker when using this method in your code.
    *
    * <p>Calling this method will cause {@link
    * ValueChangeHandler#onValueChange(com.google.gwt.event.logical.shared.ValueChangeEvent)} to be
