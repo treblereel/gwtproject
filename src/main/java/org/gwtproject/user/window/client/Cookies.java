@@ -139,7 +139,7 @@ public class Cookies {
   /**
    * Native method to remove a cookie with a path.
    */
-  public static void removeCookieNative(String name, String path) {
+  private static void removeCookieNative(String name, String path) {
     document.cookie = name + "=;path=" + path + ";expires=Fri, 02-Jan-1970 00:00:00 GMT";
   }
 
