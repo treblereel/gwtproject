@@ -19,15 +19,15 @@ import static elemental2.core.Global.decodeURI;
 import static elemental2.core.Global.encodeURI;
 import static elemental2.dom.DomGlobal.window;
 
-import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.Window;
 import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsProperty;
+import org.gwtproject.event.logical.shared.HasValueChangeHandlers;
+import org.gwtproject.event.logical.shared.ValueChangeEvent;
+import org.gwtproject.event.logical.shared.ValueChangeHandler;
+import org.gwtproject.event.shared.Event;
+import org.gwtproject.event.shared.HandlerRegistration;
+import org.gwtproject.event.shared.SimpleEventBus;
+import org.gwtproject.user.window.client.Window;
 
 /**
  * This class allows you to interact with the browser's history stack. Each "item" on the stack is
@@ -43,7 +43,7 @@ import jsinterop.annotations.JsProperty;
  *
  * Any valid characters may be used in the history token and will survive round-trips through {@link
  * #newItem(String)} to {@link #getToken()}/ {@link
- * ValueChangeHandler#onValueChange(com.google.gwt.event.logical.shared.ValueChangeEvent)} , but
+ * ValueChangeHandler#onValueChange(org.gwtproject.event.logical.shared.ValueChangeEvent)} , but
  * most will be encoded in the user-visible URL. The following US-ASCII characters are not encoded
  * on any currently supported browser (but may be in the future due to future browser changes):
  *
@@ -58,10 +58,10 @@ public class History {
 
   private static class HistoryEventSource implements HasValueChangeHandlers<String> {
 
-    private final HandlerManager handlers = new HandlerManager(null);
+    private final SimpleEventBus handlers = new SimpleEventBus();
 
     @Override
-    public void fireEvent(GwtEvent<?> event) {
+    public void fireEvent(Event<?> event) {
       handlers.fireEvent(event);
     }
 
@@ -120,7 +120,7 @@ public class History {
   private static String token = getDecodedHash();
 
   /**
-   * Adds a {@link com.google.gwt.event.logical.shared.ValueChangeEvent} handler to be informed of
+   * Adds a {@link org.gwtproject.event.logical.shared.ValueChangeEvent} handler to be informed of
    * changes to the browser's history stack.
    *
    * @param handler the handler
@@ -149,7 +149,7 @@ public class History {
 
   /**
    * Fire {@link
-   * ValueChangeHandler#onValueChange(com.google.gwt.event.logical.shared.ValueChangeEvent)} events
+   * ValueChangeHandler#onValueChange(org.gwtproject.event.logical.shared.ValueChangeEvent)} events
    * with the current history state. This is most often called at the end of the application's
    * startup to inform history handlers of the initial application state.
    */
@@ -167,7 +167,7 @@ public class History {
 
   /**
    * Gets the current history token. The handler will not receive a {@link
-   * ValueChangeHandler#onValueChange(com.google.gwt.event.logical.shared.ValueChangeEvent)} event
+   * ValueChangeHandler#onValueChange(org.gwtproject.event.logical.shared.ValueChangeEvent)} event
    * for the initial token; requiring that an application request the token explicitly on startup
    * gives it an opportunity to run different initialization code in the presence or absence of an
    * initial token.
@@ -180,7 +180,7 @@ public class History {
 
   /**
    * Adds a new browser history entry. Calling this method will cause {@link
-   * ValueChangeHandler#onValueChange(com.google.gwt.event.logical.shared.ValueChangeEvent)} to be
+   * ValueChangeHandler#onValueChange(org.gwtproject.event.logical.shared.ValueChangeEvent)} to be
    * called as well.
    *
    * @param historyToken the token to associate with the new history item
@@ -191,12 +191,12 @@ public class History {
 
   /**
    * Adds a new browser history entry. Calling this method will cause {@link
-   * ValueChangeHandler#onValueChange(com.google.gwt.event.logical.shared.ValueChangeEvent)} to be
+   * ValueChangeHandler#onValueChange(org.gwtproject.event.logical.shared.ValueChangeEvent)} to be
    * called as well if and only if issueEvent is true.
    *
    * @param historyToken the token to associate with the new history item
    * @param issueEvent true if a {@link
-   *     ValueChangeHandler#onValueChange(com.google.gwt.event.logical.shared.ValueChangeEvent)}
+   *     ValueChangeHandler#onValueChange(org.gwtproject.event.logical.shared.ValueChangeEvent)}
    *     event should be issued
    */
   public static void newItem(String historyToken, boolean issueEvent) {
@@ -220,7 +220,7 @@ public class History {
    * Replace the current history token on top of the browsers history stack.
    *
    * <p>Calling this method will cause {@link
-   * ValueChangeHandler#onValueChange(com.google.gwt.event.logical.shared.ValueChangeEvent)} to be
+   * ValueChangeHandler#onValueChange(org.gwtproject.event.logical.shared.ValueChangeEvent)} to be
    * called as well.
    *
    * @param historyToken history token to replace current top entry
@@ -233,12 +233,12 @@ public class History {
    * Replace the current history token on top of the browsers history stack.
    *
    * <p>Calling this method will cause {@link
-   * ValueChangeHandler#onValueChange(com.google.gwt.event.logical.shared.ValueChangeEvent)} to be
+   * ValueChangeHandler#onValueChange(org.gwtproject.event.logical.shared.ValueChangeEvent)} to be
    * called as well if and only if issueEvent is true.
    *
    * @param historyToken history token to replace current top entry
    * @param issueEvent issueEvent true if a {@link
-   *     ValueChangeHandler#onValueChange(com.google.gwt.event.logical.shared.ValueChangeEvent)}
+   *     ValueChangeHandler#onValueChange(org.gwtproject.event.logical.shared.ValueChangeEvent)}
    *     event should be issued
    */
   public static void replaceItem(String historyToken, boolean issueEvent) {

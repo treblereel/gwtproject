@@ -14,5 +14,8 @@
 
 <module>
   <inherits name="org.gwtproject.user.history.History"/>
+  <!-- Inherit to import the history.noDoubleEncoding property -->
+  <inherits name="com.google.gwt.user.History"/>
+
   <set-property name="history.noDoubleEncoding" value="true" />
 </module>
