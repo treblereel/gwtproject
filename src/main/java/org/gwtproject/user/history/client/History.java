@@ -22,7 +22,6 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.BaseListenerWrapper;
 import com.google.gwt.user.client.Window;
 
 /**
@@ -176,43 +175,10 @@ public class History {
     }-*/;
   }
 
-  @SuppressWarnings("deprecation")
-  private static class WrapHistory extends BaseListenerWrapper<HistoryListener>
-      implements ValueChangeHandler<String> {
-    @Deprecated
-    public static void add(HistoryListener listener) {
-      addValueChangeHandler(new WrapHistory(listener));
-    }
-
-    public static void remove(HandlerManager manager, HistoryListener listener) {
-      baseRemove(manager, listener, ValueChangeEvent.getType());
-    }
-
-    private WrapHistory(HistoryListener listener) {
-      super(listener);
-    }
-
-    @Override
-    public void onValueChange(ValueChangeEvent<String> event) {
-      getListener().onHistoryChanged(event.getValue());
-    }
-  }
-
   private static HistoryImpl impl = GWT.create(HistoryImpl.class);
   private static HistoryEventSource historyEventSource = new HistoryEventSource();
   private static HistoryTokenEncoder tokenEncoder = GWT.create(HistoryTokenEncoder.class);
   private static String token = getDecodedHash();
-
-  /**
-   * Adds a listener to be informed of changes to the browser's history stack.
-   *
-   * @param listener the listener to be added
-   * @deprecated use {@link History#addValueChangeHandler(ValueChangeHandler)} instead
-   */
-  @Deprecated
-  public static void addHistoryListener(HistoryListener listener) {
-    WrapHistory.add(listener);
-  }
 
   /**
    * Adds a {@link com.google.gwt.event.logical.shared.ValueChangeEvent} handler
@@ -308,32 +274,6 @@ public class History {
         historyEventSource.fireValueChangedEvent(historyToken);
       }
     }
-  }
-
-  /**
-   * Call all history handlers with the specified token. Note that this does not
-   * change the history system's idea of the current state and is only kept for
-   * backward compatibility. To fire history events for the initial state of the
-   * application, instead call {@link #fireCurrentHistoryState()} from the
-   * application {@link com.google.gwt.core.client.EntryPoint#onModuleLoad()}
-   * method.
-   *
-   * @param historyToken history token to fire events for
-   * @deprecated Use {@link #fireCurrentHistoryState()} instead.
-   */
-  @Deprecated
-  public static void onHistoryChanged(String historyToken) {
-    historyEventSource.fireValueChangedEvent(historyToken);
-  }
-
-  /**
-   * Removes a history listener.
-   *
-   * @param listener the listener to be removed
-   */
-  @Deprecated
-  public static void removeHistoryListener(HistoryListener listener) {
-    WrapHistory.remove(historyEventSource.getHandlers(), listener);
   }
 
   /**
