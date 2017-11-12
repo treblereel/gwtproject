@@ -18,9 +18,7 @@ package org.gwtproject.user.history.client;
 import com.google.gwt.junit.DoNotRunWith;
 import com.google.gwt.junit.Platform;
 
-/**
- * Tests for the history system without encoding of history tokens.
- */
+/** Tests for the history system without encoding of history tokens. */
 public class HistoryTestNoopTokenEncoder extends HistoryTest {
 
   @Override

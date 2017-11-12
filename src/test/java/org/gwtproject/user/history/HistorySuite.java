@@ -7,6 +7,5 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ HistoryTest.class, HistoryTestNoopTokenEncoder.class })
-public class HistorySuite {
-}
+@SuiteClasses({HistoryTest.class, HistoryTestNoopTokenEncoder.class})
+public class HistorySuite {}

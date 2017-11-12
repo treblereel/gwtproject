@@ -27,13 +27,12 @@ import com.google.gwt.junit.Platform;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
-
 import java.util.ArrayList;
 
 /**
  * Tests for the history system.
  *
- * TODO: find a way to test unescaping of the initial hash value.
+ * <p>TODO: find a way to test unescaping of the initial hash value.
  */
 public class HistoryTest extends GWTTestCase {
 
@@ -63,14 +62,15 @@ public class HistoryTest extends GWTTestCase {
     try {
       History.newItem("something_as_base");
 
-      addHistoryListenerImpl(new ValueChangeHandler<String>() {
+      addHistoryListenerImpl(
+          new ValueChangeHandler<String>() {
 
-        @Override
-        public void onValueChange(ValueChangeEvent<String> event) {
-          assertEquals("href1", event.getValue());
-          finishTest();
-        }
-      });
+            @Override
+            public void onValueChange(ValueChangeEvent<String> event) {
+              assertEquals("href1", event.getValue());
+              finishTest();
+            }
+          });
 
       delayTestFinish(5000);
 
@@ -89,14 +89,15 @@ public class HistoryTest extends GWTTestCase {
     final String escToken = "%24%24%24";
 
     delayTestFinish(5000);
-    addHistoryListenerImpl(new ValueChangeHandler<String>() {
+    addHistoryListenerImpl(
+        new ValueChangeHandler<String>() {
 
-      @Override
-      public void onValueChange(ValueChangeEvent<String> event) {
-        assertEquals(escToken, event.getValue());
-        finishTest();
-      }
-    });
+          @Override
+          public void onValueChange(ValueChangeEvent<String> event) {
+            assertEquals(escToken, event.getValue());
+            finishTest();
+          }
+        });
     History.newItem(escToken);
   }
 
@@ -107,23 +108,24 @@ public class HistoryTest extends GWTTestCase {
   public void testEmptyHistoryTokens() {
     delayTestFinish(5000);
 
-    addHistoryListenerImpl(new ValueChangeHandler<String>() {
+    addHistoryListenerImpl(
+        new ValueChangeHandler<String>() {
 
-      @Override
-      public void onValueChange(ValueChangeEvent<String> event) {
-        String historyToken = event.getValue();
-        if (historyToken == null) {
-          fail("historyToken should not be null");
-        }
+          @Override
+          public void onValueChange(ValueChangeEvent<String> event) {
+            String historyToken = event.getValue();
+            if (historyToken == null) {
+              fail("historyToken should not be null");
+            }
 
-        if (historyToken.equals("foobar")) {
-          History.newItem("");
-        } else {
-          assertEquals("", historyToken);
-          finishTest();
-        }
-      }
-    });
+            if (historyToken.equals("foobar")) {
+              History.newItem("");
+            } else {
+              assertEquals("", historyToken);
+              finishTest();
+            }
+          }
+        });
 
     // We must first start out with a non-blank history token. Adding a blank
     // history token in the initial state will not cause an onHistoryChanged
@@ -131,28 +133,28 @@ public class HistoryTest extends GWTTestCase {
     History.newItem("foobar");
   }
 
-  /**
-   * Verify that no events are issued via newItem if there were not reqeuested.
-   */
+  /** Verify that no events are issued via newItem if there were not reqeuested. */
   public void testNoEvents() {
     delayTestFinish(5000);
 
-    addHistoryListenerImpl(new ValueChangeHandler<String>() {
+    addHistoryListenerImpl(
+        new ValueChangeHandler<String>() {
 
-      @Override
-      public void onValueChange(ValueChangeEvent<String> event) {
-        fail("onHistoryChanged should not have been called");
-      }
-    });
+          @Override
+          public void onValueChange(ValueChangeEvent<String> event) {
+            fail("onHistoryChanged should not have been called");
+          }
+        });
 
     History.newItem("testNoEvents", false);
 
-    timer = new Timer() {
-      @Override
-      public void run() {
-        finishTest();
-      }
-    };
+    timer =
+        new Timer() {
+          @Override
+          public void run() {
+            finishTest();
+          }
+        };
     timer.schedule(500);
   }
 
@@ -173,80 +175,86 @@ public class HistoryTest extends GWTTestCase {
     final String historyToken2 = "token 2";
     delayTestFinish(10000);
 
-    addHistoryListenerImpl(new ValueChangeHandler<String>() {
+    addHistoryListenerImpl(
+        new ValueChangeHandler<String>() {
 
-      private int state = 0;
+          private int state = 0;
 
-      @Override
-      public void onValueChange(ValueChangeEvent<String> event) {
-        String historyToken = event.getValue();
-        switch (state) {
-          case 0: {
-            if (!historyToken.equals(historyToken1)) {
-              fail("Expecting token '" + historyToken1 + "', but got: " + historyToken);
+          @Override
+          public void onValueChange(ValueChangeEvent<String> event) {
+            String historyToken = event.getValue();
+            switch (state) {
+              case 0:
+                {
+                  if (!historyToken.equals(historyToken1)) {
+                    fail("Expecting token '" + historyToken1 + "', but got: " + historyToken);
+                  }
+
+                  state = 1;
+                  History.newItem(historyToken2);
+                  break;
+                }
+
+              case 1:
+                {
+                  if (!historyToken.equals(historyToken2)) {
+                    fail("Expecting token '" + historyToken2 + "', but got: " + historyToken);
+                  }
+
+                  state = 2;
+                  History.back();
+                  break;
+                }
+
+              case 2:
+                {
+                  if (!historyToken.equals(historyToken1)) {
+                    fail("Expecting token '" + historyToken1 + "', but got: " + historyToken);
+                  }
+                  finishTest();
+                  break;
+                }
             }
-
-            state = 1;
-            History.newItem(historyToken2);
-            break;
           }
-
-          case 1: {
-            if (!historyToken.equals(historyToken2)) {
-              fail("Expecting token '" + historyToken2 + "', but got: " + historyToken);
-            }
-
-            state = 2;
-            History.back();
-            break;
-          }
-
-          case 2: {
-            if (!historyToken.equals(historyToken1)) {
-              fail("Expecting token '" + historyToken1 + "', but got: " + historyToken);
-            }
-            finishTest();
-            break;
-          }
-        }
-      }
-    });
+        });
 
     History.newItem(historyToken1);
   }
 
   /**
-   * Verify that {@link ValueChangeHandler#onValueChange(ValueChangeEvent)}
-   * is only called once per {@link History#newItem(String)}.
+   * Verify that {@link ValueChangeHandler#onValueChange(ValueChangeEvent)} is only called once per
+   * {@link History#newItem(String)}.
    */
   public void testHistoryChangedCount() {
     delayTestFinish(5000);
-    timer = new Timer() {
-      private int count = 0;
+    timer =
+        new Timer() {
+          private int count = 0;
 
-      @Override
-      public void run() {
-        if (count++ == 0) {
-          // verify that duplicates don't issue another event
-          History.newItem("testHistoryChangedCount");
-          timer.schedule(500);
-        } else {
-          finishTest();
-        }
-      }
-    };
-    addHistoryListenerImpl(new ValueChangeHandler<String>() {
-      private int count = 0;
+          @Override
+          public void run() {
+            if (count++ == 0) {
+              // verify that duplicates don't issue another event
+              History.newItem("testHistoryChangedCount");
+              timer.schedule(500);
+            } else {
+              finishTest();
+            }
+          }
+        };
+    addHistoryListenerImpl(
+        new ValueChangeHandler<String>() {
+          private int count = 0;
 
-      @Override
-      public void onValueChange(ValueChangeEvent<String> event) {
-        if (count++ != 0) {
-          fail("onHistoryChanged called multiple times");
-        }
-        // wait 500ms to see if we get called multiple times
-        timer.schedule(500);
-      }
-    });
+          @Override
+          public void onValueChange(ValueChangeEvent<String> event) {
+            if (count++ != 0) {
+              fail("onHistoryChanged called multiple times");
+            }
+            // wait 500ms to see if we get called multiple times
+            timer.schedule(500);
+          }
+        });
 
     History.newItem("testHistoryChangedCount");
   }
@@ -266,52 +274,57 @@ public class HistoryTest extends GWTTestCase {
 
     delayTestFinish(10000);
 
-    addHistoryListenerImpl(new ValueChangeHandler<String>() {
+    addHistoryListenerImpl(
+        new ValueChangeHandler<String>() {
 
-      private int state = 0;
+          private int state = 0;
 
-      @Override
-      public void onValueChange(ValueChangeEvent<String> event) {
-        String historyToken = event.getValue();
-        switch (state) {
-          case 0: {
-            if (!historyToken.equals(historyToken1)) {
-              fail("Expecting token '" + historyToken1 + "', but got: " + historyToken);
+          @Override
+          public void onValueChange(ValueChangeEvent<String> event) {
+            String historyToken = event.getValue();
+            switch (state) {
+              case 0:
+                {
+                  if (!historyToken.equals(historyToken1)) {
+                    fail("Expecting token '" + historyToken1 + "', but got: " + historyToken);
+                  }
+
+                  state = 1;
+                  History.newItem(historyToken2);
+                  break;
+                }
+
+              case 1:
+                {
+                  if (!historyToken.equals(historyToken2)) {
+                    fail("Expecting token '" + historyToken2 + "', but got: " + historyToken);
+                  }
+
+                  state = 2;
+                  History.replaceItem(historyToken3, true);
+                  break;
+                }
+
+              case 2:
+                {
+                  if (!historyToken.equals(historyToken3)) {
+                    fail("Expecting token '" + historyToken3 + "', but got: " + historyToken);
+                  }
+                  state = 3;
+                  History.back();
+                  break;
+                }
+
+              case 3:
+                {
+                  if (!historyToken.equals(historyToken1)) {
+                    fail("Expecting token '" + historyToken1 + "', but got: " + historyToken);
+                  }
+                  finishTest();
+                }
             }
-
-            state = 1;
-            History.newItem(historyToken2);
-            break;
           }
-
-          case 1: {
-            if (!historyToken.equals(historyToken2)) {
-              fail("Expecting token '" + historyToken2 + "', but got: " + historyToken);
-            }
-
-            state = 2;
-            History.replaceItem(historyToken3, true);
-            break;
-          }
-
-          case 2: {
-            if (!historyToken.equals(historyToken3)) {
-              fail("Expecting token '" + historyToken3 + "', but got: " + historyToken);
-            }
-            state = 3;
-            History.back();
-            break;
-          }
-
-          case 3: {
-            if (!historyToken.equals(historyToken1)) {
-              fail("Expecting token '" + historyToken1 + "', but got: " + historyToken);
-            }
-            finishTest();
-          }
-        }
-      }
-    });
+        });
 
     History.newItem(historyToken1);
   }
@@ -336,27 +349,29 @@ public class HistoryTest extends GWTTestCase {
 
     History.newItem(historyToken1);
 
-    addHistoryListenerImpl(new ValueChangeHandler<String>() {
+    addHistoryListenerImpl(
+        new ValueChangeHandler<String>() {
 
-      @Override
-      public void onValueChange(ValueChangeEvent<String> event) {
-        fail("No event expected");
-      }
-    });
+          @Override
+          public void onValueChange(ValueChangeEvent<String> event) {
+            fail("No event expected");
+          }
+        });
 
     History.replaceItem(historyToken2, false);
     assertEquals(historyToken2, History.getToken());
 
     delayTestFinish(500);
 
-    timer = new Timer() {
-      @Override
-      public void run() {
-        // Make sure that we have updated the URL properly.
-        assertEquals(historyToken2_encoded, getCurrentLocationHash());
-        finishTest();
-      }
-    };
+    timer =
+        new Timer() {
+          @Override
+          public void run() {
+            // Make sure that we have updated the URL properly.
+            assertEquals(historyToken2_encoded, getCurrentLocationHash());
+            finishTest();
+          }
+        };
 
     timer.schedule(200);
   }
@@ -366,21 +381,22 @@ public class HistoryTest extends GWTTestCase {
     final String shouldBeEncodedAs = "%25%20%5E%5B%5D%7C%22%3C%3E%7B%7D%5C";
 
     delayTestFinish(5000);
-    addHistoryListenerImpl(new ValueChangeHandler<String>() {
+    addHistoryListenerImpl(
+        new ValueChangeHandler<String>() {
 
-      @Override
-      public void onValueChange(ValueChangeEvent<String> event) {
-        assertEquals(shouldBeEncodedAs, getCurrentLocationHash());
-        assertEquals(shouldBeEncoded, event.getValue());
-        finishTest();
-      }
-    });
+          @Override
+          public void onValueChange(ValueChangeEvent<String> event) {
+            assertEquals(shouldBeEncodedAs, getCurrentLocationHash());
+            assertEquals(shouldBeEncoded, event.getValue());
+            finishTest();
+          }
+        });
     History.newItem(shouldBeEncoded);
   }
 
   /**
-   * Test to make sure that there is no double unescaping of hash values.
-   * See https://bugzilla.mozilla.org/show_bug.cgi?id=483304
+   * Test to make sure that there is no double unescaping of hash values. See
+   * https://bugzilla.mozilla.org/show_bug.cgi?id=483304
    */
   @DoNotRunWith(Platform.HtmlUnitUnknown)
   public void testNoDoubleTokenUnEscaping() {
@@ -392,14 +408,15 @@ public class HistoryTest extends GWTTestCase {
     History.newItem("someOtherToken");
     History.back();
     // allow browser to update the url
-    timer = new Timer() {
-      @Override
-      public void run() {
-        // make sure that value in url actually matches the original token
-        assertEquals(shouldBeEncoded, History.getToken());
-        finishTest();
-      }
-    };
+    timer =
+        new Timer() {
+          @Override
+          public void run() {
+            // make sure that value in url actually matches the original token
+            assertEquals(shouldBeEncoded, History.getToken());
+            finishTest();
+          }
+        };
     timer.schedule(200);
   }
 
@@ -413,14 +430,15 @@ public class HistoryTest extends GWTTestCase {
     final String shouldNotChange = "abc;,/?:@&=+$-_.!~*()ABC123foo";
 
     delayTestFinish(5000);
-    addHistoryListenerImpl(new ValueChangeHandler<String>() {
+    addHistoryListenerImpl(
+        new ValueChangeHandler<String>() {
 
-      @Override
-      public void onValueChange(ValueChangeEvent<String> event) {
-        assertEquals(shouldNotChange, event.getValue());
-        finishTest();
-      }
-    });
+          @Override
+          public void onValueChange(ValueChangeEvent<String> event) {
+            assertEquals(shouldNotChange, event.getValue());
+            finishTest();
+          }
+        });
 
     History.newItem(shouldNotChange);
   }
@@ -434,40 +452,42 @@ public class HistoryTest extends GWTTestCase {
     delayTestFinish(5000);
     final String token = "foo?bar";
 
-    addHistoryListenerImpl(new ValueChangeHandler<String>() {
+    addHistoryListenerImpl(
+        new ValueChangeHandler<String>() {
 
-      @Override
-      public void onValueChange(ValueChangeEvent<String> event) {
-        String historyToken = event.getValue();
-        if (historyToken == null) {
-          fail("historyToken should not be null");
-        }
-        assertEquals(token, historyToken);
-        finishTest();
-      }
-    });
+          @Override
+          public void onValueChange(ValueChangeEvent<String> event) {
+            String historyToken = event.getValue();
+            if (historyToken == null) {
+              fail("historyToken should not be null");
+            }
+            assertEquals(token, historyToken);
+            finishTest();
+          }
+        });
 
     History.newItem(token);
   }
 
   /**
-   * Test that using an empty history token works properly. There have been
-   * problems (see issue 2905) with this in the past on Safari.
-   * <p>
-   * Seems like a HtmlUnit bug. Need more investigation.
+   * Test that using an empty history token works properly. There have been problems (see issue
+   * 2905) with this in the past on Safari.
+   *
+   * <p>Seems like a HtmlUnit bug. Need more investigation.
    */
   @DoNotRunWith(Platform.HtmlUnitBug)
   public void testEmptyHistoryToken() {
     final ArrayList<Object> counter = new ArrayList<Object>();
 
-    addHistoryListenerImpl(new ValueChangeHandler<String>() {
+    addHistoryListenerImpl(
+        new ValueChangeHandler<String>() {
 
-      @Override
-      public void onValueChange(ValueChangeEvent<String> event) {
-        counter.add(new Object());
-        assertFalse("Browser is borked by empty history token", isBorked());
-      }
-    });
+          @Override
+          public void onValueChange(ValueChangeEvent<String> event) {
+            counter.add(new Object());
+            assertFalse("Browser is borked by empty history token", isBorked());
+          }
+        });
 
     History.newItem("x");
     History.newItem("");
