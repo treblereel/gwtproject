@@ -16,6 +16,7 @@
   <inherits name="com.google.gwt.core.Core"/>
   <inherits name="com.google.gwt.event.Event"/>
   <inherits name="com.google.gwt.user.DOM"/>
+  <inherits name="elemental2.dom.Dom"/>
   <!-- Import only to define the history.noDoubleEncoding property. -->
   <inherits name="com.google.gwt.user.History"/>
 

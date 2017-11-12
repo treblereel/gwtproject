@@ -15,6 +15,10 @@
  */
 package org.gwtproject.user.history.client;
 
+import static elemental2.core.Global.decodeURI;
+import static elemental2.core.Global.encodeURI;
+import static elemental2.dom.DomGlobal.window;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -23,6 +27,10 @@ import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Window;
+import elemental2.dom.Event;
+import elemental2.dom.EventListener;
+import jsinterop.annotations.JsMethod;
+import jsinterop.annotations.JsProperty;
 
 /**
  * This class allows you to interact with the browser's history stack. Each
@@ -88,14 +96,14 @@ public class History {
    * thus ensuring that tokens are safe to use in the browsers URL.
    */
   private static class HistoryTokenEncoder {
-    public native String encode(String toEncode) /*-{
+    public String encode(String toEncode) {
       // encodeURI() does *not* encode the '#' character.
-      return $wnd.encodeURI(toEncode).replace("#", "%23");
-    }-*/;
+      return encodeURI(toEncode).replace("#", "%23");
+    }
 
-    public native String decode(String toDecode) /*-{
-      return $wnd.decodeURI(toDecode.replace("%23", "#"));
-    }-*/;
+    public String decode(String toDecode) {
+      return decodeURI(toDecode.replace("%23", "#"));
+    }
   }
 
   /**
@@ -116,13 +124,13 @@ public class History {
   }
 
   static {
-    attachListener();
+    window.addEventListener("hashchange", new EventListener() {
+      @Override
+      public void handleEvent(Event evt) {
+        onHashChanged();
+      }
+    });
   }
-
-  private static native void attachListener() /*-{
-    var handler = $entry(@History::onHashChanged());
-    $wnd.addEventListener('hashchange', handler);
-  }-*/;
 
   private static HistoryEventSource historyEventSource = new HistoryEventSource();
   private static HistoryTokenEncoder tokenEncoder = GWT.create(HistoryTokenEncoder.class);
@@ -143,9 +151,10 @@ public class History {
   /**
    * Programmatic equivalent to the user pressing the browser's 'back' button.
    */
-  public static native void back() /*-{
-    $wnd.history.back();
-  }-*/;
+  // FIXME: replace with DomGlobal.window.history.back() when elemental2-dom 1.0.0-beta-2 is released
+  // See https://github.com/google/elemental2/issues/13
+  @JsMethod(namespace = "history")
+  public static native void back();
 
   /**
    * Encode a history token for use as part of a URI.
@@ -174,9 +183,10 @@ public class History {
    * Programmatic equivalent to the user pressing the browser's 'forward'
    * button.
    */
-  public static native void forward() /*-{
-    $wnd.history.forward();
-  }-*/;
+  // FIXME: replace with DomGlobal.window.history.forward() when elemental2-dom 1.0.0-beta-2 is released
+  // See https://github.com/google/elemental2/issues/13
+  @JsMethod(namespace = "history")
+  public static native void forward();
 
   /**
    * Gets the current history token. The handler will not receive a
@@ -224,9 +234,10 @@ public class History {
     }
   }
 
-  private static native void newToken(String historyToken) /*-{
-    $wnd.location.hash = historyToken;
-  }-*/;
+  // FIXME: replace with DomGlobal.location.hash when elemental2-dom 1.0.0-beta-2 is released
+  // See https://github.com/google/elemental2/issues/2
+  @JsProperty(namespace = "location", name="hash")
+  private static native void newToken(String historyToken);
 
   /**
    * Replace the current history token on top of the browsers history stack.
@@ -279,7 +290,6 @@ public class History {
     return tokenEncoder.decode(hashToken.substring(1));
   }
 
-  // this is called from JS when the native onhashchange occurs
   private static void onHashChanged() {
     /*
      * We guard against firing events twice, some browser (e.g. safari) tend to
