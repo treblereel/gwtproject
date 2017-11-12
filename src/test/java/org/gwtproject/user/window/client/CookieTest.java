@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -21,13 +21,10 @@ import com.google.gwt.junit.Platform;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.Random;
 import com.google.gwt.user.client.Timer;
-
 import java.util.Collection;
 import java.util.Date;
 
-/**
- * Test Case for {@link Cookies}.
- */
+/** Test Case for {@link Cookies}. */
 public class CookieTest extends GWTTestCase {
 
   @Override
@@ -77,8 +74,15 @@ public class CookieTest extends GWTTestCase {
     // Given multiple cookies with the same name, we should pick the cookie with the longest
     // path.
     Cookies.setCookie("token", "root", expires, null, "/", false);
-    Cookies.setCookie("token", "longest", expires, null, "/org.gwtproject.user.window.Window.JUnit/junit.html", false);
-    Cookies.setCookie("token", "middle", expires, null, "/org.gwtproject.user.window.Window.JUnit/", false);
+    Cookies.setCookie(
+        "token",
+        "longest",
+        expires,
+        null,
+        "/org.gwtproject.user.window.Window.JUnit/junit.html",
+        false);
+    Cookies.setCookie(
+        "token", "middle", expires, null, "/org.gwtproject.user.window.Window.JUnit/", false);
     assertEquals("longest", Cookies.getCookie("token"));
   }
 
@@ -98,7 +102,7 @@ public class CookieTest extends GWTTestCase {
 
     // Test that the cookie expires in 5 seconds
     Date expiresEarly = new Date(getClientTime() + (5 * 1000));
-    Date expiresLate  = new Date(getClientTime() + (60 * 1000));
+    Date expiresLate = new Date(getClientTime() + (60 * 1000));
     Cookies.setCookie(earlyCookie, "early", expiresEarly);
     Cookies.setCookie(lateCookie, "late", expiresLate);
     Cookies.setCookie(sessionCookie, "forever", null);
@@ -131,9 +135,7 @@ public class CookieTest extends GWTTestCase {
     assertTrue(Cookies.isCookieEnabled());
   }
 
-  /**
-   * Test that removing cookies works correctly.
-   */
+  /** Test that removing cookies works correctly. */
   public void testRemoveCookie() {
     // First clear all cookies
     clearCookies();
@@ -178,7 +180,7 @@ public class CookieTest extends GWTTestCase {
     Cookies.removeCookie("test1+test1");
     cookies = Cookies.getCookieNames();
     assertEquals(curCount, cookies.size());
-    
+
     // Make sure cookie names are URI encoded
     Cookies.setUriEncode(true);
     Cookies.setCookie("test1.,/?:@&=+$#", "value1");
@@ -196,7 +198,7 @@ public class CookieTest extends GWTTestCase {
     Cookies.setUriEncode(false);
     String encodedValue = Cookies.getCookie("testencodedvalue");
     assertTrue(encodedValue.compareTo("value1%2C%2F%3F%3A%40%26%3D%2B%24%23") == 0);
-    
+
     // Make sure unencoded cookies with bogus format are not added
     try {
       Cookies.setCookie("test1=test1", "value1");
@@ -242,10 +244,7 @@ public class CookieTest extends GWTTestCase {
     }
   }
 
-  /**
-   * Clear out all existing cookies, except the ones used in
-   * {@link #testExpires()}.
-   */
+  /** Clear out all existing cookies, except the ones used in {@link #testExpires()}. */
   private void clearCookies() {
     Collection<String> cookies = Cookies.getCookieNames();
     for (String cookie : cookies) {
@@ -257,9 +256,9 @@ public class CookieTest extends GWTTestCase {
 
   /**
    * Test that removing cookies with a path works correctly.
-   * 
-   * Note that we do not verify failure to remove a cookie set with a path but
-   * removed without one as browser behavior differs.
+   *
+   * <p>Note that we do not verify failure to remove a cookie set with a path but removed without
+   * one as browser behavior differs.
    */
   public void testRemoveCookiePath() {
     // First clear all cookies
@@ -331,10 +330,10 @@ public class CookieTest extends GWTTestCase {
   }
 
   /**
-   * Get the current time in milliseconds from the client. Some tests rely on
-   * exact timings that will fail in development mode if the current time on the
-   * host and client are off by more than 1000ms.
-   * 
+   * Get the current time in milliseconds from the client. Some tests rely on exact timings that
+   * will fail in development mode if the current time on the host and client are off by more than
+   * 1000ms.
+   *
    * @return the time on the client
    */
   private long getClientTime() {

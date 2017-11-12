@@ -27,6 +27,9 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import org.gwtproject.event.logical.shared.ResizeEvent;
 import org.gwtproject.event.logical.shared.ResizeHandler;
 import org.gwtproject.event.shared.HandlerRegistration;
@@ -35,22 +38,14 @@ import org.gwtproject.http.client.UrlBuilder;
 import org.gwtproject.user.window.client.Window.Location;
 import org.gwtproject.user.window.client.Window.Navigator;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-/**
- * Test Case for {@link Window}.
- */
+/** Test Case for {@link Window}. */
 public class WindowTest extends GWTTestCase {
 
   private static native String getNodeName(Element elem) /*-{
     return (elem.nodeName || "").toLowerCase();
   }-*/;
 
-  /**
-   * Removes all elements in the body, except scripts and iframes.
-   */
+  /** Removes all elements in the body, except scripts and iframes. */
   private static void clearBodyContent() {
     Element bodyElem = RootPanel.getBodyElement();
 
@@ -127,9 +122,10 @@ public class WindowTest extends GWTTestCase {
         assertEquals(expectedPairs.length, actualPairs.length);
         for (String actualPair : actualPairs) {
           String[] kv = actualPair.split("=");
-          assertEquals(Location.getParameter(kv[0]),
-                       // has a URL encoded ':' in a parameter
-                       kv.length > 1 ? URL.decodeQueryString(kv[1]) : "");
+          assertEquals(
+              Location.getParameter(kv[0]),
+              // has a URL encoded ':' in a parameter
+              kv.length > 1 ? URL.decodeQueryString(kv[1]) : "");
         }
       }
       expected = expectedParts[0];
@@ -150,8 +146,7 @@ public class WindowTest extends GWTTestCase {
     assertEquals("bunnies", map.get("fuzzy").get(0));
 
     // multiple values for the same parameter
-    map = Window.Location.buildListParamMap(
-        "?fuzzy=bunnies&foo=bar&num=42&foo=baz");
+    map = Window.Location.buildListParamMap("?fuzzy=bunnies&foo=bar&num=42&foo=baz");
     assertEquals(3, map.size());
     assertEquals("bar", map.get("foo").get(0));
     assertEquals("baz", map.get("foo").get(1));
@@ -201,9 +196,8 @@ public class WindowTest extends GWTTestCase {
   }
 
   /**
-   * Tests the ability of the Window to get the client size correctly with and
-   * without visible scroll bars.
-   * Failed in all modes due to HtmlUnit bug:
+   * Tests the ability of the Window to get the client size correctly with and without visible
+   * scroll bars. Failed in all modes due to HtmlUnit bug:
    * https://sourceforge.net/tracker/?func=detail&aid=2944261&group_id=47038&atid=448266
    */
   @DoNotRunWith(Platform.HtmlUnitBug)
@@ -217,8 +211,9 @@ public class WindowTest extends GWTTestCase {
     Window.enableScrolling(false);
     final int oldClientHeight = Window.getClientHeight();
     final int oldClientWidth = Window.getClientWidth();
-    assertTrue("Expect positive oldClientHeight. "
-        + "This will fail in WebKit if run headless", oldClientHeight > 0);
+    assertTrue(
+        "Expect positive oldClientHeight. " + "This will fail in WebKit if run headless",
+        oldClientHeight > 0);
     assertTrue(oldClientWidth > 0);
 
     // Firefox hides scrollbar if clientHeight < 49 even when it should show.
@@ -233,17 +228,19 @@ public class WindowTest extends GWTTestCase {
     largeDOM.setPixelSize(oldClientWidth + 100, oldClientHeight + 100);
     RootPanel.get().add(largeDOM);
     delayTestFinish(1000);
-    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-      @Override
-      public void execute() {
-        int newClientHeight = Window.getClientHeight();
-        int newClientWidth = Window.getClientWidth();
-        assertTrue(newClientHeight < oldClientHeight);
-        assertTrue(newClientWidth < oldClientWidth);
-        RootPanel.get().remove(largeDOM);
-        finishTest();
-      }
-    });
+    Scheduler.get()
+        .scheduleDeferred(
+            new ScheduledCommand() {
+              @Override
+              public void execute() {
+                int newClientHeight = Window.getClientHeight();
+                int newClientWidth = Window.getClientWidth();
+                assertTrue(newClientHeight < oldClientHeight);
+                assertTrue(newClientWidth < oldClientWidth);
+                RootPanel.get().remove(largeDOM);
+                finishTest();
+              }
+            });
   }
 
   private static final class TestResizeHandler implements ResizeHandler {
@@ -271,9 +268,7 @@ public class WindowTest extends GWTTestCase {
     }
   }
 
-  /**
-   * Tests the ability of resize the Window and catch resize events.
-   */
+  /** Tests the ability of resize the Window and catch resize events. */
   public void testResizing() {
     // There is nothing to test if the browser doesn't support resize
     if (!ResizeHelper.isResizeSupported()) {
@@ -294,27 +289,30 @@ public class WindowTest extends GWTTestCase {
     ResizeHelper.assertSize(width + 10, height + 20);
 
     delayTestFinish(1000);
-    Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
-      @Override
-      public boolean execute() {
-        if (!handler.isCalled()) {
-          return true; // we still didn't receive the callback, let's wait more
-        }
-        assertEquals(Window.getClientWidth(), handler.getWidth());
-        assertEquals(Window.getClientHeight(), handler.getHeight());
-        handlerRegistration.removeHandler();
-        finishTest();
-        return false;
-      }
-    }, 10);
+    Scheduler.get()
+        .scheduleFixedDelay(
+            new RepeatingCommand() {
+              @Override
+              public boolean execute() {
+                if (!handler.isCalled()) {
+                  return true; // we still didn't receive the callback, let's wait more
+                }
+                assertEquals(Window.getClientWidth(), handler.getWidth());
+                assertEquals(Window.getClientHeight(), handler.getHeight());
+                handlerRegistration.removeHandler();
+                finishTest();
+                return false;
+              }
+            },
+            10);
   }
 
   /**
-   * Tests the ability of scroll the Window and catch scroll events.
-   * Failed in all modes due to HtmlUnit bug:
+   * Tests the ability of scroll the Window and catch scroll events. Failed in all modes due to
+   * HtmlUnit bug:
    * https://sourceforge.net/tracker/?func=detail&aid=2897457&group_id=47038&atid=448266
-   * <p>
-   * TODO(flin): it is marked fixed, but is still not fixed.
+   *
+   * <p>TODO(flin): it is marked fixed, but is still not fixed.
    */
   @DoNotRunWith(Platform.HtmlUnitBug)
   public void testScrolling() {

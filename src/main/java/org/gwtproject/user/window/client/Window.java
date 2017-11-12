@@ -25,6 +25,11 @@ import elemental2.dom.Window.OnbeforeunloadCallbackFn;
 import elemental2.dom.Window.OnresizeCallbackFn;
 import elemental2.dom.Window.OnscrollCallbackFn;
 import elemental2.dom.Window.OnunloadCallbackFn;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
@@ -41,36 +46,19 @@ import org.gwtproject.event.shared.SimpleEventBus;
 import org.gwtproject.http.client.URL;
 import org.gwtproject.http.client.UrlBuilder;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-/**
- * This class provides access to the browser window's methods, properties, and
- * events.
- */
+/** This class provides access to the browser window's methods, properties, and events. */
 public class Window {
 
-  /**
-   * Fired just before the browser window closes or navigates to a different
-   * site.
-   */
+  /** Fired just before the browser window closes or navigates to a different site. */
   public static class ClosingEvent extends Event<ClosingHandler> {
-    /**
-     * The event type.
-     */
+    /** The event type. */
     private static final Type<ClosingHandler> TYPE = new Type<>();
 
     static Type<ClosingHandler> getType() {
       return TYPE;
     }
 
-    /**
-     * The message to display to the user to see whether they really want to
-     * leave the page.
-     */
+    /** The message to display to the user to see whether they really want to leave the page. */
     private String message = null;
 
     @Override
@@ -79,9 +67,8 @@ public class Window {
     }
 
     /**
-     * Get the message that will be presented to the user in a confirmation
-     * dialog that asks the user whether or not she wishes to navigate away from
-     * the page.
+     * Get the message that will be presented to the user in a confirmation dialog that asks the
+     * user whether or not she wishes to navigate away from the page.
      *
      * @return the message to display to the user, or null
      */
@@ -90,10 +77,9 @@ public class Window {
     }
 
     /**
-     * Set the message to a <code>non-null</code> value to present a
-     * confirmation dialog that asks the user whether or not she wishes to
-     * navigate away from the page. If multiple handlers set the message, the
-     * last message will be displayed; all others will be ignored.
+     * Set the message to a <code>non-null</code> value to present a confirmation dialog that asks
+     * the user whether or not she wishes to navigate away from the page. If multiple handlers set
+     * the message, the last message will be displayed; all others will be ignored.
      *
      * @param message the message to display to the user, or null
      */
@@ -107,13 +93,11 @@ public class Window {
     }
   }
 
-  /**
-   * Handler for {@link Window.ClosingEvent} events.
-   */
+  /** Handler for {@link Window.ClosingEvent} events. */
   public interface ClosingHandler {
     /**
-     * Fired just before the browser window closes or navigates to a different
-     * site. No user-interface may be displayed during shutdown.
+     * Fired just before the browser window closes or navigates to a different site. No
+     * user-interface may be displayed during shutdown.
      *
      * @param event the event
      */
@@ -121,10 +105,9 @@ public class Window {
   }
 
   /**
-   * This class provides access to the browser's location's object. The location
-   * object contains information about the current URL and methods to manipulate
-   * it. <code>Location</code> is a very simple wrapper, so not all browser
-   * quirks are hidden from the user.
+   * This class provides access to the browser's location's object. The location object contains
+   * information about the current URL and methods to manipulate it. <code>Location</code> is a very
+   * simple wrapper, so not all browser quirks are hidden from the user.
    */
   public static class Location {
     private static String cachedQueryString = "";
@@ -166,8 +149,7 @@ public class Window {
       Map<String, List<String>> params = getParameterMap();
       for (Map.Entry<String, List<String>> entry : params.entrySet()) {
         List<String> values = new ArrayList<>(entry.getValue());
-        builder.setParameter(entry.getKey(),
-            values.toArray(new String[values.size()]));
+        builder.setParameter(entry.getKey(), values.toArray(new String[values.size()]));
       }
 
       return builder;
@@ -214,9 +196,8 @@ public class Window {
     public static native String getHref();
 
     /**
-     * Gets the URL's parameter of the specified name. Note that if multiple
-     * parameters have been specified with the same name, the last one will be
-     * returned.
+     * Gets the URL's parameter of the specified name. Note that if multiple parameters have been
+     * specified with the same name, the last one will be returned.
      *
      * @param name the name of the URL's parameter
      * @return the value of the URL's parameter, or null if missing
@@ -232,10 +213,9 @@ public class Window {
     }
 
     /**
-     * Returns an immutable Map of the URL query parameters for the host page
-     * at the time this method was called.
-     * Any changes to the window's location will be reflected in the result
-     * of subsequent calls.
+     * Returns an immutable Map of the URL query parameters for the host page at the time this
+     * method was called. Any changes to the window's location will be reflected in the result of
+     * subsequent calls.
      *
      * @return a map from URL query parameter names to a list of values
      */
@@ -284,16 +264,14 @@ public class Window {
     @JsProperty(namespace = "location", name = "search")
     public static native String getQueryString();
 
-    /**
-     * Reloads the current browser window. All GWT state will be lost.
-     */
+    /** Reloads the current browser window. All GWT state will be lost. */
     public static void reload() {
       window.location.reload();
     }
 
     /**
-     * Replaces the current URL with a new one. All GWT state will be lost. In
-     * the browser's history, the current URL will be replaced by the new URL.
+     * Replaces the current URL with a new one. All GWT state will be lost. In the browser's
+     * history, the current URL will be replaced by the new URL.
      *
      * @param newURL the new URL
      */
@@ -302,8 +280,8 @@ public class Window {
     }
 
     /**
-     * Builds the immutable map from String to List<String> that we'll return in
-     * getParameterMap(). Package-protected for testing.
+     * Builds the immutable map from String to List<String> that we'll return in getParameterMap().
+     * Package-protected for testing.
      *
      * @return a map from the
      */
@@ -344,20 +322,18 @@ public class Window {
 
     private static void ensureListParameterMap() {
       final String currentQueryString = getQueryString();
-      if (listParamMap == null ||
-          !cachedQueryString.equals(currentQueryString)) {
+      if (listParamMap == null || !cachedQueryString.equals(currentQueryString)) {
         listParamMap = buildListParamMap(currentQueryString);
         cachedQueryString = currentQueryString;
       }
     }
 
-    private Location() {
-    }
+    private Location() {}
   }
 
   /**
-   * This class provides access to the browser's navigator object. The mimeTypes
-   * and plugins properties are not included.
+   * This class provides access to the browser's navigator object. The mimeTypes and plugins
+   * properties are not included.
    */
   public static class Navigator {
     /**
@@ -423,17 +399,12 @@ public class Window {
       return window.navigator.javaEnabled();
     }
 
-    private Navigator() {
-    }
+    private Navigator() {}
   }
 
-  /**
-   * Fired when the browser window is scrolled.
-   */
+  /** Fired when the browser window is scrolled. */
   public static class ScrollEvent extends Event<Window.ScrollHandler> {
-    /**
-     * The event type.
-     */
+    /** The event type. */
     static final Type<Window.ScrollHandler> TYPE = new Type<>();
 
     static Type<Window.ScrollHandler> getType() {
@@ -447,7 +418,7 @@ public class Window {
      * Construct a new {@link Window.ScrollEvent}.
      *
      * @param scrollLeft the left scroll position
-     * @param scrollTop  the top scroll position
+     * @param scrollTop the top scroll position
      */
     private ScrollEvent(int scrollLeft, int scrollTop) {
       this.scrollLeft = scrollLeft;
@@ -483,9 +454,7 @@ public class Window {
     }
   }
 
-  /**
-   * Handler for {@link Window.ScrollEvent} events.
-   */
+  /** Handler for {@link Window.ScrollEvent} events. */
   public interface ScrollHandler {
     /**
      * Fired when the browser window is scrolled.
@@ -495,8 +464,8 @@ public class Window {
     void onWindowScroll(Window.ScrollEvent event);
   }
 
-  private static class WindowHandlers extends SimpleEventBus implements
-      HasCloseHandlers<Window>, HasResizeHandlers {
+  private static class WindowHandlers extends SimpleEventBus
+      implements HasCloseHandlers<Window>, HasResizeHandlers {
 
     @Override
     public HandlerRegistration addCloseHandler(CloseHandler<Window> handler) {
@@ -546,8 +515,7 @@ public class Window {
    * @param handler the handler
    * @return returns the handler registration
    */
-  public static HandlerRegistration addWindowClosingHandler(
-      ClosingHandler handler) {
+  public static HandlerRegistration addWindowClosingHandler(ClosingHandler handler) {
     maybeInitializeCloseHandlers();
     return addHandler(Window.ClosingEvent.getType(), handler);
   }
@@ -558,8 +526,7 @@ public class Window {
    * @param handler the handler
    * @return returns the handler registration
    */
-  public static HandlerRegistration addWindowScrollHandler(
-      Window.ScrollHandler handler) {
+  public static HandlerRegistration addWindowScrollHandler(Window.ScrollHandler handler) {
     maybeInitializeCloseHandlers();
     maybeInitializeScrollHandlers();
     return addHandler(Window.ScrollEvent.getType(), handler);
@@ -575,21 +542,19 @@ public class Window {
   }
 
   /**
-   * Displays a message in a modal dialog box, along with the standard 'OK' and
-   * 'Cancel' buttons.
+   * Displays a message in a modal dialog box, along with the standard 'OK' and 'Cancel' buttons.
    *
    * @param msg the message to be displayed.
-   * @return <code>true</code> if 'OK' is clicked, <code>false</code> if
-   *         'Cancel' is clicked.
+   * @return <code>true</code> if 'OK' is clicked, <code>false</code> if 'Cancel' is clicked.
    */
   public static boolean confirm(String msg) {
     return DomGlobal.confirm(msg);
   }
 
   /**
-   * Use this method to explicitly disable the window's scrollbars. Applications
-   * that choose to resize their user-interfaces to fit within the window's
-   * client area will normally want to disable window scrolling.
+   * Use this method to explicitly disable the window's scrollbars. Applications that choose to
+   * resize their user-interfaces to fit within the window's client area will normally want to
+   * disable window scrolling.
    *
    * @param enable <code>false</code> to disable window scrolling
    */
@@ -598,8 +563,7 @@ public class Window {
   }
 
   /**
-   * Gets the height of the browser window's client area excluding the scroll
-   * bar.
+   * Gets the height of the browser window's client area excluding the scroll bar.
    *
    * @return the window's client height
    */
@@ -608,8 +572,7 @@ public class Window {
   }
 
   /**
-   * Gets the width of the browser window's client area excluding the vertical
-   * scroll bar.
+   * Gets the width of the browser window's client area excluding the vertical scroll bar.
    *
    * @return the window's client width
    */
@@ -645,27 +608,23 @@ public class Window {
   }
 
   /**
-   * Moves a window's left and top edge to a specified number of pixels relative
-   * to its current coordinates.
-   * <p>
-   * NOTE: In Chrome, this method only works with windows created by
-   * Window.open().
-   * </p>
+   * Moves a window's left and top edge to a specified number of pixels relative to its current
+   * coordinates.
    *
-   * @param dx A positive or a negative number that specifies how many pixels
-   *           to move the left edge by
-   * @param dy A positive or a negative number that specifies how many
-   *           pixels to move the top edge by
+   * <p>NOTE: In Chrome, this method only works with windows created by Window.open().
+   *
+   * @param dx A positive or a negative number that specifies how many pixels to move the left edge
+   *     by
+   * @param dy A positive or a negative number that specifies how many pixels to move the top edge
+   *     by
    */
   @JsMethod(namespace = JsPackage.GLOBAL)
   public static native void moveBy(int dx, int dy);
 
   /**
    * Moves a window's left and top edge to the specified coordinates.
-   * <p>
-   * NOTE: In Chrome, this method only works with windows created by
-   * Window.open().
-   * </p>
+   *
+   * <p>NOTE: In Chrome, this method only works with windows created by Window.open().
    *
    * @param x The left coordinate
    * @param y The top coordinate
@@ -674,65 +633,58 @@ public class Window {
   public static native void moveTo(int x, int y);
 
   /**
-   * Opens a new browser window. The "name" and "features" arguments are
-   * specified <a href=
+   * Opens a new browser window. The "name" and "features" arguments are specified <a href=
    * 'https://developer.mozilla.org/en-US/docs/Web/API/window.open'>here</a>.
    *
-   * @param url      the URL that the new window will display
-   * @param name     the name of the window (e.g. "_blank")
+   * @param url the URL that the new window will display
+   * @param name the name of the window (e.g. "_blank")
    * @param features the features to be enabled/disabled on this window
    */
   public static void open(String url, String name, String features) {
     window.open(url, name, features);
   }
 
-  /**
-   * Prints the document in the window, as if the user had issued a "Print"
-   * command.
-   */
+  /** Prints the document in the window, as if the user had issued a "Print" command. */
   public static void print() {
     window.print();
   }
 
   /**
-   * Displays a request for information in a modal dialog box, along with the
-   * standard 'OK' and 'Cancel' buttons.
+   * Displays a request for information in a modal dialog box, along with the standard 'OK' and
+   * 'Cancel' buttons.
    *
-   * @param msg          the message to be displayed
+   * @param msg the message to be displayed
    * @param initialValue the initial value in the dialog's text field
-   * @return the value entered by the user if 'OK' was pressed, or
-   *         <code>null</code> if 'Cancel' was pressed
+   * @return the value entered by the user if 'OK' was pressed, or <code>null</code> if 'Cancel' was
+   *     pressed
    */
   public static String prompt(String msg, String initialValue) {
     return DomGlobal.prompt(msg, initialValue);
   }
 
   /**
-   * Resizes the window by the specified width and height. This method moves the
-   * bottom right corner of the window by the specified number of pixels
-   * defined. The top left corner will not be moved (it stays in its original
-   * coordinates).
-   * <p>
-   * NOTE: In most modern browsers, this method only works with windows created
-   * by Window.open() with a supplied width and height.
-   * </p>
+   * Resizes the window by the specified width and height. This method moves the bottom right corner
+   * of the window by the specified number of pixels defined. The top left corner will not be moved
+   * (it stays in its original coordinates).
    *
-   * @param width  A positive or a negative number that specifies how many pixels
-   *               to resize the width by
-   * @param height A positive or a negative number that specifies how many
-   *               pixels to resize the height by
+   * <p>NOTE: In most modern browsers, this method only works with windows created by Window.open()
+   * with a supplied width and height.
+   *
+   * @param width A positive or a negative number that specifies how many pixels to resize the width
+   *     by
+   * @param height A positive or a negative number that specifies how many pixels to resize the
+   *     height by
    */
   @JsMethod(namespace = JsPackage.GLOBAL)
   public static native void resizeBy(int width, int height);
 
   /**
    * Resizes the window to the specified width and height.
-   * <p>
-   * NOTE: In most modern browsers, this method only works with windows created
-   * by Window.open() with a supplied width and height.
-   * </p>
    *
-   * @param width  The width of the window, in pixels
+   * <p>NOTE: In most modern browsers, this method only works with windows created by Window.open()
+   * with a supplied width and height.
+   *
+   * @param width The width of the window, in pixels
    * @param height The height of the window, in pixels
    */
   @JsMethod(namespace = JsPackage.GLOBAL)
@@ -742,17 +694,16 @@ public class Window {
    * Scroll the window to the specified position.
    *
    * @param left the left scroll position
-   * @param top  the top scroll position
+   * @param top the top scroll position
    */
   public static void scrollTo(int left, int top) {
     window.scrollTo(left, top);
   }
 
   /**
-   * Sets the size of the margins used within the window's client area. It is
-   * sometimes necessary to do this because some browsers, such as Internet
-   * Explorer, add margins by default, which can confound attempts to resize
-   * panels to fit exactly within the window.
+   * Sets the size of the margins used within the window's client area. It is sometimes necessary to
+   * do this because some browsers, such as Internet Explorer, add margins by default, which can
+   * confound attempts to resize panels to fit exactly within the window.
    *
    * @param size the window's new margin size, in CSS units.
    */
@@ -761,8 +712,7 @@ public class Window {
   }
 
   /**
-   * Sets the status text for the window, if permitted by the browser's
-   * settings.
+   * Sets the status text for the window, if permitted by the browser's settings.
    *
    * @param status the new message to display.
    */
@@ -817,13 +767,12 @@ public class Window {
   /**
    * Adds this handler to the Window.
    *
-   * @param <H>     the type of handler to add
-   * @param type    the event type
+   * @param <H> the type of handler to add
+   * @param type the event type
    * @param handler the handler
    * @return {@link HandlerRegistration} used to remove the handler
    */
-  private static <H> HandlerRegistration addHandler(
-      Event.Type<H> type, final H handler) {
+  private static <H> HandlerRegistration addHandler(Event.Type<H> type, final H handler) {
     return getHandlers().addHandler(type, handler);
   }
 
@@ -856,37 +805,39 @@ public class Window {
     OnbeforeunloadCallbackFn oldOnBeforeUnload = window.onbeforeunload;
     OnunloadCallbackFn oldOnUnload = window.onunload;
 
-    window.onbeforeunload = evt -> {
-      Object ret, oldRet;
-      try {
-        ret = onClosing();
-      } finally {
-        oldRet = oldOnBeforeUnload == null ? null : oldOnBeforeUnload.onInvoke(evt);
-      }
-      // Ensure that "" gets returned properly.
-      if (ret != null) {
-        return ret;
-      }
-      if (oldRet != null) {
-        return oldRet;
-      }
-      return Js.undefined();
-    };
+    window.onbeforeunload =
+        evt -> {
+          Object ret, oldRet;
+          try {
+            ret = onClosing();
+          } finally {
+            oldRet = oldOnBeforeUnload == null ? null : oldOnBeforeUnload.onInvoke(evt);
+          }
+          // Ensure that "" gets returned properly.
+          if (ret != null) {
+            return ret;
+          }
+          if (oldRet != null) {
+            return oldRet;
+          }
+          return Js.undefined();
+        };
 
-    window.onunload = evt -> {
-      try {
-        onClosed();
-      } finally {
-        if (oldOnUnload != null) {
-          oldOnUnload.onInvoke(evt);
-        }
-        window.onresize = null;
-        window.onscroll = null;
-        window.onbeforeunload = null;
-        window.onunload = null;
-      }
-      return Js.undefined();
-    };
+    window.onunload =
+        evt -> {
+          try {
+            onClosed();
+          } finally {
+            if (oldOnUnload != null) {
+              oldOnUnload.onInvoke(evt);
+            }
+            window.onresize = null;
+            window.onscroll = null;
+            window.onbeforeunload = null;
+            window.onunload = null;
+          }
+          return Js.undefined();
+        };
   }
 
   private static void maybeInitializeResizeHandlers() {
@@ -898,16 +849,17 @@ public class Window {
 
   private static void initWindowResizeHandler() {
     OnresizeCallbackFn oldOnResize = window.onresize;
-    window.onresize = evt -> {
-      try {
-        onResize();
-      } finally {
-        if (oldOnResize != null) {
-          oldOnResize.onInvoke(evt);
-        }
-      }
-      return Js.undefined();
-    };
+    window.onresize =
+        evt -> {
+          try {
+            onResize();
+          } finally {
+            if (oldOnResize != null) {
+              oldOnResize.onInvoke(evt);
+            }
+          }
+          return Js.undefined();
+        };
   }
 
   private static void maybeInitializeScrollHandlers() {
@@ -919,18 +871,18 @@ public class Window {
 
   private static void initWindowScrollHandler() {
     OnscrollCallbackFn oldOnScroll = window.onscroll;
-    window.onscroll = evt -> {
-      try {
-        onScroll();
-      } finally {
-        if (oldOnScroll != null) {
-          oldOnScroll.onInvoke(evt);
-        }
-      }
-      return Js.undefined();
-    };
+    window.onscroll =
+        evt -> {
+          try {
+            onScroll();
+          } finally {
+            if (oldOnScroll != null) {
+              oldOnScroll.onInvoke(evt);
+            }
+          }
+          return Js.undefined();
+        };
   }
 
-  private Window() {
-  }
+  private Window() {}
 }

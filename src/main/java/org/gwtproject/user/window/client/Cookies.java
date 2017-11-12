@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -20,54 +20,42 @@ import static elemental2.core.Global.encodeURIComponent;
 import static elemental2.dom.DomGlobal.document;
 
 import elemental2.core.JsString;
-import jsinterop.base.Js;
-
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import jsinterop.base.Js;
 
 /**
- * Provides access to browser cookies stored on the client. Because of browser
- * restrictions, you will only be able to access cookies associated with the
- * current page's domain.
+ * Provides access to browser cookies stored on the client. Because of browser restrictions, you
+ * will only be able to access cookies associated with the current page's domain.
  */
 public class Cookies {
 
-  /**
-   * Cached copy of cookies.
-   */
+  /** Cached copy of cookies. */
   private static HashMap<String, String> cachedCookies = null;
 
-  /**
-   * Raw cookie string stored to allow cached cookies to be invalidated on
-   * write.
-   */
+  /** Raw cookie string stored to allow cached cookies to be invalidated on write. */
   private static String rawCookies;
 
-  /**
-   * Indicates whether or not cookies are enabled.
-   */
+  /** Indicates whether or not cookies are enabled. */
   private static boolean isCookieEnabled = false;
 
-  /**
-   * Indicates whether or not we've checked if cookies are enabled.
-   */
+  /** Indicates whether or not we've checked if cookies are enabled. */
   private static boolean isCookieChecked = false;
 
   /**
-   * Flag that indicates whether cookies should be URIencoded (when set) and
-   * URIdecoded (when retrieved). Defaults to URIencoding.
+   * Flag that indicates whether cookies should be URIencoded (when set) and URIdecoded (when
+   * retrieved). Defaults to URIencoding.
    */
   private static boolean uriEncoding = true;
 
   /**
    * Gets the cookie associated with the given name.
-   * 
+   *
    * @param name the name of the cookie to be retrieved
-   * @return the cookie's value, or <code>null</code> if the cookie doesn't
-   *         exist
+   * @return the cookie's value, or <code>null</code> if the cookie doesn't exist
    */
   public static String getCookie(String name) {
     Map<String, String> cookiesMap = ensureCookies();
@@ -76,23 +64,21 @@ public class Cookies {
 
   /**
    * Gets the names of all cookies in this page's domain.
-   * 
+   *
    * @return the names of all cookies
    */
   public static Collection<String> getCookieNames() {
     return ensureCookies().keySet();
   }
 
-  /**
-   * Gets the URIencode flag.
-   */
+  /** Gets the URIencode flag. */
   public static boolean getUriEncode() {
     return uriEncoding;
   }
 
   /**
    * Checks whether or not cookies are enabled or disabled.
-   * 
+   *
    * @return true if a cookie can be set, false if not
    */
   public static boolean isCookieEnabled() {
@@ -112,7 +98,7 @@ public class Cookies {
 
   /**
    * Removes the cookie associated with the given name.
-   * 
+   *
    * @param name the name of the cookie to be removed
    */
   public static void removeCookie(String name) {
@@ -124,10 +110,10 @@ public class Cookies {
 
   /**
    * Removes the cookie associated with the given name.
-   * 
+   *
    * @param name the name of the cookie to be removed
-   * @param path the path to be associated with this cookie (which should match
-   *          the path given in {@link #setCookie})
+   * @param path the path to be associated with this cookie (which should match the path given in
+   *     {@link #setCookie})
    */
   public static void removeCookie(String name, String path) {
     if (uriEncoding) {
@@ -136,17 +122,14 @@ public class Cookies {
     removeCookieNative(name, path);
   }
 
-  /**
-   * Native method to remove a cookie with a path.
-   */
+  /** Native method to remove a cookie with a path. */
   private static void removeCookieNative(String name, String path) {
     document.cookie = name + "=;path=" + path + ";expires=Fri, 02-Jan-1970 00:00:00 GMT";
   }
 
   /**
-   * Sets a cookie. The cookie will expire when the current browser session is
-   * ended.
-   * 
+   * Sets a cookie. The cookie will expire when the current browser session is ended.
+   *
    * @param name the cookie's name
    * @param value the cookie's value
    */
@@ -156,7 +139,7 @@ public class Cookies {
 
   /**
    * Sets a cookie.
-   * 
+   *
    * @param name the cookie's name
    * @param value the cookie's value
    * @param expires when the cookie expires
@@ -166,35 +149,33 @@ public class Cookies {
   }
 
   /**
-   * Sets a cookie. If uriEncoding is false, it checks the validity of name and
-   * value. Name: Must conform to RFC 2965. Not allowed: = , ; white space. Also
-   * can't begin with $. Value: No = or ;
-   * 
+   * Sets a cookie. If uriEncoding is false, it checks the validity of name and value. Name: Must
+   * conform to RFC 2965. Not allowed: = , ; white space. Also can't begin with $. Value: No = or ;
+   *
    * @param name the cookie's name
    * @param value the cookie's value
    * @param expires when the cookie expires
    * @param domain the domain to be associated with this cookie
    * @param path the path to be associated with this cookie
-   * @param secure <code>true</code> to make this a secure cookie (that is, only
-   *          accessible over an SSL connection)
+   * @param secure <code>true</code> to make this a secure cookie (that is, only accessible over an
+   *     SSL connection)
    */
-  public static void setCookie(String name, String value, Date expires,
-      String domain, String path, boolean secure) {
+  public static void setCookie(
+      String name, String value, Date expires, String domain, String path, boolean secure) {
     if (uriEncoding) {
       name = encodeURIComponent(name);
       value = encodeURIComponent(value);
     } else if (!isValidCookieName(name)) {
-      throw new IllegalArgumentException("Illegal cookie format: " + name + " is not a valid cookie name.");
+      throw new IllegalArgumentException(
+          "Illegal cookie format: " + name + " is not a valid cookie name.");
     } else if (!isValidCookieValue(value)) {
-      throw new IllegalArgumentException("Illegal cookie format: " + value + " is not a valid cookie value.");
+      throw new IllegalArgumentException(
+          "Illegal cookie format: " + value + " is not a valid cookie value.");
     }
-    setCookieImpl(name, value, (expires == null) ? 0 : expires.getTime(),
-        domain, path, secure);
+    setCookieImpl(name, value, (expires == null) ? 0 : expires.getTime(), domain, path, secure);
   }
 
-  /**
-   * Updates the URIencode flag and empties the cached cookies set.
-   */
+  /** Updates the URIencode flag and empties the cached cookies set. */
   public static void setUriEncode(boolean encode) {
     if (encode != uriEncoding) {
       uriEncoding = encode;
@@ -243,17 +224,20 @@ public class Cookies {
   }
 
   /**
-   * Checks whether a cookie name is valid: can't contain '=', ';', ',', or
-   * whitespace. Can't begin with $.
-   * 
+   * Checks whether a cookie name is valid: can't contain '=', ';', ',', or whitespace. Can't begin
+   * with $.
+   *
    * @param name the cookie's name
    */
   private static boolean isValidCookieName(String name) {
     if (uriEncoding) {
       // check not necessary
       return true;
-    } else if (name.contains("=") || name.contains(";") || name.contains(",")
-        || name.startsWith("$") || name.matches(".*\\s+.*")) {
+    } else if (name.contains("=")
+        || name.contains(";")
+        || name.contains(",")
+        || name.startsWith("$")
+        || name.matches(".*\\s+.*")) {
       return false;
     } else {
       return true;
@@ -262,7 +246,7 @@ public class Cookies {
 
   /**
    * Checks whether a cookie value is valid. A cookie cannot contain '=' or ';'.
-   * 
+   *
    * @param value the cookie's value
    */
   private static boolean isValidCookieValue(String value) {
@@ -289,15 +273,13 @@ public class Cookies {
     }
   }
 
-  /**
-   * Native method to remove a cookie.
-   */
+  /** Native method to remove a cookie. */
   private static void removeCookieNative(String name) {
     document.cookie = name + "=;expires=Fri, 02-Jan-1970 00:00:00 GMT";
   }
 
-  private static void setCookieImpl(String name, String value,
-      double expires, String domain, String path, boolean secure) {
+  private static void setCookieImpl(
+      String name, String value, double expires, String domain, String path, boolean secure) {
     String c = name + '=' + value;
     if (Js.isTruthy(expires)) {
       c += ";expires=" + (new elemental2.core.Date(expires)).toGMTString();
@@ -315,6 +297,5 @@ public class Cookies {
     document.cookie = c;
   }
 
-  private Cookies() {
-  }
+  private Cookies() {}
 }
