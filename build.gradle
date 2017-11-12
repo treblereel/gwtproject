@@ -38,8 +38,12 @@ test {
 
   classpath += sourceSets.main.allJava.sourceDirectories + sourceSets.test.allJava.sourceDirectories
   include "**/*Suite.class"
-  systemProperty("gwt.args", "-ea -draftCompile -batch module -war \"$warDir\" -workDir \"$workDir\" -runStyle HtmlUnit:Chrome")
+  systemProperty("gwt.args", "-ea -draftCompile -batch module -war \"$warDir\" -workDir \"$workDir\" " +
+          "-runStyle ${project.findProperty('test.gwt.runStyle') ?: 'HtmlUnit:Chrome'}")
   systemProperty("gwt.persistentunitcachedir", cacheDir)
+  testLogging {
+    events('STANDARD_OUT')
+  }
 }
 
 javadoc {
