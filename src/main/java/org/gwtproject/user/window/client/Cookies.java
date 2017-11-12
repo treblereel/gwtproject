@@ -38,7 +38,7 @@ public class Cookies {
   /**
    * Cached copy of cookies.
    */
-  static HashMap<String, String> cachedCookies = null;
+  private static HashMap<String, String> cachedCookies = null;
 
   /**
    * Raw cookie string stored to allow cached cookies to be invalidated on
@@ -202,7 +202,7 @@ public class Cookies {
     }
   }
 
-  static void loadCookies(HashMap<String, String> m) {
+  private static void loadCookies(HashMap<String, String> m) {
     String docCookie = document.cookie;
     if (Js.isTruthy(docCookie) && !docCookie.isEmpty()) {
       String[] crumbs = Js.<JsString>cast(docCookie).split("; ");
@@ -235,7 +235,7 @@ public class Cookies {
 
   private static HashMap<String, String> ensureCookies() {
     if (cachedCookies == null || needsRefresh()) {
-      HashMap<String, String> newCachedCookies = new HashMap<String, String>();
+      HashMap<String, String> newCachedCookies = new HashMap<>();
       loadCookies(newCachedCookies);
       cachedCookies = newCachedCookies;
     }

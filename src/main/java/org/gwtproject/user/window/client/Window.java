@@ -61,7 +61,7 @@ public class Window {
     /**
      * The event type.
      */
-    private static final Type<ClosingHandler> TYPE = new Type<ClosingHandler>();
+    private static final Type<ClosingHandler> TYPE = new Type<>();
 
     static Type<ClosingHandler> getType() {
       return TYPE;
@@ -165,7 +165,7 @@ public class Window {
       // Add query parameters.
       Map<String, List<String>> params = getParameterMap();
       for (Map.Entry<String, List<String>> entry : params.entrySet()) {
-        List<String> values = new ArrayList<String>(entry.getValue());
+        List<String> values = new ArrayList<>(entry.getValue());
         builder.setParameter(entry.getKey(),
             values.toArray(new String[values.size()]));
       }
@@ -308,7 +308,7 @@ public class Window {
      * @return a map from the
      */
     static Map<String, List<String>> buildListParamMap(String queryString) {
-      Map<String, List<String>> out = new HashMap<String, List<String>>();
+      Map<String, List<String>> out = new HashMap<>();
 
       if (queryString != null && queryString.length() > 1) {
         String qs = queryString.substring(1);
@@ -328,11 +328,7 @@ public class Window {
             // ignore error, keep undecoded name
           }
 
-          List<String> values = out.get(key);
-          if (values == null) {
-            values = new ArrayList<String>();
-            out.put(key, values);
-          }
+          List<String> values = out.computeIfAbsent(key, k -> new ArrayList<>());
           values.add(val);
         }
       }
@@ -438,14 +434,14 @@ public class Window {
     /**
      * The event type.
      */
-    static final Type<Window.ScrollHandler> TYPE = new Type<Window.ScrollHandler>();
+    static final Type<Window.ScrollHandler> TYPE = new Type<>();
 
     static Type<Window.ScrollHandler> getType() {
       return TYPE;
     }
 
-    private int scrollLeft;
-    private int scrollTop;
+    private final int scrollLeft;
+    private final int scrollTop;
 
     /**
      * Construct a new {@link Window.ScrollEvent}.
@@ -514,7 +510,7 @@ public class Window {
   }
 
   // Package protected for testing.
-  static WindowHandlers handlers;
+  private static WindowHandlers handlers;
   private static boolean closeHandlersInitialized;
   private static boolean scrollHandlersInitialized;
   private static boolean resizeHandlersInitialized;
@@ -860,42 +856,36 @@ public class Window {
     OnbeforeunloadCallbackFn oldOnBeforeUnload = window.onbeforeunload;
     OnunloadCallbackFn oldOnUnload = window.onunload;
 
-    window.onbeforeunload = new OnbeforeunloadCallbackFn() {
-      @Override
-      public Object onInvoke(elemental2.dom.Event evt) {
-        Object ret, oldRet;
-        try {
-          ret = onClosing();
-        } finally {
-          oldRet = oldOnBeforeUnload == null ? null : oldOnBeforeUnload.onInvoke(evt);
-        }
-        // Ensure that "" gets returned properly.
-        if (ret != null) {
-          return ret;
-        }
-        if (oldRet != null) {
-          return oldRet;
-        }
-        return Js.undefined();
+    window.onbeforeunload = evt -> {
+      Object ret, oldRet;
+      try {
+        ret = onClosing();
+      } finally {
+        oldRet = oldOnBeforeUnload == null ? null : oldOnBeforeUnload.onInvoke(evt);
       }
+      // Ensure that "" gets returned properly.
+      if (ret != null) {
+        return ret;
+      }
+      if (oldRet != null) {
+        return oldRet;
+      }
+      return Js.undefined();
     };
 
-    window.onunload = new OnunloadCallbackFn() {
-      @Override
-      public Object onInvoke(elemental2.dom.Event evt) {
-        try {
-          onClosed();
-        } finally {
-          if (oldOnUnload != null) {
-            oldOnUnload.onInvoke(evt);
-          }
-          window.onresize = null;
-          window.onscroll = null;
-          window.onbeforeunload = null;
-          window.onunload = null;
+    window.onunload = evt -> {
+      try {
+        onClosed();
+      } finally {
+        if (oldOnUnload != null) {
+          oldOnUnload.onInvoke(evt);
         }
-        return Js.undefined();
+        window.onresize = null;
+        window.onscroll = null;
+        window.onbeforeunload = null;
+        window.onunload = null;
       }
+      return Js.undefined();
     };
   }
 
@@ -908,18 +898,15 @@ public class Window {
 
   private static void initWindowResizeHandler() {
     OnresizeCallbackFn oldOnResize = window.onresize;
-    window.onresize = new OnresizeCallbackFn() {
-      @Override
-      public Object onInvoke(elemental2.dom.Event evt) {
-        try {
-          onResize();
-        } finally {
-          if (oldOnResize != null) {
-            oldOnResize.onInvoke(evt);
-          }
+    window.onresize = evt -> {
+      try {
+        onResize();
+      } finally {
+        if (oldOnResize != null) {
+          oldOnResize.onInvoke(evt);
         }
-        return Js.undefined();
       }
+      return Js.undefined();
     };
   }
 
@@ -932,18 +919,15 @@ public class Window {
 
   private static void initWindowScrollHandler() {
     OnscrollCallbackFn oldOnScroll = window.onscroll;
-    window.onscroll = new OnscrollCallbackFn () {
-      @Override
-      public Object onInvoke(elemental2.dom.Event evt) {
-        try {
-          onScroll();
-        } finally {
-          if (oldOnScroll != null) {
-            oldOnScroll.onInvoke(evt);
-          }
+    window.onscroll = evt -> {
+      try {
+        onScroll();
+      } finally {
+        if (oldOnScroll != null) {
+          oldOnScroll.onInvoke(evt);
         }
-        return Js.undefined();
       }
+      return Js.undefined();
     };
   }
 
