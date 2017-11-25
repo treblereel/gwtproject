@@ -18,6 +18,8 @@ dependencies {
   api "org.gwtproject.event:gwt-logical-event:HEAD-SNAPSHOT"
   api "org.gwtproject.http:gwt-http:HEAD-SNAPSHOT"
   implementation "com.google.elemental2:elemental2-dom:1.0.0-beta-1"
+  implementation "com.google.elemental2:elemental2-core:1.0.0-beta-1"
+  implementation "com.google.jsinterop:base:1.0.0-beta-1"
 
   testImplementation "junit:junit:4.12"
   testImplementation "com.google.gwt:gwt-user:2.8.2"
