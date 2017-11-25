@@ -19,8 +19,6 @@ import static elemental2.core.Global.decodeURI;
 import static elemental2.core.Global.encodeURI;
 import static elemental2.dom.DomGlobal.window;
 
-import jsinterop.annotations.JsMethod;
-import jsinterop.annotations.JsProperty;
 import org.gwtproject.event.logical.shared.HasValueChangeHandlers;
 import org.gwtproject.event.logical.shared.ValueChangeEvent;
 import org.gwtproject.event.logical.shared.ValueChangeHandler;
@@ -131,11 +129,9 @@ public class History {
   }
 
   /** Programmatic equivalent to the user pressing the browser's 'back' button. */
-  // FIXME: replace with DomGlobal.window.history.back() when elemental2-dom 1.0.0-beta-2 is
-  // released
-  // See https://github.com/google/elemental2/issues/13
-  @JsMethod(namespace = "history")
-  public static native void back();
+  public static void back() {
+    window.history.back();
+  }
 
   /**
    * Encode a history token for use as part of a URI.
@@ -159,11 +155,9 @@ public class History {
   }
 
   /** Programmatic equivalent to the user pressing the browser's 'forward' button. */
-  // FIXME: replace with DomGlobal.window.history.forward() when elemental2-dom 1.0.0-beta-2 is
-  // released
-  // See https://github.com/google/elemental2/issues/13
-  @JsMethod(namespace = "history")
-  public static native void forward();
+  public static void forward() {
+    window.history.forward();
+  }
 
   /**
    * Gets the current history token. The handler will not receive a {@link
@@ -211,10 +205,9 @@ public class History {
     }
   }
 
-  // FIXME: replace with DomGlobal.location.hash when elemental2-dom 1.0.0-beta-2 is released
-  // See https://github.com/google/elemental2/issues/2
-  @JsProperty(namespace = "location", name = "hash")
-  private static native void newToken(String historyToken);
+  private static void newToken(String historyToken) {
+    window.location.setHash(historyToken);
+  }
 
   /**
    * Replace the current history token on top of the browsers history stack.
