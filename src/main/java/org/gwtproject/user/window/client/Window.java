@@ -21,10 +21,10 @@ import static elemental2.dom.DomGlobal.window;
 import elemental2.dom.CSSProperties.MarginUnionType;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLElement;
-import elemental2.dom.Window.OnbeforeunloadCallbackFn;
-import elemental2.dom.Window.OnresizeCallbackFn;
-import elemental2.dom.Window.OnscrollCallbackFn;
-import elemental2.dom.Window.OnunloadCallbackFn;
+import elemental2.dom.Window.OnbeforeunloadFn;
+import elemental2.dom.Window.OnresizeFn;
+import elemental2.dom.Window.OnscrollFn;
+import elemental2.dom.Window.OnunloadFn;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -160,40 +160,36 @@ public class Window {
      *
      * @return the string to the right of the URL's hash.
      */
-    // FIXME: replace with DomGlobal.location.hash when elemental2-dom 1.0.0-beta-2 is released
-    // See https://github.com/google/elemental2/issues/2
-    @JsProperty(namespace = "location")
-    public static native String getHash();
+    public static String getHash() {
+      return window.location.getHash();
+    }
 
     /**
      * Gets the URL's host and port name.
      *
      * @return the host and port name
      */
-    // FIXME: replace with DomGlobal.location.host when elemental2-dom 1.0.0-beta-2 is released
-    // See https://github.com/google/elemental2/issues/2
-    @JsProperty(namespace = "location")
-    public static native String getHost();
+    public static String getHost() {
+      return window.location.getHost();
+    }
 
     /**
      * Gets the URL's host name.
      *
      * @return the host name
      */
-    // FIXME: replace with DomGlobal.location.hostname when elemental2-dom 1.0.0-beta-2 is released
-    // See https://github.com/google/elemental2/issues/2
-    @JsProperty(namespace = "location", name = "hostname")
-    public static native String getHostName();
+    public static String getHostName() {
+      return window.location.getHostname();
+    }
 
     /**
      * Gets the entire URL.
      *
      * @return the URL
      */
-    // FIXME: replace with DomGlobal.location.href when elemental2-dom 1.0.0-beta-2 is released
-    // See https://github.com/google/elemental2/issues/2
-    @JsProperty(namespace = "location")
-    public static native String getHref();
+    public static String getHref() {
+      return window.location.getHref();
+    }
 
     /**
      * Gets the URL's parameter of the specified name. Note that if multiple parameters have been
@@ -229,18 +225,17 @@ public class Window {
      *
      * @return the path to the URL.
      */
-    // FIXME: replace with DomGlobal.location.pathname when elemental2-dom 1.0.0-beta-2 is released
-    // See https://github.com/google/elemental2/issues/2
-    @JsProperty(namespace = "location", name = "pathname")
-    public static native String getPath();
+    public static String getPath() {
+      return window.location.getPathname();
+    }
 
     /**
      * Gets the URL's port.
      *
      * @return the URL's port
      */
-    // FIXME: replace with DomGlobal.location.port when elemental2-dom 1.0.0-beta-2 is released
-    // See https://github.com/google/elemental2/issues/2
+    // FIXME: replace with window.location.port when fixed in elemental2-dom
+    // See https://github.com/google/elemental2/issues/24
     @JsProperty(namespace = "location")
     public static native String getPort();
 
@@ -249,20 +244,18 @@ public class Window {
      *
      * @return the URL's protocol.
      */
-    // FIXME: replace with DomGlobal.location.protocol when elemental2-dom 1.0.0-beta-2 is released
-    // See https://github.com/google/elemental2/issues/2
-    @JsProperty(namespace = "location")
-    public static native String getProtocol();
+    public static String getProtocol() {
+      return window.location.getProtocol();
+    }
 
     /**
      * Gets the URL's query string.
      *
      * @return the URL's query string
      */
-    // FIXME: replace with DomGlobal.location.search when elemental2-dom 1.0.0-beta-2 is released
-    // See https://github.com/google/elemental2/issues/2
-    @JsProperty(namespace = "location", name = "search")
-    public static native String getQueryString();
+    public static String getQueryString() {
+      return window.location.getSearch();
+    }
 
     /** Reloads the current browser window. All GWT state will be lost. */
     public static void reload() {
@@ -568,7 +561,7 @@ public class Window {
    * @return the window's client height
    */
   public static int getClientHeight() {
-    return (int) document.documentElement.clientHeight;
+    return document.documentElement.clientHeight;
   }
 
   /**
@@ -577,7 +570,7 @@ public class Window {
    * @return the window's client width
    */
   public static int getClientWidth() {
-    return (int) document.documentElement.clientWidth;
+    return document.documentElement.clientWidth;
   }
 
   /**
@@ -802,8 +795,8 @@ public class Window {
   }
 
   private static void initWindowCloseHandler() {
-    OnbeforeunloadCallbackFn oldOnBeforeUnload = window.onbeforeunload;
-    OnunloadCallbackFn oldOnUnload = window.onunload;
+    OnbeforeunloadFn oldOnBeforeUnload = window.onbeforeunload;
+    OnunloadFn oldOnUnload = window.onunload;
 
     window.onbeforeunload =
         evt -> {
@@ -848,7 +841,7 @@ public class Window {
   }
 
   private static void initWindowResizeHandler() {
-    OnresizeCallbackFn oldOnResize = window.onresize;
+    OnresizeFn oldOnResize = window.onresize;
     window.onresize =
         evt -> {
           try {
@@ -870,7 +863,7 @@ public class Window {
   }
 
   private static void initWindowScrollHandler() {
-    OnscrollCallbackFn oldOnScroll = window.onscroll;
+    OnscrollFn oldOnScroll = window.onscroll;
     window.onscroll =
         evt -> {
           try {

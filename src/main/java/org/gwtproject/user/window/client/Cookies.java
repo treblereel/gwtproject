@@ -19,6 +19,7 @@ import static elemental2.core.Global.decodeURIComponent;
 import static elemental2.core.Global.encodeURIComponent;
 import static elemental2.dom.DomGlobal.document;
 
+import elemental2.core.JsDate;
 import elemental2.core.JsString;
 import java.util.Collection;
 import java.util.Date;
@@ -282,7 +283,7 @@ public class Cookies {
       String name, String value, double expires, String domain, String path, boolean secure) {
     String c = name + '=' + value;
     if (Js.isTruthy(expires)) {
-      c += ";expires=" + (new elemental2.core.Date(expires)).toGMTString();
+      c += ";expires=" + (new JsDate(expires)).toGMTString();
     }
     if (Js.isTruthy(domain)) {
       c += ";domain=" + domain;
