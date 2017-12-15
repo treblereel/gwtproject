@@ -17,10 +17,8 @@ dependencies {
 
   api "org.gwtproject.event:gwt-logical-event:HEAD-SNAPSHOT"
   implementation "org.gwtproject.user.window:gwt-window:HEAD-SNAPSHOT"
-  implementation "com.google.elemental2:elemental2-dom:1.0.0-beta-2"
-  implementation "com.google.elemental2:elemental2-core:1.0.0-beta-2"
-  // elemental2 1.0.0-beta-2 incorrectly depends on jsinterop-base 1.0.0-beta-1
-  implementation "com.google.jsinterop:base:1.0.0-beta-3"
+  implementation "com.google.elemental2:elemental2-dom:1.0.0-RC1"
+  implementation "com.google.elemental2:elemental2-core:1.0.0-RC1"
 
   testImplementation "junit:junit:4.12"
   testImplementation "com.google.gwt:gwt-user:2.8.2"
