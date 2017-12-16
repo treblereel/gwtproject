@@ -32,7 +32,6 @@ import java.util.List;
 import java.util.Map;
 import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsPackage;
-import jsinterop.annotations.JsProperty;
 import jsinterop.base.Js;
 import org.gwtproject.event.logical.shared.CloseEvent;
 import org.gwtproject.event.logical.shared.CloseHandler;
@@ -234,10 +233,9 @@ public class Window {
      *
      * @return the URL's port
      */
-    // FIXME: replace with window.location.port when fixed in elemental2-dom
-    // See https://github.com/google/elemental2/issues/24
-    @JsProperty(namespace = "location")
-    public static native String getPort();
+    public static String getPort() {
+      return window.location.getPort();
+    }
 
     /**
      * Gets the URL's protocol.
