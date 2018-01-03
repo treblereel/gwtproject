@@ -90,7 +90,11 @@
                 <configuration>
                     <excludes>
                         <exclude>**/client/*.java</exclude>
+                        <exclude>**/server/*.java</exclude>
                     </excludes>
+                    <additionalClasspathElements>
+                        <classpathElement>${basedir}/src/main/java</classpathElement>
+                    </additionalClasspathElements>
                 </configuration>
                 <executions>
                     <execution>

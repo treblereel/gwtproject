@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -22,7 +22,7 @@ import com.google.gwt.typedarrays.shared.ArrayBuffer;
  * The native XMLHttpRequest object. Most applications should use the higher-
  * level {@link com.google.gwt.http.client.RequestBuilder} class unless they
  * need specific functionality provided by the XMLHttpRequest object.
- * 
+ *
  * See <a href="http://www.w3.org/TR/XMLHttpRequest/"
  * >http://www.w3.org/TR/XMLHttpRequest/</a>/
  */
@@ -73,10 +73,10 @@ public class XMLHttpRequest extends JavaScriptObject {
    * function maybe still be called after it is deleted. The theory is that the
    * callback is cached somewhere. Setting it to null or an empty function does
    * seem to work properly, though.
-   * 
+   *
    * On IE, setting onreadystatechange to null (as opposed to an empty function)
    * sometimes throws an exception.
-   * 
+   *
    * End result: *always* set onreadystatechange to an empty function (never to
    * null).
    */
@@ -114,7 +114,7 @@ public class XMLHttpRequest extends JavaScriptObject {
 
   /**
    * Creates an XMLHttpRequest object.
-   * 
+   *
    * @return the created object
    */
   public static native XMLHttpRequest create() /*-{
@@ -139,7 +139,7 @@ public class XMLHttpRequest extends JavaScriptObject {
    * <p>
    * See <a href="http://www.w3.org/TR/XMLHttpRequest/#handler-xhr-onreadystatechange"
    * >http://www.w3.org/TR/XMLHttpRequest/#handler-xhr-onreadystatechange</a>.
-   * 
+   *
    * @see #clearOnReadyStateChange()
    */
   public final native void clearOnReadyStateChange() /*-{
@@ -151,7 +151,7 @@ public class XMLHttpRequest extends JavaScriptObject {
    * <p>
    * See <a href="http://www.w3.org/TR/XMLHttpRequest/#the-getallresponseheaders-method"
    * >http://www.w3.org/TR/XMLHttpRequest/#the-getallresponseheaders-method</a>.
-   * 
+   *
    * @return the response headers.
    */
   public final native String getAllResponseHeaders() /*-{
@@ -163,7 +163,7 @@ public class XMLHttpRequest extends JavaScriptObject {
    * <p>
    * See <a href="http://www.w3.org/TR/XMLHttpRequest/#dom-xmlhttprequest-readystate"
    * >http://www.w3.org/TR/XMLHttpRequest/#dom-xmlhttprequest-state</a>.
-   * 
+   *
    * @return the ready-state constant
    */
   public final native int getReadyState() /*-{
@@ -172,7 +172,7 @@ public class XMLHttpRequest extends JavaScriptObject {
 
   /**
    * Get the response as an {@link ArrayBuffer}.
-   * 
+   *
    * @return an {@link ArrayBuffer} containing the response, or null if the
    *     request is in progress or failed
    */
@@ -185,7 +185,7 @@ public class XMLHttpRequest extends JavaScriptObject {
    * <p>
    * See <a href="http://www.w3.org/TR/XMLHttpRequest/#the-getresponseheader-method"
    * >http://www.w3.org/TR/XMLHttpRequest/#the-getresponseheader-method</a>.
-   * 
+   *
    * @param header the response header to be retrieved
    * @return the header value
    */
@@ -198,7 +198,7 @@ public class XMLHttpRequest extends JavaScriptObject {
    * <p>
    * See <a href="http://www.w3.org/TR/XMLHttpRequest/#the-responsetext-attribute"
    * >http://www.w3.org/TR/XMLHttpRequest/#the-responsetext-attribute</a>.
-   * 
+   *
    * @return the response text
    */
   public final native String getResponseText() /*-{
@@ -222,7 +222,7 @@ public class XMLHttpRequest extends JavaScriptObject {
    * <p>
    * See <a href="http://www.w3.org/TR/XMLHttpRequest/#the-status-attribute"
    * >http://www.w3.org/TR/XMLHttpRequest/#the-status-attribute</a>.
-   * 
+   *
    * @return the status code
    */
   public final native int getStatus() /*-{
@@ -234,7 +234,7 @@ public class XMLHttpRequest extends JavaScriptObject {
    * <p>
    * See <a href="http://www.w3.org/TR/XMLHttpRequest/#the-statustext-attribute"
    * >http://www.w3.org/TR/XMLHttpRequest/#the-statustext-attribute</a>.
-   * 
+   *
    * @return the status text
    */
   public final native String getStatusText() /*-{
@@ -246,7 +246,7 @@ public class XMLHttpRequest extends JavaScriptObject {
    * <p>
    * See <a href="http://www.w3.org/TR/XMLHttpRequest/#the-open-method"
    * >http://www.w3.org/TR/XMLHttpRequest/#the-open-method</a>.
-   * 
+   *
    * @param httpMethod the HTTP method to use
    * @param url the URL to be opened
    */
@@ -259,7 +259,7 @@ public class XMLHttpRequest extends JavaScriptObject {
    * <p>
    * See <a href="http://www.w3.org/TR/XMLHttpRequest/#the-open-method"
    * >http://www.w3.org/TR/XMLHttpRequest/#the-open-method</a>.
-   * 
+   *
    * @param httpMethod the HTTP method to use
    * @param url the URL to be opened
    * @param user user to use in the URL
@@ -273,7 +273,7 @@ public class XMLHttpRequest extends JavaScriptObject {
    * <p>
    * See <a href="http://www.w3.org/TR/XMLHttpRequest/#the-open-method"
    * >http://www.w3.org/TR/XMLHttpRequest/#the-open-method</a>.
-   * 
+   *
    * @param httpMethod the HTTP method to use
    * @param url the URL to be opened
    * @param user user to use in the URL
@@ -298,7 +298,7 @@ public class XMLHttpRequest extends JavaScriptObject {
    * <p>
    * See <a href="http://www.w3.org/TR/XMLHttpRequest/#the-send-method"
    * >http://www.w3.org/TR/XMLHttpRequest/#the-send-method</a>.
-   * 
+   *
    * @param requestData the data to be sent with the request
    */
   public final native void send(String requestData) /*-{
@@ -311,13 +311,13 @@ public class XMLHttpRequest extends JavaScriptObject {
    * <p>
    * See <a href="http://www.w3.org/TR/XMLHttpRequest/#handler-xhr-onreadystatechange"
    * >http://www.w3.org/TR/XMLHttpRequest/#handler-xhr-onreadystatechange</a>.
-   * 
+   *
    * <p>
    * Note: Applications <em>must</em> call {@link #clearOnReadyStateChange()}
    * when they no longer need this object, to ensure that it is cleaned up
    * properly. Failure to do so will result in memory leaks on some browsers.
    * </p>
-   * 
+   *
    * @param handler the handler to be called when the ready state changes
    * @see #clearOnReadyStateChange()
    */
@@ -326,7 +326,7 @@ public class XMLHttpRequest extends JavaScriptObject {
     // onreadystatechange handler, but we reference it via closure to be extra sure.
     var _this = this;
     this.onreadystatechange = $entry(function() {
-      handler.@com.google.gwt.xhr.client.ReadyStateChangeHandler::onReadyStateChange(Lcom/google/gwt/xhr/client/XMLHttpRequest;)(_this);
+      handler.@com.progressoft.brix.domino.xhr.client.ReadyStateChangeHandler::onReadyStateChange(Lcom/progressoft/brix/domino/xhr/client/XMLHttpRequest;)(_this);
     });
   }-*/;
 
@@ -335,7 +335,7 @@ public class XMLHttpRequest extends JavaScriptObject {
    * <p>
    * See <a href="http://www.w3.org/TR/XMLHttpRequest/#the-setrequestheader-method"
    * >http://www.w3.org/TR/XMLHttpRequest/#the-setrequestheader-method</a>.
-   * 
+   *
    * @param header the header to be set
    * @param value the header's value
    */
