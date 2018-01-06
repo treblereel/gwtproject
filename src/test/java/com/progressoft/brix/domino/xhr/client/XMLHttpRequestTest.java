@@ -1,10 +1,14 @@
+
 package com.progressoft.brix.domino.xhr.client;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.Timer;
 
+import java.util.Map;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class XMLHttpRequestTest extends GWTTestCase {
 
@@ -31,12 +35,24 @@ public class XMLHttpRequestTest extends GWTTestCase {
                 task.run();
             }
         };
-        delayTestFinish(1000);
-        timer.schedule(100);
+        delayTestFinish(2000);
+        timer.schedule(500);
     }
 
     private String getTestPath() {
         return GWT.getModuleBaseURL() + "testRequest";
+    }
+
+    private String getTestPathCORS() {
+        return "http://localhost:9999/testCors";
+    }
+
+    private Map<String, String> responseHeaders() {
+        String allResponseHeaders = xmlHttpRequest.getAllResponseHeaders();
+        String[] headers = allResponseHeaders.split("\n");
+        return Stream.of(headers)
+                .map(header -> header.split(":", 2))
+                .collect(Collectors.toMap(header -> header[0], header -> header[1].trim()));
     }
 
     @Override
@@ -88,11 +104,67 @@ public class XMLHttpRequestTest extends GWTTestCase {
     public void testAllResponseHeaders() {
         xmlHttpRequest.setOnReadyStateChange(xhr -> {
             if (xhr.getReadyState() == DONE) {
-                LOGGER.info(xmlHttpRequest.getAllResponseHeaders());
+                Map<String, String> responseHeaders = responseHeaders();
+                assertEquals("value", responseHeaders.get("header"));
+                assertEquals("anotherValue", responseHeaders.get("anotherHeader"));
                 finishTest();
             }
         });
         xmlHttpRequest.open("GET", getTestPath());
+        xmlHttpRequest.setRequestHeader("header", "value");
+        xmlHttpRequest.setRequestHeader("anotherHeader", "anotherValue");
+        runAsyncTask(xmlHttpRequest::send);
+    }
+
+    public void testSetWithCredentialsToTrue_withNoCredentialsResponseHeader_responseShouldBeEmpty() {
+        xmlHttpRequest.setOnReadyStateChange(xhr -> {
+            if (xhr.getReadyState() == DONE) {
+                assertEquals("", xhr.getResponseText());
+                finishTest();
+            }
+        });
+        xmlHttpRequest.open("GET", getTestPathCORS());
+        xmlHttpRequest.setRequestHeader("server-credentials", "false");
+        xmlHttpRequest.setWithCredentials(true);
+        runAsyncTask(xmlHttpRequest::send);
+    }
+
+    public void testSetWithCredentialsToTrue_withCredentialsResponseHeader_responseShouldNotBeEmpty() {
+        xmlHttpRequest.setOnReadyStateChange(xhr -> {
+            if (xhr.getReadyState() == DONE) {
+                assertEquals("test content", xhr.getResponseText());
+                finishTest();
+            }
+        });
+        xmlHttpRequest.open("GET", getTestPathCORS());
+        xmlHttpRequest.setRequestHeader("server-credentials", "true");
+        xmlHttpRequest.setWithCredentials(true);
+        runAsyncTask(xmlHttpRequest::send);
+    }
+
+    public void testSetWithCredentialsToFalse_withNoCredentialsResponseHeader_responseShouldNotBeEmpty() {
+        xmlHttpRequest.setOnReadyStateChange(xhr -> {
+            if (xhr.getReadyState() == DONE) {
+                assertEquals("test content", xhr.getResponseText());
+                finishTest();
+            }
+        });
+        xmlHttpRequest.open("GET", getTestPathCORS());
+        xmlHttpRequest.setRequestHeader("server-credentials", "false");
+        xmlHttpRequest.setWithCredentials(false);
+        runAsyncTask(xmlHttpRequest::send);
+    }
+
+    public void testSetWithCredentialsToFalse_withCredentialsResponseHeader_responseShouldNotBeEmpty() {
+        xmlHttpRequest.setOnReadyStateChange(xhr -> {
+            if (xhr.getReadyState() == DONE) {
+                assertEquals("test content", xhr.getResponseText());
+                finishTest();
+            }
+        });
+        xmlHttpRequest.open("GET", getTestPathCORS());
+        xmlHttpRequest.setRequestHeader("server-credentials", "true");
+        xmlHttpRequest.setWithCredentials(false);
         runAsyncTask(xmlHttpRequest::send);
     }
 }
