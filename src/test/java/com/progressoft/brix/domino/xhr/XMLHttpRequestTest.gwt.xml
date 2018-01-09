@@ -19,9 +19,7 @@
 <!--                                                                        -->
 <module>
     <inherits name="com.progressoft.brix.domino.xhr.XMLHttpRequest"/>
-    <inherits name='com.google.gwt.user.User'/>
     <source path="client"/>
-    <public path="public"/>
     <servlet path='/testRequest'
              class='com.progressoft.brix.domino.xhr.server.TestServlet'/>
 </module>

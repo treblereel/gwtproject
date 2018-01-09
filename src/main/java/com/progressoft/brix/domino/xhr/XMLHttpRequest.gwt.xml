@@ -18,8 +18,6 @@
 <!-- package must inherit this module.                                      -->
 <!--                                                                        -->
 <module>
-  <inherits name="com.google.gwt.core.Core"/>
-  <inherits name="com.google.gwt.typedarrays.TypedArrays"/>
-  <source path="client" />
-  <public path="public" />
+    <inherits name="org.gwtproject.typedarrays.TypedArrays"/>
+    <source path="client"/>
 </module>

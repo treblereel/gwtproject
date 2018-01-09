@@ -1,5 +1,7 @@
 package com.progressoft.brix.domino.xhr.server;
 
+import org.apache.commons.io.IOUtils;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -14,29 +16,17 @@ public class TestServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        if ("true".equals(req.getParameter("cors"))) {
-            LOGGER.info("cors");
-            String origin = req.getHeader("Origin");
-//            resp.addHeader("Access-Control-Allow-Origin", isNull(origin) ? "*" : origin);
-//
-//            if ("true".equals(req.getParameter("credentials")))
-//                resp.addHeader("Access-Control-Allow-Credentials", "true");
-
-//            resp.addHeader("Access-Control-Request-Methods", req.getHeader("*"));
-            resp.getWriter().print("test content");
-        } else {
-            LOGGER.info(req.getParameterMap().toString());
-            Enumeration<String> headerNames = req.getHeaderNames();
-            while (headerNames.hasMoreElements()) {
-                String headerName = headerNames.nextElement();
-                resp.setHeader(headerName, req.getHeader(headerName));
-            }
-            resp.setStatus(200);
+        Enumeration<String> headerNames = req.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String headerName = headerNames.nextElement();
+            resp.setHeader(headerName, req.getHeader(headerName));
         }
+        resp.getWriter().print("test content");
     }
 
     @Override
-    protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        LOGGER.info("options");
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String requestBody = IOUtils.toString(req.getInputStream());
+        resp.getWriter().print("test content with body [" + requestBody + "]");
     }
 }
