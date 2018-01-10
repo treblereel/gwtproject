@@ -52,16 +52,6 @@
             <artifactId>jsinterop-annotations</artifactId>
             <version>1.0.1</version>
         </dependency>
-        <dependency>
-            <groupId>com.google.elemental2</groupId>
-            <artifactId>elemental2-core</artifactId>
-            <version>1.0.0-beta-1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.elemental2</groupId>
-            <artifactId>elemental2-dom</artifactId>
-            <version>1.0.0-beta-1</version>
-        </dependency>
     </dependencies>
 
     <build>
