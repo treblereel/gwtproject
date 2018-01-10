@@ -1,7 +1,7 @@
-package com.progressoft.brix.domino.xhr;
+package org.gwtproject.xhr;
 
 import com.google.gwt.junit.tools.GWTTestSuite;
-import com.progressoft.brix.domino.xhr.client.XMLHttpRequestTest;
+import org.gwtproject.xhr.client.XMLHttpRequestTest;
 import junit.framework.Test;
 
 public class XhrTestSuite {

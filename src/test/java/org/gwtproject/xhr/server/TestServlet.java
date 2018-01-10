@@ -1,4 +1,4 @@
-package com.progressoft.brix.domino.xhr.server;
+package org.gwtproject.xhr.server;
 
 import org.apache.commons.io.IOUtils;
 

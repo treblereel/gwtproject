@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.progressoft.brix.domino.xhr.client;
+package org.gwtproject.xhr.client;
 
 import jsinterop.annotations.*;
 import jsinterop.base.Js;

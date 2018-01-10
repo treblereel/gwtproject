@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.progressoft.brix.domino</groupId>
+    <groupId>org.gwtproject</groupId>
     <artifactId>gwt-xhr</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>gwt-lib</packaging>
@@ -62,7 +62,7 @@
                 <version>1.0-rc-8</version>
                 <extensions>true</extensions>
                 <configuration>
-                    <moduleName>com.progressoft.brix.domino.xhr.XMLHttpRequest</moduleName>
+                    <moduleName>org.gwtproject.xhr.XMLHttpRequest</moduleName>
                     <moduleShortName>gwtxhr</moduleShortName>
                     <systemPropertyVariables>
                         <gwt.args>${gwt.args}</gwt.args>
@@ -96,7 +96,7 @@
                     <arguments>
                         <argument>-classpath</argument>
                         <classpath/>
-                        <argument>com.progressoft.brix.domino.xhr.CorsServer</argument>
+                        <argument>org.gwtproject.xhr.CorsServer</argument>
                         <argument>-port</argument>
                         <argument>9999</argument>
                     </arguments>

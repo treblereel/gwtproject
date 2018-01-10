@@ -1,6 +1,6 @@
-package com.progressoft.brix.domino.xhr;
+package org.gwtproject.xhr;
 
-import com.progressoft.brix.domino.xhr.server.CorsServlet;
+import org.gwtproject.xhr.server.CorsServlet;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.LocalConnector;
 import org.eclipse.jetty.server.Server;

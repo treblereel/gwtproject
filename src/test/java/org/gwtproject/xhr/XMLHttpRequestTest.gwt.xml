@@ -18,8 +18,8 @@
 <!-- package must inherit this module.                                      -->
 <!--                                                                        -->
 <module>
-    <inherits name="com.progressoft.brix.domino.xhr.XMLHttpRequest"/>
+    <inherits name="org.gwtproject.xhr.XMLHttpRequest"/>
     <source path="client"/>
     <servlet path='/testRequest'
-             class='com.progressoft.brix.domino.xhr.server.TestServlet'/>
+             class='org.gwtproject.xhr.server.TestServlet'/>
 </module>

@@ -1,5 +1,5 @@
 
-package com.progressoft.brix.domino.xhr.client;
+package org.gwtproject.xhr.client;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.DoNotRunWith;
@@ -25,7 +25,7 @@ public class XMLHttpRequestTest extends GWTTestCase {
 
     @Override
     public String getModuleName() {
-        return "com.progressoft.brix.domino.xhr.XMLHttpRequestTest";
+        return "org.gwtproject.xhr.XMLHttpRequestTest";
     }
 
     @FunctionalInterface

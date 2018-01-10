@@ -1,4 +1,4 @@
-package com.progressoft.brix.domino.xhr.server;
+package org.gwtproject.xhr.server;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
