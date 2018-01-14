@@ -13,29 +13,34 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.progressoft.brix.domino.json.client;
+package org.gwtproject.json.client;
 
-import com.google.gwt.core.client.JavaScriptObject;
+import elemental2.core.JsArray;
+
+import java.util.Objects;
+import java.util.logging.Logger;
 
 /**
  * Represents an array of {@link com.google.gwt.json.client.JSONValue} objects.
  */
 public class JSONArray extends JSONValue {
 
+    private static final Logger LOGGER = Logger.getLogger(JSONArray.class.getCanonicalName());
+
     /**
      * Called from {@link #getUnwrapper()}.
      */
-    private static JavaScriptObject unwrap(JSONArray value) {
+    private static JsArray<JSONValue> unwrap(JSONArray value) {
         return value.jsArray;
     }
 
-    private final JavaScriptObject jsArray;
+    private final JsArray<JSONValue> jsArray;
 
     /**
      * Creates an empty JSONArray.
      */
     public JSONArray() {
-        jsArray = JavaScriptObject.createArray();
+        jsArray = new JsArray<>();
     }
 
     /**
@@ -44,7 +49,7 @@ public class JSONArray extends JSONValue {
      *
      * @param arr a JavaScript array
      */
-    public JSONArray(JavaScriptObject arr) {
+    public JSONArray(JsArray<JSONValue> arr) {
         jsArray = arr;
     }
 
@@ -67,18 +72,13 @@ public class JSONArray extends JSONValue {
      * @return the value at this index, or <code>null</code> if this index is
      * empty
      */
-    public native JSONValue get(int index) /*-{
-    var v = this.@com.progressoft.brix.domino.json.client.JSONArray::jsArray[index];
-    var func = @com.progressoft.brix.domino.json.client.JSONParser::typeMap[typeof v];
-    return func ? func(v) : @com.progressoft.brix.domino.json.client.JSONParser::throwUnknownTypeException(Ljava/lang/String;)(typeof v);
-  }-*/;
-
-    /**
-     * Returns the underlying JavaScript array that this object wraps.
-     */
-    public JavaScriptObject getJavaScriptObject() {
-        return jsArray;
-    }
+    public JSONValue get(int index) {
+        return jsArray.getAt(index);
+    } /*-{
+    var v = this.@JSONArray::jsArray[index];
+    var func = @JSONParser::typeMap[typeof v];
+    return func ? func(v) : @JSONParser::throwUnknownTypeException(Ljava/lang/String;)(typeof v);
+  }-*/
 
     @Override
     public int hashCode() {
@@ -112,9 +112,13 @@ public class JSONArray extends JSONValue {
      *
      * @return size of this array
      */
-    public native int size() /*-{
-    return this.@com.progressoft.brix.domino.json.client.JSONArray::jsArray.length;
-  }-*/;
+    public int size() {
+        return jsArray.length;
+    } /*-{
+    return this.@JSONArray::jsArray.length;
+  }-*/
+
+    ;
 
     /**
      * Create the JSON encoded string representation of this JSONArray instance.
@@ -135,18 +139,28 @@ public class JSONArray extends JSONValue {
     }
 
     @Override
-    native JavaScriptObject getUnwrapper() /*-{
-    return @com.progressoft.brix.domino.json.client.JSONArray::unwrap(Lcom/progressoft/brix/domino/json/client/JSONArray;);
-  }-*/;
+    Object getUnwrapper() {
+        return unwrap(this);
+    } /*-{
+    return @JSONArray::unwrap(Lcom/progressoft/brix/domino/json/client/JSONArray;);
+  }-*/
 
-    private native void set0(int index, JSONValue value) /*-{
+    ;
+
+    private void set0(int index, JSONValue value) {
+        if (Objects.isNull(value))
+            value = JSONNull.getInstance();
+        jsArray.setAt(index, value);
+    } /*-{
     if (value) {
-      var func = value.@com.progressoft.brix.domino.json.client.JSONValue::getUnwrapper()();
+      var func = value.@JSONValue::getUnwrapper()();
       value = func(value);
     } else {
       // Coerce Java null to undefined; there's a JSONNull for null.
       value = undefined;
     }
-    this.@com.progressoft.brix.domino.json.client.JSONArray::jsArray[index] = value;
-  }-*/;
+    this.@JSONArray::jsArray[index] = value;
+  }-*/
+
+    ;
 }

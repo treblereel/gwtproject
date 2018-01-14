@@ -20,4 +20,4 @@
  * These classes parse strings of JSON encoded values into Java accessible
  * objects.  They also support programmatically building JSON strings.
  */
-package com.progressoft.brix.domino.json.client;
+package org.gwtproject.json.client;

@@ -13,10 +13,10 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.progressoft.brix.domino.json;
+package org.gwtproject.json;
 
 import com.google.gwt.junit.tools.GWTTestSuite;
-import com.progressoft.brix.domino.json.client.JSONTest;
+import org.gwtproject.json.client.JSONTest;
 import junit.framework.Test;
 
 /**

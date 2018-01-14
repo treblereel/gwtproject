@@ -2,20 +2,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.progressoft.brix.domino</groupId>
-    <artifactId>gwt-json</artifactId>
+    <groupId>org.gwtproject</groupId>
+    <artifactId>json</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>gwt-lib</packaging>
-
-    <name>gwt-json</name>
-    <url>http://maven.apache.org</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <port>-port 8888</port>
-        <gwt.args/>
     </properties>
 
     <dependencyManagement>
@@ -38,13 +33,17 @@
         <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-dev</artifactId>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.elemental2</groupId>
+            <artifactId>elemental2-core</artifactId>
+            <version>1.0.0-RC1</version>
         </dependency>
     </dependencies>
 
@@ -53,11 +52,10 @@
             <plugin>
                 <groupId>net.ltgt.gwt.maven</groupId>
                 <artifactId>gwt-maven-plugin</artifactId>
-                <version>1.0-rc-8</version>
+                <version>1.0-rc-9</version>
                 <extensions>true</extensions>
                 <configuration>
-                    <moduleName>com.progressoft.brix.domino.json.JSON</moduleName>
-                    <moduleShortName>gwtjson</moduleShortName>
+                    <moduleName>org.gwtproject.json.Json</moduleName>
                 </configuration>
             </plugin>
             <plugin>
