@@ -15,31 +15,48 @@
  */
 package org.gwtproject.json.client;
 
-import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsonUtils;
 import elemental2.core.JsObject;
 import jsinterop.base.Js;
+import jsinterop.base.JsPropertyMap;
 
-import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Stream;
+import java.util.AbstractSet;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.logging.Logger;
+
+import static java.util.Objects.nonNull;
 
 /**
  * Represents a JSON object. A JSON object consists of a set of properties.
  */
 public class JSONObject extends JSONValue {
 
+    private static final Logger LOGGER = Logger.getLogger(JSONObject.class.getCanonicalName());
+    private final JsPropertyMap<Object> propertyMap;
+
     /**
      * Called from {@link #getUnwrapper()}.
      */
-    private static JsObject unwrap(JSONObject value) {
+    private static Object unwrap(JSONObject value) {
         return value.jsObject;
     }
 
     private final JsObject jsObject;
 
+
     public JSONObject() {
-        this(new JsObject());
+        this(JsObject.create(null));
+    }
+
+
+    /**
+     * Creates a new JSONObject from the supplied JavaScript value.
+     */
+    public JSONObject(JavaScriptObject jsValue) {
+        this((JsObject) Js.cast(jsValue));
     }
 
     /**
@@ -47,6 +64,14 @@ public class JSONObject extends JSONValue {
      */
     public JSONObject(JsObject jsValue) {
         jsObject = jsValue;
+        propertyMap = Js.asPropertyMap(jsObject);
+    }
+
+    /**
+     * Returns the underlying JavaScript object that this object wraps.
+     */
+    public JavaScriptObject getJavaScriptObject() {
+        return Js.cast(jsObject);
     }
 
     /**
@@ -56,7 +81,7 @@ public class JSONObject extends JSONValue {
      * @return <code>true</code> if the JSONObject contains the specified property
      */
     public boolean containsKey(String key) {
-        return Stream.of(JsObject.keys(jsObject)).anyMatch(s -> s.equals(key));
+        return propertyMap.has(key);
     } /*-{
     return key in this.@JSONObject::jsObject;
   }-*/
@@ -72,6 +97,7 @@ public class JSONObject extends JSONValue {
         if (!(other instanceof JSONObject)) {
             return false;
         }
+
         return jsObject.equals(((JSONObject) other).jsObject);
     }
 
@@ -88,13 +114,6 @@ public class JSONObject extends JSONValue {
             throw new NullPointerException();
         }
         return get0(key);
-    }
-
-    /**
-     * Returns the underlying JavaScript object that this object wraps.
-     */
-    public JsObject getJavaScriptObject() {
-        return jsObject;
     }
 
     @Override
@@ -193,111 +212,34 @@ public class JSONObject extends JSONValue {
     return @JSONObject::unwrap(Lcom/progressoft/brix/domino/json/client/JSONObject;);
   }-*/
 
-    private void addAllKeys(Collection<String> s) {
-        String[] keys = JsObject.keys(jsObject);
-        for (String key : keys) {
-            if (jsObject.hasOwnProperty(key)) {
-                s.add(key);
-            }
-        }
-    } /*-{
-    var jsObject = this.@JSONObject::jsObject;
-    for (var key in jsObject) {
-      if (jsObject.hasOwnProperty(key)) {
-        s.@java.util.Collection::add(Ljava/lang/Object;)(key);
-      }
-    }
-  }-*/
-
-    ;
-
     private String[] computeKeys() {
-        if (GWT.isScript()) {
-            return computeKeys0(new String[0]);
-        } else {
-            List<String> result = new ArrayList<String>();
-            addAllKeys(result);
-            return result.toArray(new String[result.size()]);
-        }
-    }
-
-    private String[] computeKeys0(String[] result) {
+        String[] keys = JsObject.keys(jsObject);
+        String[] computedKeys = new String[0];
         int i = 0;
-        for (String key : result) {
-            if (jsObject.hasOwnProperty(key)) {
-                result[i++] = key;
-            }
+        for (String key : keys) {
+            if (propertyMap.has(key))
+                computedKeys[i++] = key;
         }
-        return result;
-    } /*-{
-    var jsObject = this.@JSONObject::jsObject;
-    var i = 0;
-    for (var key in jsObject) {
-      if (jsObject.hasOwnProperty(key)) {
-        result[i++] = key;
-      }
+        return computedKeys;
     }
-    return result;
-  }-*/
 
     ;
 
     private int computeSize() {
-        return (int) Stream.of(JsObject.keys(jsObject))
-                .map(jsObject::hasOwnProperty)
-                .count();
-    } /*-{
-    var jsObject = this.@JSONObject::jsObject;
-    var size = 0;
-    for (var key in jsObject) {
-      if (jsObject.hasOwnProperty(key)) {
-        ++size;
-      }
+        return computeKeys().length;
     }
-    return size;
-  }-*/
-
-    ;
 
     private JSONValue get0(String key) {
-        Object value = null;
-        if (jsObject.hasOwnProperty(key)) {
-            value = JsObject.getOwnPropertyDescriptor(jsObject, key).getValue();
-        }
-        Function<Object, JSONValue> func = JSONParser.typeMap.get(Js.typeof(value));
-        if (!Js.isFalsy(func))
-            return func.apply(value);
-        JSONParser.throwUnknownTypeException(key);
+        if (propertyMap.has(key))
+            return JSONValueFactory.create(propertyMap.get(key));
         return null;
-    } /*-{
-    var jsObject = this.@JSONObject::jsObject;
-    var v;
-    // In Firefox, jsObject.hasOwnProperty(key) requires a primitive string
-    key = String(key);       
-    if (jsObject.hasOwnProperty(key)) {
-      v = jsObject[key];
     }
-    var func = @JSONParser::typeMap[typeof v];
-    var ret = func ? func(v) : @JSONParser::throwUnknownTypeException(Ljava/lang/String;)(typeof v);
-    return ret;
-  }-*/
-
-    ;
 
     private void put0(String key, JSONValue value) {
-        if (!Js.isFalsy(value)) {
-            JsObject.getOwnPropertyDescriptor(jsObject, key).setValue(value.getUnwrapper());
+        if (nonNull(value) && Js.isTruthy(value)) {
+            propertyMap.set(key, value.getUnwrapper());
         } else {
-            JsObject.getOwnPropertyDescriptor(jsObject, key).setValue(null);
+            propertyMap.delete(key);
         }
-    }/*-{
-    if (value) {
-      var func = value.@JSONValue::getUnwrapper()();
-      this.@JSONObject::jsObject[key] = func(value);
-    } else {
-      delete this.@JSONObject::jsObject[key];
     }
-  }-*/
-
-    ;
 }

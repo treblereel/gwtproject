@@ -15,7 +15,9 @@
  */
 package org.gwtproject.json.client;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import elemental2.core.JsArray;
+import jsinterop.base.Js;
 
 import java.util.Objects;
 import java.util.logging.Logger;
@@ -30,11 +32,11 @@ public class JSONArray extends JSONValue {
     /**
      * Called from {@link #getUnwrapper()}.
      */
-    private static JsArray<JSONValue> unwrap(JSONArray value) {
+    private static JsArray<Object> unwrap(JSONArray value) {
         return value.jsArray;
     }
 
-    private final JsArray<JSONValue> jsArray;
+    private final JsArray<Object> jsArray;
 
     /**
      * Creates an empty JSONArray.
@@ -49,8 +51,25 @@ public class JSONArray extends JSONValue {
      *
      * @param arr a JavaScript array
      */
-    public JSONArray(JsArray<JSONValue> arr) {
+    public JSONArray(JavaScriptObject arr) {
+        this((JsArray<Object>) Js.cast(arr));
+    }
+
+    /**
+     * Creates a new JSONArray from the supplied JavaScriptObject representing a
+     * JavaScript array.
+     *
+     * @param arr a JavaScript array
+     */
+    public JSONArray(JsArray<Object> arr) {
         jsArray = arr;
+    }
+
+    /**
+     * Returns the underlying JavaScript array that this object wraps.
+     */
+    public JavaScriptObject getJavaScriptObject() {
+        return Js.cast(jsArray);
     }
 
     /**
@@ -73,7 +92,8 @@ public class JSONArray extends JSONValue {
      * empty
      */
     public JSONValue get(int index) {
-        return jsArray.getAt(index);
+        Object value = jsArray.getAt(index);
+        return JSONValueFactory.create(value);
     } /*-{
     var v = this.@JSONArray::jsArray[index];
     var func = @JSONParser::typeMap[typeof v];
@@ -150,7 +170,7 @@ public class JSONArray extends JSONValue {
     private void set0(int index, JSONValue value) {
         if (Objects.isNull(value))
             value = JSONNull.getInstance();
-        jsArray.setAt(index, value);
+        jsArray.setAt(index, value.getUnwrapper());
     } /*-{
     if (value) {
       var func = value.@JSONValue::getUnwrapper()();

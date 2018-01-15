@@ -18,17 +18,9 @@ package org.gwtproject.json.client;
 import com.google.gwt.core.client.JavaScriptException;
 import com.google.gwt.core.client.JsonUtils;
 import elemental2.core.Global;
-import elemental2.core.JsArray;
-import elemental2.core.JsMap;
-import elemental2.core.JsObject;
 import jsinterop.annotations.JsMethod;
-import jsinterop.base.Js;
 
-import java.util.function.Function;
 import java.util.logging.Logger;
-
-import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
 
 /**
  * Parses the string representation of a JSON object into a set of
@@ -39,8 +31,6 @@ import static java.util.Objects.nonNull;
 public class JSONParser {
 
     private static final Logger LOGGER = Logger.getLogger(JSONParser.class.getCanonicalName());
-
-    static final JsMap<String, Function<Object, JSONValue>> typeMap = initTypeMap();
 
     /**
      * Evaluates a trusted JSON string and returns its JSONValue representation.
@@ -107,63 +97,6 @@ public class JSONParser {
     }
 
     /**
-     * Called from {@link #initTypeMap()}.
-     */
-    private static JSONValue createBoolean(boolean v) {
-        return JSONBoolean.getInstance(v);
-    }
-
-    /**
-     * Called from {@link #initTypeMap()}.
-     */
-    private static JSONValue createNumber(double v) {
-        return new JSONNumber(v);
-    }
-
-    /**
-     * Called from {@link #initTypeMap()}. If we get here, <code>o</code> is
-     * either <code>null</code> (not <code>undefined</code>) or a JavaScript
-     * object.
-     */
-    private static JSONValue createObject(Object o) {
-        if (isNull(o))
-            return JSONNull.getInstance();
-
-        String typeof = Js.typeof(o);
-        Object valueOf = JsObject.create(o).valueOf();
-
-        if (!Js.isTripleEqual(typeof, valueOf)) {
-            Function<Object, JSONValue> function = typeMap.get(typeof.toLowerCase());
-            if (Js.isFalsy(function))
-                JSONParser.throwUnknownTypeException(typeof);
-            else
-                return function.apply(o);
-        } else if (JsArray.isArray(o)) {
-            return new JSONArray(Js.cast(o));
-        } else {
-            return new JSONObject(Js.cast(o));
-        }
-        return null;
-    }
-
-    ;
-
-    /**
-     * Called from {@link #initTypeMap()}.
-     */
-    private static JSONValue createString(String v) {
-        return new JSONString(v);
-    }
-
-    /**
-     * Called from {@link #initTypeMap()}. This method returns a <code>null</code>
-     * pointer, representing JavaScript <code>undefined</code>.
-     */
-    private static JSONValue createUndefined() {
-        return null;
-    }
-
-    /**
      * This method converts <code>jsonString</code> into a JSONValue.
      * In strict mode (strict == true), one of two code paths is taken:
      * 1) Call JSON.parse, or
@@ -184,18 +117,19 @@ public class JSONParser {
         } else {
             json = JsonUtils.escapeJsonForEval(json);
             try {
-                o = Global.eval("(" + json + ")");
+                o = Global.eval('(' + json + ')');
             } catch (Exception e) {
                 throwJSONException("Error parsing JSON: " + e);
             }
         }
-        String typeof = Js.typeof(o);
-        Function<Object, JSONValue> function = typeMap.get(typeof);
-        if (nonNull(function)) {
-            return function.apply(o);
-        }
-        throwUnknownTypeException(typeof);
-        return null;
+        return JSONValueFactory.create(o);
+//        String typeof = Js.typeof(o);
+//        Function<Object, JSONValue> function = typeMap.get(typeof);
+//        if (nonNull(function)) {
+//            return function.apply(o);
+//        }
+//        throwUnknownTypeException(typeof);
+//        return null;
         /*-{
     // Note: we cannot simply call JsonUtils.unsafeEval because it is unable
     // to return a result for inputs whose outermost type is 'string' in
@@ -218,19 +152,6 @@ public class JSONParser {
     var func = @JSONParser::typeMap[typeof v];
     return func ? func(v) : @JSONParser::throwUnknownTypeException(Ljava/lang/String;)(typeof v);
   }-*/
-    }
-
-    ;
-
-    private static JsMap<String, Function<Object, JSONValue>> initTypeMap() {
-        JsMap<String, Function<Object, JSONValue>> types = new JsMap<>();
-        types.set("boolean", o -> createBoolean((boolean) o));
-        types.set("number", o -> createNumber((double) o));
-        types.set("string", o -> createString((String) o));
-        types.set("object", JSONParser::createObject);
-        types.set("function", JSONParser::createObject);
-        types.set("undefined", o -> createUndefined());
-        return types;
     }
 
     private static JSONValue parse(String jsonString, boolean strict) {

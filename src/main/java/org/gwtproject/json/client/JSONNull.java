@@ -65,10 +65,5 @@ public class JSONNull extends JSONValue {
     @Override
     Object getUnwrapper() {
         return unwrap();
-    } /*-{
-    return @JSONNull::unwrap();
-  }-*/
-
-    ;
-
+    }
 }

@@ -78,9 +78,5 @@ public class JSONString extends JSONValue {
     @Override
     Object getUnwrapper() {
         return stringValue();
-    } /*-{
-    return @JSONString::unwrap(Lcom/progressoft/brix/domino/json/client/JSONString;);
-  }-*/
-
-    ;
+    }
 }

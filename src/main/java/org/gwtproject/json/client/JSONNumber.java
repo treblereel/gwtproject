@@ -15,9 +15,6 @@
  */
 package org.gwtproject.json.client;
 
-import elemental2.core.JsObject;
-import jsinterop.base.Js;
-
 /**
  * Represents a JSON number. Numbers are represented by <code>double</code>s.
  */
@@ -84,19 +81,10 @@ public class JSONNumber extends JSONValue {
     @Override
     public String toString() {
         return value + "";
-    } /*-{
-    // Use JavaScript conversion so that integral values print as integers.
-    return this.@JSONNumber::value + "";
-  }-*/
-
-    ;
+    }
 
     @Override
     Object getUnwrapper() {
         return unwrap(this);
-    } /*-{
-    return @JSONNumber::unwrap(Lcom/progressoft/brix/domino/json/client/JSONNumber;);
-  }-*/
-
-    ;
+    }
 }

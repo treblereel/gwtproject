@@ -15,9 +15,6 @@
  */
 package org.gwtproject.json.client;
 
-import elemental2.core.JsObject;
-import jsinterop.base.Js;
-
 /**
  * Represents a JSON boolean value.
  */
@@ -86,9 +83,5 @@ public class JSONBoolean extends JSONValue {
     @Override
     Object getUnwrapper() {
         return unwrap(this);
-    } /*-{
-    return @JSONBoolean::unwrap(Lcom/progressoft/brix/domino/json/client/JSONBoolean;);
-  }-*/
-
-    ;
+    }
 }
