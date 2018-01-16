@@ -1,15 +1,14 @@
 package org.gwtproject.json.client;
 
-import com.google.gwt.json.client.JSONException;
 import elemental2.core.JsArray;
 import elemental2.core.JsObject;
 import jsinterop.base.Js;
 
 import static java.util.Objects.nonNull;
 
-public class JSONValueFactory {
+class JSONValueFactory {
 
-    public static JSONValue create(Object value) {
+    static JSONValue create(Object value) {
         String type = Js.typeof(value);
         switch (type) {
             case "boolean":

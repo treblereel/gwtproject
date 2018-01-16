@@ -23,7 +23,7 @@ import elemental2.core.Global;
  * Parses the string representation of a JSON object into a set of
  * JSONValue-derived objects.
  *
- * @see com.google.gwt.json.client.JSONValue
+ * @see org.gwtproject.json.client.JSONValue
  */
 public class JSONParser {
 

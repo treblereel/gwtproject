@@ -15,16 +15,14 @@
  */
 package org.gwtproject.json.client;
 
-import elemental2.core.JsObject;
-
 /**
  * The superclass of all JSON value types.
  *
- * @see com.google.gwt.json.client.JSONArray
- * @see com.google.gwt.json.client.JSONBoolean
- * @see com.google.gwt.json.client.JSONNumber
- * @see com.google.gwt.json.client.JSONObject
- * @see com.google.gwt.json.client.JSONString
+ * @see org.gwtproject.json.client.JSONArray
+ * @see org.gwtproject.json.client.JSONBoolean
+ * @see org.gwtproject.json.client.JSONNumber
+ * @see org.gwtproject.json.client.JSONObject
+ * @see org.gwtproject.json.client.JSONString
  */
 public abstract class JSONValue {
     /**

@@ -22,7 +22,7 @@ import jsinterop.base.Js;
 import java.util.Objects;
 
 /**
- * Represents an array of {@link com.google.gwt.json.client.JSONValue} objects.
+ * Represents an array of {@link org.gwtproject.json.client.JSONValue} objects.
  */
 public class JSONArray extends JSONValue {
 
