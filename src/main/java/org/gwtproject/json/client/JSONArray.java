@@ -20,21 +20,11 @@ import elemental2.core.JsArray;
 import jsinterop.base.Js;
 
 import java.util.Objects;
-import java.util.logging.Logger;
 
 /**
  * Represents an array of {@link com.google.gwt.json.client.JSONValue} objects.
  */
 public class JSONArray extends JSONValue {
-
-    private static final Logger LOGGER = Logger.getLogger(JSONArray.class.getCanonicalName());
-
-    /**
-     * Called from {@link #getUnwrapper()}.
-     */
-    private static JsArray<Object> unwrap(JSONArray value) {
-        return value.jsArray;
-    }
 
     private final JsArray<Object> jsArray;
 
@@ -48,9 +38,12 @@ public class JSONArray extends JSONValue {
     /**
      * Creates a new JSONArray from the supplied JavaScriptObject representing a
      * JavaScript array.
+     * <p>
+     * use {@link #JSONArray(JsArray)} instead
      *
      * @param arr a JavaScript array
      */
+    @Deprecated
     public JSONArray(JavaScriptObject arr) {
         this((JsArray<Object>) Js.cast(arr));
     }
@@ -67,8 +60,19 @@ public class JSONArray extends JSONValue {
 
     /**
      * Returns the underlying JavaScript array that this object wraps.
+     * <p>
+     * use {@link #getArray()} instead
      */
+    @Deprecated
     public JavaScriptObject getJavaScriptObject() {
+        return Js.cast(jsArray);
+    }
+
+    /**
+     * Returns the underlying JavaScript array that this object wraps.
+     * <p>
+     */
+    public JsArray<Object> getArray() {
         return Js.cast(jsArray);
     }
 
@@ -92,13 +96,8 @@ public class JSONArray extends JSONValue {
      * empty
      */
     public JSONValue get(int index) {
-        Object value = jsArray.getAt(index);
-        return JSONValueFactory.create(value);
-    } /*-{
-    var v = this.@JSONArray::jsArray[index];
-    var func = @JSONParser::typeMap[typeof v];
-    return func ? func(v) : @JSONParser::throwUnknownTypeException(Ljava/lang/String;)(typeof v);
-  }-*/
+        return JSONValueFactory.create(jsArray.getAt(index));
+    }
 
     @Override
     public int hashCode() {
@@ -134,11 +133,7 @@ public class JSONArray extends JSONValue {
      */
     public int size() {
         return jsArray.length;
-    } /*-{
-    return this.@JSONArray::jsArray.length;
-  }-*/
-
-    ;
+    }
 
     /**
      * Create the JSON encoded string representation of this JSONArray instance.
@@ -160,27 +155,15 @@ public class JSONArray extends JSONValue {
 
     @Override
     Object getUnwrapper() {
-        return unwrap(this);
-    } /*-{
-    return @JSONArray::unwrap(Lcom/progressoft/brix/domino/json/client/JSONArray;);
-  }-*/
-
-    ;
+        return jsArray;
+    }
 
     private void set0(int index, JSONValue value) {
+        Object unwrappedValue;
         if (Objects.isNull(value))
-            value = JSONNull.getInstance();
-        jsArray.setAt(index, value.getUnwrapper());
-    } /*-{
-    if (value) {
-      var func = value.@JSONValue::getUnwrapper()();
-      value = func(value);
-    } else {
-      // Coerce Java null to undefined; there's a JSONNull for null.
-      value = undefined;
+            unwrappedValue = Js.undefined();
+        else
+            unwrappedValue = value.getUnwrapper();
+        jsArray.setAt(index, unwrappedValue);
     }
-    this.@JSONArray::jsArray[index] = value;
-  }-*/
-
-    ;
 }

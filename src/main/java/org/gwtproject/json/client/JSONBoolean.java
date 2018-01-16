@@ -40,13 +40,6 @@ public class JSONBoolean extends JSONValue {
         }
     }
 
-    /**
-     * Called from {@link #getUnwrapper()}.
-     */
-    private static boolean unwrap(JSONBoolean value) {
-        return value.value;
-    }
-
     private final boolean value;
 
     /*
@@ -82,6 +75,6 @@ public class JSONBoolean extends JSONValue {
 
     @Override
     Object getUnwrapper() {
-        return unwrap(this);
+        return value;
     }
 }

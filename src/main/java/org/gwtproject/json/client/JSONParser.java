@@ -18,9 +18,6 @@ package org.gwtproject.json.client;
 import com.google.gwt.core.client.JavaScriptException;
 import com.google.gwt.core.client.JsonUtils;
 import elemental2.core.Global;
-import jsinterop.annotations.JsMethod;
-
-import java.util.logging.Logger;
 
 /**
  * Parses the string representation of a JSON object into a set of
@@ -29,8 +26,6 @@ import java.util.logging.Logger;
  * @see com.google.gwt.json.client.JSONValue
  */
 public class JSONParser {
-
-    private static final Logger LOGGER = Logger.getLogger(JSONParser.class.getCanonicalName());
 
     /**
      * Evaluates a trusted JSON string and returns its JSONValue representation.
@@ -87,15 +82,6 @@ public class JSONParser {
         return parse(jsonString, true);
     }
 
-    static void throwJSONException(String message) {
-        throw new JSONException(message);
-    }
-
-    static void throwUnknownTypeException(String typeString) {
-        throw new JSONException("Unexpected typeof result '" + typeString
-                + "'; please report this bug to the GWT team");
-    }
-
     /**
      * This method converts <code>jsonString</code> into a JSONValue.
      * In strict mode (strict == true), one of two code paths is taken:
@@ -107,51 +93,22 @@ public class JSONParser {
      * @param strict if true, parse in strict mode.
      */
     private static JSONValue evaluate(String json, boolean strict) {
-        Object o = null;
+        Object o;
         if (strict) {
             try {
                 o = Global.JSON.parse(json);
             } catch (Exception e) {
-                throwJSONException("Error parsing JSON: " + e);
+                throw new JSONException("Error parsing JSON: " + e);
             }
         } else {
             json = JsonUtils.escapeJsonForEval(json);
             try {
                 o = Global.eval('(' + json + ')');
             } catch (Exception e) {
-                throwJSONException("Error parsing JSON: " + e);
+                throw new JSONException("Error parsing JSON: " + e);
             }
         }
         return JSONValueFactory.create(o);
-//        String typeof = Js.typeof(o);
-//        Function<Object, JSONValue> function = typeMap.get(typeof);
-//        if (nonNull(function)) {
-//            return function.apply(o);
-//        }
-//        throwUnknownTypeException(typeof);
-//        return null;
-        /*-{
-    // Note: we cannot simply call JsonUtils.unsafeEval because it is unable
-    // to return a result for inputs whose outermost type is 'string' in
-    // dev mode.
-    var v;
-    if (strict) {
-      try {
-        v = JSON.parse(json);
-      } catch (e) {
-        return @JSONParser::throwJSONException(Ljava/lang/String;)("Error parsing JSON: " + e);
-      }
-    } else {
-      json = @com.google.gwt.core.client.JsonUtils::escapeJsonForEval(Ljava/lang/String;)(json);
-      try {
-        v = eval('(' + json + ')');
-      } catch (e) { 
-        return @JSONParser::throwJSONException(Ljava/lang/String;)("Error parsing JSON: " + e);
-      }
-    }
-    var func = @JSONParser::typeMap[typeof v];
-    return func ? func(v) : @JSONParser::throwUnknownTypeException(Ljava/lang/String;)(typeof v);
-  }-*/
     }
 
     private static JSONValue parse(String jsonString, boolean strict) {
@@ -173,7 +130,4 @@ public class JSONParser {
      */
     private JSONParser() {
     }
-
-    @JsMethod(name = "parse", namespace = "JSON")
-    private static native Object parseJson(String text);
 }

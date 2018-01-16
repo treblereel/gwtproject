@@ -20,13 +20,6 @@ package org.gwtproject.json.client;
  */
 public class JSONNumber extends JSONValue {
 
-    /**
-     * Called from {@link #getUnwrapper()}.
-     */
-    private static double unwrap(JSONNumber value) {
-        return value.value;
-    }
-
     private double value;
 
     /**
@@ -85,6 +78,6 @@ public class JSONNumber extends JSONValue {
 
     @Override
     Object getUnwrapper() {
-        return unwrap(this);
+        return value;
     }
 }

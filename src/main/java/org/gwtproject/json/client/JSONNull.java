@@ -30,13 +30,6 @@ public class JSONNull extends JSONValue {
     }
 
     /**
-     * Called from {@link #getUnwrapper()}.
-     */
-    private static Object unwrap() {
-        return null;
-    }
-
-    /**
      * There should only be one null value.
      */
     private JSONNull() {
@@ -64,6 +57,6 @@ public class JSONNull extends JSONValue {
 
     @Override
     Object getUnwrapper() {
-        return unwrap();
+        return null;
     }
 }

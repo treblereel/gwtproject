@@ -19,15 +19,11 @@ import com.google.gwt.core.client.JsonUtils;
 import com.google.gwt.junit.client.GWTTestCase;
 
 import java.util.Set;
-import java.util.logging.Logger;
 
 /**
  * Test case for JSONValue and friends.
  */
 public class JSONTest extends GWTTestCase {
-
-    private static final Logger LOGGER = Logger.getLogger(JSONTest.class.getCanonicalName());
-
     static final String menuTest = "{\"menu\": {\n" + "  \"id\": \"file\",\n"
             + "  \"value\": \"File:\",\n" + "  \"popup\": {\n"
             + "    \"menuitem\": [\n"
@@ -145,7 +141,6 @@ public class JSONTest extends GWTTestCase {
         }
     }
 
-
     /**
      * Tests an array of raw numbers, like [1,2,3].
      */
@@ -155,7 +150,6 @@ public class JSONTest extends GWTTestCase {
             arr.set(i, new JSONNumber(i));
         }
         String s = arr.toString();
-
         JSONValue v = parseStrictVsLenient(s);
         JSONArray array = v.isArray();
         assertTrue("v must be an array", array != null);
@@ -165,7 +159,6 @@ public class JSONTest extends GWTTestCase {
                     array.get(i).isNumber().doubleValue(), i, 0.001);
         }
     }
-
 
     public void testBooleanBasics() {
         assertTrue(JSONBoolean.getInstance(true).booleanValue());
@@ -215,7 +208,7 @@ public class JSONTest extends GWTTestCase {
         charsToEscape[40] = '\u2028';
         charsToEscape[41] = '\u2029';
         for (int i = 1; i < charsToEscape.length; i++) {
-            o.put("c" + i, new JSONString(Character.toString(charsToEscape[i])));
+            o.put("c" + i, new JSONString(new Character(charsToEscape[i]).toString()));
         }
         assertEquals("{\"c1\":\"\\u0001\", \"c2\":\"\\u0002\", "
                 + "\"c3\":\"\\u0003\", \"c4\":\"\\u0004\", \"c5\":\"\\u0005\", "
@@ -232,7 +225,6 @@ public class JSONTest extends GWTTestCase {
                 + "\"c36\":\"\\n\", \"c37\":\"\\r\", \"c38\":\"\\t\", "
                 + "\"c39\":\"/\", \"c40\":\"\\u2028\", \"c41\":\"\\u2029\"}", o.toString());
     }
-
 
     public void testHashCode() {
         JSONArray array = parseStrictVsLenient("[]").isArray();
@@ -259,7 +251,6 @@ public class JSONTest extends GWTTestCase {
         }
     }
 
-
     public void testLenientAndStrict() {
         String jsonString = "{ a:27, 'b': 'value' }";
 
@@ -285,7 +276,6 @@ public class JSONTest extends GWTTestCase {
         }
     }
 
-
     public void testMenu() {
         JSONObject v = (JSONObject) parseStrictVsLenient(menuTest);
         assertTrue(v.containsKey("menu"));
@@ -293,7 +283,6 @@ public class JSONTest extends GWTTestCase {
         assertEquals(3, menu.keySet().size());
     }
 
-    //
     public void testNested() {
         JSONObject obj = new JSONObject();
         nestedAux(obj, 3);
@@ -338,7 +327,6 @@ public class JSONTest extends GWTTestCase {
                         + " \"Array0\":[\"s0\",0.1,true,null,{}]}]}]}]}", obj.toString());
     }
 
-    //
     public void testNumberBasics() {
         JSONNumber n0 = new JSONNumber(1000);
         assertEquals(1000, n0.doubleValue(), .000001);
@@ -363,7 +351,6 @@ public class JSONTest extends GWTTestCase {
         s.put("a", new JSONString("AA"));
         assertEquals("\"AA\"", s.get("a").toString());
     }
-
 
     /**
      * Tests an object whose keys are filled out with numbers, like {"a":1}.
@@ -467,14 +454,12 @@ public class JSONTest extends GWTTestCase {
                 j3.toString());
     }
 
-    //
     public void testStringBasics() {
         JSONString arr = new JSONString("");
         assertEquals("\"\"", arr.toString());
         JSONString s = new JSONString(menuTest);
         assertEquals(menuTest, s.stringValue());
     }
-
 
     public void testStringEscaping() {
         checkRoundTripJsonText("\"hello\"", "hello");
@@ -577,7 +562,6 @@ public class JSONTest extends GWTTestCase {
         JsonUtils.unsafeEval("[0,1,2,3,4]");
     }
 
-
     public void testWidget() {
         JSONObject v = (JSONObject) parseStrictVsLenient(widgetTest);
         JSONObject widget = (JSONObject) v.get("widget");
@@ -592,7 +576,6 @@ public class JSONTest extends GWTTestCase {
         assertEquals("hashCodes are not equal", expected.hashCode(),
                 actual.hashCode());
     }
-
 
     private void checkRoundTripJsonText(String jsonText, String normaltext) {
         JSONString parsed = parseStrictVsLenient(jsonText).isString();
@@ -612,7 +595,7 @@ public class JSONTest extends GWTTestCase {
      * Test a chunk of Unicode code points for use in JSON keys and values.
      *
      * @param start starting code point
-     * @param len   number of code points to test
+     * @param len number of code points to test
      */
     private void doTestParseUnescaped(int start, int len) {
         StringBuilder sb = new StringBuilder();

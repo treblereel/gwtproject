@@ -25,36 +25,26 @@ import java.util.AbstractSet;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Set;
-import java.util.logging.Logger;
-
-import static java.util.Objects.nonNull;
 
 /**
  * Represents a JSON object. A JSON object consists of a set of properties.
  */
 public class JSONObject extends JSONValue {
 
-    private static final Logger LOGGER = Logger.getLogger(JSONObject.class.getCanonicalName());
     private final JsPropertyMap<Object> propertyMap;
-
-    /**
-     * Called from {@link #getUnwrapper()}.
-     */
-    private static Object unwrap(JSONObject value) {
-        return value.jsObject;
-    }
 
     private final JsObject jsObject;
 
-
     public JSONObject() {
-        this(JsObject.create(null));
+        this(new JsObject());
     }
-
 
     /**
      * Creates a new JSONObject from the supplied JavaScript value.
+     * <p>
+     * use {@link #JSONObject(JsObject)} instead
      */
+    @Deprecated
     public JSONObject(JavaScriptObject jsValue) {
         this((JsObject) Js.cast(jsValue));
     }
@@ -82,11 +72,7 @@ public class JSONObject extends JSONValue {
      */
     public boolean containsKey(String key) {
         return propertyMap.has(key);
-    } /*-{
-    return key in this.@JSONObject::jsObject;
-  }-*/
-
-    ;
+    }
 
     /**
      * Returns <code>true</code> if <code>other</code> is a {@link JSONObject}
@@ -207,23 +193,19 @@ public class JSONObject extends JSONValue {
 
     @Override
     Object getUnwrapper() {
-        return unwrap(this);
-    } /*-{
-    return @JSONObject::unwrap(Lcom/progressoft/brix/domino/json/client/JSONObject;);
-  }-*/
+        return jsObject;
+    }
 
     private String[] computeKeys() {
         String[] keys = JsObject.keys(jsObject);
         String[] computedKeys = new String[0];
         int i = 0;
         for (String key : keys) {
-            if (propertyMap.has(key))
+            if (jsObject.hasOwnProperty(key))
                 computedKeys[i++] = key;
         }
         return computedKeys;
     }
-
-    ;
 
     private int computeSize() {
         return computeKeys().length;
@@ -236,7 +218,7 @@ public class JSONObject extends JSONValue {
     }
 
     private void put0(String key, JSONValue value) {
-        if (nonNull(value) && Js.isTruthy(value)) {
+        if (Js.isTruthy(value)) {
             propertyMap.set(key, value.getUnwrapper());
         } else {
             propertyMap.delete(key);

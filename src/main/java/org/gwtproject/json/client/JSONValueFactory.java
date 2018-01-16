@@ -1,27 +1,13 @@
 package org.gwtproject.json.client;
 
+import com.google.gwt.json.client.JSONException;
 import elemental2.core.JsArray;
 import elemental2.core.JsObject;
 import jsinterop.base.Js;
 
-import java.util.logging.Logger;
+import static java.util.Objects.nonNull;
 
 public class JSONValueFactory {
-
-    private static final Logger LOGGER = Logger.getLogger(JSONValueFactory.class.getCanonicalName());
-
-    /*
-    private static JsMap<String, Function<Object, JSONValue>> initTypeMap() {
-        JsMap<String, Function<Object, JSONValue>> types = new JsMap<>();
-        types.set("boolean", o -> createBoolean((boolean) o));
-        types.set("number", o -> createNumber((double) o));
-        types.set("string", o -> createString((String) o));
-        types.set("object", JSONParser::createObject);
-        types.set("function", JSONParser::createObject);
-        types.set("undefined", o -> createUndefined());
-        return types;
-    }
-     */
 
     public static JSONValue create(Object value) {
         String type = Js.typeof(value);
@@ -39,7 +25,7 @@ public class JSONValueFactory {
             case "undefined":
                 return null;
         }
-        return null;
+        throw new JSONException("Unexpected typeof result '" + type + "'; please report this bug to the GWT team");
     }
 
     private static JSONValue createObject(Object o) {
@@ -48,7 +34,7 @@ public class JSONValueFactory {
         }
 
         JsObject jsObject = Js.cast(o);
-        Object v = Js.isTruthy(jsObject.valueOf()) ? jsObject.valueOf() : jsObject;
+        Object v = nonNull(jsObject.valueOf()) ? jsObject.valueOf() : jsObject;
         if (!Js.isTripleEqual(v, jsObject)) {
             return create(v);
         } else if (JsArray.isArray(o)) {
