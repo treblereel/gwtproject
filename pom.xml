@@ -56,12 +56,6 @@
                 <extensions>true</extensions>
                 <configuration>
                     <moduleName>org.gwtproject.json.Json</moduleName>
-                    <compilerArgs>
-                        <compileArg>-generateJsInteropExports</compileArg>
-                    </compilerArgs>
-                    <codeserverArgs>
-                        <arg>-generateJsInteropExports</arg>
-                    </codeserverArgs>
                 </configuration>
             </plugin>
             <plugin>
