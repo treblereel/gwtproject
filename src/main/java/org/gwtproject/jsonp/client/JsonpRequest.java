@@ -15,6 +15,9 @@
  */
 package org.gwtproject.jsonp.client;
 
+import org.gwtproject.callback.shared.AsyncCallback;
+import org.gwtproject.timer.client.Timer;
+
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -23,8 +26,6 @@ import com.google.gwt.dom.client.Node;
 import com.google.gwt.dom.client.ScriptElement;
 import com.google.gwt.safehtml.shared.annotations.IsTrustedResourceUri;
 import com.google.gwt.safehtml.shared.annotations.SuppressIsTrustedResourceUriCastCheck;
-import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
  * A JSONP request that is waiting for a response. The request can be canceled.

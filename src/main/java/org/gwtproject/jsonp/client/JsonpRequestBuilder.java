@@ -15,9 +15,10 @@
  */
 package org.gwtproject.jsonp.client;
 
+import org.gwtproject.callback.shared.AsyncCallback;
+
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.safehtml.shared.annotations.IsTrustedResourceUri;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
  * Class to send cross domain requests to an http server. The server will receive a request

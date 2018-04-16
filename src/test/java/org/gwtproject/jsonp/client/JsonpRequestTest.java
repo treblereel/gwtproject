@@ -15,12 +15,13 @@
  */
 package org.gwtproject.jsonp.client;
 
+import org.gwtproject.callback.shared.AsyncCallback;
+import org.gwtproject.timer.client.Timer;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.DoNotRunWith;
 import com.google.gwt.junit.Platform;
 import com.google.gwt.junit.client.GWTTestCase;
-import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
  * Tests for {@link JsonpRequest}.
