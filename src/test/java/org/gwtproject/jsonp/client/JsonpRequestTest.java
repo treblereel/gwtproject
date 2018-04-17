@@ -15,6 +15,8 @@
  */
 package org.gwtproject.jsonp.client;
 
+import static org.gwtproject.jsonp.client.KeyValue.*;
+
 import org.gwtproject.callback.shared.AsyncCallback;
 import org.gwtproject.timer.client.Timer;
 
@@ -64,7 +66,7 @@ public class JsonpRequestTest extends GWTTestCase {
     private final int id;
     private final Counter counter;
 
-    private AssertSuccessCallback(T expectedValue) {
+    protected AssertSuccessCallback(T expectedValue) {
       this(expectedValue, null);
     }
 
@@ -84,13 +86,29 @@ public class JsonpRequestTest extends GWTTestCase {
     @Override
     public void onSuccess(T value) {
       if (id == currentTestId) {
-        assertEquals(expectedValue, value);
+        assertEqualObjects(expectedValue, value);
         if (counter != null) {
           counter.count();
         } else {
           finishTest();
         }
       }
+    }
+    
+    protected void assertEqualObjects(T expected, T actual) {
+      assertEquals(expectedValue, actual);
+    }
+  }
+  
+  private class AssertObjectSuccessCallback extends AssertSuccessCallback<KeyValue> {
+    private AssertObjectSuccessCallback(KeyValue expectedValue) {
+      super(expectedValue, null);
+    }
+    
+    @Override
+    protected void assertEqualObjects(KeyValue expected, KeyValue actual) {
+      assertEquals(expected.getKey(), actual.getKey());
+      assertEquals(expected.getValue(), actual.getValue());
     }
   }
 
@@ -305,6 +323,19 @@ public class JsonpRequestTest extends GWTTestCase {
     delayTestFinish(RESPONSE_DELAY);
     jsonp.requestString(echo("'Hello'"), new AssertSuccessCallback<String>(
         "Hello"));
+  }
+  
+  public void testObject() {
+    delayTestFinish(RESPONSE_DELAY);
+    
+    // given
+    String key = "abc";
+    int value = 42;
+    
+    // when
+    jsonp.requestObject(echo("{key: '"+ key + "',value:" + value + "}"),
+        //then
+        new AssertObjectSuccessCallback(newKeyValue(key, value)));
   }
 
   public void testTimeout() {
