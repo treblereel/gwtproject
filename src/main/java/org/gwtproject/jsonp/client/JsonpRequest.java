@@ -15,17 +15,19 @@
  */
 package org.gwtproject.jsonp.client;
 
+import static elemental2.dom.DomGlobal.document;
+
 import org.gwtproject.callback.shared.AsyncCallback;
 import org.gwtproject.timer.client.Timer;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Node;
-import com.google.gwt.dom.client.ScriptElement;
 import com.google.gwt.safehtml.shared.annotations.IsTrustedResourceUri;
 import com.google.gwt.safehtml.shared.annotations.SuppressIsTrustedResourceUriCastCheck;
+
+import elemental2.dom.Element;
+import elemental2.dom.HTMLScriptElement;
 
 /**
  * A JSONP request that is waiting for a response. The request can be canceled.
@@ -65,8 +67,8 @@ public class JsonpRequest<T> {
     return $wnd[name][ctr]++;
   }-*/;
 
-  private static Node getHeadElement() {
-    return Document.get().getElementsByTagName("head").getItem(0);
+  private static Element getHeadElement() {
+    return document.getElementsByTagName("head").getAt(0);
   }
 
   /**
@@ -213,10 +215,10 @@ public class JsonpRequest<T> {
       uri.append(failureCallbackParam).append("=").append(prefix).append(
           ".onFailure");
     }
-    ScriptElement script = Document.get().createScriptElement();
-    script.setType("text/javascript");
-    script.setId(callbackId);
-    script.setSrc(uri.toString());
+    HTMLScriptElement script = (HTMLScriptElement) document.createElement("script");
+    script.type = "text/javascript";
+    script.id = callbackId;
+    script.src = uri.toString();
     timer = new Timer() {
       @Override
       public void run() {
@@ -332,7 +334,7 @@ public class JsonpRequest<T> {
           // have an undefined callback function.
           unregisterCallbacks(CALLBACKS, callbackId);
         }
-        Node script = Document.get().getElementById(callbackId);
+        Element script = document.getElementById(callbackId);
         if (script != null) {
           // The script may have already been deleted
           getHeadElement().removeChild(script);

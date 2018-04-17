@@ -9,7 +9,7 @@
   <packaging>jar</packaging>
 
   <name>GWT JSON-PP</name>
-  <description>GWT JSON with Padding utilities</description>
+  <description>GWT JSON with Padding request builder</description>
 
   <organization>
     <name>GWT Project</name>
@@ -208,25 +208,6 @@
           <reuseForks>false</reuseForks>
         </configuration>
         <executions>
-          <execution>
-            <id>test-devmode</id>
-            <goals>
-                <!-- TODO: doesn't work with jsinterop? -->
-                <!-- <goal>integration-test</goal> -->
-                <!-- <goal>verify</goal> -->
-            </goals>
-            <configuration>
-              <systemPropertyVariables>
-                <!-- Add -logLevel TRACE to get more debug output -->
-                <gwt.args>
-                  -devMode
-                  -gen target/generated-test-sources/test-devmode
-                  -war target/war/test-devmode
-                </gwt.args>
-              </systemPropertyVariables>
-              <reportsDirectory>${project.build.directory}/failsafe-reports/test-devmode</reportsDirectory>
-            </configuration>
-          </execution>
           <execution>
             <id>test-web</id>
             <goals>
