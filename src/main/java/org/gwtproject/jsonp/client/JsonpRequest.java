@@ -25,6 +25,9 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.safehtml.shared.annotations.IsTrustedResourceUri;
 import com.google.gwt.safehtml.shared.annotations.SuppressIsTrustedResourceUriCastCheck;
 
+import elemental2.core.JsArray;
+import elemental2.core.JsBoolean;
+import elemental2.core.JsNumber;
 import elemental2.dom.Element;
 import elemental2.dom.HTMLScriptElement;
 
@@ -49,7 +52,7 @@ public class JsonpRequest<T> {
   /**
    * Prefix appended to all id's that are determined by the callbacks counter.
    */
-  private static final String INCREMENTAL_ID_PREFIX = "P";
+  private static final String INCREMENTAL_ID_PREFIX = "I";
 
   /**
    * Prefix appended to all id's that are passed in by the user. The "P" 
@@ -63,12 +66,6 @@ public class JsonpRequest<T> {
   private static int getAndIncrementCallbackCounter() {
     return CALLBACKS.counter++;
   }
-  
-  /*-{
-    var name = @org.gwtproject.jsonp.client.JsonpRequest::CALLBACKS_NAME;
-    var ctr = @org.gwtproject.jsonp.client.JsonpRequest::CALLBACKS_COUNTER_NAME;
-    return $wnd[name][ctr]++;
-  }-*/;
 
   private static Element getHeadElement() {
     return document.getElementsByTagName("head").getAt(0);
@@ -89,17 +86,6 @@ public class JsonpRequest<T> {
     
     return JsonpGlobal.getCallbacks();
   }
-  
-  /*-{
-    var name = @org.gwtproject.jsonp.client.JsonpRequest::CALLBACKS_NAME;
-    if (!$wnd[name]) {
-      $wnd[name] = new Object();
-      $wnd[name]
-          [@org.gwtproject.jsonp.client.JsonpRequest::CALLBACKS_COUNTER_NAME]
-          = 0;
-    }
-    return $wnd[name];
-  }-*/;
 
   private static String getPredeterminedId(String suffix) {
     return PREDETERMINED_ID_PREFIX + suffix;
@@ -277,60 +263,66 @@ public class JsonpRequest<T> {
    *
    * @param callbacks the global JS object which stores callbacks
    */
-  private native void registerCallbacks(
-      JsonpCallbacks callbacks, boolean canHaveMultipleRequestsForId) /*-{
-
-    var self = this;
-    var callback = new Object();
-    callback.onSuccess = $entry(function(data) {
-      // Box primitive types
-      if (typeof data == 'boolean') {
-        data = @java.lang.Boolean::new(Z)(data);
-      } else if (typeof data == 'number') {
-        if (self.@org.gwtproject.jsonp.client.JsonpRequest::expectInteger) {
-          data = @java.lang.Integer::new(I)(data);
+  @SuppressWarnings("unchecked")
+  private void registerCallbacks(
+      JsonpCallbacks callbacks, boolean canHaveMultipleRequestsForId) {
+    
+    JsonpCallback jsonpCallback = new JsonpCallback();
+    jsonpCallback.onSuccess = data -> {
+      if (data instanceof JsBoolean) {
+        JsBoolean bool = (JsBoolean) data;
+        onSuccess((T) Boolean.valueOf(bool.valueOf()));
+      } else if (data instanceof JsNumber) {
+        JsNumber number = (JsNumber) data;
+        if (expectInteger) {
+          onSuccess((T) Integer.valueOf((int) number.valueOf()));
         } else {
-          data = @java.lang.Double::new(D)(data);
+          onSuccess((T) Double.valueOf(number.valueOf()));
         }
+      } else {
+        onSuccess((T) data);
       }
-      self.@org.gwtproject.jsonp.client.JsonpRequest::onSuccess(Ljava/lang/Object;)(data);
-    });
-    if (this.@org.gwtproject.jsonp.client.JsonpRequest::failureCallbackParam) {
-      callback.onFailure = $entry(function(message) {
-        self.@org.gwtproject.jsonp.client.JsonpRequest::onFailure(Ljava/lang/String;)(message);
-      });
+    };
+    
+    if (failureCallbackParam != null) {
+      jsonpCallback.onFailure = message -> {
+        onFailure((String) message);
+      };
     }
     
     if (canHaveMultipleRequestsForId) {
       // In this case, we keep a wrapper, with a list of callbacks.  Since the
       // response for the request is the same each time, we call all of the
       // callbacks as soon as any response comes back.
-      var callbackWrapper =
-        callbacks[this.@org.gwtproject.jsonp.client.JsonpRequest::callbackId];
-      if (!callbackWrapper) {
-        callbackWrapper = new Object();
-        callbackWrapper.callbackList = new Array();
-
-        callbackWrapper.onSuccess = function(data) {
-          while (callbackWrapper.callbackList.length > 0) {
-            callbackWrapper.callbackList.shift().onSuccess(data);
+      JsonpCallback maybeWrapper = CALLBACKS.get(callbackId);
+      if (maybeWrapper == null) {
+        maybeWrapper = new JsonpCallback();
+        maybeWrapper.callbackList = new JsArray<>();
+        
+        final JsonpCallback wrapper = maybeWrapper; // final for lambdas
+        
+        wrapper.onSuccess = data -> {
+          while (wrapper.callbackList.length > 0) {
+            wrapper.callbackList.shift().onSuccess.accept(data);
           }
-        } 
-        callbackWrapper.onFailure = function(data) {
-          while (callbackWrapper.callbackList.length > 0) {
-            callbackWrapper.callbackList.shift().onFailure(data);
+        };
+        
+        wrapper.onFailure = message -> {
+          while (wrapper.callbackList.length > 0) {
+            wrapper.callbackList.shift().onFailure.accept(message);
           }
-        } 
-        callbacks[this.@org.gwtproject.jsonp.client.JsonpRequest::callbackId] =
-          callbackWrapper;
+        };
+        
+        CALLBACKS.set(callbackId, wrapper);
       }
-      callbackWrapper.callbackList.push(callback);
+      
+      maybeWrapper.callbackList.push(jsonpCallback);
     } else {
       // In this simple case, just associate the callback directly with the
       // particular id in the callbacks object
-      callbacks[this.@org.gwtproject.jsonp.client.JsonpRequest::callbackId] = callback;
+      CALLBACKS.set(callbackId, jsonpCallback);
     }
-  }-*/;
+  }
 
   /**
    * Cleans everything once the response has been received: deletes the script
@@ -365,8 +357,4 @@ public class JsonpRequest<T> {
 
     cb.onSuccess = cb.onFailure = in -> { };
   }
-  
-  /*-{
-    callbacks[callbackId].onSuccess = callbacks[callbackId].onFailure = function() {};
-  }-*/;
 }

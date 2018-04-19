@@ -17,6 +17,7 @@ package org.gwtproject.jsonp.client;
 
 import static jsinterop.annotations.JsPackage.GLOBAL;
 
+import elemental2.core.JsArray;
 import jsinterop.annotations.JsFunction;
 import jsinterop.annotations.JsType;
 
@@ -27,6 +28,11 @@ class JsonpCallback {
   interface Consumer {
     void accept(Object input);
   }
+  
+  /**
+   * Used when this callback acts as a wrapper.
+   */
+  JsArray<JsonpCallback> callbackList;
   
   Consumer onSuccess;
   

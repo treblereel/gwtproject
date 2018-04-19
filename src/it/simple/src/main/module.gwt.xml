@@ -11,4 +11,7 @@
 
   <entry-point class='org.gwtproject.jsonp.example.simple.client.SimpleEntry' />
   <stylesheet src='simple.css' />
+  
+    <!-- JSONP servlet for testing, works probably only with devmode -->
+  <servlet path='/echo' class='org.gwtproject.jsonp.example.simple.server.EchoServlet'/>
 </module>
