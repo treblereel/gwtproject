@@ -57,6 +57,28 @@ public class JsonpRequestTest extends GWTTestCase {
       }
     }
   }
+  
+  private class AssertCancelCallback<T> implements AsyncCallback<T> {
+    private int id;
+
+    public AssertCancelCallback() {
+      id = currentTestId;
+    }
+
+    @Override
+    public void onFailure(Throwable throwable) {
+      if (id == currentTestId) {
+        fail();
+      }
+    }
+
+    @Override
+    public void onSuccess(T value) {
+      if (id == currentTestId) {
+        fail();
+      }
+    }
+  }
 
   /**
    * Checks that the received value is as expected.
@@ -211,7 +233,7 @@ public class JsonpRequestTest extends GWTTestCase {
     delayTestFinish(2000);
     // setup a server request that will delay for 500ms
     JsonpRequest<String> req = jsonp.requestString(echoDelayed("'A'", 500),
-        new AssertFailureCallback<String>("A"));
+        new AssertCancelCallback<String>());
     // cancel it before it comes back
     req.cancel();
     // wait 1s to make sure we don't get a callback
@@ -220,7 +242,7 @@ public class JsonpRequestTest extends GWTTestCase {
       public void run() {
         finishTest();
       }
-    }.schedule(1000);
+    }.schedule(1500);
   }
 
   public void testDelay() {
@@ -242,13 +264,6 @@ public class JsonpRequestTest extends GWTTestCase {
         new AssertFailureCallback<String>("ERROR"));
   }
 
-  /**
-   * Hangs indefinitely in devmode with HtmlUnit.
-   * <p>
-   * Call occurs through postponedActions in HtmlUnit that execute
-   * synchronously. Should be async. Need to file HtmlUnitBug.
-   */
-  @DoNotRunWith(Platform.HtmlUnitBug)
   public void testIds() {
     delayTestFinish(RESPONSE_DELAY);
     JsonpRequest<String> reqA = jsonp.requestString(echo("'A'"),

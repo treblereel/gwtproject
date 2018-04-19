@@ -190,7 +190,7 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>2.21.0</version>
         <configuration>
-          <!-- test-rebind -->
+          <!-- test-jvm -->
           <includes>
             <include>org/gwtproject/jsonp/client/JsonpRequestBuilderTest.java</include>
           </includes>
@@ -223,6 +223,7 @@
             <configuration>
               <systemPropertyVariables>
                 <!-- Add -logLevel TRACE to get more debug output -->
+                <!-- Add -runStyle Manual:1 to run the tests in the real browser -->
                 <gwt.args>
                   -prod -style PRETTY
                   -gen target/generated-test-sources/test-web
