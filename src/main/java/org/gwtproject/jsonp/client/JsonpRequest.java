@@ -20,7 +20,6 @@ import static elemental2.dom.DomGlobal.document;
 import org.gwtproject.callback.shared.AsyncCallback;
 import org.gwtproject.timer.client.Timer;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.safehtml.shared.annotations.IsTrustedResourceUri;
@@ -39,13 +38,13 @@ public class JsonpRequest<T> {
   /**
    * A global JS variable that holds the next index to use.
    */
-  private static final String CALLBACKS_COUNTER_NAME = "__gwt_jsonp_counter__";
+  /* package */ static final String CALLBACKS_COUNTER_NAME = "__gwt_jsonp_counter__";
 
   /**
    * A global JS object that contains callbacks of pending requests.
    */
-  private static final String CALLBACKS_NAME = "__gwt_jsonp__";
-  private static final JavaScriptObject CALLBACKS = getOrCreateCallbacksObject();
+  /* package */ static final String CALLBACKS_NAME = "__gwt_jsonp__";
+  private static final JsonpCallbacks CALLBACKS = getOrCreateCallbacks();
 
   /**
    * Prefix appended to all id's that are determined by the callbacks counter.
@@ -61,7 +60,11 @@ public class JsonpRequest<T> {
   /**
    * Returns the next ID to use, incrementing the global counter.
    */
-  private static native int getAndIncrementCallbackCounter() /*-{
+  private static int getAndIncrementCallbackCounter() {
+    return CALLBACKS.counter++;
+  }
+  
+  /*-{
     var name = @org.gwtproject.jsonp.client.JsonpRequest::CALLBACKS_NAME;
     var ctr = @org.gwtproject.jsonp.client.JsonpRequest::CALLBACKS_COUNTER_NAME;
     return $wnd[name][ctr]++;
@@ -75,7 +78,19 @@ public class JsonpRequest<T> {
    * Returns a global object to store callbacks of pending requests, creating
    * it if it doesn't exist.
    */
-  private static native JavaScriptObject getOrCreateCallbacksObject() /*-{
+  
+  private static JsonpCallbacks getOrCreateCallbacks() {
+    if (!JsonpGlobal.hasCallbacks()) {
+      JsonpCallbacks callbacks = new JsonpCallbacks();
+      callbacks.counter = 0;
+      
+      JsonpGlobal.setCallbacks(callbacks);
+    }
+    
+    return JsonpGlobal.getCallbacks();
+  }
+  
+  /*-{
     var name = @org.gwtproject.jsonp.client.JsonpRequest::CALLBACKS_NAME;
     if (!$wnd[name]) {
       $wnd[name] = new Object();
@@ -262,7 +277,9 @@ public class JsonpRequest<T> {
    *
    * @param callbacks the global JS object which stores callbacks
    */
-  private native void registerCallbacks(JavaScriptObject callbacks, boolean canHaveMultipleRequestsForId) /*-{
+  private native void registerCallbacks(
+      JsonpCallbacks callbacks, boolean canHaveMultipleRequestsForId) /*-{
+
     var self = this;
     var callback = new Object();
     callback.onSuccess = $entry(function(data) {
@@ -343,7 +360,13 @@ public class JsonpRequest<T> {
     });
   }
 
-  private native void unregisterCallbacks(JavaScriptObject callbacks, String callbackId) /*-{
+  private void unregisterCallbacks(JsonpCallbacks callbacks, String callbackId) {
+    JsonpCallback cb = callbacks.get(callbackId);
+
+    cb.onSuccess = cb.onFailure = in -> { };
+  }
+  
+  /*-{
     callbacks[callbackId].onSuccess = callbacks[callbackId].onFailure = function() {};
   }-*/;
 }
