@@ -16,9 +16,7 @@
 package org.gwtproject.jsonp.client;
 
 import org.gwtproject.callback.shared.AsyncCallback;
-
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.safehtml.shared.annotations.IsTrustedResourceUri;
+import org.gwtproject.safehtml.shared.annotations.IsTrustedResourceUri;
 
 /**
  * Class to send cross domain requests to an http server. The server will receive a request
@@ -150,7 +148,7 @@ public class JsonpRequestBuilder {
    * Sends a JSONP request and expects a JavaScript object as a result. The caller can either use
    * {@link com.google.gwt.json.client.JSONObject} to parse it, or use a JavaScript overlay class.
    */
-  public <T extends JavaScriptObject> JsonpRequest<T> requestObject(
+  public <T> JsonpRequest<T> requestObject(
       @IsTrustedResourceUri String url, AsyncCallback<T> callback) {
     return send(url, callback, false);
   }

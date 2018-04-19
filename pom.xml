@@ -76,6 +76,12 @@
       <artifactId>gwt-callback</artifactId>
       <version>master-SNAPSHOT</version>
     </dependency>
+    <dependency>
+        <groupId>com.github.Vertispan.gwt-safehtml</groupId>
+        <artifactId>safehtml</artifactId>
+        <version>master-SNAPSHOT</version>
+        <type>jar</type>
+    </dependency>
 
     <!-- Testing -->
     <dependency>

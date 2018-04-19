@@ -18,10 +18,8 @@
 <module>
   <inherits name='org.gwtproject.callback.Callback'/>
   <inherits name='org.gwtproject.timer.Timer'/>
+  <inherits name='org.gwtproject.safehtml.SafeHtml'/>
   <inherits name='elemental2.dom.Dom'/>
-  
-  <!-- Old stuff, should be removed -->
-  <inherits name='com.google.gwt.core.Core'/>
 
   <source path="client"/>
 </module>

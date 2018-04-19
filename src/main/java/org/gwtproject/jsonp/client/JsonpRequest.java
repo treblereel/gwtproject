@@ -18,10 +18,9 @@ package org.gwtproject.jsonp.client;
 import static elemental2.dom.DomGlobal.document;
 
 import org.gwtproject.callback.shared.AsyncCallback;
+import org.gwtproject.safehtml.shared.annotations.IsTrustedResourceUri;
+import org.gwtproject.safehtml.shared.annotations.SuppressIsTrustedResourceUriCastCheck;
 import org.gwtproject.timer.client.Timer;
-
-import com.google.gwt.safehtml.shared.annotations.IsTrustedResourceUri;
-import com.google.gwt.safehtml.shared.annotations.SuppressIsTrustedResourceUriCastCheck;
 
 import elemental2.core.JsArray;
 import elemental2.core.JsBoolean;
