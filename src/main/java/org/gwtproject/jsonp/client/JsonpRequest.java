@@ -20,8 +20,6 @@ import static elemental2.dom.DomGlobal.document;
 import org.gwtproject.callback.shared.AsyncCallback;
 import org.gwtproject.timer.client.Timer;
 
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.safehtml.shared.annotations.IsTrustedResourceUri;
 import com.google.gwt.safehtml.shared.annotations.SuppressIsTrustedResourceUriCastCheck;
 
@@ -334,8 +332,8 @@ public class JsonpRequest<T> {
      * scope of the script itself. Therefore, we need to defer the delete
      * statement after the callback execution.
      */
-    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-      public void execute() {
+    new Timer() { //TODO: maybe switch back to Scheduler when it's ported
+      public void run() {
         if (!canHaveMultipleRequestsForSameId) {
           // If there can me multiple requests for a particular ID, then we
           // don't want to unregister the callback since there may be pending
@@ -349,7 +347,7 @@ public class JsonpRequest<T> {
           getHeadElement().removeChild(script);
         }
       }
-    });
+    }.schedule(1);
   }
 
   private void unregisterCallbacks(JsonpCallbacks callbacks, String callbackId) {
