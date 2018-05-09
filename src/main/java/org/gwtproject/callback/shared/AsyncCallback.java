@@ -105,6 +105,7 @@ public interface AsyncCallback<T> extends Callback<T, Throwable> {
    * 
    * @param caught failure encountered while executing a remote procedure call
    */
+  @Override
   void onFailure(Throwable caught);
 
   /**
@@ -112,5 +113,6 @@ public interface AsyncCallback<T> extends Callback<T, Throwable> {
    * 
    * @param result the return value of the remote produced call
    */
+  @Override
   void onSuccess(T result);
 }
