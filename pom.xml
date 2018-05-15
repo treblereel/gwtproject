@@ -52,9 +52,9 @@
 
   <repositories>
     <repository>
-      <id>sonatype-nexus-snapshots</id>
-      <name>Sonatype Nexus Snapshots</name>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+      <id>vertispan-gwt-snapshots</id>
+      <name>Vertispan GWT Snapshots</name>
+      <url>https://repo.vertispan.com/gwt-snapshot/</url>
       <releases>
         <enabled>false</enabled>
       </releases>
@@ -66,9 +66,9 @@
 
   <distributionManagement>
     <snapshotRepository>
-      <id>sonatype-nexus-snapshots</id>
-      <name>Sonatype Nexus Snapshots</name>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+      <id>vertispan-gwt-snapshots</id>
+      <name>Vertispan GWT Snapshots</name>
+      <url>https://repo.vertispan.com/gwt-snapshot/</url>
     </snapshotRepository>
     <repository>
       <id>sonatype-nexus-staging</id>
@@ -179,7 +179,6 @@
     </plugins>
   </build>
 
-  <!-- TODO: More reporting? test coverage? -->
   <reporting>
     <plugins>
       <plugin>
@@ -195,7 +194,6 @@
       <build>
         <plugins>
           <plugin>
-            <!-- TODO: Fix javadoc warnings -->
             <artifactId>maven-javadoc-plugin</artifactId>
             <version>3.0.0</version>
             <executions>
