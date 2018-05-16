@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.gwtproject.callback.shared;
+package org.gwtproject.user.client.rpc;
 
 /**
  * The primary interface a caller must implement to receive a response from a
@@ -89,7 +89,7 @@ package org.gwtproject.callback.shared;
  *          <code>void</code> return type becomes a {@link Void} type
  *          argument, which is always <code>null</code>).
  */
-public interface AsyncCallback<T> extends Callback<T, Throwable> {
+public interface AsyncCallback<T> {
 
   /**
    * Called when an asynchronous call fails to complete normally.
@@ -105,7 +105,6 @@ public interface AsyncCallback<T> extends Callback<T, Throwable> {
    * 
    * @param caught failure encountered while executing a remote procedure call
    */
-  @Override
   void onFailure(Throwable caught);
 
   /**
@@ -113,6 +112,5 @@ public interface AsyncCallback<T> extends Callback<T, Throwable> {
    * 
    * @param result the return value of the remote produced call
    */
-  @Override
   void onSuccess(T result);
 }

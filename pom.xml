@@ -9,7 +9,7 @@
   <packaging>jar</packaging>
 
   <name>GWT Callback</name>
-  <description>GWT Callbacks used in various scenarios (GWT-RPC, JSON-P, Code splitting)</description>
+  <description>GWT Callbacks used in various scenarios (GWT-RPC, JSON-P)</description>
 
   <organization>
     <name>GWT Project</name>
@@ -129,7 +129,7 @@
               <resources>
                 <resource>
                   <directory>${project.build.sourceDirectory}</directory>
-                  <include>org/gwtproject/callback/shared/**/*.java</include>
+                  <include>org/gwtproject/user/client/**/*.java</include>
                   <filtering>false</filtering>
                 </resource>
               </resources>

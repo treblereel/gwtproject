@@ -16,5 +16,7 @@
 
 <!-- Callback interfaces.                                                   -->
 <module>
-  <source path="shared" />
+  <source path="client">
+    <include name="rpc/AsyncCallback.java" />
+  </source>
 </module>
