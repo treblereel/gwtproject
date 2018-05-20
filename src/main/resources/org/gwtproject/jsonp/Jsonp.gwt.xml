@@ -16,7 +16,7 @@
 <!-- limitations under the License.                                         -->
 
 <module>
-  <inherits name='org.gwtproject.callback.Callback'/>
+  <inherits name='org.gwtproject.user.AsyncCallback'/>
   <inherits name='org.gwtproject.timer.Timer'/>
   <inherits name='org.gwtproject.safehtml.SafeHtml'/>
   <inherits name='elemental2.dom.Dom'/>

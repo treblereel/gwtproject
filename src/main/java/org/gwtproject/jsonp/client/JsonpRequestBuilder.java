@@ -15,8 +15,8 @@
  */
 package org.gwtproject.jsonp.client;
 
-import org.gwtproject.callback.shared.AsyncCallback;
 import org.gwtproject.safehtml.shared.annotations.IsTrustedResourceUri;
+import org.gwtproject.user.client.rpc.AsyncCallback;
 
 /**
  * Class to send cross domain requests to an http server. The server will receive a request

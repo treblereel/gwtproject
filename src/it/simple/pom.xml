@@ -47,19 +47,12 @@
 
   <repositories>
     <repository>
-      <id>sonatype-nexus-snapshots</id>
-      <name>Sonatype Nexus Snapshots</name>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+      <id>vertispan-gwt-snapshots</id>
+      <name>Vertispan GWT Snapshots</name>
+      <url>https://repo.vertispan.com/gwt-snapshot/</url>
       <releases>
         <enabled>false</enabled>
       </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>jitpack</id>
-      <url>https://jitpack.io</url>
       <snapshots>
         <enabled>true</enabled>
       </snapshots>

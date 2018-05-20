@@ -17,8 +17,8 @@ package org.gwtproject.jsonp.client;
 
 import static org.gwtproject.jsonp.client.KeyValue.*;
 
-import org.gwtproject.callback.shared.AsyncCallback;
 import org.gwtproject.timer.client.Timer;
+import org.gwtproject.user.client.rpc.AsyncCallback;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.DoNotRunWith;

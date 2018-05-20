@@ -2,7 +2,7 @@ package org.gwtproject.jsonp.example.simple.client;
 
 import java.util.function.Consumer;
 
-import org.gwtproject.callback.shared.AsyncCallback;
+import org.gwtproject.user.client.rpc.AsyncCallback;
 
 public class AsyncCallbackBuilder<T> {
 
