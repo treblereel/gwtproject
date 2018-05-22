@@ -1,12 +1,12 @@
 /*
  * Copyright 2018 The GWT Project Authors
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -49,29 +49,24 @@ public class LayoutTest extends GWTTestCase {
    * The amount of time to wait for asynchronous tests to finish.
    */
   private static final int TEST_DELAY = 2000;
-
-  private static interface LayerInitializer {
-    void setupLayers(Layer l0,
-                     Layer l1);
-  }
-
   private DivElement parent, child0, child1;
   private Element wrapper0, wrapper1;
   private com.google.gwt.layout.client.Layout layout;
-  private Layer                               layer0, layer1;
+  private Layer layer0, layer1;
 
   @Override
   public String getModuleName() {
     return "org.gwtproject.layout.LayoutTest";
   }
 
-  // All testAnimationTransitions_* tests are disabled because they are flaky
   /**
    * Tests animation constraint- and unit-transitions.
    */
   public void notestAnimationTransitions_LTWH_LTRB_PX_CM() {
     testAnimationTransitions_LTWH_LTRB(PX, CM);
   }
+
+  // All testAnimationTransitions_* tests are disabled because they are flaky
 
   /**
    * Tests animation constraint- and unit-transitions.
@@ -187,8 +182,8 @@ public class LayoutTest extends GWTTestCase {
   }
 
   /**
-   * Test that fillParent() works properly when the outer div is a child of
-   * another div, and that it correctly follows that div's size.
+   * Test that fillParent() works properly when the outer div is a child of another div, and that it
+   * correctly follows that div's size.
    */
   @DoNotRunWith(Platform.HtmlUnitLayout)
   public void testFillParent() {
@@ -237,8 +232,7 @@ public class LayoutTest extends GWTTestCase {
   }
 
   /**
-   * Test that fillParent() works properly when the outer div is a child of the
-   * document body.
+   * Test that fillParent() works properly when the outer div is a child of the document body.
    */
   @DoNotRunWith(Platform.HtmlUnitLayout)
   public void testFillWindow() {
@@ -256,7 +250,7 @@ public class LayoutTest extends GWTTestCase {
 
   /**
    * Tests that the layout reacts to font-size changes.
-   * 
+   *
    * TODO(jgw): Enable this test when it is fixed for IE8.
    */
   public void disabledTestFontSizeChange() {
@@ -278,12 +272,11 @@ public class LayoutTest extends GWTTestCase {
   }
 
   /**
-   * Make sure to call onLayout on the AnimationCallback, when there is
-   * no animation (duration =0). This will make sure that onResize will be
-   * called on the child panels.
+   * Make sure to call onLayout on the AnimationCallback, when there is no animation (duration =0).
+   * This will make sure that onResize will be called on the child panels.
    */
   public void testOnLayoutWhenNoAnimation() {
-    final Map<Layer,Double> called = new HashMap();
+    final Map<Layer, Double> called = new HashMap();
     layout.layout(0, new com.google.gwt.layout.client.Layout.AnimationCallback() {
       @Override
       public void onAnimationComplete() {
@@ -291,17 +284,17 @@ public class LayoutTest extends GWTTestCase {
 
       @Override
       public void onLayout(Layer layer, double progress) {
-        called.put(layer,progress);
+        called.put(layer, progress);
       }
     });
-    assertEquals(2,called.size());
-    assertEquals(1.0,called.get(layer0));
-    assertEquals(1.0,called.get(layer1));
+    assertEquals(2, called.size());
+    assertEquals(1.0, called.get(layer0));
+    assertEquals(1.0, called.get(layer1));
   }
 
   /**
-   * Ensures that two children laid out using various units in such a way that
-   * they should abut one another actually do so.
+   * Ensures that two children laid out using various units in such a way that they should abut one
+   * another actually do so.
    */
   public void testLayoutStructure() {
     testHorizontalSplit(CM);
@@ -324,9 +317,8 @@ public class LayoutTest extends GWTTestCase {
   }
 
   /**
-   * Tests (left-right, left-width, right-width) x (top-bottom, top-height,
-   * bottom-height). Ok, so we don't test the *entire* cross-product, but enough
-   * to be comfortable.
+   * Tests (left-right, left-width, right-width) x (top-bottom, top-height, bottom-height). Ok, so
+   * we don't test the *entire* cross-product, but enough to be comfortable.
    */
   public void testStaticConstraints() {
     // This test assumes enough size. Ignore it if size cannot be guaranteed.
@@ -426,8 +418,7 @@ public class LayoutTest extends GWTTestCase {
   }
 
   /**
-   * Tests layout in the presence of decorations on the parent and child
-   * elements.
+   * Tests layout in the presence of decorations on the parent and child elements.
    */
   @DoNotRunWith(Platform.HtmlUnitLayout)
   public void testWithDecorations() {
@@ -649,5 +640,11 @@ public class LayoutTest extends GWTTestCase {
     int child0Bottom = wrapper0.getOffsetHeight();
     int child1Top = wrapper1.getOffsetTop();
     assertEquals(child0Bottom, child1Top);
+  }
+
+  private static interface LayerInitializer {
+
+    void setupLayers(Layer l0,
+        Layer l1);
   }
 }

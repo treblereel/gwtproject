@@ -19,6 +19,6 @@
   <inherits name="org.gwtproject.dom.DOM"/>
   <!--<inherits name="com.google.gwt.useragent.UserAgent"/>-->
   <!--<inherits name="com.google.gwt.aria.Aria"/>-->
-
-  <source path="client" />
+  
+  <source path="client"/>
 </module>

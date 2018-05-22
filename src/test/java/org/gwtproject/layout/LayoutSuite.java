@@ -23,6 +23,7 @@ import org.gwtproject.layout.client.LayoutTest;
  * Tests layout package.
  */
 public class LayoutSuite {
+
   public static Test suite() {
     TestSuite suite = new TestSuite("Layout tests");
 

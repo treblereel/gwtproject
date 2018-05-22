@@ -1,12 +1,12 @@
 /*
  * Copyright 2018 The GWT Project Authors
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -32,12 +32,11 @@ import org.gwtproject.dom.client.Style.Visibility;
 import org.gwtproject.layout.client.Layout.Layer;
 
 /**
- * Default implementation, which works with all browsers except for IE6. It uses
- * only the "top", "left", "bottom", "right", "width", and "height" CSS
- * properties.
- * 
- * Note: This implementation class has state, so {@link Layout} must create a
- * new instance for each layout-parent.
+ * Default implementation, which works with all browsers except for IE6. It uses only the "top",
+ * "left", "bottom", "right", "width", and "height" CSS properties.
+ *
+ * Note: This implementation class has state, so {@link Layout} must create a new instance for each
+ * layout-parent.
  */
 class LayoutImpl {
 
@@ -47,6 +46,8 @@ class LayoutImpl {
     fixedRuler = createRuler(Unit.CM, Unit.CM);
     Document.get().getBody().appendChild(fixedRuler);
   }
+
+  protected DivElement relativeRuler;
 
   protected static DivElement createRuler(Unit widthUnit, Unit heightUnit) {
     DivElement ruler = Document.get().createDivElement();
@@ -69,8 +70,6 @@ class LayoutImpl {
     State.HIDDEN.set(ruler, true);
     return ruler;
   }
-
-  protected DivElement relativeRuler;
 
   public Element attachChild(Element parent, Element child, Element before) {
     DivElement container = Document.get().createDivElement();
