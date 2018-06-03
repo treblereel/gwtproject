@@ -6,6 +6,7 @@ plugins {
     id("com.github.sherter.google-java-format") version "0.6"
     id("com.github.hierynomus.license") version "0.14.0"
     id("local.ktlint")
+    id("local.maven-publish")
 }
 
 group = "org.gwtproject.user.window"
