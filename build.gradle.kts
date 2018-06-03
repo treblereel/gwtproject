@@ -90,7 +90,11 @@ tasks {
     "check" { dependsOn("validateGwtModule") }
 
     "javadoc"(Javadoc::class) {
-        (options as CoreJavadocOptions).addBooleanOption("Xdoclint:all,-missing", true)
+        (options as CoreJavadocOptions).apply {
+            addBooleanOption("Xdoclint:all,-missing", true)
+            // Workaround for https://github.com/gradle/gradle/issues/5630
+            addStringOption("sourcepath", "")
+        }
     }
 }
 
