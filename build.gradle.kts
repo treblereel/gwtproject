@@ -1,8 +1,11 @@
+import java.time.Year
+
 plugins {
     id("java-library")
     id("maven")
     id("net.ltgt.errorprone") version "0.0.14"
     id("com.github.sherter.google-java-format") version "0.6"
+    id("com.github.hierynomus.license") version "0.14.0"
     id("local.ktlint")
 }
 
@@ -92,4 +95,14 @@ tasks {
 
 googleJavaFormat {
     toolVersion = "1.6"
+}
+
+license {
+    header = rootProject.file("LICENSE.header")
+    encoding = "UTF-8"
+    skipExistingHeaders = true
+    mapping("java", "SLASHSTAR_STYLE")
+
+    (this as ExtensionAware).extra["year"] = Year.now()
+    (this as ExtensionAware).extra["name"] = "The GWT Project Authors"
 }
