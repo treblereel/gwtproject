@@ -49,7 +49,7 @@ import org.gwtproject.user.window.client.Window;
  *   <li>a-z
  *   <li>A-Z
  *   <li>0-9
- *   <li>;,/?:@&=+$-_.!~*()
+ *   <li>;,/?:@&amp;=+$-_.!~*()
  * </ul>
  */
 public class History {
