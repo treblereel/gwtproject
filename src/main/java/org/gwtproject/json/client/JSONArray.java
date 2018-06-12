@@ -15,9 +15,9 @@
  */
 package org.gwtproject.json.client;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import elemental2.core.JsArray;
 import jsinterop.base.Js;
+import org.gwtproject.core.client.JavaScriptObject;
 
 import java.util.Objects;
 

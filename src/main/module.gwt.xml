@@ -15,6 +15,6 @@
 <!-- JSON parsing support.                                                  -->
 <!--                                                                        -->
 <module>
-    <inherits name="elemental2.core.Core"/>
+    <inherits name="org.gwtproject.core.Core" />
     <source path="client"/>
 </module>

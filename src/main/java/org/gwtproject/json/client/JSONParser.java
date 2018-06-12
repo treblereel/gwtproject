@@ -15,8 +15,6 @@
  */
 package org.gwtproject.json.client;
 
-import com.google.gwt.core.client.JavaScriptException;
-import com.google.gwt.core.client.JsonUtils;
 import elemental2.core.Global;
 
 /**
@@ -101,7 +99,6 @@ public class JSONParser {
                 throw new JSONException("Error parsing JSON: " + e);
             }
         } else {
-            json = JsonUtils.escapeJsonForEval(json);
             try {
                 o = Global.eval('(' + json + ')');
             } catch (Exception e) {
@@ -120,7 +117,7 @@ public class JSONParser {
         }
         try {
             return evaluate(jsonString, strict);
-        } catch (JavaScriptException ex) {
+        } catch (Exception ex) {
             throw new JSONException(ex);
         }
     }

@@ -15,10 +15,11 @@
  */
 package org.gwtproject.json.client;
 
-import com.google.gwt.core.client.JsonUtils;
 import com.google.gwt.junit.client.GWTTestCase;
 
 import java.util.Set;
+
+import static elemental2.core.Global.JSON;
 
 /**
  * Test case for JSONValue and friends.
@@ -208,7 +209,7 @@ public class JSONTest extends GWTTestCase {
         charsToEscape[40] = '\u2028';
         charsToEscape[41] = '\u2029';
         for (int i = 1; i < charsToEscape.length; i++) {
-            o.put("c" + i, new JSONString(new Character(charsToEscape[i]).toString()));
+            o.put("c" + i, new JSONString(Character.toString(charsToEscape[i])));
         }
         assertEquals("{\"c1\":\"\\u0001\", \"c2\":\"\\u0002\", "
                 + "\"c3\":\"\\u0003\", \"c4\":\"\\u0004\", \"c5\":\"\\u0005\", "
@@ -558,8 +559,8 @@ public class JSONTest extends GWTTestCase {
     }
 
     public void testUnsafeEval() {
-        JsonUtils.unsafeEval("{\"name\":\"value\"}");
-        JsonUtils.unsafeEval("[0,1,2,3,4]");
+        JSON.parse("{\"name\":\"value\"}");
+        JSON.parse("[0,1,2,3,4]");
     }
 
     public void testWidget() {
@@ -595,7 +596,7 @@ public class JSONTest extends GWTTestCase {
      * Test a chunk of Unicode code points for use in JSON keys and values.
      *
      * @param start starting code point
-     * @param len number of code points to test
+     * @param len   number of code points to test
      */
     private void doTestParseUnescaped(int start, int len) {
         StringBuilder sb = new StringBuilder();

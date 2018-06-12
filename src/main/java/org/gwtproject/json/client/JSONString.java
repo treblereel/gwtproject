@@ -15,7 +15,7 @@
  */
 package org.gwtproject.json.client;
 
-import com.google.gwt.core.client.JsonUtils;
+import static elemental2.core.Global.JSON;
 
 /**
  * Represents a JSON string.
@@ -72,7 +72,7 @@ public class JSONString extends JSONValue {
      */
     @Override
     public String toString() {
-        return JsonUtils.escapeValue(value);
+        return JSON.stringify(value);
     }
 
     @Override

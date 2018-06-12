@@ -15,11 +15,11 @@
  */
 package org.gwtproject.json.client;
 
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.client.JsonUtils;
 import elemental2.core.JsObject;
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
+import org.gwtproject.core.client.JavaScriptObject;
+import org.gwtproject.core.client.JsonUtils;
 
 import java.util.AbstractSet;
 import java.util.Arrays;
