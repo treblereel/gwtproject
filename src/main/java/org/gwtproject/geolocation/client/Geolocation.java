@@ -20,6 +20,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 
 import java.util.logging.Logger;
 
+import elemental2.dom.DomGlobal;
 import jsinterop.annotations.JsType;
 
 /**
@@ -67,9 +68,9 @@ public class Geolocation {
    */
   private static class GeolocationSupportDetector {
 
-    private static native boolean detectSupport() /*-{
-      return !!$wnd.navigator.geolocation;
-    }-*/;
+    private static boolean detectSupport(){
+      return DomGlobal.window.navigator.geolocation!=null;
+    }
 
     private boolean supported = detectSupport();
 
@@ -177,22 +178,6 @@ public class Geolocation {
     callback.onSuccess(pos);
   }
 
-  private static native JavaScriptObject toJso(PositionOptions options) /*-{
-    var opt = {};
-    if (options) {
-      opt.enableHighAccuracy =
-          options.@com.google.gwt.geolocation.client.Geolocation.PositionOptions::enableHighAccuracy;
-      opt.maximumAge =
-          options.@com.google.gwt.geolocation.client.Geolocation.PositionOptions::maximumAge;
-
-      if (options.@com.google.gwt.geolocation.client.Geolocation.PositionOptions::timeout > 0) {
-        opt.timeout =
-            options.@com.google.gwt.geolocation.client.Geolocation.PositionOptions::timeout;
-      }
-    }
-    return opt;
-  }-*/;
-
   /**
    * Should be instantiated by {@link #getIfSupported()}.
    */
@@ -205,9 +190,9 @@ public class Geolocation {
    * @param watchId the ID of a position watch as returned by a previous call to
    *        {@link #watchPosition(Callback)}.
    */
-  public native void clearWatch(int watchId) /*-{
-    $wnd.navigator.geolocation.clearWatch(watchId);
-  }-*/;
+  public void clearWatch(int watchId) {
+    DomGlobal.window.navigator.geolocation.clearWatch(watchId);
+  };
 
   /**
    * Calls the callback with the user's current position.
