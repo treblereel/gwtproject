@@ -20,8 +20,17 @@ import com.google.gwt.core.client.JavaScriptObject;
 
 import java.util.logging.Logger;
 
+import elemental2.core.JsObject;
 import elemental2.dom.DomGlobal;
+import elemental2.dom.GeolocationPosition;
+import elemental2.dom.GeolocationPositionError;
+import elemental2.dom.GeolocationPositionOptions;
+import jsinterop.annotations.JsPackage;
+import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
+import jsinterop.base.Js;
+
+import static elemental2.dom.DomGlobal.window;
 
 /**
  * Implements the HTML5 Geolocation interface.
@@ -69,7 +78,7 @@ public class Geolocation {
   private static class GeolocationSupportDetector {
 
     private static boolean detectSupport(){
-      return DomGlobal.window.navigator.geolocation!=null;
+      return window.navigator.geolocation!=null;
     }
 
     private boolean supported = detectSupport();
@@ -82,11 +91,8 @@ public class Geolocation {
   /**
    * Additional options for receiving the user's location.
    */
-  @JsType
+  @JsType(isNative = true, namespace = JsPackage.GLOBAL)
   public static class PositionOptions {
-    private boolean enableHighAccuracy = false;
-    private int timeout = -1;
-    private int maximumAge = 0;
 
     /**
      * Sets whether or not the application will request a more accurate position
@@ -106,10 +112,8 @@ public class Geolocation {
      * By default this is <code>false</code>
      * </p>
      */
-    public PositionOptions setHighAccuracyEnabled(boolean enabled) {
-      this.enableHighAccuracy = enabled;
-      return this;
-    }
+    @JsProperty
+    public native PositionOptions setHighAccuracyEnabled(boolean enabled);
 
     /**
      * Allows the browser to return a position immediately with a cached
@@ -122,10 +126,8 @@ public class Geolocation {
      * used.
      * </p>
      */
-    public PositionOptions setMaximumAge(int maximumAge) {
-      this.maximumAge = maximumAge;
-      return this;
-    }
+    @JsProperty
+    public native PositionOptions setMaximumAge(int maximumAge);
 
     /**
      * Sets the amount of time (in milliseconds) that the application is willing
@@ -137,10 +139,8 @@ public class Geolocation {
      * timeout.
      * </p>
      */
-    public PositionOptions setTimeout(int timeout) {
-      this.timeout = timeout;
-      return this;
-    }
+    @JsProperty
+    public native PositionOptions setTimeout(int timeout);
   }
 
   /**
@@ -191,7 +191,7 @@ public class Geolocation {
    *        {@link #watchPosition(Callback)}.
    */
   public void clearWatch(int watchId) {
-    DomGlobal.window.navigator.geolocation.clearWatch(watchId);
+    window.navigator.geolocation.clearWatch(watchId);
   };
 
   /**
@@ -205,23 +205,20 @@ public class Geolocation {
    * Calls the callback with the user's current position, with additional
    * options.
    */
-  public native void getCurrentPosition(Callback<Position, PositionError> callback,
-      PositionOptions options) /*-{
-    var opt = @com.google.gwt.geolocation.client.Geolocation::toJso(*)(options);
-
-    var success = $entry(function(pos) {
-      @com.google.gwt.geolocation.client.Geolocation::handleSuccess(*)(callback, pos);
-    });
-
-    var failure = $entry(function(err) {
-      @com.google.gwt.geolocation.client.Geolocation::handleFailure(*)
-      (callback, err.code, err.message);
-    });
-
-    if (@com.google.gwt.geolocation.client.Geolocation::isSupported()) {
-      $wnd.navigator.geolocation.getCurrentPosition(success, failure, opt);
+  public void getCurrentPosition(Callback<Position, PositionError> callback,
+      PositionOptions options) {
+    GeolocationPositionOptions geolocationPositionOptions = Js.uncheckedCast(options);
+    if(isSupported()) {
+      window.navigator.geolocation.getCurrentPosition(p0 -> {
+        Position result = Js.uncheckedCast(p0);
+        handleSuccess(callback, result);
+        return null;
+      }, p0 -> {
+        handleFailure(callback, (int) p0.getCode(), p0.getMessage());
+        return null;
+      }, geolocationPositionOptions);
     }
-  }-*/;
+  }
 
   /**
    * Repeatedly calls the given callback with the user's position, as it
