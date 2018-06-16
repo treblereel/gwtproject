@@ -270,23 +270,16 @@ public class Geolocation {
    * @return the ID of this watch, which can be passed to
    *         {@link #clearWatch(int)} to stop watching the user's position.
    */
-  public native int watchPosition(Callback<Position, PositionError> callback,
-      PositionOptions options) /*-{
-    var opt = @com.google.gwt.geolocation.client.Geolocation::toJso(*)(options);
-
-    var success = $entry(function(pos) {
-      @com.google.gwt.geolocation.client.Geolocation::handleSuccess(*)(callback, pos);
-    });
-
-    var failure = $entry(function(err) {
-      @com.google.gwt.geolocation.client.Geolocation::handleFailure(*)
-      (callback, err.code, err.message);
-    });
-
-    var id = -1;
-    if (@com.google.gwt.geolocation.client.Geolocation::isSupported()) {
-      id = $wnd.navigator.geolocation.watchPosition(success, failure, opt);
-    }
-    return id;
-  }-*/;
+  public int watchPosition(Callback<Position, PositionError> callback,
+      PositionOptions options) {
+      GeolocationPositionOptions opt = Js.uncheckedCast(options);
+      return window.navigator.geolocation.watchPosition(p0-> {
+          Position result = Js.uncheckedCast(p0);
+          handleSuccess(callback, result);
+          return null;
+      },  e-> {
+          handleFailure(callback, (int)e.getCode(), e.getMessage());
+          return null;
+      }, opt);
+  }
 }
