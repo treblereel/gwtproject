@@ -19,7 +19,6 @@ package org.gwtproject.geolocation.client;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
-
 /**
  * Represents information about the user's position as reported by the browser.
  */

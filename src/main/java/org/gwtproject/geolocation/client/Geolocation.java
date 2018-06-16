@@ -16,21 +16,17 @@
 
 package org.gwtproject.geolocation.client;
 
-import com.google.gwt.core.client.JavaScriptObject;
-
 import java.util.logging.Logger;
 
-import elemental2.core.JsObject;
-import elemental2.dom.DomGlobal;
-import elemental2.dom.GeolocationPosition;
-import elemental2.dom.GeolocationPositionError;
+import static elemental2.dom.DomGlobal.window;
+
 import elemental2.dom.GeolocationPositionOptions;
+
+import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 import jsinterop.base.Js;
-
-import static elemental2.dom.DomGlobal.window;
 
 /**
  * Implements the HTML5 Geolocation interface.
@@ -77,8 +73,8 @@ public class Geolocation {
    */
   private static class GeolocationSupportDetector {
 
-    private static boolean detectSupport(){
-      return window.navigator.geolocation!=null;
+    private static boolean detectSupport() {
+      return window.navigator.geolocation != null;
     }
 
     private boolean supported = detectSupport();
@@ -93,6 +89,14 @@ public class Geolocation {
    */
   @JsType(isNative = true, namespace = JsPackage.GLOBAL)
   public static class PositionOptions {
+    @JsProperty
+    double maximumAge;
+
+    @JsProperty
+    double timeout;
+
+    @JsProperty
+    boolean enableHighAccuracy;
 
     /**
      * Sets whether or not the application will request a more accurate position
@@ -112,8 +116,11 @@ public class Geolocation {
      * By default this is <code>false</code>
      * </p>
      */
-    @JsProperty
-    public native PositionOptions setHighAccuracyEnabled(boolean enabled);
+    @JsOverlay
+    public final PositionOptions setHighAccuracyEnabled(boolean enabled) {
+      this.enableHighAccuracy = enabled;
+      return this;
+    }
 
     /**
      * Allows the browser to return a position immediately with a cached
@@ -126,8 +133,11 @@ public class Geolocation {
      * used.
      * </p>
      */
-    @JsProperty
-    public native PositionOptions setMaximumAge(int maximumAge);
+    @JsOverlay
+    public final PositionOptions setMaximumAge(int maximumAge) {
+      this.maximumAge = maximumAge;
+      return this;
+    }
 
     /**
      * Sets the amount of time (in milliseconds) that the application is willing
@@ -139,8 +149,11 @@ public class Geolocation {
      * timeout.
      * </p>
      */
-    @JsProperty
-    public native PositionOptions setTimeout(int timeout);
+    @JsOverlay
+    public final PositionOptions setTimeout(int timeout) {
+      this.timeout = timeout;
+      return this;
+    }
   }
 
   /**
@@ -208,7 +221,7 @@ public class Geolocation {
   public void getCurrentPosition(Callback<Position, PositionError> callback,
       PositionOptions options) {
     GeolocationPositionOptions geolocationPositionOptions = Js.uncheckedCast(options);
-    if(isSupported()) {
+    if (isSupported()) {
       window.navigator.geolocation.getCurrentPosition(p0 -> {
         Position result = Js.uncheckedCast(p0);
         handleSuccess(callback, result);
