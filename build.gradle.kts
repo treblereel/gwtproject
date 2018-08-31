@@ -1,8 +1,10 @@
+import net.ltgt.gradle.errorprone.javacplugin.CheckSeverity
+import net.ltgt.gradle.errorprone.javacplugin.errorprone
 import java.time.Year
 
 plugins {
     `java-library`
-    id("net.ltgt.errorprone") version "0.0.14"
+    id("net.ltgt.errorprone-javacplugin") version "0.5"
     id("com.github.sherter.google-java-format") version "0.6"
     id("com.github.hierynomus.license") version "0.14.0"
     id("local.ktlint")
@@ -19,6 +21,7 @@ repositories {
 
 dependencies {
     errorprone("com.google.errorprone:error_prone_core:2.3.1")
+    errorproneJavac("com.google.errorprone:javac:9+181-r4173-1")
 
     api("org.gwtproject.event:gwt-logical-event:HEAD-SNAPSHOT")
     api("org.gwtproject.http:gwt-http:HEAD-SNAPSHOT")
@@ -34,7 +37,8 @@ dependencies {
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
-    options.compilerArgs.addAll(arrayOf("-Werror", "-Xlint:all", "-Xep:StringSplitter:OFF"))
+    options.compilerArgs.addAll(arrayOf("-Werror", "-Xlint:all"))
+    options.errorprone.check("StringSplitter", CheckSeverity.OFF)
 }
 
 tasks {
