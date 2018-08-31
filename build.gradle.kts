@@ -43,7 +43,7 @@ tasks.withType<JavaCompile> {
 
 tasks {
     "jar"(Jar::class) {
-        from(java.sourceSets["main"].allJava)
+        from(sourceSets["main"].allJava)
     }
 
     "test"(Test::class) {
@@ -56,7 +56,7 @@ tasks {
             mkdir(cacheDir)
         }
 
-        classpath += java.sourceSets["main"].allJava.sourceDirectories + java.sourceSets["test"].allJava.sourceDirectories
+        classpath += sourceSets["main"].allJava.sourceDirectories + sourceSets["test"].allJava.sourceDirectories
         include("**/*Suite.class")
         systemProperty(
             "gwt.args",
