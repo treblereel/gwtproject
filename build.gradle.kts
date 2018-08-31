@@ -40,7 +40,7 @@ tasks.withType<JavaCompile> {
 
 tasks {
     "jar"(Jar::class) {
-        from(java.sourceSets["main"].allJava)
+        from(sourceSets["main"].allJava)
     }
 
     "test"(Test::class) {
@@ -53,7 +53,7 @@ tasks {
             mkdir(cacheDir)
         }
 
-        classpath += java.sourceSets["main"].allJava.sourceDirectories + java.sourceSets["test"].allJava.sourceDirectories
+        classpath += sourceSets["main"].allJava.sourceDirectories + sourceSets["test"].allJava.sourceDirectories
         include("**/*Suite.class")
         systemProperty(
             "gwt.args", "-ea -draftCompile -batch module -war \"$warDir\" -workDir \"$workDir\" " +
@@ -65,7 +65,7 @@ tasks {
         }
     }
 
-    "validateGwtModule"(JavaExec::class) {
+    val validateGwtModule by registering(JavaExec::class) {
         val workDir = file("$buildDir/gwt/work")
         val cacheDir = file("$buildDir/gwt/cache")
         val outFile = file("$buildDir/gwt/validateGwtModule")
@@ -80,15 +80,15 @@ tasks {
             standardOutput.close()
         }
 
-        inputs.files(java.sourceSets["main"].allJava)
+        inputs.files(sourceSets["main"].allJava)
         outputs.file(outFile)
 
         main = "com.google.gwt.dev.Compiler"
-        classpath = java.sourceSets["test"].runtimeClasspath + java.sourceSets["main"].allJava.sourceDirectories
+        classpath = sourceSets["test"].runtimeClasspath + sourceSets["main"].allJava.sourceDirectories
         args("-strict", "-validateOnly", "-workDir", workDir, "org.gwtproject.user.history.History")
         systemProperty("gwt.persistentunitcachedir", cacheDir)
     }
-    "check" { dependsOn("validateGwtModule") }
+    "check" { dependsOn(validateGwtModule) }
 
     "javadoc"(Javadoc::class) {
         (options as CoreJavadocOptions).apply {
