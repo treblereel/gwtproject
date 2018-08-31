@@ -4,7 +4,7 @@ plugins {
     id("java-library")
     id("maven")
     id("net.ltgt.errorprone-javacplugin") version "0.5"
-    id("com.github.sherter.google-java-format") version "0.6"
+    id("com.github.sherter.google-java-format") version "0.7.1"
     id("com.github.hierynomus.license") version "0.14.0"
     id("local.ktlint")
     id("local.maven-publish")
