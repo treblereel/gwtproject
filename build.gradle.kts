@@ -3,7 +3,7 @@ import java.time.Year
 plugins {
     id("java-library")
     id("maven")
-    id("net.ltgt.errorprone") version "0.0.14"
+    id("net.ltgt.errorprone-javacplugin") version "0.5"
     id("com.github.sherter.google-java-format") version "0.6"
     id("com.github.hierynomus.license") version "0.14.0"
     id("local.ktlint")
@@ -20,6 +20,7 @@ repositories {
 
 dependencies {
     errorprone("com.google.errorprone:error_prone_core:2.3.1")
+    errorproneJavac("com.google.errorprone:javac:9+181-r4173-1")
 
     api("org.gwtproject.event:gwt-logical-event:HEAD-SNAPSHOT")
     implementation("org.gwtproject.user.window:gwt-window:HEAD-SNAPSHOT")
