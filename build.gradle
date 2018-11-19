@@ -1,0 +1,21 @@
+plugins {
+  id 'java-library'
+  id 'maven'
+}
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+group = 'org.gwtproject.dom'
+version = '1.0-SNAPSHOT'
+
+repositories {
+  mavenCentral()
+  maven {
+    url 'https://repo.vertispan.com/gwt-snapshot'
+  }
+  mavenLocal()
+}
+
+jar {
+  from sourceSets.main.allJava
+}
+
