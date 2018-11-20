@@ -1,4 +1,4 @@
-package org.gwtproject.dom.style.client;
+package org.gwtproject.dom.style.shared;
 
 public enum CssProperty {
   FLOAT {

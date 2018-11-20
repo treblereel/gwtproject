@@ -1,37 +1,37 @@
-package org.gwtproject.dom.style.client;
+package org.gwtproject.dom.style.shared;
 
 /**
- * Enum for the 'white-space' CSS property.
+ * Enum for the 'text-decoration' CSS property.
  */
-public enum WhiteSpace implements HasCssName {
-  NORMAL {
+public enum TextDecoration implements HasCssName {
+  BLINK {
     @Override
     public String getCssName() {
-      return "normal";
+      return "blink";
     }
   },
-  NOWRAP {
+  LINE_THROUGH {
     @Override
     public String getCssName() {
-      return "nowrap";
+      return "line-through";
     }
   },
-  PRE {
+  NONE {
     @Override
     public String getCssName() {
-      return "pre";
+      return "none";
     }
   },
-  PRE_LINE {
+  OVERLINE {
     @Override
     public String getCssName() {
-      return "pre-line";
+      return "overline";
     }
   },
-  PRE_WRAP {
+  UNDERLINE {
     @Override
     public String getCssName() {
-      return "pre-wrap";
+      return "underline";
     }
   };
 

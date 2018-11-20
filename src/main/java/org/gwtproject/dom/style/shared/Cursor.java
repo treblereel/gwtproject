@@ -1,121 +1,115 @@
-package org.gwtproject.dom.style.client;
+package org.gwtproject.dom.style.shared;
 
 /**
- * Enum for the display property.
+ * Enum for the cursor property.
  */
-public enum Display implements HasCssName {
-  NONE {
+public enum Cursor implements HasCssName {
+  DEFAULT {
     @Override
     public String getCssName() {
-      return "none";
+      return "default";
     }
   },
-  BLOCK {
+  AUTO {
     @Override
     public String getCssName() {
-      return "block";
+      return "auto";
     }
   },
-  INLINE {
+  CROSSHAIR {
     @Override
     public String getCssName() {
-      return "inline";
+      return "crosshair";
     }
   },
-  INLINE_BLOCK {
+  POINTER {
     @Override
     public String getCssName() {
-      return "inline-block";
+      return "pointer";
     }
   },
-  INLINE_TABLE {
+  MOVE {
     @Override
     public String getCssName() {
-      return "inline-table";
+      return "move";
     }
   },
-  LIST_ITEM {
+  E_RESIZE {
     @Override
     public String getCssName() {
-      return "list-item";
+      return "e-resize";
     }
   },
-  RUN_IN {
+  NE_RESIZE {
     @Override
     public String getCssName() {
-      return "run-in";
+      return "ne-resize";
     }
   },
-  TABLE {
+  NW_RESIZE {
     @Override
     public String getCssName() {
-      return "table";
+      return "nw-resize";
     }
   },
-  TABLE_CAPTION {
+  N_RESIZE {
     @Override
     public String getCssName() {
-      return "table-caption";
+      return "n-resize";
     }
   },
-  TABLE_COLUMN_GROUP {
+  SE_RESIZE {
     @Override
     public String getCssName() {
-      return "table-column-group";
+      return "se-resize";
     }
   },
-  TABLE_HEADER_GROUP {
+  SW_RESIZE {
     @Override
     public String getCssName() {
-      return "table-header-group";
+      return "sw-resize";
     }
   },
-  TABLE_FOOTER_GROUP {
+  S_RESIZE {
     @Override
     public String getCssName() {
-      return "table-footer-group";
+      return "s-resize";
     }
   },
-  TABLE_ROW_GROUP {
+  W_RESIZE {
     @Override
     public String getCssName() {
-      return "table-row-group";
+      return "w-resize";
     }
   },
-  TABLE_CELL {
+  TEXT {
     @Override
     public String getCssName() {
-      return "table-cell";
+      return "text";
     }
   },
-  TABLE_COLUMN {
+  WAIT {
     @Override
     public String getCssName() {
-      return "table-column";
+      return "wait";
     }
   },
-  TABLE_ROW {
+  HELP {
     @Override
     public String getCssName() {
-      return "table-row";
+      return "help";
     }
   },
-  INITIAL {
+  COL_RESIZE {
     @Override
     public String getCssName() {
-      return "initial";
+      return "col-resize";
     }
   },
-  FLEX {
+  ROW_RESIZE {
     @Override
     public String getCssName() {
-      return "flex";
-    }
-  },
-  INLINE_FLEX {
-    @Override
-    public String getCssName() {
-      return "inline-flex";
+      return "row-resize";
     }
   };
 

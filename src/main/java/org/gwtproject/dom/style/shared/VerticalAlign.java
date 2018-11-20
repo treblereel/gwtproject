@@ -1,49 +1,55 @@
-package org.gwtproject.dom.style.client;
+package org.gwtproject.dom.style.shared;
 
 /**
- * Enum for the 'text-justify' CSS3 property.
+ * Enum for the vertical-align property.
  */
-public enum TextJustify implements HasCssName {
-  AUTO {
+public enum VerticalAlign implements HasCssName {
+  BASELINE {
     @Override
     public String getCssName() {
-      return "auto";
+      return "baseline";
     }
   },
-  DISTRIBUTE {
+  SUB {
     @Override
     public String getCssName() {
-      return "distribute";
+      return "sub";
     }
   },
-  INTER_CLUSTER {
+  SUPER {
     @Override
     public String getCssName() {
-      return "inter-cluster";
+      return "super";
     }
   },
-  INTER_IDEOGRAPH {
+  TOP {
     @Override
     public String getCssName() {
-      return "inter-ideograph";
+      return "top";
     }
   },
-  INTER_WORD {
+  TEXT_TOP {
     @Override
     public String getCssName() {
-      return "inter-word";
+      return "text-top";
     }
   },
-  KASHIDA {
+  MIDDLE {
     @Override
     public String getCssName() {
-      return "kashida";
+      return "middle";
     }
   },
-  NONE {
+  BOTTOM {
     @Override
     public String getCssName() {
-      return "none";
+      return "bottom";
+    }
+  },
+  TEXT_BOTTOM {
+    @Override
+    public String getCssName() {
+      return "text-bottom";
     }
   };
 

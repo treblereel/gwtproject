@@ -1,31 +1,31 @@
-package org.gwtproject.dom.style.client;
+package org.gwtproject.dom.style.shared;
 
 /**
- * Enum for the text-align property.
+ * Enum for the overflow property.
  */
-public enum TextAlign implements HasCssName {
-  CENTER {
+public enum Overflow implements HasCssName {
+  VISIBLE {
     @Override
     public String getCssName() {
-      return "center";
+      return "visible";
     }
   },
-  JUSTIFY {
+  HIDDEN {
     @Override
     public String getCssName() {
-      return "justify";
+      return "hidden";
     }
   },
-  LEFT {
+  SCROLL {
     @Override
     public String getCssName() {
-      return "left";
+      return "scroll";
     }
   },
-  RIGHT {
+  AUTO {
     @Override
     public String getCssName() {
-      return "right";
+      return "auto";
     }
   };
 

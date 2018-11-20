@@ -1,4 +1,4 @@
-package org.gwtproject.dom.style.client;
+package org.gwtproject.dom.style.shared;
 
 /**
  * Interface to be implemented by enumerated CSS values.

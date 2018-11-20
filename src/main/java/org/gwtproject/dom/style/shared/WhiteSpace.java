@@ -1,31 +1,37 @@
-package org.gwtproject.dom.style.client;
+package org.gwtproject.dom.style.shared;
 
 /**
- * Enum for the font-weight property.
+ * Enum for the 'white-space' CSS property.
  */
-public enum FontWeight implements HasCssName {
+public enum WhiteSpace implements HasCssName {
   NORMAL {
     @Override
     public String getCssName() {
       return "normal";
     }
   },
-  BOLD {
+  NOWRAP {
     @Override
     public String getCssName() {
-      return "bold";
+      return "nowrap";
     }
   },
-  BOLDER {
+  PRE {
     @Override
     public String getCssName() {
-      return "bolder";
+      return "pre";
     }
   },
-  LIGHTER {
+  PRE_LINE {
     @Override
     public String getCssName() {
-      return "lighter";
+      return "pre-line";
+    }
+  },
+  PRE_WRAP {
+    @Override
+    public String getCssName() {
+      return "pre-wrap";
     }
   };
 

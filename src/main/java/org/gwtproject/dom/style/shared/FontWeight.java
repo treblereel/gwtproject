@@ -1,31 +1,31 @@
-package org.gwtproject.dom.style.client;
+package org.gwtproject.dom.style.shared;
 
 /**
- * Enum for the 'clear' CSS property.
+ * Enum for the font-weight property.
  */
-public enum Clear implements HasCssName {
-  BOTH {
+public enum FontWeight implements HasCssName {
+  NORMAL {
     @Override
     public String getCssName() {
-      return "both";
+      return "normal";
     }
   },
-  LEFT {
+  BOLD {
     @Override
     public String getCssName() {
-      return "left";
+      return "bold";
     }
   },
-  NONE {
+  BOLDER {
     @Override
     public String getCssName() {
-      return "none";
+      return "bolder";
     }
   },
-  RIGHT {
+  LIGHTER {
     @Override
     public String getCssName() {
-      return "right";
+      return "lighter";
     }
   };
 

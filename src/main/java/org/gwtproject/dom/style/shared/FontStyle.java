@@ -1,25 +1,25 @@
-package org.gwtproject.dom.style.client;
+package org.gwtproject.dom.style.shared;
 
 /**
- * Enum for the float property.
+ * Enum for the font-style property.
  */
-public enum Float implements HasCssName {
-  LEFT {
+public enum FontStyle implements HasCssName {
+  NORMAL {
     @Override
     public String getCssName() {
-      return "left";
+      return "normal";
     }
   },
-  RIGHT {
+  ITALIC {
     @Override
     public String getCssName() {
-      return "right";
+      return "italic";
     }
   },
-  NONE {
+  OBLIQUE {
     @Override
     public String getCssName() {
-      return "none";
+      return "oblique";
     }
   };
 
