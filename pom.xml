@@ -32,18 +32,6 @@
     </vertispan.snapshot.repo.url>
   </properties>
 
-  <!--<dependencyManagement>-->
-    <!--<dependencies>-->
-      <!--<dependency>-->
-        <!--<groupId>com.google.gwt</groupId>-->
-        <!--<artifactId>gwt</artifactId>-->
-        <!--<version>${gwt.version}</version>-->
-        <!--<type>pom</type>-->
-        <!--<scope>import</scope>-->
-      <!--</dependency>-->
-    <!--</dependencies>-->
-  <!--</dependencyManagement>-->
-
   <dependencies>
     <dependency>
       <groupId>org.gwtproject.animation</groupId>
@@ -65,16 +53,6 @@
       <artifactId>gwt-dom</artifactId>
       <version>${dom.version}</version>
     </dependency>
-    <!--<dependency>-->
-      <!--<groupId>com.google.elemental2</groupId>-->
-      <!--<artifactId>elemental2-dom</artifactId>-->
-      <!--<version>${elemental2.version}</version>-->
-    <!--</dependency>-->
-    <!--<dependency>-->
-      <!--<groupId>org.gwtproject.timer</groupId>-->
-      <!--<artifactId>timer</artifactId>-->
-      <!--<version>${timer.version}</version>-->
-    <!--</dependency>-->
 
     <!-- only for testing -->
     <dependency>
@@ -90,17 +68,6 @@
       <version>${elemental2.version}</version>
       <scope>test</scope>
     </dependency>
-
-    <!--<dependency>-->
-      <!--<groupId>com.google.gwt</groupId>-->
-      <!--<artifactId>gwt-user</artifactId>-->
-      <!--<scope>test</scope>-->
-    <!--</dependency>-->
-    <!--<dependency>-->
-      <!--<groupId>com.google.gwt</groupId>-->
-      <!--<artifactId>gwt-dev</artifactId>-->
-      <!--<scope>test</scope>-->
-    <!--</dependency>-->
   </dependencies>
 
   <build>
