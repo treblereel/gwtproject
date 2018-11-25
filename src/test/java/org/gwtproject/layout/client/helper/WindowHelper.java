@@ -1,6 +1,5 @@
 package org.gwtproject.layout.client.helper;
 
-import elemental2.core.Global;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
 
