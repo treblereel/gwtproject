@@ -17,8 +17,7 @@
   <inherits name="org.gwtproject.animation.Animation"/>
   <inherits name="org.gwtproject.core.Core"/>
   <inherits name="org.gwtproject.dom.DOM"/>
-  <!--<inherits name="com.google.gwt.useragent.UserAgent"/>-->
-  <!--<inherits name="com.google.gwt.aria.Aria"/>-->
-  
+  <inherits name="org.gwtproject.regexp.RegExp"/>
+
   <source path="client"/>
 </module>

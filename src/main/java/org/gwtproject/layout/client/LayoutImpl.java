@@ -24,11 +24,11 @@ import org.gwtproject.dom.client.DivElement;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.Style;
-import org.gwtproject.dom.client.Style.Display;
-import org.gwtproject.dom.client.Style.Overflow;
-import org.gwtproject.dom.client.Style.Position;
-import org.gwtproject.dom.client.Style.Unit;
-import org.gwtproject.dom.client.Style.Visibility;
+import org.gwtproject.dom.style.shared.Display;
+import org.gwtproject.dom.style.shared.Overflow;
+import org.gwtproject.dom.style.shared.Position;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.dom.style.shared.Visibility;
 import org.gwtproject.layout.client.Layout.Layer;
 
 /**

@@ -16,11 +16,11 @@
 package org.gwtproject.layout.client;
 
 
-import com.google.gwt.regexp.shared.MatchResult;
-import com.google.gwt.regexp.shared.RegExp;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.Window.Navigator;
+import elemental2.dom.DomGlobal;
 import junit.framework.Assert;
+import org.gwtproject.layout.client.helper.WindowHelper;
+import org.gwtproject.regexp.shared.MatchResult;
+import org.gwtproject.regexp.shared.RegExp;
 
 /**
  * Calculates the sizes for Window extras such as border, menu, tool bar, and stores the original
@@ -35,28 +35,28 @@ public final class ResizeHelper {
     // FF4 on win can start in 'almost' fullscreen when the window title bar
     // is hidden but accounted incorrectly, so, move the window and resize to
     // smaller size first, to take it out of 'full screen mode'.
-    Window.moveTo(10, 10);
-    Window.resizeTo(700, 500);
+    WindowHelper.moveTo(10, 10);
+    WindowHelper.resizeTo(700, 500);
 
-    extraWidth = 700 - Window.getClientWidth();
-    extraHeight = 500 - Window.getClientHeight();
+    extraWidth = 700 - DomGlobal.document.documentElement.clientWidth;
+    extraHeight = 500 - DomGlobal.document.documentElement.clientHeight;
   }
 
   public static void resizeBy(int width, int height) {
-    Window.resizeBy(width, height);
+    WindowHelper.resizeBy(width, height);
   }
 
   public static void resizeTo(int width, int height) {
-    Window.resizeTo(width, height);
+    WindowHelper.resizeTo(width, height);
   }
 
   public static void assertSize(int width, int height) {
-    Assert.assertEquals(width, Window.getClientWidth() + extraWidth);
-    Assert.assertEquals(height, Window.getClientHeight() + extraHeight);
+    Assert.assertEquals(width, DomGlobal.document.documentElement.clientWidth + extraWidth);
+    Assert.assertEquals(height, DomGlobal.document.documentElement.clientHeight + extraHeight);
   }
 
   public static boolean isResizeSupported() {
-    String userAgent = Navigator.getUserAgent();
+    String userAgent = DomGlobal.window.navigator.userAgent;
     if (userAgent.contains("Chrome")) {
       return false; // All versions of Chrome are upsupported
     }

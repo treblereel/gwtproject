@@ -13,8 +13,11 @@
 <!-- limitations under the License.                                         -->
 
 <module rename-to="LayoutTest">
-	<inherits name="com.google.gwt.user.UI"/>
-	
+	<!--<inherits name="com.google.gwt.user.UI"/>-->
+	<inherits name="org.gwtproject.dom.DOM"/>
+	<inherits name="org.gwtproject.dom.style.Style"/>
+	<inherits name="org.gwtproject.regexp.RegExp" />
+
 	<inherits name="org.gwtproject.layout.Layout"/>
 	
 	<source path="client" />

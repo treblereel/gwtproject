@@ -15,44 +15,40 @@
  */
 package org.gwtproject.layout.client;
 
-import static com.google.gwt.dom.client.Style.Unit.CM;
-import static com.google.gwt.dom.client.Style.Unit.EM;
-import static com.google.gwt.dom.client.Style.Unit.EX;
-import static com.google.gwt.dom.client.Style.Unit.IN;
-import static com.google.gwt.dom.client.Style.Unit.MM;
-import static com.google.gwt.dom.client.Style.Unit.PC;
-import static com.google.gwt.dom.client.Style.Unit.PCT;
-import static com.google.gwt.dom.client.Style.Unit.PT;
-import static com.google.gwt.dom.client.Style.Unit.PX;
-
-import com.google.gwt.dom.client.DivElement;
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style.Position;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.junit.DoNotRunWith;
 import com.google.gwt.junit.Platform;
 import com.google.gwt.junit.client.GWTTestCase;
-import com.google.gwt.layout.client.Layout;
-import com.google.gwt.layout.client.Layout.Alignment;
-import com.google.gwt.layout.client.Layout.Layer;
-import com.google.gwt.user.client.Window;
+import elemental2.dom.DomGlobal;
+import org.gwtproject.dom.client.DivElement;
+import org.gwtproject.dom.client.Document;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.style.shared.Position;
+import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.layout.client.Layout.Layer;
+
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.gwtproject.dom.client.Style.Unit.*;
+
 /**
- * Tests for the {@link com.google.gwt.layout.client.Layout} class.
+ * Tests for the {@link org.gwtproject.layout.client.Layout} class.
  */
-public class LayoutTest extends GWTTestCase {
+public class LayoutTest
+    extends GWTTestCase {
 
   /**
    * The amount of time to wait for asynchronous tests to finish.
    */
   private static final int TEST_DELAY = 2000;
+
   private DivElement parent, child0, child1;
+
   private Element wrapper0, wrapper1;
-  private com.google.gwt.layout.client.Layout layout;
-  private Layer layer0, layer1;
+
+  private Layout layout;
+
+  private Layout.Layer layer0, layer1;
 
   @Override
   public String getModuleName() {
@@ -63,7 +59,8 @@ public class LayoutTest extends GWTTestCase {
    * Tests animation constraint- and unit-transitions.
    */
   public void notestAnimationTransitions_LTWH_LTRB_PX_CM() {
-    testAnimationTransitions_LTWH_LTRB(PX, CM);
+    testAnimationTransitions_LTWH_LTRB(PX,
+                                       CM);
   }
 
   // All testAnimationTransitions_* tests are disabled because they are flaky
@@ -72,77 +69,88 @@ public class LayoutTest extends GWTTestCase {
    * Tests animation constraint- and unit-transitions.
    */
   public void notestAnimationTransitions_LTWH_LTRB_PX_EM() {
-    testAnimationTransitions_LTWH_LTRB(PX, EM);
+    testAnimationTransitions_LTWH_LTRB(PX,
+                                       EM);
   }
 
   /**
    * Tests animation constraint- and unit-transitions.
    */
   public void notestAnimationTransitions_LTWH_LTRB_PX_EX() {
-    testAnimationTransitions_LTWH_LTRB(PX, EX);
+    testAnimationTransitions_LTWH_LTRB(PX,
+                                       EX);
   }
 
   /**
    * Tests animation constraint- and unit-transitions.
    */
   public void notestAnimationTransitions_LTWH_LTRB_PX_PCT() {
-    testAnimationTransitions_LTWH_LTRB(PX, PCT);
+    testAnimationTransitions_LTWH_LTRB(PX,
+                                       PCT);
   }
 
   /**
    * Tests animation constraint- and unit-transitions.
    */
   public void notestAnimationTransitions_LTWH_RBWH_PX_CM() {
-    testAnimationTransitions_LTWH_RBWH(PX, CM);
+    testAnimationTransitions_LTWH_RBWH(PX,
+                                       CM);
   }
 
   /**
    * Tests animation constraint- and unit-transitions.
    */
   public void notestAnimationTransitions_LTWH_RBWH_PX_EM() {
-    testAnimationTransitions_LTWH_RBWH(PX, EM);
+    testAnimationTransitions_LTWH_RBWH(PX,
+                                       EM);
   }
 
   /**
    * Tests animation constraint- and unit-transitions.
    */
   public void notestAnimationTransitions_LTWH_RBWH_PX_EX() {
-    testAnimationTransitions_LTWH_RBWH(PX, EX);
+    testAnimationTransitions_LTWH_RBWH(PX,
+                                       EX);
   }
 
   /**
    * Tests animation constraint- and unit-transitions.
    */
   public void notestAnimationTransitions_LTWH_RBWH_PX_PCT() {
-    testAnimationTransitions_LTWH_RBWH(PX, PCT);
+    testAnimationTransitions_LTWH_RBWH(PX,
+                                       PCT);
   }
 
   /**
    * Tests animation constraint- and unit-transitions.
    */
   public void notestAnimationTransitions_RBWH_LTRB_PX_CM() {
-    testAnimationTransitions_RBWH_LTRB(PX, CM);
+    testAnimationTransitions_RBWH_LTRB(PX,
+                                       CM);
   }
 
   /**
    * Tests animation constraint- and unit-transitions.
    */
   public void notestAnimationTransitions_RBWH_LTRB_PX_EM() {
-    testAnimationTransitions_RBWH_LTRB(PX, EM);
+    testAnimationTransitions_RBWH_LTRB(PX,
+                                       EM);
   }
 
   /**
    * Tests animation constraint- and unit-transitions.
    */
   public void notestAnimationTransitions_RBWH_LTRB_PX_EX() {
-    testAnimationTransitions_RBWH_LTRB(PX, EX);
+    testAnimationTransitions_RBWH_LTRB(PX,
+                                       EX);
   }
 
   /**
    * Tests animation constraint- and unit-transitions.
    */
   public void notestAnimationTransitions_RBWH_LTRB_PX_PCT() {
-    testAnimationTransitions_RBWH_LTRB(PX, PCT);
+    testAnimationTransitions_RBWH_LTRB(PX,
+                                       PCT);
   }
 
   /**
@@ -150,35 +158,57 @@ public class LayoutTest extends GWTTestCase {
    */
   @DoNotRunWith(Platform.HtmlUnitLayout)
   public void testChildAlignment() {
-    layer0.setLeftWidth(0, PX, 128, PX);
-    layer0.setTopHeight(0, PX, 256, PX);
+    layer0.setLeftWidth(0,
+                        PX,
+                        128,
+                        PX);
+    layer0.setTopHeight(0,
+                        PX,
+                        256,
+                        PX);
 
-    layer0.setChildHorizontalPosition(Alignment.STRETCH);
-    layer0.setChildVerticalPosition(Alignment.STRETCH);
+    layer0.setChildHorizontalPosition(Layout.Alignment.STRETCH);
+    layer0.setChildVerticalPosition(Layout.Alignment.STRETCH);
     layout.layout();
-    assertEquals(0, child0.getOffsetLeft());
-    assertEquals(0, child0.getOffsetTop());
-    assertEquals(128, child0.getOffsetWidth());
-    assertEquals(256, child0.getOffsetHeight());
+    assertEquals(0,
+                 child0.getOffsetLeft());
+    assertEquals(0,
+                 child0.getOffsetTop());
+    assertEquals(128,
+                 child0.getOffsetWidth());
+    assertEquals(256,
+                 child0.getOffsetHeight());
 
-    child0.getStyle().setWidth(64, PX);
-    child0.getStyle().setHeight(128, PX);
+    child0.getStyle()
+          .setWidth(64,
+                    PX);
+    child0.getStyle()
+          .setHeight(128,
+                     PX);
 
-    layer0.setChildHorizontalPosition(Alignment.BEGIN);
-    layer0.setChildVerticalPosition(Alignment.BEGIN);
+    layer0.setChildHorizontalPosition(Layout.Alignment.BEGIN);
+    layer0.setChildVerticalPosition(Layout.Alignment.BEGIN);
     layout.layout();
-    assertEquals(0, child0.getOffsetLeft());
-    assertEquals(0, child0.getOffsetTop());
-    assertEquals(64, child0.getOffsetWidth());
-    assertEquals(128, child0.getOffsetHeight());
+    assertEquals(0,
+                 child0.getOffsetLeft());
+    assertEquals(0,
+                 child0.getOffsetTop());
+    assertEquals(64,
+                 child0.getOffsetWidth());
+    assertEquals(128,
+                 child0.getOffsetHeight());
 
-    layer0.setChildHorizontalPosition(Alignment.END);
-    layer0.setChildVerticalPosition(Alignment.END);
+    layer0.setChildHorizontalPosition(Layout.Alignment.END);
+    layer0.setChildVerticalPosition(Layout.Alignment.END);
     layout.layout();
-    assertEquals(64, child0.getOffsetLeft());
-    assertEquals(128, child0.getOffsetTop());
-    assertEquals(64, child0.getOffsetWidth());
-    assertEquals(128, child0.getOffsetHeight());
+    assertEquals(64,
+                 child0.getOffsetLeft());
+    assertEquals(128,
+                 child0.getOffsetTop());
+    assertEquals(64,
+                 child0.getOffsetWidth());
+    assertEquals(128,
+                 child0.getOffsetHeight());
   }
 
   /**
@@ -195,38 +225,63 @@ public class LayoutTest extends GWTTestCase {
     DivElement parent = doc.createDivElement();
     DivElement child = doc.createDivElement();
     child.setInnerHTML("&nbsp;");
-    doc.getBody().appendChild(container);
+    doc.getBody()
+       .appendChild(container);
     container.appendChild(parent);
 
     // The container has to be position:relative so that it serves as an offset
     // parent.
-    container.getStyle().setPosition(Position.RELATIVE);
-    container.getStyle().setWidth(128, PX);
-    container.getStyle().setHeight(256, PX);
+    container.getStyle()
+             .setPosition(Position.RELATIVE);
+    container.getStyle()
+             .setWidth(128,
+                       PX);
+    container.getStyle()
+             .setHeight(256,
+                        PX);
 
-    com.google.gwt.layout.client.Layout layout = new com.google.gwt.layout.client.Layout(parent);
+    Layout layout = new Layout(parent);
     layout.onAttach();
-    Layer layer = layout.attachChild(child);
-    layer.setTopBottom(0, PX, 0, PX);
-    layer.setLeftRight(0, PX, 0, PX);
+    Layout.Layer layer = layout.attachChild(child);
+    layer.setTopBottom(0,
+                       PX,
+                       0,
+                       PX);
+    layer.setLeftRight(0,
+                       PX,
+                       0,
+                       PX);
 
     layout.fillParent();
     layout.layout();
 
     // Test 128x256.
-    assertEquals(128, container.getOffsetWidth());
-    assertEquals(256, container.getOffsetHeight());
-    assertEquals(128, parent.getOffsetWidth());
-    assertEquals(256, parent.getOffsetHeight());
-    assertEquals(128, child.getOffsetWidth());
-    assertEquals(256, child.getOffsetHeight());
+    assertEquals(128,
+                 container.getOffsetWidth());
+    assertEquals(256,
+                 container.getOffsetHeight());
+    assertEquals(128,
+                 parent.getOffsetWidth());
+    assertEquals(256,
+                 parent.getOffsetHeight());
+    assertEquals(128,
+                 child.getOffsetWidth());
+    assertEquals(256,
+                 child.getOffsetHeight());
 
     // Expand to 256x256. The layout should react automatically.
-    container.getStyle().setWidth(256, PX);
-    container.getStyle().setHeight(128, PX);
-    assertEquals(256, container.getOffsetWidth());
-    assertEquals(256, parent.getOffsetWidth());
-    assertEquals(256, child.getOffsetWidth());
+    container.getStyle()
+             .setWidth(256,
+                       PX);
+    container.getStyle()
+             .setHeight(128,
+                        PX);
+    assertEquals(256,
+                 container.getOffsetWidth());
+    assertEquals(256,
+                 parent.getOffsetWidth());
+    assertEquals(256,
+                 child.getOffsetWidth());
 
     layout.onDetach();
   }
@@ -236,39 +291,60 @@ public class LayoutTest extends GWTTestCase {
    */
   @DoNotRunWith(Platform.HtmlUnitLayout)
   public void testFillWindow() {
-    layer0.setTopBottom(0, PX, 0, PX);
-    layer0.setLeftRight(0, PX, 0, PX);
+    layer0.setTopBottom(0,
+                        PX,
+                        0,
+                        PX);
+    layer0.setLeftRight(0,
+                        PX,
+                        0,
+                        PX);
     layout.layout();
 
-    int w = Window.getClientWidth();
-    int h = Window.getClientHeight();
-    assertEquals(w, parent.getOffsetWidth());
-    assertEquals(h, parent.getOffsetHeight());
-    assertEquals(w, child0.getOffsetWidth());
-    assertEquals(h, child0.getOffsetHeight());
+    int w = DomGlobal.document.documentElement.clientWidth;
+    int h = DomGlobal.document.documentElement.clientHeight;
+    assertEquals(w,
+                 parent.getOffsetWidth());
+    assertEquals(h,
+                 parent.getOffsetHeight());
+    assertEquals(w,
+                 child0.getOffsetWidth());
+    assertEquals(h,
+                 child0.getOffsetHeight());
   }
 
   /**
    * Tests that the layout reacts to font-size changes.
-   *
+   * <p>
    * TODO(jgw): Enable this test when it is fixed for IE8.
    */
   public void disabledTestFontSizeChange() {
-    layer0.setLeftWidth(0, PX, 1, EM);
-    layer0.setTopHeight(0, PX, 1, EM);
+    layer0.setLeftWidth(0,
+                        PX,
+                        1,
+                        EM);
+    layer0.setTopHeight(0,
+                        PX,
+                        1,
+                        EM);
     layout.layout();
 
-    parent.getStyle().setFontSize(12, PT);
+    parent.getStyle()
+          .setFontSize(12,
+                       PT);
     int cw = child0.getOffsetWidth();
     int ch = child0.getOffsetHeight();
 
-    parent.getStyle().setFontSize(24, PT);
+    parent.getStyle()
+          .setFontSize(24,
+                       PT);
     int nw = child0.getOffsetWidth();
     int nh = child0.getOffsetHeight();
     assertTrue(nw > cw);
     assertTrue(nh > ch);
 
-    parent.getStyle().clearFontSize();
+    parent.getStyle()
+          .clearFontSize();
   }
 
   /**
@@ -276,20 +352,26 @@ public class LayoutTest extends GWTTestCase {
    * This will make sure that onResize will be called on the child panels.
    */
   public void testOnLayoutWhenNoAnimation() {
-    final Map<Layer, Double> called = new HashMap();
-    layout.layout(0, new com.google.gwt.layout.client.Layout.AnimationCallback() {
-      @Override
-      public void onAnimationComplete() {
-      }
+    final Map<Layout.Layer, Double> called = new HashMap();
+    layout.layout(0,
+                  new Layout.AnimationCallback() {
+                    @Override
+                    public void onAnimationComplete() {
+                    }
 
-      @Override
-      public void onLayout(Layer layer, double progress) {
-        called.put(layer, progress);
-      }
-    });
-    assertEquals(2, called.size());
-    assertEquals(1.0, called.get(layer0));
-    assertEquals(1.0, called.get(layer1));
+                    @Override
+                    public void onLayout(Layout.Layer layer,
+                                         double progress) {
+                      called.put(layer,
+                                 progress);
+                    }
+                  });
+    assertEquals(2,
+                 called.size());
+    assertEquals(1.0,
+                 called.get(layer0));
+    assertEquals(1.0,
+                 called.get(layer1));
   }
 
   /**
@@ -327,36 +409,66 @@ public class LayoutTest extends GWTTestCase {
     }
 
     // left-right, top-bottom
-    layer0.setTopBottom(32, PX, 32, PX);
-    layer0.setLeftRight(32, PX, 32, PX);
+    layer0.setTopBottom(32,
+                        PX,
+                        32,
+                        PX);
+    layer0.setLeftRight(32,
+                        PX,
+                        32,
+                        PX);
     layout.layout();
 
     int w = parent.getClientWidth();
     int h = parent.getClientHeight();
-    assertEquals(32, wrapper0.getOffsetLeft());
-    assertEquals(32, wrapper0.getOffsetTop());
-    assertEquals(w - 64, wrapper0.getOffsetWidth());
-    assertEquals(h - 64, wrapper0.getOffsetHeight());
+    assertEquals(32,
+                 wrapper0.getOffsetLeft());
+    assertEquals(32,
+                 wrapper0.getOffsetTop());
+    assertEquals(w - 64,
+                 wrapper0.getOffsetWidth());
+    assertEquals(h - 64,
+                 wrapper0.getOffsetHeight());
 
     // left-width, top-height
-    layer0.setTopHeight(16, PX, 128, PX);
-    layer0.setLeftWidth(16, PX, 128, PX);
+    layer0.setTopHeight(16,
+                        PX,
+                        128,
+                        PX);
+    layer0.setLeftWidth(16,
+                        PX,
+                        128,
+                        PX);
     layout.layout();
 
-    assertEquals(16, wrapper0.getOffsetLeft());
-    assertEquals(16, wrapper0.getOffsetTop());
-    assertEquals(128, wrapper0.getOffsetWidth());
-    assertEquals(128, wrapper0.getOffsetHeight());
+    assertEquals(16,
+                 wrapper0.getOffsetLeft());
+    assertEquals(16,
+                 wrapper0.getOffsetTop());
+    assertEquals(128,
+                 wrapper0.getOffsetWidth());
+    assertEquals(128,
+                 wrapper0.getOffsetHeight());
 
     // right-width, bottom-height
-    layer0.setBottomHeight(16, PX, 128, PX);
-    layer0.setRightWidth(16, PX, 128, PX);
+    layer0.setBottomHeight(16,
+                           PX,
+                           128,
+                           PX);
+    layer0.setRightWidth(16,
+                         PX,
+                         128,
+                         PX);
     layout.layout();
 
-    assertEquals(w - (16 + 128), wrapper0.getOffsetLeft());
-    assertEquals(h - (16 + 128), wrapper0.getOffsetTop());
-    assertEquals(128, wrapper0.getOffsetWidth());
-    assertEquals(128, wrapper0.getOffsetHeight());
+    assertEquals(w - (16 + 128),
+                 wrapper0.getOffsetLeft());
+    assertEquals(h - (16 + 128),
+                 wrapper0.getOffsetTop());
+    assertEquals(128,
+                 wrapper0.getOffsetWidth());
+    assertEquals(128,
+                 wrapper0.getOffsetHeight());
   }
 
   /**
@@ -369,50 +481,98 @@ public class LayoutTest extends GWTTestCase {
     }
 
     // CM
-    layer0.setTopBottom(1, CM, 1, CM);
-    layer0.setLeftRight(1, CM, 1, CM);
+    layer0.setTopBottom(1,
+                        CM,
+                        1,
+                        CM);
+    layer0.setLeftRight(1,
+                        CM,
+                        1,
+                        CM);
     layout.layout();
     assertLeftRightTopBottomUnitsMakeSense(wrapper0);
 
     // MM
-    layer0.setTopBottom(1, MM, 1, MM);
-    layer0.setLeftRight(1, MM, 1, MM);
+    layer0.setTopBottom(1,
+                        MM,
+                        1,
+                        MM);
+    layer0.setLeftRight(1,
+                        MM,
+                        1,
+                        MM);
     layout.layout();
     assertLeftRightTopBottomUnitsMakeSense(wrapper0);
 
     // IN
-    layer0.setTopBottom(1, IN, 1, IN);
-    layer0.setLeftRight(1, IN, 1, IN);
+    layer0.setTopBottom(1,
+                        IN,
+                        1,
+                        IN);
+    layer0.setLeftRight(1,
+                        IN,
+                        1,
+                        IN);
     layout.layout();
     assertLeftRightTopBottomUnitsMakeSense(wrapper0);
 
     // EM
-    layer0.setTopBottom(1, EM, 1, EM);
-    layer0.setLeftRight(1, EM, 1, EM);
+    layer0.setTopBottom(1,
+                        EM,
+                        1,
+                        EM);
+    layer0.setLeftRight(1,
+                        EM,
+                        1,
+                        EM);
     layout.layout();
     assertLeftRightTopBottomUnitsMakeSense(wrapper0);
 
     // EX
-    layer0.setTopBottom(1, EX, 1, EX);
-    layer0.setLeftRight(1, EX, 1, EX);
+    layer0.setTopBottom(1,
+                        EX,
+                        1,
+                        EX);
+    layer0.setLeftRight(1,
+                        EX,
+                        1,
+                        EX);
     layout.layout();
     assertLeftRightTopBottomUnitsMakeSense(wrapper0);
 
     // PC
-    layer0.setTopBottom(1, PC, 1, PC);
-    layer0.setLeftRight(1, PC, 1, PC);
+    layer0.setTopBottom(1,
+                        PC,
+                        1,
+                        PC);
+    layer0.setLeftRight(1,
+                        PC,
+                        1,
+                        PC);
     layout.layout();
     assertLeftRightTopBottomUnitsMakeSense(wrapper0);
 
     // PT
-    layer0.setTopBottom(10, PT, 10, PT);
-    layer0.setLeftRight(10, PT, 10, PT);
+    layer0.setTopBottom(10,
+                        PT,
+                        10,
+                        PT);
+    layer0.setLeftRight(10,
+                        PT,
+                        10,
+                        PT);
     layout.layout();
     assertLeftRightTopBottomUnitsMakeSense(wrapper0);
 
     // PCT
-    layer0.setTopBottom(10, PCT, 10, PCT);
-    layer0.setLeftRight(10, PCT, 10, PCT);
+    layer0.setTopBottom(10,
+                        PCT,
+                        10,
+                        PCT);
+    layer0.setLeftRight(10,
+                        PCT,
+                        10,
+                        PCT);
     layout.layout();
     assertLeftRightTopBottomUnitsMakeSense(wrapper0);
   }
@@ -422,48 +582,69 @@ public class LayoutTest extends GWTTestCase {
    */
   @DoNotRunWith(Platform.HtmlUnitLayout)
   public void testWithDecorations() {
-    layer0.setTopBottom(0, PX, 0, PX);
-    layer0.setLeftRight(0, PX, 0, PX);
+    layer0.setTopBottom(0,
+                        PX,
+                        0,
+                        PX);
+    layer0.setLeftRight(0,
+                        PX,
+                        0,
+                        PX);
     layout.layout();
 
     // Give each of the parent and child 1px margin and 1px border.
-    parent.getStyle().setMargin(1, PX);
-    parent.getStyle().setProperty("border", "1px solid black");
+    parent.getStyle()
+          .setMargin(1,
+                     PX);
+    parent.getStyle()
+          .setProperty("border",
+                       "1px solid black");
 
-    child0.getStyle().setMargin(1, PX);
-    child0.getStyle().setProperty("border", "1px solid black");
+    child0.getStyle()
+          .setMargin(1,
+                     PX);
+    child0.getStyle()
+          .setProperty("border",
+                       "1px solid black");
     layout.layout();
 
-    int w = Window.getClientWidth();
-    int h = Window.getClientHeight();
+    int w = DomGlobal.document.documentElement.clientWidth;
+    int h = DomGlobal.document.documentElement.clientHeight;
     int pw = parent.getOffsetWidth();
     int ph = parent.getOffsetHeight();
 
     // The parent's offsetSize should be 2px smaller than the window's client
     // area, because of the margin (the border is *included* in the offsetSize).
-    assertEquals(w - 2, pw);
-    assertEquals(h - 2, ph);
+    assertEquals(w - 2,
+                 pw);
+    assertEquals(h - 2,
+                 ph);
 
     // The child's offsetSize (actually that of its wrapper element), should be
     // 2px smaller than the parent, for precisely the same reason.
-    assertEquals(pw - 2, wrapper0.getOffsetWidth());
-    assertEquals(ph - 2, wrapper0.getOffsetHeight());
+    assertEquals(pw - 2,
+                 wrapper0.getOffsetWidth());
+    assertEquals(ph - 2,
+                 wrapper0.getOffsetHeight());
   }
 
   @Override
-  protected void gwtSetUp() throws Exception {
+  protected void gwtSetUp()
+      throws Exception {
     // ensure enough sizes for this test
-    ResizeHelper.resizeTo(800, 600);
+    ResizeHelper.resizeTo(800,
+                          600);
 
-    Window.enableScrolling(false);
+    enableScrolling(false);
 
     Document doc = Document.get();
     parent = doc.createDivElement();
     child0 = doc.createDivElement();
     child1 = doc.createDivElement();
-    doc.getBody().appendChild(parent);
+    doc.getBody()
+       .appendChild(parent);
 
-    layout = new com.google.gwt.layout.client.Layout(parent);
+    layout = new Layout(parent);
     layout.onAttach();
     layout.fillParent();
 
@@ -475,10 +656,17 @@ public class LayoutTest extends GWTTestCase {
   }
 
   @Override
-  protected void gwtTearDown() throws Exception {
-    Window.enableScrolling(true);
-    Document.get().getBody().removeChild(parent);
+  protected void gwtTearDown()
+      throws Exception {
+    enableScrolling(true);
+    Document.get()
+            .getBody()
+            .removeChild(parent);
     layout.onDetach();
+  }
+
+  private void enableScrolling(boolean enableScrolling) {
+    DomGlobal.document.body.style.overflow = enableScrolling ? "auto" : "hidden";
   }
 
   private void assertLeftRightTopBottomUnitsMakeSense(Element elem) {
@@ -506,77 +694,135 @@ public class LayoutTest extends GWTTestCase {
   // This method may only be called once per test, as it uses delayTestFinish()
   // internally.
   private void testAnimationTransitions_LTWH_LTRB(final Unit unit0,
-      final Unit unit1) {
-    testAnimationTransitionsHelper(new LayerInitializer() {
-      @Override
-      public void setupLayers(Layer l0, Layer l1) {
-        l0.setLeftWidth(0, unit0, 10, unit0);
-        l0.setTopHeight(0, unit0, 10, unit0);
-        l1.setLeftRight(1, unit1, 1, unit1);
-        l1.setTopBottom(1, unit1, 1, unit1);
-      }
-    }, new LayerInitializer() {
-      @Override
-      public void setupLayers(Layer l0, Layer l1) {
-        l1.setLeftWidth(0, unit0, 10, unit0);
-        l1.setTopHeight(0, unit0, 10, unit0);
-        l0.setLeftRight(1, unit1, 1, unit1);
-        l0.setTopBottom(1, unit1, 1, unit1);
-      }
-    });
+                                                  final Unit unit1) {
+    testAnimationTransitionsHelper((l0, l1) -> {
+                                     l0.setLeftWidth(0,
+                                                     unit0,
+                                                     10,
+                                                     unit0);
+                                     l0.setTopHeight(0,
+                                                     unit0,
+                                                     10,
+                                                     unit0);
+                                     l1.setLeftRight(1,
+                                                     unit1,
+                                                     1,
+                                                     unit1);
+                                     l1.setTopBottom(1,
+                                                     unit1,
+                                                     1,
+                                                     unit1);
+                                   },
+                                   (l0, l1) -> {
+                                     l1.setLeftWidth(0,
+                                                     unit0,
+                                                     10,
+                                                     unit0);
+                                     l1.setTopHeight(0,
+                                                     unit0,
+                                                     10,
+                                                     unit0);
+                                     l0.setLeftRight(1,
+                                                     unit1,
+                                                     1,
+                                                     unit1);
+                                     l0.setTopBottom(1,
+                                                     unit1,
+                                                     1,
+                                                     unit1);
+                                   });
   }
 
   // This method may only be called once per test, as it uses delayTestFinish()
   // internally.
   private void testAnimationTransitions_LTWH_RBWH(final Unit unit0,
-      final Unit unit1) {
-    testAnimationTransitionsHelper(new LayerInitializer() {
-      @Override
-      public void setupLayers(Layer l0, Layer l1) {
-        l0.setLeftWidth(0, unit0, 10, unit0);
-        l0.setTopHeight(0, unit0, 10, unit0);
-        l1.setRightWidth(0, unit1, 10, unit1);
-        l1.setBottomHeight(0, unit1, 10, unit1);
-      }
-    }, new LayerInitializer() {
-      @Override
-      public void setupLayers(Layer l0, Layer l1) {
-        l1.setLeftWidth(0, unit0, 10, unit0);
-        l1.setTopHeight(0, unit0, 10, unit0);
-        l0.setRightWidth(0, unit1, 10, unit1);
-        l0.setBottomHeight(0, unit1, 10, unit1);
-      }
-    });
+                                                  final Unit unit1) {
+    testAnimationTransitionsHelper((l0, l1) -> {
+                                     l0.setLeftWidth(0,
+                                                     unit0,
+                                                     10,
+                                                     unit0);
+                                     l0.setTopHeight(0,
+                                                     unit0,
+                                                     10,
+                                                     unit0);
+                                     l1.setRightWidth(0,
+                                                      unit1,
+                                                      10,
+                                                      unit1);
+                                     l1.setBottomHeight(0,
+                                                        unit1,
+                                                        10,
+                                                        unit1);
+                                   },
+                                   (l0, l1) -> {
+                                     l1.setLeftWidth(0,
+                                                     unit0,
+                                                     10,
+                                                     unit0);
+                                     l1.setTopHeight(0,
+                                                     unit0,
+                                                     10,
+                                                     unit0);
+                                     l0.setRightWidth(0,
+                                                      unit1,
+                                                      10,
+                                                      unit1);
+                                     l0.setBottomHeight(0,
+                                                        unit1,
+                                                        10,
+                                                        unit1);
+                                   });
   }
 
   // This method may only be called once per test, as it uses delayTestFinish()
   // internally.
   private void testAnimationTransitions_RBWH_LTRB(final Unit unit0,
-      final Unit unit1) {
-    testAnimationTransitionsHelper(new LayerInitializer() {
-      @Override
-      public void setupLayers(Layer l0, Layer l1) {
-        l0.setRightWidth(0, unit0, 10, unit0);
-        l0.setBottomHeight(0, unit0, 10, unit0);
-        l1.setLeftRight(1, unit1, 1, unit1);
-        l1.setTopBottom(1, unit1, 1, unit1);
-      }
-    }, new LayerInitializer() {
-      @Override
-      public void setupLayers(Layer l0, Layer l1) {
-        l1.setRightWidth(0, unit0, 10, unit0);
-        l1.setBottomHeight(0, unit0, 10, unit0);
-        l0.setLeftRight(1, unit1, 1, unit1);
-        l0.setTopBottom(1, unit1, 1, unit1);
-      }
-    });
+                                                  final Unit unit1) {
+    testAnimationTransitionsHelper((l0, l1) -> {
+                                     l0.setRightWidth(0,
+                                                      unit0,
+                                                      10,
+                                                      unit0);
+                                     l0.setBottomHeight(0,
+                                                        unit0,
+                                                        10,
+                                                        unit0);
+                                     l1.setLeftRight(1,
+                                                     unit1,
+                                                     1,
+                                                     unit1);
+                                     l1.setTopBottom(1,
+                                                     unit1,
+                                                     1,
+                                                     unit1);
+                                   },
+                                   (l0, l1) -> {
+                                     l1.setRightWidth(0,
+                                                      unit0,
+                                                      10,
+                                                      unit0);
+                                     l1.setBottomHeight(0,
+                                                        unit0,
+                                                        10,
+                                                        unit0);
+                                     l0.setLeftRight(1,
+                                                     unit1,
+                                                     1,
+                                                     unit1);
+                                     l0.setTopBottom(1,
+                                                     unit1,
+                                                     1,
+                                                     unit1);
+                                   });
   }
 
   // This method may only be called once per test, as it uses delayTestFinish()
   // internally.
   private void testAnimationTransitionsHelper(LayerInitializer before,
-      LayerInitializer after) {
-    before.setupLayers(layer0, layer1);
+                                              LayerInitializer after) {
+    before.setupLayers(layer0,
+                       layer1);
     layout.layout();
 
     final int l0 = wrapper0.getOffsetLeft();
@@ -589,62 +835,99 @@ public class LayoutTest extends GWTTestCase {
     final int w1 = wrapper1.getOffsetWidth();
     final int h1 = wrapper1.getOffsetHeight();
 
-    after.setupLayers(layer0, layer1);
+    after.setupLayers(layer0,
+                      layer1);
     delayTestFinish(TEST_DELAY);
-    layout.layout(100, new Layout.AnimationCallback() {
-      @Override
-      public void onAnimationComplete() {
-        // Assert that the two layers have swapped positions.
-        assertEquals(l0, wrapper1.getOffsetLeft());
-        assertEquals(t0, wrapper1.getOffsetTop());
-        assertEquals(w0, wrapper1.getOffsetWidth());
-        assertEquals(h0, wrapper1.getOffsetHeight());
+    layout.layout(100,
+                  new Layout.AnimationCallback() {
+                    @Override
+                    public void onAnimationComplete() {
+                      // Assert that the two layers have swapped positions.
+                      assertEquals(l0,
+                                   wrapper1.getOffsetLeft());
+                      assertEquals(t0,
+                                   wrapper1.getOffsetTop());
+                      assertEquals(w0,
+                                   wrapper1.getOffsetWidth());
+                      assertEquals(h0,
+                                   wrapper1.getOffsetHeight());
 
-        assertEquals(l1, wrapper0.getOffsetLeft());
-        assertEquals(t1, wrapper0.getOffsetTop());
-        assertEquals(w1, wrapper0.getOffsetWidth());
-        assertEquals(h1, wrapper0.getOffsetHeight());
+                      assertEquals(l1,
+                                   wrapper0.getOffsetLeft());
+                      assertEquals(t1,
+                                   wrapper0.getOffsetTop());
+                      assertEquals(w1,
+                                   wrapper0.getOffsetWidth());
+                      assertEquals(h1,
+                                   wrapper0.getOffsetHeight());
 
-        finishTest();
-      }
+                      finishTest();
+                    }
 
-      @Override
-      public void onLayout(Layer layer, double progress) {
-      }
-    });
+                    @Override
+                    public void onLayout(Layout.Layer layer,
+                                         double progress) {
+                    }
+                  });
   }
 
   private void testHorizontalSplit(Unit unit) {
     // Line them up horizontally, split at 5 units.
-    layer0.setTopBottom(0, PX, 0, PX);
-    layer0.setLeftWidth(0, PX, 5, unit);
+    layer0.setTopBottom(0,
+                        PX,
+                        0,
+                        PX);
+    layer0.setLeftWidth(0,
+                        PX,
+                        5,
+                        unit);
 
-    layer1.setTopBottom(0, PX, 0, PX);
-    layer1.setLeftRight(5, unit, 0, PX);
+    layer1.setTopBottom(0,
+                        PX,
+                        0,
+                        PX);
+    layer1.setLeftRight(5,
+                        unit,
+                        0,
+                        PX);
     layout.layout();
 
     int child0Right = wrapper0.getOffsetWidth();
     int child1Left = wrapper1.getOffsetLeft();
-    assertEquals(child0Right, child1Left);
+    assertEquals(child0Right,
+                 child1Left);
   }
 
   private void testVerticalSplit(Unit unit) {
     // Line them up vertically, split at 5em.
-    layer0.setTopHeight(0, PX, 5, unit);
-    layer0.setLeftRight(0, PX, 0, PX);
+    layer0.setTopHeight(0,
+                        PX,
+                        5,
+                        unit);
+    layer0.setLeftRight(0,
+                        PX,
+                        0,
+                        PX);
 
-    layer1.setTopBottom(5, unit, 0, PX);
-    layer1.setLeftRight(0, PX, 0, PX);
+    layer1.setTopBottom(5,
+                        unit,
+                        0,
+                        PX);
+    layer1.setLeftRight(0,
+                        PX,
+                        0,
+                        PX);
     layout.layout();
 
     int child0Bottom = wrapper0.getOffsetHeight();
     int child1Top = wrapper1.getOffsetTop();
-    assertEquals(child0Bottom, child1Top);
+    assertEquals(child0Bottom,
+                 child1Top);
   }
 
-  private static interface LayerInitializer {
+  private interface LayerInitializer {
 
     void setupLayers(Layer l0,
-        Layer l1);
+                     Layer l1);
   }
 }
