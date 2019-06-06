@@ -19,7 +19,6 @@ import org.gwtproject.aria.client.ExpandedValue;
 import org.gwtproject.aria.client.Id;
 import org.gwtproject.aria.client.Roles;
 import org.gwtproject.aria.client.SelectedValue;
-import com.google.gwt.core.client.GWT;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.event.dom.client.BlurEvent;
 import org.gwtproject.event.dom.client.BlurHandler;
@@ -94,7 +93,7 @@ import java.util.Map;
  * </p>
  */
 public class Tree extends Widget implements HasTreeItems.ForIsWidget, HasWidgets.ForIsWidget,
-    HasFocus, HasAnimation, HasAllKeyHandlers,
+    Focusable, HasAnimation, HasAllKeyHandlers,
     HasAllFocusHandlers, HasSelectionHandlers<TreeItem>,
     HasOpenHandlers<TreeItem>, HasCloseHandlers<TreeItem>,
     HasAllMouseHandlers {
@@ -146,12 +145,6 @@ public class Tree extends Widget implements HasTreeItems.ForIsWidget, HasWidgets
       treeOpen = AbstractImagePrototype.create(resources.treeOpen());
     }
 
-    public ImageAdapter(TreeImages images) {
-      treeClosed = images.treeClosed();
-      treeLeaf = images.treeLeaf();
-      treeOpen = images.treeOpen();
-    }
-
     public AbstractImagePrototype treeClosed() {
       return treeClosed;
     }
@@ -165,15 +158,15 @@ public class Tree extends Widget implements HasTreeItems.ForIsWidget, HasWidgets
     }
   }
 
-  static native boolean shouldTreeDelegateFocusToElement(Element elem) /*-{
-    var name = elem.nodeName;
-    return ((name == "SELECT") ||
-        (name == "INPUT")  ||
-        (name == "TEXTAREA") ||
-        (name == "OPTION") ||
-        (name == "BUTTON") ||
-        (name == "LABEL"));
-  }-*/;
+  static boolean shouldTreeDelegateFocusToElement(Element elem)  {
+    String name = elem.getNodeName();
+        return name.equals("SELECT") ||
+                    name.equals("INPUT")  ||
+                    name.equals("TEXTAREA") ||
+                    name.equals("OPTION") ||
+                    name.equals("BUTTON") ||
+                    name.equals("LABEL");
+  }
 
   /**
    * Map of TreeItem.widget -> TreeItem.
@@ -224,31 +217,6 @@ public class Tree extends Widget implements HasTreeItems.ForIsWidget, HasWidgets
    */
   public Tree(Resources resources, boolean useLeafImages) {
     init(new ImageAdapter(resources), useLeafImages);
-  }
-
-  /**
-   * Constructs a tree that uses the specified image bundle for images.
-   *
-   * @param images a bundle that provides tree specific images
-   * @deprecated replaced by {@link #Tree(Resources)}
-   */
-  @Deprecated
-  public Tree(TreeImages images) {
-    init(new ImageAdapter(images), false);
-  }
-
-  /**
-   * Constructs a tree that uses the specified image bundle for images. If this
-   * tree does not use leaf images, the width of the TreeImage's leaf image will
-   * control the leaf indent.
-   *
-   * @param images a bundle that provides tree specific images
-   * @param useLeafImages use leaf images from bundle
-   * @deprecated replaced by {@link #Tree(Resources, boolean)}
-   */
-  @Deprecated
-  public Tree(TreeImages images, boolean useLeafImages) {
-    init(new ImageAdapter(images), useLeafImages);
   }
 
   /**

@@ -202,42 +202,27 @@ public abstract class CellPanel extends ComplexPanel {
     table.setPropertyInt("cellSpacing", spacing);
   }
 
-  protected org.gwtproject.user.client.Element getBody() {
-    return DOM.asOld(body);
+  protected Element getBody() {
+    return body;
   }
 
-  protected org.gwtproject.user.client.Element getTable() {
-    return DOM.asOld(table);
+  protected Element getTable() {
+    return table;
   }
 
-
-  protected void setCellHorizontalAlignment(Element td,
-      HorizontalAlignmentConstant align) {
-    setCellHorizontalAlignment(DOM.asOld(td), align);
-  }
 
   /**
    * @deprecated Call and override {@link #setCellHorizontalAlignment(Element,
    *             HorizontalAlignmentConstant)} instead.
    */
   @Deprecated
-  protected void setCellHorizontalAlignment(org.gwtproject.user.client.Element td,
+  protected void setCellHorizontalAlignment(Element td,
                                             HorizontalAlignmentConstant align) {
     td.setPropertyString("align", align.getTextAlignString());
   }
 
 
   protected void setCellVerticalAlignment(Element td,
-      VerticalAlignmentConstant align) {
-    setCellVerticalAlignment(DOM.asOld(td), align);
-  }
-
-  /**
-   * @deprecated Call and override {@link #setCellVerticalAlignment(Element,
-   *             VerticalAlignmentConstant)} instead.
-   */
-  @Deprecated
-  protected void setCellVerticalAlignment(org.gwtproject.user.client.Element td,
                                           VerticalAlignmentConstant align) {
     td.getStyle().setProperty("verticalAlign", align.getVerticalAlignString());
   }

@@ -15,6 +15,8 @@
  */
 package org.gwtproject.user.cellview.client;
 
+import jsinterop.annotations.JsFunction;
+import jsinterop.base.JsPropertyMap;
 import org.gwtproject.cell.client.Cell;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.client.BrowserEvents;
@@ -62,7 +64,6 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
 
   /**
    * Default implementation of a keyboard navigation handler.
-   * 
    * @param <T> the data type of each row
    */
   public static class DefaultKeyboardSelectionHandler<T> implements CellPreviewEvent.Handler<T> {
@@ -78,7 +79,6 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
 
     /**
      * Construct a new keyboard selection handler for the specified view.
-     *
      * @param display the display being handled
      */
     public DefaultKeyboardSelectionHandler(AbstractHasData<T> display) {
@@ -224,6 +224,7 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
      * Implemented by objects that handle {@link RedrawEvent}.
      */
     public interface Handler {
+
       /**
        * Performs implementation-specific work when the cell list re-renders one or more existing
        * rows.
@@ -231,18 +232,19 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
       void onRedraw();
     }
 
-    @Override public Type<Handler> getAssociatedType() {
+    @Override
+    public Type<Handler> getAssociatedType() {
       return TYPE;
     }
 
-    @Override protected void dispatch(RedrawEvent.Handler handler) {
+    @Override
+    protected void dispatch(RedrawEvent.Handler handler) {
       handler.onRedraw();
     }
   }
 
   /**
    * Implementation of {@link HasDataPresenter.View} used by this widget.
-   *
    * @param <T> the data type of the view
    */
   private static class View<T> implements HasDataPresenter.View<T> {
@@ -261,7 +263,7 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
 
     @Override
     public void replaceAllChildren(List<T> values, SelectionModel<? super T> selectionModel,
-        boolean stealFocus) {
+                                   boolean stealFocus) {
       SafeHtml html = renderRowValues(values, hasData.getPageStart(), selectionModel);
 
       // Removing elements can fire a blur event, which we ignore.
@@ -352,7 +354,6 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
 
     /**
      * Render a list of row values.
-     *
      * @param values the row values
      * @param start the absolute start index of the values
      * @param selectionModel the {@link SelectionModel}
@@ -380,7 +381,6 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
   /**
    * Convenience method to convert the specified HTML into DOM elements and
    * return the parent of the DOM elements.
-   *
    * @param html the HTML to convert
    * @param tmpElem a temporary element
    * @return the parent element
@@ -400,7 +400,6 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
 
   /**
    * Convenience method to replace all children of a Widget.
-   *
    * @param widget the widget who's contents will be replaced
    * @param childContainer the container that holds the contents
    * @param html the html to set
@@ -426,7 +425,6 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
    * replace the existing elements starting at the specified index. If the
    * number of children specified exceeds the existing number of children, the
    * remaining children should be appended.
-   *
    * @param widget the widget who's contents will be replaced
    * @param childContainer the container that holds the contents
    * @param newChildren an element containing the new children
@@ -486,7 +484,6 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
 
   /**
    * Constructs an {@link AbstractHasData} with the given page size.
-   *
    * @param elem the parent {@link Element}
    * @param pageSize the page size
    * @param keyProvider the key provider, or null
@@ -501,7 +498,6 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
 
   /**
    * Constructs an {@link AbstractHasData} with the given page size.
-   *
    * @param widget the parent {@link Widget}
    * @param pageSize the page size
    * @param keyProvider the key provider, or null
@@ -522,7 +518,7 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
 
     // Add a default selection event manager.
     selectionManagerReg =
-        addCellPreviewHandler(DefaultSelectionEventManager.<T> createDefaultManager());
+            addCellPreviewHandler(DefaultSelectionEventManager.<T>createDefaultManager());
 
     // Add a default keyboard selection handler.
     setKeyboardSelectionHandler(new DefaultKeyboardSelectionHandler<T>(this));
@@ -536,7 +532,6 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
   /**
    * Add a {@link LoadingStateChangeEvent.Handler} to be notified of changes in
    * the loading state.
-   *
    * @param handler the handle
    * @return the registration for the handler
    */
@@ -563,7 +558,6 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
 
   /**
    * Get the access key.
-   *
    * @return the access key, or -1 if not set
    * @see #setAccessKey(char)
    */
@@ -574,7 +568,6 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
   /**
    * Get the row value at the specified visible index. Index 0 corresponds to
    * the first item on the page.
-   *
    * @param indexOnPage the index on the page
    * @return the row value
    * @deprecated use {@link #getVisibleItem(int)} instead
@@ -587,7 +580,6 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
   /**
    * Return the row values that the widget is currently displaying as an
    * immutable list.
-   *
    * @return a List of displayed items
    * @deprecated use {@link #getVisibleItems()} instead
    */
@@ -610,7 +602,6 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
    * keyboard selected row refers to the row that the user navigated to via the
    * keyboard or mouse.
    * </p>
-   *
    * @return the currently selected row, or -1 if none selected
    */
   public int getKeyboardSelectedRow() {
@@ -629,9 +620,7 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
 
   /**
    * Return the range size.
-   *
    * @return the size of the range as an int
-   *
    * @see #getVisibleRange()
    * @see #setPageSize(int)
    */
@@ -641,9 +630,7 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
 
   /**
    * Return the range start.
-   *
    * @return the start of the range as an int
-   *
    * @see #getVisibleRange()
    * @see #setPageStart(int)
    */
@@ -654,7 +641,6 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
   /**
    * Return the outer element that contains all of the rendered row values. This
    * method delegates to {@link #getChildContainer()};
-   *
    * @return the {@link Element} that contains the rendered row values
    */
   public Element getRowContainer() {
@@ -681,7 +667,6 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
    * Get the key for the specified value. If a keyProvider is not specified or the value is null,
    * the value is returned. If the key provider is specified, it is used to get the key from
    * the value.
-   *
    * @param value the value
    * @return the key
    */
@@ -704,7 +689,6 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
   /**
    * Return the row values that the widget is currently displaying as an
    * immutable list.
-   *
    * @return a List of displayed items
    */
   @Override
@@ -726,7 +710,6 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
    * Handle browser events. Subclasses should override
    * {@link #onBrowserEvent2(Event)} if they want to extend browser event
    * handling.
-   *
    * @see #onBrowserEvent2(Event)
    */
   @Override
@@ -763,7 +746,7 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
       // A key event indicates that we already have focus.
       isFocused = true;
     } else if (BrowserEvents.MOUSEDOWN.equals(eventType)
-        && CellBasedWidgetImpl.get().isFocusable(Element.as(target))) {
+            && CellBasedWidgetImpl.get().isFocusable(Element.as(target))) {
       // If a natively focusable element was just clicked, then we must have
       // focus.
       isFocused = true;
@@ -782,7 +765,6 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
 
   /**
    * Redraw a single row using the existing data.
-   *
    * @param absRowIndex the absolute row index to redraw
    */
   public void redrawRow(int absRowIndex) {
@@ -793,7 +775,6 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
 
   /**
    * {@inheritDoc}
-   *
    * @see #getAccessKey()
    */
   @Override
@@ -834,7 +815,6 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
    * keyboard paging policy is limited to the current range, the row index will
    * be clipped to the current page.
    * </p>
-   *
    * @param row the row index relative to the page start
    */
   public final void setKeyboardSelectedRow(int row) {
@@ -843,7 +823,6 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
 
   /**
    * Set the keyboard selected row and optionally focus on the new row.
-   *
    * @param row the row index relative to the page start
    * @param stealFocus true to focus on the new row
    * @see #setKeyboardSelectedRow(int)
@@ -875,7 +854,6 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
 
   /**
    * Set the number of rows per page and refresh the view.
-   *
    * @param pageSize the page size
    * @see #setVisibleRange(Range)
    * @see #getPageSize()
@@ -887,9 +865,8 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
   /**
    * Set the starting index of the current visible page. The actual page start
    * will be clamped in the range [0, getSize() - 1].
-   *
    * @param pageStart the index of the row that should appear at the start of
-   *          the page
+   * the page
    * @see #setVisibleRange(Range)
    * @see #getPageStart()
    */
@@ -917,7 +894,6 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
    * of values, and {@link #setRowData(int, List)} with a start of 0 and the
    * specified list of values.
    * </p>
-   *
    * @param values
    */
   public final void setRowData(List<? extends T> values) {
@@ -942,10 +918,9 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
    * implementations to handle checkbox based selection, as well as a blacklist
    * or whitelist of columns to prevent or allow selection.
    * </p>
-   *
    * @param selectionModel the {@link SelectionModel}
    * @see #setSelectionModel(SelectionModel,
-   *      CellPreviewEvent.Handler)
+   * CellPreviewEvent.Handler)
    * @see #getSelectionModel()
    */
   @Override
@@ -957,12 +932,11 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
    * Set the {@link SelectionModel} that defines which items are selected and
    * the {@link CellPreviewEvent.Handler} that
    * controls how user selection is handled.
-   * 
    * @param selectionModel the {@link SelectionModel} that defines selection
    * @param selectionEventManager the handler that controls user selection
    */
   public void setSelectionModel(SelectionModel<? super T> selectionModel,
-      CellPreviewEvent.Handler<T> selectionEventManager) {
+                                CellPreviewEvent.Handler<T> selectionEventManager) {
     // Remove the old manager.
     if (this.selectionManagerReg != null) {
       this.selectionManagerReg.removeHandler();
@@ -983,7 +957,7 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
     this.tabIndex = index;
     setKeyboardSelected(getKeyboardSelectedRow(), true, false);
   }
-  
+
   @Override
   public final void setVisibleRange(int start, int length) {
     setVisibleRange(new Range(start, length));
@@ -1001,7 +975,6 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
 
   /**
    * Check if a cell consumes the specified event type.
-   * 
    * @param cell the cell
    * @param eventType the event type to check
    * @return true if consumed, false if not
@@ -1013,7 +986,6 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
 
   /**
    * Check that the row is within the correct bounds.
-   * 
    * @param row row index to check
    * @throws IndexOutOfBoundsException
    */
@@ -1026,7 +998,6 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
   /**
    * Convert the specified HTML into DOM elements and return the parent of the
    * DOM elements.
-   * 
    * @param html the HTML to convert
    * @return the parent element
    */
@@ -1036,33 +1007,29 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
 
   /**
    * Check whether or not the cells in the view depend on the selection state.
-   * 
    * @return true if cells depend on selection, false if not
    */
   protected abstract boolean dependsOnSelection();
 
   /**
    * Return the element that holds the rendered cells.
-   * 
    * @return the container {@link Element}
    */
   protected abstract Element getChildContainer();
 
   /**
    * Get the element that represents the specified index.
-   * 
    * @param index the index of the row value
    * @return the child element, or null if it does not exist
    */
   protected Element getChildElement(int index) {
     Element childContainer = getChildContainer();
     int childCount = childContainer.getChildCount();
-    return (index < childCount) ? childContainer.getChild(index).<Element> cast() : null;
+    return (index < childCount) ? childContainer.getChild(index).<Element>cast() : null;
   }
 
   /**
    * Get the element that has keyboard selection.
-   * 
    * @return the keyboard selected element
    */
   protected abstract Element getKeyboardSelectedElement();
@@ -1070,14 +1037,12 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
   /**
    * Check if keyboard navigation is being suppressed, such as when the user is
    * editing a cell.
-   * 
    * @return true if suppressed, false if not
    */
   protected abstract boolean isKeyboardNavigationSuppressed();
 
   /**
    * Checks that the row is within bounds of the view.
-   * 
    * @param row row index to check
    * @return true if within bounds, false if not
    */
@@ -1093,7 +1058,6 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
 
   /**
    * Called after {@link #onBrowserEvent(Event)} completes.
-   * 
    * @param event the event that was fired
    */
   protected void onBrowserEvent2(Event event) {
@@ -1108,7 +1072,6 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
   /**
    * Called when the loading state changes. By default, this implementation
    * fires a {@link LoadingStateChangeEvent}.
-   * 
    * @param state the new loading state
    */
   protected void onLoadingStateChanged(LoadingState state) {
@@ -1123,7 +1086,7 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
 
   /**
    * Render all row values into the specified {@link SafeHtmlBuilder}.
-   * 
+   *
    * <p>
    * Subclasses can optionally throw an {@link UnsupportedOperationException} if
    * they prefer to render the rows in
@@ -1133,25 +1096,23 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
    * designed to supported legacy widgets that use {@link SafeHtmlBuilder}, and
    * newer widgets that use other builders, such as the ElementBuilder API.
    * </p>
-   * 
    * @param sb the {@link SafeHtmlBuilder} to render into
    * @param values the row values
    * @param start the absolute start index of the values
    * @param selectionModel the {@link SelectionModel}
    * @throws UnsupportedOperationException if the values will be rendered in
-   *           {@link #replaceAllChildren(List, SafeHtml)} and
-   *           {@link #replaceChildren(List, int, SafeHtml)}
+   * {@link #replaceAllChildren(List, SafeHtml)} and
+   * {@link #replaceChildren(List, int, SafeHtml)}
    */
   protected abstract void renderRowValues(SafeHtmlBuilder sb, List<T> values, int start,
                                           SelectionModel<? super T> selectionModel) throws UnsupportedOperationException;
 
   /**
    * Replace all children with the specified html.
-   * 
    * @param values the values of the new children
    * @param html the html to render, or null if
-   *          {@link #renderRowValues(SafeHtmlBuilder, List, int, SelectionModel)}
-   *          throws an {@link UnsupportedOperationException}
+   * {@link #renderRowValues(SafeHtmlBuilder, List, int, SelectionModel)}
+   * throws an {@link UnsupportedOperationException}
    */
   protected void replaceAllChildren(List<T> values, SafeHtml html) {
     replaceAllChildren(this, getChildContainer(), html);
@@ -1162,12 +1123,11 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
    * elements starting at the specified index. If the number of children
    * specified exceeds the existing number of children, the remaining children
    * should be appended.
-   * 
    * @param values the values of the new children
    * @param start the start index to be replaced, relative to the page start
    * @param html the html to render, or null if
-   *          {@link #renderRowValues(SafeHtmlBuilder, List, int, SelectionModel)}
-   *          throws an {@link UnsupportedOperationException}
+   * {@link #renderRowValues(SafeHtmlBuilder, List, int, SelectionModel)}
+   * throws an {@link UnsupportedOperationException}
    */
   protected void replaceChildren(List<T> values, int start, SafeHtml html) {
     Element newChildren = convertToElements(html);
@@ -1176,14 +1136,12 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
 
   /**
    * Reset focus on the currently focused cell.
-   * 
    * @return true if focus is taken, false if not
    */
   protected abstract boolean resetFocusOnCell();
 
   /**
    * Make an element focusable or not.
-   * 
    * @param elem the element
    * @param focusable true to make focusable, false to make unfocusable
    */
@@ -1205,7 +1163,6 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
 
   /**
    * Update an element to reflect its keyboard selected state.
-   * 
    * @param index the index of the element
    * @param selected true if selected, false if not
    * @param stealFocus true if the row should steal focus, false if not
@@ -1214,12 +1171,11 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
 
   /**
    * Update an element to reflect its selected state.
-   * 
    * @param elem the element to update
    * @param selected true if selected, false if not
    * @deprecated this method is never called by AbstractHasData, render the
-   *             selected styles in
-   *             {@link #renderRowValues(SafeHtmlBuilder, List, int, SelectionModel)}
+   * selected styles in
+   * {@link #renderRowValues(SafeHtmlBuilder, List, int, SelectionModel)}
    */
   @Deprecated
   protected void setSelected(Element elem, boolean selected) {
@@ -1230,7 +1186,6 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
    * Add a {@link ValueChangeHandler} that is called when the display values
    * change. Used by {@link CellBrowser} to detect when the displayed data
    * changes.
-   * 
    * @param handler the handler
    * @return a {@link HandlerRegistration} to remove the handler
    */
@@ -1240,30 +1195,27 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
 
   /**
    * Adopt the specified widget.
-   * 
    * @param child the child to adopt
    */
-  native void adopt(Widget child) /*-{
-    child.@org.gwtproject.user.client.ui.Widget::setParent(Lorg/gwtproject/user/client/ui/Widget;)(this);
-  }-*/;
+  void adopt(Widget child) {
+    ((FnWithOneArg)((JsPropertyMap)child).get("setParent")).onInvoke(this);
+  }
 
   /**
    * Attach a child.
-   * 
    * @param child the child to attach
    */
-  native void doAttach(Widget child) /*-{
-    child.@org.gwtproject.user.client.ui.Widget::onAttach()();
-  }-*/;
+  void doAttach(Widget child) {
+    ((FnWithoutArgs)((JsPropertyMap)child).get("onAttach")).onInvoke();
+  }
 
   /**
    * Detach a child.
-   * 
    * @param child the child to detach
    */
-  native void doDetach(Widget child) /*-{
-    child.@org.gwtproject.user.client.ui.Widget::onDetach()();
-  }-*/;
+  void doDetach(Widget child) {
+    ((FnWithoutArgs)((JsPropertyMap)child).get("onDetach")).onInvoke();
+  }
 
   HasDataPresenter<T> getPresenter() {
     return presenter;
@@ -1271,7 +1223,6 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
 
   /**
    * Show or hide an element.
-   * 
    * @param element the element
    * @param show true to show, false to hide
    */
@@ -1284,5 +1235,17 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
     } else {
       element.getStyle().setDisplay(Display.NONE);
     }
+  }
+
+  @FunctionalInterface
+  @JsFunction
+  interface FnWithOneArg {
+    void onInvoke(Object key);
+  }
+
+  @FunctionalInterface
+  @JsFunction
+  interface FnWithoutArgs {
+    void onInvoke();
   }
 }

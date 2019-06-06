@@ -15,7 +15,6 @@
  */
 package org.gwtproject.cell.client;
 
-import org.gwtproject.core.client.GWT;
 import org.gwtproject.dom.client.BrowserEvents;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.EventTarget;
@@ -161,7 +160,7 @@ public class ImageLoadingCell extends org.gwtproject.cell.client.AbstractCell<St
    * </p>
    */
   public ImageLoadingCell() {
-    this(GWT.<DefaultRenderers> create(DefaultRenderers.class));
+    this(new DefaultRenderers());
   }
 
   /**

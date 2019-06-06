@@ -15,7 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
-import org.gwtproject.core.client.GWT;
+import elemental2.dom.DomGlobal;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.DOM;
 
@@ -249,11 +249,6 @@ public class AbsolutePanel extends ComplexPanel implements
    * @param child the widget whose position and placement should be tested
    */
   private void verifyPositionNotStatic(Widget child) {
-    // Only verify widget position in Development Mode
-    if (GWT.isProdMode()) {
-      return;
-    }
-    
     // Make sure we can actually perform a check
     if (!isAttached()) {
       return;
@@ -286,13 +281,13 @@ public class AbsolutePanel extends ComplexPanel implements
      * apps depend on broken CSS.
      */
     String className = getClass().getName();
-    GWT.log("Warning: " + className + " descendants will be incorrectly "
+    DomGlobal.console.warn("Warning: " + className + " descendants will be incorrectly "
         + "positioned, i.e. not relative to their parent element, when "
         + "'position:static', which is the CSS default, is in effect. One "
         + "possible fix is to call "
         + "'panel.getElement().getStyle().setPosition(Position.RELATIVE)'.",
-        // Stack trace provides context for the developer
-        new IllegalStateException(className
+                  // Stack trace provides context for the developer
+                  new IllegalStateException(className
             + " is missing CSS 'position:{relative,absolute,fixed}'"));
   }
 }

@@ -15,16 +15,11 @@
  */
 package org.gwtproject.user.cellview.client;
 
-import com.google.gwt.core.client.GWT;
 import org.gwtproject.dom.client.TableCellElement;
 import org.gwtproject.dom.client.TableElement;
 import org.gwtproject.dom.client.TableRowElement;
 import org.gwtproject.dom.client.TableSectionElement;
-import org.gwtproject.user.cellview.client.AbstractHeaderOrFooterBuilder;
-import org.gwtproject.user.cellview.client.DataGrid;
 import org.gwtproject.user.cellview.client.DataGrid.Resources;
-import org.gwtproject.user.cellview.client.FooterBuilder;
-import org.gwtproject.user.cellview.client.HeaderBuilder;
 import org.gwtproject.user.client.ui.RootPanel;
 
 /**
@@ -36,7 +31,7 @@ public class DataGridTest extends AbstractCellTableTestBase<DataGrid<String>> {
    * Test if the dataGridWidget style is applied.
    */
   public void testDataGridWidgetStyle() {
-    Resources res = GWT.create(Resources.class); 
+    Resources res = new DataGrid_ResourcesImpl();
     DataGrid<String> dataGrid = new DataGrid<String>(20, res);
     
     String dataGridWidgetStyle = res.dataGridStyle().dataGridWidget();

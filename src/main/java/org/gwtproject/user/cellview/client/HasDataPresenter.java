@@ -15,6 +15,8 @@
  */
 package org.gwtproject.user.cellview.client;
 
+import elemental2.core.JsArray;
+import jsinterop.base.Js;
 import org.gwtproject.core.client.JavaScriptObject;
 import org.gwtproject.core.client.JsArrayInteger;
 import org.gwtproject.core.client.Scheduler;
@@ -399,12 +401,10 @@ class HasDataPresenter<T> implements HasData<T>, HasKeyProvider<T>, HasKeyboardP
    * 
    * @param array the array to sort
    */
-  private static native void sortJsArrayInteger(JsArrayInteger array) /*-{
+  private static void sortJsArrayInteger(JsArray array) {
     // sort() sorts lexicographically by default.
-    array.sort(function(x, y) {
-      return x - y;
-    });
-  }-*/;
+    array.sort((JsArray.SortCompareFn<Double>) (x, y) -> x - y);
+  }
 
   private final HasData<T> display;
 
@@ -899,7 +899,7 @@ class HasDataPresenter<T> implements HasData<T>, HasKeyProvider<T>, HasKeyboardP
    * @return up to two ranges that encompass the modified rows
    */
   List<Range> calculateModifiedRanges(JsArrayInteger modifiedRows, int pageStart, int pageEnd) {
-    sortJsArrayInteger(modifiedRows);
+    sortJsArrayInteger(Js.cast(modifiedRows));
 
     int rangeStart0 = -1;
     int rangeEnd0 = -1;
@@ -967,7 +967,7 @@ class HasDataPresenter<T> implements HasData<T>, HasKeyProvider<T>, HasKeyboardP
   private PendingState<T> ensurePendingState() {
     // Create the pending state if needed.
     if (pendingState == null) {
-      pendingState = new PendingState<T>(state);
+      pendingState = new PendingState<>(state);
     }
 
     /*

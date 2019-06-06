@@ -76,22 +76,7 @@ public abstract class ComplexPanel extends Panel implements IndexedPanel.ForIsWi
     return true;
   }
 
-  /**
-   * Adds a new child widget to the panel, attaching its Element to the
-   * specified container Element.
-   * 
-   * @param child the child widget to be added
-   * @param container the element within which the child will be contained
-   */
   protected void add(Widget child, Element container) {
-    add(child, DOM.asOld(container));
-  }
-
-  /**
-   * @deprecated Call and override {@link #add(Widget, Element)} instead.
-   */
-  @Deprecated
-  protected void add(Widget child, org.gwtproject.user.client.Element container) {
     // Detach new child.
     child.removeFromParent();
 
@@ -167,7 +152,7 @@ public abstract class ComplexPanel extends Panel implements IndexedPanel.ForIsWi
    * its Element to the specified container Element. The child Element will
    * either be attached to the container at the same index, or simply appended
    * to the container, depending on the value of <code>domInsert</code>.
-   * 
+   *
    * @param child the child Widget to be added
    * @param container the Element within which <code>child</code> will be
    *          contained
@@ -179,15 +164,6 @@ public abstract class ComplexPanel extends Panel implements IndexedPanel.ForIsWi
    */
   protected void insert(Widget child, Element container, int beforeIndex,
       boolean domInsert) {
-    insert(child, DOM.asOld(container), beforeIndex, domInsert);
-  }
-
-  /**
-   * @deprecated Call and override {@link insert(Widget, Element, int, boolean)} instead.
-   */
-  @Deprecated
-  protected void insert(Widget child, org.gwtproject.user.client.Element container,
-      int beforeIndex, boolean domInsert) {
     // Validate index; adjust if the widget is already a child of this panel.
     beforeIndex = adjustIndex(child, beforeIndex);
 

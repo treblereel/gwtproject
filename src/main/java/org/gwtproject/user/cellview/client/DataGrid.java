@@ -15,7 +15,6 @@
  */
 package org.gwtproject.user.cellview.client;
 
-import com.google.gwt.core.client.GWT;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.style.shared.Display;
@@ -502,7 +501,7 @@ public class DataGrid<T> extends AbstractCellTable<T> implements RequiresResize 
 
   private static Resources getDefaultResources() {
     if (DEFAULT_RESOURCES == null) {
-      DEFAULT_RESOURCES = GWT.create(Resources.class);
+      DEFAULT_RESOURCES = new DataGrid_ResourcesImpl();
     }
     return DEFAULT_RESOURCES;
   }

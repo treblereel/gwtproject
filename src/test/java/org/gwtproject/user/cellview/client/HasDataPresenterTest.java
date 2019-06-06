@@ -21,7 +21,6 @@ import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.event.shared.Event;
 import org.gwtproject.event.shared.HandlerRegistration;
 import com.google.gwt.junit.client.GWTTestCase;
-import org.gwtproject.user.cellview.client.HasDataPresenter;
 import org.gwtproject.user.cellview.client.HasDataPresenter.View;
 import org.gwtproject.user.cellview.client.HasKeyboardPagingPolicy.KeyboardPagingPolicy;
 import org.gwtproject.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;

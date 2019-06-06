@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import jsinterop.annotations.JsConstructor;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.safehtml.shared.SafeHtml;
@@ -52,11 +53,19 @@ import org.gwtproject.user.client.ui.impl.ClippedImagePrototype;
  */
 public abstract class AbstractImagePrototype {
 
+  @JsConstructor
+  protected AbstractImagePrototype() {
+
+  }
+
   /**
    * This corresponds to the top Element of the DOM structure created by
    * {@link #createElement()}.
    */
   public static class ImagePrototypeElement extends Element {
+
+
+    @JsConstructor
     protected ImagePrototypeElement() {
     }
   }

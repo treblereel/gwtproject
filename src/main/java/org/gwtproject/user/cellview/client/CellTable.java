@@ -15,7 +15,6 @@
  */
 package org.gwtproject.user.cellview.client;
 
-import com.google.gwt.core.client.GWT;
 import org.gwtproject.dom.client.BrowserEvents;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.style.shared.Display;
@@ -33,8 +32,6 @@ import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.resources.client.ImageResource.ImageOptions;
 import org.gwtproject.resources.client.ImageResource.RepeatStyle;
 import org.gwtproject.resources.client.Resource;
-import org.gwtproject.user.cellview.client.CellBasedWidgetImpl;
-import org.gwtproject.user.cellview.client.Header;
 import org.gwtproject.user.cellview.client.LoadingStateChangeEvent.LoadingState;
 import org.gwtproject.user.client.ui.DeckPanel;
 import org.gwtproject.user.client.ui.Image;

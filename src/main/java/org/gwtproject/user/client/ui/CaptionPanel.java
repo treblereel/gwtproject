@@ -15,7 +15,6 @@
  */
 package org.gwtproject.user.client.ui;
 
-import org.gwtproject.core.client.GWT;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import org.gwtproject.dom.client.Document;
@@ -118,7 +117,7 @@ public class CaptionPanel extends Composite implements HasWidgets.ForIsWidget {
   /**
    * The implementation instance.
    */
-  private static CaptionPanelImpl impl = (CaptionPanelImpl) GWT.create(CaptionPanelImpl.class);
+  private static CaptionPanelImpl impl = new CaptionPanelImpl();
 
   /**
    * The legend element used as the caption.

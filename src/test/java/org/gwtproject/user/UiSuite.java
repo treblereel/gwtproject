@@ -84,7 +84,6 @@ public class UiSuite {
     suite.addTestSuite(HeaderPanelTest.class);
     suite.addTestSuite(HiddenTest.class);
     suite.addTestSuite(HorizontalPanelTest.class);
-    suite.addTestSuite(HorizontalSplitPanelTest.class);
     suite.addTestSuite(HTMLPanelTest.class);
     suite.addTestSuite(HTMLTest.class);
     suite.addTestSuite(HyperlinkTest.class);
@@ -130,7 +129,6 @@ public class UiSuite {
     suite.addTestSuite(ValueListBoxTest.class);
     suite.addTestSuite(ValuePickerTest.class);
     suite.addTestSuite(VerticalPanelTest.class);
-    suite.addTestSuite(VerticalSplitPanelTest.class);
     suite.addTestSuite(WidgetCollectionTest.class);
     suite.addTestSuite(WidgetIteratorsTest.class);
     suite.addTestSuite(WidgetOnLoadTest.class);

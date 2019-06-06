@@ -21,7 +21,6 @@ import org.gwtproject.dom.client.Element;
 import org.gwtproject.safehtml.shared.SafeHtml;
 import org.gwtproject.safehtml.shared.annotations.IsSafeHtml;
 import org.gwtproject.safehtml.shared.annotations.SuppressIsSafeHtmlCastCheck;
-import org.gwtproject.user.client.DOM;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -189,19 +188,7 @@ public class HTMLPanel extends ComplexPanel {
    * @param widget the widget to be added
    * @param toReplace the element to be replaced by the widget
    */
-  public final void addAndReplaceElement(Widget widget, Element toReplace) {
-    addAndReplaceElement(widget, DOM.asOld(toReplace));
-  }
-
-  /**
-   * Adds a child widget to the panel, replacing the HTML element.
-   *
-   * @param widget the widget to be added
-   * @param toReplace the element to be replaced by the widget
-   * @deprecated use {@link #addAndReplaceElement(Widget, Element)}
-   */
-  @Deprecated
-  public void addAndReplaceElement(Widget widget, org.gwtproject.user.client.Element toReplace) {
+  public void addAndReplaceElement(Widget widget, Element toReplace) {
     /*
      * Early exit if the element to replace and the replacement are the same. If
      * we remove the new widget, we would also remove the element to replace.
@@ -256,28 +243,6 @@ public class HTMLPanel extends ComplexPanel {
   }
 
   /**
-   * Overloaded version for IsWidget.
-   *
-   * @see #addAndReplaceElement(Widget,Element)
-   *
-   * @deprecated use {@link #addAndReplaceElement(IsWidget, Element)}
-   */
-  @Deprecated
-  public void addAndReplaceElement(IsWidget widget,
-      org.gwtproject.user.client.Element toReplace) {
-    this.addAndReplaceElement(widget.asWidget(), toReplace);
-  }
-
-  /**
-   * Overloaded version for IsWidget.
-   *
-   * @see #addAndReplaceElement(Widget,Element)
-   */
-  public void addAndReplaceElement(IsWidget widget, Element toReplace) {
-    this.addAndReplaceElement(widget.asWidget(), toReplace);
-  }
-
-  /**
    * Adds a child widget to the panel, replacing the HTML element specified by a
    * given id.
    *
@@ -299,9 +264,19 @@ public class HTMLPanel extends ComplexPanel {
    *
    * @see #addAndReplaceElement(Widget,String)
    */
+  public void addAndReplaceElement(IsWidget widget, Element elm) {
+    this.addAndReplaceElement(widget.asWidget(), elm);
+  }
+
+  /**
+   * Overloaded version for IsWidget.
+   *
+   * @see #addAndReplaceElement(Widget,String)
+   */
   public void addAndReplaceElement(IsWidget widget, String id) {
     this.addAndReplaceElement(widget.asWidget(), id);
   }
+
 
   /**
    * Finds an {@link Element element} within this panel by its id.
@@ -313,9 +288,9 @@ public class HTMLPanel extends ComplexPanel {
    * @param id the id of the element to be found
    * @return the element with the given id, or <code>null</code> if none is found
    */
-  public org.gwtproject.user.client.Element getElementById(String id) {
+  public Element getElementById(String id) {
     Element elem = isAttached() ? Document.get().getElementById(id) : attachToDomAndGetElement(id);
-    return DOM.asOld(elem);
+    return elem;
   }
 
   /**

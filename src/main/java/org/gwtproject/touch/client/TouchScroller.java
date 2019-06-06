@@ -306,10 +306,9 @@ public class TouchScroller {
    * @return true if android 3.0+
    * 
    */
-  private static native boolean isAndroid3() /*-{
-    var ua = navigator.userAgent.toLowerCase();
-    return /android ([3-9]+)\.([0-9]+)/.exec(ua) != null;
-  }-*/;
+  private static boolean isAndroid3() {
+    throw new UnsupportedOperationException();
+  }
 
   /**
    * The registration for the preview handler used to bust click events.

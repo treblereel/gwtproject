@@ -15,7 +15,6 @@
  */
 package org.gwtproject.user.client.ui;
 
-import org.gwtproject.core.client.GWT;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import org.gwtproject.dom.client.Document;
@@ -65,10 +64,10 @@ public class HeaderPanel extends Panel implements RequiresResize {
   private final Element contentContainer;
   private Widget footer;
   private final Element footerContainer;
-  private final ResizeLayoutPanel.Impl footerImpl = GWT.create(ResizeLayoutPanel.Impl.class);
+  private final ResizeLayoutPanel.Impl footerImpl = new ResizeLayoutPanel.ImplStandard();
   private Widget header;
   private final Element headerContainer;
-  private final ResizeLayoutPanel.Impl headerImpl = GWT.create(ResizeLayoutPanel.Impl.class);
+  private final ResizeLayoutPanel.Impl headerImpl = new ResizeLayoutPanel.ImplStandard();
   private final ScheduledCommand layoutCmd = new ScheduledCommand() {
     public void execute() {
       layoutScheduled = false;

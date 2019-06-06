@@ -16,7 +16,6 @@
 package org.gwtproject.user.client.ui;
 
 import org.gwtproject.core.client.Duration;
-import org.gwtproject.core.client.GWT;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import org.gwtproject.dom.client.Document;
@@ -118,8 +117,7 @@ public class CustomScrollPanel extends ScrollPanel {
   }
 
   private boolean alwaysShowScrollbars;
-  private final ResizeLayoutPanel.Impl containerResizeImpl = GWT
-      .create(ResizeLayoutPanel.Impl.class);
+  private final ResizeLayoutPanel.Impl containerResizeImpl = new ResizeLayoutPanel.ImplStandard();
   private final Element cornerElem;
   private final Layer cornerLayer;
   private double ignoreContentUntil = 0;
@@ -193,12 +191,10 @@ public class CustomScrollPanel extends ScrollPanel {
     cornerLayer = layout.attachChild(cornerElem);
 
     // Initialize the default scrollbars using the transparent styles.
-    NativeHorizontalScrollbar.Resources hResources =
-        com.google.gwt.core.client.GWT.create(NativeHorizontalScrollbar.ResourcesTransparant.class);
+    NativeHorizontalScrollbar.Resources hResources = new NativeHorizontalScrollbar_ResourcesImpl();
     setHorizontalScrollbar(new NativeHorizontalScrollbar(hResources), AbstractNativeScrollbar
         .getNativeScrollbarHeight());
-    NativeVerticalScrollbar.Resources vResources =
-        com.google.gwt.core.client.GWT.create(NativeVerticalScrollbar.ResourcesTransparant.class);
+    NativeVerticalScrollbar.Resources vResources = new NativeVerticalScrollbar_ResourcesTransparantImpl();
     setVerticalScrollbar(new NativeVerticalScrollbar(vResources), AbstractNativeScrollbar
         .getNativeScrollbarWidth());
 

@@ -17,7 +17,6 @@ package org.gwtproject.user.cellview.client;
 
 import org.gwtproject.animation.client.Animation;
 import org.gwtproject.aria.client.Roles;
-import com.google.gwt.core.client.GWT;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.client.BrowserEvents;
 import org.gwtproject.dom.client.Element;
@@ -40,9 +39,6 @@ import org.gwtproject.safecss.shared.SafeStyles;
 import org.gwtproject.safecss.shared.SafeStylesBuilder;
 import org.gwtproject.safehtml.client.SafeHtmlTemplates;
 import org.gwtproject.safehtml.shared.SafeHtml;
-import org.gwtproject.user.cellview.client.AbstractCellTree;
-import org.gwtproject.user.cellview.client.CellBasedWidgetImpl;
-import org.gwtproject.user.cellview.client.CellTreeNodeView;
 import org.gwtproject.user.client.Event;
 import org.gwtproject.user.client.ui.AbstractImagePrototype;
 import org.gwtproject.user.client.ui.Focusable;
@@ -152,7 +148,7 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
      * @param node the node to animate
      * @param isAnimationEnabled true to animate
      */
-    abstract void animate(org.gwtproject.user.cellview.client.CellTreeNodeView<?> node, boolean isAnimationEnabled);
+    abstract void animate(CellTreeNodeView<?> node, boolean isAnimationEnabled);
   }
 
   /**
@@ -272,13 +268,13 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
     }
 
     /**
-     * Animate a {@link org.gwtproject.user.cellview.client.CellTreeNodeView} into its new state.
+     * Animate a {@link CellTreeNodeView} into its new state.
      *
-     * @param node the {@link org.gwtproject.user.cellview.client.CellTreeNodeView} to animate
+     * @param node the {@link CellTreeNodeView} to animate
      * @param isAnimationEnabled true to animate
      */
     @Override
-    void animate(org.gwtproject.user.cellview.client.CellTreeNodeView<?> node, boolean isAnimationEnabled) {
+    void animate(CellTreeNodeView<?> node, boolean isAnimationEnabled) {
       // Cancel any pending animations.
       cancel();
 
@@ -500,7 +496,7 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
   /**
    * The hidden root node in the tree. Visible for testing.
    */
-  final org.gwtproject.user.cellview.client.CellTreeNodeView<?> rootNode;
+  final CellTreeNodeView<?> rootNode;
 
   private char accessKey = 0;
 
@@ -535,10 +531,10 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
   private boolean isAnimationEnabled;
 
   /**
-   * The {@link org.gwtproject.user.cellview.client.CellTreeNodeView} whose children are currently being selected
+   * The {@link CellTreeNodeView} whose children are currently being selected
    * using the keyboard.
    */
-  private org.gwtproject.user.cellview.client.CellTreeNodeView<?> keyboardSelectedNode;
+  private CellTreeNodeView<?> keyboardSelectedNode;
 
   /**
    * The HTML used to generate the loading image.
@@ -583,8 +579,7 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
    * @param resources the resources used to render the tree
    */
   public <T> CellTree(TreeViewModel viewModel, T rootValue, Resources resources) {
-    this(viewModel, rootValue, resources,
-        GWT.<CellTreeMessages>create(CellTreeMessages.class));
+    this(viewModel, rootValue, resources, null);
   }
 
   /**
@@ -652,10 +647,10 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
     eventTypes.add(BrowserEvents.KEYUP);
     eventTypes.add(BrowserEvents.MOUSEDOWN);
     eventTypes.add(BrowserEvents.CLICK);
-    org.gwtproject.user.cellview.client.CellBasedWidgetImpl.get().sinkEvents(this, eventTypes);
+    CellBasedWidgetImpl.get().sinkEvents(this, eventTypes);
 
     // Associate a view with the item.
-    org.gwtproject.user.cellview.client.CellTreeNodeView<T> root = new org.gwtproject.user.cellview.client.CellTreeNodeView<T>(this, null, null,
+    org.gwtproject.user.cellview.client.CellTreeNodeView<T> root = new CellTreeNodeView<T>(this, null, null,
         getElement(), rootValue, messages);
     keyboardSelectedNode = rootNode = root;
     root.setOpen(true, false);
@@ -700,7 +695,7 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
 
   @Override
   public void onBrowserEvent(Event event) {
-    org.gwtproject.user.cellview.client.CellBasedWidgetImpl.get().onBrowserEvent(this, event);
+    CellBasedWidgetImpl.get().onBrowserEvent(this, event);
     if (isRefreshing) {
       // Ignore spurious events (onblur) while replacing elements.
       return;
@@ -767,7 +762,7 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
            * If the selected element is natively focusable, then we do not want to
            * steal focus away from it.
            */
-          boolean isFocusable = org.gwtproject.user.cellview.client.CellBasedWidgetImpl.get().isFocusable(target);
+          boolean isFocusable = CellBasedWidgetImpl.get().isFocusable(target);
           isFocused = isFocused || isFocusable;
           keyboardSelect(nodeView, !isFocusable);
         }
@@ -943,7 +938,7 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
    * @param node the new node to select
    * @param stealFocus true to steal focus, false not to
    */
-  void keyboardSelect(org.gwtproject.user.cellview.client.CellTreeNodeView<?> node, boolean stealFocus) {
+  void keyboardSelect(CellTreeNodeView<?> node, boolean stealFocus) {
     if (isKeyboardSelectionDisabled()) {
       return;
     }
@@ -957,11 +952,11 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
   }
 
   /**
-   * Animate the current state of a {@link org.gwtproject.user.cellview.client.CellTreeNodeView} in this tree.
+   * Animate the current state of a {@link CellTreeNodeView} in this tree.
    *
    * @param node the node to animate
    */
-  void maybeAnimateTreeNode(org.gwtproject.user.cellview.client.CellTreeNodeView<?> node) {
+  void maybeAnimateTreeNode(CellTreeNodeView<?> node) {
     if (animation != null) {
       animation.animate(node, node.consumeAnimate() && isAnimationEnabled()
           && !node.isRootNode());
@@ -972,7 +967,7 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
    * If this widget has focus, reset it.
    */
   void resetFocus() {
-    org.gwtproject.user.cellview.client.CellBasedWidgetImpl.get().resetFocus(new Scheduler.ScheduledCommand() {
+    CellBasedWidgetImpl.get().resetFocus(new Scheduler.ScheduledCommand() {
       public void execute() {
         if (isFocused && !keyboardSelectedNode.isDestroyed()
             && !keyboardSelectedNode.resetFocusOnCell()) {
@@ -995,12 +990,12 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
     chain.add(hElem);
   }
 
-  private org.gwtproject.user.cellview.client.CellTreeNodeView getCellTreeNodeView(TreeNode treeNode) {
+  private CellTreeNodeView getCellTreeNodeView(TreeNode treeNode) {
     if (!(treeNode instanceof org.gwtproject.user.cellview.client.CellTreeNodeView.TreeNodeImpl)) {
       throw new UnsupportedOperationException("Operation not supported for " + treeNode.getClass());
     }
 
-    org.gwtproject.user.cellview.client.CellTreeNodeView nodeView = ((org.gwtproject.user.cellview.client.CellTreeNodeView.TreeNodeImpl) treeNode).getNodeView();
+    CellTreeNodeView nodeView = ((CellTreeNodeView.TreeNodeImpl) treeNode).getNodeView();
     if (!nodeView.belongsToTree(this)) {
       throw new IllegalArgumentException("The tree node does not belong to the tree.");
     }
@@ -1008,8 +1003,8 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
     return nodeView;
   }
 
-  private org.gwtproject.user.cellview.client.CellTreeNodeView<?> findItemByChain(ArrayList<Element> chain,
-                                                                                  int idx, org.gwtproject.user.cellview.client.CellTreeNodeView<?> parent) {
+  private CellTreeNodeView<?> findItemByChain(ArrayList<Element> chain,
+                                             int idx, CellTreeNodeView<?> parent) {
     if (idx == chain.size()) {
       return parent;
     }
@@ -1018,7 +1013,7 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
     for (int i = 0, n = parent.getChildCount(); i < n; ++i) {
       org.gwtproject.user.cellview.client.CellTreeNodeView<?> child = parent.getChildNode(i);
       if (child.getElement() == hCurElem) {
-        org.gwtproject.user.cellview.client.CellTreeNodeView<?> retItem = findItemByChain(chain, idx + 1, child);
+        CellTreeNodeView<?> retItem = findItemByChain(chain, idx + 1, child);
         if (retItem == null) {
           return child;
         }

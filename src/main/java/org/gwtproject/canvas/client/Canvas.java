@@ -15,6 +15,7 @@
  */
 package org.gwtproject.canvas.client;
 
+import jsinterop.base.JsPropertyMap;
 import org.gwtproject.canvas.dom.client.Context;
 import org.gwtproject.canvas.dom.client.Context2d;
 import org.gwtproject.dom.client.CanvasElement;
@@ -186,8 +187,8 @@ public class Canvas extends FocusWidget {
    * @return true if supported, false otherwise.
    */
   // TODO: probably safe to assume that everyone supports Canvas
-  private static native boolean isSupportedRunTime(CanvasElement element) /*-{
-      return !!element.getContext;
-  }-*/;
+  private static boolean isSupportedRunTime(CanvasElement element) {
+    return ((JsPropertyMap)element).has("getContext");
+  }
 
 }

@@ -15,8 +15,8 @@
  */
 package org.gwtproject.user.client.ui;
 
+import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.DOM;
-import org.gwtproject.user.client.Element;
 
 import java.util.Iterator;
 
@@ -188,6 +188,6 @@ public class DecoratedPopupPanel extends PopupPanel {
    * @return the Element at the given row and cell
    */
   protected Element getCellElement(int row, int cell) {
-    return DOM.asOld(decPanel.getCellElement(row, cell));
+    return decPanel.getCellElement(row, cell);
   }
 }

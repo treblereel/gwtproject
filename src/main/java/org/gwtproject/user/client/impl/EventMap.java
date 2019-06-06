@@ -15,13 +15,22 @@
  */
 package org.gwtproject.user.client.impl;
 
+import elemental2.dom.DomGlobal;
+import elemental2.dom.HTMLDivElement;
+import jsinterop.annotations.JsConstructor;
+import jsinterop.annotations.JsFunction;
+import jsinterop.base.Js;
+import jsinterop.base.JsPropertyMap;
 import org.gwtproject.core.client.JavaScriptObject;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.user.client.ui.impl.FocusImplStandard;
 
 /**
  * A simple helper class to abstract event maps.
  */
 class EventMap extends JavaScriptObject {
 
+  @JsConstructor
   protected EventMap() { /* Mandatory constructor for JSO */}
 
   /**
@@ -35,18 +44,27 @@ class EventMap extends JavaScriptObject {
   /**
    * Returns a function that copies the passed key-value to target object.
    */
-  private static native JavaScriptObject copyTo(EventMap target) /*-{
-    return function(key, value) { target[key] = value; };
-  }-*/;
+  private static JavaScriptObject copyTo(EventMap target) {
+    FnVarArgs func =  (key, value) -> {
+      ((JsPropertyMap)target).set(key.toString(), value);
+    };
+    return (JavaScriptObject)func;
+  }
 
   /**
    * Executes a provided function over the key-value pairs of the map object.
    */
-  static native void foreach(JavaScriptObject map, JavaScriptObject fn) /*-{
-    for (var e in map) {
-      if (map.hasOwnProperty(e)) {
-        fn(e, map[e]);
-      }
-    }
-  }-*/;
+  static void foreach(JavaScriptObject map, JavaScriptObject fn) {
+    JsPropertyMap _map = map.cast();
+    _map.forEach(cb ->{
+      FnVarArgs func = fn.cast();
+        func.onInvoke(cb, _map.get(cb));
+    });
+  }
+
+  @FunctionalInterface
+  @JsFunction
+  interface FnVarArgs {
+    void onInvoke(Object key, Object value);
+  }
 }

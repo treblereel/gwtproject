@@ -16,7 +16,6 @@
 package org.gwtproject.user.client.ui;
 
 import org.gwtproject.animation.client.Animation;
-import com.google.gwt.core.client.GWT;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.event.logical.shared.CloseEvent;
 import org.gwtproject.event.logical.shared.CloseHandler;
@@ -210,17 +209,19 @@ public final class DisclosurePanel extends Composite implements
     private final Image iconImage;
     private final Imager imager;
 
-    private DefaultHeader(final DisclosurePanelImages images, String text) {
+    private DefaultHeader(String text) {
       this(new Imager() {
+        DefaultImages images = new DisclosurePanel_DefaultImagesImpl();
+
         public Image makeImage() {
-          return images.disclosurePanelClosed().createImage();
+          return new Image(images.disclosurePanelClosed());
         }
 
         public void updateImage(boolean open, Image image) {
           if (open) {
-            images.disclosurePanelOpen().applyTo(image);
+            image.setResource(images.disclosurePanelOpen());
           } else {
-            images.disclosurePanelClosed().applyTo(image);
+            image.setResource(images.disclosurePanelClosed());
           }
         }
       }, text);
@@ -361,27 +362,6 @@ public final class DisclosurePanel extends Composite implements
    * open/close state and a bundle of images to be used in the default header
    * widget.
    * 
-   * @param images a bundle that provides disclosure panel specific images
-   * @param headerText the text to be displayed in the header
-   * @param isOpen the initial open/close state of the content panel
-   * 
-   * @deprecated use
-   *             {@link #DisclosurePanel(ImageResource, ImageResource, String)}
-   *             and {@link #setOpen(boolean)}
-   */
-  @Deprecated
-  public DisclosurePanel(DisclosurePanelImages images, String headerText,
-      boolean isOpen) {
-    this();
-    setOpen(isOpen);
-    setHeader(new DefaultHeader(images, headerText));
-  }
-
-  /**
-   * Creates a DisclosurePanel with the specified header text, an initial
-   * open/close state and a bundle of images to be used in the default header
-   * widget.
-   * 
    * @param openImage the open state image resource
    * @param closedImage the closed state image resource
    * @param headerText the text to be displayed in the header
@@ -401,51 +381,6 @@ public final class DisclosurePanel extends Composite implements
   public DisclosurePanel(String headerText) {
     this(DEFAULT_IMAGES.disclosurePanelOpen(),
         DEFAULT_IMAGES.disclosurePanelClosed(), headerText);
-  }
-
-  /**
-   * Creates a DisclosurePanel with the specified header text and an initial
-   * open/close state.
-   * 
-   * @param headerText the text to be displayed in the header
-   * @param isOpen the initial open/close state of the content panel
-   * @deprecated use {@link #DisclosurePanel(String)} and
-   *             {@link #setOpen(boolean)}
-   */
-  @Deprecated
-  public DisclosurePanel(String headerText, boolean isOpen) {
-    this(DEFAULT_IMAGES.disclosurePanelOpen(),
-        DEFAULT_IMAGES.disclosurePanelClosed(), headerText);
-    this.setOpen(isOpen);
-  }
-
-  /**
-   * Creates a DisclosurePanel that will be initially closed using a widget as
-   * the header.
-   * 
-   * @param header the widget to be used as a header
-   * @deprecated use {@link #DisclosurePanel()} and {@link #setHeader(Widget)}
-   */
-  @Deprecated
-  public DisclosurePanel(Widget header) {
-    this();
-    setHeader(header);
-  }
-
-  /**
-   * Creates a DisclosurePanel using a widget as the header and an initial
-   * open/close state.
-   * 
-   * @param header the widget to be used as a header
-   * @param isOpen the initial open/close state of the content panel
-   * @deprecated use {@link #DisclosurePanel()}, {@link #setOpen(boolean)} and
-   *             {@link #setHeader(Widget)} instead
-   */
-  @Deprecated
-  public DisclosurePanel(Widget header, boolean isOpen) {
-    this();
-    setHeader(header);
-    setOpen(isOpen);
   }
 
   public void add(Widget w) {

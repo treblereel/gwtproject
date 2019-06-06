@@ -15,7 +15,6 @@
  */
 package org.gwtproject.user.client.ui;
 
-import org.gwtproject.core.client.GWT;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.event.dom.client.ClickHandler;
@@ -79,7 +78,7 @@ public class Hyperlink extends Widget implements HasHTML,
   public static final DirectionEstimator DEFAULT_DIRECTION_ESTIMATOR =
       DirectionalTextHelper.DEFAULT_DIRECTION_ESTIMATOR;
 
-  private static HyperlinkImpl impl = GWT.create(HyperlinkImpl.class);
+  private static HyperlinkImpl impl = new HyperlinkImpl();
 
   protected final DirectionalTextHelper directionalTextHelper;
   private final Element anchorElem = DOM.createAnchor();

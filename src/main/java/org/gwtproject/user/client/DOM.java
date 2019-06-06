@@ -15,43 +15,49 @@
  */
 package org.gwtproject.user.client;
 
-import org.gwtproject.core.client.GWT;
+import elemental2.dom.DomGlobal;
+import jsinterop.base.JsPropertyMap;
 import org.gwtproject.core.client.JavaScriptObject;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.ImageElement;
 import org.gwtproject.dom.client.OptionElement;
 import org.gwtproject.dom.client.SelectElement;
+import org.gwtproject.dom.client.Style;
 import org.gwtproject.safehtml.shared.annotations.IsSafeHtml;
-import org.gwtproject.user.window.client.Window;
-import org.gwtproject.user.client.Event.NativePreviewEvent;
 import org.gwtproject.user.client.impl.DOMImpl;
+import org.gwtproject.user.client.impl.DOMImplStandardBase;
+import org.gwtproject.user.window.client.Window;
 
 /**
  * This class provides a set of static methods that allow you to manipulate the
  * browser's Document Object Model (DOM). It contains methods for manipulating
- * both {@link org.gwtproject.user.client.Element elements} and
+ * both {@link Element elements} and
  * {@link Event events}.
  */
 public class DOM {
 
   // The current event being fired
   private static Event currentEvent = null;
-  static final DOMImpl impl = GWT.create(DOMImpl.class);
+  static final DOMImpl impl = new DOMImplStandardBase();
+
   private static Element sCaptureElem;
 
   /**
    * Appends one element to another's list of children.
    * <p>
-   * If the child element is a {@link org.gwtproject.user.client.ui.PotentialElement}, it is first
+   * If the child element is a {@link ui.PotentialElement}, it is first
    * resolved.
    * </p>
    *
    * @param parent the parent element
    * @param child its new child
-   * @see org.gwtproject.user.client.ui.PotentialElement#resolve(Element)
+   * @see ui.PotentialElement#resolve(Element)
    */
   public static void appendChild(Element parent, Element child) {
+    DomGlobal.console.log("appendChild " + parent.toString() + " to   " + child.toString());
+
+
     assert !isPotential(parent) : "Cannot append to a PotentialElement";
 
     // If child isn't a PotentialElement, resolve() returns
@@ -65,7 +71,7 @@ public class DOM {
    * @param elem the element to be cloned
    * @param deep should children be cloned as well?
    */
-  public static org.gwtproject.user.client.Element clone(Element elem, boolean deep) {
+  public static Element clone(Element elem, boolean deep) {
     return elem.cloneNode(deep).cast();
   }
 
@@ -88,8 +94,8 @@ public class DOM {
    * 
    * @return the newly-created element
    */
-  public static org.gwtproject.user.client.Element createAnchor() {
-    return Document.get().createAnchorElement().cast();
+  public static Element createAnchor() {
+    return Document.get().createAnchorElement();
   }
 
   /**
@@ -98,8 +104,8 @@ public class DOM {
    * @return the newly-created element
    */
 
-  public static org.gwtproject.user.client.Element createButton() {
-    return Document.get().createPushButtonElement().cast();
+  public static Element createButton() {
+    return Document.get().createPushButtonElement();
   }
 
   /**
@@ -107,8 +113,8 @@ public class DOM {
    * 
    * @return the newly-created element
    */
-  public static org.gwtproject.user.client.Element createCaption() {
-    return Document.get().createCaptionElement().cast();
+  public static Element createCaption() {
+    return Document.get().createCaptionElement();
   }
 
   /**
@@ -116,8 +122,8 @@ public class DOM {
    * 
    * @return the newly-created element
    */
-  public static org.gwtproject.user.client.Element createCol() {
-    return Document.get().createColElement().cast();
+  public static Element createCol() {
+    return Document.get().createColElement();
   }
 
   /**
@@ -125,8 +131,8 @@ public class DOM {
    * 
    * @return the newly-created element
    */
-  public static org.gwtproject.user.client.Element createColGroup() {
-    return Document.get().createColGroupElement().cast();
+  public static Element createColGroup() {
+    return Document.get().createColGroupElement();
   }
 
   /**
@@ -134,8 +140,8 @@ public class DOM {
    * 
    * @return the newly-created element
    */
-  public static org.gwtproject.user.client.Element createDiv() {
-    return Document.get().createDivElement().cast();
+  public static Element createDiv() {
+    return Document.get().createDivElement();
   }
 
   /**
@@ -144,7 +150,7 @@ public class DOM {
    * @param tagName the HTML tag of the element to be created
    * @return the newly-created element
    */
-  public static org.gwtproject.user.client.Element createElement(String tagName) {
+  public static Element createElement(String tagName) {
     return Document.get().createElement(tagName).cast();
   }
 
@@ -153,8 +159,8 @@ public class DOM {
    * 
    * @return the newly-created element
    */
-  public static org.gwtproject.user.client.Element createFieldSet() {
-    return Document.get().createFieldSetElement().cast();
+  public static Element createFieldSet() {
+    return Document.get().createFieldSetElement();
   }
 
   /**
@@ -162,8 +168,8 @@ public class DOM {
    * 
    * @return the newly-created element
    */
-  public static org.gwtproject.user.client.Element createForm() {
-    return Document.get().createFormElement().cast();
+  public static Element createForm() {
+    return Document.get().createFormElement();
   }
 
   /**
@@ -171,8 +177,8 @@ public class DOM {
    * 
    * @return the newly-created element
    */
-  public static org.gwtproject.user.client.Element createIFrame() {
-    return Document.get().createIFrameElement().cast();
+  public static Element createIFrame() {
+    return Document.get().createIFrameElement();
   }
 
   /**
@@ -180,8 +186,8 @@ public class DOM {
    * 
    * @return the newly-created element
    */
-  public static org.gwtproject.user.client.Element createImg() {
-    return Document.get().createImageElement().cast();
+  public static Element createImg() {
+    return Document.get().createImageElement();
   }
 
   /**
@@ -189,8 +195,8 @@ public class DOM {
    * 
    * @return the newly-created element
    */
-  public static org.gwtproject.user.client.Element createInputCheck() {
-    return Document.get().createCheckInputElement().cast();
+  public static Element createInputCheck() {
+    return Document.get().createCheckInputElement();
   }
 
   /**
@@ -198,8 +204,8 @@ public class DOM {
    * 
    * @return the newly-created element
    */
-  public static org.gwtproject.user.client.Element createInputPassword() {
-    return Document.get().createPasswordInputElement().cast();
+  public static Element createInputPassword() {
+    return Document.get().createPasswordInputElement();
   }
 
   /**
@@ -209,8 +215,8 @@ public class DOM {
    *          associated
    * @return the newly-created element
    */
-  public static org.gwtproject.user.client.Element createInputRadio(String name) {
-    return Document.get().createRadioInputElement(name).cast();
+  public static Element createInputRadio(String name) {
+    return Document.get().createRadioInputElement(name);
   }
 
   /**
@@ -218,8 +224,8 @@ public class DOM {
    * 
    * @return the newly-created element
    */
-  public static org.gwtproject.user.client.Element createInputText() {
-    return Document.get().createTextInputElement().cast();
+  public static Element createInputText() {
+    return Document.get().createTextInputElement();
   }
 
   /**
@@ -227,8 +233,8 @@ public class DOM {
    * 
    * @return the newly-created element
    */
-  public static org.gwtproject.user.client.Element createLabel() {
-    return Document.get().createLabelElement().cast();
+  public static Element createLabel() {
+    return Document.get().createLabelElement();
   }
 
   /**
@@ -236,8 +242,8 @@ public class DOM {
    * 
    * @return the newly-created element
    */
-  public static org.gwtproject.user.client.Element createLegend() {
-    return Document.get().createLegendElement().cast();
+  public static Element createLegend() {
+    return Document.get().createLegendElement();
   }
 
   /**
@@ -245,8 +251,8 @@ public class DOM {
    * 
    * @return the newly-created element
    */
-  public static org.gwtproject.user.client.Element createOption() {
-    return Document.get().createOptionElement().cast();
+  public static Element createOption() {
+    return Document.get().createOptionElement();
   }
 
   /**
@@ -257,7 +263,7 @@ public class DOM {
    *             instead
    */
   @Deprecated
-  public static org.gwtproject.user.client.Element createOptions() {
+  public static Element createOptions() {
     return Document.get().createElement("options").cast();
   }
 
@@ -270,8 +276,8 @@ public class DOM {
    * 
    * @return the newly-created element
    */
-  public static org.gwtproject.user.client.Element createSelect() {
-    return Document.get().createSelectElement().cast();
+  public static Element createSelect() {
+    return Document.get().createSelectElement();
   }
 
   /**
@@ -280,7 +286,7 @@ public class DOM {
    * @param multiple true if multiple selection of options is allowed
    * @return the newly-created element
    */
-  public static org.gwtproject.user.client.Element createSelect(boolean multiple) {
+  public static Element createSelect(boolean multiple) {
     SelectElement selectElement = Document.get().createSelectElement();
     selectElement.setMultiple(multiple);
     return selectElement.cast();
@@ -291,8 +297,8 @@ public class DOM {
    * 
    * @return the newly-created element
    */
-  public static org.gwtproject.user.client.Element createSpan() {
-    return Document.get().createSpanElement().cast();
+  public static Element createSpan() {
+    return Document.get().createSpanElement();
   }
 
   /**
@@ -300,8 +306,8 @@ public class DOM {
    * 
    * @return the newly-created element
    */
-  public static org.gwtproject.user.client.Element createTable() {
-    return Document.get().createTableElement().cast();
+  public static Element createTable() {
+    return Document.get().createTableElement();
   }
 
   /**
@@ -309,8 +315,8 @@ public class DOM {
    * 
    * @return the newly-created element
    */
-  public static org.gwtproject.user.client.Element createTBody() {
-    return Document.get().createTBodyElement().cast();
+  public static Element createTBody() {
+    return DOM.resolve(Document.get().createTBodyElement());
   }
 
   /**
@@ -318,8 +324,8 @@ public class DOM {
    * 
    * @return the newly-created element
    */
-  public static org.gwtproject.user.client.Element createTD() {
-    return Document.get().createTDElement().cast();
+  public static Element createTD() {
+    return Document.get().createTDElement();
   }
 
   /**
@@ -327,8 +333,8 @@ public class DOM {
    * 
    * @return the newly-created element
    */
-  public static org.gwtproject.user.client.Element createTextArea() {
-    return Document.get().createTextAreaElement().cast();
+  public static Element createTextArea() {
+    return Document.get().createTextAreaElement();
   }
 
   /**
@@ -336,8 +342,8 @@ public class DOM {
    * 
    * @return the newly-created element
    */
-  public static org.gwtproject.user.client.Element createTFoot() {
-    return Document.get().createTFootElement().cast();
+  public static Element createTFoot() {
+    return Document.get().createTFootElement();
   }
 
   /**
@@ -345,8 +351,8 @@ public class DOM {
    * 
    * @return the newly-created element
    */
-  public static org.gwtproject.user.client.Element createTH() {
-    return Document.get().createTHElement().cast();
+  public static Element createTH() {
+    return Document.get().createTHElement();
   }
 
   /**
@@ -354,8 +360,8 @@ public class DOM {
    * 
    * @return the newly-created element
    */
-  public static org.gwtproject.user.client.Element createTHead() {
-    return Document.get().createTHeadElement().cast();
+  public static Element createTHead() {
+    return Document.get().createTHeadElement();
   }
 
   /**
@@ -363,8 +369,8 @@ public class DOM {
    * 
    * @return the newly-created element
    */
-  public static org.gwtproject.user.client.Element createTR() {
-    return Document.get().createTRElement().cast();
+  public static Element createTR() {
+    return Document.get().createTRElement();
   }
 
   /**
@@ -467,7 +473,7 @@ public class DOM {
    * @return the event's current target element
    * @see DOM#eventGetTarget(Event)
    */
-  public static org.gwtproject.user.client.Element eventGetCurrentTarget(Event evt) {
+  public static Element eventGetCurrentTarget(Event evt) {
     return evt.getCurrentEventTarget().cast();
   }
 
@@ -478,8 +484,8 @@ public class DOM {
    * @param evt the event to be tested
    * @return the element from which the mouse pointer was moved
    */
-  public static org.gwtproject.user.client.Element eventGetFromElement(Event evt) {
-    return asOld(impl.eventGetFromElement(evt));
+  public static Element eventGetFromElement(Event evt) {
+    return impl.eventGetFromElement(evt);
   }
 
   /**
@@ -493,7 +499,7 @@ public class DOM {
    * 
    * @param evt the event to be tested
    * @return the Unicode character or key code.
-   * @see org.gwtproject.user.client.ui.KeyboardListener
+   * @see ui.KeyboardListener
    * @deprecated Use {@link Event#getKeyCode()} instead.
    */
   @Deprecated
@@ -588,7 +594,7 @@ public class DOM {
    * @param evt the event to be tested
    * @return the target element
    */
-  public static org.gwtproject.user.client.Element eventGetTarget(Event evt) {
+  public static Element eventGetTarget(Event evt) {
     return evt.getEventTarget().cast();
   }
 
@@ -599,8 +605,8 @@ public class DOM {
    * @param evt the event to be tested
    * @return the element to which the mouse pointer was moved
    */
-  public static org.gwtproject.user.client.Element eventGetToElement(Event evt) {
-    return asOld(impl.eventGetToElement(evt));
+  public static Element eventGetToElement(Event evt) {
+    return impl.eventGetToElement(evt);
   }
 
   /**
@@ -722,8 +728,8 @@ public class DOM {
    * @return a handle to the capture element, or <code>null</code> if none
    *         exists
    */
-  public static org.gwtproject.user.client.Element getCaptureElement() {
-    return asOld(sCaptureElem);
+  public static Element getCaptureElement() {
+    return sCaptureElem;
   }
 
   /**
@@ -733,8 +739,8 @@ public class DOM {
    * @param index the index of the child element
    * @return the n-th child element
    */
-  public static org.gwtproject.user.client.Element getChild(Element parent, int index) {
-    return asOld(impl.getChild(parent, index));
+  public static Element getChild(Element parent, int index) {
+    return impl.getChild(parent, index);
   }
 
   /**
@@ -779,8 +785,8 @@ public class DOM {
    * @param id the id whose associated element is to be retrieved
    * @return the associated element, or <code>null</code> if none is found
    */
-  public static org.gwtproject.user.client.Element getElementById(String id) {
-    return asOld(Document.get().getElementById(id));
+  public static Element getElementById(String id) {
+    return Document.get().getElementById(id);
   }
 
   /**
@@ -850,8 +856,8 @@ public class DOM {
    * @param elem the element whose child is to be retrieved
    * @return the child element
    */
-  public static org.gwtproject.user.client.Element getFirstChild(Element elem) {
-    return asOld(elem.getFirstChildElement());
+  public static Element getFirstChild(Element elem) {
+    return elem.getFirstChildElement();
   }
 
   /**
@@ -912,9 +918,9 @@ public class DOM {
    * @param attr the name of the attribute to be retrieved
    * @return the style attribute's value as an integer
    */
-  public static native int getIntStyleAttribute(Element elem, String attr) /*-{
-    return parseInt(elem.style[attr]) || 0;
-  }-*/;
+  public static int getIntStyleAttribute(Element elem, String attr) {
+     return Integer.valueOf(elem.getStyle().getProperty(attr));
+  }
 
   /**
    * Gets an element's next sibling element.
@@ -922,7 +928,7 @@ public class DOM {
    * @param elem the element whose sibling is to be retrieved
    * @return the sibling element
    */
-  public static org.gwtproject.user.client.Element getNextSibling(Element elem) {
+  public static Element getNextSibling(Element elem) {
     return elem.getNextSibling().cast();
   }
 
@@ -932,29 +938,15 @@ public class DOM {
    * @param elem the element whose parent is to be retrieved
    * @return the parent element
    */
-  public static org.gwtproject.user.client.Element getParent(Element elem) {
-    return asOld(elem.getParentElement());
-  }
-
-  /**
-   * Gets an attribute of the given element's style.
-   * 
-   * @param elem the element whose style attribute is to be retrieved
-   * @param attr the name of the style attribute to be retrieved
-   * @return the style attribute's value
-   * @deprecated Use {@link Element#getStyle()} and
-   *             {@link Style#getProperty(String)} instead.
-   */
-  @Deprecated
-  public static String getStyleAttribute(Element elem, String attr) {
-    return elem.getStyle().getProperty(attr);
+  public static Element getParent(Element elem) {
+    return elem.getParentElement();
   }
 
   /**
    * Inserts an element as a child of the given parent element, before another
    * child of that parent.
    * <p>
-   * If the child element is a {@link org.gwtproject.user.client.ui.PotentialElement}, it is first
+   * If the child element is a {@link ui.PotentialElement}, it is first
    * resolved.
    * </p>
    * 
@@ -962,7 +954,7 @@ public class DOM {
    * @param child the child element to add to <code>parent</code>
    * @param before an existing child element of <code>parent</code> before which
    *          <code>child</code> will be inserted
-   * @see org.gwtproject.user.client.ui.PotentialElement#resolve(Element)
+   * @see ui.PotentialElement#resolve(Element)
    */
   public static void insertBefore(Element parent, Element child, Element before) {
     assert !isPotential(parent) : "Cannot insert into a PotentialElement";
@@ -975,7 +967,7 @@ public class DOM {
   /**
    * Inserts an element as a child of the given parent element.
    * <p>
-   * If the child element is a {@link org.gwtproject.user.client.ui.PotentialElement}, it is first
+   * If the child element is a {@link ui.PotentialElement}, it is first
    * resolved.
    * </p>
    * 
@@ -984,7 +976,7 @@ public class DOM {
    * @param index the index before which the child will be inserted (any value
    *          greater than the number of existing children will cause the child
    *          to be appended)
-   * @see org.gwtproject.user.client.ui.PotentialElement#resolve(Element)
+   * @see ui.PotentialElement#resolve(Element)
    */
   public static void insertChild(Element parent, Element child, int index) {
     assert !isPotential(parent) : "Cannot insert into a PotentialElement";
@@ -1023,17 +1015,23 @@ public class DOM {
     }
   }
 
-  private static native boolean isPotential(JavaScriptObject o) /*-{
+  //TODO check this
+  public static boolean isPotential(JavaScriptObject o) {
     try {
-      return (!!o) &&  (!!o.__gwt_resolve);
-    } catch (e) {
-      return false;
-    }
-  }-*/;
+      return (o != null) &&  ((JsPropertyMap)o).has("__gwt_resolve");
+    } catch (Exception e) {
 
-  private static native Element resolve(Element maybePotential) /*-{
-    return maybePotential.__gwt_resolve ? maybePotential.__gwt_resolve() : maybePotential;
-  }-*/;
+    }
+    return false;
+  }
+
+  private static Element resolve(Element maybePotential) {
+    if(((JsPropertyMap)maybePotential).has("__gwt_resolve")) {
+      return (Element)((JsPropertyMap)maybePotential).get("__gwt_resolve");
+    }else {
+      return maybePotential;
+    }
+  }
   /**
    * Determine whether one element is equal to, or the child of, another.
    * 
@@ -1426,15 +1424,4 @@ public class DOM {
     listener.onBrowserEvent(evt);
   }
 
-  /**
-   * Provided as a convenient way to upcast values statically typed as
-   * {@link Element} to {@link org.gwtproject.user.client.Element}.
-   * For easier upgrades in the future, it's recommended that this function
-   * only be called within a <code>return</code> statement.
-   * <p>
-   * Does <em>not</em> throw a {@link NullPointerException} if elem is null.
-   */
-  public static org.gwtproject.user.client.Element asOld(Element elem) {
-    return (org.gwtproject.user.client.Element) elem;
-  }
 }

@@ -51,7 +51,7 @@ public class PopupTest extends GWTTestCase {
     }
 
     @Override
-    public org.gwtproject.user.client.Element getContainerElement() {
+    public Element getContainerElement() {
       return super.getContainerElement();
     }
 

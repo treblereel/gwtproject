@@ -15,7 +15,9 @@
  */
 package org.gwtproject.user.client.ui;
 
-import org.gwtproject.core.client.JsArray;
+import elemental2.core.JsArray;
+import jsinterop.base.Js;
+import jsinterop.base.JsPropertyMap;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.TableCellElement;
@@ -97,8 +99,8 @@ public abstract class HTMLTable extends Panel implements
      * 
      * @return the cell's element.
      */
-    public org.gwtproject.user.client.Element getElement() {
-      return DOM.asOld(getCellFormatter().getElement(rowIndex, cellIndex));
+    public Element getElement() {
+      return getCellFormatter().getElement(rowIndex, cellIndex);
     }
 
     /**
@@ -136,9 +138,9 @@ public abstract class HTMLTable extends Panel implements
      * @return the column's TD element
      * @throws IndexOutOfBoundsException
      */
-    public org.gwtproject.user.client.Element getElement(int row, int column) {
+    public Element getElement(int row, int column) {
       checkCellBounds(row, column);
-      return DOM.asOld(getCellElement(bodyElem, row, column));
+      return getCellElement(bodyElem, row, column);
     }
 
     /**
@@ -338,9 +340,9 @@ public abstract class HTMLTable extends Panel implements
      * @return the cell's element
      * @throws IndexOutOfBoundsException
      */
-    protected org.gwtproject.user.client.Element ensureElement(int row, int column) {
+    protected Element ensureElement(int row, int column) {
       prepareCell(row, column);
-      return DOM.asOld(getCellElement(bodyElem, row, column));
+      return getCellElement(bodyElem, row, column);
     }
 
     /**
@@ -380,7 +382,7 @@ public abstract class HTMLTable extends Panel implements
      * @return the element
      */
     private Element getCellElement(Element tbody, int row, int col) {
-      return getCells(getRows(tbody).get(row)).get(col);
+      return getCells(getRows(tbody).getAt(row)).getAt(col);
     }
 
     /**
@@ -422,8 +424,8 @@ public abstract class HTMLTable extends Panel implements
      * @param column the column index
      * @return the col element
      */
-    public org.gwtproject.user.client.Element getElement(int column) {
-      return DOM.asOld(ensureColumn(column));
+    public Element getElement(int column) {
+      return ensureColumn(column);
     }
 
     /**
@@ -566,9 +568,9 @@ public abstract class HTMLTable extends Panel implements
      * @return the row's TR element
      * @throws IndexOutOfBoundsException
      */
-    public org.gwtproject.user.client.Element getElement(int row) {
+    public Element getElement(int row) {
       checkRowBounds(row);
-      return DOM.asOld(getRow(bodyElem, row));
+      return getRow(bodyElem, row);
     }
 
     /**
@@ -675,23 +677,14 @@ public abstract class HTMLTable extends Panel implements
      * @return the row's TR element
      * @throws IndexOutOfBoundsException
      */
-    protected org.gwtproject.user.client.Element ensureElement(int row) {
+    protected Element ensureElement(int row) {
       prepareRow(row);
-      return DOM.asOld(getRow(bodyElem, row));
+      return getRow(bodyElem, row);
     }
 
 
-    protected org.gwtproject.user.client.Element getRow(Element tbody, int row) {
-      return getRow(DOM.asOld(tbody), row);
-    }
-
-    /**
-     * @deprecated Call and override {@link #getRow(Element, int)} instead.
-     */
-    @Deprecated
-    protected org.gwtproject.user.client.Element getRow(
-        org.gwtproject.user.client.Element tbody, int row) {
-      return DOM.asOld(getRows(tbody).get(row));
+    protected Element getRow(Element tbody, int row) {
+      return getRow(tbody, row);
     }
 
     /**
@@ -1190,7 +1183,7 @@ public abstract class HTMLTable extends Panel implements
    * 
    * @return the newly created TD
    */
-  protected org.gwtproject.user.client.Element createCell() {
+  protected Element createCell() {
     return DOM.createTD();
   }
 
@@ -1199,8 +1192,8 @@ public abstract class HTMLTable extends Panel implements
    * 
    * @return the TBODY element
    */
-  protected org.gwtproject.user.client.Element getBodyElement() {
-    return DOM.asOld(bodyElem);
+  protected Element getBodyElement() {
+    return bodyElem;
   }
 
   /**
@@ -1210,18 +1203,9 @@ public abstract class HTMLTable extends Panel implements
    * @param row the row
    * @return number of columns in the row
    */
-
   protected int getDOMCellCount(Element tableBody, int row) {
-    return getDOMCellCount(DOM.asOld(tableBody), row);
-  }
-
-  /**
-   * @deprecated Call and override {@link #getDOMCellCount(Element, int)} instead.
-   */
-  @Deprecated
-  protected int getDOMCellCount(org.gwtproject.user.client.Element tableBody, int row) {
-    Element rowElement = getRows(tableBody).get(row);
-    return getCells(rowElement).length();
+    Element rowElement = getRows(tableBody).getAt(row);
+    return getCells(rowElement).length;
   }
 
   /**
@@ -1245,15 +1229,7 @@ public abstract class HTMLTable extends Panel implements
 
 
   protected int getDOMRowCount(Element tbody) {
-    return getDOMRowCount(DOM.asOld(tbody));
-  }
-
-  /**
-   * @deprecated Call and override {@link #getDOMRowCount(Element)} instead.
-   */
-  @Deprecated
-  protected int getDOMRowCount(org.gwtproject.user.client.Element tbody) {
-    return getRows(tbody).length();
+    return getRows(tbody).length;
   }
 
   /**
@@ -1263,7 +1239,7 @@ public abstract class HTMLTable extends Panel implements
    * @return the TD associated with the event, or <code>null</code> if none is
    *         found.
    */
-  protected org.gwtproject.user.client.Element getEventTargetCell(Event event) {
+  protected Element getEventTargetCell(Event event) {
     Element td = DOM.eventGetTarget(event);
     for (; td != null; td = DOM.getParent(td)) {
       // If it's a TD, it might be the one we're looking for.
@@ -1273,7 +1249,7 @@ public abstract class HTMLTable extends Panel implements
         Element tr = DOM.getParent(td);
         Element body = DOM.getParent(tr);
         if (body == bodyElem) {
-          return DOM.asOld(td);
+          return td;
         }
       }
       // If we run into this table's body, we're out of options.
@@ -1339,16 +1315,7 @@ public abstract class HTMLTable extends Panel implements
    * @param clearInnerHTML should the cell's inner html be cleared?
    * @return returns whether a widget was cleared
    */
-
-  protected boolean internalClearCell(Element td, boolean clearInnerHTML) {
-    return internalClearCell(DOM.asOld(td), clearInnerHTML);
-  }
-
-  /**
-   * @deprecated Call and override {@link internalClearCell(Element, boolean)} instead.
-   */
-  @Deprecated
-  protected boolean internalClearCell(org.gwtproject.user.client.Element td,
+  protected boolean internalClearCell(Element td,
                                       boolean clearInnerHTML) {
     Element maybeChild = DOM.getFirstChild(td);
     Widget widget = null;
@@ -1484,20 +1451,20 @@ public abstract class HTMLTable extends Panel implements
   }
 
   void addCells(Element tbody, int row, int num) {
-    Element rowElem = getRows(tbody).get(row);
+    Element rowElem = getRows(tbody).getAt(row);
     for (int i = 0; i < num; i++) {
       TableCellElement tdElement = Document.get().createTDElement();
       rowElem.appendChild(tdElement);
     }
   }
 
-  private native JsArray<Element> getRows(Element tbody) /*-{
-      return tbody.rows;
-  }-*/;
+  private JsArray<Element> getRows(Element tbody) {
+    return Js.uncheckedCast(((JsPropertyMap) tbody).get("rows"));
+  }
 
-  private native JsArray<Element> getCells(Element row) /*-{
-      return row.cells;
-  }-*/;
+  private JsArray<Element> getCells(Element row)  {
+    return Js.uncheckedCast(((JsPropertyMap) row).get("cells"));
+  }
 
   /**
    * Removes any widgets, text, and HTML within the cell. This method assumes

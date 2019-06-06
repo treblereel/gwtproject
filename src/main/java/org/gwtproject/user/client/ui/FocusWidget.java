@@ -85,7 +85,7 @@ import org.gwtproject.user.client.ui.impl.FocusImpl;
  * Abstract base class for most widgets that can receive keyboard focus.
  */
 public abstract class FocusWidget extends Widget implements
-    HasClickHandlers, HasDoubleClickHandlers, HasFocus, HasEnabled,
+    HasClickHandlers, HasDoubleClickHandlers, Focusable, HasEnabled,
     HasAllDragAndDropHandlers, HasAllFocusHandlers, HasAllGestureHandlers,
     HasAllKeyHandlers, HasAllMouseHandlers, HasAllTouchHandlers {
 

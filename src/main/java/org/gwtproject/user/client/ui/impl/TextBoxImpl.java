@@ -15,30 +15,41 @@
  */
 package org.gwtproject.user.client.ui.impl;
 
+import jsinterop.base.Js;
+import jsinterop.base.JsPropertyMap;
 import org.gwtproject.dom.client.Element;
+import org.gwtproject.user.client.ui.ValueBoxBase;
 
 /**
  * Implementation class used by {@link org.gwtproject.user.client.ui.TextBox}.
  */
 public class TextBoxImpl {
 
-  public native int getCursorPos(Element elem) /*-{
-    // Guard needed for FireFox.
-     try{
-       return elem.selectionStart;
-     } catch (e) {
-       return 0;
-     }
-  }-*/;
+  public int getCursorPos(Element elem) {
+    JsPropertyMap jsObject = ((JsPropertyMap)elem);
+    if(jsObject.has("selectionStart")) {
+        try {
+          return Integer.valueOf(jsObject.get("selectionStart").toString());
+        } catch (Exception e) {
 
-  public native int getSelectionLength(Element elem) /*-{
-    // Guard needed for FireFox.
-    try{
-      return elem.selectionEnd - elem.selectionStart;
-    } catch (e) {
-      return 0;
+        }
     }
-  }-*/;
+    return 0;
+  }
+
+  public int getSelectionLength(Element elem) {
+    JsPropertyMap jsObject = ((JsPropertyMap)elem);
+    if(jsObject.has("selectionEnd") && jsObject.has("selectionStart")) {
+      try {
+        int selectionEnd = Integer.valueOf(jsObject.get("selectionEnd").toString());
+        int selectionStart = Integer.valueOf(jsObject.get("selectionStart").toString());
+        return selectionEnd - selectionStart;
+      } catch (Exception e) {
+
+      }
+    }
+    return 0;
+  }
 
   public int getTextAreaCursorPos(Element elem) {
     return getCursorPos(elem);
@@ -48,11 +59,11 @@ public class TextBoxImpl {
     return getSelectionLength(elem);
   }
 
-  public native void setSelectionRange(Element elem, int pos, int length) /*-{
+  public void setSelectionRange(Element elem, int pos, int length) {
     try {
-      elem.setSelectionRange(pos, pos + length);
-    } catch (e) {
-      // Firefox throws exception if TextBox is not visible, even if attached
+      ((ValueBoxBase) Js.uncheckedCast(elem)).setSelectionRange(pos, pos + length);
+    } catch (Exception e) {
+
     }
-  }-*/;
+  }
 }

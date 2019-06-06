@@ -530,14 +530,6 @@ public class CheckBox extends ButtonBase implements HasName, HasValue<Boolean>,
    * @param elem the new input element
    */
   protected void replaceInputElement(Element elem) {
-    replaceInputElement(DOM.asOld(elem));
-  }
-
-  /**
-   * @deprecated Call and use {@link replaceInputElement(Element)} instead.
-   */
-  @Deprecated
-  protected void replaceInputElement(org.gwtproject.user.client.Element elem) {
     InputElement newInputElem = InputElement.as(elem);
     // Collect information we need to set
     int tabIndex = getTabIndex();

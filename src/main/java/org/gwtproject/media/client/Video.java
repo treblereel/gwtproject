@@ -15,6 +15,7 @@
  */
 package org.gwtproject.media.client;
 
+import jsinterop.base.JsPropertyMap;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.VideoElement;
 
@@ -38,9 +39,9 @@ public class Video extends MediaBase {
    * @return true if supported, false otherwise.
    */
   // TODO: probably safe to assume that everyone supports Video
-  private static native boolean isSupportedRunTime(VideoElement element) /*-{
-      return !!element.canPlayType;
-  }-*/;
+  private static boolean isSupportedRunTime(VideoElement element) {
+    return ((JsPropertyMap)element).has("canPlayType");
+  }
 
   /**
    * Return a new {@link Video} if supported, and null otherwise.

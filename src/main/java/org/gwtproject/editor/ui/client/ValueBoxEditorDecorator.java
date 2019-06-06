@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -53,7 +53,7 @@ import java.util.List;
  *   &lt;/e:valuebox>
  * &lt;/e:ValueBoxEditorDecorator>
  * </pre>
- * 
+ *
  * @param <T> the type of data being edited
  */
 public class ValueBoxEditorDecorator<T> extends Composite implements
@@ -61,7 +61,7 @@ public class ValueBoxEditorDecorator<T> extends Composite implements
 
   @UiTemplate
   interface Binder extends UiBinder<Widget, ValueBoxEditorDecorator<?>> {
-    Binder BINDER = new ValueBoxEditorDecorator_BinderImpl();
+   // Binder BINDER = new ValueBoxEditorDecorator_BinderImpl();
   }
 
   @UiField
@@ -77,13 +77,13 @@ public class ValueBoxEditorDecorator<T> extends Composite implements
    */
   @UiConstructor
   public ValueBoxEditorDecorator() {
-    initWidget(Binder.BINDER.createAndBindUi(this));
+    //initWidget(Binder.BINDER.createAndBindUi(this));
   }
 
   /**
    * Constructs a ValueBoxEditorDecorator using a {@link ValueBoxBase}
    * widget and a {@link ValueBoxEditor} editor.
-   * 
+   *
    * @param widget the widget
    * @param editor the editor
    */
@@ -96,7 +96,7 @@ public class ValueBoxEditorDecorator<T> extends Composite implements
 
   /**
    * Returns the associated {@link ValueBoxEditor}.
-   * 
+   *
    * @return a {@link ValueBoxEditor} instance
    * @see #setEditor(ValueBoxEditor)
    */
@@ -106,7 +106,7 @@ public class ValueBoxEditorDecorator<T> extends Composite implements
 
   /**
    * Sets the associated {@link ValueBoxEditor}.
-   * 
+   *
    * @param editor a {@link ValueBoxEditor} instance
    * @see #asEditor()
    */
@@ -117,7 +117,7 @@ public class ValueBoxEditorDecorator<T> extends Composite implements
   /**
    * Set the widget that the EditorPanel will display. This method will
    * automatically call {@link #setEditor}.
-   * 
+   *
    * @param widget a {@link ValueBoxBase} widget
    */
   @UiChild(limit = 1, tagname = "valuebox")
@@ -130,7 +130,7 @@ public class ValueBoxEditorDecorator<T> extends Composite implements
    * The default implementation will display, but not consume, received errors
    * whose {@link EditorError#getEditor() getEditor()} method returns the Editor
    * passed into {@link #setEditor}.
-   * 
+   *
    * @param errors a List of {@link EditorError} instances
    */
   public void showErrors(List<EditorError> errors) {

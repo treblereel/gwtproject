@@ -18,5 +18,5 @@ package org.gwtproject.user.client.impl;
 /**
  * StandardBase implementation of {@link org.gwtproject.user.client.impl.DOMImpl}.
  */
-class DOMImplStandardBase extends DOMImplStandard {
+public class DOMImplStandardBase extends DOMImplStandard {
 }

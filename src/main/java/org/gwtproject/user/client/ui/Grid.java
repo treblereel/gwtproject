@@ -15,7 +15,11 @@
  */
 package org.gwtproject.user.client.ui;
 
+import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.client.Node;
+import org.gwtproject.dom.client.TableCellElement;
+import org.gwtproject.dom.client.TableRowElement;
 import org.gwtproject.user.client.DOM;
 
 /**
@@ -23,7 +27,7 @@ import org.gwtproject.user.client.DOM;
  * {@link Widget} within its cells. It must be
  * resized explicitly to the desired number of rows and columns.
  * <p>
- * <img class='gallery' src='doc-files/Table.png'/>
+ * <img class=gallery src=doc-files/Table.png/>
  * </p>
  * <p>
  * <h3>Example</h3>
@@ -73,19 +77,19 @@ public class Grid extends HTMLTable {
    * @param rows number of rows to add
    * @param columns the number of columns per row
    */
-  private static native void addRows(Element table, int rows, int columns) /*-{
-     var td = $doc.createElement("td");
-     td.innerHTML = "&nbsp;";
-     var row = $doc.createElement("tr");
-     for(var cellNum = 0; cellNum < columns; cellNum++) {
-       var cell = td.cloneNode(true);
-       row.appendChild(cell);
-     }
-     table.appendChild(row);
-     for(var rowNum = 1; rowNum < rows; rowNum++) {  
-       table.appendChild(row.cloneNode(true));
-     }
-   }-*/;
+  private static void addRows(Element table, int rows, int columns) {
+    TableCellElement td = Document.get().createTDElement();
+    td.setInnerHTML("&nbsp;");
+    TableRowElement row = Document.get().createTRElement();
+    for(int cellNum = 0; cellNum < columns; cellNum++) {
+      Node cell = td.cloneNode(true);
+      row.appendChild(cell);
+    }
+    table.appendChild(row);
+    for(int rowNum = 1; rowNum < rows; rowNum++) {
+      table.appendChild(row.cloneNode(true));
+    }
+  }
 
   /**
    * Number of columns in the current grid.
@@ -122,8 +126,8 @@ public class Grid extends HTMLTable {
   /**
    * Replaces the contents of the specified cell with a single space.
    * 
-   * @param row the cell's row
-   * @param column the cell's column
+   * @param row the cells row
+   * @param column the cells column
    * @throws IndexOutOfBoundsException
    */
   @Override
@@ -266,20 +270,20 @@ public class Grid extends HTMLTable {
    * Creates a new, empty cell.
    */
   @Override
-  protected org.gwtproject.user.client.Element createCell() {
+  protected Element createCell() {
     Element td = super.createCell();
 
     // Add a non-breaking space to the TD. This ensures that the cell is
     // displayed.
     td.setInnerHTML("&nbsp;");
-    return DOM.asOld(td);
+    return td;
   }
 
   /**
    * Checks that a cell is a valid cell in the table.
    * 
-   * @param row the cell's row
-   * @param column the cell's column
+   * @param row the cells row
+   * @param column the cells column
    * @throws IndexOutOfBoundsException
    */
   @Override

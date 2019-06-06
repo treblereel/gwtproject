@@ -15,7 +15,6 @@
  */
 package org.gwtproject.cell.client;
 
-import com.google.gwt.core.client.GWT;
 import org.gwtproject.dom.client.BrowserEvents;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.NativeEvent;

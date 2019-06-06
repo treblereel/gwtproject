@@ -15,7 +15,6 @@
  */
 package org.gwtproject.cell.client;
 
-import org.gwtproject.core.client.GWT;
 import org.gwtproject.safehtml.client.SafeHtmlTemplates;
 import org.gwtproject.safehtml.shared.SafeHtml;
 import org.gwtproject.safehtml.shared.SafeHtmlBuilder;

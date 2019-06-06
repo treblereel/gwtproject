@@ -84,7 +84,7 @@ import org.gwtproject.user.client.ui.impl.FocusImpl;
  * A simple panel that makes its contents focusable, and adds the ability to
  * catch mouse and keyboard events.
  */
-public class FocusPanel extends SimplePanel implements HasFocus,
+public class FocusPanel extends SimplePanel implements Focusable,
     HasAllDragAndDropHandlers, HasAllMouseHandlers, HasClickHandlers,
     HasDoubleClickHandlers, HasAllKeyHandlers, HasAllFocusHandlers,
     HasAllGestureHandlers, HasAllTouchHandlers {

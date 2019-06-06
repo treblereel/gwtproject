@@ -16,6 +16,10 @@
 
 package org.gwtproject.user.client.ui;
 
+import elemental2.core.JsArray;
+import jsinterop.base.Js;
+import jsinterop.base.JsForEachCallbackFn;
+import jsinterop.base.JsPropertyMap;
 import org.gwtproject.core.client.JavaScriptObject;
 
 import java.util.AbstractCollection;
@@ -98,32 +102,32 @@ class PrefixTree extends AbstractCollection<String> {
      * @param tree The tree to add
      * @param prefix The prefix to prepend to values in tree
      */
-    private native void addTree(PrefixTree tree, String prefix) /*-{
-      var suffixes = [];
-      for (var suffix in tree.@org.gwtproject.user.client.ui.PrefixTree::suffixes) {
+    private void addTree(PrefixTree tree, String prefix)  {
+      JsArray<String> arr = tree.suffixes.cast();
+      JsArray<String> suffixes = new JsArray<>();
+
+      for (int i = 0; i < arr.length; i++) {
         // Ignore object properties that aren't colon-prepended keys
-        if (suffix.indexOf(':') == 0) {
-          suffixes.push(suffix);
+        if (arr.getAt(i).indexOf(':') == 0) {
+          suffixes.push(arr.getAt(i));
         }
       }
 
-      var frame = {
-        suffixNames: suffixes,
-        subtrees: tree.@org.gwtproject.user.client.ui.PrefixTree::subtrees,
-        prefix: prefix,
-        index: 0
-      };
+      JsPropertyMap frame = JsPropertyMap.of();
+      frame.set("suffixNames", suffixes);
+      frame.set("subtrees", tree.subtrees);
+      frame.set("prefix", prefix);
+      frame.set("index", 0);
 
-      var stack = this.@org.gwtproject.user.client.ui.PrefixTree$PrefixTreeIterator::stack;
-      stack.push(frame);
-    }-*/;
+      ((JsArray)this.stack.cast()).push(frame);
+    }
 
     /**
      * Initialize JSNI objects.
      */
-    private native void init() /*-{
-      this.@org.gwtproject.user.client.ui.PrefixTree$PrefixTreeIterator::stack = [];
-    }-*/;
+    private void init()  {
+      this.stack = Js.cast(new JsArray());
+    }
 
     /**
      * Access JSNI structures.
@@ -132,64 +136,52 @@ class PrefixTree extends AbstractCollection<String> {
      *          value that next() would return if it were called
      * @return The next object, or null if there is an error
      */
-    private native String nextImpl(boolean peek) /*-{
-      var stack = this.@org.gwtproject.user.client.ui.PrefixTree$PrefixTreeIterator::stack;
-      var safe = @org.gwtproject.user.client.ui.PrefixTree::safe(Ljava/lang/String;)
-      var unsafe = @org.gwtproject.user.client.ui.PrefixTree::unsafe(Ljava/lang/String;)
-
-      // Put this in a while loop to handle descent into subtrees without recursion.
-      while (stack.length > 0) {
-        var frame = stack.pop();
-
-        // Check to see if there are any remaining suffixes to output.
-        if (frame.index < frame.suffixNames.length) {
-          var toReturn = frame.prefix + unsafe(frame.suffixNames[frame.index]);
-
-          if (!peek) {
-            frame.index++;
-          }
-
-          // If the current frame has more suffixes, retain it on the stack.
-          if (frame.index < frame.suffixNames.length) {
-            stack.push(frame);
-
-            // Otherwise, put all of the subtrees on the stack.
-          } else {
-            for (key in frame.subtrees) {
-              if (key.indexOf(':') != 0) {
-                continue;
-              }
-              var target = frame.prefix + unsafe(key);
-              var subtree = frame.subtrees[key];
-              this.@org.gwtproject.user.client.ui.PrefixTree$PrefixTreeIterator::addTree(Lorg/gwtproject/user/client/ui/PrefixTree;Ljava/lang/String;)(subtree, target);
+    private String nextImpl(boolean peek) {
+        JsArray<JavaScriptObject> stack = this.stack.cast();
+        while (stack.length > 0) {
+            JsPropertyMap frame = stack.pop().cast();
+            if (Integer.valueOf(frame.get("index").toString()) < ((JsArray) frame.get("suffixNames")).length) {
+                String toReturn = frame.get("prefix").toString() + unsafe(((JsArray<String>) frame.get("suffixNames")).getAt(Integer.valueOf(frame.get("index").toString())));
+                if (!peek) {
+                    int index = Integer.valueOf(frame.get("index").toString());
+                    index++;
+                    frame.set("index", index);
+                }
+                // If the current frame has more suffixes, retain it on the stack.
+                if (Integer.valueOf(frame.get("index").toString()) < ((JsArray<String>) frame.get("suffixNames")).length) {
+                    stack.push(Js.uncheckedCast(frame));
+                    // Otherwise, put all of the subtrees on the stack.
+                } else {
+                    JsArray<String> subtrees = ((JsArray<String>) frame.get("subtrees"));
+                    for (int i = 0; i < subtrees.length; i++) {
+                        if (subtrees.getAt(i).indexOf(':') != 0) {
+                            continue;
+                        }
+                        String target = frame.get("prefix").toString() + unsafe(subtrees.getAt(i));
+                        PrefixTree subtree = (PrefixTree) ((JsPropertyMap) frame.get("subtrees")).get(subtrees.getAt(i));
+                        this.addTree(subtree, target);
+                    }
+                }
+                return toReturn;
+            } else {
+                JsArray<String> subtrees = ((JsArray<String>) frame.get("subtrees"));
+                for (int i = 0; i < subtrees.length; i++) {
+                    if (subtrees.getAt(i).indexOf(':') != 0) {
+                        continue;
+                    }
+                    String target = frame.get("prefix").toString() + unsafe(subtrees.getAt(i));
+                    PrefixTree subtree = (PrefixTree) ((JsPropertyMap) frame.get("subtrees")).get(subtrees.getAt(i));
+                    this.addTree(subtree, target);
+                }
             }
-          }
-
-          return toReturn;
-
-       // Put all subframes on the stack, and return to top of loop.
-       } else {
-         for (var key in frame.subtrees) {
-           if (key.indexOf(':') != 0) {
-             continue;
-           }
-           var target = frame.prefix + unsafe(key);
-           var subtree = frame.subtrees[key];
-
-           this.@org.gwtproject.user.client.ui.PrefixTree$PrefixTreeIterator::addTree(Lorg/gwtproject/user/client/ui/PrefixTree;Ljava/lang/String;)(subtree, target);
-         }
-       }
-     }
-
-     // This would indicate that next() was called on an empty iterator.
-     // Will throw an exception from next().
-     return null;
-    }-*/;
+        }
+        return null;
+    }
   }
 
   /**
    * Used by native methods to create an appropriately blessed PrefixTree.
-   * 
+   *
    * @param prefixLength Smaller prefix length equals faster, more direct
    *          searches, at a cost of setup time
    * @return a newly constructed prefix tree
@@ -201,7 +193,7 @@ class PrefixTree extends AbstractCollection<String> {
   /**
    *  Ensure that a String can be safely used as a key to an associative-array
    *  JavaScript object by prepending a prefix.
-   *  
+   *
    *  @param s The String to make safe
    *  @return A safe version of <code>s</code>
    */
@@ -211,7 +203,7 @@ class PrefixTree extends AbstractCollection<String> {
 
   /**
    *  Undo the operation performed by safe().
-   *  
+   *
    *  @param s A String returned from safe()
    *  @return The original String passed into safe()
    */
@@ -290,65 +282,56 @@ class PrefixTree extends AbstractCollection<String> {
    *         otherwise
    */
   @Override
-  public native boolean add(String s) /*-{
-    var suffixes =
-        this.@org.gwtproject.user.client.ui.PrefixTree::suffixes;
-    var subtrees =
-        this.@org.gwtproject.user.client.ui.PrefixTree::subtrees;
-    var prefixLength =
-        this.@org.gwtproject.user.client.ui.PrefixTree::prefixLength;
-
-    // This would indicate a mis-use of the code.
-    if ((s == null) || (s.length == 0)) {
-      return false;
-    }
-
-    // Use <= so that strings that are exactly prefixLength long don't
-    // require some kind of null token.
-    if (s.length <= prefixLength) {
-      var safeKey = @org.gwtproject.user.client.ui.PrefixTree::safe(Ljava/lang/String;)(s);
-      if (suffixes.hasOwnProperty(safeKey)) {
-        return false;
-      } else {
-        // Each tree keeps a count of how large it and its children are.
-        this.@org.gwtproject.user.client.ui.PrefixTree::size++;
-
-        suffixes[safeKey] = true;
-        return true;
+  public boolean add(String s) {
+     JsArray<String>  suffixes = this.suffixes.cast();
+     JsPropertyMap  subtrees = this.subtrees.cast();
+     int prefixLength = this.prefixLength;
+      // This would indicate a mis-use of the code.
+      if ((s == null) || (s.length() == 0)) {
+          return false;
       }
-
-    // Add the string to the appropriate PrefixTree.
-    } else {
-      var prefix = @org.gwtproject.user.client.ui.PrefixTree::safe(Ljava/lang/String;)(s.slice(0, prefixLength));
-      var theTree;
-
-      if (subtrees.hasOwnProperty(prefix)) {
-        theTree = subtrees[prefix];
+      // Use <= so that strings that are exactly prefixLength long don't
+      // require some kind of null token.
+      if (s.length() <= prefixLength) {
+          String safeKey = safe(s);
+          if (Js.asPropertyMap(suffixes).has(safeKey)) {
+              return false;
+          } else {
+              // Each tree keeps a count of how large it and its children are.
+              this.size++;
+              Js.asPropertyMap(suffixes).set(safeKey, true);
+              return true;
+          }
+          // Add the string to the appropriate PrefixTree.
       } else {
-        theTree = @org.gwtproject.user.client.ui.PrefixTree::createPrefixTree(I)(prefixLength << 1);
-        subtrees[prefix] = theTree;
+          String prefix = safe(s.substring(0, prefixLength));
+          PrefixTree theTree;
+          if (Js.asPropertyMap(subtrees).has(prefix)) {
+              theTree = (PrefixTree)Js.asPropertyMap(subtrees).get(prefix);
+          } else {
+              theTree = createPrefixTree(prefixLength << 1);
+              Js.asPropertyMap(subtrees).set(prefix, theTree);
+          }
+          String slice = s.substring(prefixLength);
+          if (theTree.add(slice)) {
+              // The size of the subtree increased, so we need to update the local count.
+              this.size++;
+              return true;
+          } else {
+              return false;
+          }
       }
-
-      var slice = s.slice(prefixLength);
-      if (theTree.@org.gwtproject.user.client.ui.PrefixTree::add(Ljava/lang/String;)(slice)) {
-        // The size of the subtree increased, so we need to update the local count.
-        this.@org.gwtproject.user.client.ui.PrefixTree::size++;
-        return true;
-      } else {
-        return false;
-      }
-    }
-  }-*/;
+  }
 
   /**
    * Initialize native state.
    */
   @Override
-  public native void clear() /*-{
-    this.@org.gwtproject.user.client.ui.PrefixTree::size = 0;
-    this.@org.gwtproject.user.client.ui.PrefixTree::subtrees = {};
-    this.@org.gwtproject.user.client.ui.PrefixTree::suffixes = {};
-  }-*/;
+  public void clear() {
+      this.size = 0;
+      this.subtrees = JavaScriptObject.createObject();
+      this.suffixes = JavaScriptObject.createObject();
+  }
 
   @Override
   public boolean contains(Object o) {
@@ -390,7 +373,7 @@ class PrefixTree extends AbstractCollection<String> {
 
   /**
    * Get the number of all elements contained within the PrefixTree.
-   * 
+   *
    * @return the size of the prefix tree
    */
   @Override
@@ -398,86 +381,74 @@ class PrefixTree extends AbstractCollection<String> {
     return size;
   }
 
-  protected native void suggestImpl(String search, String prefix,
-      Collection<String> output, int limit) /*-{
-    var suffixes =
-        this.@org.gwtproject.user.client.ui.PrefixTree::suffixes;
-    var subtrees =
-        this.@org.gwtproject.user.client.ui.PrefixTree::subtrees;
-    var prefixLength =
-        this.@org.gwtproject.user.client.ui.PrefixTree::prefixLength;
+  protected void suggestImpl(String search, String prefix,
+      Collection<String> output, int limit) {
+      JsArray<String>  suffixes = this.suffixes.cast();
+      JsPropertyMap  subtrees = this.subtrees.cast();
+      int prefixLength = this.prefixLength;
+      // Search is too big to be found in current tree, just recurse.
+      if (search.length() > prefix.length() + prefixLength) {
+          String key = safe(search.substring(prefix.length(), prefix.length() + prefixLength));
+          // Just pick the correct subtree, if it exists, and call suggestImpl.
+          if (Js.asPropertyMap(subtrees).has(key)) {
+              PrefixTree subtree = ((PrefixTree) Js.asPropertyMap(subtrees).get(key));
+              String target = prefix + unsafe(key);
+              subtree.suggestImpl(search, target, output, limit);
+          }
+          // The answer can only exist in this tree's suffixes or subtree keys.
+      } else {
+          // Check local suffixes.
+          for (int i = 0; i < suffixes.length; i++) {
+              if (suffixes.getAt(i).indexOf(':') != 0) {
+                  continue;
+              }
+              String target = prefix + unsafe(suffixes.getAt(i));
+              if (target.indexOf(search) == 0) {
+                  output.add(target);
+              }
+              if (output.size() >= limit) {
+                  return;
+              }
+          }
+          // Check the subtree keys.  If the key matches, that implies that all
+          // elements of the subtree would match.
+          subtrees.forEach(key -> {
+              if (key.indexOf(':') == 0) {
+                  String target = prefix + unsafe(key);
+                  PrefixTree subtree = ((PrefixTree) Js.asPropertyMap(subtrees).get(key));
+                  // See if the prefix gives us a match.
+                  if (target.indexOf(search) == 0) {
+                      // Provide as many suggestions as will fit into the remaining limit.
+                      // If there is only one suggestion, include it.
+                      if ((subtree.size <= limit - output.size()) ||
+                      (subtree.size == 1)) {
+                          subtree.dump(output, target);
+                          // Otherwise, include as many answers as we can by truncating the suffix
+                      } else {
+                          // Always fully-specify suffixes.
+                          JsArray<String>  _suffixes = subtree.suffixes.cast();
+                          for (int i = 0; i < _suffixes.length; i++) {
+                              if (_suffixes.getAt(i).indexOf(':') == 0) {
+                                  output.add(target + unsafe(_suffixes.getAt(i)));
+                              }
+                          }
+                          // Give the keys of the subtree.
+                          Js.asPropertyMap(subtree.subtrees).forEach(_key ->{
+                              if (_key.indexOf(':') == 0) {
+                                  output.add(target + unsafe(_key + "..."));
 
-    // Search is too big to be found in current tree, just recurse.
-    if (search.length > prefix.length + prefixLength) {
-      var key = @org.gwtproject.user.client.ui.PrefixTree::safe(Ljava/lang/String;)(search.slice(prefix.length, prefix.length + prefixLength));
-
-      // Just pick the correct subtree, if it exists, and call suggestImpl.
-      if (subtrees.hasOwnProperty(key)) {
-        var subtree = subtrees[key];
-        var target = prefix + @org.gwtproject.user.client.ui.PrefixTree::unsafe(Ljava/lang/String;)(key);
-        subtree.@org.gwtproject.user.client.ui.PrefixTree::suggestImpl(Ljava/lang/String;Ljava/lang/String;Ljava/util/Collection;I)(search, target, output, limit);
+                              }
+                          });
+                      }
+                  }
+              }
+          });
       }
-
-    // The answer can only exist in this tree's suffixes or subtree keys.
-    } else {
-     // Check local suffixes.
-     for (var suffix in suffixes) {
-       if (suffix.indexOf(':') != 0) {
-         continue;
-       }
-       var target = prefix + @org.gwtproject.user.client.ui.PrefixTree::unsafe(Ljava/lang/String;)(suffix);
-       if (target.indexOf(search) == 0) {
-         output.@java.util.Collection::add(Ljava/lang/Object;)(target);
-       }
-
-       if (output.@java.util.Collection::size()() >= limit) {
-         return;
-       }
-     }
-
-     // Check the subtree keys.  If the key matches, that implies that all
-     // elements of the subtree would match.
-     for (var key in subtrees) {
-       if (key.indexOf(':') != 0) {
-         continue;
-       }
-       var target = prefix + @org.gwtproject.user.client.ui.PrefixTree::unsafe(Ljava/lang/String;)(key);
-       var subtree = subtrees[key];
-
-       // See if the prefix gives us a match.
-       if (target.indexOf(search) == 0) {
-
-         // Provide as many suggestions as will fit into the remaining limit.
-         // If there is only one suggestion, include it.
-         if ((subtree.@org.gwtproject.user.client.ui.PrefixTree::size <= limit - output.@java.util.Collection::size()()) ||
-             (subtree.@org.gwtproject.user.client.ui.PrefixTree::size == 1)) {
-           subtree.@org.gwtproject.user.client.ui.PrefixTree::dump(Ljava/util/Collection;Ljava/lang/String;)(output, target);
-
-         // Otherwise, include as many answers as we can by truncating the suffix
-         } else {
-
-           // Always fully-specify suffixes.
-           for (var suffix in subtree.@org.gwtproject.user.client.ui.PrefixTree::suffixes) {
-             if (suffix.indexOf(':') == 0) {
-               output.@java.util.Collection::add(Ljava/lang/Object;)(target + @org.gwtproject.user.client.ui.PrefixTree::unsafe(Ljava/lang/String;)(suffix));
-             }
-           }
-
-           // Give the keys of the subtree.
-           for (var subkey in subtree.@org.gwtproject.user.client.ui.PrefixTree::subtrees) {
-             if (subkey.indexOf(':') == 0) {
-               output.@java.util.Collection::add(Ljava/lang/Object;)(target + @org.gwtproject.user.client.ui.PrefixTree::unsafe(Ljava/lang/String;)(subkey) + "...");
-             }
-           }
-         }
-       }
-     }
-   }
-  }-*/;
+  }
 
   /**
    * Put all contents of the PrefixTree into a Collection.
-   * 
+   *
    * @param output the collection into which the prefixes will be dumped
    * @param prefix the prefix to filter with
    */

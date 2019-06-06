@@ -15,7 +15,8 @@
  */
 package org.gwtproject.user.client.ui.impl;
 
-import org.gwtproject.core.client.GWT;
+import elemental2.dom.HTMLElement;
+import jsinterop.base.JsPropertyMap;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 
@@ -25,7 +26,7 @@ import org.gwtproject.dom.client.Element;
  */
 public class FocusImpl {
 
-  private static FocusImpl implPanel = GWT.create(FocusImpl.class);
+  private static FocusImpl implPanel = new FocusImpl();
 
   /**
    * This instance may not be a {@link FocusImplStandard}, because that special
@@ -79,9 +80,9 @@ public class FocusImpl {
     return elem.getTabIndex();
   }
 
-  public native void setAccessKey(Element elem, char key) /*-{
-    elem.accessKey = String.fromCharCode(key);
-  }-*/;
+  public void setAccessKey(Element elem, char key) {
+    ((JsPropertyMap)elem).set("accessKey", Character.toString(key));
+  }
 
   public void setTabIndex(Element elem, int index) {
     elem.setTabIndex(index);

@@ -42,7 +42,7 @@ public class CellTableTest extends AbstractCellTableTestBase<CellTable<String>> 
    * Test headers that span multiple columns.
    */
   public void testMultiColumnHeader() {
-    Resources res = GWT.create(Resources.class);
+    Resources res = new CellTable_ResourcesImpl();
     CellTable<String> table = new CellTable<String>(10, res);
     TextHeader header = new TextHeader("Hello");
 
@@ -397,7 +397,7 @@ public class CellTableTest extends AbstractCellTableTestBase<CellTable<String>> 
    * Test if the tableWidget style is applied.
    */
   public void testTableWidgetStyle() {
-    Resources res = GWT.create(Resources.class);
+    Resources res = new CellTable_ResourcesImpl();
     CellTable<String> table = new CellTable<String>(10, res);
 
     String tableWidgetStyle = res.cellTableStyle().cellTableWidget();

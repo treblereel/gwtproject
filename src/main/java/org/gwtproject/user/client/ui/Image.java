@@ -15,7 +15,6 @@
  */
 package org.gwtproject.user.client.ui;
 
-import org.gwtproject.core.client.GWT;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import org.gwtproject.dom.client.BrowserEvents;
@@ -141,7 +140,7 @@ public class Image extends Widget implements HasLoadHandlers, HasErrorHandlers,
    */
   private static class ClippedState extends State {
 
-    private static final ClippedImageImpl impl = GWT.create(ClippedImageImpl.class);
+    private static final ClippedImageImpl impl = new ClippedImageImpl();
 
     private int height = 0;
     private int left = 0;

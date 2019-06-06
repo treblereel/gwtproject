@@ -15,7 +15,6 @@
  */
 package org.gwtproject.user.client.ui.impl;
 
-import org.gwtproject.core.client.GWT;
 import org.gwtproject.core.client.JavaScriptObject;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
@@ -51,7 +50,7 @@ public class ClippedImageImpl {
   }
 
   protected static final SafeUri clearImage =
-    UriUtils.fromTrustedString(GWT.getModuleBaseURL() + "clear.cache.gif");
+    UriUtils.fromTrustedString("clear.cache.gif");//TODO
   private static Template template;
   private static DraggableTemplate draggableTemplate;
 
@@ -71,11 +70,9 @@ public class ClippedImageImpl {
     return elem;
   }
 
-  public static native JavaScriptObject createOnLoadHandlerFunction() /*-{
-    return function() {
-      this.__gwtLastUnhandledEvent = 'load';
-    }
-  }-*/;
+  public static JavaScriptObject createOnLoadHandlerFunction() {
+    throw new UnsupportedOperationException();
+  }
 
   public Element getImgElement(Image image) {
     return image.getElement();

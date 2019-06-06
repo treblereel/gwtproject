@@ -15,10 +15,16 @@
  */
 package org.gwtproject.user.client.ui;
 
+import elemental2.dom.DomGlobal;
+import jsinterop.annotations.JsConstructor;
+import jsinterop.annotations.JsFunction;
+import jsinterop.base.Js;
+import jsinterop.base.JsPropertyMap;
 import org.gwtproject.core.client.JavaScriptObject;
 import org.gwtproject.dom.builder.shared.HtmlBuilderFactory;
 import org.gwtproject.dom.builder.shared.HtmlElementBuilder;
 import org.gwtproject.dom.client.Element;
+import org.gwtproject.user.client.DOM;
 
 /**
  * EXPERIMENTAL and subject to change. Do not use this in production code.
@@ -63,12 +69,12 @@ public class PotentialElement extends Element {
    * {@link UIObject#resolvePotentialElement} to get a real element when
    * that is needed.
    */
-  public static native PotentialElement build(UIObject o, String tagName) /*-{
-    var el = new $wnd.GwtPotentialElementShim();
-    el.tagName = tagName;
-    el.__gwt_resolve = @org.gwtproject.user.client.ui.PotentialElement::buildResolveCallback(Lorg/gwtproject/user/client/ui/UIObject;)(o);
-    return @org.gwtproject.dom.client.Element::as(Lorg/gwtproject/core/client/JavaScriptObject;)(el);
-  }-*/;
+  public static PotentialElement build(UIObject o, String tagName) {
+      GwtPotentialElementShim shim = new GwtPotentialElementShim();
+      shim.tagName = tagName;
+      shim.__gwt_resolve = () -> buildResolveCallback(o);
+      return Js.uncheckedCast(Element.as(shim));
+  }
 
   /**
    * Creates an {@link HtmlElementBuilder} instance inheriting all attributes
@@ -92,9 +98,9 @@ public class PotentialElement extends Element {
    * @param o the {@link JavaScriptObject} to be tested
    * @return true if the given object is a PotentialElement instance
    */
-  public static native boolean isPotential(JavaScriptObject o) /*-{
-    return @org.gwtproject.user.client.DOM::isPotential(*)(o);
-  }-*/;
+  public static boolean isPotential(JavaScriptObject o) {
+    return DOM.isPotential(o);
+  }
 
   /**
    * If given a PotentialElement, returns the real Element to be
@@ -108,100 +114,78 @@ public class PotentialElement extends Element {
     return maybePotential.<PotentialElement>cast().resolve();
   }
 
-  private static native JavaScriptObject buildResolveCallback(UIObject resolver) /*-{
-    return function() {
-        this.__gwt_resolve = @org.gwtproject.user.client.ui.PotentialElement::cannotResolveTwice();
-        return resolver.@org.gwtproject.user.client.ui.UIObject::resolvePotentialElement()();
+
+  //TODO MISSED         this.__gwt_resolve = @com.google.gwt.user.client.ui.PotentialElement::cannotResolveTwice();
+  private static JavaScriptObject buildResolveCallback(UIObject resolver) {
+      Fn func = () -> {
+        // this.__gwt_resolve = @com.google.gwt.user.client.ui.PotentialElement::cannotResolveTwice();
+        return resolver.resolvePotentialElement();
       };
-  }-*/;
+      return Js.uncheckedCast(func);
+  }
 
-  private static final native void cannotResolveTwice() /*-{
-    throw "A PotentialElement cannot be resolved twice.";
-  }-*/;
+  private static final void cannotResolveTwice() {
+    throw new Error("A PotentialElement cannot be resolved twice.");
+  }
 
-  private static final native void declareShim() /*-{
-    var shim = function() {};
-    shim.prototype = {
-      className: '',
-      clientHeight: 0,
-      clientWidth: 0,
-      dir: '',
-      getAttribute: function(name, value) {
-        return this[name];
-      },
-      href: '',
-      id: '',
-      lang: '',
-      // should be @org.gwtproject.dom.client.Node.ELEMENT_MODE, but the compiler
-      // doesn't like that.
-      nodeType: 1,
-      removeAttribute: function(name, value) {
-        this[name] = undefined;
-      },
-      setAttribute: function(name, value) {
-        this[name] = value;
-      },
-      src: '',
-      style: {},
-      title: ''
-    };
-    $wnd.GwtPotentialElementShim = shim;
-  }-*/;
+  //TODO DO WE NEED IT ?
+  private static final void declareShim() {
+      Js.asPropertyMap(DomGlobal.window).set("GwtPotentialElementShim", new GwtPotentialElementShim());
+  }
 
+  @JsConstructor
   protected PotentialElement() {
   }
 
-  final native Element setResolver(UIObject resolver) /*-{
-    this.__gwt_resolve = @org.gwtproject.user.client.ui.PotentialElement::buildResolveCallback(Lorg/gwtproject/user/client/ui/UIObject;)(resolver);
-  }-*/;
+  final Element setResolver(UIObject resolver) {
+    ((JsPropertyMap)this).set("__gwt_resolve", buildResolveCallback(resolver));
+    return this;
+  }
 
   /**
    * Copy only the fields that have actually changed from the values in the shim
    * prototype. Do this by severing the __proto__ link, allowing us to iterate
    * only on the fields set in this specific instance.
    */
-  private native void mergeInto(HtmlElementBuilder builder) /*-{
-    var savedProto = this.__proto__;
-    var tagName = this.tagName;
-    var gwtResolve = this.__gwt_resolve;
-    var className = this.className;
+  private void mergeInto(HtmlElementBuilder builder) {
+      JsPropertyMap _this = ((JsPropertyMap)this);
 
-    try {
-      this.__proto__ = null;
-      this.tagName = null;
-      this.__gwt_resolve = null;
+      String savedProto = _this.get("__proto__").toString();
+      String tagName = _this.get("tagName").toString();
+      String gwtResolve = _this.get("__gwt_resolve").toString();
+      String className = _this.get("className").toString();
+      try {
+          _this.set("__proto__", null);
+          _this.set("tagName", null);
+          _this.set("__gwt_resolve", null);
 
-      // className needs special treatment because the actual HTML attribute is
-      // called "class" and not "className".
-      if (this.className) {
-        builder.@org.gwtproject.dom.builder.shared.ElementBuilder::className(Ljava/lang/String;)(
-            this.className);
-        this.className = null;
+          // className needs special treatment because the actual HTML attribute is
+          // called "class" and not "className".
+          if (_this.get("className") !=  null) {
+              builder.className(_this.get("className").toString());
+              _this.set("className", null);
+          }
+          // Iterate over all attributes, and copy them to the ElementBuilder.
+          // TODO(rdcastro): Deal with the "style" attribute.
+          _this.forEach(fn -> {
+            if(_this.has(fn)) {
+                Object obj = _this.get(fn);
+                if(obj instanceof String) {
+                    builder.attribute(fn, _this.get(fn).toString());
+                } else if(obj instanceof Number) {
+                    builder.attribute(fn, Integer.valueOf(_this.get(fn).toString()));
+                }
+            }
+          });
+      } finally {
+          _this.set("__proto__", savedProto);
+          if (className != null) {
+              _this.set("className", className);
+          }
+          _this.set("__gwt_resolve", gwtResolve);
+          _this.set("tagName", tagName);
       }
-
-      // Iterate over all attributes, and copy them to the ElementBuilder.
-      // TODO(rdcastro): Deal with the "style" attribute.
-      for (attr in this) {
-        if (!this[attr]) {
-          continue;
-        }
-        if (typeof this[attr] == 'number') {
-          builder.@org.gwtproject.dom.builder.shared.ElementBuilder::attribute(Ljava/lang/String;I)(
-              attr, this[attr]);
-        } else if (typeof this[attr] == 'string') {
-          builder.@org.gwtproject.dom.builder.shared.ElementBuilder::attribute(Ljava/lang/String;Ljava/lang/String;)(
-              attr, this[attr]);
-        }
-      }
-    } finally {
-      this.__proto__ = savedProto;
-      if (className) {
-        this.className = className;
-      }
-      this.__gwt_resolve = gwtResolve;
-      this.tagName = tagName;
-    }
-  }-*/;
+  }
 
   /**
    * Calls the <code>__gwt_resolve</code> method on the underlying
@@ -209,7 +193,14 @@ public class PotentialElement extends Element {
    * method is a call to the {@link UIObject#resolvePotentialElement} method
    * on the associated UIObject.
    */
-  private native Element resolve() /*-{
-    return @org.gwtproject.user.client.DOM::resolve(*)(o)
-  }-*/;
+  private Element resolve() {
+      return ((JsPropertyMap)this).has("__gwt_resolve") ? ((Fn)((JsPropertyMap)this).get("__gwt_resolve")).onInvoke() : this;
+  }
+
+
+  @FunctionalInterface
+  @JsFunction
+  interface Fn {
+    Element onInvoke();
+  }
 }

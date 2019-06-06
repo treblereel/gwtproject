@@ -21,14 +21,14 @@ import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.safehtml.shared.SafeHtmlBuilder;
 
 /**
- * Tests for {@link org.gwtproject.cell.client.TextInputCell}.
+ * Tests for {@link TextInputCell}.
  */
 public class TextInputCellTest extends
-    EditableCellTestBase<String, org.gwtproject.cell.client.TextInputCell.ViewData> {
+    EditableCellTestBase<String, TextInputCell.ViewData> {
 
   public void testOnBrowserEventChange() {
     NativeEvent event = Document.get().createChangeEvent();
-    org.gwtproject.cell.client.TextInputCell.ViewData expected = new org.gwtproject.cell.client.TextInputCell.ViewData("oldValue");
+    TextInputCell.ViewData expected = new TextInputCell.ViewData("oldValue");
     expected.setLastValue("hello");
     expected.setCurrentValue("hello");
     testOnBrowserEvent(getExpectedInnerHtml(), event, "oldValue", null,
@@ -38,7 +38,7 @@ public class TextInputCellTest extends
   public void testOnBrowserEventKeyUp() {
     NativeEvent event = Document.get().createKeyUpEvent(false, false, false,
         false, 0);
-    org.gwtproject.cell.client.TextInputCell.ViewData expected = new org.gwtproject.cell.client.TextInputCell.ViewData("oldValue");
+    TextInputCell.ViewData expected = new TextInputCell.ViewData("oldValue");
     expected.setCurrentValue("hello");
     testOnBrowserEvent(getExpectedInnerHtml(), event, "oldValue", null, null,
         expected);
@@ -58,8 +58,8 @@ public class TextInputCellTest extends
   }
 
   @Override
-  protected org.gwtproject.cell.client.TextInputCell createCell() {
-    return new org.gwtproject.cell.client.TextInputCell();
+  protected TextInputCell createCell() {
+    return new TextInputCell();
   }
 
   @Override
@@ -68,7 +68,7 @@ public class TextInputCellTest extends
   }
 
   @Override
-  protected org.gwtproject.cell.client.TextInputCell.ViewData createCellViewData() {
+  protected TextInputCell.ViewData createCellViewData() {
     return new TextInputCell.ViewData("newValue");
   }
 

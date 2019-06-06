@@ -16,6 +16,7 @@
 
 package org.gwtproject.user.client;
 
+import org.gwtproject.dom.client.Element;
 import org.gwtproject.event.dom.client.*;
 import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.user.client.ui.*;
@@ -50,22 +51,22 @@ public class TouchEventSinkTest extends GWTTestCase {
 
     CheckBox checkBox1 = new CheckBox();
     // Get the inputElem on which events are sunk
-    org.gwtproject.user.client.Element e1 = (org.gwtproject.user.client.Element) checkBox1.getElement().getFirstChildElement();
+    Element e1 = (Element) checkBox1.getElement().getFirstChildElement();
     verifyTouchStartEventSinkOnAddHandler(checkBox1, e1, false);
 
     CheckBox checkBox2 = new CheckBox();
     // Get the inputElem on which events are sunk
-    org.gwtproject.user.client.Element e2 = (org.gwtproject.user.client.Element) checkBox2.getElement().getFirstChildElement();
+    Element e2 = (Element) checkBox2.getElement().getFirstChildElement();
     verifyTouchMoveEventSinkOnAddHandler(checkBox2, e2, false);
 
     CheckBox checkBox3 = new CheckBox();
     // Get the inputElem on which events are sunk
-    org.gwtproject.user.client.Element e3 = (Element) checkBox3.getElement().getFirstChildElement();
+    Element e3 = (Element) checkBox3.getElement().getFirstChildElement();
     verifyTouchEndEventSinkOnAddHandler(checkBox3, e3, false);
 
     CheckBox checkBox4 = new CheckBox();
     // Get the inputElem on which events are sunk
-    org.gwtproject.user.client.Element e4 = (org.gwtproject.user.client.Element) checkBox4.getElement().getFirstChildElement();
+    Element e4 = (Element) checkBox4.getElement().getFirstChildElement();
     verifyTouchCancelEventSinkOnAddHandler(checkBox4, e4, false);
 
     verifyTouchStartEventSinkOnAddHandler(new ToggleButton(), false);
@@ -158,19 +159,19 @@ public class TouchEventSinkTest extends GWTTestCase {
         + " once the widget has been attached", isSunk);
   }
 
-  private boolean isTouchCancelEventSunk(org.gwtproject.user.client.Element e) {
+  private boolean isTouchCancelEventSunk(Element e) {
     return (org.gwtproject.user.client.DOM.getEventsSunk(e) & org.gwtproject.user.client.Event.ONTOUCHCANCEL) != 0;
   }
 
-  private boolean isTouchEndEventSunk(org.gwtproject.user.client.Element e) {
+  private boolean isTouchEndEventSunk(Element e) {
     return (org.gwtproject.user.client.DOM.getEventsSunk(e) & org.gwtproject.user.client.Event.ONTOUCHEND) != 0;
   }
 
-  private boolean isTouchMoveEventSunk(org.gwtproject.user.client.Element e) {
+  private boolean isTouchMoveEventSunk(Element e) {
     return (org.gwtproject.user.client.DOM.getEventsSunk(e) & Event.ONTOUCHMOVE) != 0;
   }
 
-  private boolean isTouchStartEventSunk(org.gwtproject.user.client.Element e) {
+  private boolean isTouchStartEventSunk(Element e) {
     return (DOM.getEventsSunk(e) & org.gwtproject.user.client.Event.ONTOUCHSTART) != 0;
   }
 
@@ -181,7 +182,7 @@ public class TouchEventSinkTest extends GWTTestCase {
 
   private <W extends Widget & HasAllTouchHandlers>
       void verifyTouchCancelEventSinkOnAddHandler(
-      W w, org.gwtproject.user.client.Element e, boolean widgetSinksEventsOnAttach) {
+      W w, Element e, boolean widgetSinksEventsOnAttach) {
     RootPanel.get().add(w);
 
     if (widgetSinksEventsOnAttach) {
@@ -209,7 +210,7 @@ public class TouchEventSinkTest extends GWTTestCase {
 
   private <W extends Widget & HasAllTouchHandlers>
       void verifyTouchEndEventSinkOnAddHandler(
-      W w, org.gwtproject.user.client.Element e, boolean widgetSinksEventsOnAttach) {
+      W w, Element e, boolean widgetSinksEventsOnAttach) {
     RootPanel.get().add(w);
 
     if (widgetSinksEventsOnAttach) {
@@ -237,7 +238,7 @@ public class TouchEventSinkTest extends GWTTestCase {
 
   private <W extends Widget & HasAllTouchHandlers>
       void verifyTouchMoveEventSinkOnAddHandler(
-      W w, org.gwtproject.user.client.Element e, boolean widgetSinksEventsOnAttach) {
+      W w, Element e, boolean widgetSinksEventsOnAttach) {
     RootPanel.get().add(w);
 
     if (widgetSinksEventsOnAttach) {
@@ -266,7 +267,7 @@ public class TouchEventSinkTest extends GWTTestCase {
 
   private <W extends Widget & HasAllTouchHandlers>
       void verifyTouchStartEventSinkOnAddHandler(
-      W w, org.gwtproject.user.client.Element e, boolean widgetSinksEventsOnAttach) {
+      W w, Element e, boolean widgetSinksEventsOnAttach) {
     RootPanel.get().add(w);
 
     if (widgetSinksEventsOnAttach) {

@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import elemental2.dom.DomGlobal;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.event.dom.client.DomEvent;
 import org.gwtproject.event.logical.shared.AttachEvent;
@@ -352,6 +353,9 @@ public class Widget extends UIObject implements EventListener, HasAttachHandlers
     if (bitsToAdd > 0) {
       sinkEvents(bitsToAdd);
     }
+
+    DomGlobal.console.log("on doAttachChildren " + this.toString());
+
     doAttachChildren();
 
     // onLoad() gets called only *after* all of the children are attached and
@@ -462,7 +466,7 @@ public class Widget extends UIObject implements EventListener, HasAttachHandlers
    * @throws IllegalStateException if <code>parent</code> is non-null and the
    *           widget already has a parent
    */
-  void setParent(Widget parent) {
+  protected void setParent(Widget parent) {
     Widget oldParent = this.parent;
     if (parent == null) {
       try {

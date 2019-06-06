@@ -88,7 +88,7 @@ import java.util.List;
  * @see MultiWordSuggestOracle
  * @see ValueBoxBase
  */
-public class SuggestBox extends Composite implements HasText, HasFocus,
+public class SuggestBox extends Composite implements HasText, Focusable,
     HasAnimation, HasEnabled, HasAllKeyHandlers,
     HasValue<String>, HasSelectionHandlers<Suggestion>,
     IsEditor<LeafValueEditor<String>> {

@@ -15,7 +15,6 @@
  */
 package org.gwtproject.user.client.ui;
 
-import com.google.gwt.core.client.GWT;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.resources.client.ClientBundle;
@@ -88,6 +87,9 @@ public class NativeVerticalScrollbar extends AbstractNativeScrollbar implements 
     String DEFAULT_CSS = "org/gwtproject/user/client/ui/NativeVerticalScrollbarTransparent.gss";
   }
 
+  private static NativeVerticalScrollbarUiBinder uiBinder =
+          new NativeVerticalScrollbar_NativeVerticalScrollbarUiBinderImpl();
+
   /**
    * Client bundle used in the uibinder template.
    */
@@ -108,8 +110,8 @@ public class NativeVerticalScrollbar extends AbstractNativeScrollbar implements 
   }
 
   private static Resources DEFAULT_RESOURCES;
-  private static NativeVerticalScrollbarUiBinder uiBinder =
-          new NativeVerticalScrollbar_NativeVerticalScrollbarUiBinderImpl();
+  //private static NativeVerticalScrollbarUiBinder uiBinder =
+  //        new NativeVerticalScrollbar_NativeVerticalScrollbarUiBinderImpl();
 
   /**
    * Get the default resources for this widget.

@@ -15,7 +15,6 @@
  */
 package org.gwtproject.user.cellview.client;
 
-import org.gwtproject.core.client.GWT;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.safehtml.shared.SafeHtml;
@@ -43,7 +42,7 @@ abstract class CellBasedWidgetImpl {
    */
   public static CellBasedWidgetImpl get() {
     if (impl == null) {
-      impl = GWT.create(CellBasedWidgetImpl.class);
+      impl = new CellBasedWidgetImplStandard();
     }
     return impl;
   }

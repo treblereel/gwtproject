@@ -16,7 +16,6 @@
 
 package org.gwtproject.user.datepicker.client;
 
-import org.gwtproject.core.client.GWT;
 import org.gwtproject.i18n.client.DateTimeFormatInfo;
 import org.gwtproject.i18n.client.LocaleInfo;
 
@@ -30,14 +29,6 @@ public class CalendarUtil {
   private static int firstDayOfWeekend;
   private static int lastDayOfWeekend;
   private static int startingDay;
-
-  static {
-    DateTimeFormatInfo dateTimeFormatInfo = LocaleInfo.getCurrentLocale().getDateTimeFormatInfo();
-    // Finding the start and end of weekend
-    firstDayOfWeekend = dateTimeFormatInfo.weekendStart();
-    lastDayOfWeekend = dateTimeFormatInfo.weekendEnd();
-    startingDay = dateTimeFormatInfo.firstDayOfTheWeek();
-  }
 
   /**
    * Adds the given number of days to a date.

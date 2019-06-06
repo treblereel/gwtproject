@@ -15,7 +15,6 @@
  */
 package org.gwtproject.user.client.ui;
 
-import org.gwtproject.core.client.GWT;
 import org.gwtproject.event.logical.shared.HasInitializeHandlers;
 import org.gwtproject.event.logical.shared.InitializeEvent;
 import org.gwtproject.event.logical.shared.InitializeHandler;
@@ -573,7 +572,7 @@ public class RichTextArea extends FocusWidget implements HasHTML,
     }
   }
 
-  private RichTextAreaImpl impl = GWT.create(RichTextAreaImpl.class);
+  private RichTextAreaImpl impl = new RichTextAreaImpl();
 
   /**
    * Creates a new, blank {@link RichTextArea} object with no stylesheet.

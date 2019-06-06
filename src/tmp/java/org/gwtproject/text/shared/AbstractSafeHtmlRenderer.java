@@ -2,15 +2,17 @@ package org.gwtproject.text.shared;
 
 import org.gwtproject.safehtml.shared.SafeHtml;
 import org.gwtproject.safehtml.shared.SafeHtmlBuilder;
+import org.gwtproject.safehtml.shared.SafeHtmlUtils;
 
 public abstract class AbstractSafeHtmlRenderer<T> implements SafeHtmlRenderer<T> {
-  @Override
-  public SafeHtml render(T object) {
-    return null;
+
+  private static final SafeHtml EMPTY_STRING = SafeHtmlUtils.fromSafeConstant("");
+
+  public void render(T object, SafeHtmlBuilder appendable) {
+    appendable.append(render(object));
   }
 
-  @Override
-  public void render(T object, SafeHtmlBuilder builder) {
-
+  protected SafeHtml toSafeHtml(Object obj) {
+    return obj == null ? EMPTY_STRING : SafeHtmlUtils.fromString(String.valueOf(obj));
   }
 }

@@ -795,7 +795,7 @@ public class TreeItem extends UIObject implements IsTreeItem, HasTreeItems,
    * @return the focusable item
    */
   protected Focusable getFocusable() {
-    Focusable focus = getFocusableWidget();
+    Focusable focus = getFocusable();
     if (focus == null) {
       Widget w = getWidget();
       if (w instanceof Focusable) {
@@ -803,23 +803,6 @@ public class TreeItem extends UIObject implements IsTreeItem, HasTreeItems,
       }
     }
     return focus;
-  }
-
-  /**
-   * Returns the widget, if any, that should be focused on if this TreeItem is
-   * selected.
-   *
-   * @return widget to be focused.
-   * @deprecated use {@link #getFocusable()} instead
-   */
-  @Deprecated
-  protected HasFocus getFocusableWidget() {
-    Widget w = getWidget();
-    if (w instanceof HasFocus) {
-      return (HasFocus) w;
-    } else {
-      return null;
-    }
   }
 
   /**

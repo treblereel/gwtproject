@@ -15,6 +15,11 @@
  */
 package org.gwtproject.user.client.ui;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 import org.gwtproject.dom.client.BodyElement;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
@@ -25,11 +30,6 @@ import org.gwtproject.i18n.client.HasDirection;
 import org.gwtproject.i18n.client.LocaleInfo;
 import org.gwtproject.user.client.Event;
 import org.gwtproject.user.window.client.Window;
-
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * The panel to which all other widgets must ultimately be added. RootPanels are
@@ -194,7 +194,7 @@ public class RootPanel extends AbsolutePanel {
       // on the entire document.
       if (LocaleInfo.getCurrentLocale().isRTL()) {
         BidiUtils.setDirectionOnElement(getRootElement(),
-            HasDirection.Direction.RTL);
+                                        HasDirection.Direction.RTL);
       }
     }
 
@@ -217,9 +217,9 @@ public class RootPanel extends AbsolutePanel {
    * 
    * @return the document's body element
    */
-  public static native org.gwtproject.user.client.Element getBodyElement() /*-{
-    return $doc.body;
-  }-*/;
+  public static Element getBodyElement() {
+    return Document.get().getBody();
+  }
 
   /**
    * Determines whether the given widget is in the detach list.
@@ -254,9 +254,9 @@ public class RootPanel extends AbsolutePanel {
    * 
    * @return the document's root element
    */
-  private static native Element getRootElement() /*-{
-    return $doc;
-  }-*/;
+  private static Element getRootElement() {
+    return Document.get().getDocumentElement();
+  }
 
   private static void hookWindowClosing() {
     // Catch the window closing event.

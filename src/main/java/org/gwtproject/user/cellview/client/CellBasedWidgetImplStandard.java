@@ -15,6 +15,9 @@
  */
 package org.gwtproject.user.cellview.client;
 
+import elemental2.dom.HTMLButtonElement;
+import jsinterop.annotations.JsFunction;
+import jsinterop.base.Js;
 import org.gwtproject.core.client.JavaScriptObject;
 import org.gwtproject.dom.client.BrowserEvents;
 import org.gwtproject.dom.client.Element;
@@ -35,7 +38,7 @@ class CellBasedWidgetImplStandard extends CellBasedWidgetImpl {
   /**
    * The method used to dispatch non-bubbling events.
    */
-  private static JavaScriptObject dispatchNonBubblingEvent;
+  private static FnWithOneArg dispatchNonBubblingEvent;
 
   /**
    * Handle an event from a cell. Used by {@link #initEventSystem()}.
@@ -86,7 +89,7 @@ class CellBasedWidgetImplStandard extends CellBasedWidgetImpl {
 
   public CellBasedWidgetImplStandard() {
     // Initialize the set of non-bubbling events.
-    nonBubblingEvents = new HashSet<String>();
+    nonBubblingEvents = new HashSet<>();
     nonBubblingEvents.add(BrowserEvents.FOCUS);
     nonBubblingEvents.add(BrowserEvents.BLUR);
     nonBubblingEvents.add(BrowserEvents.LOAD);
@@ -116,11 +119,9 @@ class CellBasedWidgetImplStandard extends CellBasedWidgetImpl {
   /**
    * Initialize the event system.
    */
-  private native void initEventSystem() /*-{
-    @CellBasedWidgetImplStandard::dispatchNonBubblingEvent = $entry(function (evt) {
-      @CellBasedWidgetImplStandard::handleNonBubblingEvent(Lorg/gwtproject/user/client/Event;)(evt);
-    });
-  }-*/;
+  private void initEventSystem() {
+    dispatchNonBubblingEvent = Js.uncheckedCast((FnWithOneArg)(event) -> handleNonBubblingEvent(Js.uncheckedCast(event)));
+  }
 
   /**
    * Sink an event on the element.
@@ -128,7 +129,19 @@ class CellBasedWidgetImplStandard extends CellBasedWidgetImpl {
    * @param elem     the element to sink the event on
    * @param typeName the name of the event to sink
    */
-  private native void sinkEventImpl(Element elem, String typeName) /*-{
-    elem.addEventListener(typeName, @CellBasedWidgetImplStandard::dispatchNonBubblingEvent, true);
-  }-*/;
+  private void sinkEventImpl(Element elem, String typeName) {
+    ((elemental2.dom.EventTarget)Js.uncheckedCast(elem)).addEventListener(typeName, Js.uncheckedCast(dispatchNonBubblingEvent),true);
+  }
+
+  @FunctionalInterface
+  @JsFunction
+  interface FnWithNoArg {
+    void onInvoke();
+  }
+
+  @FunctionalInterface
+  @JsFunction
+  interface FnWithOneArg {
+    void onInvoke(Object key);
+  }
 }

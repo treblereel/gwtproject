@@ -15,7 +15,6 @@
  */
 package org.gwtproject.user.client.ui;
 
-import com.google.gwt.core.client.GWT;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import org.gwtproject.dom.client.Document;
@@ -403,7 +402,7 @@ public class FormPanel extends SimplePanel implements FormPanelImplHost {
 
       // We use the module name as part of the unique ID to ensure that ids are
       // unique across modules.
-      frameName = "FormPanel_" + GWT.getModuleName() + "_" + (++formId);
+      frameName = "FormPanel_" + "_" + (++formId);
       setTarget(frameName);
 
       sinkEvents(Event.ONLOAD);

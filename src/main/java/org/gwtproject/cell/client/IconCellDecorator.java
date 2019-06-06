@@ -15,7 +15,6 @@
  */
 package org.gwtproject.cell.client;
 
-import org.gwtproject.core.client.GWT;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.i18n.client.LocaleInfo;

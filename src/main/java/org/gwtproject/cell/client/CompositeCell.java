@@ -15,7 +15,6 @@
  */
 package org.gwtproject.cell.client;
 
-import org.gwtproject.cell.client.Cell;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.EventTarget;
 import org.gwtproject.dom.client.NativeEvent;

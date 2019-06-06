@@ -99,47 +99,13 @@ public class RenderablePanel extends ComplexPanel implements IsRenderable {
    * @param widget the widget to be added
    * @param toReplace the element to be replaced by the widget
    */
-  public final void addAndReplaceElement(Widget widget, Element toReplace) {
-    addAndReplaceElement(widget, DOM.asOld(toReplace));
-  }
-
-  /**
-   * Adds a child widget to the panel, replacing the HTML element.
-   *
-   * @param widget the widget to be added
-   * @param toReplace the element to be replaced by the widget
-   * @deprecated use {@link #addAndReplaceElement(Widget, Element)}
-   */
-  @Deprecated
   public void addAndReplaceElement(Widget widget,
-      org.gwtproject.user.client.Element toReplace) {
+      Element toReplace) {
     // Logic pulled from super.add(), replacing the element rather than adding.
     widget.removeFromParent();
     getChildren().add(widget);
     toReplace.getParentNode().replaceChild(widget.getElement(), toReplace);
     adopt(widget);
-  }
-
-  /**
-   * Overloaded version for IsWidget.
-   *
-   * @see #addAndReplaceElement(Widget,Element)
-   *
-   * @deprecated use {@link #addAndReplaceElement(IsWidget, Element)}
-   */
-  @Deprecated
-  public void addAndReplaceElement(IsWidget widget,
-      org.gwtproject.user.client.Element toReplace) {
-    this.addAndReplaceElement(widget.asWidget(), toReplace);
-  }
-
-  /**
-   * Overloaded version for IsWidget.
-   *
-   * @see #addAndReplaceElement(Widget,Element)
-   */
-  public void addAndReplaceElement(IsWidget widget, Element toReplace) {
-    this.addAndReplaceElement(widget.asWidget(), toReplace);
   }
 
   @Override

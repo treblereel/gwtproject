@@ -15,7 +15,10 @@
  */
 package org.gwtproject.cell.client;
 
-import org.gwtproject.core.client.GWT;
+import elemental2.dom.HTMLInputElement;
+import jsinterop.annotations.JsFunction;
+import jsinterop.base.JsPropertyMap;
+import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.EventTarget;
 import org.gwtproject.dom.client.InputElement;
@@ -26,6 +29,7 @@ import org.gwtproject.safehtml.shared.SafeHtml;
 import org.gwtproject.safehtml.shared.SafeHtmlBuilder;
 import org.gwtproject.text.shared.SafeHtmlRenderer;
 import org.gwtproject.text.shared.SimpleSafeHtmlRenderer;
+import org.gwtproject.user.client.Event;
 
 import java.util.Locale;
 
@@ -275,12 +279,14 @@ public class EditTextCell extends
    *
    * @param input the input element
    */
-  private native void clearInput(Element input) /*-{
-    if (input.selectionEnd)
-      input.selectionEnd = input.selectionStart;
-    else if ($doc.selection)
-      $doc.selection.clear();
-  }-*/;
+  private void clearInput(Element input) {
+    JsPropertyMap jsObject = ((JsPropertyMap)input);
+    if(jsObject.has("selectionEnd")) {
+      jsObject.set("selectionEnd", jsObject.get("selectionStart"));
+    } else if(((JsPropertyMap)Document.get()).has("selection")) {
+      ((Fn)((JsPropertyMap)Document.get()).get("selection")).onInvoke();
+    }
+  }
 
   /**
    * Commit the current value.
@@ -359,5 +365,11 @@ public class EditTextCell extends
     viewData.setText(value);
     viewData.setEditing(isEditing);
     return value;
+  }
+
+  @FunctionalInterface
+  @JsFunction
+  public interface Fn {
+    void onInvoke();
   }
 }

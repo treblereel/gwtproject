@@ -15,8 +15,8 @@
  */
 package org.gwtproject.user.client.ui;
 
-import org.gwtproject.core.client.GWT;
-import org.gwtproject.core.client.JavaScriptObject;
+import jsinterop.annotations.JsFunction;
+import jsinterop.base.JsPropertyMap;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 
@@ -75,8 +75,20 @@ class ScrollImpl {
    * @param scrollable the scrollable element
    * @return true if the direction is RTL, false if LTR
    */
-  public native boolean isRtl(Element scrollable) /*-{
-    var computedStyle = $doc.defaultView.getComputedStyle(scrollable, null);
-    return computedStyle.getPropertyValue('direction') == 'rtl';
-  }-*/;
+  //TODO check this
+  public boolean isRtl(Element scrollable) {
+    JsPropertyMap result = ((Fn) ((JsPropertyMap)((JsPropertyMap)Document.get())
+            .get("defaultView"))
+            .get("getComputedStyle"))
+            .onInvoke(scrollable, null);
+    return result.get("direction").equals("rtl");
+  }
+
+
+  //TODO Maybe varargs ?
+  @FunctionalInterface
+  @JsFunction
+  public interface Fn {
+    JsPropertyMap onInvoke(Object arg1, Object arg2);
+  }
 }

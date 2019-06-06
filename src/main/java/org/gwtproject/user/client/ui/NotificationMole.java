@@ -74,7 +74,7 @@ public class NotificationMole extends Composite {
     }
   }
 
-  private static final Binder BINDER = new NotificationMole_BinderImpl();
+  //private static final Binder BINDER = new NotificationMole_BinderImpl();
 
   @UiField()
   DivElement borderElement;
@@ -101,7 +101,7 @@ public class NotificationMole extends Composite {
   private int animationDuration;
 
   public NotificationMole() {
-    initWidget(BINDER.createAndBindUi(this));
+    //initWidget(BINDER.createAndBindUi(this));
   }
 
   /**

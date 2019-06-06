@@ -96,7 +96,7 @@ public class DisclosurePanelTest extends GWTTestCase {
   public void testDebugId() {
     Label header = new Label("header");
     Label content = new Label("content");
-    DisclosurePanel panel = new DisclosurePanel(header);
+    DisclosurePanel panel = new DisclosurePanel("header");
     panel.setContent(content);
     panel.ensureDebugId("myPanel");
 
@@ -244,7 +244,7 @@ public class DisclosurePanelTest extends GWTTestCase {
   }
 
   private DisclosurePanel createTestPanel() {
-    DisclosurePanel panel = new DisclosurePanel("Test Subject", false);
+    DisclosurePanel panel = new DisclosurePanel("Test Subject");
     panel.setContent(new SimplePanel());
     return panel;
   }

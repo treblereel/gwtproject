@@ -17,6 +17,7 @@ package org.gwtproject.cell.client;
 
 import org.gwtproject.i18n.client.DateTimeFormat;
 import org.gwtproject.i18n.client.TimeZone;
+import org.gwtproject.i18n.client.TimeZoneInfo;
 
 import java.util.Date;
 
@@ -29,7 +30,7 @@ public class DateCellTest extends CellTestBase<Date> {
   protected Cell<Date> createCell() {
     // Set format that shows all fields and timezone of GMT-7
     return new DateCell(DateTimeFormat.getFormat("dd-MM-yyyy HH:mm:ss"),
-        TimeZone.createTimeZone(7 * 60));
+        TimeZone.createTimeZoneInMinutes(7 * 60));
   }
 
   @Override

@@ -15,10 +15,21 @@
  */
 package org.gwtproject.user.client.ui.impl;
 
+import elemental2.dom.DomGlobal;
+import elemental2.dom.EventListener;
+import elemental2.dom.HTMLIFrameElement;
+import elemental2.dom.Window;
+import jsinterop.annotations.JsFunction;
+import jsinterop.base.Js;
+import jsinterop.base.JsPropertyMap;
+import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.client.IFrameElement;
 import org.gwtproject.safehtml.shared.annotations.IsSafeHtml;
 import org.gwtproject.safehtml.shared.annotations.SuppressIsSafeHtmlCastCheck;
 import org.gwtproject.user.client.DOM;
+import org.gwtproject.user.client.Event;
+import org.gwtproject.user.client.impl.DOMImplStandard;
 import org.gwtproject.user.client.ui.RichTextArea;
 import org.gwtproject.user.client.ui.RichTextArea.FontSize;
 import org.gwtproject.user.client.ui.RichTextArea.Justification;
@@ -62,9 +73,9 @@ public abstract class RichTextAreaImplStandard extends RichTextAreaImpl implemen
   private boolean isReady;
 
   @Override
-  public native Element createElement() /*-{
-    return $doc.createElement('iframe');
-  }-*/;
+  public Element createElement() {
+    return Document.get().createIFrameElement();
+  }
 
   public void createLink(String url) {
     execCommand("CreateLink", url);
@@ -89,24 +100,23 @@ public abstract class RichTextAreaImplStandard extends RichTextAreaImpl implemen
   }
 
   @Override
-  public native void initElement()  /*-{
-    // Most browsers don't like setting designMode until slightly _after_
+  public void initElement() {
+    // Most browsers don"t like setting designMode until slightly _after_
     // the iframe becomes attached to the DOM. Any non-zero timeout will do
     // just fine.
-    var _this = this;
-    _this.@org.gwtproject.user.client.ui.impl.RichTextAreaImplStandard::onElementInitializing()();
-    setTimeout($entry(function() {
-      // We need to check to see if the content window still is there. It might not be if the RTA
-      // first was attached to the DOM and then quickly was removed before the timeout fired.
-      if (_this.@org.gwtproject.user.client.ui.impl.RichTextAreaImpl::elem.contentWindow != null) {
-        // Turn on design mode.
-        _this.@org.gwtproject.user.client.ui.impl.RichTextAreaImpl::elem.contentWindow.document.designMode = 'On';
+    RichTextAreaImplStandard _this = this;
+    _this.onElementInitializing();
 
-        // Send notification that the iframe has reached design mode.
-        _this.@org.gwtproject.user.client.ui.impl.RichTextAreaImplStandard::onElementInitialized()();
+    DomGlobal.setTimeout((ignore) -> {
+      if(_this.elem != null) {
+        HTMLIFrameElement iframe = Js.uncheckedCast(_this.elem);
+        if(iframe.contentWindow != null) {
+          ((JsPropertyMap)((JsPropertyMap)iframe.contentWindow).get("document")).set("designMode", "On");
+          _this.onElementInitialized();
+        }
       }
-    }), 1);
-  }-*/;
+    }, 1.0D, new Object[0]);
+  }
 
   public void insertHorizontalRule() {
     execCommand("InsertHorizontalRule", null);
@@ -292,9 +302,9 @@ public abstract class RichTextAreaImplStandard extends RichTextAreaImpl implemen
     // Unhook all custom event handlers when the element is detached.
     unhookEvents();
 
-    // Recreate the placeholder element and store the iframe's contents and the
+    // Recreate the placeholder element and store the iframe"s contents and the
     // enabled status in it. This is necessary because some browsers will wipe
-    // the iframe's contents when it is removed from the DOM.
+    // the iframe"s contents when it is removed from the DOM.
     @IsSafeHtml String html = getHTML(); // TODO: mXSS
     boolean enabled = isEnabled();
     beforeInitPlaceholder = DOM.createDiv();
@@ -302,59 +312,66 @@ public abstract class RichTextAreaImplStandard extends RichTextAreaImpl implemen
     setEnabled(enabled);
   }
 
-  protected native String getHTMLImpl() /*-{
-    return this.@org.gwtproject.user.client.ui.impl.RichTextAreaImpl::elem.contentWindow.document.body.innerHTML;
-  }-*/;
+  protected String getHTMLImpl() {
+    return ((IFrameElement)Js.uncheckedCast(this.elem)).getContentDocument().getBody().getInnerHTML();
+  }
 
-  protected native String getTextImpl() /*-{
-    return this.@org.gwtproject.user.client.ui.impl.RichTextAreaImpl::elem.contentWindow.document.body.textContent;
-  }-*/;
+  protected String getTextImpl() {
+    return ((IFrameElement)Js.uncheckedCast(this.elem)).getContentDocument().getBody().getInnerText();
+  }
 
   @Override
-  protected native void hookEvents() /*-{
-    var elem = this.@org.gwtproject.user.client.ui.impl.RichTextAreaImpl::elem;
-    var wnd = elem.contentWindow;
-
-    elem.__gwt_handler = $entry(function(evt) {
-      @org.gwtproject.user.client.DOM::dispatchEvent(Lorg/gwtproject/user/client/Event;Lorg/gwtproject/dom/client/Element;)(evt, elem);
+  protected void hookEvents() {
+    //return ((IFrameElement)Js.uncheckedCast(this.elem)).getContentDocument().getBody().getInnerHTML();
+    HTMLIFrameElement iframe = Js.uncheckedCast(elem);
+    Window wnd = iframe.contentWindow;
+    elem.setPropertyObject("__gwt_handler", (DOMImplStandard.Fn) event -> {
+      DOM.dispatchEvent(event, elem);
     });
 
-    elem.__gwt_focusHandler = function(evt) {
-      if (elem.__gwt_isFocused) {
+    elem.setPropertyObject("__gwt_focusHandler", (DOMImplStandard.Fn) event -> {
+      if(((JsPropertyMap)elem).has("__gwt_isFocused")) {
+        return;
+      }
+      ((JsPropertyMap)elem).set("__gwt_isFocused", true);
+      ((DOMImplStandard.Fn) ((JsPropertyMap)elem).get("__gwt_handler")).onInvoke(event);
+    });
+
+    elem.setPropertyObject("__gwt_blurHandler", (DOMImplStandard.Fn) event -> {
+      if(((JsPropertyMap)elem).has("__gwt_isFocused")) {
         return;
       }
 
-      elem.__gwt_isFocused = true;
-      elem.__gwt_handler(evt);
-    };
+      ((JsPropertyMap)elem).set("__gwt_isFocused", true);
+      ((DOMImplStandard.Fn) ((JsPropertyMap)elem).get("__gwt_handler")).onInvoke(event);
+    });
 
-    elem.__gwt_blurHandler = function(evt) {
-      if (!elem.__gwt_isFocused) {
-        return;
-      }
+    EventListener __gwt_handler = (EventListener)(((JsPropertyMap)elem).get("__gwt_handler"));
+    EventListener __gwt_focusHandler = (EventListener)(((JsPropertyMap)elem).get("__gwt_focusHandler"));
+    EventListener __gwt_blurHandler = (EventListener)(((JsPropertyMap)elem).get("__gwt_blurHandler"));
 
-      elem.__gwt_isFocused = false;
-      elem.__gwt_handler(evt);
-    };
+    wnd.addEventListener("keydown", __gwt_handler, true);
+    wnd.addEventListener("keyup", __gwt_handler, true);
+    wnd.addEventListener("keypress", __gwt_handler, true);
+    wnd.addEventListener("mousedown", __gwt_handler, true);
+    wnd.addEventListener("mouseup", __gwt_handler, true);
+    wnd.addEventListener("mousemove", __gwt_handler, true);
+    wnd.addEventListener("mouseover", __gwt_handler, true);
+    wnd.addEventListener("mouseout", __gwt_handler, true);
+    wnd.addEventListener("click", __gwt_handler, true);
 
-    wnd.addEventListener('keydown', elem.__gwt_handler, true);
-    wnd.addEventListener('keyup', elem.__gwt_handler, true);
-    wnd.addEventListener('keypress', elem.__gwt_handler, true);
-    wnd.addEventListener('mousedown', elem.__gwt_handler, true);
-    wnd.addEventListener('mouseup', elem.__gwt_handler, true);
-    wnd.addEventListener('mousemove', elem.__gwt_handler, true);
-    wnd.addEventListener('mouseover', elem.__gwt_handler, true);
-    wnd.addEventListener('mouseout', elem.__gwt_handler, true);
-    wnd.addEventListener('click', elem.__gwt_handler, true);
+    wnd.addEventListener("focus", __gwt_focusHandler, true);
+    wnd.addEventListener("blur", __gwt_blurHandler, true);
 
-    wnd.addEventListener('focus', elem.__gwt_focusHandler, true);
-    wnd.addEventListener('blur', elem.__gwt_blurHandler, true);
-  }-*/;
-
-  protected native boolean isEnabledImpl() /*-{
-    var elem = this.@org.gwtproject.user.client.ui.impl.RichTextAreaImpl::elem;
-    return elem.contentWindow.document.designMode.toUpperCase() == 'ON';
-  }-*/;
+  }
+  protected boolean isEnabledImpl() {
+    HTMLIFrameElement iframe = Js.uncheckedCast(elem);
+    return ((JsPropertyMap)((JsPropertyMap)iframe.contentWindow).get("document"))
+            .get("designMode")
+            .toString()
+            .toUpperCase()
+            .equals("ON");
+  }
 
   @Override @SuppressIsSafeHtmlCastCheck
   protected void onElementInitialized() {
@@ -387,54 +404,59 @@ public abstract class RichTextAreaImplStandard extends RichTextAreaImpl implemen
     isPendingFocus = false;
   }
 
-  protected native void setEnabledImpl(boolean enabled) /*-{
-    var elem = this.@org.gwtproject.user.client.ui.impl.RichTextAreaImpl::elem;
-    elem.contentWindow.document.designMode = enabled ? 'On' : 'Off';
-  }-*/;
+  protected void setEnabledImpl(boolean enabled) {
+    HTMLIFrameElement iframe = Js.uncheckedCast(elem);
+    ((JsPropertyMap)((JsPropertyMap)iframe.contentWindow).get("document"))
+            .set("designMode", enabled ? "On" : "Off");
+  }
 
-  protected native void setFocusImpl(boolean focused) /*-{
-   if (focused) {
-      this.@org.gwtproject.user.client.ui.impl.RichTextAreaImpl::elem.contentWindow.focus();
+  protected void setFocusImpl(boolean focused) {
+    HTMLIFrameElement iframe = Js.uncheckedCast(elem);
+    if (focused) {
+      iframe.contentWindow.focus();
     } else {
-      this.@org.gwtproject.user.client.ui.impl.RichTextAreaImpl::elem.contentWindow.blur();
+      iframe.contentWindow.blur();
     }
-  }-*/;
+  }
 
-  protected native void setHTMLImpl(@IsSafeHtml String html) /*-{
-    this.@org.gwtproject.user.client.ui.impl.RichTextAreaImpl::elem.contentWindow.document.body.innerHTML = html;
-  }-*/;
+  protected void setHTMLImpl(@IsSafeHtml String html) {
+    IFrameElement iframe = Js.uncheckedCast(elem);
+    iframe.getContentDocument().getBody().setInnerHTML(html);
+  }
 
-  protected native void setTextImpl(String text) /*-{
-    this.@org.gwtproject.user.client.ui.impl.RichTextAreaImpl::elem.contentWindow.document.body.textContent = text;
-  }-*/;
+  protected void setTextImpl(String text) {
+    IFrameElement iframe = Js.uncheckedCast(elem);
+    iframe.getContentDocument().getBody().setInnerText(text);
+  }
 
-  protected native void unhookEvents() /*-{
-    var elem = this.@org.gwtproject.user.client.ui.impl.RichTextAreaImpl::elem;
-    var wnd = elem.contentWindow;
+  protected void unhookEvents() {
+    HTMLIFrameElement iframe = Js.uncheckedCast(elem);
+    Window wnd = iframe.contentWindow;
+    JsPropertyMap asMap = ((JsPropertyMap)iframe);
 
-    wnd.removeEventListener('keydown', elem.__gwt_handler, true);
-    wnd.removeEventListener('keyup', elem.__gwt_handler, true);
-    wnd.removeEventListener('keypress', elem.__gwt_handler, true);
-    wnd.removeEventListener('mousedown', elem.__gwt_handler, true);
-    wnd.removeEventListener('mouseup', elem.__gwt_handler, true);
-    wnd.removeEventListener('mousemove', elem.__gwt_handler, true);
-    wnd.removeEventListener('mouseover', elem.__gwt_handler, true);
-    wnd.removeEventListener('mouseout', elem.__gwt_handler, true);
-    wnd.removeEventListener('click', elem.__gwt_handler, true);
+    wnd.removeEventListener("keydown", (EventListener)asMap.get("__gwt_handler"), true);
+    wnd.removeEventListener("keyup", (EventListener)asMap.get("__gwt_handler"), true);
+    wnd.removeEventListener("keypress",(EventListener)asMap.get("__gwt_handler"), true);
+    wnd.removeEventListener("mousedown",(EventListener)asMap.get("__gwt_handler"), true);
+    wnd.removeEventListener("mouseup", (EventListener)asMap.get("__gwt_handler"), true);
+    wnd.removeEventListener("mousemove", (EventListener)asMap.get("__gwt_handler"), true);
+    wnd.removeEventListener("mouseover", (EventListener)asMap.get("__gwt_handler"), true);
+    wnd.removeEventListener("mouseout", (EventListener)asMap.get("__gwt_handler"), true);
+    wnd.removeEventListener("click", (EventListener)asMap.get("__gwt_handler"), true);
 
-    wnd.removeEventListener('focus', elem.__gwt_focusHandler, true);
-    wnd.removeEventListener('blur', elem.__gwt_blurHandler, true);
+    wnd.removeEventListener("focus", (EventListener)asMap.get("__gwt_focusHandler"), true);
+    wnd.removeEventListener("blur", (EventListener)asMap.get("__gwt_blurHandler"), true);
 
-    elem.__gwt_handler = null;
-    elem.__gwt_focusHandler = null;
-    elem.__gwt_blurHandler = null;
-  }-*/;
+    asMap.set("__gwt_handler", null);
+    asMap.set("__gwt_focusHandler", null);
+    asMap.set("__gwt_blurHandler", null);
+  }
 
   void execCommand(String cmd, String param) {
     assert isReady : INACTIVE_MESSAGE;
     if (isReady) {
       // When executing a command, focus the iframe first, since some commands
-      // don't take properly when it's not focused.
+      // don"t take properly when it"s not focused.
       setFocus(true);
       try {
         execCommandAssumingFocus(cmd, param);
@@ -445,14 +467,14 @@ public abstract class RichTextAreaImplStandard extends RichTextAreaImpl implemen
     }
   }
 
-  native void execCommandAssumingFocus(String cmd, String param) /*-{
-    this.@org.gwtproject.user.client.ui.impl.RichTextAreaImpl::elem.contentWindow.document.execCommand(cmd, false, param);
-  }-*/;
+  void execCommandAssumingFocus(String cmd, String param) {
+    throw new UnsupportedOperationException();
+  }
 
   boolean queryCommandState(String cmd) {
     if (isReady) {
       // When executing a command, focus the iframe first, since some commands
-      // don't take properly when it's not focused.
+      // don"t take properly when it"s not focused.
       setFocus(true);
       try {
         return queryCommandStateAssumingFocus(cmd);
@@ -463,14 +485,14 @@ public abstract class RichTextAreaImplStandard extends RichTextAreaImpl implemen
     return false;
   }
 
-  native boolean queryCommandStateAssumingFocus(String cmd) /*-{
-    return !!this.@org.gwtproject.user.client.ui.impl.RichTextAreaImpl::elem.contentWindow.document.queryCommandState(cmd);
-  }-*/;
+  boolean queryCommandStateAssumingFocus(String cmd) {
+    throw new UnsupportedOperationException();
+  }
 
   String queryCommandValue(String cmd) {
     if (isReady) {
       // When executing a command, focus the iframe first, since some commands
-      // don't take properly when it's not focused.
+      // don"t take properly when it"s not focused.
       setFocus(true);
       try {
         return queryCommandValueAssumingFocus(cmd);
@@ -481,7 +503,13 @@ public abstract class RichTextAreaImplStandard extends RichTextAreaImpl implemen
     return "";
   }
 
-  native String queryCommandValueAssumingFocus(String cmd) /*-{
-    return this.@org.gwtproject.user.client.ui.impl.RichTextAreaImpl::elem.contentWindow.document.queryCommandValue(cmd);
-  }-*/;
+  String queryCommandValueAssumingFocus(String cmd) {
+    throw new UnsupportedOperationException();
+  }
+
+  @FunctionalInterface
+  @JsFunction
+  public interface Fn {
+    void onInvoke(Event evt);
+  }
 }

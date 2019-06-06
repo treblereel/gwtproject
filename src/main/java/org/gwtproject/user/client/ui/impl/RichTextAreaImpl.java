@@ -15,6 +15,8 @@
  */
 package org.gwtproject.user.client.ui.impl;
 
+import elemental2.dom.HTMLIFrameElement;
+import jsinterop.base.Js;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.event.logical.shared.HasInitializeHandlers;
 import org.gwtproject.event.logical.shared.InitializeEvent;
@@ -64,13 +66,14 @@ public class RichTextAreaImpl {
     elem.setPropertyBoolean("disabled", !enabled);
   }
 
-  public native void setFocus(boolean focused) /*-{
+  public void setFocus(boolean focused) {
+    HTMLIFrameElement iframe = Js.uncheckedCast(elem);
     if (focused) {
-      this.@org.gwtproject.user.client.ui.impl.RichTextAreaImpl::elem.focus();
+      iframe.focus();
     } else {
-      this.@org.gwtproject.user.client.ui.impl.RichTextAreaImpl::elem.blur();
+      iframe.blur();
     }
-  }-*/;
+  }
 
   public void setHTML(@IsSafeHtml String html) {
     elem.setPropertyString("value", html);
@@ -82,15 +85,6 @@ public class RichTextAreaImpl {
 
   public void setText(String text) {
     elem.setPropertyString("value", text);
-  }
-
-  /**
-   * @deprecated as of GWT 2.1, use {@link #setOwner(HasInitializeHandlers)}
-   *             instead
-   */
-  @Deprecated
-  public void setWidget(RichTextArea richTextWidget) {
-    setOwner(richTextWidget);
   }
 
   public void uninitElement() {

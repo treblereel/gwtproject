@@ -167,12 +167,12 @@ public class SimplePanel extends Panel implements HasOneWidget {
    * want to create a simple panel that decorates its contents.
    *
    * Note that this method continues to return the
-   * {@link org.gwtproject.user.client.Element} class defined in the
+   * {@link Element} class defined in the
    * <code>User</code> module to maintain backwards compatibility.
    *
    * @return the element to be used as the panel's container
    */
-  protected org.gwtproject.user.client.Element getContainerElement() {
+  protected Element getContainerElement() {
     return getElement();
   }
 }

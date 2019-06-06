@@ -17,7 +17,6 @@ package org.gwtproject.user.client.ui;
 
 import org.gwtproject.aria.client.Id;
 import org.gwtproject.aria.client.Roles;
-import com.google.gwt.core.client.GWT;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import org.gwtproject.dom.client.Element;
@@ -151,21 +150,6 @@ import java.util.List;
 // release.
 public class MenuBar extends Widget implements HasAnimation, CloseHandler<PopupPanel>,
     HasCloseHandlers<PopupPanel> {
-
-  /**
-   * An {@link ImageBundle} that provides images for {@link MenuBar}.
-   *
-   * @deprecated replaced by {@link Resources}
-   */
-  @Deprecated
-  public interface MenuBarImages extends ImageBundle {
-    /**
-     * An image indicating a {@link MenuItem} has an associated submenu.
-     *
-     * @return a prototype of this image
-     */
-    AbstractImagePrototype menuBarSubMenuIcon();
-  }
 
   /**
    * A ClientBundle that contains the default resources for this widget.
@@ -323,19 +307,6 @@ public class MenuBar extends Widget implements HasAnimation, CloseHandler<PopupP
   }
 
   /**
-   * Creates an empty menu bar that uses the specified image bundle for menu
-   * images.
-   *
-   * @param vertical <code>true</code> to orient the menu bar vertically
-   * @param images a bundle that provides images for this menu
-   * @deprecated replaced by {@link #MenuBar(boolean, Resources)}
-   */
-  @Deprecated
-  public MenuBar(boolean vertical, MenuBarImages images) {
-    init(vertical, images.menuBarSubMenuIcon());
-  }
-
-  /**
    * Creates an empty menu bar that uses the specified ClientBundle for menu
    * images.
    *
@@ -345,18 +316,6 @@ public class MenuBar extends Widget implements HasAnimation, CloseHandler<PopupP
   public MenuBar(boolean vertical, Resources resources) {
     init(vertical,
         AbstractImagePrototype.create(resources.menuBarSubMenuIcon()));
-  }
-
-  /**
-   * Creates an empty horizontal menu bar that uses the specified image bundle
-   * for menu images.
-   *
-   * @param images a bundle that provides images for this menu
-   * @deprecated replaced by {@link #MenuBar(Resources)}
-   */
-  @Deprecated
-  public MenuBar(MenuBarImages images) {
-    this(false, images);
   }
 
   /**

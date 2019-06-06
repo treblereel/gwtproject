@@ -42,30 +42,13 @@ import org.gwtproject.media.client.Video;
  * "debug configurations", select the test you would like to run, and put this
  * line in the VM args under the arguments tab: -Dgwt.args="-runStyle Manual:1"
  */
-@DoNotRunWith(Platform.HtmlUnitUnknown)
+//@DoNotRunWith(Platform.HtmlUnitUnknown)
 public abstract class MediaTest extends GWTTestCase {
-
-  static native boolean isFirefox35OrLater() /*-{
-    var geckoVersion = @org.gwtproject.dom.client.DOMImplMozilla::getGeckoVersion()();
-    return (geckoVersion != -1) && (geckoVersion >= 1009001);
-  }-*/;
-
-  static native boolean isFirefox40OrEarlier() /*-{
-    return @org.gwtproject.dom.client.DOMImplMozilla::isGecko2OrBefore()();
-  }-*/;
-
-  static native boolean isOldFirefox() /*-{
-    return @org.gwtproject.dom.client.DOMImplMozilla::isGecko191OrBefore()();
-  }-*/;
 
   public void disabled_testPreload() {
     final org.gwtproject.media.client.MediaBase media = getMedia();
     if (media == null) {
       return; // don't continue if not supported
-    }
-
-    if (isFirefox40OrEarlier()) {
-      return; // don't continue on older versions of Firefox.
     }
 
     String state = media.getPreload();
@@ -311,10 +294,8 @@ public abstract class MediaTest extends GWTTestCase {
 
   public void testSupported() {
     // test the isxxxSupported() call if running known sup or not sup browsers.
-    if (isFirefox35OrLater()) {
-      assertTrue(Audio.isSupported());
-      assertTrue(Video.isSupported());
-    }
+    assertTrue(Audio.isSupported());
+    assertTrue(Video.isSupported());
   }
 
   public void testVolume() {

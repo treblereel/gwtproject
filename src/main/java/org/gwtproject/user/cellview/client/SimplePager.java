@@ -16,7 +16,6 @@
 package org.gwtproject.user.cellview.client;
 
 import org.gwtproject.aria.client.Roles;
-import com.google.gwt.core.client.GWT;
 import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.event.dom.client.ClickHandler;
 import org.gwtproject.i18n.client.Constants;
@@ -451,7 +450,7 @@ public class SimplePager extends AbstractPager {
       boolean showFastForwardButton, final int fastForwardRows,
       boolean showLastPageButton) {
     this(location, resources, showFastForwardButton, fastForwardRows, showLastPageButton,
-        GWT.<ImageButtonsConstants>create(ImageButtonsConstants.class));
+        null);
   }
 
   @Override

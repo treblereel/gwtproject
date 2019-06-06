@@ -52,27 +52,9 @@ public class PopupImplMozilla extends PopupImpl {
    */
   private static boolean isFF2Mac = isFF2Mac();
   
-  private static native boolean isFF2Mac() /*-{
-    function makeVersion(result) {
-      return (parseInt(result[1]) * 1000) + parseInt(result[2]);
-    }
-
-    var ua = navigator.userAgent;
-    if (ua.indexOf("Macintosh") != -1) {
-      // Version logic taken from UserAgentPropertyGenerator
-      var result = /rv:([0-9]+)\.([0-9]+)/.exec(ua);
-      if (result && result.length == 3) {
-        // Gecko 1.8 and earlier had the scrollbar bug on OS X.
-        // (Firefox3 == Gecko 1.9)
-        if (makeVersion(result) <= 1008) {
-          return true;
-        }
-      }
-    }
-
-    return false;
-  }-*/;
-
+  private static boolean isFF2Mac() {
+    throw new UnsupportedOperationException();
+  }
   @Override
   public Element createElement() {
     final Element outerElem = DOM.createDiv();

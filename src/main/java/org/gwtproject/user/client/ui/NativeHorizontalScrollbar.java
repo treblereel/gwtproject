@@ -15,7 +15,6 @@
  */
 package org.gwtproject.user.client.ui;
 
-import com.google.gwt.core.client.GWT;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.resources.client.ClientBundle;
@@ -89,6 +88,7 @@ public class NativeHorizontalScrollbar extends AbstractNativeScrollbar implement
   }
 
   private static Resources DEFAULT_RESOURCES;
+
   private static NativeHorizontalScrollbarUiBinder uiBinder =
           new NativeHorizontalScrollbar_NativeHorizontalScrollbarUiBinderImpl();
 

@@ -1,1 +1,7 @@
+.idea/workspace.xml
 src-generated
+.idea/
+build/
+.gradle/
+war/
+gwt-unitCache/

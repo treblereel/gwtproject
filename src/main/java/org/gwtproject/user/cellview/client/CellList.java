@@ -16,12 +16,9 @@
 package org.gwtproject.user.cellview.client;
 
 import org.gwtproject.resources.client.Resource;
-import org.gwtproject.user.cellview.client.AbstractHasData;
-import org.gwtproject.user.cellview.client.CellBasedWidgetImpl;
 import org.gwtproject.cell.client.Cell;
 import org.gwtproject.cell.client.Cell.Context;
 import org.gwtproject.cell.client.ValueUpdater;
-import com.google.gwt.core.client.GWT;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.client.BrowserEvents;
 import org.gwtproject.dom.client.DivElement;

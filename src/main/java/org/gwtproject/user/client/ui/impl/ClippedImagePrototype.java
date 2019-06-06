@@ -15,7 +15,7 @@
  */
 package org.gwtproject.user.client.ui.impl;
 
-import org.gwtproject.core.client.GWT;
+import jsinterop.annotations.JsConstructor;
 import org.gwtproject.safehtml.shared.SafeHtml;
 import org.gwtproject.safehtml.shared.SafeUri;
 import org.gwtproject.safehtml.shared.UriUtils;
@@ -29,7 +29,7 @@ import org.gwtproject.user.client.ui.Image;
  */
 public class ClippedImagePrototype extends AbstractImagePrototype {
 
-  private static final ClippedImageImpl impl = GWT.create(ClippedImageImpl.class);
+  private static final ClippedImageImpl impl = new ClippedImageImpl();
 
   private int height = 0;
   private int left = 0;
@@ -38,6 +38,7 @@ public class ClippedImagePrototype extends AbstractImagePrototype {
   private int width = 0;
   private boolean isDraggable = false;
 
+  @JsConstructor
   public ClippedImagePrototype(SafeUri url, int left, int top, int width, int height) {
     this.url = url;
     this.left = left;

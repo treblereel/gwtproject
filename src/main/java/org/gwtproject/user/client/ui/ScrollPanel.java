@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import org.gwtproject.dom.client.DivElement;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.style.shared.Overflow;
@@ -23,7 +24,6 @@ import org.gwtproject.event.dom.client.ScrollEvent;
 import org.gwtproject.event.dom.client.ScrollHandler;
 import org.gwtproject.event.shared.HandlerRegistration;
 import org.gwtproject.touch.client.TouchScroller;
-import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.Event;
 
 /**
@@ -124,7 +124,7 @@ public class ScrollPanel extends SimplePanel implements
 
   /**
    * Gets the vertical scroll position.
-   * 
+   *
    * @return the vertical scroll position, in pixels
    * @deprecated as of GWT 2.3, replaced by {@link #getVerticalScrollPosition()}
    */
@@ -215,7 +215,7 @@ public class ScrollPanel extends SimplePanel implements
 
   /**
    * Sets the vertical scroll position.
-   * 
+   *
    * @param position the new vertical scroll position, in pixels
    * @deprecated as of GWT 2.3, replaced by
    *             {@link #setVerticalScrollPosition(int)}
@@ -280,8 +280,8 @@ public class ScrollPanel extends SimplePanel implements
   }
 
   @Override
-  protected org.gwtproject.user.client.Element getContainerElement() {
-    return DOM.asOld(containerElem);
+  protected Element getContainerElement() {
+    return containerElem;
   }
 
   /**
@@ -290,8 +290,8 @@ public class ScrollPanel extends SimplePanel implements
    * 
    * @return the scrollable element
    */
-  protected org.gwtproject.user.client.Element getScrollableElement() {
-    return DOM.asOld(scrollableElem);
+  protected Element getScrollableElement() {
+    return scrollableElem;
   }
 
   @Override
@@ -318,19 +318,19 @@ public class ScrollPanel extends SimplePanel implements
     super.onDetach();
   }
 
-  private native void ensureVisibleImpl(Element scroll, Element e) /*-{
-    if (!e)
-      return; 
-
-    var item = e;
-    var realOffset = 0;
-    while (item && (item != scroll)) {
-      realOffset += item.offsetTop;
-      item = item.offsetParent;
+  private void ensureVisibleImpl(Element scroll, Element e)  {
+    if(e == null) {
+      return;
     }
 
-    scroll.scrollTop = realOffset - scroll.offsetHeight / 2;
-  }-*/;
+    Element item = e;
+    int realOffset = 0;
+    while (item != null && (item != scroll)) {
+      realOffset += item.getOffsetTop();
+      item = item.getOffsetParent();
+    }
+    scroll.setScrollTop(realOffset - scroll.getOffsetHeight() / 2);
+  }
 
   /**
    * Initialize the widget.

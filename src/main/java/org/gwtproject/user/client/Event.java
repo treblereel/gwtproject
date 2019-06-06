@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client;
 
+import jsinterop.annotations.JsConstructor;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.event.dom.client.HasNativeEvent;
@@ -555,19 +556,8 @@ public class Event extends NativeEvent {
    * Not directly instantiable. Subclasses should also define a protected no-arg
    * constructor to prevent client code from directly instantiating the class.
    */
+  @JsConstructor
   protected Event() {
-  }
-
-  /**
-   * Cancels bubbling for the given event. This will stop the event from being
-   * propagated to parent elements.
-   * 
-   * @param cancel <code>true</code> to cancel bubbling
-   * @deprecated use {@link NativeEvent#stopPropagation()} instead
-   */
-  @Deprecated
-  public final void cancelBubble(boolean cancel) {
-    DOM.eventCancelBubble(this, cancel);
   }
 
   /**

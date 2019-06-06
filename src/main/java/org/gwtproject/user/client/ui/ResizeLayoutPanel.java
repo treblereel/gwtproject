@@ -15,7 +15,11 @@
  */
 package org.gwtproject.user.client.ui;
 
-import org.gwtproject.core.client.GWT;
+import java.util.function.Consumer;
+
+import elemental2.dom.HTMLElement;
+import jsinterop.annotations.JsFunction;
+import jsinterop.base.JsPropertyMap;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import org.gwtproject.dom.client.Document;
@@ -289,25 +293,24 @@ public class ResizeLayoutPanel extends SimplePanel implements ProvidesResize,
      * because we don't set a back reference to the Impl class until we attach
      * to the DOM.
      */
-    private native void initResizeEventListener(Element elem) /*-{
-      var theElem = elem;
-      var handleResize = $entry(function() {
-        if (theElem.__resizeImpl) {
-          theElem.__resizeImpl.@org.gwtproject.user.client.ui.ResizeLayoutPanel.Impl::handleResize()();
+    private void initResizeEventListener(Element elem)  {
+      Fn func =  () -> {
+        if (((JsPropertyMap)elem).has("__resizeImpl")) {
+          ((ResizeLayoutPanel.Impl)((JsPropertyMap)elem).get("__resizeImpl")).handleResize();
         }
-      });
-      elem.attachEvent('onresize', handleResize);
-    }-*/;
+      };
+      ((FnVarArgs)((JsPropertyMap)elem).get("attachEvent")).onInvoke("onresize", func);
+    }
 
     /**
      * Set the event listener that handles resize events.
      */
-    private native void setResizeEventListener(Element elem, Impl listener) /*-{
-      elem.__resizeImpl = listener;
-    }-*/;
+    private void setResizeEventListener(Element elem, Impl listener) {
+      ((JsPropertyMap)elem).set("__resizeImpl", listener);
+    }
   }
 
-  private final Impl impl = GWT.create(Impl.class);
+  private final Impl impl = new ImplStandard();
   private Layer layer;
   private final Layout layout;
   private final ScheduledCommand resizeCmd = new ScheduledCommand() {
@@ -425,5 +428,17 @@ public class ResizeLayoutPanel extends SimplePanel implements ProvidesResize,
       resizeCmdScheduled = true;
       Scheduler.get().scheduleDeferred(resizeCmd);
     }
+  }
+
+  @FunctionalInterface
+  @JsFunction
+  interface Fn {
+    void onInvoke();
+  }
+
+  @FunctionalInterface
+  @JsFunction
+  interface FnVarArgs {
+    void onInvoke(Object... arg1);
   }
 }

@@ -27,7 +27,7 @@ import java.util.Set;
  *
  * @param <C> the type that this Cell represents
  */
-public abstract class AbstractSafeHtmlCell<C> extends org.gwtproject.cell.client.AbstractCell<C> {
+public abstract class AbstractSafeHtmlCell<C> extends AbstractCell<C> {
 
   private final SafeHtmlRenderer<C> renderer;
 

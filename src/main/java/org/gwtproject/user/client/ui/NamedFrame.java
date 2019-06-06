@@ -15,7 +15,6 @@
  */
 package org.gwtproject.user.client.ui;
 
-import org.gwtproject.core.client.GWT;
 import org.gwtproject.core.client.JavaScriptObject;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.IFrameElement;
@@ -73,18 +72,20 @@ public class NamedFrame extends Frame {
     return div.getFirstChild().cast();
   }
 
-  private static native void initStatics() /*-{
-    @org.gwtproject.user.client.ui.NamedFrame::PATTERN_NAME = /^[^<>&\'\"]+$/;
-  }-*/;
+  private static void initStatics()  {
+    throw new UnsupportedOperationException();
+  }
+
 
   /**
    * @param name the specified frame name to be checked
    * @return <code>true</code> if the name is valid, <code>false</code> if
    *         not
    */
-  private static native boolean isValidName(String name) /*-{
-    return @org.gwtproject.user.client.ui.NamedFrame::PATTERN_NAME.test(name);
-  }-*/;
+  private static boolean isValidName(String name)  {
+    throw new UnsupportedOperationException();
+  }
+
 
   /**
    * Constructs a frame with the given name.

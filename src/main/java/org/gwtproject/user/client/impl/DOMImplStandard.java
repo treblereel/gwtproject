@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,10 +15,17 @@
  */
 package org.gwtproject.user.client.impl;
 
-import org.gwtproject.core.client.GWT;
+import java.util.function.Consumer;
+
+import elemental2.dom.DomGlobal;
+import elemental2.dom.EventTarget;
+import jsinterop.annotations.JsFunction;
+import jsinterop.base.Js;
+import jsinterop.base.JsPropertyMap;
 import org.gwtproject.core.client.JavaScriptObject;
 import org.gwtproject.dom.client.BrowserEvents;
 import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.client.Node;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.Event;
 
@@ -29,361 +36,336 @@ import org.gwtproject.user.client.Event;
  */
 public abstract class DOMImplStandard extends DOMImpl {
 
-  /**
-   * Adds custom bitless event dispatchers to GWT. If no specific event dispatcher supplied for an
-   * event, the default dispatcher is used.
-   * <p> Example usage:
-   * <pre>
-   * static {
-   *   DOMImplStandard.addBitlessEventDispatchers(getMyCustomDispatchers());
-   * }
-   *
-   * private static native JavaScriptObject getMyCustomDispatchers() /*-{
-   *   return {
-   *     click: @com.xxx.YYY::myCustomDispatcher(*),
-   *     ...
-   *   };
-   * }-* /;
-   * </pre>
-   *
-   * <p> Note that although this method is public for extensions, it is subject to change in
-   * different releases.
-   *
-   * @param eventMap an object that provides dispatching methods keyed with the name of the event
-   */
-  public static void addBitlessEventDispatchers(JavaScriptObject eventMap) {
-    ensureInit();
-    bitlessEventDispatchers.merge(eventMap);
-  }
+    private static Element captureElem;
+    private static EventMap bitlessEventDispatchers = getBitlessEventDispatchers();
+    private static EventMap captureEventDispatchers = getCaptureEventDispatchers();
 
-  /**
-   * Adds custom capture event dispatchers to GWT.
-   * <p> Example usage:
-   * <pre>
-   * static {
-   *   if (isIE10Plus())) {
-   *     DOMImplStandard.addCaptureEventDispatchers(getMsPointerCaptureDispatchers());
-   *   }
-   * }
-   *
-   * private static native JavaScriptObject getMsPointerCaptureDispatchers() /*-{
-   *   return {
-   *     MSPointerDown: @org.gwtproject.user.client.impl.DOMImplStandard::dispatchCapturedMouseEvent(*),
-   *     MSPointerUp:   @org.gwtproject.user.client.impl.DOMImplStandard::dispatchCapturedMouseEvent(*),
-   *     ...
-   *   };
-   * }-* /;
-   * </pre>
-   *
-   * <p> Note that although this method is public for extensions, it is subject to change in
-   * different releases.
-   *
-   * @param eventMap an object that provides dispatching methods keyed with the name of the event
-   */
-  public static void addCaptureEventDispatchers(JavaScriptObject eventMap) {
-    ensureInit();
-    captureEventDispatchers.merge(eventMap);
-  }
-
-  private static void ensureInit() {
-    if (eventSystemIsInitialized) {
-      throw new IllegalStateException("Event system already initialized");
+    /**
+     * Adds custom bitless event dispatchers to GWT. If no specific event dispatcher supplied for an
+     * event, the default dispatcher is used.
+     * <p> Example usage:
+     * <pre>
+     * static {
+     *   DOMImplStandard.addBitlessEventDispatchers(getMyCustomDispatchers());
+     * }
+     *
+     * private static native JavaScriptObject getMyCustomDispatchers() /*-{
+     *   return {
+     *     click: @com.xxx.YYY::myCustomDispatcher(*),
+     *     ...
+     *   };
+     * }-* /;
+     * </pre>
+     *
+     * <p> Note that although this method is public for extensions, it is subject to change in
+     * different releases.
+     * @param eventMap an object that provides dispatching methods keyed with the name of the event
+     */
+    public static void addBitlessEventDispatchers(JavaScriptObject eventMap) {
+        ensureInit();
+        bitlessEventDispatchers.merge(eventMap);
     }
 
-    // Ensure that any default extensions for the browser is registered via
-    // static initializers in deferred binding of DOMImpl:
-    GWT.create(DOMImpl.class);
-  }
-
-  private static Element captureElem;
-
-  private static EventMap bitlessEventDispatchers = getBitlessEventDispatchers();
-
-  private static EventMap captureEventDispatchers = getCaptureEventDispatchers();
-
-  @Deprecated // We no longer want any external JSNI dependencies
-  private static JavaScriptObject dispatchEvent;
-
-  @Deprecated // We no longer want any external JSNI dependencies
-  private static JavaScriptObject dispatchUnhandledEvent;
-
-  @Override
-  public Element eventGetFromElement(Event evt) {
-    if (evt.getType().equals(BrowserEvents.MOUSEOVER)) {
-      return evt.getRelatedEventTarget().cast();
+    /**
+     * Adds custom capture event dispatchers to GWT.
+     * <p> Example usage:
+     * <pre>
+     * static {
+     *   if (isIE10Plus())) {
+     *     DOMImplStandard.addCaptureEventDispatchers(getMsPointerCaptureDispatchers());
+     *   }
+     * }
+     *
+     * private static native JavaScriptObject getMsPointerCaptureDispatchers() /*-{
+     *   return {
+     *     MSPointerDown: @org.gwtproject.user.client.impl.DOMImplStandard::dispatchCapturedMouseEvent(*),
+     *     MSPointerUp:   @org.gwtproject.user.client.impl.DOMImplStandard::dispatchCapturedMouseEvent(*),
+     *     ...
+     *   };
+     * }-* /;
+     * </pre>
+     *
+     * <p> Note that although this method is public for extensions, it is subject to change in
+     * different releases.
+     * @param eventMap an object that provides dispatching methods keyed with the name of the event
+     */
+    public static void addCaptureEventDispatchers(JavaScriptObject eventMap) {
+        ensureInit();
+        captureEventDispatchers.merge(eventMap);
     }
 
-    if (evt.getType().equals(BrowserEvents.MOUSEOUT)) {
-      return evt.getEventTarget().cast();
-    }
-
-    return null;
-  }
-
-  @Override
-  public Element eventGetToElement(Event evt) {
-    if (evt.getType().equals(BrowserEvents.MOUSEOVER)) {
-      return evt.getEventTarget().cast();
-    }
-
-    if (evt.getType().equals(BrowserEvents.MOUSEOUT)) {
-      return evt.getRelatedEventTarget().cast();
-    }
-
-    return null;
-  }
-
-  @Override
-  public native Element getChild(Element elem, int index) /*-{
-    var count = 0, child = elem.firstChild;
-    while (child) {
-      if (child.nodeType == 1) {
-        if (index == count)
-          return child;
-        ++count;
-      }
-      child = child.nextSibling;
-    }
-
-    return null;
-  }-*/;
-
-  @Override
-  public native int getChildCount(Element elem) /*-{
-    var count = 0, child = elem.firstChild;
-    while (child) {
-      if (child.nodeType == 1)
-        ++count;
-      child = child.nextSibling;
-    }
-    return count;
-  }-*/;
-
-  @Override
-  public native int getChildIndex(Element parent, Element toFind) /*-{
-    var count = 0, child = parent.firstChild;
-    while (child) {
-      if (child === toFind) {
-        return count;
-      }
-      if (child.nodeType == 1) {
-        ++count;
-      }
-      child = child.nextSibling;
-    }
-    return -1;
-  }-*/;
-
-  @Override
-  public native void insertChild(Element parent, Element toAdd, int index) /*-{
-    var count = 0, child = parent.firstChild, before = null;
-    while (child) {
-      if (child.nodeType == 1) {
-        if (count == index) {
-          before = child;
-          break;
+    private static void ensureInit() {
+        if (eventSystemIsInitialized) {
+            throw new IllegalStateException("Event system already initialized");
         }
-        ++count;
-      }
-      child = child.nextSibling;
+
+        // Ensure that any default extensions for the browser is registered via
+        // static initializers in deferred binding of DOMImpl:
+        new DOMImplStandardBase();
     }
 
-    parent.insertBefore(toAdd, before);
-  }-*/;
-
-  @Override
-  public void releaseCapture(Element elem) {
-    maybeInitializeEventSystem();
-    if (captureElem == elem) {
-      captureElem = null;
+    private static boolean isBitSet(int n, int k) {
+        if ((n & (1 << (k - 1))) >= 1) {
+            return true;
+        } else {
+            return false;
+        }
     }
-  }
 
-  @Override
-  public void setCapture(Element elem) {
-    maybeInitializeEventSystem();
-    captureElem = elem;
-  }
-
-  @Override
-  public void sinkBitlessEvent(Element elem, String eventTypeName) {
-    maybeInitializeEventSystem();
-    sinkBitlessEventImpl(elem, eventTypeName);
-  }
-
-  @Override
-  public void sinkEvents(Element elem, int bits) {
-    maybeInitializeEventSystem();
-    sinkEventsImpl(elem, bits);
-  }
-
-
-  @Override
-  protected native void initEventSystem() /*-{
-    // Ensure $entry for bitfull event dispatchers
-    @org.gwtproject.user.client.impl.DOMImplStandard::dispatchEvent =
-        $entry(@org.gwtproject.user.client.impl.DOMImplStandard::dispatchEvent(*));
-
-    @org.gwtproject.user.client.impl.DOMImplStandard::dispatchUnhandledEvent =
-        $entry(@org.gwtproject.user.client.impl.DOMImplStandard::dispatchUnhandledEvent(*));
-
-    var foreach = @org.gwtproject.user.client.impl.EventMap::foreach(*);
-
-    // Ensure $entry for bitless event dispatchers
-    var bitlessEvents = @org.gwtproject.user.client.impl.DOMImplStandard::bitlessEventDispatchers;
-    foreach(bitlessEvents, function(e, fn) { bitlessEvents[e] = $entry(fn); });
-
-    // Ensure $entry for capture event dispatchers
-    var captureEvents = @org.gwtproject.user.client.impl.DOMImplStandard::captureEventDispatchers;
-    foreach(captureEvents, function(e, fn) { captureEvents[e] = $entry(fn); });
-
-    // Add capture event listeners
-    foreach(captureEvents, function(e, fn) { $wnd.addEventListener(e, fn, true); });
-  }-*/;
-
-  protected native void sinkBitlessEventImpl(Element elem, String eventTypeName) /*-{
-    var dispatchMap = @org.gwtproject.user.client.impl.DOMImplStandard::bitlessEventDispatchers;
-    var dispatcher = dispatchMap[eventTypeName] || dispatchMap['_default_'];
-    elem.addEventListener(eventTypeName, dispatcher, false);
-  }-*/;
-
-
-  protected native void sinkEventsImpl(Element elem, int bits) /*-{
-    var chMask = (elem.__eventBits || 0) ^ bits;
-    elem.__eventBits = bits;
-    if (!chMask) return;
-
-    if (chMask & 0x00001) elem.onclick       = (bits & 0x00001) ?
-        @org.gwtproject.user.client.impl.DOMImplStandard::dispatchEvent : null;
-    if (chMask & 0x00002) elem.ondblclick    = (bits & 0x00002) ?
-        @org.gwtproject.user.client.impl.DOMImplStandard::dispatchEvent : null;
-    if (chMask & 0x00004) elem.onmousedown   = (bits & 0x00004) ?
-        @org.gwtproject.user.client.impl.DOMImplStandard::dispatchEvent : null;
-    if (chMask & 0x00008) elem.onmouseup     = (bits & 0x00008) ?
-        @org.gwtproject.user.client.impl.DOMImplStandard::dispatchEvent : null;
-    if (chMask & 0x00010) elem.onmouseover   = (bits & 0x00010) ?
-        @org.gwtproject.user.client.impl.DOMImplStandard::dispatchEvent : null;
-    if (chMask & 0x00020) elem.onmouseout    = (bits & 0x00020) ?
-        @org.gwtproject.user.client.impl.DOMImplStandard::dispatchEvent : null;
-    if (chMask & 0x00040) elem.onmousemove   = (bits & 0x00040) ?
-        @org.gwtproject.user.client.impl.DOMImplStandard::dispatchEvent : null;
-    if (chMask & 0x00080) elem.onkeydown     = (bits & 0x00080) ?
-        @org.gwtproject.user.client.impl.DOMImplStandard::dispatchEvent : null;
-    if (chMask & 0x00100) elem.onkeypress    = (bits & 0x00100) ?
-        @org.gwtproject.user.client.impl.DOMImplStandard::dispatchEvent : null;
-    if (chMask & 0x00200) elem.onkeyup       = (bits & 0x00200) ?
-        @org.gwtproject.user.client.impl.DOMImplStandard::dispatchEvent : null;
-    if (chMask & 0x00400) elem.onchange      = (bits & 0x00400) ?
-        @org.gwtproject.user.client.impl.DOMImplStandard::dispatchEvent : null;
-    if (chMask & 0x00800) elem.onfocus       = (bits & 0x00800) ?
-        @org.gwtproject.user.client.impl.DOMImplStandard::dispatchEvent : null;
-    if (chMask & 0x01000) elem.onblur        = (bits & 0x01000) ?
-        @org.gwtproject.user.client.impl.DOMImplStandard::dispatchEvent : null;
-    if (chMask & 0x02000) elem.onlosecapture = (bits & 0x02000) ?
-        @org.gwtproject.user.client.impl.DOMImplStandard::dispatchEvent : null;
-    if (chMask & 0x04000) elem.onscroll      = (bits & 0x04000) ?
-        @org.gwtproject.user.client.impl.DOMImplStandard::dispatchEvent : null;
-    if (chMask & 0x08000) elem.onload        = (bits & 0x08000) ?
-        @org.gwtproject.user.client.impl.DOMImplStandard::dispatchUnhandledEvent : null;
-    if (chMask & 0x10000) elem.onerror       = (bits & 0x10000) ?
-        @org.gwtproject.user.client.impl.DOMImplStandard::dispatchEvent : null;
-    if (chMask & 0x20000) elem.onmousewheel  = (bits & 0x20000) ?
-        @org.gwtproject.user.client.impl.DOMImplStandard::dispatchEvent : null;
-    if (chMask & 0x40000) elem.oncontextmenu = (bits & 0x40000) ?
-        @org.gwtproject.user.client.impl.DOMImplStandard::dispatchEvent : null;
-    if (chMask & 0x80000) elem.onpaste       = (bits & 0x80000) ?
-        @org.gwtproject.user.client.impl.DOMImplStandard::dispatchEvent : null;
-    if (chMask & 0x100000) elem.ontouchstart = (bits & 0x100000) ?
-        @org.gwtproject.user.client.impl.DOMImplStandard::dispatchEvent : null;
-    if (chMask & 0x200000) elem.ontouchmove  = (bits & 0x200000) ?
-        @org.gwtproject.user.client.impl.DOMImplStandard::dispatchEvent : null;
-    if (chMask & 0x400000) elem.ontouchend   = (bits & 0x400000) ?
-        @org.gwtproject.user.client.impl.DOMImplStandard::dispatchEvent : null;
-    if (chMask & 0x800000) elem.ontouchcancel= (bits & 0x800000) ?
-        @org.gwtproject.user.client.impl.DOMImplStandard::dispatchEvent : null;
-    if (chMask & 0x1000000) elem.ongesturestart  =(bits & 0x1000000) ?
-        @org.gwtproject.user.client.impl.DOMImplStandard::dispatchEvent : null;
-    if (chMask & 0x2000000) elem.ongesturechange =(bits & 0x2000000) ?
-        @org.gwtproject.user.client.impl.DOMImplStandard::dispatchEvent : null;
-    if (chMask & 0x4000000) elem.ongestureend    = (bits & 0x4000000) ?
-        @org.gwtproject.user.client.impl.DOMImplStandard::dispatchEvent : null;
-  }-*/;
-
-  private static void dispatchEvent(Event evt) {
-    Element element = getFirstAncestorWithListener(evt);
-    if (element == null) {
-      return;
+    private static void dispatchEvent(Event evt) {
+        Element element = getFirstAncestorWithListener(evt);
+        if (element == null) {
+            return;
+        }
+        DOM.dispatchEvent(evt, element.getNodeType() != 1 ? null : element, getEventListener(element));
     }
-    DOM.dispatchEvent(evt, element.getNodeType() != 1 ? null : element, getEventListener(element));
-  }
 
-  private static Element getFirstAncestorWithListener(Event evt) {
-    Element curElem = evt.getCurrentEventTarget().cast();
-    while (curElem != null && getEventListener(curElem) == null) {
-      curElem = curElem.getParentNode().cast();
+    private static Element getFirstAncestorWithListener(Event evt) {
+        Element curElem = evt.getCurrentEventTarget().cast();
+        while (curElem != null && getEventListener(curElem) == null) {
+            curElem = curElem.getParentNode().cast();
+        }
+        return curElem;
     }
-    return curElem;
-  }
 
-  private static void dispatchDragEvent(Event evt) {
-    // Some drag events must call preventDefault to prevent native text selection.
-    evt.preventDefault();
-    dispatchEvent(evt);
-  }
-
-  private static void dispatchUnhandledEvent(Event evt) {
-    Element element = evt.getCurrentEventTarget().cast();
-    element.setPropertyString("__gwtLastUnhandledEvent", evt.getType());
-    dispatchEvent(evt);
-  }
-
-  private static void dispatchCapturedEvent(Event evt) {
-    DOM.previewEvent(evt);
-  }
-
-  private static void dispatchCapturedMouseEvent(Event evt) {
-    boolean cancelled = !DOM.previewEvent(evt);
-    if (cancelled || captureElem == null) {
-      return;
+    private static void dispatchDragEvent(Event evt) {
+        // Some drag events must call preventDefault to prevent native text selection.
+        evt.preventDefault();
+        dispatchEvent(evt);
     }
-    if (DOM.dispatchEvent(evt, captureElem)) {
-      evt.stopPropagation();
+
+    private static void dispatchUnhandledEvent(Event evt) {
+        Element element = evt.getCurrentEventTarget().cast();
+        element.setPropertyString("__gwtLastUnhandledEvent", evt.getType());
+        dispatchEvent(evt);
     }
-  }
 
-  private static native EventMap getBitlessEventDispatchers() /*-{
-    return {
-      _default_: @org.gwtproject.user.client.impl.DOMImplStandard::dispatchEvent(*),
-      dragenter: @org.gwtproject.user.client.impl.DOMImplStandard::dispatchDragEvent(*),
-      dragover:  @org.gwtproject.user.client.impl.DOMImplStandard::dispatchDragEvent(*),
-    };
-  }-*/;
+    private static void dispatchCapturedEvent(Event evt) {
+        DOM.previewEvent(evt);
+    }
 
-  private static native EventMap getCaptureEventDispatchers() /*-{
-    return {
-      // Mouse events
-      click:      @org.gwtproject.user.client.impl.DOMImplStandard::dispatchCapturedMouseEvent(*),
-      dblclick:   @org.gwtproject.user.client.impl.DOMImplStandard::dispatchCapturedMouseEvent(*),
-      mousedown:  @org.gwtproject.user.client.impl.DOMImplStandard::dispatchCapturedMouseEvent(*),
-      mouseup:    @org.gwtproject.user.client.impl.DOMImplStandard::dispatchCapturedMouseEvent(*),
-      mousemove:  @org.gwtproject.user.client.impl.DOMImplStandard::dispatchCapturedMouseEvent(*),
-      mouseover:  @org.gwtproject.user.client.impl.DOMImplStandard::dispatchCapturedMouseEvent(*),
-      mouseout:   @org.gwtproject.user.client.impl.DOMImplStandard::dispatchCapturedMouseEvent(*),
-      mousewheel: @org.gwtproject.user.client.impl.DOMImplStandard::dispatchCapturedMouseEvent(*),
+    private static void dispatchCapturedMouseEvent(Event evt) {
+        boolean cancelled = !DOM.previewEvent(evt);
+        if (cancelled || captureElem == null) {
+            return;
+        }
+        if (DOM.dispatchEvent(evt, captureElem)) {
+            evt.stopPropagation();
+        }
+    }
 
-      // Keyboard events
-      keydown:    @org.gwtproject.user.client.impl.DOMImplStandard::dispatchCapturedEvent(*),
-      keyup:      @org.gwtproject.user.client.impl.DOMImplStandard::dispatchCapturedEvent(*),
-      keypress:   @org.gwtproject.user.client.impl.DOMImplStandard::dispatchCapturedEvent(*),
+    private static EventMap getBitlessEventDispatchers() {
+        JsPropertyMap map = JsPropertyMap.of();
+        map.set("_default_", (Consumer<Event>) (event) -> dispatchEvent(event));
+        map.set("dragenter", (Consumer<Event>) (event) -> dispatchDragEvent(event));
+        map.set("dragover", (Consumer<Event>) (event) -> dispatchDragEvent(event));
+        return Js.uncheckedCast(map);
+    }
 
-      // Touch events
-      touchstart:   @org.gwtproject.user.client.impl.DOMImplStandard::dispatchCapturedMouseEvent(*),
-      touchend:     @org.gwtproject.user.client.impl.DOMImplStandard::dispatchCapturedMouseEvent(*),
-      touchmove:    @org.gwtproject.user.client.impl.DOMImplStandard::dispatchCapturedMouseEvent(*),
-      touchcancel:  @org.gwtproject.user.client.impl.DOMImplStandard::dispatchCapturedMouseEvent(*),
-      gesturestart: @org.gwtproject.user.client.impl.DOMImplStandard::dispatchCapturedMouseEvent(*),
-      gestureend:   @org.gwtproject.user.client.impl.DOMImplStandard::dispatchCapturedMouseEvent(*),
-      gesturechange:@org.gwtproject.user.client.impl.DOMImplStandard::dispatchCapturedMouseEvent(*),
-    };
-  }-*/;
+    private static EventMap getCaptureEventDispatchers() {
+        JsPropertyMap map = JsPropertyMap.of();
+        // Mouse events
+        map.set("click", (Consumer<Event>) (event) -> dispatchCapturedMouseEvent(event));
+        map.set("dblclick", (Consumer<Event>) (event) -> dispatchCapturedMouseEvent(event));
+        map.set("mousedown", (Consumer<Event>) (event) -> dispatchCapturedMouseEvent(event));
+        map.set("mouseup", (Consumer<Event>) (event) -> dispatchCapturedMouseEvent(event));
+        map.set("mousemove", (Consumer<Event>) (event) -> dispatchCapturedMouseEvent(event));
+        map.set("mouseover", (Consumer<Event>) (event) -> dispatchCapturedMouseEvent(event));
+        map.set("mouseout", (Consumer<Event>) (event) -> dispatchCapturedMouseEvent(event));
+        map.set("mousewheel", (Consumer<Event>) (event) -> dispatchCapturedMouseEvent(event));
+        // Keyboard events
+        map.set("keydown", (Consumer<Event>) (event) -> dispatchCapturedEvent(event));
+        map.set("keyup", (Consumer<Event>) (event) -> dispatchCapturedEvent(event));
+        map.set("keypress", (Consumer<Event>) (event) -> dispatchCapturedEvent(event));
+        // Touch events
+        map.set("touchstart", (Consumer<Event>) (event) -> dispatchCapturedMouseEvent(event));
+        map.set("touchend", (Consumer<Event>) (event) -> dispatchCapturedMouseEvent(event));
+        map.set("touchmove", (Consumer<Event>) (event) -> dispatchCapturedMouseEvent(event));
+        map.set("touchcancel", (Consumer<Event>) (event) -> dispatchCapturedMouseEvent(event));
+        map.set("gesturestart", (Consumer<Event>) (event) -> dispatchCapturedMouseEvent(event));
+        map.set("gestureend", (Consumer<Event>) (event) -> dispatchCapturedMouseEvent(event));
+        map.set("gesturechange", (Consumer<Event>) (event) -> dispatchCapturedMouseEvent(event));
+        return Js.uncheckedCast(map);
+    }
+
+    @Override
+    public Element eventGetFromElement(Event evt) {
+        if (evt.getType().equals(BrowserEvents.MOUSEOVER)) {
+            return evt.getRelatedEventTarget().cast();
+        }
+        if (evt.getType().equals(BrowserEvents.MOUSEOUT)) {
+            return evt.getEventTarget().cast();
+        }
+        return null;
+    }
+
+    @Override
+    public Element eventGetToElement(Event evt) {
+        if (evt.getType().equals(BrowserEvents.MOUSEOVER)) {
+            return evt.getEventTarget().cast();
+        }
+
+        if (evt.getType().equals(BrowserEvents.MOUSEOUT)) {
+            return evt.getRelatedEventTarget().cast();
+        }
+
+        return null;
+    }
+
+    @Override
+    public Element getChild(Element elem, int index) {
+        int count = 0;
+        Node child = elem.getFirstChild();
+        while (child != null) {
+           if (child.getNodeType() == 1) {
+              if (index == count) {
+                  return (Element)child;
+              }
+              ++count;
+           }
+           child = child.getNextSibling();
+        }
+        return null;
+    }
+
+    @Override
+    public int getChildCount(Element elem) {
+        int count = 0;
+        Node child = elem.getFirstChild();
+        while (child != null) {
+            if (child.getNodeType() == 1) {
+                ++count;
+            }
+            child = child.getNextSibling();
+        }
+        return count;
+    }
+
+    @Override
+    public int getChildIndex(Element parent, Element toFind) {
+        int count = 0;
+        Node child = parent.getFirstChild();
+        while (child != null) {
+            if (child == toFind) {
+                return count;
+            }
+            if (child.getNodeType() == 1) {
+                ++count;
+            }
+
+            child = child.getNextSibling();
+        }
+        return -1;
+    }
+
+    @Override
+    public void insertChild(Element parent, Element toAdd, int index) {
+        int count = 0;
+        Node child = parent.getFirstChild();
+        Node before = null;
+        while (child != null) {
+            if (child.getNodeType() == 1) {
+                if (count == index) {
+                    before = child;
+                    break;
+                }
+                ++count;
+            }
+            child = child.getNextSibling();
+        }
+        parent.insertBefore(toAdd, before);
+    }
+
+    @Override
+    public void releaseCapture(Element elem) {
+        maybeInitializeEventSystem();
+        if (captureElem == elem) {
+            captureElem = null;
+        }
+    }
+
+    @Override
+    public void setCapture(Element elem) {
+        maybeInitializeEventSystem();
+        captureElem = elem;
+    }
+
+    @Override
+    public void sinkBitlessEvent(Element elem, String eventTypeName) {
+        maybeInitializeEventSystem();
+        sinkBitlessEventImpl(elem, eventTypeName);
+    }
+
+    @Override
+    public void sinkEvents(Element elem, int bits) {
+        maybeInitializeEventSystem();
+        sinkEventsImpl(elem, bits);
+    }
+
+    @Override
+    protected void initEventSystem() {
+        JsPropertyMap map = ((JsPropertyMap) captureEventDispatchers);
+        map.forEach(elm -> {
+            DomGlobal.window.addEventListener(elm, Js.uncheckedCast(map.get(elm)), true);
+        });
+    }
+
+    protected void sinkBitlessEventImpl(Element elem, String eventTypeName) {
+        JsPropertyMap map = ((JsPropertyMap) bitlessEventDispatchers);
+        Object dispatcher;
+        if (map.has(eventTypeName)) {
+            dispatcher = map.get(eventTypeName);
+        } else {
+            dispatcher = map.get("_default_");
+        }
+        ((EventTarget) Js.uncheckedCast(elem))
+                .addEventListener(eventTypeName, Js.uncheckedCast(dispatcher), false);
+    }
+
+    protected void sinkEventsImpl(Element elem, int bits) {
+        JsPropertyMap map = ((JsPropertyMap) elem);
+        map.set("__eventBits", bits);
+
+        setEvent(bits, 0x00001, "onclick", map);
+        setEvent(bits, 0x00002, "ondblclick", map);
+        setEvent(bits, 0x00004, "onmousedown", map);
+        setEvent(bits, 0x00008, "onmouseup", map);
+        setEvent(bits, 0x00010, "onmouseover", map);
+        setEvent(bits, 0x00020, "onmouseout", map);
+        setEvent(bits, 0x00040, "onmousemove", map);
+        setEvent(bits, 0x00080, "onkeydown", map);
+        setEvent(bits, 0x00100, "onkeypress", map);
+        setEvent(bits, 0x00200, "onkeyup", map);
+        setEvent(bits, 0x00400, "onchange", map);
+        setEvent(bits, 0x00800, "onfocus", map);
+        setEvent(bits, 0x01000, "onblur", map);
+        setEvent(bits, 0x02000, "onlosecapture", map);
+        setEvent(bits, 0x04000, "onscroll", map);
+        setEvent(bits, 0x08000, "onload", map); //dispatchUnhandledEvent
+        setEvent(bits, 0x10000, "onerror", map);
+        setEvent(bits, 0x20000, "onmousewheel", map);
+        setEvent(bits, 0x40000, "oncontextmenu", map);
+        setEvent(bits, 0x80000, "onpaste", map);
+        setEvent(bits, 0x100000, "ontouchstart", map);
+        setEvent(bits, 0x200000, "ontouchmove", map);
+        setEvent(bits, 0x400000, "ontouchend", map);
+        setEvent(bits, 0x800000, "ontouchcancel", map);
+        setEvent(bits, 0x1000000, "ongesturestart", map);
+        setEvent(bits, 0x2000000, "ongesturechange", map);
+        setEvent(bits, 0x4000000, "ongestureend", map);
+    }
+
+    private void setEvent(int bits, int evetBit, String eventName, JsPropertyMap map) {
+        if (isBitSet(bits, evetBit)) {
+            map.set(eventName, (Fn) event -> dispatchEvent(event));
+        } else {
+            map.set(eventName, null);
+        }
+    }
+
+    @FunctionalInterface
+    @JsFunction
+    public interface Fn {
+        void onInvoke(Event evt);
+    }
 }

@@ -16,6 +16,7 @@
 
 package org.gwtproject.user.client.impl;
 
+import jsinterop.base.JsPropertyMap;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.ui.UIObject;
 
@@ -39,18 +40,22 @@ public class ElementMapperImpl<T extends UIObject> {
     }
   }
 
-  private static native void clearIndex(Element elem) /*-{
-      elem["__uiObjectID"] = null;
-  }-*/;
+  private static void clearIndex(Element elem) {
+    ((JsPropertyMap)elem).set("__uiObjectID", null);
+  }
 
-  private static native int getIndex(Element elem) /*-{
-      var index = elem["__uiObjectID"];
+  private static int getIndex(Element elem) {
+    try {
+      Integer index = Integer.valueOf(((JsPropertyMap)elem).get("__uiObjectID").toString());
       return (index == null) ? -1 : index;
-  }-*/;
+    }catch (Exception e) {
+      return -1;
+    }
+  }
 
-  private static native void setIndex(Element elem, int index) /*-{
-      elem["__uiObjectID"] = index;
-  }-*/;
+  private static void setIndex(Element elem, int index) {
+    ((JsPropertyMap)elem).set("__uiObjectID", index);
+  }
 
   private ElementMapperImpl.FreeNode freeList = null;
 

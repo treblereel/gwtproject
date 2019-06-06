@@ -26,10 +26,9 @@ class DOMImplMozilla extends DOMImplStandard {
     addMozillaCaptureEventDispatchers();
   }
 
-  private static native void addMozillaCaptureEventDispatchers() /*-{
-    @org.gwtproject.user.client.impl.DOMImplStandard::captureEventDispatchers['DOMMouseScroll'] =
-        @org.gwtproject.user.client.impl.DOMImplStandard::dispatchCapturedMouseEvent(*);
-  }-*/;
+  private static void addMozillaCaptureEventDispatchers() {
+      throw new UnsupportedOperationException();
+  }
 
   @Override
   public void sinkEvents(Element elem, int bits) {
@@ -38,11 +37,9 @@ class DOMImplMozilla extends DOMImplStandard {
   }
 
 
-  public native void sinkEventsMozilla(Element elem, int bits) /*-{
-    if (bits & 0x20000) {
-      elem.addEventListener('DOMMouseScroll', @org.gwtproject.user.client.impl.DOMImplStandard::dispatchEvent, false);
-    }
-  }-*/;
+  public void sinkEventsMozilla(Element elem, int bits) {
+    throw new UnsupportedOperationException();
+  }
 
   @Override
   protected void initEventSystem() {
@@ -50,27 +47,7 @@ class DOMImplMozilla extends DOMImplStandard {
     initSyntheticMouseUpEvents();
   }
 
-  private native void initSyntheticMouseUpEvents() /*-{
-    $wnd.addEventListener(
-      'mouseout',
-      $entry(function(evt) {
-        var cap = @org.gwtproject.user.client.impl.DOMImplStandard::captureElem;
-        if (cap && !evt.relatedTarget) {
-          // Mozilla has the interesting habit of sending a mouseout event
-          // with an 'html' element as the target when the mouse is released
-          // outside of the browser window.
-          if ('html' == evt.target.tagName.toLowerCase()) {
-            // When this occurs, we synthesize a mouseup event, which is
-            // useful for all sorts of dragging code (like in DialogBox).
-            var muEvent = $doc.createEvent('MouseEvents');
-            muEvent.initMouseEvent('mouseup', true, true, $wnd, 0,
-              evt.screenX, evt.screenY, evt.clientX, evt.clientY, evt.ctrlKey,
-              evt.altKey, evt.shiftKey, evt.metaKey, evt.button, null);
-            cap.dispatchEvent(muEvent);
-          }
-        }
-      }),
-      true
-    );
-  }-*/;
+  private void initSyntheticMouseUpEvents() {
+    throw new UnsupportedOperationException();
+  }
 }

@@ -16,6 +16,7 @@
 
 package org.gwtproject.user.client;
 
+import org.gwtproject.dom.client.Element;
 import org.gwtproject.event.dom.client.DoubleClickEvent;
 import org.gwtproject.event.dom.client.DoubleClickHandler;
 import org.gwtproject.event.dom.client.HasDoubleClickHandlers;
@@ -46,7 +47,7 @@ public class DoubleClickEventSinkTest extends GWTTestCase {
 
     CheckBox checkBox = new CheckBox();
     // Get the inputElem on which events are sunk
-    org.gwtproject.user.client.Element e = (org.gwtproject.user.client.Element) checkBox.getElement().getFirstChildElement();
+    Element e = (Element) checkBox.getElement().getFirstChildElement();
     verifyEventSinkOnAddHandler(checkBox, e, false);
 
     verifyEventSinkOnAddHandler(new ToggleButton(), false);
@@ -84,7 +85,7 @@ public class DoubleClickEventSinkTest extends GWTTestCase {
     super.gwtTearDown();
   }
 
-  private boolean isDoubleClickEventSunk(org.gwtproject.user.client.Element e) {
+  private boolean isDoubleClickEventSunk(Element e) {
     return (DOM.getEventsSunk(e) & Event.ONDBLCLICK) != 0;
   }
 

@@ -15,6 +15,7 @@
  */
 package org.gwtproject.media.client;
 
+import jsinterop.base.JsPropertyMap;
 import org.gwtproject.dom.client.AudioElement;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.PartialSupport;
@@ -40,9 +41,9 @@ public class Audio extends MediaBase {
    * @return true if supported, false otherwise.
    */
   // TODO: probably safe to assume that everyone supports Audio
-  private static native boolean isSupportedRunTime(AudioElement element) /*-{
-      return !!element.canPlayType;
-  }-*/;
+  private static boolean isSupportedRunTime(AudioElement element) {
+    return ((JsPropertyMap)element).has("canPlayType");
+  }
 
   /**
    * Return a new {@link Audio} if supported, and null otherwise.

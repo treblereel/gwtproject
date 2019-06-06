@@ -24,6 +24,7 @@ import org.gwtproject.event.legacy.shared.EventHandler;
 import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.user.client.impl.DOMImpl;
 import org.gwtproject.user.client.impl.DOMImplStandard;
+import org.gwtproject.user.client.impl.DOMImplStandardBase;
 import org.gwtproject.user.client.ui.Button;
 import org.gwtproject.user.client.ui.RootPanel;
 
@@ -142,6 +143,6 @@ public class CustomEventsTest extends GWTTestCase {
   }
 
   private static boolean isStandard() {
-    return GWT.create(DOMImpl.class) instanceof DOMImplStandard;
+    return new DOMImplStandardBase() instanceof DOMImplStandard;
   }
 }

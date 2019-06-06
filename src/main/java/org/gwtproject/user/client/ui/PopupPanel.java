@@ -15,8 +15,8 @@
  */
 package org.gwtproject.user.client.ui;
 
+import jsinterop.base.JsPropertyMap;
 import org.gwtproject.animation.client.Animation;
-import org.gwtproject.core.client.GWT;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.EventTarget;
@@ -355,7 +355,7 @@ public class PopupPanel extends SimplePanel implements
    */
   private static final String DEFAULT_STYLENAME = "gwt-PopupPanel";
 
-  private static final PopupImpl impl = GWT.create(PopupImpl.class);
+  private static final PopupImpl impl = new PopupImpl();
 
   /**
    * Window resize handler used to keep the glass the proper size.
@@ -960,7 +960,7 @@ public class PopupPanel extends SimplePanel implements
   }
 
   @Override
-  protected org.gwtproject.user.client.Element getContainerElement() {
+  protected Element getContainerElement() {
     return impl.getContainerElement(getPopupImplElement()).cast();
   }
 
@@ -975,7 +975,7 @@ public class PopupPanel extends SimplePanel implements
   }
 
   @Override
-  protected org.gwtproject.user.client.Element getStyleElement() {
+  protected Element getStyleElement() {
     return impl.getStyleElement(getPopupImplElement()).cast();
   }
 
@@ -1061,12 +1061,10 @@ public class PopupPanel extends SimplePanel implements
    *
    * @param elt The Element on which <code>blur()</code> will be invoked
    */
-  private native void blur(Element elt) /*-{
-    // Issue 2390: blurring the body causes IE to disappear to the background
-    if (elt.blur && elt != $doc.body) {
+  private void blur(Element elt)  {
+    if(((JsPropertyMap)elt).has("blur") && elt != Document.get().getBody())
       elt.blur();
-    }
-  }-*/;
+  }
 
   /**
    * Does the event target one of the partner elements?
@@ -1112,7 +1110,7 @@ public class PopupPanel extends SimplePanel implements
    *
    * @return the Element that {@link PopupImpl} creates and expects
    */
-  private org.gwtproject.user.client.Element getPopupImplElement() {
+  private Element getPopupImplElement() {
     return DOM.getFirstChild(super.getContainerElement());
   }
 
