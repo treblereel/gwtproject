@@ -10,10 +10,19 @@ public enum TextJustify implements HasCssName {
       return "auto";
     }
   },
+  /**
+   * @deprecated Use {@link #INTER_CHARACTER} instead
+   */
   DISTRIBUTE {
     @Override
     public String getCssName() {
       return "distribute";
+    }
+  },
+  INTER_CHARACTER {
+    @Override
+    public String getCssName() {
+      return "inter-character";
     }
   },
   INTER_CLUSTER {
