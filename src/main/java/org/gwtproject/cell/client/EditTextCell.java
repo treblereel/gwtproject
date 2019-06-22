@@ -15,7 +15,8 @@
  */
 package org.gwtproject.cell.client;
 
-import elemental2.dom.HTMLInputElement;
+import java.util.Locale;
+
 import jsinterop.annotations.JsFunction;
 import jsinterop.base.JsPropertyMap;
 import org.gwtproject.dom.client.Document;
@@ -29,11 +30,11 @@ import org.gwtproject.safehtml.shared.SafeHtml;
 import org.gwtproject.safehtml.shared.SafeHtmlBuilder;
 import org.gwtproject.text.shared.SafeHtmlRenderer;
 import org.gwtproject.text.shared.SimpleSafeHtmlRenderer;
-import org.gwtproject.user.client.Event;
 
-import java.util.Locale;
-
-import static org.gwtproject.dom.client.BrowserEvents.*;
+import static org.gwtproject.dom.client.BrowserEvents.BLUR;
+import static org.gwtproject.dom.client.BrowserEvents.CLICK;
+import static org.gwtproject.dom.client.BrowserEvents.KEYDOWN;
+import static org.gwtproject.dom.client.BrowserEvents.KEYUP;
 
 /**
  * An editable text cell. Click to edit, escape to cancel, return to commit.
@@ -42,7 +43,10 @@ public class EditTextCell extends
     AbstractEditableCell<String, EditTextCell.ViewData> {
 
   interface Template extends SafeHtmlTemplates {
-    @Template("<input type=\"text\" value=\"{0}\" tabindex=\"-1\"></input>")
+
+    EditTextCell.Template INSTANCE = new EditTextCell_TemplateImpl();
+
+
     SafeHtml input(String value);
   }
 
@@ -136,8 +140,6 @@ public class EditTextCell extends
     }
   }
 
-  private static Template template;
-
   private final SafeHtmlRenderer<String> renderer;
 
   /**
@@ -157,9 +159,6 @@ public class EditTextCell extends
    */
   public EditTextCell(SafeHtmlRenderer<String> renderer) {
     super(CLICK, KEYUP, KEYDOWN, BLUR);
-    if (template == null) {
-      template = new EditTextCell_TemplateImpl();
-    }
     if (renderer == null) {
       throw new IllegalArgumentException("renderer == null");
     }
@@ -218,7 +217,7 @@ public class EditTextCell extends
          * input element is always treated as text. SafeHtml isn't valid in the
          * context of the value attribute.
          */
-        sb.append(template.input(text));
+        sb.append(Template.INSTANCE.input(text));
         return;
       } else {
         // The user pressed enter, but view data still exists.

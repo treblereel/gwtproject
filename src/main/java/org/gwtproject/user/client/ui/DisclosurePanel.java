@@ -84,8 +84,10 @@ public final class DisclosurePanel extends Composite implements
     HasWidgets.ForIsWidget, HasAnimation,
     HasOpenHandlers<DisclosurePanel>, HasCloseHandlers<DisclosurePanel> {
 
-  @Resource
   interface DefaultImages extends ClientBundle {
+
+    DefaultImages INSTANCE = new DisclosurePanel_DefaultImagesImpl();
+
     @ImageOptions(flipRtl = true)
     ImageResource disclosurePanelClosed();
 
@@ -211,17 +213,16 @@ public final class DisclosurePanel extends Composite implements
 
     private DefaultHeader(String text) {
       this(new Imager() {
-        DefaultImages images = new DisclosurePanel_DefaultImagesImpl();
 
         public Image makeImage() {
-          return new Image(images.disclosurePanelClosed());
+          return new Image(DefaultImages.INSTANCE.disclosurePanelClosed());
         }
 
         public void updateImage(boolean open, Image image) {
           if (open) {
-            image.setResource(images.disclosurePanelOpen());
+            image.setResource(DefaultImages.INSTANCE.disclosurePanelOpen());
           } else {
-            image.setResource(images.disclosurePanelClosed());
+            image.setResource(DefaultImages.INSTANCE.disclosurePanelClosed());
           }
         }
       }, text);

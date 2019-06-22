@@ -23,8 +23,9 @@ public class CommonResources {
   /**
    * The {@link ClientBundle} of resources.
    */
-  @Resource
   interface Bundle extends ClientBundle {
+
+    Bundle INSTANCE = new CommonResources_BundleImpl();
 
     @Source("inline-block.gss")
     InlineBlockStyle inlineBlockStyle();

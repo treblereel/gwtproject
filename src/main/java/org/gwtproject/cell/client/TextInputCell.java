@@ -31,7 +31,9 @@ public class TextInputCell extends
     org.gwtproject.cell.client.AbstractInputCell<String, TextInputCell.ViewData> {
 
   interface Template extends SafeHtmlTemplates {
-    @Template("<input type=\"text\" value=\"{0}\" tabindex=\"-1\"></input>")
+
+    TextInputCell.Template INSTANCE = new TextInputCell_TemplateImpl();
+
     SafeHtml input(String value);
   }
 
@@ -126,16 +128,11 @@ public class TextInputCell extends
     }
   }
 
-  private static Template template;
-
   /**
    * Constructs a TextInputCell that renders its text without HTML markup.
    */
   public TextInputCell() {
     super(BrowserEvents.CHANGE, BrowserEvents.KEYUP);
-    if (template == null) {
-      template = new TextInputCell_TemplateImpl();
-    }
   }
 
   /**
@@ -189,7 +186,7 @@ public class TextInputCell extends
 
     String s = (viewData != null) ? viewData.getCurrentValue() : value;
     if (s != null) {
-      sb.append(template.input(s));
+      sb.append(Template.INSTANCE.input(s));
     } else {
       sb.appendHtmlConstant("<input type=\"text\" tabindex=\"-1\"></input>");
     }

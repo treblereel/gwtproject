@@ -59,7 +59,6 @@ import org.gwtproject.event.shared.HandlerRegistration;
 import org.gwtproject.i18n.client.LocaleInfo;
 import org.gwtproject.resources.client.ClientBundle;
 import org.gwtproject.resources.client.ImageResource;
-import org.gwtproject.resources.client.Resource;
 import org.gwtproject.safehtml.shared.SafeHtml;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.Event;
@@ -106,8 +105,9 @@ public class Tree extends Widget implements HasTreeItems.ForIsWidget, HasWidgets
   /**
    * A ClientBundle that provides images for this widget.
    */
-  @Resource
   public interface Resources extends ClientBundle {
+
+    Resources INSTANCE = new Tree_ResourcesImpl();
 
     /**
      * An image indicating a closed branch.

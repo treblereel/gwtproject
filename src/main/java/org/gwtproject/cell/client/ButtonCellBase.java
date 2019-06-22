@@ -28,7 +28,6 @@ import org.gwtproject.resources.client.CssResource.ImportedWithPrefix;
 import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.resources.client.ImageResource.ImageOptions;
 import org.gwtproject.resources.client.ImageResource.RepeatStyle;
-import org.gwtproject.resources.client.Resource;
 import org.gwtproject.safecss.shared.SafeStyles;
 import org.gwtproject.safecss.shared.SafeStylesBuilder;
 import org.gwtproject.safehtml.client.SafeHtmlTemplates;
@@ -42,7 +41,9 @@ import org.gwtproject.user.client.Event.NativePreviewHandler;
 import org.gwtproject.user.client.ui.AbstractImagePrototype;
 import org.gwtproject.user.client.ui.HasEnabled;
 
-import static org.gwtproject.dom.client.BrowserEvents.*;
+import static org.gwtproject.dom.client.BrowserEvents.CLICK;
+import static org.gwtproject.dom.client.BrowserEvents.KEYDOWN;
+import static org.gwtproject.dom.client.BrowserEvents.MOUSEDOWN;
 
 /**
  * Base class for button Cells.
@@ -117,8 +118,9 @@ public class ButtonCellBase<C> extends org.gwtproject.cell.client.AbstractCell<C
     /**
      * The resources used by this appearance.
      */
-    @Resource
     public interface Resources extends ClientBundle {
+
+      Resources INSTANCE = new ButtonCellBase_DefaultAppearance_ResourcesImpl();
 
       /**
        * The background image applied to the button.
@@ -177,34 +179,27 @@ public class ButtonCellBase<C> extends org.gwtproject.cell.client.AbstractCell<C
      * The templates used by this appearance.
      */
     interface Template extends SafeHtmlTemplates {
+
+      DefaultAppearance.Template INSTANCE = new ButtonCellBase_DefaultAppearance_TemplateImpl();
       /**
        * Positions the icon next to the text.
        *
        * NOTE: zoom:0 is a workaround for an IE7 bug where the button contents
        * wrap even when they do not need to.
        */
-      @SafeHtmlTemplates.Template("<div class=\"{0}\""
-          + " style=\"{1}position:relative;zoom:0;\">{2}{3}</div>")
       SafeHtml iconContentLayout(
           String classes, SafeStyles styles, SafeHtml icon, SafeHtml cellContents);
 
       /**
        * The wrapper around the icon that aligns it vertically with the text.
        */
-      @SafeHtmlTemplates.Template("<div style=\"{0}position:absolute;top:50%;line-height:0px;\">"
-          + "{1}</div>")
       SafeHtml iconWrapper(SafeStyles styles, SafeHtml image);
     }
 
     private static final int DEFAULT_ICON_PADDING = 3;
-    private static Resources defaultResources;
-    private static Template template;
 
     private static Resources getDefaultResources() {
-      if (defaultResources == null) {
-        defaultResources = new ButtonCellBase_DefaultAppearance_ResourcesImpl();
-      }
-      return defaultResources;
+      return Resources.INSTANCE;
     }
 
     private SafeHtml iconSafeHtml = SafeHtmlUtils.EMPTY_SAFE_HTML;
@@ -231,9 +226,6 @@ public class ButtonCellBase<C> extends org.gwtproject.cell.client.AbstractCell<C
       this.renderer = renderer;
       this.style = resources.buttonCellBaseStyle();
       this.style.ensureInjected();
-      if (template == null) {
-        template = new ButtonCellBase_DefaultAppearance_TemplateImpl();
-      }
     }
 
     /**
@@ -292,7 +284,7 @@ public class ButtonCellBase<C> extends org.gwtproject.cell.client.AbstractCell<C
           } else {
             styles.left(0, Unit.PX);
           }
-          iconSafeHtml = template.iconWrapper(styles.toSafeStyles(), iconOnly);
+          iconSafeHtml = Template.INSTANCE.iconWrapper(styles.toSafeStyles(), iconOnly);
         }
       }
 
@@ -317,7 +309,7 @@ public class ButtonCellBase<C> extends org.gwtproject.cell.client.AbstractCell<C
         styles.paddingLeft(iconPadding, Unit.PX);
       }
       SafeHtml safeValue = renderer.render(value);
-      SafeHtml content = template.iconContentLayout(
+      SafeHtml content = Template.INSTANCE.iconContentLayout(
           CommonResources.getInlineBlockStyle(), styles.toSafeStyles(), iconSafeHtml, safeValue);
       int tabIndex = cell.getTabIndex();
       StringBuilder openTag = new StringBuilder();

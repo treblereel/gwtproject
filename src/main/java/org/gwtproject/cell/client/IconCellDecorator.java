@@ -40,25 +40,24 @@ import java.util.Set;
 public class IconCellDecorator<C> implements org.gwtproject.cell.client.Cell<C> {
 
   interface Template extends SafeHtmlTemplates {
-    @Template("<div style=\"{0}position:relative;zoom:1;\">{1}<div>{2}</div></div>")
+
+    IconCellDecorator.Template INSTANCE = new IconCellDecorator_TemplateImpl();
+
     SafeHtml outerDiv(SafeStyles padding, SafeHtml icon, SafeHtml cellContents);
 
     /**
      * The wrapper around the image vertically aligned to the bottom.
      */
-    @Template("<div style=\"{0}position:absolute;bottom:0px;line-height:0px;\">{1}</div>")
     SafeHtml imageWrapperBottom(SafeStyles styles, SafeHtml image);
 
     /**
      * The wrapper around the image vertically aligned to the middle.
      */
-    @Template("<div style=\"{0}position:absolute;top:50%;line-height:0px;\">{1}</div>")
     SafeHtml imageWrapperMiddle(SafeStyles styles, SafeHtml image);
 
     /**
      * The wrapper around the image vertically aligned to the top.
      */
-    @Template("<div style=\"{0}position:absolute;top:0px;line-height:0px;\">{1}</div>")
     SafeHtml imageWrapperTop(SafeStyles styles, SafeHtml image);
   }
 
@@ -66,8 +65,6 @@ public class IconCellDecorator<C> implements org.gwtproject.cell.client.Cell<C> 
    * The default spacing between the icon and the text in pixels.
    */
   private static final int DEFAULT_SPACING = 6;
-
-  private static Template template;
 
   private final org.gwtproject.cell.client.Cell<C> cell;
 
@@ -103,9 +100,6 @@ public class IconCellDecorator<C> implements org.gwtproject.cell.client.Cell<C> 
    */
   public IconCellDecorator(ImageResource icon, org.gwtproject.cell.client.Cell<C> cell, VerticalAlignmentConstant valign,
                            int spacing) {
-    if (template == null) {
-      template = new IconCellDecorator_TemplateImpl();
-    }
     this.cell = cell;
     this.iconHtml = getImageHtml(icon, valign, false);
     this.imageWidth = icon.getWidth() + spacing;
@@ -139,7 +133,7 @@ public class IconCellDecorator<C> implements org.gwtproject.cell.client.Cell<C> 
   public void render(Context context, C value, SafeHtmlBuilder sb) {
     SafeHtmlBuilder cellBuilder = new SafeHtmlBuilder();
     cell.render(context, value, cellBuilder);
-    sb.append(template.outerDiv(outerDivPadding, isIconUsed(value) ? getIconHtml(value)
+    sb.append(Template.INSTANCE.outerDiv(outerDivPadding, isIconUsed(value) ? getIconHtml(value)
         : placeHolderHtml, cellBuilder.toSafeHtml()));
   }
 
@@ -196,13 +190,13 @@ public class IconCellDecorator<C> implements org.gwtproject.cell.client.Cell<C> 
     SafeStylesBuilder cssStyles =
         new SafeStylesBuilder().appendTrustedString(direction + ":0px;");
     if (HasVerticalAlignment.ALIGN_TOP == valign) {
-      return template.imageWrapperTop(cssStyles.toSafeStyles(), image);
+      return Template.INSTANCE.imageWrapperTop(cssStyles.toSafeStyles(), image);
     } else if (HasVerticalAlignment.ALIGN_BOTTOM == valign) {
-      return template.imageWrapperBottom(cssStyles.toSafeStyles(), image);
+      return Template.INSTANCE.imageWrapperBottom(cssStyles.toSafeStyles(), image);
     } else {
       int halfHeight = (int) Math.round(res.getHeight() / 2.0);
       cssStyles.appendTrustedString("margin-top:-" + halfHeight + "px;");
-      return template.imageWrapperMiddle(cssStyles.toSafeStyles(), image);
+      return Template.INSTANCE.imageWrapperMiddle(cssStyles.toSafeStyles(), image);
     }
   }
 

@@ -37,7 +37,6 @@ public class NamedFrame extends Frame {
   interface IFrameTemplate extends SafeHtmlTemplates {
     IFrameTemplate INSTANCE = new NamedFrame_IFrameTemplateImpl();
 
-    @Template("<iframe src=\"about:blank\" name='{0}'>")
     SafeHtml get(String name);
   }
 

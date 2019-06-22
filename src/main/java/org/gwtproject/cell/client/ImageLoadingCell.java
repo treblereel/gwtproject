@@ -22,7 +22,6 @@ import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.dom.style.shared.Display;
 import org.gwtproject.resources.client.ClientBundle;
 import org.gwtproject.resources.client.ImageResource;
-import org.gwtproject.resources.client.Resource;
 import org.gwtproject.safehtml.client.SafeHtmlTemplates;
 import org.gwtproject.safehtml.shared.SafeHtml;
 import org.gwtproject.safehtml.shared.SafeHtmlBuilder;
@@ -68,17 +67,15 @@ public class ImageLoadingCell extends org.gwtproject.cell.client.AbstractCell<St
   }
 
   interface Template extends SafeHtmlTemplates {
-    @Template("<div style='height:0px;width:0px;overflow:hidden;'>{0}</div>")
+
+    ImageLoadingCell.Template INSTANCE = new ImageLoadingCell_TemplateImpl();
+
     SafeHtml image(SafeHtml imageHtml);
 
-    @Template("<img src=\"{0}\"/>")
     SafeHtml img(String url);
 
-    @Template("<div>{0}</div>")
     SafeHtml loading(SafeHtml loadingHtml);
   }
-
-  private static Template template;
 
   /**
    * The default {@link SafeHtmlRenderer SafeHtmlRenderers}.
@@ -92,7 +89,7 @@ public class ImageLoadingCell extends org.gwtproject.cell.client.AbstractCell<St
       if (IMAGE_RENDERER == null) {
         IMAGE_RENDERER = new AbstractSafeHtmlRenderer<String>() {
           public SafeHtml render(String object) {
-            return template.img(object);
+            return Template.INSTANCE.img(object);
           }
         };
       }
@@ -140,8 +137,9 @@ public class ImageLoadingCell extends org.gwtproject.cell.client.AbstractCell<St
   /**
    * The images used by the {@link DefaultRenderers}.
    */
-  @Resource
   interface Resources extends ClientBundle {
+    Resources INSTANCE = new ImageLoadingCell_ResourcesImpl();
+
     ImageResource loading();
   }
 
@@ -171,9 +169,6 @@ public class ImageLoadingCell extends org.gwtproject.cell.client.AbstractCell<St
    */
   public ImageLoadingCell(Renderers renderers) {
     super(BrowserEvents.LOAD, BrowserEvents.ERROR);
-    if (template == null) {
-      template = new ImageLoadingCell_TemplateImpl();
-    }
     this.errorRenderer = renderers.getErrorRenderer();
     this.imageRenderer = renderers.getImageRenderer();
     this.loadingRenderer = renderers.getLoadingRenderer();
@@ -205,8 +200,8 @@ public class ImageLoadingCell extends org.gwtproject.cell.client.AbstractCell<St
     // We can't use ViewData because we don't know the caching policy of the
     // browser. The browser may fetch the image every time we render.
     if (value != null) {
-      sb.append(template.loading(loadingRenderer.render(value)));
-      sb.append(template.image(imageRenderer.render(value)));
+      sb.append(Template.INSTANCE.loading(loadingRenderer.render(value)));
+      sb.append(Template.INSTANCE.image(imageRenderer.render(value)));
     }
   }
 

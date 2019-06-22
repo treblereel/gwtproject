@@ -21,25 +21,25 @@ import org.gwtproject.resources.client.ClientBundle;
 import org.gwtproject.resources.client.CommonResources;
 import org.gwtproject.resources.client.CssResource;
 import org.gwtproject.resources.client.CssResource.ImportedWithPrefix;
-import org.gwtproject.resources.client.Resource;
 import org.gwtproject.uibinder.client.UiBinder;
 import org.gwtproject.uibinder.client.UiField;
-import org.gwtproject.uibinder.client.UiTemplate;
 
 /**
  * A vertical scrollbar implemented using the browsers native scrollbar.
  */
 public class NativeVerticalScrollbar extends AbstractNativeScrollbar implements VerticalScrollbar {
 
-  @UiTemplate
   interface NativeVerticalScrollbarUiBinder extends UiBinder<Element, NativeVerticalScrollbar> {
+
   }
 
   /**
    * A ClientBundle of resources used by this widget.
    */
-  @Resource
   public interface Resources extends ClientBundle {
+
+    Resources INSTANCE = new NativeVerticalScrollbar_ResourcesImpl();
+
     /**
      * The styles used in this widget.
      */
@@ -51,8 +51,10 @@ public class NativeVerticalScrollbar extends AbstractNativeScrollbar implements 
    * A variation of {@link Resources} that renders the scrollbar
    * semi-transparent until it is hovered.
    */
-  @Resource
   public interface ResourcesTransparant extends Resources {
+
+    ResourcesTransparant INSTANCE = new NativeVerticalScrollbar_ResourcesTransparantImpl();
+
     /**
      * The styles used in this widget.
      */
@@ -93,8 +95,8 @@ public class NativeVerticalScrollbar extends AbstractNativeScrollbar implements 
   /**
    * Client bundle used in the uibinder template.
    */
-  @Resource
   interface UiBinderBundle extends ClientBundle {
+
     UiBinderBundle INSTANCE = new NativeVerticalScrollbar_UiBinderBundleImpl();
 
     UiStyle nativeVerticalScrollbarUi();
@@ -110,8 +112,6 @@ public class NativeVerticalScrollbar extends AbstractNativeScrollbar implements 
   }
 
   private static Resources DEFAULT_RESOURCES;
-  //private static NativeVerticalScrollbarUiBinder uiBinder =
-  //        new NativeVerticalScrollbar_NativeVerticalScrollbarUiBinderImpl();
 
   /**
    * Get the default resources for this widget.

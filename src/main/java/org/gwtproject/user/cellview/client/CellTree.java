@@ -15,6 +15,10 @@
  */
 package org.gwtproject.user.cellview.client;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.gwtproject.animation.client.Animation;
 import org.gwtproject.aria.client.Roles;
 import org.gwtproject.core.client.Scheduler;
@@ -34,7 +38,6 @@ import org.gwtproject.resources.client.CssResource.ImportedWithPrefix;
 import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.resources.client.ImageResource.ImageOptions;
 import org.gwtproject.resources.client.ImageResource.RepeatStyle;
-import org.gwtproject.resources.client.Resource;
 import org.gwtproject.safecss.shared.SafeStyles;
 import org.gwtproject.safecss.shared.SafeStylesBuilder;
 import org.gwtproject.safehtml.client.SafeHtmlTemplates;
@@ -45,10 +48,6 @@ import org.gwtproject.user.client.ui.Focusable;
 import org.gwtproject.user.client.ui.HasAnimation;
 import org.gwtproject.user.client.ui.SimplePanel;
 import org.gwtproject.view.client.TreeViewModel;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * A view of a tree.
@@ -74,8 +73,8 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
   /**
    * Resources that match the GWT standard style theme.
    */
-  @Resource
   public interface BasicResources extends Resources {
+    BasicResources INSTANCE = new CellTree_BasicResourcesImpl();
 
     @ImageOptions(flipRtl = true)
     ImageResource cellTreeClosedItem();
@@ -154,8 +153,9 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
   /**
    * A ClientBundle that provides images for this widget.
    */
-  @Resource
   public interface Resources extends ClientBundle {
+
+    Resources INSTANCE = new CellTree_ResourcesImpl();
 
     /**
      * An image indicating a closed branch.
@@ -457,7 +457,9 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
   }
 
   interface Template extends SafeHtmlTemplates {
-    @Template("<div class=\"{0}\" style=\"{1}position:absolute;\">{2}</div>")
+
+    CellTree.Template INSTANCE = new CellTree_TemplateImpl();
+
     SafeHtml imageWrapper(String classes, SafeStyles cssLayout, SafeHtml image);
   }
 
@@ -471,9 +473,6 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
   private static Template template;
 
   private static Resources getDefaultResources() {
-    if (DEFAULT_RESOURCES == null) {
-      DEFAULT_RESOURCES = new CellTree_ResourcesImpl();
-    }
     return DEFAULT_RESOURCES;
   }
 
@@ -617,7 +616,7 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
     super(viewModel);
     this.defaultNodeSize = defaultNodeSize;
     if (template == null) {
-      template = new CellTree_TemplateImpl();
+      template = Template.INSTANCE;
     }
     this.style = resources.cellTreeStyle();
     this.style.ensureInjected();

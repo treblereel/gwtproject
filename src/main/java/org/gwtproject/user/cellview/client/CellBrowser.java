@@ -15,6 +15,9 @@
  */
 package org.gwtproject.user.cellview.client;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.gwtproject.animation.client.Animation;
 import org.gwtproject.cell.client.Cell;
 import org.gwtproject.cell.client.Cell.Context;
@@ -38,7 +41,6 @@ import org.gwtproject.resources.client.CssResource.ImportedWithPrefix;
 import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.resources.client.ImageResource.ImageOptions;
 import org.gwtproject.resources.client.ImageResource.RepeatStyle;
-import org.gwtproject.resources.client.Resource;
 import org.gwtproject.safecss.shared.SafeStyles;
 import org.gwtproject.safecss.shared.SafeStylesBuilder;
 import org.gwtproject.safecss.shared.SafeStylesUtils;
@@ -62,9 +64,6 @@ import org.gwtproject.view.client.ProvidesKey;
 import org.gwtproject.view.client.SelectionModel;
 import org.gwtproject.view.client.TreeViewModel;
 import org.gwtproject.view.client.TreeViewModel.NodeInfo;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A "browsable" view of a tree in which only a single node per level may be
@@ -91,8 +90,9 @@ public class CellBrowser extends AbstractCellTree implements ProvidesResize, Req
   /**
    * A ClientBundle that provides images for this widget.
    */
-  @Resource
   public interface Resources extends ClientBundle {
+
+    Resources INSTANCE = new CellBrowser_ResourcesImpl();
     /**
      * An image indicating a closed branch.
      */
@@ -179,23 +179,18 @@ public class CellBrowser extends AbstractCellTree implements ProvidesResize, Req
   }
 
   interface Template extends SafeHtmlTemplates {
-    @Template("<div __idx=\"{0}\" class=\"{1}\""
-        + " style=\"{2}position:relative;outline:none;\">{3}<div>{4}</div></div>")
+
+    CellBrowser.Template INSTANCE = new CellBrowser_TemplateImpl();
+
     SafeHtml div(int idx, String classes, SafeStyles padding, SafeHtml imageHtml,
                  SafeHtml cellContents);
 
-    @Template("<div __idx=\"{0}\" class=\"{1}\""
-        + " style=\"{2}position:relative;outline:none;\" tabindex=\"{3}\">{4}<div>{5}</div></div>")
     SafeHtml divFocusable(int idx, String classes, SafeStyles padding, int tabIndex,
                           SafeHtml imageHtml, SafeHtml cellContents);
 
-    @Template("<div __idx=\"{0}\" class=\"{1}\""
-        + " style=\"{2}position:relative;outline:none;\" tabindex=\"{3}\""
-        + " accessKey=\"{4}\">{5}<div>{6}</div></div>")
     SafeHtml divFocusableWithKey(int idx, String classes, SafeStyles padding, int tabIndex,
                                  char accessKey, SafeHtml imageHtml, SafeHtml cellContents);
 
-    @Template("<div style=\"{0}position:absolute;\">{1}</div>")
     SafeHtml imageWrapper(SafeStyles css, SafeHtml image);
   }
 
@@ -333,14 +328,14 @@ public class CellBrowser extends AbstractCellTree implements ProvidesResize, Req
           }
           char accessKey = getAccessKey();
           if (accessKey != 0) {
-            sb.append(template.divFocusableWithKey(i, classesBuilder.toString(), padding,
-                getTabIndex(), getAccessKey(), image, cellBuilder.toSafeHtml()));
+            sb.append(CellBrowser.Template.INSTANCE.divFocusableWithKey(i, classesBuilder.toString(), padding,
+                                                                        getTabIndex(), getAccessKey(), image, cellBuilder.toSafeHtml()));
           } else {
-            sb.append(template.divFocusable(i, classesBuilder.toString(), padding, getTabIndex(),
-                image, cellBuilder.toSafeHtml()));
+            sb.append(CellBrowser.Template.INSTANCE.divFocusable(i, classesBuilder.toString(), padding, getTabIndex(),
+                                                                 image, cellBuilder.toSafeHtml()));
           }
         } else {
-          sb.append(template.div(i, classesBuilder.toString(), padding, image, cellBuilder
+          sb.append(CellBrowser.Template.INSTANCE.div(i, classesBuilder.toString(), padding, image, cellBuilder
               .toSafeHtml()));
         }
       }
@@ -891,13 +886,8 @@ public class CellBrowser extends AbstractCellTree implements ProvidesResize, Req
   private static final SafeHtml LEAF_IMAGE = SafeHtmlUtils
       .fromSafeConstant("<div style='position:absolute;display:none;'></div>");
 
-  private static Template template;
-
   private static Resources getDefaultResources() {
-    if (DEFAULT_RESOURCES == null) {
-      DEFAULT_RESOURCES = new CellBrowser_ResourcesImpl();
-    }
-    return DEFAULT_RESOURCES;
+    return Resources.INSTANCE;
   }
 
   /**
@@ -1001,9 +991,6 @@ public class CellBrowser extends AbstractCellTree implements ProvidesResize, Req
 
   protected <T> CellBrowser(Builder<T> builder) {
     super(builder.viewModel);
-    if (template == null) {
-      template = new CellBrowser_TemplateImpl();
-    }
     Resources resources = builder.resources();
     this.style = resources.cellBrowserStyle();
     this.style.ensureInjected();
@@ -1249,7 +1236,7 @@ public class CellBrowser extends AbstractCellTree implements ProvidesResize, Req
     }
     cssBuilder.appendTrustedString("width: " + res.getWidth() + "px;");
     cssBuilder.appendTrustedString("height: " + res.getHeight() + "px;");
-    return template.imageWrapper(cssBuilder.toSafeStyles(), image);
+    return Template.INSTANCE.imageWrapper(cssBuilder.toSafeStyles(), image);
   }
 
   /**

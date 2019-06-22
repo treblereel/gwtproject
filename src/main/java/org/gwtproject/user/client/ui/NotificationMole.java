@@ -24,7 +24,6 @@ import org.gwtproject.resources.client.CssResource;
 import org.gwtproject.timer.client.Timer;
 import org.gwtproject.uibinder.client.UiBinder;
 import org.gwtproject.uibinder.client.UiField;
-import org.gwtproject.uibinder.client.UiTemplate;
 
 /**
  * Simple widget for providing notification feedback.
@@ -39,7 +38,6 @@ public class NotificationMole extends Composite {
     String notificationText();
   }
 
-  @UiTemplate
   interface Binder extends UiBinder<HTMLPanel, NotificationMole> {
   }
 
@@ -74,7 +72,7 @@ public class NotificationMole extends Composite {
     }
   }
 
-  //private static final Binder BINDER = new NotificationMole_BinderImpl();
+  private static Binder BINDER = new NotificationMole_BinderImpl();
 
   @UiField()
   DivElement borderElement;
@@ -101,7 +99,7 @@ public class NotificationMole extends Composite {
   private int animationDuration;
 
   public NotificationMole() {
-    //initWidget(BINDER.createAndBindUi(this));
+    initWidget(BINDER.createAndBindUi(this));
   }
 
   /**

@@ -28,7 +28,6 @@ import org.gwtproject.text.shared.AbstractSafeHtmlRenderer;
 public class ImageResourceRenderer extends AbstractSafeHtmlRenderer<ImageResource> {
 
   interface Template extends SafeHtmlTemplates {
-    @Template("<img src='{0}' border='0' width='{1}' height='{2}'>")
     SafeHtml image(SafeUri imageUri, int width, int height);
   }
 

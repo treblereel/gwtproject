@@ -417,31 +417,25 @@ public abstract class AbstractCellTable<T> extends AbstractHasData<T> {
   }
   
   interface Template extends SafeHtmlTemplates {
-    @SafeHtmlTemplates.Template("<div style=\"outline:none;\">{0}</div>")
+
+    AbstractCellTable.Template INSTANCE = new AbstractCellTable_TemplateImpl();
+
     SafeHtml div(SafeHtml contents);
 
-    @SafeHtmlTemplates.Template("<table><tbody>{0}</tbody></table>")
     SafeHtml tbody(SafeHtml rowHtml);
 
-    @SafeHtmlTemplates.Template("<td class=\"{0}\">{1}</td>")
     SafeHtml td(String classes, SafeHtml contents);
 
-    @SafeHtmlTemplates.Template("<td class=\"{0}\" align=\"{1}\" valign=\"{2}\">{3}</td>")
     SafeHtml tdBothAlign(String classes, String hAlign, String vAlign, SafeHtml contents);
 
-    @SafeHtmlTemplates.Template("<td class=\"{0}\" align=\"{1}\">{2}</td>")
     SafeHtml tdHorizontalAlign(String classes, String hAlign, SafeHtml contents);
 
-    @SafeHtmlTemplates.Template("<td class=\"{0}\" valign=\"{1}\">{2}</td>")
     SafeHtml tdVerticalAlign(String classes, String vAlign, SafeHtml contents);
 
-    @SafeHtmlTemplates.Template("<table><tfoot>{0}</tfoot></table>")
     SafeHtml tfoot(SafeHtml rowHtml);
 
-    @SafeHtmlTemplates.Template("<table><thead>{0}</thead></table>")
     SafeHtml thead(SafeHtml rowHtml);
 
-    @SafeHtmlTemplates.Template("<tr class=\"{0}\">{1}</tr>")
     SafeHtml tr(String classes, SafeHtml contents);
   }
 
@@ -475,11 +469,11 @@ public abstract class AbstractCellTable<T> extends AbstractHasData<T> {
        */
       sectionTag = sectionTag.toLowerCase(Locale.ROOT);
       if ("tbody".equals(sectionTag)) {
-        tmpElem.setInnerSafeHtml(template.tbody(rowHtml));
+        tmpElem.setInnerSafeHtml(Template.INSTANCE.tbody(rowHtml));
       } else if ("thead".equals(sectionTag)) {
-        tmpElem.setInnerSafeHtml(template.thead(rowHtml));
+        tmpElem.setInnerSafeHtml(Template.INSTANCE.thead(rowHtml));
       } else if ("tfoot".equals(sectionTag)) {
-        tmpElem.setInnerSafeHtml(template.tfoot(rowHtml));
+        tmpElem.setInnerSafeHtml(Template.INSTANCE.tfoot(rowHtml));
       } else {
         throw new IllegalArgumentException("Invalid table section tag: " + sectionTag);
       }
@@ -649,8 +643,6 @@ public abstract class AbstractCellTable<T> extends AbstractHasData<T> {
    * The table specific {@link Impl}.
    */
   private static Impl TABLE_IMPL;
-
-  private static Template template;
 
   /**
    * Check if a column consumes events.
@@ -2002,28 +1994,28 @@ public abstract class AbstractCellTable<T> extends AbstractHasData<T> {
 
         // Build the contents.
         SafeHtml contents = SafeHtmlUtils.EMPTY_SAFE_HTML;
-        contents = template.div(cellBuilder.toSafeHtml());
+        contents = Template.INSTANCE.div(cellBuilder.toSafeHtml());
 
         // Build the cell.
         HorizontalAlignmentConstant hAlign = column.getHorizontalAlignment();
         VerticalAlignmentConstant vAlign = column.getVerticalAlignment();
         if (hAlign != null && vAlign != null) {
-          trBuilder.append(template.tdBothAlign(tdClasses, hAlign.getTextAlignString(), vAlign
+          trBuilder.append(Template.INSTANCE.tdBothAlign(tdClasses, hAlign.getTextAlignString(), vAlign
               .getVerticalAlignString(), contents));
         } else if (hAlign != null) {
-          trBuilder.append(template.tdHorizontalAlign(tdClasses, hAlign.getTextAlignString(),
+          trBuilder.append(Template.INSTANCE.tdHorizontalAlign(tdClasses, hAlign.getTextAlignString(),
               contents));
         } else if (vAlign != null) {
-          trBuilder.append(template.tdVerticalAlign(tdClasses, vAlign.getVerticalAlignString(),
+          trBuilder.append(Template.INSTANCE.tdVerticalAlign(tdClasses, vAlign.getVerticalAlignString(),
               contents));
         } else {
-          trBuilder.append(template.td(tdClasses, contents));
+          trBuilder.append(Template.INSTANCE.td(tdClasses, contents));
         }
 
         curColumn++;
       }
 
-      sb.append(template.tr(trClasses, trBuilder.toSafeHtml()));
+      sb.append(Template.INSTANCE.tr(trClasses, trBuilder.toSafeHtml()));
     }
   }
 
@@ -2410,9 +2402,6 @@ public abstract class AbstractCellTable<T> extends AbstractHasData<T> {
   private void init() {
     if (TABLE_IMPL == null) {
       TABLE_IMPL = new Impl();
-    }
-    if (template == null) {
-      template = new AbstractCellTable_TemplateImpl();
     }
     // Set the cell table style
     setStyleName(style.widget());

@@ -21,10 +21,8 @@ import org.gwtproject.resources.client.ClientBundle;
 import org.gwtproject.resources.client.CommonResources;
 import org.gwtproject.resources.client.CssResource;
 import org.gwtproject.resources.client.CssResource.ImportedWithPrefix;
-import org.gwtproject.resources.client.Resource;
 import org.gwtproject.uibinder.client.UiBinder;
 import org.gwtproject.uibinder.client.UiField;
-import org.gwtproject.uibinder.client.UiTemplate;
 
 /**
  * A horizontal scrollbar implemented using the browsers native scrollbar.
@@ -32,14 +30,17 @@ import org.gwtproject.uibinder.client.UiTemplate;
 public class NativeHorizontalScrollbar extends AbstractNativeScrollbar implements
     HorizontalScrollbar {
 
-  @UiTemplate
   interface NativeHorizontalScrollbarUiBinder extends UiBinder<Element, NativeHorizontalScrollbar> {
+    NativeHorizontalScrollbarUiBinder INSTANCE = new NativeHorizontalScrollbar_NativeHorizontalScrollbarUiBinderImpl();
+
   }
   /**
    * A ClientBundle of resources used by this widget.
    */
-  @Resource
   public interface Resources extends ClientBundle {
+
+    Resources INSTANCE = new NativeHorizontalScrollbar_ResourcesImpl();
+
     /**
      * The styles used in this widget.
      */
@@ -51,8 +52,9 @@ public class NativeHorizontalScrollbar extends AbstractNativeScrollbar implement
    * A variation of {@link Resources} that renders the scrollbar
    * semi-transparent until it is hovered.
    */
-  @Resource
   public interface ResourcesTransparant extends Resources {
+
+    ResourcesTransparant INSTANCE = new NativeHorizontalScrollbar_ResourcesTransparantImpl();
     /**
      * The styles used in this widget.
      */
@@ -97,7 +99,7 @@ public class NativeHorizontalScrollbar extends AbstractNativeScrollbar implement
    */
   private static Resources getDefaultResources() {
     if (DEFAULT_RESOURCES == null) {
-      DEFAULT_RESOURCES = new NativeHorizontalScrollbar_ResourcesImpl();
+      DEFAULT_RESOURCES = Resources.INSTANCE;
     }
     return DEFAULT_RESOURCES;
   }

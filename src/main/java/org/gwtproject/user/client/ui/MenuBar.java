@@ -15,6 +15,9 @@
  */
 package org.gwtproject.user.client.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.gwtproject.aria.client.Id;
 import org.gwtproject.aria.client.Roles;
 import org.gwtproject.core.client.Scheduler;
@@ -32,17 +35,13 @@ import org.gwtproject.i18n.client.LocaleInfo;
 import org.gwtproject.resources.client.ClientBundle;
 import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.resources.client.ImageResource.ImageOptions;
-import org.gwtproject.resources.client.Resource;
 import org.gwtproject.safehtml.shared.SafeHtml;
 import org.gwtproject.safehtml.shared.annotations.IsSafeHtml;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.Event;
 import org.gwtproject.user.client.Event.NativePreviewEvent;
-import org.gwtproject.user.window.client.Window;
 import org.gwtproject.user.client.ui.PopupPanel.PositionCallback;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.gwtproject.user.window.client.Window;
 
 /**
  * A standard menu bar widget. A menu bar can contain any number of menu items,
@@ -154,8 +153,9 @@ public class MenuBar extends Widget implements HasAnimation, CloseHandler<PopupP
   /**
    * A ClientBundle that contains the default resources for this widget.
    */
-  @Resource
   public interface Resources extends ClientBundle {
+
+    Resources INSTANCE = new MenuBar_ResourcesImpl();
     /**
      * An image indicating a {@link MenuItem} has an associated submenu.
      */

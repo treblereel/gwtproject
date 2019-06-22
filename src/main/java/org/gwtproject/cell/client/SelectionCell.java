@@ -33,14 +33,13 @@ import java.util.List;
 public class SelectionCell extends org.gwtproject.cell.client.AbstractInputCell<String, String> {
 
   interface Template extends SafeHtmlTemplates {
-    @Template("<option value=\"{0}\">{0}</option>")
+
+    SelectionCell.Template INSTANCE = new SelectionCell_TemplateImpl();
+
     SafeHtml deselected(String option);
 
-    @Template("<option value=\"{0}\" selected=\"selected\">{0}</option>")
     SafeHtml selected(String option);
   }
-
-  private static Template template;
 
   private HashMap<String, Integer> indexForOption = new HashMap<String, Integer>();
 
@@ -53,10 +52,7 @@ public class SelectionCell extends org.gwtproject.cell.client.AbstractInputCell<
    */
   public SelectionCell(List<String> options) {
     super(BrowserEvents.CHANGE);
-    if (template == null) {
-      template = new SelectionCell_TemplateImpl();
-    }
-    this.options = new ArrayList<String>(options);
+    this.options = new ArrayList<>(options);
     int index = 0;
     for (String option : options) {
       indexForOption.put(option, index++);
@@ -95,9 +91,9 @@ public class SelectionCell extends org.gwtproject.cell.client.AbstractInputCell<
     int index = 0;
     for (String option : options) {
       if (index++ == selectedIndex) {
-        sb.append(template.selected(option));
+        sb.append(Template.INSTANCE.selected(option));
       } else {
-        sb.append(template.deselected(option));
+        sb.append(Template.INSTANCE.deselected(option));
       }
     }
     sb.appendHtmlConstant("</select>");

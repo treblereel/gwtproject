@@ -59,9 +59,8 @@ import java.util.List;
 public class ValueBoxEditorDecorator<T> extends Composite implements
     HasEditorErrors<T>, IsEditor<ValueBoxEditor<T>> {
 
-  @UiTemplate
   interface Binder extends UiBinder<Widget, ValueBoxEditorDecorator<?>> {
-   // Binder BINDER = new ValueBoxEditorDecorator_BinderImpl();
+    Binder INSTANCE  = new ValueBoxEditorDecorator_BinderImpl();
   }
 
   @UiField
@@ -77,7 +76,7 @@ public class ValueBoxEditorDecorator<T> extends Composite implements
    */
   @UiConstructor
   public ValueBoxEditorDecorator() {
-    //initWidget(Binder.BINDER.createAndBindUi(this));
+    initWidget(Binder.INSTANCE.createAndBindUi(this));
   }
 
   /**

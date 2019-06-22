@@ -18,9 +18,6 @@ package org.gwtproject.user.cellview.client;
 import org.gwtproject.aria.client.ExpandedValue;
 import org.gwtproject.aria.client.Roles;
 import org.gwtproject.event.shared.Event;
-import org.gwtproject.user.cellview.client.AbstractHasData;
-import org.gwtproject.user.cellview.client.CellBasedWidgetImpl;
-import org.gwtproject.user.cellview.client.HasDataPresenter;
 import org.gwtproject.cell.client.Cell;
 import org.gwtproject.cell.client.Cell.Context;
 import org.gwtproject.core.client.Scheduler;
@@ -42,7 +39,6 @@ import org.gwtproject.safehtml.client.SafeHtmlTemplates;
 import org.gwtproject.safehtml.shared.SafeHtml;
 import org.gwtproject.safehtml.shared.SafeHtmlBuilder;
 import org.gwtproject.safehtml.shared.SafeHtmlUtils;
-import org.gwtproject.user.cellview.client.CellTree.CellTreeMessages;
 import org.gwtproject.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
 import org.gwtproject.user.cellview.client.LoadingStateChangeEvent.LoadingState;
 import org.gwtproject.user.client.ui.UIObject;
@@ -75,13 +71,12 @@ import java.util.Set;
 class CellTreeNodeView<T> extends UIObject {
 
   interface Template extends SafeHtmlTemplates {
-    @Template("<div style=\"{0}position:relative;\""
-        + " class=\"{1}\">{2}<div class=\"{3}\">{4}</div></div>")
+
+    CellTreeNodeView.Template INSTANCE = new CellTreeNodeView_TemplateImpl();
+
     SafeHtml innerDiv(SafeStyles cssString, String classes, SafeHtml image, String itemValueStyle,
                       SafeHtml cellContents);
 
-    @Template("<div aria-selected=\"{3}\">"
-        + "<div style=\"{0}\" class=\"{1}\">{2}</div></div>")
     SafeHtml outerDiv(SafeStyles cssString, String classes, SafeHtml content, String ariaSelected);
   }
   /**
@@ -97,7 +92,7 @@ class CellTreeNodeView<T> extends UIObject {
     /**
      * The view used by the NodeCellList.
      */
-    private class View implements org.gwtproject.user.cellview.client.HasDataPresenter.View<C> {
+    private class View implements HasDataPresenter.View<C> {
 
       private final Element childContainer;
 
@@ -185,12 +180,12 @@ class CellTreeNodeView<T> extends UIObject {
               SafeStylesUtils.fromTrustedString("padding-" + paddingDirection + ": " + imageWidth
                   + "px;");
           SafeHtml innerDiv =
-              template.innerDiv(innerPadding, innerClasses.toString(), image, itemValueStyle,
+                  Template.INSTANCE.innerDiv(innerPadding, innerClasses.toString(), image, itemValueStyle,
                   cellBuilder.toSafeHtml());
           SafeStyles outerPadding =
               SafeStylesUtils.fromTrustedString("padding-" + paddingDirection + ": "
                   + paddingAmount + "px;");
-          sb.append(template.outerDiv(outerPadding, outerClasses.toString(), innerDiv,
+          sb.append(Template.INSTANCE.outerDiv(outerPadding, outerClasses.toString(), innerDiv,
               ariaSelected));
         }
       }
@@ -210,7 +205,7 @@ class CellTreeNodeView<T> extends UIObject {
         // Replace the child nodes.
         nodeView.tree.isRefreshing = true;
         Map<Object, CellTreeNodeView<?>> savedViews = saveChildState(values, 0);
-        org.gwtproject.user.cellview.client.AbstractHasData.replaceAllChildren(nodeView.tree, childContainer, sb.toSafeHtml());
+        AbstractHasData.replaceAllChildren(nodeView.tree, childContainer, sb.toSafeHtml());
         nodeView.tree.isRefreshing = false;
 
         // Trim the list of children.
@@ -248,7 +243,7 @@ class CellTreeNodeView<T> extends UIObject {
 
         nodeView.tree.isRefreshing = true;
         SafeHtml html = sb.toSafeHtml();
-        Element newChildren = org.gwtproject.user.cellview.client.AbstractHasData.convertToElements(nodeView.tree, getTmpElem(), html);
+        Element newChildren = AbstractHasData.convertToElements(nodeView.tree, getTmpElem(), html);
         AbstractHasData
             .replaceChildren(nodeView.tree, childContainer, newChildren, start, html);
         nodeView.tree.isRefreshing = false;
@@ -421,7 +416,7 @@ class CellTreeNodeView<T> extends UIObject {
       }
     }
 
-    final org.gwtproject.user.cellview.client.HasDataPresenter<C> presenter;
+    final HasDataPresenter<C> presenter;
     private final Cell<C> cell;
     private final int defaultPageSize;
     private HandlerManager handlerManger = new HandlerManager(this);
@@ -436,7 +431,7 @@ class CellTreeNodeView<T> extends UIObject {
 
       // Create a presenter.
       presenter =
-          new org.gwtproject.user.cellview.client.HasDataPresenter<C>(this, new View(nodeView.ensureChildContainer()), pageSize,
+          new HasDataPresenter<C>(this, new View(nodeView.ensureChildContainer()), pageSize,
               nodeInfo.getProvidesKey());
 
       // Disable keyboard selection because it is handled by CellTree.
@@ -696,8 +691,6 @@ class CellTreeNodeView<T> extends UIObject {
   private static final SafeHtml LEAF_IMAGE = SafeHtmlUtils
       .fromSafeConstant("<div style='position:absolute;display:none;'></div>");
 
-  private static final Template template = new CellTreeNodeView_TemplateImpl();
-
   /**
    * The temporary element used to render child items.
    */
@@ -942,7 +935,7 @@ class CellTreeNodeView<T> extends UIObject {
           if (consumedEvents != null) {
             eventsToSink.addAll(consumedEvents);
           }
-          org.gwtproject.user.cellview.client.CellBasedWidgetImpl.get().sinkEvents(tree, eventsToSink);
+          CellBasedWidgetImpl.get().sinkEvents(tree, eventsToSink);
         }
       }
 
@@ -1085,7 +1078,7 @@ class CellTreeNodeView<T> extends UIObject {
           .onBrowserEvent(context, cellParent, value, event, parentNodeInfo.getValueUpdater());
       tree.cellIsEditing = parentCell.isEditing(context, cellParent, value);
       if (cellWasEditing && !tree.cellIsEditing) {
-        org.gwtproject.user.cellview.client.CellBasedWidgetImpl.get().resetFocus(new Scheduler.ScheduledCommand() {
+        CellBasedWidgetImpl.get().resetFocus(new Scheduler.ScheduledCommand() {
           @Override
           public void execute() {
             tree.setFocus(true);

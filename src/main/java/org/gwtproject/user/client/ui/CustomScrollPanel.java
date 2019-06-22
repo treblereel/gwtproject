@@ -31,7 +31,6 @@ import org.gwtproject.resources.client.ClientBundle;
 import org.gwtproject.resources.client.CommonResources;
 import org.gwtproject.resources.client.CssResource;
 import org.gwtproject.resources.client.CssResource.ImportedWithPrefix;
-import org.gwtproject.resources.client.Resource;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.Event;
 
@@ -63,8 +62,9 @@ public class CustomScrollPanel extends ScrollPanel {
   /**
    * A ClientBundle of resources used by this widget.
    */
-  @Resource
   public interface Resources extends ClientBundle {
+
+    Resources INSTANCE = new CustomScrollPanel_ResourcesImpl();
     /**
      * The styles used in this widget.
      */

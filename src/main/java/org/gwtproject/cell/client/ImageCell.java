@@ -34,26 +34,23 @@ import org.gwtproject.safehtml.shared.SafeHtmlBuilder;
 public class ImageCell extends AbstractCell<String> {
 
   interface Template extends SafeHtmlTemplates {
-    @Template("<img src=\"{0}\"/>")
+    ImageCell.Template INSTANCE = new ImageCell_TemplateImpl();
+
     SafeHtml img(String url);
   }
-
-  private static Template template;
 
   /**
    * Construct a new ImageCell.
    */
   public ImageCell() {
-    if (template == null) {
-      template = new ImageCell_TemplateImpl();
-    }
+
   }
 
   @Override
   public void render(Cell.Context context, String value, SafeHtmlBuilder sb) {
     if (value != null) {
       // The template will sanitize the URI.
-      sb.append(template.img(value));
+      sb.append(Template.INSTANCE.img(value));
     }
   }
 }

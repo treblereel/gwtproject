@@ -38,14 +38,10 @@ import org.gwtproject.user.client.ui.Image;
 public class ClippedImageImpl {
 
   interface DraggableTemplate extends SafeHtmlTemplates {
-    @Template("<img src='{0}' "
-        + "style='{1}' border='0' draggable='true'>")
     SafeHtml image(SafeUri clearImage, SafeStyles style);
   }
 
   interface Template extends SafeHtmlTemplates {
-    @Template("<img src='{0}' "
-        + "style='{1}' border='0'>")
     SafeHtml image(SafeUri clearImage, SafeStyles style);
   }
 

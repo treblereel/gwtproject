@@ -15,7 +15,10 @@
  */
 package org.gwtproject.user.cellview.client;
 
-import org.gwtproject.resources.client.Resource;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+
 import org.gwtproject.cell.client.Cell;
 import org.gwtproject.cell.client.Cell.Context;
 import org.gwtproject.cell.client.ValueUpdater;
@@ -46,10 +49,6 @@ import org.gwtproject.view.client.CellPreviewEvent;
 import org.gwtproject.view.client.ProvidesKey;
 import org.gwtproject.view.client.SelectionModel;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-
 /**
  * A single column list of cells.
  * 
@@ -78,8 +77,9 @@ public class CellList<T> extends AbstractHasData<T> {
   /**
    * A ClientBundle that provides images for this widget.
    */
-  @Resource
   public interface Resources extends ClientBundle {
+
+    Resources INSTANCE = new CellList_ResourcesImpl();
     /**
      * The background used for selected items.
      */
@@ -130,7 +130,9 @@ public class CellList<T> extends AbstractHasData<T> {
   }
 
   interface Template extends SafeHtmlTemplates {
-    @Template("<div __idx=\"{0}\" class=\"{1}\" style=\"outline:none;\" >{2}</div>")
+
+    CellList.Template INSTANCE = new CellList_TemplateImpl();
+
     SafeHtml div(int idx, String classes, SafeHtml cellContents);
   }
 
@@ -140,8 +142,6 @@ public class CellList<T> extends AbstractHasData<T> {
   private static final int DEFAULT_PAGE_SIZE = 25;
 
   private static Resources DEFAULT_RESOURCES;
-
-  private static final Template TEMPLATE = new CellList_TemplateImpl();
 
   private static Resources getDefaultResources() {
     if (DEFAULT_RESOURCES == null) {
@@ -511,7 +511,7 @@ public class CellList<T> extends AbstractHasData<T> {
       SafeHtmlBuilder cellBuilder = new SafeHtmlBuilder();
       Context context = new Context(i, 0, getValueKey(value));
       cell.render(context, value, cellBuilder);
-      sb.append(TEMPLATE.div(i, classesBuilder.toString(), cellBuilder.toSafeHtml()));
+      sb.append(Template.INSTANCE.div(i, classesBuilder.toString(), cellBuilder.toSafeHtml()));
     }
   }
 

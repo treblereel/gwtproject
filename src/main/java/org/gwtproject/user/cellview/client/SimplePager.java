@@ -25,7 +25,6 @@ import org.gwtproject.resources.client.ClientBundle;
 import org.gwtproject.resources.client.CssResource;
 import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.resources.client.ImageResource.ImageOptions;
-import org.gwtproject.resources.client.Resource;
 import org.gwtproject.uibinder.client.UiConstructor;
 import org.gwtproject.user.client.Event;
 import org.gwtproject.user.client.ui.HTML;
@@ -65,8 +64,9 @@ public class SimplePager extends AbstractPager {
   /**
    * A ClientBundle that provides images for this widget.
    */
-  @Resource
-  public static interface Resources extends ClientBundle {
+  public interface Resources extends ClientBundle {
+
+    Resources INSTANCE = new SimplePager_ResourcesImpl();
 
     /**
      * The image used to skip ahead multiple pages.

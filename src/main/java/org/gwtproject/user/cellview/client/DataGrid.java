@@ -84,8 +84,9 @@ public class DataGrid<T> extends AbstractCellTable<T> implements RequiresResize 
   /**
    * A ClientBundle that provides images for this widget.
    */
-  @Resource
   public interface Resources extends ClientBundle {
+
+    Resources INSTANCE = new DataGrid_ResourcesImpl();
     /**
      * The loading indicator used while the table is waiting for data.
      */

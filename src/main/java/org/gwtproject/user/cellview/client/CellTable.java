@@ -15,33 +15,32 @@
  */
 package org.gwtproject.user.cellview.client;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import org.gwtproject.cell.client.Cell;
 import org.gwtproject.dom.client.BrowserEvents;
 import org.gwtproject.dom.client.Document;
-import org.gwtproject.dom.style.shared.Display;
-import org.gwtproject.dom.style.shared.TableLayout;
-import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.dom.client.TableCellElement;
 import org.gwtproject.dom.client.TableColElement;
 import org.gwtproject.dom.client.TableElement;
 import org.gwtproject.dom.client.TableRowElement;
 import org.gwtproject.dom.client.TableSectionElement;
+import org.gwtproject.dom.style.shared.Display;
+import org.gwtproject.dom.style.shared.TableLayout;
+import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.resources.client.ClientBundle;
 import org.gwtproject.resources.client.CssResource;
 import org.gwtproject.resources.client.CssResource.ImportedWithPrefix;
 import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.resources.client.ImageResource.ImageOptions;
 import org.gwtproject.resources.client.ImageResource.RepeatStyle;
-import org.gwtproject.resources.client.Resource;
 import org.gwtproject.user.cellview.client.LoadingStateChangeEvent.LoadingState;
 import org.gwtproject.user.client.ui.DeckPanel;
 import org.gwtproject.user.client.ui.Image;
 import org.gwtproject.user.client.ui.SimplePanel;
 import org.gwtproject.user.client.ui.Widget;
 import org.gwtproject.view.client.ProvidesKey;
-import org.gwtproject.cell.client.Cell;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * A tabular view that supports paging and columns.
@@ -92,8 +91,10 @@ public class CellTable<T> extends AbstractCellTable<T> implements
   /**
    * Resources that match the GWT standard style theme.
    */
-  @Resource
   public interface BasicResources extends Resources {
+
+    BasicResources INSTANCE = new CellTable_BasicResourcesImpl();
+
     /**
      * The styles used in this widget.
      */
@@ -105,8 +106,9 @@ public class CellTable<T> extends AbstractCellTable<T> implements
   /**
    * A ClientBundle that provides images for this widget.
    */
-  @Resource
   public interface Resources extends ClientBundle {
+
+    Resources INSTANCE = new CellTable_ResourcesImpl();
     /**
      * The background used for footer cells.
      */

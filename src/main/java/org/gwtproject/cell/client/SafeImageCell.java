@@ -35,25 +35,22 @@ import org.gwtproject.safehtml.shared.SafeUri;
 public class SafeImageCell extends org.gwtproject.cell.client.AbstractCell<SafeUri> {
 
   interface Template extends SafeHtmlTemplates {
-    @Template("<img src=\"{0}\"/>")
+
+    SafeImageCell.Template INSTANCE = new SafeImageCell_TemplateImpl();
+
     SafeHtml img(SafeUri url);
   }
-
-  private static Template template;
 
   /**
    * Construct a new SafeImageCell.
    */
   public SafeImageCell() {
-    if (template == null) {
-      template = new SafeImageCell_TemplateImpl();
-    }
   }
 
   @Override
   public void render(Context context, SafeUri value, SafeHtmlBuilder sb) {
     if (value != null) {
-      sb.append(template.img(value));
+      sb.append(Template.INSTANCE.img(value));
     }
   }
 }
