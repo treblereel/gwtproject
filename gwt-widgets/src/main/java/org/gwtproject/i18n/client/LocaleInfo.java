@@ -15,12 +15,17 @@
  */
 package org.gwtproject.i18n.client;
 
+import org.gwtproject.i18n.client.impl.cldr.DateTimeFormatInfoImpl;
+import org.gwtproject.i18n.client.impl.cldr.DateTimeFormatInfoImpl_en;
+
 /**
  * Provides access to the currently-active locale and the list of available
  * locales.
  */
 @SuppressWarnings("deprecation")
 public class LocaleInfo {
+
+  private DateTimeFormatInfoImpl dateTimeFormatInfo = new DateTimeFormatInfoImpl_en();
 
   public static LocaleInfo getCurrentLocale() {
     return new LocaleInfo();
@@ -31,6 +36,10 @@ public class LocaleInfo {
    */
   public final boolean isRTL() {
     return false;
+  }
+
+  public DateTimeFormatInfoImpl getDateTimeFormatInfo() {
+    return dateTimeFormatInfo;
   }
 
 

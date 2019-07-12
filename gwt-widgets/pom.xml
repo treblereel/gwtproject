@@ -150,7 +150,21 @@
           <groupId>com.google.elemental2</groupId>
           <artifactId>elemental2-dom</artifactId>
         </exclusion>
+        <exclusion>
+          <groupId>com.vertispan.j2cl</groupId>
+          <artifactId>gwttestcase-emul</artifactId>
+        </exclusion>
       </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.gwtproject.i18n</groupId>
+      <artifactId>gwt-datetimeformat</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.gwtproject.i18n</groupId>
+      <artifactId>gwt-cldr</artifactId>
+      <version>1.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.gwtproject.resources</groupId>
@@ -172,6 +186,7 @@
         <directory>src/main/java</directory>
         <includes>
           <include>**/*.java</include>
+          <include>**/*.js</include>
         </includes>
       </resource>
       <resource>

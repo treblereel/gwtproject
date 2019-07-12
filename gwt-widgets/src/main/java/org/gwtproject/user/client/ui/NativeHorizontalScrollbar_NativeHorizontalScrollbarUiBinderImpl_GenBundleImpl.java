@@ -1,5 +1,6 @@
 package org.gwtproject.user.client.ui;
 
+import org.gwtproject.i18n.client.LocaleInfo;
 import org.gwtproject.resources.client.ResourcePrototype;
 
 public class NativeHorizontalScrollbar_NativeHorizontalScrollbarUiBinderImpl_GenBundleImpl implements org.gwtproject.user.client.ui.NativeHorizontalScrollbar_NativeHorizontalScrollbarUiBinderImpl_GenBundle {
@@ -19,7 +20,7 @@ public class NativeHorizontalScrollbar_NativeHorizontalScrollbarUiBinderImpl_Gen
         return false;
       }
       public String getText() {
-        return com.google.gwt.i18n.client.LocaleInfo.getCurrentLocale().isRTL() ? (".JGPSNOB-b-a{position:relative;overflow:hidden}.JGPSNOB-b-b{position:absolute;right:0;bottom:0;width:100%;height:100px;overflow:auto;overflow-x:scroll;overflow-y:hidden}.JGPSNOB-b-c{height:1px}") : (".JGPSNOB-b-a{position:relative;overflow:hidden}.JGPSNOB-b-b{position:absolute;left:0;bottom:0;width:100%;height:100px;overflow:auto;overflow-x:scroll;overflow-y:hidden}.JGPSNOB-b-c{height:1px}");
+        return LocaleInfo.getCurrentLocale().isRTL() ? (".JGPSNOB-b-a{position:relative;overflow:hidden}.JGPSNOB-b-b{position:absolute;right:0;bottom:0;width:100%;height:100px;overflow:auto;overflow-x:scroll;overflow-y:hidden}.JGPSNOB-b-c{height:1px}") : (".JGPSNOB-b-a{position:relative;overflow:hidden}.JGPSNOB-b-b{position:absolute;left:0;bottom:0;width:100%;height:100px;overflow:auto;overflow-x:scroll;overflow-y:hidden}.JGPSNOB-b-c{height:1px}");
       }
       public java.lang.String viewport() {
         return "JGPSNOB-b-a";
