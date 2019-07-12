@@ -1,5 +1,6 @@
 package org.gwtproject.user.client.ui;
 
+import org.gwtproject.i18n.client.LocaleInfo;
 import org.gwtproject.resources.client.ResourcePrototype;
 
 public class NotificationMole_BinderImpl_GenBundleImpl implements org.gwtproject.user.client.ui.NotificationMole_BinderImpl_GenBundle {
@@ -19,7 +20,7 @@ public class NotificationMole_BinderImpl_GenBundleImpl implements org.gwtproject
         return false;
       }
       public String getText() {
-        return com.google.gwt.i18n.client.LocaleInfo.getCurrentLocale().isRTL() ? (".JGPSNOB-c-a{position:absolute;height:0;text-align:center;width:100%}.JGPSNOB-c-b{margin-right:auto;margin-left:auto;border-right:1px solid #96a2b5;border-left:1px solid #96a2b5;border-bottom:1px solid #96a2b5;background-color:#e5edf9;padding:5px;overflow:hidden;display:inline-block}.JGPSNOB-c-c{font-family:Helvetica;font-size:1em}") : (".JGPSNOB-c-a{position:absolute;height:0;text-align:center;width:100%}.JGPSNOB-c-b{margin-left:auto;margin-right:auto;border-left:1px solid #96a2b5;border-right:1px solid #96a2b5;border-bottom:1px solid #96a2b5;background-color:#e5edf9;padding:5px;overflow:hidden;display:inline-block}.JGPSNOB-c-c{font-family:Helvetica;font-size:1em}");
+        return LocaleInfo.getCurrentLocale().isRTL() ? (".JGPSNOB-c-a{position:absolute;height:0;text-align:center;width:100%}.JGPSNOB-c-b{margin-right:auto;margin-left:auto;border-right:1px solid #96a2b5;border-left:1px solid #96a2b5;border-bottom:1px solid #96a2b5;background-color:#e5edf9;padding:5px;overflow:hidden;display:inline-block}.JGPSNOB-c-c{font-family:Helvetica;font-size:1em}") : (".JGPSNOB-c-a{position:absolute;height:0;text-align:center;width:100%}.JGPSNOB-c-b{margin-left:auto;margin-right:auto;border-left:1px solid #96a2b5;border-right:1px solid #96a2b5;border-bottom:1px solid #96a2b5;background-color:#e5edf9;padding:5px;overflow:hidden;display:inline-block}.JGPSNOB-c-c{font-family:Helvetica;font-size:1em}");
       }
       public java.lang.String container() {
         return "JGPSNOB-c-a";

@@ -1,5 +1,6 @@
 package org.gwtproject.user.client.ui;
 
+import org.gwtproject.i18n.client.LocaleInfo;
 import org.gwtproject.resources.client.ResourcePrototype;
 
 public class NativeVerticalScrollbar_UiBinderBundleImpl implements org.gwtproject.user.client.ui.NativeVerticalScrollbar.UiBinderBundle {
@@ -19,7 +20,7 @@ public class NativeVerticalScrollbar_UiBinderBundleImpl implements org.gwtprojec
         return false;
       }
       public String getText() {
-        return com.google.gwt.i18n.client.LocaleInfo.getCurrentLocale().isRTL() ? (".MU1SOAB-l-a{position:relative;overflow:hidden;direction:rtl}.MU1SOAB-l-b{position:absolute;top:0;right:0;height:100%;width:100px;overflow-y:scroll;overflow-x:hidden}") : (".MU1SOAB-l-a{position:relative;overflow:hidden;direction:ltr}.MU1SOAB-l-b{position:absolute;top:0;right:0;height:100%;width:100px;overflow-y:scroll;overflow-x:hidden}");
+        return LocaleInfo.getCurrentLocale().isRTL() ? (".MU1SOAB-l-a{position:relative;overflow:hidden;direction:rtl}.MU1SOAB-l-b{position:absolute;top:0;right:0;height:100%;width:100px;overflow-y:scroll;overflow-x:hidden}") : (".MU1SOAB-l-a{position:relative;overflow:hidden;direction:ltr}.MU1SOAB-l-b{position:absolute;top:0;right:0;height:100%;width:100px;overflow-y:scroll;overflow-x:hidden}");
       }
       public String viewport() {
         return "MU1SOAB-l-a";
