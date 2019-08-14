@@ -63,7 +63,7 @@ public abstract class AbstractCell<C> implements org.gwtproject.cell.client.Cell
   public AbstractCell(String... consumedEvents) {
     Set<String> events = null;
     if (consumedEvents != null && consumedEvents.length > 0) {
-      events = new HashSet<String>();
+      events = new HashSet<>();
       for (String event : consumedEvents) {
         events.add(event);
       }

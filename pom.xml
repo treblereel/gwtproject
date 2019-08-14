@@ -22,7 +22,6 @@
 
   <modules>
     <module>gwt-widgets</module>
-    <module>gwt-widgets-tests</module>
   </modules>
 
   <repositories>
