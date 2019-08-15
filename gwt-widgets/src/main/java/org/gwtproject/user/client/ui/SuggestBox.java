@@ -96,7 +96,7 @@ public class SuggestBox extends Composite implements HasText, Focusable,
   /**
    * The callback used when a user selects a {@link Suggestion}.
    */
-  public static interface SuggestionCallback {
+  public interface SuggestionCallback {
     void onSuggestionSelected(Suggestion suggestion);
   }
 
@@ -980,7 +980,7 @@ public class SuggestBox extends Composite implements HasText, Focusable,
   }
 
   void showSuggestions(String query) {
-    if (query.length() == 0) {
+      if (query.length() == 0) {
       oracle.requestDefaultSuggestions(new Request(null, limit), callback);
     } else {
       oracle.requestSuggestions(new Request(query, limit), callback);
@@ -991,7 +991,7 @@ public class SuggestBox extends Composite implements HasText, Focusable,
     class TextBoxEvents implements KeyDownHandler, KeyUpHandler, ValueChangeHandler<String> {
 
       public void onKeyDown(KeyDownEvent event) {
-        switch (event.getNativeKeyCode()) {
+          switch (event.getNativeKeyCode()) {
           case KeyCodes.KEY_DOWN:
             display.moveSelectionDown();
             if (isSuggestionListShowing()) {
@@ -1017,7 +1017,7 @@ public class SuggestBox extends Composite implements HasText, Focusable,
       }
 
       public void onKeyUp(KeyUpEvent event) {
-        // After every user key input, refresh the popup's suggestions.
+          // After every user key input, refresh the popup's suggestions.
         refreshSuggestions();
       }
 
@@ -1027,9 +1027,23 @@ public class SuggestBox extends Composite implements HasText, Focusable,
     }
 
     TextBoxEvents events = new TextBoxEvents();
+    box.addChangeHandler(new ChangeHandler() {
+      @Override
+      public void onChange(ChangeEvent changeEvent) {
+
+      }
+    });
+
+    box.addValueChangeHandler(new ValueChangeHandler<String>() {
+      @Override
+      public void onValueChange(ValueChangeEvent<String> valueChangeEvent) {
+
+      }
+    });
+
     box.addKeyDownHandler(events);
     box.addKeyUpHandler(events);
-    box.addValueChangeHandler(events);
+    //box.addValueChangeHandler(events);
   }
 
   private void fireSuggestionEvent(Suggestion selectedSuggestion) {

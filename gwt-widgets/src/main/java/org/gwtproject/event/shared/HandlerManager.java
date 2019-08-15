@@ -55,12 +55,12 @@ public class HandlerManager implements HasHandlers {
 
     @Override
     public void fireEvent(Event<?> event) {
-      doFire(event, null);
+        doFire(event, null);
     }
 
     @Override
     public void fireEventFromSource(Event<?> event, Object source) {
-      if (source == null) {
+        if (source == null) {
         throw new NullPointerException("Cannot fire from a null source");
       }
       doFire(event, source);
@@ -114,7 +114,6 @@ public class HandlerManager implements HasHandlers {
         if (source != null) {
           setSourceOfEvent(event, source);
         }
-
         List<H> handlers = getDispatchList(event.getAssociatedType(), source);
         Set<Throwable> causes = null;
 
@@ -193,6 +192,8 @@ public class HandlerManager implements HasHandlers {
       if (sourceMap == null) {
         return Collections.emptyList();
       }
+
+
 
       // safe, we control the puts.
       @SuppressWarnings("unchecked")

@@ -26,7 +26,6 @@ import org.gwtproject.core.client.JavaScriptObject;
 import org.gwtproject.dom.client.DivElement;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
-import org.gwtproject.dom.client.InputElement;
 
 /**
  * Implementation of {@link FocusImpl} that

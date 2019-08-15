@@ -31,11 +31,15 @@ public abstract class DOMImpl {
     protected static boolean eventSystemIsInitialized;
 
     public static EventListener getEventListener(Element elem) {
-        return (EventListener) ((JsPropertyMap) Js.uncheckedCast(elem)).get("__listener");
+        JsPropertyMap _this = Js.asPropertyMap(elem);
+        if (_this.has("__listener")) {
+            return Js.uncheckedCast(_this.get("__listener"));
+        }
+        return null;
     }
 
     public static void setEventListener(Element elem, EventListener listener) {
-        ((JsPropertyMap) Js.uncheckedCast(elem)).set("__listener", listener);
+        Js.asPropertyMap(elem).set("__listener", listener);
     }
 
     /**
@@ -68,7 +72,7 @@ public abstract class DOMImpl {
     }
 
     public void eventCancelBubble(Event event, boolean cancel) {
-        if(cancel == false) {
+        if (cancel == false) {
             event.stopPropagation();
         }
     }
@@ -76,7 +80,7 @@ public abstract class DOMImpl {
     public abstract Element eventGetFromElement(Event evt);
 
     public boolean eventGetRepeat(Event evt) {
-        return ((JsPropertyMap)evt).has("repeat");
+        return Js.asPropertyMap(evt).has("repeat");
     }
 
     public abstract Element eventGetToElement(Event evt);
@@ -149,7 +153,7 @@ public abstract class DOMImpl {
     }
 
     public void eventSetKeyCode(Event evt, char key) {
-        ((JsPropertyMap)evt).set("keyCode", key);
+        Js.asPropertyMap(evt).set("keyCode", key);
     }
 
     public abstract Element getChild(Element elem, int index);
@@ -159,8 +163,8 @@ public abstract class DOMImpl {
     public abstract int getChildIndex(Element parent, Element child);
 
     public int getEventsSunk(Element elem) {
-        if(((JsPropertyMap)elem).has("__eventBits")){
-            return Integer.valueOf(((JsPropertyMap)elem).get("__eventBits").toString());
+        if (((JsPropertyMap) elem).has("__eventBits")) {
+            return Integer.valueOf(((JsPropertyMap) elem).get("__eventBits").toString());
         }
         return 0;
     }

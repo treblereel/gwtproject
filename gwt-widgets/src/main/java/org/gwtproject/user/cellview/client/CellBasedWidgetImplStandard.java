@@ -15,10 +15,8 @@
  */
 package org.gwtproject.user.cellview.client;
 
-import elemental2.dom.HTMLButtonElement;
 import jsinterop.annotations.JsFunction;
 import jsinterop.base.Js;
-import org.gwtproject.core.client.JavaScriptObject;
 import org.gwtproject.dom.client.BrowserEvents;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.EventTarget;

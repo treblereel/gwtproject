@@ -214,7 +214,7 @@ public class MultiWordSuggestOracle extends SuggestOracle {
     // candidates --> real suggestions.
     List<String> realSuggestions = toRealSuggestions.get(candidate);
     if (realSuggestions == null) {
-      realSuggestions = new ArrayList<String>();
+      realSuggestions = new ArrayList<>();
       toRealSuggestions.put(candidate, realSuggestions);
     }
     realSuggestions.add(0, suggestion);
@@ -226,7 +226,7 @@ public class MultiWordSuggestOracle extends SuggestOracle {
       tree.add(word);
       Set<String> l = toCandidates.get(word);
       if (l == null) {
-        l = new HashSet<String>();
+        l = new HashSet<>();
         toCandidates.put(word, l);
       }
       l.add(candidate);
@@ -271,23 +271,18 @@ public class MultiWordSuggestOracle extends SuggestOracle {
   public void requestSuggestions(Request request, Callback callback) {
     String query = normalizeSearch(request.getQuery());
     int limit = request.getLimit();
-
     // Get candidates from search words.
     List<String> candidates = createCandidatesFromSearch(query);
-
     // Respect limit for number of choices.
     int numberTruncated = Math.max(0, candidates.size() - limit);
     for (int i = candidates.size() - 1; i > limit; i--) {
       candidates.remove(i);
     }
-
     // Convert candidates to suggestions.
     List<MultiWordSuggestion> suggestions =
         convertToFormattedSuggestions(query, candidates);
-
     Response response = new Response(suggestions);
     response.setMoreSuggestionsCount(numberTruncated);
-
     callback.onSuggestionsReady(request, response);
   }
 
@@ -318,7 +313,7 @@ public class MultiWordSuggestOracle extends SuggestOracle {
    */
   public final void setDefaultSuggestionsFromText(
       Collection<String> suggestionList) {
-    Collection<Suggestion> accum = new ArrayList<Suggestion>();
+    Collection<Suggestion> accum = new ArrayList<>();
     for (String candidate : suggestionList) {
       accum.add(createSuggestion(candidate, SafeHtmlUtils.htmlEscape(candidate)));
     }
@@ -425,7 +420,7 @@ public class MultiWordSuggestOracle extends SuggestOracle {
    * Find the sorted list of candidates that are matches for the given query.
    */
   private List<String> createCandidatesFromSearch(String query) {
-    ArrayList<String> candidates = new ArrayList<String>();
+    ArrayList<String> candidates = new ArrayList<>();
 
     if (query.length() == 0) {
       return candidates;
@@ -441,7 +436,6 @@ public class MultiWordSuggestOracle extends SuggestOracle {
       if (word.length() == 0 || word.matches(WHITESPACE_STRING)) {
         continue;
       }
-
       // Find the set of candidates that are associated with all the
       // searchWords.
       HashSet<String> thisWordChoices = createCandidatesFromWord(word);
@@ -472,7 +466,7 @@ public class MultiWordSuggestOracle extends SuggestOracle {
    * @return possible candidates
    */
   private HashSet<String> createCandidatesFromWord(String query) {
-    HashSet<String> candidateSet = new HashSet<String>();
+    HashSet<String> candidateSet = new HashSet<>();
     List<String> words = tree.getSuggestions(query, Integer.MAX_VALUE);
     if (words != null) {
       // Find all candidates that contain the given word the search is a

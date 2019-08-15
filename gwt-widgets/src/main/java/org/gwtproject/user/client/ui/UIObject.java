@@ -19,11 +19,11 @@ import java.util.Arrays;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
-import jsinterop.base.Js;
 import org.gwtproject.core.client.JavaScriptObject;
 import org.gwtproject.debug.client.DebugInfo;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.Node;
+import org.gwtproject.dom.style.shared.Display;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.Event;
 
@@ -209,11 +209,16 @@ public abstract class UIObject implements HasVisibility {
      */
 
     public static void setVisible(Element elem, boolean visible) {
-        elem.getStyle().setDisplay(visible ? Js.cast("") : Js.cast("none"));
         if (visible) {
-          elem.removeAttribute("aria-hidden");
+            elem.getStyle().clearDisplay();
         } else {
-          elem.setAttribute("aria-hidden", "true");
+            elem.getStyle().setDisplay(Display.NONE);
+        }
+
+        if (visible) {
+            elem.removeAttribute("aria-hidden");
+        } else {
+            elem.setAttribute("aria-hidden", "true");
         }
     }
 
@@ -850,7 +855,7 @@ public abstract class UIObject implements HasVisibility {
         if (s.equals("auto") || s.equals("inherit") || s.equals("")) {
             return 0;
         } else {
-          return Float.valueOf(s.replaceAll("[A-Za-z%\\s]+", ""));
+            return Float.valueOf(s.replaceAll("[A-Za-z%\\s]+", ""));
         }
     }
 

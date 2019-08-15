@@ -24,8 +24,6 @@ package org.gwtproject.debug.client;
 public class DebugInfo {
 
   public static final String DEFAULT_DEBUG_ID_PREFIX = "gwt-debug-";
-  private static final boolean ENABLED = true;
-   //   "true".equals(System.getProperty("widgets.gwt.enableDebugId"));
 
   private static String debugIdPrefix = DEFAULT_DEBUG_ID_PREFIX;
   private static String debugIdAttribute = "id";
@@ -65,7 +63,7 @@ public class DebugInfo {
    * @see org.gwtproject.user.client.ui.UIObject#ensureDebugId(String)
    */
   public static boolean isDebugIdEnabled() {
-    return ENABLED;
+    return false;
   }
 
   /**

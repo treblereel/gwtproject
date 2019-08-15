@@ -15,7 +15,10 @@
  */
 package org.gwtproject.i18n.client;
 
-import org.gwtproject.i18n.client.constants.DateTimeConstants;
+import org.gwtproject.i18n.client.impl.cldr.DateTimeFormatInfoImpl_en;
+import org.gwtproject.i18n.shared.CustomDateTimeFormat;
+import org.gwtproject.i18n.shared.DateTimeFormatInfo;
+import org.gwtproject.i18n.shared.impl.cldr.DateTimeFormatInfo_factory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -354,7 +357,7 @@ import java.util.Map;
  * object created on Jan 1, 1997, the string <code>"01/11/12"</code> would be
  * interpreted as Jan 11, 2012 while the string <code>"05/04/64"</code> would be
  * interpreted as May 4, 1964. During parsing, only strings consisting of
- * exactly two digits, as defined by {@link java.lang.Character#isDigit(char)},
+ * exactly two digits, as defined by {@link Character#isDigit(char)},
  * will be parsed into the default century. If the year pattern does not have
  * exactly two 'y' characters, the year is interpreted literally, regardless of
  * the number of digits. For example, using the pattern
@@ -394,10 +397,11 @@ public class DateTimeFormat extends org.gwtproject.i18n.shared.DateTimeFormat {
    *
    * deprecated use {@link org.gwtproject.i18n.shared.DateTimeFormat.PredefinedFormat} instead
    */
-   // Temporarily remove deprecation to keep from breaking teams that don't allow
-   // deprecated references.
-   // @Deprecated
+  // Temporarily remove deprecation to keep from breaking teams that don't allow
+  // deprecated references.
+  // @Deprecated
   public enum PredefinedFormat {
+
     // TODO(jat): Javadoc to explain these formats
 
     /**
@@ -470,7 +474,134 @@ public class DateTimeFormat extends org.gwtproject.i18n.shared.DateTimeFormat {
    * @return a DateTimeFormat instance for the specified format
    */
   public static DateTimeFormat getFormat(PredefinedFormat predef) {
-    throw new UnsupportedOperationException(DateTimeFormat.class.getCanonicalName());
+    if (usesFixedEnglishStrings(predef)) {
+      String pattern;
+      switch (predef) {
+        case RFC_2822:
+          pattern = org.gwtproject.i18n.shared.DateTimeFormat.RFC2822_PATTERN;
+          break;
+        case ISO_8601:
+          pattern = org.gwtproject.i18n.shared.DateTimeFormat.ISO8601_PATTERN;
+          break;
+        default:
+          throw new IllegalStateException("Unexpected predef type " + predef);
+      }
+      return getFormat(pattern, new DateTimeFormatInfoImpl_en());
+    }
+    DateTimeFormatInfo dtfi = getDefaultDateTimeFormatInfo();
+    String pattern;
+    switch (predef) {
+      case DATE_FULL:
+        pattern = dtfi.dateFormatFull();
+        break;
+      case DATE_LONG:
+        pattern = dtfi.dateFormatLong();
+        break;
+      case DATE_MEDIUM:
+        pattern = dtfi.dateFormatMedium();
+        break;
+      case DATE_SHORT:
+        pattern = dtfi.dateFormatShort();
+        break;
+      case DATE_TIME_FULL:
+        pattern = dtfi.dateTimeFull(dtfi.timeFormatFull(),
+                                    dtfi.dateFormatFull());
+        break;
+      case DATE_TIME_LONG:
+        pattern = dtfi.dateTimeLong(dtfi.timeFormatLong(),
+                                    dtfi.dateFormatLong());
+        break;
+      case DATE_TIME_MEDIUM:
+        pattern = dtfi.dateTimeMedium(dtfi.timeFormatMedium(),
+                                      dtfi.dateFormatMedium());
+        break;
+      case DATE_TIME_SHORT:
+        pattern = dtfi.dateTimeShort(dtfi.timeFormatShort(),
+                                     dtfi.dateFormatShort());
+        break;
+      case DAY:
+        pattern = dtfi.formatDay();
+        break;
+      case HOUR24_MINUTE:
+        pattern = dtfi.formatHour24Minute();
+        break;
+      case HOUR24_MINUTE_SECOND:
+        pattern = dtfi.formatHour24MinuteSecond();
+        break;
+      case HOUR_MINUTE:
+        pattern = dtfi.formatHour12Minute();
+        break;
+      case HOUR_MINUTE_SECOND:
+        pattern = dtfi.formatHour12MinuteSecond();
+        break;
+      case MINUTE_SECOND:
+        pattern = dtfi.formatMinuteSecond();
+        break;
+      case MONTH:
+        pattern = dtfi.formatMonthFull();
+        break;
+      case MONTH_ABBR:
+        pattern = dtfi.formatMonthAbbrev();
+        break;
+      case MONTH_ABBR_DAY:
+        pattern = dtfi.formatMonthAbbrevDay();
+        break;
+      case MONTH_DAY:
+        pattern = dtfi.formatMonthFullDay();
+        break;
+      case MONTH_NUM_DAY:
+        pattern = dtfi.formatMonthNumDay();
+        break;
+      case MONTH_WEEKDAY_DAY:
+        pattern = dtfi.formatMonthFullWeekdayDay();
+        break;
+      case TIME_FULL:
+        pattern = dtfi.timeFormatFull();
+        break;
+      case TIME_LONG:
+        pattern = dtfi.timeFormatLong();
+        break;
+      case TIME_MEDIUM:
+        pattern = dtfi.timeFormatMedium();
+        break;
+      case TIME_SHORT:
+        pattern = dtfi.timeFormatShort();
+        break;
+      case YEAR:
+        pattern = dtfi.formatYear();
+        break;
+      case YEAR_MONTH:
+        pattern = dtfi.formatYearMonthFull();
+        break;
+      case YEAR_MONTH_ABBR:
+        pattern = dtfi.formatYearMonthAbbrev();
+        break;
+      case YEAR_MONTH_ABBR_DAY:
+        pattern = dtfi.formatYearMonthAbbrevDay();
+        break;
+      case YEAR_MONTH_DAY:
+        pattern = dtfi.formatYearMonthFullDay();
+        break;
+      case YEAR_MONTH_NUM:
+        pattern = dtfi.formatYearMonthNum();
+        break;
+      case YEAR_MONTH_NUM_DAY:
+        pattern = dtfi.formatYearMonthNumDay();
+        break;
+      case YEAR_MONTH_WEEKDAY_DAY:
+        pattern = dtfi.formatYearMonthWeekdayDay();
+        break;
+      case YEAR_QUARTER:
+        pattern = dtfi.formatYearQuarterFull();
+        break;
+      case YEAR_QUARTER_ABBR:
+        pattern = dtfi.formatYearQuarterShort();
+        break;
+      default:
+        throw new IllegalArgumentException("Unexpected predefined format "
+                                                   + predef);
+    }
+    return getFormat(pattern, dtfi);
   }
 
   /**
@@ -494,7 +625,8 @@ public class DateTimeFormat extends org.gwtproject.i18n.shared.DateTimeFormat {
    *           parsed
    */
   public static DateTimeFormat getFormat(String pattern) {
-throw new UnsupportedOperationException("DateTimeFormat");  }
+    return getFormat(pattern, getDefaultDateTimeFormatInfo());
+  }
 
   /**
    * Retrieve the DateTimeFormat object for full date format. The pattern for
@@ -660,8 +792,24 @@ throw new UnsupportedOperationException("DateTimeFormat");  }
    * @return DateTimeFormat instance
    */
   protected static DateTimeFormat getFormat(String pattern,
-      DateTimeFormatInfo dtfi) {
-throw new UnsupportedOperationException(DateTimeFormat.class.getCanonicalName());  }
+                                            DateTimeFormatInfo dtfi) {
+    DateTimeFormatInfo defaultDtfi = getDefaultDateTimeFormatInfo();
+    DateTimeFormat dtf = null;
+    if (dtfi == defaultDtfi) {
+      dtf = cache.get(pattern);
+    }
+    if (dtf == null) {
+      dtf = new DateTimeFormat(pattern, dtfi);
+      if (dtfi == defaultDtfi) {
+        cache.put(pattern, dtf);
+      }
+    }
+    return dtf;
+  }
+
+  private static DateTimeFormatInfo getDefaultDateTimeFormatInfo() {
+    return DateTimeFormatInfo_factory.create();
+  }
 
   /**
    * Returns true if the predefined format is one that specifies always using
@@ -683,16 +831,13 @@ throw new UnsupportedOperationException(DateTimeFormat.class.getCanonicalName())
   }
 
   /**
-   * Constructs a format object using the specified pattern and user-supplied
-   * date time constants.
+   * Constructs a format object using the specified pattern and the date time
+   * constants for the default locale.
    *
    * @param pattern string pattern specification
-   * @param dateTimeConstants locale specific symbol collection
-   * @deprecated use {@link #DateTimeFormat(String, DateTimeFormatInfo)}
    */
-  @Deprecated
-  protected DateTimeFormat(String pattern, DateTimeConstants dateTimeConstants) {
-    this(pattern, new DateTimeFormatInfoAdapter(dateTimeConstants));
+  protected DateTimeFormat(String pattern) {
+    this(pattern, getDefaultDateTimeFormatInfo());
   }
 
   /**

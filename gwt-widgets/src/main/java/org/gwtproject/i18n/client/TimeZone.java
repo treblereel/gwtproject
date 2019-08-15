@@ -35,7 +35,6 @@ import org.gwtproject.core.client.JsArrayString;
  * there is a decent fallback that only uses the time zone offset to create a
  * TimeZone object.
  */
-@JsType
 public class TimeZone implements org.gwtproject.i18n.shared.TimeZone {
   // constants to reference time zone names in the time zone names array
   private static final int STD_SHORT_NAME = 0;
@@ -62,6 +61,8 @@ public class TimeZone implements org.gwtproject.i18n.shared.TimeZone {
     return tz;
   }
 
+
+
   /**
    * This factory method creates a time zone instance from a JSON string that
    * contains the time zone information for desired time zone. Applications can
@@ -77,6 +78,25 @@ public class TimeZone implements org.gwtproject.i18n.shared.TimeZone {
     TimeZoneInfo tzData = TimeZoneInfo.buildTimeZoneData(tzJSON);
 
     return createTimeZone(tzData);
+  }
+
+  /**
+   * This factory method provides a decent fallback to create a time zone object
+   * just based on a given time zone offset.
+   *
+   * @param timeZoneOffsetInMinutes time zone offset in minutes
+   * @return a new time zone object
+   */
+  public static TimeZone createTimeZone(int timeZoneOffsetInMinutes) {
+    TimeZone tz = new TimeZone();
+    tz.standardOffset = timeZoneOffsetInMinutes;
+    tz.timezoneID = composePOSIXTimeZoneID(timeZoneOffsetInMinutes);
+    tz.tzNames = new String[2];
+    tz.tzNames[0] = composeUTCString(timeZoneOffsetInMinutes);
+    tz.tzNames[1] = composeUTCString(timeZoneOffsetInMinutes);
+    tz.transitionPoints = null;
+    tz.adjustments = null;
+    return tz;
   }
 
   public static TimeZone createTimeZone(TimeZoneInfo timezoneData) {

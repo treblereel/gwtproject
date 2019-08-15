@@ -29,7 +29,7 @@ import java.util.Collection;
  * @see SuggestBox
  */
 public abstract class SuggestOracle { 
-  private Response emptyResponse = new Response(new ArrayList<Suggestion>());
+  private Response emptyResponse = new Response(new ArrayList<>());
   /**
    * Callback for {@link SuggestOracle}. Every
    * {@link Request} should be associated with a callback that should be called

@@ -203,12 +203,7 @@ public class CustomScrollPanel extends ScrollPanel {
      * scrollbars accordingly.
      */
     ResizeLayoutPanel.Impl.Delegate containerResizeDelegate =
-        new ResizeLayoutPanel.Impl.Delegate() {
-          @Override
-          public void onResize() {
-            maybeUpdateScrollbars();
-          }
-        };
+            () -> maybeUpdateScrollbars();
     containerResizeImpl.init(getContainerElement(), containerResizeDelegate);
 
     /*
