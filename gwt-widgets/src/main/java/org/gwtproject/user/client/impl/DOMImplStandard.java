@@ -15,8 +15,6 @@
  */
 package org.gwtproject.user.client.impl;
 
-import java.util.function.Consumer;
-
 import elemental2.dom.DomGlobal;
 import elemental2.dom.EventTarget;
 import jsinterop.annotations.JsFunction;
@@ -104,14 +102,6 @@ public abstract class DOMImplStandard extends DOMImpl {
         new DOMImplStandardBase();
     }
 
-    private static boolean isBitSet(int n, int k) {
-        if ((n & (1 << (k - 1))) >= 1) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     private static void dispatchEvent(Event evt) {
         Element element = getFirstAncestorWithListener(evt);
         if (element == null) {
@@ -156,35 +146,35 @@ public abstract class DOMImplStandard extends DOMImpl {
 
     private static EventMap getBitlessEventDispatchers() {
         JsPropertyMap map = JsPropertyMap.of();
-        map.set("_default_", (Consumer<Event>) (event) -> dispatchEvent(event));
-        map.set("dragenter", (Consumer<Event>) (event) -> dispatchDragEvent(event));
-        map.set("dragover", (Consumer<Event>) (event) -> dispatchDragEvent(event));
+        map.set("_default_", (Fn) (event) -> dispatchEvent(event));
+        map.set("dragenter", (Fn) (event) -> dispatchDragEvent(event));
+        map.set("dragover", (Fn) (event) -> dispatchDragEvent(event));
         return Js.uncheckedCast(map);
     }
 
     private static EventMap getCaptureEventDispatchers() {
         JsPropertyMap map = JsPropertyMap.of();
         // Mouse events
-        map.set("click", (Consumer<Event>) (event) -> dispatchCapturedMouseEvent(event));
-        map.set("dblclick", (Consumer<Event>) (event) -> dispatchCapturedMouseEvent(event));
-        map.set("mousedown", (Consumer<Event>) (event) -> dispatchCapturedMouseEvent(event));
-        map.set("mouseup", (Consumer<Event>) (event) -> dispatchCapturedMouseEvent(event));
-        map.set("mousemove", (Consumer<Event>) (event) -> dispatchCapturedMouseEvent(event));
-        map.set("mouseover", (Consumer<Event>) (event) -> dispatchCapturedMouseEvent(event));
-        map.set("mouseout", (Consumer<Event>) (event) -> dispatchCapturedMouseEvent(event));
-        map.set("mousewheel", (Consumer<Event>) (event) -> dispatchCapturedMouseEvent(event));
+        map.set("click", (Fn) (event) -> dispatchCapturedMouseEvent(event));
+        map.set("dblclick", (Fn) (event) -> dispatchCapturedMouseEvent(event));
+        map.set("mousedown", (Fn) (event) -> dispatchCapturedMouseEvent(event));
+        map.set("mouseup", (Fn) (event) -> dispatchCapturedMouseEvent(event));
+        map.set("mousemove", (Fn) (event) -> dispatchCapturedMouseEvent(event));
+        map.set("mouseover", (Fn) (event) -> dispatchCapturedMouseEvent(event));
+        map.set("mouseout", (Fn) (event) -> dispatchCapturedMouseEvent(event));
+        map.set("mousewheel", (Fn) (event) -> dispatchCapturedMouseEvent(event));
         // Keyboard events
-        map.set("keydown", (Consumer<Event>) (event) -> dispatchCapturedEvent(event));
-        map.set("keyup", (Consumer<Event>) (event) -> dispatchCapturedEvent(event));
-        map.set("keypress", (Consumer<Event>) (event) -> dispatchCapturedEvent(event));
+        map.set("keydown", (Fn) (event) -> dispatchCapturedEvent(event));
+        map.set("keyup", (Fn) (event) -> dispatchCapturedEvent(event));
+        map.set("keypress", (Fn) (event) -> dispatchCapturedEvent(event));
         // Touch events
-        map.set("touchstart", (Consumer<Event>) (event) -> dispatchCapturedMouseEvent(event));
-        map.set("touchend", (Consumer<Event>) (event) -> dispatchCapturedMouseEvent(event));
-        map.set("touchmove", (Consumer<Event>) (event) -> dispatchCapturedMouseEvent(event));
-        map.set("touchcancel", (Consumer<Event>) (event) -> dispatchCapturedMouseEvent(event));
-        map.set("gesturestart", (Consumer<Event>) (event) -> dispatchCapturedMouseEvent(event));
-        map.set("gestureend", (Consumer<Event>) (event) -> dispatchCapturedMouseEvent(event));
-        map.set("gesturechange", (Consumer<Event>) (event) -> dispatchCapturedMouseEvent(event));
+        map.set("touchstart", (Fn) (event) -> dispatchCapturedMouseEvent(event));
+        map.set("touchend", (Fn) (event) -> dispatchCapturedMouseEvent(event));
+        map.set("touchmove", (Fn) (event) -> dispatchCapturedMouseEvent(event));
+        map.set("touchcancel", (Fn) (event) -> dispatchCapturedMouseEvent(event));
+        map.set("gesturestart", (Fn) (event) -> dispatchCapturedMouseEvent(event));
+        map.set("gestureend", (Fn) (event) -> dispatchCapturedMouseEvent(event));
+        map.set("gesturechange", (Fn) (event) -> dispatchCapturedMouseEvent(event));
         return Js.uncheckedCast(map);
     }
 
@@ -217,13 +207,13 @@ public abstract class DOMImplStandard extends DOMImpl {
         int count = 0;
         Node child = elem.getFirstChild();
         while (child != null) {
-           if (child.getNodeType() == 1) {
-              if (index == count) {
-                  return (Element)child;
-              }
-              ++count;
-           }
-           child = child.getNextSibling();
+            if (child.getNodeType() == 1) {
+                if (index == count) {
+                    return (Element) child;
+                }
+                ++count;
+            }
+            child = child.getNextSibling();
         }
         return null;
     }
@@ -324,48 +314,127 @@ public abstract class DOMImplStandard extends DOMImpl {
 
     protected void sinkEventsImpl(Element elem, int bits) {
         JsPropertyMap map = ((JsPropertyMap) elem);
+        int chMask = (map.has("__eventBits") ? Integer.valueOf(map.get("__eventBits").toString()) : 0) ^ bits;
         map.set("__eventBits", bits);
 
-        setEvent(bits, 0x00001, "onclick", map);
-        setEvent(bits, 0x00002, "ondblclick", map);
-        setEvent(bits, 0x00004, "onmousedown", map);
-        setEvent(bits, 0x00008, "onmouseup", map);
-        setEvent(bits, 0x00010, "onmouseover", map);
-        setEvent(bits, 0x00020, "onmouseout", map);
-        setEvent(bits, 0x00040, "onmousemove", map);
-        setEvent(bits, 0x00080, "onkeydown", map);
-        setEvent(bits, 0x00100, "onkeypress", map);
-        setEvent(bits, 0x00200, "onkeyup", map);
-        setEvent(bits, 0x00400, "onchange", map);
-        setEvent(bits, 0x00800, "onfocus", map);
-        setEvent(bits, 0x01000, "onblur", map);
-        setEvent(bits, 0x02000, "onlosecapture", map);
-        setEvent(bits, 0x04000, "onscroll", map);
-        setEvent(bits, 0x08000, "onload", map); //dispatchUnhandledEvent
-        setEvent(bits, 0x10000, "onerror", map);
-        setEvent(bits, 0x20000, "onmousewheel", map);
-        setEvent(bits, 0x40000, "oncontextmenu", map);
-        setEvent(bits, 0x80000, "onpaste", map);
-        setEvent(bits, 0x100000, "ontouchstart", map);
-        setEvent(bits, 0x200000, "ontouchmove", map);
-        setEvent(bits, 0x400000, "ontouchend", map);
-        setEvent(bits, 0x800000, "ontouchcancel", map);
-        setEvent(bits, 0x1000000, "ongesturestart", map);
-        setEvent(bits, 0x2000000, "ongesturechange", map);
-        setEvent(bits, 0x4000000, "ongestureend", map);
-    }
-
-    private void setEvent(int bits, int evetBit, String eventName, JsPropertyMap map) {
-        if (isBitSet(bits, evetBit)) {
-            map.set(eventName, (Fn) event -> dispatchEvent(event));
-        } else {
-            map.set(eventName, null);
+        if ((chMask & 0x00001) != 0) {
+            map.set("onclick", ((bits & 0x00001) != 0) ? (Fn) event -> dispatchEvent(event) : null);
         }
+
+        if ((chMask & 0x00002) != 0) {
+            map.set("ondblclick", ((bits & 0x00002) != 0) ? (Fn) event -> dispatchEvent(event) : null);
+        }
+
+        if ((chMask & 0x00004) != 0) {
+            map.set("onmousedown", ((bits & 0x00004) != 0) ? (Fn) event -> dispatchEvent(event) : null);
+        }
+
+        if ((chMask & 0x00008) != 0) {
+            map.set("onmouseup", ((bits & 0x00008) != 0) ? (Fn) event -> dispatchEvent(event) : null);
+        }
+
+        if ((chMask & 0x00010) != 0) {
+            map.set("onmouseover", ((bits & 0x00010) != 0) ? (Fn) event -> dispatchEvent(event) : null);
+        }
+
+        if ((chMask & 0x00020) != 0) {
+            map.set("onmouseout", ((bits & 0x00020) != 0) ? (Fn) event -> dispatchEvent(event) : null);
+        }
+
+        if ((chMask & 0x00040) != 0) {
+            map.set("onmousemove", ((bits & 0x00040) != 0) ? (Fn) event -> dispatchEvent(event) : null);
+        }
+
+        if ((chMask & 0x00080) != 0) {
+            map.set("onkeydown", ((bits & 0x00080) != 0) ? (Fn) event -> dispatchEvent(event) : null);
+        }
+
+        if ((chMask & 0x00100) != 0) {
+            map.set("onkeypress", ((bits & 0x00100) != 0) ? (Fn) event -> dispatchEvent(event) : null);
+        }
+
+        if ((chMask & 0x00200) != 0) {
+            map.set("onkeyup", ((bits & 0x00200) != 0) ? (Fn) event -> dispatchEvent(event) : null);
+        }
+
+        if ((chMask & 0x00400) != 0) {
+            map.set("onchange", ((bits & 0x00400) != 0) ? (Fn) event -> dispatchEvent(event) : null);
+        }
+
+        if ((chMask & 0x00800) != 0) {
+            map.set("onfocus", ((bits & 0x00400) != 0) ? (Fn) event -> dispatchEvent(event) : null);
+        }
+
+        if ((chMask & 0x01000) != 0) {
+            map.set("onblur", ((bits & 0x01000) != 0) ? (Fn) event -> dispatchEvent(event) : null);
+        }
+
+        if ((chMask & 0x02000) != 0) {
+            map.set("onlosecapture", ((bits & 0x02000) != 0) ? (Fn) event -> dispatchEvent(event) : null);
+        }
+
+        if ((chMask & 0x02000) != 0) {
+            map.set("onlosecapture", ((bits & 0x02000) != 0) ? (Fn) event -> dispatchEvent(event) : null);
+        }
+
+        if ((chMask & 0x04000) != 0) {
+            map.set("onscroll", ((bits & 0x04000) != 0) ? (Fn) event -> dispatchEvent(event) : null);
+        }
+
+        if ((chMask & 0x08000) != 0) {
+            map.set("onload", ((bits & 0x08000) != 0) ? (Fn) event -> dispatchUnhandledEvent(event) : null);
+        }
+
+        if ((chMask & 0x10000) != 0) {
+            map.set("onerror", ((bits & 0x10000) != 0) ? (Fn) event -> dispatchEvent(event) : null);
+        }
+
+        if ((chMask & 0x20000) != 0) {
+            map.set("onmousewheel", ((bits & 0x20000) != 0) ? (Fn) event -> dispatchEvent(event) : null);
+        }
+
+        if ((chMask & 0x40000) != 0) {
+            map.set("oncontextmenu", ((bits & 0x40000) != 0) ? (Fn) event -> dispatchEvent(event) : null);
+        }
+
+        if ((chMask & 0x80000) != 0) {
+            map.set("onpaste", ((bits & 0x80000) != 0) ? (Fn) event -> dispatchEvent(event) : null);
+        }
+
+        if ((chMask & 0x100000) != 0) {
+            map.set("ontouchstart", ((bits & 0x100000) != 0) ? (Fn) event -> dispatchEvent(event) : null);
+        }
+
+        if ((chMask & 0x200000) != 0) {
+            map.set("ontouchmove", ((bits & 0x200000) != 0) ? (Fn) event -> dispatchEvent(event) : null);
+        }
+
+        if ((chMask & 0x400000) != 0) {
+            map.set("ontouchend", ((bits & 0x400000) != 0) ? (Fn) event -> dispatchEvent(event) : null);
+        }
+
+        if ((chMask & 0x800000) != 0) {
+            map.set("ontouchcancel", ((bits & 0x800000) != 0) ? (Fn) event -> dispatchEvent(event) : null);
+        }
+
+        if ((chMask & 0x1000000) != 0) {
+            map.set("ongesturestart", ((bits & 0x1000000) != 0) ? (Fn) event -> dispatchEvent(event) : null);
+        }
+
+        if ((chMask & 0x2000000) != 0) {
+            map.set("ongesturechange", ((bits & 0x2000000) != 0) ? (Fn) event -> dispatchEvent(event) : null);
+        }
+
+        if ((chMask & 0x4000000) != 0) {
+            map.set("ongestureend", ((bits & 0x4000000) != 0) ? (Fn) event -> dispatchEvent(event) : null);
+        }
+
     }
 
     @FunctionalInterface
     @JsFunction
     public interface Fn {
+
         void onInvoke(Event evt);
     }
 }

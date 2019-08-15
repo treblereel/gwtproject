@@ -50,6 +50,8 @@ public class SimplePager extends AbstractPager {
    */
   @DefaultLocale("en_US")
   public interface ImageButtonsConstants extends Constants {
+    ImageButtonsConstants INSTANCE = new SimplePager_ImageButtonsConstants_en_US();
+
     @DefaultStringValue("Fast forward")
     String fastForward();
     @DefaultStringValue("First page")
@@ -139,7 +141,7 @@ public class SimplePager extends AbstractPager {
   /**
    * Styles used by this widget.
    */
-  public static interface Style extends CssResource {
+  public interface Style extends CssResource {
 
     /**
      * Applied to buttons.
@@ -342,41 +344,21 @@ public class SimplePager extends AbstractPager {
       firstPage = new ImageButton(resources.simplePagerFirstPage(),
           resources.simplePagerFirstPageDisabled(), disabledStyle,
           imageButtonConstants.firstPage());
-      firstPage.addClickHandler(new ClickHandler() {
-        @Override
-        public void onClick(ClickEvent event) {
-          firstPage();
-        }
-      });
+      firstPage.addClickHandler(event -> firstPage());
     } else {
       firstPage = null;
     }
     nextPage = new ImageButton(resources.simplePagerNextPage(),
         resources.simplePagerNextPageDisabled(), disabledStyle, imageButtonConstants.nextPage());
-    nextPage.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        nextPage();
-      }
-    });
+    nextPage.addClickHandler(event -> nextPage());
     prevPage = new ImageButton(resources.simplePagerPreviousPage(),
         resources.simplePagerPreviousPageDisabled(), disabledStyle,
         imageButtonConstants.prevPage());
-    prevPage.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        previousPage();
-      }
-    });
+    prevPage.addClickHandler(event -> previousPage());
     if (showLastPageButton) {
       lastPage = new ImageButton(resources.simplePagerLastPage(),
           resources.simplePagerLastPageDisabled(), disabledStyle, imageButtonConstants.lastPage());
-      lastPage.addClickHandler(new ClickHandler() {
-        @Override
-        public void onClick(ClickEvent event) {
-          lastPage();
-        }
-      });
+      lastPage.addClickHandler(event -> lastPage());
     } else {
       lastPage = null;
     }
@@ -384,12 +366,7 @@ public class SimplePager extends AbstractPager {
       fastForward = new ImageButton(resources.simplePagerFastForward(),
           resources.simplePagerFastForwardDisabled(), disabledStyle,
           imageButtonConstants.fastForward());
-      fastForward.addClickHandler(new ClickHandler() {
-        @Override
-        public void onClick(ClickEvent event) {
-          setPage(getPage() + getFastForwardPages());
-        }
-      });
+      fastForward.addClickHandler(event -> setPage(getPage() + getFastForwardPages()));
     } else {
       fastForward = null;
     }
@@ -451,7 +428,7 @@ public class SimplePager extends AbstractPager {
       boolean showFastForwardButton, final int fastForwardRows,
       boolean showLastPageButton) {
     this(location, resources, showFastForwardButton, fastForwardRows, showLastPageButton,
-        null);
+        ImageButtonsConstants.INSTANCE);
   }
 
   @Override

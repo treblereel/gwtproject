@@ -15,56 +15,53 @@
  */
 package org.gwtproject.user.client.impl;
 
-import elemental2.dom.DomGlobal;
-import elemental2.dom.HTMLDivElement;
 import jsinterop.annotations.JsConstructor;
 import jsinterop.annotations.JsFunction;
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 import org.gwtproject.core.client.JavaScriptObject;
-import org.gwtproject.dom.client.Element;
-import org.gwtproject.user.client.ui.impl.FocusImplStandard;
 
 /**
  * A simple helper class to abstract event maps.
  */
 class EventMap extends JavaScriptObject {
 
-  @JsConstructor
-  protected EventMap() { /* Mandatory constructor for JSO */}
+    @JsConstructor
+    protected EventMap() { /* Mandatory constructor for JSO */}
 
-  /**
-   * Merges the key-value pairs from the parameter into this object. If a key already exists, then
-   * it will be overridden by the new value.
-   */
-  public final void merge(JavaScriptObject eventMap) {
-    foreach(eventMap, copyTo(this));
-  }
+    /**
+     * Returns a function that copies the passed key-value to target object.
+     */
+    private static JavaScriptObject copyTo(EventMap target) {
+        FnVarArgs func = (key, value) -> {
+            Js.asPropertyMap(target).set(key.toString(), value);
+        };
+        return Js.uncheckedCast(func);
+    }
 
-  /**
-   * Returns a function that copies the passed key-value to target object.
-   */
-  private static JavaScriptObject copyTo(EventMap target) {
-    FnVarArgs func =  (key, value) -> {
-      ((JsPropertyMap)target).set(key.toString(), value);
-    };
-    return (JavaScriptObject)func;
-  }
+    /**
+     * Executes a provided function over the key-value pairs of the map object.
+     */
+    static void foreach(JavaScriptObject map, JavaScriptObject fn) {
+        JsPropertyMap _map = map.cast();
+        _map.forEach(cb -> {
+            FnVarArgs func = fn.cast();
+            func.onInvoke(cb, _map.get(cb));
+        });
+    }
 
-  /**
-   * Executes a provided function over the key-value pairs of the map object.
-   */
-  static void foreach(JavaScriptObject map, JavaScriptObject fn) {
-    JsPropertyMap _map = map.cast();
-    _map.forEach(cb ->{
-      FnVarArgs func = fn.cast();
-        func.onInvoke(cb, _map.get(cb));
-    });
-  }
+    /**
+     * Merges the key-value pairs from the parameter into this object. If a key already exists, then
+     * it will be overridden by the new value.
+     */
+    public final void merge(JavaScriptObject eventMap) {
+        foreach(eventMap, copyTo(this));
+    }
 
-  @FunctionalInterface
-  @JsFunction
-  interface FnVarArgs {
-    void onInvoke(Object key, Object value);
-  }
+    @FunctionalInterface
+    @JsFunction
+    interface FnVarArgs {
+
+        void onInvoke(Object key, Object value);
+    }
 }

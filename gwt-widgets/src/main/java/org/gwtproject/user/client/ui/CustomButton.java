@@ -587,8 +587,8 @@ public abstract class CustomButton extends ButtonBase {
       case Event.ONCLICK:
         // If clicks are currently disallowed, keep it from bubbling or being
         // passed to the superclass.
-        if (!allowClick) {
-          event.stopPropagation();
+          if (!allowClick) {
+            event.stopPropagation();
           return;
         }
         break;
@@ -650,7 +650,6 @@ public abstract class CustomButton extends ButtonBase {
     }
 
     super.onBrowserEvent(event);
-
     // Synthesize clicks based on keyboard events AFTER the normal key handling.
     if ((event.getTypeInt() & Event.KEYEVENTS) != 0) {
       char keyCode = (char) event.getKeyCode();
