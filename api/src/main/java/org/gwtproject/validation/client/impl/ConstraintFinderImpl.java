@@ -49,11 +49,11 @@ public final class ConstraintFinderImpl implements ConstraintFinder {
     this.validationGroupsMetadata = validationGroupsMetadata;
     this.constraintDescriptors = constraintDescriptors;
     this.beanMetadata = beanMetadata;
-    elementTypes = new HashSet<ElementType>();
+    elementTypes = new HashSet<>();
     elementTypes.add(ElementType.TYPE);
     elementTypes.add(ElementType.METHOD);
     elementTypes.add(ElementType.FIELD);
-    definedInSet = new HashSet<ConstraintOrigin>();
+    definedInSet = new HashSet<>();
     definedInSet.add(ConstraintOrigin.DEFINED_LOCALLY);
     definedInSet.add(ConstraintOrigin.DEFINED_IN_HIERARCHY);
     groups = Collections.emptyList();

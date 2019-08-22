@@ -37,7 +37,7 @@ public class ClassSourceFileComposerFactory {
         CLASS, INTERFACE;
     }
 
-    private List<String> annotations = new ArrayList<String>();
+    private List<String> annotations = new ArrayList<>();
 
     private JavaSourceCategory classCategory = JavaSourceCategory.CLASS;
 
@@ -45,9 +45,9 @@ public class ClassSourceFileComposerFactory {
 
     private String className;
 
-    private Set<String> imports = new LinkedHashSet<String>();
+    private Set<String> imports = new LinkedHashSet<>();
 
-    private Set<String> interfaceNames = new LinkedHashSet<String>();
+    private Set<String> interfaceNames = new LinkedHashSet<>();
 
     private String packageName;
 

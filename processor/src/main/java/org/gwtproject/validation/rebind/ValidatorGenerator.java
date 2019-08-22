@@ -28,6 +28,7 @@ import org.gwtproject.validation.ext.Generator;
 import org.gwtproject.validation.rebind.ext.GeneratorContext;
 import org.gwtproject.validation.rebind.ext.TreeLogger;
 import org.gwtproject.validation.rebind.ext.UnableToCompleteException;
+import org.gwtproject.validation.rg.util.Util;
 
 /**
  * Generates subclasses of {@link Validator} and {@link GwtSpecificValidator}. The generic
@@ -53,7 +54,6 @@ public final class ValidatorGenerator extends Generator {
                            TypeElement type) throws UnableToCompleteException {
         TypeElement genericType = context.getAptContext().elements.getTypeElement(Validator.class.getCanonicalName());
         if (context.getAptContext().types.isAssignable(type.asType(), genericType.asType())) {
-
             return generateGwtSpecificValidator(logger, context, type);
         } else {
             logger.log(TreeLogger.ERROR,
@@ -69,9 +69,6 @@ public final class ValidatorGenerator extends Generator {
         TypeElement gwtSpecificInterface = getGwtSpecificValidator(logger, validatorType);
         System.out.println("gwtSpecificInterface " + gwtSpecificInterface);
         System.out.println("validatorType " + validatorType);
-
-        //TypeElement beanType = getBeanType(logger, validatorType, gwtSpecificInterface);
-        //TypeElement beanType = context.getAptContext().elements.getTypeElement("org.treblereel.gwt.validation.Person");
 
         GwtValidation gwtValidation = validatorType.getAnnotation(GwtValidation.class);
 
@@ -105,7 +102,6 @@ public final class ValidatorGenerator extends Generator {
 
         for (TypeElement value : values) {
             BeanHelper beanHelper = cache.createHelper(value, logger, context);
-
             if (beanHelper == null) {
                 logger.log(TreeLogger.ERROR, "Unable to create BeanHelper for " + value
                         + " " + Validator.class.getSimpleName()
@@ -129,7 +125,6 @@ public final class ValidatorGenerator extends Generator {
     private TypeElement getGwtSpecificValidator(TreeLogger logger,
                                                 TypeElement validator) throws UnableToCompleteException {
         for (TypeMirror interfaceType : validator.getInterfaces()) {
-            System.out.println("iface " + interfaceType);
             if (MoreTypes.asTypeElement(interfaceType).getQualifiedName().toString().endsWith(
                     Validator.class.getCanonicalName())) {
                 return MoreTypes.asTypeElement(interfaceType);

@@ -15,14 +15,16 @@
  */
 package org.gwtproject.validation.rebind;
 
-import com.google.auto.common.MoreElements;
-import com.google.common.base.Function;
-import org.gwtproject.validation.rebind.ext.NotFoundException;
+import java.util.Set;
 
 import javax.lang.model.element.TypeElement;
-import javax.lang.model.element.VariableElement;
-import javax.validation.metadata.BeanDescriptor;
-import javax.validation.metadata.PropertyDescriptor;
+
+import com.google.auto.common.MoreElements;
+import com.google.common.base.Function;
+import org.gwtproject.validation.context.AptContext;
+import org.gwtproject.validation.rebind.beaninfo.BeanDescriptor;
+import org.gwtproject.validation.rebind.beaninfo.BeanInfo;
+import org.gwtproject.validation.rebind.beaninfo.PropertyDescriptor;
 
 /**
  * A simple struct for the various values associated with a Bean that can be
@@ -30,23 +32,23 @@ import javax.validation.metadata.PropertyDescriptor;
  */
 public final class BeanHelper {
 
-  public static final Function<BeanHelper, TypeElement> TO_CLAZZ =
-          helper -> helper.getClazz();
+    public static final Function<BeanHelper, TypeElement> TO_CLAZZ =
+            helper -> helper.getClazz();
 
-  private final BeanDescriptor beanDescriptor;
+    private final TypeElement jClass;
 
-  private final TypeElement jClass;
+    private final BeanInfo beanInfo;
 
-  /**
-   * Shouldn't be created directly; instead use BeanHelperCache.
-   */
-  BeanHelper(TypeElement jClass, BeanDescriptor beanDescriptor) {
-    this.beanDescriptor = beanDescriptor;
-    this.jClass = jClass;
-  }
+    /**
+     * Shouldn't be created directly; instead use BeanHelperCache.
+     */
+    BeanHelper(AptContext context, TypeElement jClass) {
+        this.beanInfo = new BeanInfo(context, jClass);
+        this.jClass = jClass;
+    }
 
-  public TypeElement getAssociationType(PropertyDescriptor p, boolean useField) {
-    throw new UnsupportedOperationException("getAssociationType");
+    public TypeElement getAssociationType(PropertyDescriptor p, boolean useField) {
+        throw new UnsupportedOperationException("getAssociationType");
 /*    JType type = this.getElementType(p, useField);
     JArrayType jArray = type.isArray();
     if (jArray != null) {
@@ -62,67 +64,67 @@ public final class BeanHelper {
     }
     // it is either a Iterable or a Map use the last type arg.
     return typeArgs[typeArgs.length - 1].isClassOrInterface();*/
-  }
+    }
 
-  public BeanDescriptor getBeanDescriptor() {
-    return beanDescriptor;
-  }
+    public BeanDescriptor getBeanDescriptor() {
+        return beanInfo;
+    }
 
-  /*
-   * The server-side validator needs an actual class.
-   */
-  public TypeElement getClazz() {
-    return jClass;
-  }
+    /*
+     * The server-side validator needs an actual class.
+     */
+    public TypeElement getClazz() {
+        return jClass;
+    }
 
-  public String getFullyQualifiedValidatorName() {
-    return getPackage() + "." + getValidatorName();
-  }
+    public String getFullyQualifiedValidatorName() {
+        return getPackage() + "." + getValidatorName();
+    }
 
-  public TypeElement getJClass() {
-    return jClass;
-  }
+    public TypeElement getJClass() {
+        return jClass;
+    }
 
-  public String getPackage() {
-    return MoreElements.getPackage(jClass).getQualifiedName().toString();
-  }
+    public String getPackage() {
+        return MoreElements.getPackage(jClass).getQualifiedName().toString();
+    }
 
-  public String getTypeCanonicalName() {
-    return jClass.getQualifiedName().toString();
-  }
+    public String getTypeCanonicalName() {
+        return jClass.getQualifiedName().toString();
+    }
 
-  public String getValidatorInstanceName() {
-    return getFullyQualifiedValidatorName() + ".INSTANCE";
-  }
+    public String getValidatorInstanceName() {
+        return getFullyQualifiedValidatorName() + ".INSTANCE";
+    }
 
-  public String getValidatorName() {
-    return makeJavaSafe("_" + jClass.getSimpleName() + "Validator");
-  }
+    public String getValidatorName() {
+        return makeJavaSafe("_" + jClass.getSimpleName() + "Validator");
+    }
 
-  @Override
-  public String toString() {
-    return getTypeCanonicalName();
-  }
+    @Override
+    public String toString() {
+        return getTypeCanonicalName();
+    }
 
-  TypeElement getElementType(PropertyDescriptor p, boolean useField) {
-    throw new UnsupportedOperationException("getElementType");
+    TypeElement getElementType(PropertyDescriptor p, boolean useField) {
+        throw new UnsupportedOperationException("getElementType");
 /*    if (useField) {
       return jClass.findField(p.getPropertyName()).getType();
     } else {
       return jClass.findMethod(GwtSpecificValidatorCreator.asGetter(p),
           GwtSpecificValidatorCreator.NO_ARGS).getReturnType();
     }*/
-  }
+    }
 
-  boolean hasField(PropertyDescriptor p) {
-    throw new UnsupportedOperationException("hasField");
+    boolean hasField(PropertyDescriptor p) {
+        throw new UnsupportedOperationException("hasField");
 /*
     VariableElement field = jClass.findField(p.getPropertyName());
     return field != null;*/
-  }
+    }
 
-  boolean hasGetter(PropertyDescriptor p) {
-    throw new UnsupportedOperationException("hasGetter");
+    boolean hasGetter(PropertyDescriptor p) {
+        throw new UnsupportedOperationException("hasGetter");
 
 /*    JType[] paramTypes = new JType[]{};
     try {
@@ -131,10 +133,13 @@ public final class BeanHelper {
     } catch (NotFoundException e) {
       return false;
     }*/
-  }
+    }
 
-  private String makeJavaSafe(String in) {
-    return in.replaceAll("\\.", "_");
-  }
+    public Set<PropertyDescriptor> getPropertyDescriptors() {
+        return beanInfo.getPropertyDescriptors();
+    }
 
+    private String makeJavaSafe(String in) {
+        return in.replaceAll("\\.", "_");
+    }
 }

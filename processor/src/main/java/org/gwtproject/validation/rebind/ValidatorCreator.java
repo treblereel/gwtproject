@@ -41,8 +41,9 @@ import org.gwtproject.validation.rebind.ext.GeneratorContext;
 import org.gwtproject.validation.rebind.ext.TreeLogger;
 import org.gwtproject.validation.rebind.ext.UnableToCompleteException;
 import org.gwtproject.validation.rg.util.SourceWriter;
+import org.gwtproject.validation.rg.util.Util;
 
-import static org.gwtproject.validation.rebind.Util.getSimpleClassName;
+import static org.gwtproject.validation.rg.util.Util.getSimpleClassName;
 
 /**
  * Creates the validator for the given input class.

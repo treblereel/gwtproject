@@ -36,7 +36,7 @@ public abstract class BaseGwtConfiguration implements
 
   protected final GwtValidationProvider provider;
   protected final BootstrapState state;
-  protected final Map<String, String> properties = new HashMap<String, String>();
+  protected final Map<String, String> properties = new HashMap<>();
   protected ConstraintValidatorFactory constraintValidatorFactory;
   protected MessageInterpolator messageInterpolator;
   protected TraversableResolver traversableResolver;
