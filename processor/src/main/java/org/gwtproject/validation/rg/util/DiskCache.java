@@ -15,7 +15,18 @@
  */
 package org.gwtproject.validation.rg.util;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.io.RandomAccessFile;
+import java.io.UnsupportedEncodingException;
+
+import static org.gwtproject.validation.rg.util.Util.DEFAULT_ENCODING;
 
 /**
  * A nifty class that lets you squirrel away data on the file system. Write
@@ -76,6 +87,30 @@ public class DiskCache {
     }
 
     /**
+     * Helper that ignores exceptions during close, because what are you going to
+     * do?
+     */
+    public static void close(AutoCloseable closeable) {
+        try {
+            if (closeable != null) {
+                closeable.close();
+            }
+        } catch (Exception e) {
+        }
+    }
+
+    public static <T> T readStreamAsObject(InputStream inputStream, Class<T> type)
+            throws ClassNotFoundException, IOException {
+        ObjectInputStream objectInputStream = null;
+        try {
+            objectInputStream = new StringInterningObjectInputStream(inputStream);
+            return type.cast(objectInputStream.readObject());
+        } finally {
+            close(objectInputStream);
+        }
+    }
+
+    /**
      * Deserialize the underlying bytes as an object.
      *
      * @param <T> the type of the object to deserialize
@@ -87,7 +122,7 @@ public class DiskCache {
         try {
             byte[] bytes = readByteArray(token);
             ByteArrayInputStream in = new ByteArrayInputStream(bytes);
-            return Util.readStreamAsObject(in, type);
+            return readStreamAsObject(in, type);
         } catch (ClassNotFoundException e) {
             throw new RuntimeException("Unexpected exception deserializing from disk cache", e);
         } catch (IOException e) {
@@ -193,11 +228,24 @@ public class DiskCache {
     public long writeObject(Object object) {
         try {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
-            Util.writeObjectToStream(out, object);
+            writeObjectToStream(out, object);
             return writeByteArray(out.toByteArray());
         } catch (IOException e) {
             throw new RuntimeException("Unexpected IOException on in-memory stream", e);
         }
+    }
+
+    /**
+     * Serializes an object and writes it to a stream.
+     */
+    public static void writeObjectToStream(OutputStream stream, Object... objects)
+            throws IOException {
+        ObjectOutputStream objectStream = null;
+        objectStream = new ObjectOutputStream(stream);
+        for (Object object : objects) {
+            objectStream.writeObject(object);
+        }
+        objectStream.flush();
     }
 
     /**
@@ -206,7 +254,20 @@ public class DiskCache {
      * @return a token to retrieve the data later
      */
     public long writeString(String str) {
-        return writeByteArray(Util.getBytes(str));
+        return writeByteArray(getBytes(str));
+    }
+
+
+    /**
+     * Returns a byte-array representing the default encoding for a String.
+     */
+    public static byte[] getBytes(String s) {
+        try {
+            return s.getBytes(DEFAULT_ENCODING);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(
+                    "The JVM does not support the compiler's default encoding.", e);
+        }
     }
 
     /**

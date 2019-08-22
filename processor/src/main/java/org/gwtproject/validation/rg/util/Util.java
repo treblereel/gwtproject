@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 Google Inc.
+ * Copyright 2010 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -15,54 +15,53 @@
  */
 package org.gwtproject.validation.rg.util;
 
-import org.gwtproject.resources.rg.util.tools.Utility;
-import org.gwtproject.validation.rebind.ext.TreeLogger;
-import org.gwtproject.validation.rebind.ext.UnableToCompleteException;
-import org.w3c.dom.Attr;
-import org.w3c.dom.DOMException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.Text;
-
-import javax.annotation.processing.ProcessingEnvironment;
-import javax.lang.model.element.PackageElement;
-import javax.lang.model.util.Elements;
-import javax.tools.Diagnostic;
-import java.io.BufferedWriter;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileFilter;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.io.Reader;
-import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Array;
-import java.net.URL;
-import java.net.URLConnection;
 import java.nio.ByteBuffer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Deque;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+import javax.lang.model.element.Element;
+import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.ExecutableElement;
+import javax.lang.model.element.Modifier;
+import javax.lang.model.element.TypeElement;
+import javax.lang.model.element.VariableElement;
+import javax.lang.model.type.DeclaredType;
+import javax.lang.model.type.TypeKind;
+import javax.lang.model.type.TypeMirror;
+import javax.lang.model.util.ElementFilter;
+import javax.lang.model.util.Elements;
+import javax.validation.GroupSequence;
 
+import com.google.auto.common.MoreElements;
+import com.google.auto.common.MoreTypes;
+import com.google.common.base.Function;
+import com.google.common.base.Functions;
+import com.google.common.base.Predicate;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+import org.gwtproject.validation.client.GwtValidation;
+import org.gwtproject.validation.context.AptContext;
+
+/**
+ * Static utilities for the validation rebind package.
+ */
 public final class Util {
 
-    private static final String FILE_PROTOCOL = "file";
-    private static final String JAR_PROTOCOL = "jar";
     private static final char[] hexCode = "0123456789ABCDEF".toCharArray();
-
     /**
      * The size of a {@link #threadLocalBuf}, which should be large enough for
      * efficient data transfer but small enough to fit easily into the L2 cache of
@@ -75,6 +74,344 @@ public final class Util {
     private static final ThreadLocal<byte[]> threadLocalBuf = new ThreadLocal<byte[]>();
     public static String DEFAULT_ENCODING = "UTF-8";
 
+
+    private Util() {
+    }
+
+    /**
+     * Creates a Predicate that returns false if source contains an associated
+     * class that is a super type of the class associated with the tested T.
+     * @param <T> the type to test
+     * @param source the set of <T> to look for class matches.
+     * @param toClass Function from T to Class
+     * @return newly create predicate.
+     */
+    public static <T> Predicate<T> createMostSpecificMatchPredicate(AptContext context,
+                                                                    final Iterable<T> source, final Function<T, TypeElement> toClass) {
+        return input -> {
+            TypeElement inputClass = toClass.apply(input);
+            for (TypeElement match : Iterables.transform(source, toClass)) {
+                System.out.println("? " + match + " " + inputClass);
+                System.out.println(context.types.isAssignable(match.asType(), inputClass.asType()));
+                if (!inputClass.equals(match) && context.types.isAssignable(match.asType(), inputClass.asType())) {
+                    return false;
+                }
+            }
+            return true;
+        };
+    }
+
+    /**
+     * Selects first only the classes that are assignable from the target, and
+     * then returns the most specific matching classes.
+     * @param target the Class to match
+     * @param availableClasses classes to search
+     * @return Set of only the most specific classes that match the target.
+     */
+    public static Set<TypeElement> findBestMatches(AptContext context, TypeElement target,
+                                                   Set<TypeElement> availableClasses) {
+        Set<TypeElement> matches = new HashSet<>();
+        if (availableClasses.contains(target)) {
+            return ImmutableSet.of(target);
+        } else {
+            for (TypeElement clazz : availableClasses) {
+                System.out.println("findBestMatches isAssignable " + target.asType() + " " + clazz.asType() + " " + context.types.isAssignable(target.asType(), clazz.asType()));
+                throw new UnsupportedOperationException("findBestMatches");
+/*        context.types.isAssignable(target.asType(), clazz.asType());
+        if (clazz.isAssignableFrom(target)) {
+          matches.add(clazz);
+        }*/
+            }
+        }
+        Predicate<TypeElement> moreSpecificClassPredicate = createMostSpecificMatchPredicate(context,
+                                                                                             matches, Functions.identity());
+        return Sets.filter(matches, moreSpecificClassPredicate);
+    }
+
+    public static VariableElement getDeclaredField(TypeElement elem, String propertyName) {
+        for (Element enclosedElement : elem.getEnclosedElements()) {
+            if (enclosedElement.getKind() == ElementKind.FIELD) {
+                Set<Modifier> modifiers = enclosedElement.getModifiers();
+                StringBuilder sb = new StringBuilder();
+                if (modifiers.contains(Modifier.PRIVATE)) {
+                    sb.append("private ");
+                } else if (modifiers.contains(Modifier.PROTECTED)) {
+                    sb.append("protected ");
+                } else if (modifiers.contains(Modifier.PUBLIC)) {
+                    sb.append("public ");
+                }
+                if (modifiers.contains(Modifier.STATIC)) {
+                    sb.append("static ");
+                }
+                if (modifiers.contains(Modifier.FINAL)) {
+                    sb.append("final ");
+                }
+                sb.append(enclosedElement.asType()).append(" ").append(enclosedElement.getSimpleName());
+                System.out.println(sb);
+            }
+        }
+        return null;
+    }
+
+    public static List<ExecutableElement> getMethods(Elements elements, TypeElement element) {
+        return elements.getAllMembers(element)
+                .stream().filter(f -> f.getKind() == ElementKind.METHOD)
+                .map(m -> MoreElements.asExecutable(m))
+                .collect(Collectors.toList());
+    }
+
+    public static ExecutableElement getMethod(Elements elements, TypeElement element, String propertyName) {
+        return getMethods(elements, element)
+                .stream()
+                .filter(f -> f.getSimpleName().toString().equals(propertyName))
+                .findFirst().orElseThrow(() -> new Error("Unable to find a methid " + propertyName + " in " + element.getQualifiedName()));
+    }
+
+    public static List<TypeElement> getGroupSequence(GroupSequence annotation) {
+        try {
+            annotation.value();
+        } catch (javax.lang.model.type.MirroredTypesException mte) {
+            return mte.getTypeMirrors().stream().map(m -> MoreTypes.asTypeElement(m)).collect(Collectors.toList());
+        }
+        return Collections.EMPTY_LIST;
+    }
+
+    public static List<TypeElement> getValues(GwtValidation annotation) {
+        try {
+            annotation.value();
+        } catch (javax.lang.model.type.MirroredTypesException mte) {
+            return mte.getTypeMirrors().stream().map(m -> MoreTypes.asTypeElement(m)).collect(Collectors.toList());
+        }
+        return null;
+    }
+
+    public static List<TypeElement> getGroups(GwtValidation annotation) {
+        try {
+            annotation.groups();
+        } catch (javax.lang.model.type.MirroredTypesException mte) {
+            return mte.getTypeMirrors().stream().map(m -> MoreTypes.asTypeElement(m)).collect(Collectors.toList());
+        }
+        return null;
+    }
+
+    /**
+     * Returns a Immutable List sorted with the most specific associated class
+     * first. Each element is guaranteed to not be assignable to any element that
+     * appears before it in the list.
+     */
+    public static <T> ImmutableList<T> sortMostSpecificFirst(
+            AptContext context, Iterable<T> classes,
+            Function<T, TypeElement> toClass) {
+        List<T> working = Lists.newArrayList();
+        // strip duplicates
+        for (T t : classes) {
+            if (!working.contains(t)) {
+                working.add(t);
+            }
+        }
+        List<T> sorted = Lists.newArrayList();
+        Predicate<T> mostSpecific = createMostSpecificMatchPredicate(context, working,
+                                                                     toClass);
+        boolean changed = false;
+        do {
+            changed = false;
+            for (Iterator<T> iterator = working.iterator(); iterator.hasNext(); ) {
+                T t = iterator.next();
+                if (mostSpecific.apply(t)) {
+                    sorted.add(t);
+                    iterator.remove();
+                    changed = true;
+                }
+            }
+        } while (changed);
+        if (!working.isEmpty()) {
+            throw new IllegalStateException(
+                    "Unable to find a element that does not have a more specific element in the set "
+                            + working);
+        }
+        return ImmutableList.copyOf(sorted);
+    }
+
+    public static boolean isInterface(TypeMirror typeMirror) {
+        return TypeKind.DECLARED.equals(typeMirror.getKind()) && ((DeclaredType) typeMirror).asElement().getKind().isInterface();
+    }
+
+    /**
+     * Test if the given {@link TypeMirror} represents a class or not.
+     */
+    public static boolean isClass(TypeMirror typeMirror) {
+        return TypeKind.DECLARED.equals(typeMirror.getKind()) && ((DeclaredType) typeMirror).asElement().getKind().isClass();
+    }
+
+    public static String getSimpleClassName(TypeElement element) {
+        StringBuffer stringBuffer = new StringBuffer();
+        if (isInterface(element.getEnclosingElement().asType()) || isClass(element.getEnclosingElement().asType())) {
+            stringBuffer.append(element.getEnclosingElement().getSimpleName().toString());
+            stringBuffer.append("_");
+        }
+        stringBuffer.append(element.getSimpleName().toString());
+        return stringBuffer.toString();
+    }
+
+    /**
+     * Returns the field of the class
+     */
+    public static VariableElement findFieldInType(TypeElement type, String name) {
+        for (VariableElement field: ElementFilter.fieldsIn(type.getEnclosedElements())) {
+            if (field.getSimpleName().toString().equals(name)) {
+                return field;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * see: typetools/checker-framework
+     */
+    public static Set<VariableElement> findFieldsInType(TypeElement type, Collection<String> names) {
+        Set<VariableElement> results = new HashSet<>();
+        for (VariableElement field: ElementFilter.fieldsIn(type.getEnclosedElements())) {
+            if (names.contains(field.getSimpleName().toString())) {
+                results.add(field);
+            }
+        }
+        return results;
+    }
+
+    /**
+     * see: typetools/checker-framework
+     */
+    public static List<VariableElement> getAllFieldsIn(Elements elements, TypeElement type) {
+        List<VariableElement> fields = new ArrayList<>();
+        fields.addAll(ElementFilter.fieldsIn(type.getEnclosedElements()));
+        List<TypeElement> alltypes = getSuperTypes(elements, type);
+        for (TypeElement atype : alltypes) {
+            fields.addAll(ElementFilter.fieldsIn(atype.getEnclosedElements()));
+        }
+        return Collections.unmodifiableList(fields);
+    }
+
+    /**
+     * see: typetools/checker-framework
+     * Return all methods declared in the given type or any superclass/interface.
+     * Note that no constructors will be returned.
+     * TODO: should this use javax.lang.model.util.Elements.getAllMembers(TypeElement)
+     * instead of our own getSuperTypes?
+     */
+    public static List<ExecutableElement> getAllMethodsIn(Elements elements, TypeElement type) {
+        List<ExecutableElement> meths = new ArrayList<>();
+        meths.addAll(ElementFilter.methodsIn(type.getEnclosedElements()));
+
+        List<TypeElement> alltypes = getSuperTypes(elements, type);
+        for (TypeElement atype : alltypes) {
+            meths.addAll(ElementFilter.methodsIn(atype.getEnclosedElements()));
+        }
+        return Collections.unmodifiableList(meths);
+    }
+
+    /**
+     * see: typetools/checker-framework
+     * Determine all type elements for the classes and interfaces referenced
+     * in the extends/implements clauses of the given type element.
+     * TODO: can we learn from the implementation of
+     * com.sun.tools.javac.model.JavacElements.getAllMembers(TypeElement)?
+     */
+    public static List<TypeElement> getSuperTypes(Elements elements, TypeElement type) {
+
+        List<TypeElement> superelems = new ArrayList<>();
+        if (type == null) {
+            return superelems;
+        }
+
+        // Set up a stack containing type, which is our starting point.
+        Deque<TypeElement> stack = new ArrayDeque<>();
+        stack.push(type);
+
+        while (!stack.isEmpty()) {
+            TypeElement current = stack.pop();
+
+            // For each direct supertype of the current type element, if it
+            // hasn't already been visited, push it onto the stack and
+            // add it to our superelems set.
+            TypeMirror supertypecls = current.getSuperclass();
+            if (supertypecls.getKind() != TypeKind.NONE) {
+                TypeElement supercls = (TypeElement) ((DeclaredType)supertypecls).asElement();
+                if (!superelems.contains(supercls)) {
+                    stack.push(supercls);
+                    superelems.add(supercls);
+                }
+            }
+            for (TypeMirror supertypeitf : current.getInterfaces()) {
+                TypeElement superitf = (TypeElement) ((DeclaredType)supertypeitf).asElement();
+                if (!superelems.contains(superitf)) {
+                    stack.push(superitf);
+                    superelems.add(superitf);
+                }
+            }
+        }
+
+        // Include java.lang.Object as implicit superclass for all classes and interfaces.
+        TypeElement jlobject = elements.getTypeElement("java.lang.Object");
+        if (!superelems.contains(jlobject)) {
+            superelems.add(jlobject);
+        }
+
+        return Collections.unmodifiableList(superelems);
+    }
+
+    /**
+     * Returns a String representing the character content of the bytes; the bytes
+     * must be encoded using the compiler's default encoding.
+     */
+    public static String toString(byte[] bytes) {
+        return toString(bytes, DEFAULT_ENCODING);
+    }
+
+    /**
+     * Creates a string from the bytes using the specified character set name.
+     *
+     * @param bytes       bytes to convert
+     * @param charsetName the name of the character set to use
+     * @return String for the given bytes and character set or <code>null</code>
+     * if the character set is not supported
+     */
+    private static String toString(byte[] bytes, String charsetName) {
+        try {
+            return new String(bytes, charsetName);
+        } catch (UnsupportedEncodingException e) {
+            // Ignored.
+        }
+
+        return null;
+    }
+
+    /**
+     * Release a buffer previously returned from {@link #takeThreadLocalBuf()}.
+     * The released buffer may then be reused.
+     */
+    public static void releaseThreadLocalBuf(byte[] buf) {
+        assert buf.length == THREAD_LOCAL_BUF_SIZE;
+        threadLocalBuf.set(buf);
+    }
+
+    /**
+     * Get a large byte buffer local to this thread. Currently this is set to a
+     * 16k buffer, which is small enough to fit into the L2 cache on modern
+     * processors. The contents of the returned buffer are undefined. Calling
+     * {@link #releaseThreadLocalBuf(byte[])} on the returned buffer allows
+     * subsequent callers to reuse the buffer later, avoiding unncessary
+     * allocations and GC.
+     */
+    public static byte[] takeThreadLocalBuf() {
+        byte[] buf = threadLocalBuf.get();
+        if (buf == null) {
+            buf = new byte[THREAD_LOCAL_BUF_SIZE];
+        } else {
+            threadLocalBuf.set(null);
+        }
+        return buf;
+    }
+
     /**
      * Computes the MD5 hash for the specified byte array.
      *
@@ -83,6 +420,18 @@ public final class Util {
      */
     public static String computeStrongName(byte[] content) {
         return computeStrongName(new byte[][]{content});
+    }
+
+    /**
+     * Returns a byte-array representing the default encoding for a String.
+     */
+    public static byte[] getBytes(String s) {
+        try {
+            return s.getBytes(DEFAULT_ENCODING);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(
+                    "The JVM does not support the compiler's default encoding.", e);
+        }
     }
 
     /**
@@ -132,813 +481,4 @@ public final class Util {
 
         return r.toString();
     }
-
-    /**
-     * Copies an input stream out to an output stream. Closes the input steam and
-     * output stream.
-     */
-    public static void copy(ProcessingEnvironment processingEnv, InputStream is, OutputStream os)
-            throws UnableToCompleteException {
-        try {
-            copy(is, os);
-        } catch (IOException e) {
-            processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, "Error during copy");
-            throw new UnableToCompleteException("Error during copy");
-        }
-    }
-
-    public static void copy(InputStream is, OutputStream os) throws IOException {
-        try {
-            copyNoClose(is, os);
-        } finally {
-            Utility.close(is);
-            Utility.close(os);
-        }
-    }
-
-    /**
-     * Copies all of the bytes from the input stream to the output stream until
-     * the input stream is EOF. Does not close either stream.
-     */
-    public static void copyNoClose(InputStream is, OutputStream os)
-            throws IOException {
-        byte[] buf = takeThreadLocalBuf();
-        try {
-            int i;
-            while ((i = is.read(buf)) != -1) {
-                os.write(buf, 0, i);
-            }
-        } finally {
-            releaseThreadLocalBuf(buf);
-        }
-    }
-
-    /**
-     * Release a buffer previously returned from {@link #takeThreadLocalBuf()}.
-     * The released buffer may then be reused.
-     */
-    public static void releaseThreadLocalBuf(byte[] buf) {
-        assert buf.length == THREAD_LOCAL_BUF_SIZE;
-        threadLocalBuf.set(buf);
-    }
-
-    /**
-     * Get a large byte buffer local to this thread. Currently this is set to a
-     * 16k buffer, which is small enough to fit into the L2 cache on modern
-     * processors. The contents of the returned buffer are undefined. Calling
-     * {@link #releaseThreadLocalBuf(byte[])} on the returned buffer allows
-     * subsequent callers to reuse the buffer later, avoiding unncessary
-     * allocations and GC.
-     */
-    public static byte[] takeThreadLocalBuf() {
-        byte[] buf = threadLocalBuf.get();
-        if (buf == null) {
-            buf = new byte[THREAD_LOCAL_BUF_SIZE];
-        } else {
-            threadLocalBuf.set(null);
-        }
-        return buf;
-    }
-
-    public static Reader createReader(ProcessingEnvironment processingEnv, URL url)
-            throws UnableToCompleteException {
-        try {
-            return new InputStreamReader(url.openStream());
-        } catch (IOException e) {
-            processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, "Unable to open resource: " + url);
-            throw new UnableToCompleteException("Unable to open resource: " + url);
-        }
-    }
-
-    /**
-     * Equality check through equals() that is also satisfied if both objects are null.
-     */
-    public static boolean equalsNullCheck(Object thisObject, Object thatObject) {
-        if (thisObject == null) {
-            return thatObject == null;
-        }
-        return thisObject.equals(thatObject);
-    }
-
-    /**
-     * Escapes '&', '<', '>', '"', and '\'' to their XML entity equivalents.
-     */
-    public static String escapeXml(String unescaped) {
-        StringBuilder builder = new StringBuilder();
-        escapeXml(unescaped, 0, unescaped.length(), true, builder);
-        return builder.toString();
-    }
-
-    /**
-     * Escapes '&', '<', '>', '"', and optionally ''' to their XML entity
-     * equivalents. The portion of the input string between start (inclusive) and
-     * end (exclusive) is scanned.  The output is appended to the given
-     * StringBuilder.
-     *
-     * @param code            the input String
-     * @param start           the first character position to scan.
-     * @param end             the character position following the last character to scan.
-     * @param quoteApostrophe if true, the &apos; character is quoted as
-     *                        &amp;apos;
-     * @param builder         a StringBuilder to be appended with the output.
-     */
-    public static void escapeXml(String code, int start, int end,
-                                 boolean quoteApostrophe, StringBuilder builder) {
-        int lastIndex = 0;
-        int len = end - start;
-        char[] c = new char[len];
-
-        code.getChars(start, end, c, 0);
-        for (int i = 0; i < len; i++) {
-            switch (c[i]) {
-                case '&':
-                    builder.append(c, lastIndex, i - lastIndex);
-                    builder.append("&amp;");
-                    lastIndex = i + 1;
-                    break;
-                case '>':
-                    builder.append(c, lastIndex, i - lastIndex);
-                    builder.append("&gt;");
-                    lastIndex = i + 1;
-                    break;
-                case '<':
-                    builder.append(c, lastIndex, i - lastIndex);
-                    builder.append("&lt;");
-                    lastIndex = i + 1;
-                    break;
-                case '\"':
-                    builder.append(c, lastIndex, i - lastIndex);
-                    builder.append("&quot;");
-                    lastIndex = i + 1;
-                    break;
-                case '\'':
-                    if (quoteApostrophe) {
-                        builder.append(c, lastIndex, i - lastIndex);
-                        builder.append("&apos;");
-                        lastIndex = i + 1;
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-        builder.append(c, lastIndex, len - lastIndex);
-    }
-
-    public static <T extends Serializable> T readFileAsObject(File file,
-                                                              Class<T> type) throws ClassNotFoundException, IOException {
-        FileInputStream fileInputStream = null;
-        try {
-            fileInputStream = new FileInputStream(file);
-            return readStreamAsObject(fileInputStream, type);
-        } finally {
-            Utility.close(fileInputStream);
-        }
-    }
-
-    public static <T> T readStreamAsObject(InputStream inputStream, Class<T> type)
-            throws ClassNotFoundException, IOException {
-        ObjectInputStream objectInputStream = null;
-        try {
-            objectInputStream = new StringInterningObjectInputStream(inputStream);
-            return type.cast(objectInputStream.readObject());
-        } finally {
-            Utility.close(objectInputStream);
-        }
-    }
-
-    public static URL findSourceInClassPath(ClassLoader cl, String sourceTypeName) {
-        String toTry = sourceTypeName.replace('.', '/') + ".java";
-        URL foundURL = cl.getResource(toTry);
-        if (foundURL != null) {
-            return foundURL;
-        }
-        int i = sourceTypeName.lastIndexOf('.');
-        if (i != -1) {
-            return findSourceInClassPath(cl, sourceTypeName.substring(0, i));
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * Returns a byte-array representing the default encoding for a String.
-     */
-    public static byte[] getBytes(String s) {
-        try {
-            return s.getBytes(DEFAULT_ENCODING);
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(
-                    "The JVM does not support the compiler's default encoding.", e);
-        }
-    }
-
-    /**
-     * @param className A fully-qualified class name whose name you want.
-     * @return The base name for the specified class.
-     */
-    public static String getClassName(String className) {
-        return className.substring(className.lastIndexOf('.') + 1);
-    }
-
-    /**
-     * Gets the contents of a file.
-     *
-     * @param relativePath relative path within the install directory
-     * @return the contents of the file, or null if an error occurred
-     */
-    public static String getFileFromInstallPath(String relativePath) {
-        String installPath = Utility.getInstallPath();
-        File file = new File(installPath + '/' + relativePath);
-        return readFileAsString(file);
-    }
-
-    public static String readFileAsString(File file) {
-        byte[] bytes = readFileAsBytes(file);
-        if (bytes != null) {
-            return toString(bytes, DEFAULT_ENCODING);
-        }
-
-        return null;
-    }
-
-    public static byte[] readFileAsBytes(File file) {
-        FileInputStream fileInputStream = null;
-        try {
-            fileInputStream = new FileInputStream(file);
-            int length = (int) file.length();
-            return readBytesFromInputStream(fileInputStream, length);
-        } catch (IOException e) {
-            return null;
-        } finally {
-            Utility.close(fileInputStream);
-        }
-    }
-
-    /**
-     * Reads the specified number of bytes from the {@link InputStream}.
-     *
-     * @param byteLength number of bytes to read
-     * @return byte array containing the bytes read or <code>null</code> if
-     * there is an {@link IOException} or if the requested number of bytes
-     * cannot be read from the {@link InputStream}
-     */
-    private static byte[] readBytesFromInputStream(InputStream input,
-                                                   int byteLength) {
-
-        try {
-            byte[] bytes = new byte[byteLength];
-            int byteOffset = 0;
-            while (byteOffset < byteLength) {
-                int bytesReadCount = input.read(bytes, byteOffset, byteLength
-                        - byteOffset);
-                if (bytesReadCount == -1) {
-                    return null;
-                }
-
-                byteOffset += bytesReadCount;
-            }
-
-            return bytes;
-        } catch (IOException e) {
-            // Ignored.
-        }
-
-        return null;
-    }
-
-    /**
-     * Creates a string from the bytes using the specified character set name.
-     *
-     * @param bytes       bytes to convert
-     * @param charsetName the name of the character set to use
-     * @return String for the given bytes and character set or <code>null</code>
-     * if the character set is not supported
-     */
-    private static String toString(byte[] bytes, String charsetName) {
-        try {
-            return new String(bytes, charsetName);
-        } catch (UnsupportedEncodingException e) {
-            // Ignored.
-        }
-
-        return null;
-    }
-
-    /**
-     * @param qualifiedName A fully-qualified class name whose package name you want.
-     * @return The package name for the specified class, empty string if default package.
-     */
-    public static String getPackageName(String qualifiedName) {
-        int idx = qualifiedName.lastIndexOf('.');
-        if (idx > 0) {
-            return qualifiedName.substring(0, idx);
-        }
-        return "";
-    }
-
-    /**
-     * Reads an entire input stream as bytes. Closes the input stream.
-     */
-    public static byte[] readStreamAsBytes(InputStream in) {
-        try {
-            ByteArrayOutputStream out = new ByteArrayOutputStream(1024);
-            copy(in, out);
-            return out.toByteArray();
-        } catch (IOException e) {
-            return null;
-        }
-    }
-
-    /**
-     * Reads an entire input stream as String. Closes the input stream.
-     */
-    public static String readStreamAsString(InputStream in) {
-        try {
-            ByteArrayOutputStream out = new ByteArrayOutputStream(1024);
-            copy(in, out);
-            return out.toString(DEFAULT_ENCODING);
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(
-                    "The JVM does not support the compiler's default encoding.", e);
-        } catch (IOException e) {
-            // TODO(zundel): Consider allowing this exception out. The pattern in this
-            // file is to convert IOException to null, but in references to this
-            // method, there are few places that check for null and do something sane,
-            // the rest just throw an NPE and obscure the root cause.
-            return null;
-        }
-    }
-
-    /**
-     * @return null if the file could not be read
-     */
-    public static char[] readURLAsChars(URL url) {
-        byte[] bytes = readURLAsBytes(url);
-        if (bytes != null) {
-            return toString(bytes, DEFAULT_ENCODING).toCharArray();
-        }
-
-        return null;
-    }
-
-    /**
-     * @return null if the file could not be read
-     */
-    public static byte[] readURLAsBytes(URL url) {
-        try {
-            URLConnection conn = url.openConnection();
-            conn.setUseCaches(false);
-            return readURLConnectionAsBytes(conn);
-        } catch (IOException e) {
-            return null;
-        }
-    }
-
-    public static byte[] readURLConnectionAsBytes(URLConnection connection) {
-        InputStream input = null;
-        try {
-            input = connection.getInputStream();
-            int contentLength = connection.getContentLength();
-            if (contentLength < 0) {
-                return null;
-            }
-            return readBytesFromInputStream(input, contentLength);
-        } catch (IOException e) {
-            return null;
-        } finally {
-            Utility.close(input);
-        }
-    }
-
-    /**
-     * @return null if the file could not be read
-     */
-    public static String readURLAsString(URL url) {
-        byte[] bytes = readURLAsBytes(url);
-        if (bytes != null) {
-            return toString(bytes, DEFAULT_ENCODING);
-        }
-        return null;
-    }
-
-    /**
-     * Deletes a file or recursively deletes a directory.
-     *
-     * @param file         the file to delete, or if this is a directory, the directory
-     *                     that serves as the root of a recursive deletion
-     * @param childrenOnly if <code>true</code>, only the children of a
-     *                     directory are recursively deleted but the specified directory
-     *                     itself is spared; if <code>false</code>, the specified
-     *                     directory is also deleted; ignored if <code>file</code> is not a
-     *                     directory
-     */
-    public static void recursiveDelete(File file, boolean childrenOnly) {
-        recursiveDelete(file, childrenOnly, null);
-    }
-
-    /**
-     * Selectively deletes a file or recursively deletes a directory.  Note that
-     * it is possible that files remain if file.delete() fails.
-     *
-     * @param file         the file to delete, or if this is a directory, the directory
-     *                     that serves as the root of a recursive deletion
-     * @param childrenOnly if <code>true</code>, only the children of a
-     *                     directory are recursively deleted but the specified directory
-     *                     itself is spared; if <code>false</code>, the specified
-     *                     directory is also deleted; ignored if <code>file</code> is not a
-     *                     directory
-     * @param filter       only files matching this filter will be deleted
-     */
-    public static void recursiveDelete(File file, boolean childrenOnly,
-                                       FileFilter filter) {
-        if (file.isDirectory()) {
-            File[] children = file.listFiles();
-            if (children != null) {
-                for (int i = 0; i < children.length; i++) {
-                    recursiveDelete(children[i], false, filter);
-                }
-            }
-            if (childrenOnly) {
-                // Do not delete the specified directory itself.
-                return;
-            }
-        }
-
-        if (filter == null || filter.accept(file)) {
-            file.delete();
-        }
-    }
-
-    /**
-     * Remove leading file:jar:...!/ prefix from source paths for source located in jars.
-     *
-     * @param absolutePath an absolute JAR file URL path
-     * @return the location of the file within the JAR
-     */
-    public static String stripJarPathPrefix(String absolutePath) {
-        if (absolutePath != null) {
-            int bang = absolutePath.lastIndexOf('!');
-            if (bang != -1) {
-                return absolutePath.substring(bang + 2);
-            }
-        }
-        return absolutePath;
-    }
-
-    /**
-     * Creates an array from a collection of the specified component type and
-     * size. You can definitely downcast the result to T[] if T is the specified
-     * component type.
-     * <p>
-     * Class<? super T> is used to allow creation of generic types, such as
-     * Map.Entry<K,V> since we can only pass in Map.Entry.class.
-     */
-    @SuppressWarnings("unchecked")
-    public static <T> T[] toArray(Class<? super T> componentType,
-                                  Collection<? extends T> coll) {
-        int n = coll.size();
-        T[] a = (T[]) Array.newInstance(componentType, n);
-        return coll.toArray(a);
-    }
-
-    /**
-     * Returns a String representing the character content of the bytes; the bytes
-     * must be encoded using the compiler's default encoding.
-     */
-    public static String toString(byte[] bytes) {
-        return toString(bytes, DEFAULT_ENCODING);
-    }
-
-    /**
-     * Attempts to find the canonical form of a file path.
-     *
-     * @return the canonical version of the file path, if it could be computed;
-     * otherwise, the original file is returned unmodified
-     */
-    public static File tryMakeCanonical(File file) {
-        try {
-            return file.getCanonicalFile();
-        } catch (IOException e) {
-            return file;
-        }
-    }
-
-    public static void writeBytesToFile(TreeLogger logger, File where, byte[] what)
-            throws UnableToCompleteException {
-        writeBytesToFile(logger, where, new byte[][]{what});
-    }
-
-    /**
-     * Gathering write.
-     */
-    public static void writeBytesToFile(TreeLogger logger, File where,
-                                        byte[][] what) throws UnableToCompleteException {
-        FileOutputStream f = null;
-        Throwable caught;
-        try {
-            // No need to check mkdirs result because an IOException will occur anyway
-            where.getParentFile().mkdirs();
-            f = new FileOutputStream(where);
-            for (int i = 0; i < what.length; i++) {
-                f.write(what[i]);
-            }
-            return;
-        } catch (FileNotFoundException e) {
-            caught = e;
-        } catch (IOException e) {
-            caught = e;
-        } finally {
-            Utility.close(f);
-        }
-        logger.log(TreeLogger.Type.ERROR, "Unable to write file '" + where + "'");
-        throw new UnableToCompleteException();
-    }
-
-    /**
-     * Serializes an object and writes it to a file.
-     */
-    public static void writeObjectAsFile(ProcessingEnvironment processingEnv, File file,
-                                         Object... objects) throws UnableToCompleteException {
-        FileOutputStream stream = null;
-        try {
-            // No need to check mkdirs result because an IOException will occur anyway
-            file.getParentFile().mkdirs();
-            stream = new FileOutputStream(file);
-            writeObjectToStream(stream, objects);
-        } catch (IOException e) {
-            processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, "Unable to write file: "
-                    + file.getAbsolutePath());
-            throw new UnableToCompleteException("Unable to write file: "
-                    + file.getAbsolutePath());
-        } finally {
-            Utility.close(stream);
-        }
-    }
-
-    /**
-     * Serializes an object and writes it to a stream.
-     */
-    public static void writeObjectToStream(OutputStream stream, Object... objects)
-            throws IOException {
-        ObjectOutputStream objectStream = null;
-        objectStream = new ObjectOutputStream(stream);
-        for (Object object : objects) {
-            objectStream.writeObject(object);
-        }
-        objectStream.flush();
-    }
-
-    public static boolean writeStringAsFile(File file, String string) {
-        FileOutputStream stream = null;
-        OutputStreamWriter writer = null;
-        BufferedWriter buffered = null;
-        try {
-            // No need to check mkdirs result because an IOException will occur anyway
-            file.getParentFile().mkdirs();
-            stream = new FileOutputStream(file);
-            writer = new OutputStreamWriter(stream, DEFAULT_ENCODING);
-            buffered = new BufferedWriter(writer);
-            buffered.write(string);
-        } catch (IOException e) {
-            return false;
-        } finally {
-            Utility.close(buffered);
-            Utility.close(writer);
-            Utility.close(stream);
-        }
-        return true;
-    }
-
-    public static void writeStringAsFile(ProcessingEnvironment processingEnv, File file,
-                                         String string) throws UnableToCompleteException {
-        FileOutputStream stream = null;
-        OutputStreamWriter writer = null;
-        BufferedWriter buffered = null;
-        try {
-            stream = new FileOutputStream(file);
-            writer = new OutputStreamWriter(stream, DEFAULT_ENCODING);
-            buffered = new BufferedWriter(writer);
-            // No need to check mkdirs result because an IOException will occur anyway
-            file.getParentFile().mkdirs();
-            buffered.write(string);
-        } catch (IOException e) {
-            processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, "Unable to write file: "
-                    + file.getAbsolutePath());
-            throw new UnableToCompleteException("Unable to write file: "
-                    + file.getAbsolutePath());
-        } finally {
-            Utility.close(buffered);
-            Utility.close(writer);
-            Utility.close(stream);
-        }
-    }
-
-    /**
-     * Writes the contents of a StringBuilder to an OutputStream, encoding
-     * each character using the UTF-* encoding.  Unicode characters between
-     * U+0000 and U+10FFFF are supported.
-     */
-    public static void writeUtf8(StringBuilder builder, OutputStream out)
-            throws IOException {
-        // Rolling our own converter avoids the following:
-        //
-        // o Instantiating the entire builder as a String
-        // o Creating CharEncoders and NIO buffer
-        // o Passing through an OutputStreamWriter
-
-        int buflen = 1024;
-        char[] inBuf = new char[buflen];
-        byte[] outBuf = new byte[4 * buflen];
-
-        int length = builder.length();
-        int start = 0;
-
-        while (start < length) {
-            int end = Math.min(start + buflen, length);
-            builder.getChars(start, end, inBuf, 0);
-
-            int index = 0;
-            int len = end - start;
-            for (int i = 0; i < len; i++) {
-                int c = inBuf[i] & 0xffff;
-                if (c < 0x80) {
-                    outBuf[index++] = (byte) c;
-                } else if (c < 0x800) {
-                    int y = c >> 8;
-                    int x = c & 0xff;
-                    outBuf[index++] = (byte) (0xc0 | (y << 2) | (x >> 6)); // 110yyyxx
-                    outBuf[index++] = (byte) (0x80 | (x & 0x3f));          // 10xxxxxx
-                } else if (c < 0xD800 || c > 0xDFFF) {
-                    int y = (c >> 8) & 0xff;
-                    int x = c & 0xff;
-                    outBuf[index++] = (byte) (0xe0 | (y >> 4));            // 1110yyyy
-                    outBuf[index++] = (byte) (0x80 | ((y << 2) & 0x3c) | (x >> 6)); // 10yyyyxx
-                    outBuf[index++] = (byte) (0x80 | (x & 0x3f));          // 10xxxxxx
-                } else {
-                    // Ignore if no second character (which is not be legal unicode)
-                    if (i + 1 < len) {
-                        int hi = c & 0x3ff;
-                        int lo = inBuf[i + 1] & 0x3ff;
-
-                        int full = 0x10000 + ((hi << 10) | lo);
-                        int z = (full >> 16) & 0xff;
-                        int y = (full >> 8) & 0xff;
-                        int x = full & 0xff;
-
-                        outBuf[index++] = (byte) (0xf0 | (z >> 5));
-                        outBuf[index++] = (byte) (0x80 | ((z << 4) & 0x30) | (y >> 4));
-                        outBuf[index++] = (byte) (0x80 | ((y << 2) & 0x3c) | (x >> 6));
-                        outBuf[index++] = (byte) (0x80 | (x & 0x3f));
-
-                        i++; // char has been consumed
-                    }
-                }
-            }
-            out.write(outBuf, 0, index);
-            start = end;
-        }
-    }
-
-    private static void writeAttribute(PrintWriter w, Attr attr, int depth)
-            throws IOException {
-        w.write(attr.getName());
-        w.write('=');
-        Node c = attr.getFirstChild();
-        while (c != null) {
-            w.write('"');
-            writeNode(w, c, depth);
-            w.write('"');
-            c = c.getNextSibling();
-        }
-    }
-
-    private static void writeDocument(PrintWriter w, Document d)
-            throws IOException {
-        w.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-        Node c = d.getFirstChild();
-        while (c != null) {
-            writeNode(w, c, 0);
-            c = c.getNextSibling();
-        }
-    }
-
-    private static void writeElement(PrintWriter w, Element el, int depth)
-            throws IOException {
-        String tagName = el.getTagName();
-
-        writeIndent(w, depth);
-        w.write('<');
-        w.write(tagName);
-        NamedNodeMap attrs = el.getAttributes();
-        for (int i = 0, n = attrs.getLength(); i < n; ++i) {
-            w.write(' ');
-            writeNode(w, attrs.item(i), depth);
-        }
-
-        Node c = el.getFirstChild();
-        if (c != null) {
-            // There is at least one child.
-            //
-            w.println('>');
-
-            // Write the children.
-            //
-            while (c != null) {
-                writeNode(w, c, depth + 1);
-                w.println();
-                c = c.getNextSibling();
-            }
-
-            // Write the closing tag.
-            //
-            writeIndent(w, depth);
-            w.write("</");
-            w.write(tagName);
-            w.print('>');
-        } else {
-            // There are no children, so just write the short form close.
-            //
-            w.print("/>");
-        }
-    }
-
-    private static void writeIndent(PrintWriter w, int depth) {
-        for (int i = 0; i < depth; ++i) {
-            w.write('\t');
-        }
-    }
-
-    private static void writeNode(PrintWriter w, Node node, int depth)
-            throws IOException {
-        short nodeType = node.getNodeType();
-        switch (nodeType) {
-            case Node.ELEMENT_NODE:
-                writeElement(w, (Element) node, depth);
-                break;
-            case Node.ATTRIBUTE_NODE:
-                writeAttribute(w, (Attr) node, depth);
-                break;
-            case Node.DOCUMENT_NODE:
-                writeDocument(w, (Document) node);
-                break;
-            case Node.TEXT_NODE:
-                writeText(w, (Text) node);
-                break;
-
-            case Node.COMMENT_NODE:
-            case Node.CDATA_SECTION_NODE:
-            case Node.ENTITY_REFERENCE_NODE:
-            case Node.ENTITY_NODE:
-            case Node.PROCESSING_INSTRUCTION_NODE:
-            default:
-                throw new RuntimeException("Unsupported DOM node type: " + nodeType);
-        }
-    }
-
-    private static void writeText(PrintWriter w, Text text) throws DOMException {
-        String nodeValue = text.getNodeValue();
-        String escaped = escapeXml(nodeValue);
-        w.write(escaped);
-    }
-
-    public static boolean isValidJavaIdent(String token) {
-        if (token.length() == 0) {
-            return false;
-        }
-
-        if (!Character.isJavaIdentifierStart(token.charAt(0))) {
-            return false;
-        }
-
-        for (int i = 1, n = token.length(); i < n; i++) {
-            if (!Character.isJavaIdentifierPart(token.charAt(i))) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public static String getQualifiedSourceName(javax.lang.model.element.Element clazz, Elements elements) {
-        if (isClassOrInterface(clazz)) {
-            return getPackageName(clazz, elements) + "." + getEnclosingClassName(clazz, elements);
-        } else {
-            throw new Error("Unable to determine QualifiedSourceName " + clazz);
-        }
-    }
-
-    protected static String getEnclosingClassName(javax.lang.model.element.Element clazz, Elements elements) {
-        return clazz.toString().replace(getPackageName(clazz, elements) + ".", "");
-    }
-
-    protected static String getPackageName(javax.lang.model.element.Element clazz, Elements elements) {
-        PackageElement pkg = elements.getPackageOf(clazz);
-        return pkg.getQualifiedName().toString();
-    }
-
-    public static boolean isClassOrInterface(javax.lang.model.element.Element clazz) {
-        return clazz.getKind().isClass() || clazz.getKind().isInterface();
-    }
-
 }

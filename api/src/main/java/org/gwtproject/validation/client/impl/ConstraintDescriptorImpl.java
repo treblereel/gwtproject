@@ -59,7 +59,7 @@ public final class ConstraintDescriptorImpl<T extends Annotation> implements
     }
 
     public ConstraintDescriptorImpl<T> build() {
-      return new ConstraintDescriptorImpl<T>(//
+      return new ConstraintDescriptorImpl<>(//
                                              annotation, //
                                              groups, //
                                              payload, //
@@ -115,7 +115,7 @@ public final class ConstraintDescriptorImpl<T extends Annotation> implements
     }
 
     public Builder<T> setPayload(Class<? extends Payload>[] classes) {
-      setPayload(new HashSet<Class<? extends Payload>>(Arrays.asList(classes)));
+      setPayload(new HashSet<>(Arrays.asList(classes)));
       return this;
     }
 
@@ -131,7 +131,7 @@ public final class ConstraintDescriptorImpl<T extends Annotation> implements
   }
 
   public static <T extends Annotation> Builder<T> builder() {
-    return new Builder<T>();
+    return new Builder<>();
   }
 
   private final T annotation;
