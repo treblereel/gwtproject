@@ -6,11 +6,9 @@ import java.util.Objects;
 import java.util.Set;
 
 import javax.lang.model.element.AnnotationMirror;
-import javax.lang.model.element.AnnotationValue;
-import javax.lang.model.element.ExecutableElement;
+import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
-import javax.lang.model.util.ElementFilter;
 import javax.validation.Valid;
 
 import com.google.auto.common.MoreTypes;
@@ -27,33 +25,18 @@ public class PropertyDescriptorImpl implements PropertyDescriptor {
 
     private boolean isCascaded;
 
-    private VariableElement field;
+    private Element field;
 
     private Set<Annotation> annotation;
 
     private Set<ConstraintDescriptor> constraintDescriptors;
 
-    PropertyDescriptorImpl(VariableElement field) {
+    PropertyDescriptorImpl(Element field) {
         this.field = field;
         this.constraintDescriptors = new HashSet<>();
 
-        System.out.println("SCAN \n");
-
         for (AnnotationMirror annotationMirror : field.getAnnotationMirrors()) {
-/*            System.out.println("annotationMirror " + annotationMirror);
-
-            for (ExecutableElement meth : ElementFilter.methodsIn(annotationMirror.getAnnotationType()
-                                                                          .asElement()
-                                                                          .getEnclosedElements())) {
-                System.out.println("meth " + meth);
-
-                AnnotationValue defaultValue = meth.getDefaultValue();
-                if (defaultValue != null) {
-                    System.out.println("                  defaultValue " + defaultValue);
-                }
-            }*/
-
-            constraintDescriptors.add(new ConstraintDescriptorImpl(annotationMirror));
+            constraintDescriptors.add(new ConstraintDescriptorImpl(annotationMirror, field));
         }
     }
 

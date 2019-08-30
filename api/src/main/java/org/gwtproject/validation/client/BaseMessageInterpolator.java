@@ -15,6 +15,7 @@
  */
 package org.gwtproject.validation.client;
 
+import elemental2.dom.DomGlobal;
 import org.gwtproject.i18n.shared.GwtLocale;
 import org.gwtproject.regexp.shared.MatchResult;
 import org.gwtproject.regexp.shared.RegExp;
@@ -29,7 +30,7 @@ import javax.validation.MessageInterpolator;
 abstract class BaseMessageInterpolator implements MessageInterpolator {
 
   // local version because guava is not included.
-  private static interface Function<F, T> {
+  private interface Function<F, T> {
     T apply(F from);
   }
 
@@ -50,6 +51,8 @@ abstract class BaseMessageInterpolator implements MessageInterpolator {
 
   private static Function<String, String> createReplacer(
       final ValidationMessageResolver messageResolver) {
+    DomGlobal.console.log("createReplacer " + messageResolver.getClass().getCanonicalName());
+
     return from -> {
       Object object = messageResolver.get(from);
       return object == null ? null : object.toString();
@@ -59,8 +62,8 @@ abstract class BaseMessageInterpolator implements MessageInterpolator {
   /**
    * Replaces keys using the Default Validation Provider properties.
    */
-  private final Function<String, String> providerReplacer = null;
-      //createReplacer(new ProviderValidationMessageResolverImpl());
+  private final Function<String, String> providerReplacer =
+      createReplacer(new ProviderValidationMessageResolverImpl());
 
   /**
    * Replaces keys using the Validation User custom properties.
@@ -119,8 +122,13 @@ abstract class BaseMessageInterpolator implements MessageInterpolator {
     MatchResult matcher;
     while ((matcher = MESSAGE_PARAMETER_PATTERN.exec(message)) != null) {
       String matched = matcher.getGroup(0);
+      DomGlobal.console.log("matched " + matched);
+
       sb.append(message.substring(index, matcher.getIndex()));
-      Object value = replacer.apply(removeCurlyBrace(matched));
+
+      DomGlobal.console.log("sb1  " + sb.toString());
+
+      String value = replacer.apply(removeCurlyBrace(matched));
       sb.append(value == null ? matched : value);
       index = MESSAGE_PARAMETER_PATTERN.getLastIndex();
     }
@@ -131,6 +139,11 @@ abstract class BaseMessageInterpolator implements MessageInterpolator {
   }
 
   private String removeCurlyBrace(String parameter) {
+
+    DomGlobal.console.log("removeCurlyBrace  " + parameter);
+    DomGlobal.console.log("parameter  " + parameter.substring(1, parameter.length() - 1));
+    DomGlobal.console.log("done  ");
+
     return parameter.substring(1, parameter.length() - 1);
   }
 }

@@ -52,7 +52,7 @@ import javax.validation.spi.ValidationProvider;
 public class Validation {
 
   // private class, not exposed
-  private static class GenericGWTBootstrapImpl implements GenericBootstrap,
+  public static class GenericGWTBootstrapImpl implements GenericBootstrap,
       BootstrapState {
 
     private ValidationProviderResolver defaultResolver;

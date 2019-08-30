@@ -40,20 +40,6 @@ public class BeanInfo implements BeanDescriptor {
         this.context = context;
 
         for (VariableElement field : ElementFilter.fieldsIn(bean.getEnclosedElements())) {
-
-            field.getAnnotationMirrors().forEach(mirror -> {
-                System.out.println("field " + field);
-
-
-                mirror.getElementValues().forEach((v, v1) -> {
-
-                    System.out.println("                   v " + v.getSimpleName().toString() + " " + v1.getValue() + " " + v1.getValue().getClass());
-
-                });
-            });
-
-
-
             Set<Annotation> annotations = new HashSet<>();
             for (Class<? extends Annotation> annotation : context.getConstraints()) {
                 if (field.getAnnotation(annotation) != null) {
@@ -62,7 +48,6 @@ public class BeanInfo implements BeanDescriptor {
             }
             if (!annotations.isEmpty()) {
                 propertyDescriptors.add(PropertyDescriptorImpl.of(field, annotations));
-                //annotations.forEach(a -> constraintDescriptors.add(ConstraintDescriptorImpl.of(context, a)));
             }
         }
     }
@@ -76,8 +61,6 @@ public class BeanInfo implements BeanDescriptor {
     }
 
     public Collection<VariableElement> getProperties() {
-        System.out.println("getProperties " + bean.getQualifiedName().toString());
-
         Map<String, VariableElement> fields = Util.getAllFieldsIn(context.elements, bean)
                 .stream()
                 .collect(Collectors.toMap(p -> p.getSimpleName().toString(), p -> p));

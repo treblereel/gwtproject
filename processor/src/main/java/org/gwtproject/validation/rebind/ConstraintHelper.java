@@ -3,8 +3,10 @@ package org.gwtproject.validation.rebind;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.validation.constraints.AssertFalse;
@@ -58,7 +60,7 @@ public class ConstraintHelper {
 
     private final Map<String, List<String>> builtinConstraints = new HashMap<>();
 
-    ConstraintHelper() {
+    public ConstraintHelper() {
         addConstraint(AssertFalse.class, AssertFalseValidator.class);
         addConstraint(AssertTrue.class, AssertTrueValidator.class);
 
@@ -117,6 +119,18 @@ public class ConstraintHelper {
         return builtinConstraints.get(annotation);
     }
 
+/*    public Set<String> getByValidator(String validator) {
+        Set<String> result = new HashSet<>();
+        for (Map.Entry<String, List<String>> entry : builtinConstraints.entrySet()) {
+            for (String v : entry.getValue()) {
+                if (v.equals(validator)) {
+                    result.add(entry.getKey());
+                }
+            }
+        }
+        return result;
+    }*/
+
     private void addConstraint(Class<?> annotation, Class<?> clazz) {
         List<Class<?>> list = new ArrayList<>();
         list.add(clazz);
@@ -124,7 +138,7 @@ public class ConstraintHelper {
     }
 
     private void addConstraint(Class<?> annotation, List<Class<?>> clazzz) {
-        builtinConstraints.put(annotation.getCanonicalName(), clazzz.stream().map(m -> m.getCanonicalName() + ".class")
+        builtinConstraints.put(annotation.getCanonicalName(), clazzz.stream().map(m -> m.getCanonicalName())
                 .collect(Collectors.toList()));
     }
 }

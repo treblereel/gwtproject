@@ -78,7 +78,7 @@ public class BeanHelperCache { // public for testing
     }
 
     boolean isClassConstrained(TypeElement clazz) {
-        throw new UnsupportedOperationException("isClassConstrained");
+        return true;
     }
 
     private BeanHelper doCreateHelper(TypeElement beanType, TreeLogger logger, GeneratorContext context)
@@ -86,13 +86,9 @@ public class BeanHelperCache { // public for testing
         BeanHelper helper = getBean(beanType);
         if (helper == null) {
             helper = new BeanHelper(context.getAptContext(), beanType);
-
             cache.put(helper.getJClass(), helper);
-
             writeInterface(context, logger, helper);
-
             // now recurse on all Cascaded elements
-            System.out.println("skipped all Cascaded elements");
             for (PropertyDescriptor p : helper.getBeanDescriptor().getConstrainedProperties()) {
                 // TODO(idol) only bother creating objects for properties that have constrains in the groups
                 // specified in @GwtValidation, but not others
@@ -110,27 +106,21 @@ public class BeanHelperCache { // public for testing
     private void doCreateHelperForProp(PropertyDescriptor p, BeanHelper parent,
                                        TreeLogger logger, GeneratorContext context)
             throws UnableToCompleteException {
-        throw new UnsupportedOperationException("doCreateHelperForProp");
-/*
-    Class<?> elementClass = p.getElementClass();
-    if (GwtSpecificValidatorCreator.isIterableOrMap(elementClass)) {
-      if (parent.hasField(p)) {
-        TypeElement type = parent.getAssociationType(p, true);
-
-        createHelper(type, logger, context);
-      }
-      if (parent.hasGetter(p)) {
-        TypeElement type = parent.getAssociationType(p, false);
-
-        createHelper(type, logger, context);
-      }
-    } else {
-      throw new UnsupportedOperationException("doCreateHelperForProp");
-
-     if (serverSideValidator.getConstraintsForClass(elementClass).isBeanConstrained()) {
-        createHelper(elementClass, logger, context);
-      }
-    }*/
+        if (GwtSpecificValidatorCreator.isIterableOrMap(context.getAptContext(), p.getElementClass())) {
+            if (parent.hasField(p)) {
+                TypeElement type = parent.getAssociationType(p, true);
+                createHelper(type, logger, context);
+            }
+            if (parent.hasGetter(p.getPropertyName())) {
+                TypeElement type = parent.getAssociationType(p, false);
+                createHelper(type, logger, context);
+            }
+        } else {
+            throw new UnsupportedOperationException("doCreateHelperForProp");
+/*            if (serverSideValidator.getConstraintsForClass(elementClass).isBeanConstrained()) {
+                createHelper(elementClass, logger, context);
+            }*/
+        }
     }
 
     /**
