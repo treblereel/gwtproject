@@ -65,13 +65,7 @@ public final class ValidatorGenerator extends Generator {
 
     private String generateGwtSpecificValidator(TreeLogger logger, GeneratorContext context,
                                                 TypeElement validatorType) throws UnableToCompleteException {
-
-        TypeElement gwtSpecificInterface = getGwtSpecificValidator(logger, validatorType);
-        System.out.println("gwtSpecificInterface " + gwtSpecificInterface);
-        System.out.println("validatorType " + validatorType);
-
         GwtValidation gwtValidation = validatorType.getAnnotation(GwtValidation.class);
-
         if (gwtValidation == null) {
             logger.log(TreeLogger.ERROR, validatorType + " must be annotated with "
                     + GwtValidation.class.getCanonicalName(), null);

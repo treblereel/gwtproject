@@ -15,16 +15,24 @@
  */
 package org.gwtproject.validation.rebind;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
+import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.element.VariableElement;
+import javax.lang.model.type.TypeMirror;
 
 import com.google.auto.common.MoreElements;
+import com.google.auto.common.MoreTypes;
 import com.google.common.base.Function;
 import org.gwtproject.validation.context.AptContext;
 import org.gwtproject.validation.rebind.beaninfo.BeanDescriptor;
 import org.gwtproject.validation.rebind.beaninfo.BeanInfo;
 import org.gwtproject.validation.rebind.beaninfo.PropertyDescriptor;
+import org.gwtproject.validation.rebind.ext.NotFoundException;
 
 /**
  * A simple struct for the various values associated with a Bean that can be
@@ -32,8 +40,8 @@ import org.gwtproject.validation.rebind.beaninfo.PropertyDescriptor;
  */
 public final class BeanHelper {
 
-    public static final Function<BeanHelper, TypeElement> TO_CLAZZ =
-            helper -> helper.getClazz();
+    public static final Function<BeanHelper, TypeMirror> TO_CLAZZ =
+            helper -> helper.getClazz().asType();
 
     private final TypeElement jClass;
 
@@ -107,32 +115,60 @@ public final class BeanHelper {
     }
 
     TypeElement getElementType(PropertyDescriptor p, boolean useField) {
-        throw new UnsupportedOperationException("getElementType");
-/*    if (useField) {
-      return jClass.findField(p.getPropertyName()).getType();
-    } else {
-      return jClass.findMethod(GwtSpecificValidatorCreator.asGetter(p),
-          GwtSpecificValidatorCreator.NO_ARGS).getReturnType();
-    }*/
+        if (useField) {
+            return MoreTypes.asTypeElement(getField(p.getPropertyName()).asType());
+        } else {
+            return MoreTypes.asTypeElement(findMethod(GwtSpecificValidatorCreator.asGetter(p.getPropertyName()),
+                                                      Collections.EMPTY_LIST).getReturnType());
+        }
     }
 
     boolean hasField(PropertyDescriptor p) {
-        throw new UnsupportedOperationException("hasField");
-/*
-    VariableElement field = jClass.findField(p.getPropertyName());
-    return field != null;*/
+        if (jClass.getEnclosedElements()
+                .stream()
+                .filter(elm -> (elm.getKind().equals(ElementKind.FIELD)))
+                .findFirst()
+                .isPresent()) {
+            return true;
+        }
+        return false;
     }
 
-    boolean hasGetter(PropertyDescriptor p) {
-        throw new UnsupportedOperationException("hasGetter");
+    public VariableElement getField(String name) {
+        return MoreElements.asVariable(jClass.getEnclosedElements()
+                                               .stream()
+                                               .filter(elm -> (elm.getKind().equals(ElementKind.FIELD)))
+                                               .findFirst().orElseThrow(() -> new Error(
+                        new NotFoundException("No field" + name + " presented in " + jClass.getQualifiedName().toString()))));
+    }
 
-/*    JType[] paramTypes = new JType[]{};
-    try {
-      jClass.getMethod(GwtSpecificValidatorCreator.asGetter(p), paramTypes);
-      return true;
-    } catch (NotFoundException e) {
-      return false;
-    }*/
+    boolean hasGetter(String name) {
+        String getter = GwtSpecificValidatorCreator.asGetter(name);
+        jClass.getEnclosedElements().stream().filter(elm -> (elm.getKind().equals(ElementKind.METHOD)))
+                .filter(elm -> (elm).getSimpleName().toString().equals(getter))
+                .filter(elm -> MoreElements.asExecutable(elm).getParameters().isEmpty())
+                .findFirst()
+                .orElseThrow(() -> new Error(
+                        new NotFoundException("No " + getter + " presented in " + jClass.getQualifiedName().toString())));
+        return true;
+    }
+
+    public ExecutableElement findMethod(String name) {
+        return MoreElements.asExecutable(jClass.getEnclosedElements().stream().filter(elm -> (elm.getKind().equals(ElementKind.METHOD)))
+                                                 .filter(elm -> (elm).getSimpleName().toString().equals(name))
+                                                 .findFirst()
+                                                 .orElseThrow(() -> new Error(
+                                                         new NotFoundException("No method" + name + " presented in " + jClass.getQualifiedName().toString()))));
+    }
+
+    public ExecutableElement findMethod(String name, List<? extends VariableElement> params) {
+
+        ExecutableElement method = findMethod(name);
+        if (params.isEmpty() && method.getParameters().isEmpty()) {
+            return method;
+        } else {
+            throw new Error("not implemented yet");
+        }
     }
 
     public Set<PropertyDescriptor> getPropertyDescriptors() {

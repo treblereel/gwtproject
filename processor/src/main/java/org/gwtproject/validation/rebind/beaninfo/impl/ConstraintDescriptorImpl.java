@@ -9,6 +9,7 @@ import java.util.Set;
 
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.AnnotationValue;
+import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.type.ArrayType;
 import javax.lang.model.type.TypeKind;
@@ -18,6 +19,7 @@ import javax.validation.Payload;
 import javax.validation.groups.Default;
 
 import com.google.auto.common.MoreElements;
+import org.gwtproject.validation.rebind.ConstraintHelper;
 import org.gwtproject.validation.rebind.beaninfo.ConstraintDescriptor;
 import org.gwtproject.validation.rebind.beaninfo.ConstraintValidator;
 
@@ -29,21 +31,22 @@ public class ConstraintDescriptorImpl implements ConstraintDescriptor {
 
     private AnnotationMirror annotation;
 
+    private Element source;
+
     private Map<String, Object> holder = new HashMap<>();
 
     private Map<String, DefaultValueHolder> defaultValues = new HashMap<>();
 
-    public ConstraintDescriptorImpl(AnnotationMirror annotationMirror) {
+    public ConstraintDescriptorImpl(AnnotationMirror annotationMirror, Element source) {
         this.annotation = annotationMirror;
+        this.source = source;
         for (ExecutableElement meth : ElementFilter.methodsIn(annotationMirror.getAnnotationType()
                                                                       .asElement()
                                                                       .getEnclosedElements())) {
-            System.out.println("meth " + meth + " " + meth.getReturnType() + "  " + meth.getReturnType().toString().equals("java.lang.Class<?>[]"));
-
             AnnotationValue defaultValue = meth.getDefaultValue();
             if (defaultValue != null) {
-
-                defaultValues.put(meth.getSimpleName().toString(), new DefaultValueHolder(meth.getReturnType().toString(),
+                defaultValues.put(meth.getSimpleName().toString(),
+                                  new DefaultValueHolder(meth.getReturnType().toString(),
                                                                                           parseValue(meth.getReturnType(), defaultValue.getValue())));
             }
         }
@@ -74,9 +77,6 @@ public class ConstraintDescriptorImpl implements ConstraintDescriptor {
     }
 
     private Object parseValue(TypeMirror typeMirror, Object value) {
-        System.out.println("parseValue " + typeMirror.toString() + " " + value + " " + value.getClass());
-
-
         if (TypeKind.ARRAY.equals(typeMirror.getKind())) {
             ArrayType arrayType = (ArrayType) typeMirror;
             String componentType = arrayType.getComponentType().toString();
@@ -119,8 +119,8 @@ public class ConstraintDescriptorImpl implements ConstraintDescriptor {
     }
 
     @Override
-    public List<Class<? extends ConstraintValidator>> getConstraintValidatorClasses() {
-        return null;
+    public List<String> getConstraintValidatorClasses() {
+        return new ConstraintHelper().get(getAnnotation());
     }
 
     @Override
@@ -142,6 +142,10 @@ public class ConstraintDescriptorImpl implements ConstraintDescriptor {
     @Override
     public boolean isReportAsSingleViolation() {
         return false;
+    }
+
+    public Element getSource() {
+        return source;
     }
 
     public static class ClassWrapper {

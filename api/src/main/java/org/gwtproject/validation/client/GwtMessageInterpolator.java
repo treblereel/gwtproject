@@ -29,9 +29,7 @@ public final class GwtMessageInterpolator extends BaseMessageInterpolator {
    * {@link UserValidationMessagesResolver}.
    */
   public GwtMessageInterpolator() {
-    this(null);
-    throw new UnsupportedOperationException("GwtMessageInterpolator");
-    //this(new UserValidationMessagesResolverImpl());
+    this(new ProviderValidationMessageResolverImpl());
   }
 
   /**

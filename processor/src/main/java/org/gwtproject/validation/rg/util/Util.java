@@ -87,13 +87,12 @@ public final class Util {
      * @return newly create predicate.
      */
     public static <T> Predicate<T> createMostSpecificMatchPredicate(AptContext context,
-                                                                    final Iterable<T> source, final Function<T, TypeElement> toClass) {
+                                                                    final Iterable<T> source, final Function<T, TypeMirror> toClass) {
         return input -> {
-            TypeElement inputClass = toClass.apply(input);
-            for (TypeElement match : Iterables.transform(source, toClass)) {
-                System.out.println("? " + match + " " + inputClass);
-                System.out.println(context.types.isAssignable(match.asType(), inputClass.asType()));
-                if (!inputClass.equals(match) && context.types.isAssignable(match.asType(), inputClass.asType())) {
+            TypeMirror inputClass = toClass.apply(input);
+            for (TypeMirror match : Iterables.transform(source, toClass)) {
+                if (!inputClass.equals(match)
+                        && context.types.isAssignable(match, inputClass)) {
                     return false;
                 }
             }
@@ -108,22 +107,19 @@ public final class Util {
      * @param availableClasses classes to search
      * @return Set of only the most specific classes that match the target.
      */
-    public static Set<TypeElement> findBestMatches(AptContext context, TypeElement target,
-                                                   Set<TypeElement> availableClasses) {
-        Set<TypeElement> matches = new HashSet<>();
-        if (availableClasses.contains(target)) {
-            return ImmutableSet.of(target);
+    public static Set<TypeMirror> findBestMatches(AptContext context, TypeElement target,
+                                                   Set<TypeMirror> availableClasses) {
+        Set<TypeMirror> matches = new HashSet<>();
+        if (availableClasses.contains(target.asType())) {
+            return ImmutableSet.of(target.asType());
         } else {
-            for (TypeElement clazz : availableClasses) {
-                System.out.println("findBestMatches isAssignable " + target.asType() + " " + clazz.asType() + " " + context.types.isAssignable(target.asType(), clazz.asType()));
-                throw new UnsupportedOperationException("findBestMatches");
-/*        context.types.isAssignable(target.asType(), clazz.asType());
-        if (clazz.isAssignableFrom(target)) {
-          matches.add(clazz);
-        }*/
+            for (TypeMirror clazz : availableClasses) {
+                if(context.types.isAssignable(target.asType(), clazz)) {
+                    matches.add(clazz);
+                }
             }
         }
-        Predicate<TypeElement> moreSpecificClassPredicate = createMostSpecificMatchPredicate(context,
+        Predicate<TypeMirror> moreSpecificClassPredicate = createMostSpecificMatchPredicate(context,
                                                                                              matches, Functions.identity());
         return Sets.filter(matches, moreSpecificClassPredicate);
     }
@@ -201,7 +197,7 @@ public final class Util {
      */
     public static <T> ImmutableList<T> sortMostSpecificFirst(
             AptContext context, Iterable<T> classes,
-            Function<T, TypeElement> toClass) {
+            Function<T, TypeMirror> toClass) {
         List<T> working = Lists.newArrayList();
         // strip duplicates
         for (T t : classes) {
@@ -210,8 +206,7 @@ public final class Util {
             }
         }
         List<T> sorted = Lists.newArrayList();
-        Predicate<T> mostSpecific = createMostSpecificMatchPredicate(context, working,
-                                                                     toClass);
+        Predicate<T> mostSpecific = createMostSpecificMatchPredicate(context, working, toClass);
         boolean changed = false;
         do {
             changed = false;
