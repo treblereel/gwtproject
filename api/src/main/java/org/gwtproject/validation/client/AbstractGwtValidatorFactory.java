@@ -23,7 +23,6 @@ import javax.validation.ValidatorContext;
 import javax.validation.ValidatorFactory;
 import javax.validation.spi.ConfigurationState;
 
-import org.gwtproject.core.client.GWT;
 import org.gwtproject.validation.client.impl.AbstractGwtValidator;
 import org.gwtproject.validation.client.impl.GwtValidatorContext;
 

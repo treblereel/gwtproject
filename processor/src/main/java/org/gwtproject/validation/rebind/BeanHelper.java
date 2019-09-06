@@ -19,6 +19,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
@@ -135,9 +136,13 @@ public final class BeanHelper {
     }
 
     public VariableElement getField(String name) {
+
+        System.out.println("Get Field " + name);
+
         return MoreElements.asVariable(jClass.getEnclosedElements()
                                                .stream()
                                                .filter(elm -> (elm.getKind().equals(ElementKind.FIELD)))
+                                               .filter(field -> field.getSimpleName().toString().equals(name))
                                                .findFirst().orElseThrow(() -> new Error(
                         new NotFoundException("No field" + name + " presented in " + jClass.getQualifiedName().toString()))));
     }

@@ -116,7 +116,8 @@ public class BeanHelperCache { // public for testing
                 createHelper(type, logger, context);
             }
         } else {
-            throw new UnsupportedOperationException("doCreateHelperForProp");
+            createHelper(p.getElementClass(), logger, context);
+
 /*            if (serverSideValidator.getConstraintsForClass(elementClass).isBeanConstrained()) {
                 createHelper(elementClass, logger, context);
             }*/
@@ -146,7 +147,7 @@ public class BeanHelperCache { // public for testing
             sw.print("static ");
             sw.print(bean.getValidatorName());
             sw.print(" INSTANCE = new ");
-            sw.print(bean.getValidatorName());
+            sw.print(bean.getPackage() + "." + bean.getValidatorName());
             sw.println("Impl();");
 
             sw.commit(interfaceLogger);

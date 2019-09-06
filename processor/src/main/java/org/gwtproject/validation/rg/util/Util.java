@@ -143,7 +143,6 @@ public final class Util {
                     sb.append("final ");
                 }
                 sb.append(enclosedElement.asType()).append(" ").append(enclosedElement.getSimpleName());
-                System.out.println(sb);
             }
         }
         return null;
