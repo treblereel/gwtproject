@@ -32,6 +32,9 @@ import com.google.auto.common.MoreElements;
 import com.google.auto.common.MoreTypes;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import org.gwtproject.validation.client.DefaultTraversableResolver;
+import org.gwtproject.validation.client.GwtConstraintValidatorFactory;
+import org.gwtproject.validation.client.GwtMessageInterpolator;
 import org.gwtproject.validation.client.impl.AbstractGwtValidator;
 import org.gwtproject.validation.client.impl.GwtBeanDescriptor;
 import org.gwtproject.validation.client.impl.GwtSpecificValidator;
@@ -94,7 +97,10 @@ public final class ValidatorCreator extends AbstractCreator {
                    HashMap.class,
                    Default.class,
                    ConstraintViolation.class,
-                   BeanDescriptor.class);
+                   BeanDescriptor.class,
+                   GwtConstraintValidatorFactory.class,
+                   GwtMessageInterpolator.class,
+                   DefaultTraversableResolver.class);
         composerFactory.setSuperclass(AbstractGwtValidator.class.getCanonicalName());
         composerFactory.addImplementedInterface(validatorType.getQualifiedName().toString());
     }
@@ -123,6 +129,10 @@ public final class ValidatorCreator extends AbstractCreator {
 
         // super(createValidationGroupsMetadata());
         sw.println("super(createValidationGroupsMetadata());");
+
+        sw.println("init(new GwtConstraintValidatorFactory(),");
+        sw.println("new GwtMessageInterpolator(),");
+        sw.println("new DefaultTraversableResolver());");
 
         sw.outdent();
         sw.println("}");

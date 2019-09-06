@@ -2,6 +2,7 @@ package org.gwtproject.validation.rebind;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -116,7 +117,10 @@ public class ConstraintHelper {
     }
 
     public List<String> get(String annotation) {
-        return builtinConstraints.get(annotation);
+        if(builtinConstraints.containsKey(annotation)) {
+            return builtinConstraints.get(annotation);
+        }
+        return Collections.EMPTY_LIST;
     }
 
 /*    public Set<String> getByValidator(String validator) {

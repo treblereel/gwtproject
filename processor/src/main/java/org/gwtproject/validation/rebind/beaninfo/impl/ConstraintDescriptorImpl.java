@@ -10,7 +10,9 @@ import java.util.Set;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.Element;
+import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
+import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.ArrayType;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
@@ -19,9 +21,9 @@ import javax.validation.Payload;
 import javax.validation.groups.Default;
 
 import com.google.auto.common.MoreElements;
+import com.google.auto.common.MoreTypes;
 import org.gwtproject.validation.rebind.ConstraintHelper;
 import org.gwtproject.validation.rebind.beaninfo.ConstraintDescriptor;
-import org.gwtproject.validation.rebind.beaninfo.ConstraintValidator;
 
 /**
  * @author Dmitrii Tikhomirov
@@ -47,12 +49,12 @@ public class ConstraintDescriptorImpl implements ConstraintDescriptor {
             if (defaultValue != null) {
                 defaultValues.put(meth.getSimpleName().toString(),
                                   new DefaultValueHolder(meth.getReturnType().toString(),
-                                                                                          parseValue(meth.getReturnType(), defaultValue.getValue())));
+                                                         parseValue(meth.getReturnType(), defaultValue.getValue())));
             }
         }
 
         annotationMirror.getElementValues().forEach((k, v) -> {
-            this.holder.put(k.getSimpleName().toString(), parseValue(v.getValue()));
+            this.holder.put(k.getSimpleName().toString(), parseValue(k.getReturnType(), v.getValue()));
         });
     }
 
@@ -63,14 +65,6 @@ public class ConstraintDescriptorImpl implements ConstraintDescriptor {
             for (Object object : (java.util.AbstractCollection) value) {
                 result.add(object.toString().replaceAll(".class", ""));
             }
-
-/*            if (clazz.equals("com.sun.tools.javac.code.Attribute.Class")) {
-                List<ClassWrapper> classes = new ArrayList<>();
-                for (String s : result) {
-                    classes.add(new ClassWrapper(s));
-                }
-                return classes.toArray(new ClassWrapper[classes.size()]);
-            }*/
             return result.toArray();
         }
         return value;
@@ -80,13 +74,29 @@ public class ConstraintDescriptorImpl implements ConstraintDescriptor {
         if (TypeKind.ARRAY.equals(typeMirror.getKind())) {
             ArrayType arrayType = (ArrayType) typeMirror;
             String componentType = arrayType.getComponentType().toString();
-            List<Class> result = new ArrayList<>();
-            if (componentType.startsWith("java.lang.Class")) {
+            TypeElement type = MoreTypes.asTypeElement(arrayType.getComponentType());
+            type.getKind().equals(ElementKind.ENUM);
+            if (type.getKind().equals(ElementKind.ENUM)) {
+                List result = new ArrayList<>();
+                for (Object clazz : (java.util.AbstractCollection) value) {
+                    result.add(clazz);
+                }
+                return result.toArray(new Object[result.size()]);
+            } else if (type.getKind().equals(ElementKind.CLASS)) {
+                List<Class> result = new ArrayList<>();
                 for (Class clazz : (java.util.AbstractCollection<Class<?>>) value) {
                     result.add(clazz);
                 }
+                return result.toArray(new Class[result.size()]);
             }
-            return result.toArray(new Class[result.size()]);
+
+            List<Object> result = new ArrayList<>();
+            if (componentType.startsWith("java.lang.Class")) {
+                for (Object obj : (java.util.AbstractCollection<Object>) value) {
+                    result.add(obj);
+                }
+            }
+            return result.toArray(new Object[result.size()]);
         } else {
             return value;
         }
@@ -104,12 +114,10 @@ public class ConstraintDescriptorImpl implements ConstraintDescriptor {
         if (!holder.containsKey("groups")) {
             groups.add(Default.class.getCanonicalName());
         }
-
         List<ClassWrapper> classes = new ArrayList<>();
         for (String s : groups) {
             classes.add(new ClassWrapper(s));
         }
-
         return classes.toArray(new ClassWrapper[classes.size()]);
     }
 
@@ -128,9 +136,14 @@ public class ConstraintDescriptorImpl implements ConstraintDescriptor {
         for (Map.Entry<String, Object> entry : holder.entrySet()) {
             if (defaultValues.containsKey(entry.getKey())) {
                 defaultValues.get(entry.getKey()).value = entry.getValue();
+            } else {
+                defaultValues.put(entry.getKey(),
+                                  new DefaultValueHolder(entry.getValue()
+                                                                 .getClass()
+                                                                 .getCanonicalName(),
+                                                         entry.getValue()));
             }
         }
-
         return defaultValues;
     }
 
@@ -169,13 +182,7 @@ public class ConstraintDescriptorImpl implements ConstraintDescriptor {
 
         DefaultValueHolder(String type, Object value) {
             this.type = type;
-            if (type.equals("java.lang.Class<?>[]")) {
-//                this.value = "new java.lang.Class[] {}";
-                this.value = value;
-
-            } else {
-                this.value = value;
-            }
+            this.value = value;
         }
     }
 }
