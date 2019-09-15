@@ -15,25 +15,19 @@
  */
 package org.gwtproject.cell.client;
 
-import org.gwtproject.resources.client.ClientBundle;
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.resources.client.ImageResource;
-import org.gwtproject.resources.client.Resource;
 import org.gwtproject.user.client.ui.ImageResourceRenderer;
+import org.gwtproject.user.client.ui.ImageTestBundle;
+import org.gwtproject.user.client.ui.ImageTestBundleImpl;
 
 /**
  * Tests for {@link org.gwtproject.cell.client.ImageResourceCell}.
  */
+@J2clTestInput(ImageResourceCellTest.class)
 public class ImageResourceCellTest extends CellTestBase<ImageResource> {
 
-  /**
-   * The images used for this test.
-   */
-  @Resource
-  static interface Images extends ClientBundle {
-    ImageResource prettyPiccy();
-  }
-
-  private Images images;
+  private ImageTestBundle images;
 
   @Override
   protected Cell<ImageResource> createCell() {
@@ -65,10 +59,15 @@ public class ImageResourceCellTest extends CellTestBase<ImageResource> {
     return "";
   }
 
-  private Images getImages() {
+  private ImageTestBundle getImages() {
     if (images == null) {
-      images = new ImageResourceCellTest_ImagesImpl();
+      images = new ImageTestBundleImpl();
     }
     return images;
+  }
+
+  @Override
+  public String getModuleName() {
+    return "";
   }
 }

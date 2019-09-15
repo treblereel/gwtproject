@@ -15,15 +15,17 @@
  */
 package org.gwtproject.cell.client;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.safehtml.shared.SafeHtmlBuilder;
 
 /**
  * Tests for {@link org.gwtproject.cell.client.TextButtonCell}.
  */
+@J2clTestInput(TextButtonCellTest.class)
 public class TextButtonCellTest extends ButtonCellTestBase<String> {
 
   @Override
-  protected org.gwtproject.cell.client.TextButtonCell createCell() {
+  protected TextButtonCell createCell() {
     return new TextButtonCell();
   }
 
@@ -49,5 +51,10 @@ public class TextButtonCellTest extends ButtonCellTestBase<String> {
     String html = sb.toSafeHtml().asString();
     html = html.replace("$value$", value);
     return html;
+  }
+
+  @Override
+  public String getModuleName() {
+    return "";
   }
 }

@@ -15,9 +15,12 @@
  */
 package org.gwtproject.view.client;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
+
 /**
  * Test cases for {@link org.gwtproject.view.client.AsyncDataProvider}.
  */
+@J2clTestInput(AsyncDataProviderTest.class)
 public class AsyncDataProviderTest extends AbstractDataProviderTest {
 
   @Override

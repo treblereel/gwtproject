@@ -15,12 +15,14 @@
  */
 package org.gwtproject.cell.client;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.NativeEvent;
 
 /**
  * Tests for {@link org.gwtproject.cell.client.ButtonCell}.
  */
+@J2clTestInput(ButtonCellTest.class)
 public class ButtonCellTest extends CellTestBase<String> {
 
   public void testOnBrowserEvent() {
@@ -65,4 +67,9 @@ public class ButtonCellTest extends CellTestBase<String> {
   protected String getExpectedInnerHtmlNull() {
     return "<button type=\"button\" tabindex=\"-1\"></button>";
   }
+
+    @Override
+    public String getModuleName() {
+        return "";
+    }
 }

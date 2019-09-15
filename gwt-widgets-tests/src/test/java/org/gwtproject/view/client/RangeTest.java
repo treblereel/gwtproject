@@ -15,48 +15,50 @@
  */
 package org.gwtproject.view.client;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import junit.framework.TestCase;
 
 /**
- * Tests for {@link org.gwtproject.view.client.Range}.
+ * Tests for {@link Range}.
  */
+@J2clTestInput(RangeTest.class)
 public class RangeTest extends TestCase {
 
   public void testAccessors() {
-    org.gwtproject.view.client.Range range = new org.gwtproject.view.client.Range(10, 20);
+    Range range = new Range(10, 20);
     assertEquals(10, range.getStart());
     assertEquals(20, range.getLength());
   }
 
   public void testEquals() {
-    org.gwtproject.view.client.Range range0 = new org.gwtproject.view.client.Range(10, 20);
-    org.gwtproject.view.client.Range range1 = new org.gwtproject.view.client.Range(10, 20);
+    Range range0 = new Range(10, 20);
+    Range range1 = new Range(10, 20);
     assertEquals(range0, range1);
     assertTrue(range0.equals(range1));
     assertEquals(range0.hashCode(), range1.hashCode());
   }
 
   public void testEqualsNull() {
-    org.gwtproject.view.client.Range range0 = new org.gwtproject.view.client.Range(10, 20);
+    Range range0 = new Range(10, 20);
     assertFalse(range0.equals(null));
   }
 
   public void testEqualsObject() {
-    org.gwtproject.view.client.Range range0 = new org.gwtproject.view.client.Range(10, 20);
+    Range range0 = new Range(10, 20);
     assertFalse(range0.equals("not a range"));
   }
 
   public void testNotEqualsLength() {
-    org.gwtproject.view.client.Range range0 = new org.gwtproject.view.client.Range(10, 20);
-    org.gwtproject.view.client.Range range1 = new org.gwtproject.view.client.Range(10, 19);
+    Range range0 = new Range(10, 20);
+    Range range1 = new Range(10, 19);
     assertNotSame(range0, range1);
     assertFalse(range0.equals(range1));
     assertNotSame(range0.hashCode(), range1.hashCode());
   }
 
   public void testNotEqualsStart() {
-    org.gwtproject.view.client.Range range0 = new org.gwtproject.view.client.Range(10, 20);
-    org.gwtproject.view.client.Range range1 = new Range(9, 20);
+    Range range0 = new Range(10, 20);
+    Range range1 = new Range(9, 20);
     assertNotSame(range0, range1);
     assertFalse(range0.equals(range1));
     assertNotSame(range0.hashCode(), range1.hashCode());

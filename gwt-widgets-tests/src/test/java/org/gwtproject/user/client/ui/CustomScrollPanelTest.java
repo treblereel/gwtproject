@@ -15,8 +15,6 @@
  */
 package org.gwtproject.user.client.ui;
 
-import com.google.gwt.junit.DoNotRunWith;
-import com.google.gwt.junit.Platform;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.style.shared.Overflow;
 import org.gwtproject.timer.client.Timer;
@@ -42,7 +40,6 @@ public class CustomScrollPanelTest extends ScrollPanelTest {
    * Test that both the horizontal scrollbar and vertical scrollbar appear when
    * the content flows in both directions.
    */
-  @DoNotRunWith(Platform.HtmlUnitLayout)
   public void testOnResizeBothScrollbars() {
     // Scrollbar not needed.
     content.setPixelSize(400, 400);
@@ -65,7 +62,6 @@ public class CustomScrollPanelTest extends ScrollPanelTest {
    * Test that the horizontal scrollbar appears/disappears when the widget is
    * resized.
    */
-  @DoNotRunWith(Platform.HtmlUnitLayout)
   public void testOnResizeHorizontally() {
     // Scrollbar not needed.
     content.setPixelSize(400, 400);
@@ -91,7 +87,6 @@ public class CustomScrollPanelTest extends ScrollPanelTest {
    * Test that the vertical scrollbar appears/disappears when the widget is
    * resized.
    */
-  @DoNotRunWith(Platform.HtmlUnitLayout)
   public void testOnResizeVertically() {
     // Scrollbar not needed.
     content.setPixelSize(400, 400);
@@ -161,7 +156,6 @@ public class CustomScrollPanelTest extends ScrollPanelTest {
    * Test that the horizontal scrollbar appears/disappears when the content is
    * resized.
    */
-  @DoNotRunWith(Platform.HtmlUnitLayout)
   public void testResizeContentHorizontally() {
     delayTestFinish(SCROLL_EVENT_TIMEOUT * 5);
 
@@ -202,7 +196,6 @@ public class CustomScrollPanelTest extends ScrollPanelTest {
    * Test that the vertical scrollbar appears/disappears when the content is
    * resized.
    */
-  @DoNotRunWith(Platform.HtmlUnitLayout)
   public void testResizeContentVertically() {
     delayTestFinish(SCROLL_EVENT_TIMEOUT * 5);
 

@@ -15,8 +15,6 @@
  */
 package org.gwtproject.user.client.ui;
 
-import com.google.gwt.junit.DoNotRunWith;
-import com.google.gwt.junit.Platform;
 import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.style.shared.Unit;
@@ -82,7 +80,6 @@ public class TabLayoutPanelTest extends GWTTestCase {
    * Ensures that hidden children are layed out properly when their tabs are
    * selected. This has been a problem on IE6 (see issue 4596).
    */
-  @DoNotRunWith({Platform.HtmlUnitBug})
   public void testHiddenChildLayout() {
     final TabLayoutPanel p = new TabLayoutPanel(32, Unit.PX);
     p.setSize("128px", "128px");

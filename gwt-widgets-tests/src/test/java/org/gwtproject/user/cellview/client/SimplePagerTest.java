@@ -15,10 +15,10 @@
  */
 package org.gwtproject.user.cellview.client;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.aria.client.Property;
 import org.gwtproject.aria.client.Roles;
 import org.gwtproject.aria.client.State;
-import com.google.gwt.core.client.GWT;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.NodeList;
 import org.gwtproject.user.cellview.client.SimplePager.ImageButtonsConstants;
@@ -28,13 +28,14 @@ import org.gwtproject.view.client.MockHasData;
 /**
  * Tests for {@link SimplePager}.
  */
+@J2clTestInput(SimplePagerTest.class)
 public class SimplePagerTest extends AbstractPagerTest {
   private ImageButtonsConstants imageButtonConstants; 
   
   @Override
   protected void gwtSetUp() throws Exception {
     super.gwtSetUp();
-    imageButtonConstants = GWT.create(ImageButtonsConstants.class);
+    imageButtonConstants = new SimplePager_ImageButtonsConstants_en_US();
   }
 
   public void testAriaAttributesAdded_firstLoad() {

@@ -15,7 +15,6 @@
  */
 package org.gwtproject.cell.client;
 
-import org.gwtproject.cell.client.Cell.Context;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.NativeEvent;
@@ -24,8 +23,10 @@ import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.Event;
 import org.gwtproject.user.client.EventListener;
 
+import static org.gwtproject.cell.client.Cell.*;
+
 /**
- * Base class for testing {@link org.gwtproject.cell.client.AbstractEditableCell}s that can be modified.
+ * Base class for testing {@link AbstractEditableCell}s that can be modified.
  *
  * @param <T> the cell type
  * @param <V> the view data type
@@ -36,7 +37,7 @@ public abstract class EditableCellTestBase<T, V> extends CellTestBase<T> {
    * Test rendering the cell with a valid value and view data.
    */
   public void testRenderViewData() {
-    org.gwtproject.cell.client.AbstractEditableCell<T, V> cell = createCell();
+    AbstractEditableCell<T, V> cell = createCell();
     T value = createCellValue();
     cell.setViewData(DEFAULT_KEY, createCellViewData());
     SafeHtmlBuilder sb = new SafeHtmlBuilder();
@@ -48,7 +49,7 @@ public abstract class EditableCellTestBase<T, V> extends CellTestBase<T> {
   }
 
   @Override
-  protected abstract org.gwtproject.cell.client.AbstractEditableCell<T, V> createCell();
+  protected abstract AbstractEditableCell<T, V> createCell();
 
   /**
    * Create a view data to test.

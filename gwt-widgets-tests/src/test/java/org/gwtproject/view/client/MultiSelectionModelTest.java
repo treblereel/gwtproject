@@ -16,6 +16,7 @@
 package org.gwtproject.view.client;
 
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.timer.client.Timer;
 
@@ -26,10 +27,11 @@ import java.util.Set;
 /**
  * Tests for {@link org.gwtproject.view.client.MultiSelectionModel}.
  */
+@J2clTestInput(MultiSelectionModelTest.class)
 public class MultiSelectionModelTest extends AbstractSelectionModelTest {
 
   public void testClear() {
-    org.gwtproject.view.client.MultiSelectionModel<String> model = createSelectionModel(null);
+    MultiSelectionModel<String> model = createSelectionModel(null);
     MockSelectionChangeHandler handler = new MockSelectionChangeHandler();
     model.addSelectionChangeHandler(handler);
 
@@ -55,7 +57,7 @@ public class MultiSelectionModelTest extends AbstractSelectionModelTest {
    * even if there are pending changes.
    */
   public void testClearWhenEmpty() {
-    org.gwtproject.view.client.MultiSelectionModel<String> model = createSelectionModel(null);
+    MultiSelectionModel<String> model = createSelectionModel(null);
     MockSelectionChangeHandler handler = new MockSelectionChangeHandler();
     model.addSelectionChangeHandler(handler);
 
@@ -73,7 +75,7 @@ public class MultiSelectionModelTest extends AbstractSelectionModelTest {
    * be fired if all selected values are reselected.
    */
   public void testClearAndReselect() {
-    org.gwtproject.view.client.MultiSelectionModel<String> model = createSelectionModel(null);
+    MultiSelectionModel<String> model = createSelectionModel(null);
     MockSelectionChangeHandler handler = new MockSelectionChangeHandler();
     model.addSelectionChangeHandler(handler);
 
@@ -94,7 +96,7 @@ public class MultiSelectionModelTest extends AbstractSelectionModelTest {
   }
 
   public void testGetSelectedSet() {
-    org.gwtproject.view.client.MultiSelectionModel<String> model = createSelectionModel(null);
+    MultiSelectionModel<String> model = createSelectionModel(null);
     Set<String> selected = new HashSet<String>();
     assertEquals(selected, model.getSelectedSet());
 
@@ -112,13 +114,8 @@ public class MultiSelectionModelTest extends AbstractSelectionModelTest {
   }
 
   public void testSelectedChangeEvent() {
-    org.gwtproject.view.client.MultiSelectionModel<String> model = createSelectionModel(null);
-    org.gwtproject.view.client.SelectionChangeEvent.Handler handler = new org.gwtproject.view.client.SelectionChangeEvent.Handler() {
-        @Override
-      public void onSelectionChange(org.gwtproject.view.client.SelectionChangeEvent event) {
-        finishTest();
-      }
-    };
+    MultiSelectionModel<String> model = createSelectionModel(null);
+    SelectionChangeEvent.Handler handler = event -> finishTest();
     model.addSelectionChangeHandler(handler);
 
     delayTestFinish(2000);
@@ -135,14 +132,11 @@ public class MultiSelectionModelTest extends AbstractSelectionModelTest {
     // selection events fire at the end of current event loop (finally command)
     handler.assertEventFired(false);
 
-    Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-      @Override
-      public void execute() {
-        handler.assertEventFired(true);
-        model.addSelectionChangeHandler(new FailingSelectionChangeEventHandler());
-        model.setSelected("test", true);
-        model.setSelected("test", true);
-      }
+    Scheduler.get().scheduleDeferred(() -> {
+      handler.assertEventFired(true);
+      model.addSelectionChangeHandler(new FailingSelectionChangeEventHandler());
+      model.setSelected("test", true);
+      model.setSelected("test", true);
     });
 
     new Timer() {
@@ -179,12 +173,7 @@ public class MultiSelectionModelTest extends AbstractSelectionModelTest {
    */
   public void testNoDuplicateChangeEventWithKeyProvider() {
     delayTestFinish(2000);
-    ProvidesKey<String> keyProvider = new ProvidesKey<String>() {
-        @Override
-      public Object getKey(String item) {
-        return item.toUpperCase(Locale.ROOT);
-      }
-    };
+    ProvidesKey<String> keyProvider = item -> item.toUpperCase(Locale.ROOT);
     MultiSelectionModel<String> model = createSelectionModel(keyProvider);
 
     model.setSelected("test1", true);
@@ -208,7 +197,7 @@ public class MultiSelectionModelTest extends AbstractSelectionModelTest {
   }
 
   public void testSetSelected() {
-    org.gwtproject.view.client.MultiSelectionModel<String> model = createSelectionModel(null);
+    MultiSelectionModel<String> model = createSelectionModel(null);
     assertFalse(model.isSelected("test0"));
 
     model.setSelected("test0", true);
@@ -227,13 +216,8 @@ public class MultiSelectionModelTest extends AbstractSelectionModelTest {
    * Tests that items with the same key share the same selection state.
    */
   public void testSetSelectedSameKey() {
-    org.gwtproject.view.client.ProvidesKey<String> keyProvider = new org.gwtproject.view.client.ProvidesKey<String>() {
-        @Override
-      public Object getKey(String item) {
-        return item.toUpperCase(Locale.ROOT);
-      }
-    };
-    org.gwtproject.view.client.MultiSelectionModel<String> model = createSelectionModel(keyProvider);
+    ProvidesKey<String> keyProvider = item -> item.toUpperCase(Locale.ROOT);
+    MultiSelectionModel<String> model = createSelectionModel(keyProvider);
     assertFalse(model.isSelected("test0"));
 
     model.setSelected("test0", true);
@@ -249,13 +233,8 @@ public class MultiSelectionModelTest extends AbstractSelectionModelTest {
   }
 
   public void testSetSelectedWithKeyProvider() {
-    org.gwtproject.view.client.ProvidesKey<String> keyProvider = new org.gwtproject.view.client.ProvidesKey<String>() {
-        @Override
-      public Object getKey(String item) {
-        return item.toUpperCase(Locale.ROOT);
-      }
-    };
-    org.gwtproject.view.client.MultiSelectionModel<String> model = createSelectionModel(keyProvider);
+    ProvidesKey<String> keyProvider = item -> item.toUpperCase(Locale.ROOT);
+    MultiSelectionModel<String> model = createSelectionModel(keyProvider);
     assertFalse(model.isSelected("test0"));
 
     model.setSelected("test0", true);
@@ -276,7 +255,7 @@ public class MultiSelectionModelTest extends AbstractSelectionModelTest {
   }
 
   @Override
-  protected org.gwtproject.view.client.MultiSelectionModel<String> createSelectionModel(ProvidesKey<String> keyProvider) {
+  protected MultiSelectionModel<String> createSelectionModel(ProvidesKey<String> keyProvider) {
     return new MultiSelectionModel<String>(keyProvider);
   }
 }

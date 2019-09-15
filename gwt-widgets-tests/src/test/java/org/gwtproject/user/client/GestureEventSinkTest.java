@@ -17,6 +17,7 @@
 package org.gwtproject.user.client;
 
 import com.google.gwt.junit.client.GWTTestCase;
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.event.dom.client.GestureChangeEvent;
 import org.gwtproject.event.dom.client.GestureChangeHandler;
@@ -44,6 +45,7 @@ import org.gwtproject.user.client.ui.Widget;
 /**
  * Test Case for sinking of gesture events.
  */
+@J2clTestInput(GestureEventSinkTest.class)
 public class GestureEventSinkTest extends GWTTestCase {
 
   @Override

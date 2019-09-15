@@ -15,22 +15,23 @@
  */
 package org.gwtproject.media.client;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.MediaElement;
-import com.google.gwt.junit.DoNotRunWith;
-import com.google.gwt.junit.Platform;
 import org.gwtproject.user.client.ui.RootPanel;
+import org.junit.After;
+import org.junit.Before;
 
 /**
- * Tests {@link org.gwtproject.media.client.Audio}.
+ * Tests {@link Audio}.
  *
  *  Because HtmlUnit does not support HTML5, you will need to run these tests
  * manually in order to have them run. To do that, go to "run configurations" or
  * "debug configurations", select the test you would like to run, and put this
  * line in the VM args under the arguments tab: -Dgwt.args="-runStyle Manual:1"
  */
-@DoNotRunWith(Platform.HtmlUnitUnknown)
+@J2clTestInput(AudioTest.class)
 public class AudioTest extends MediaTest {
-  protected org.gwtproject.media.client.Audio audio;
+  protected Audio audio;
 
   final static String audioUrlMp3 = "smallmp3.mp3";
   final static String audioFormatMp3 = "audio/mpeg";
@@ -47,8 +48,8 @@ public class AudioTest extends MediaTest {
     return "org.gwtproject.media.MediaTest";
   }
 
-  @Override
-  protected void gwtSetUp() throws Exception {
+  @Before
+  protected void gwtSetUp() throws Exception{
     audio = Audio.createIfSupported();
 
     if (audio == null) {
@@ -76,7 +77,7 @@ public class AudioTest extends MediaTest {
     RootPanel.get().add(audio);
   }
 
-  @Override
+  @After
   protected void gwtTearDown() throws Exception {
     if (audio == null) {
       return; // don't continue if not supported

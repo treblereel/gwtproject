@@ -18,16 +18,19 @@ package org.gwtproject.view.client;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
+
 /**
- * Tests for {@link org.gwtproject.view.client.OrderedMultiSelectionModel}.
+ * Tests for {@link OrderedMultiSelectionModel}.
  */
+@J2clTestInput(OrderedMultiSelectionModelTest.class)
 public class OrderedMultiSelectionModelTest extends MultiSelectionModelTest {
 
   /**
    * Test if elements are returned in the same order they were added.
    */
   public void testGetSelectedList() {
-    org.gwtproject.view.client.OrderedMultiSelectionModel<String> model = createSelectionModel(null);
+    OrderedMultiSelectionModel<String> model = createSelectionModel(null);
     List<String> selected = new ArrayList<String>();
     assertEquals(selected, model.getSelectedList());
 
@@ -58,7 +61,7 @@ public class OrderedMultiSelectionModelTest extends MultiSelectionModelTest {
   }
 
   @Override
-  protected org.gwtproject.view.client.OrderedMultiSelectionModel<String> createSelectionModel(ProvidesKey<String> keyProvider) {
+  protected OrderedMultiSelectionModel<String> createSelectionModel(ProvidesKey<String> keyProvider) {
     return new OrderedMultiSelectionModel<String>(keyProvider);
   }
 }

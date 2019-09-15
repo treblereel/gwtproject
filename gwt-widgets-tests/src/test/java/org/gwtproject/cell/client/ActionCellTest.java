@@ -15,6 +15,8 @@
  */
 package org.gwtproject.cell.client;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
+import org.gwtproject.canvas.client.CanvasTest;
 import org.gwtproject.cell.client.ActionCell.Delegate;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.NativeEvent;
@@ -22,9 +24,15 @@ import org.gwtproject.dom.client.NativeEvent;
 /**
  * Tests for {@link org.gwtproject.cell.client.ActionCell}.
  */
+@J2clTestInput(ActionCellTest.class)
 public class ActionCellTest extends CellTestBase<String> {
 
-  /**
+    @Override
+    public String getModuleName() {
+        return "";
+    }
+
+    /**
    * A mock {@link Delegate} used for testing.
    *
    * @param <T> the value type

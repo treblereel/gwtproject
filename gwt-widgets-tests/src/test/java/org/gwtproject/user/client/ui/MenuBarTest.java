@@ -23,8 +23,6 @@ import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.event.dom.client.KeyCodes;
-import com.google.gwt.junit.DoNotRunWith;
-import com.google.gwt.junit.Platform;
 import org.gwtproject.safehtml.shared.SafeHtmlUtils;
 import org.gwtproject.user.client.Command;
 
@@ -218,7 +216,6 @@ public class MenuBarTest extends WidgetTestBase {
     assertNull(l2.getPopup());
   }
 
-  @DoNotRunWith({Platform.HtmlUnitBug})
   public void testBlur() {
     // Create a menu bar with children.
     final MenuBar menu = new MenuBar();
@@ -236,7 +233,6 @@ public class MenuBarTest extends WidgetTestBase {
     assertNull(menu.getSelectedItem());
   }
 
-  @DoNotRunWith({Platform.HtmlUnitBug})
   public void testSetFocusOnHoverEnabled() {
     delayTestFinish(1000);
     TextBox focusOwner = new TextBox();

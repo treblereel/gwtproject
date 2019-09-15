@@ -15,11 +15,13 @@
  */
 package org.gwtproject.touch.client;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import junit.framework.TestCase;
 
 /**
  * Tests for {@link Point}.
  */
+@J2clTestInput(PointTest.class)
 public class PointTest extends TestCase {
 
   public void testDiv() {

@@ -17,10 +17,7 @@ package org.gwtproject.user.client.ui;
 
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.i18n.client.LocaleInfo;
-import com.google.gwt.junit.DoNotRunWith;
-import com.google.gwt.junit.Platform;
 import com.google.gwt.junit.client.GWTTestCase;
-import org.gwtproject.user.client.ui.RootPanel;
 import org.gwtproject.user.client.DOM;
 
 /**
@@ -38,7 +35,6 @@ public class DOMRtlTest extends GWTTestCase {
    * Failed in all modes due to HtmlUnit bug:
    * https://sourceforge.net/tracker/?func=detail&aid=2897532&group_id=47038&atid=448266
    */
-  @DoNotRunWith({Platform.HtmlUnitBug})
   public void testGetAbsolutePositionWhenScrolled() {
     // Force the document body into RTL mode.
     org.gwtproject.user.client.ui.RootPanel.get();

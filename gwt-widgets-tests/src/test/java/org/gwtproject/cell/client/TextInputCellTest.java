@@ -15,6 +15,7 @@
  */
 package org.gwtproject.cell.client;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.cell.client.Cell.Context;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.NativeEvent;
@@ -23,6 +24,7 @@ import org.gwtproject.safehtml.shared.SafeHtmlBuilder;
 /**
  * Tests for {@link TextInputCell}.
  */
+@J2clTestInput(TextInputCellTest.class)
 public class TextInputCellTest extends
     EditableCellTestBase<String, TextInputCell.ViewData> {
 
@@ -95,5 +97,10 @@ public class TextInputCellTest extends
   @Override
   protected String getExpectedInnerHtmlViewData() {
     return "<input type=\"text\" value=\"newValue\" tabindex=\"-1\"></input>";
+  }
+
+  @Override
+  public String getModuleName() {
+    return "";
   }
 }

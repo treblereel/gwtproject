@@ -15,7 +15,7 @@
  */
 package org.gwtproject.user.cellview.client;
 
-import com.google.gwt.core.client.GWT;
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.cell.client.TextCell;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.TableCellElement;
@@ -36,6 +36,7 @@ import java.util.Locale;
 /**
  * Tests for {@link CellTable}.
  */
+@J2clTestInput(CellListTest.class)
 public class CellTableTest extends AbstractCellTableTestBase<CellTable<String>> {
 
   /**

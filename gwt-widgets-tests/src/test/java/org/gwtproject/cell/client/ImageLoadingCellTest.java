@@ -15,6 +15,7 @@
  */
 package org.gwtproject.cell.client;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.cell.client.Cell.Context;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
@@ -26,11 +27,12 @@ import java.util.Locale;
 /**
  * Tests for {@link TextCell}.
  */
+@J2clTestInput(ImageLoadingCellTest.class)
 public class ImageLoadingCellTest extends CellTestBase<String> {
 
   @Override
   public void testRender() {
-    org.gwtproject.cell.client.Cell<String> cell = createCell();
+    Cell<String> cell = createCell();
     String value = createCellValue();
     SafeHtmlBuilder sb = new SafeHtmlBuilder();
     Context context = new Context(0, 0, null);
@@ -50,7 +52,7 @@ public class ImageLoadingCellTest extends CellTestBase<String> {
 
   @Override
   public void testRenderNegativeIndex() {
-    org.gwtproject.cell.client.Cell<String> cell = createCell();
+    Cell<String> cell = createCell();
     String value = createCellValue();
     SafeHtmlBuilder sb = new SafeHtmlBuilder();
     Context context = new Context(-1, -1, null);
@@ -95,6 +97,11 @@ public class ImageLoadingCellTest extends CellTestBase<String> {
 
   @Override
   protected String getExpectedInnerHtmlNull() {
+    return "";
+  }
+
+  @Override
+  public String getModuleName() {
     return "";
   }
 }

@@ -15,10 +15,12 @@
  */
 package org.gwtproject.cell.client;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 
 /**
  * Tests for {@link org.gwtproject.cell.client.TextCell}.
  */
+@J2clTestInput(TextCellTest.class)
 public class TextCellTest extends CellTestBase<String> {
 
   @Override
@@ -48,6 +50,11 @@ public class TextCellTest extends CellTestBase<String> {
 
   @Override
   protected String getExpectedInnerHtmlNull() {
+    return "";
+  }
+
+  @Override
+  public String getModuleName() {
     return "";
   }
 }

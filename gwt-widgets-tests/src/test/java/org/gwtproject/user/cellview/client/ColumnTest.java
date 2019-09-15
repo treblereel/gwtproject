@@ -15,8 +15,7 @@
  */
 package org.gwtproject.user.cellview.client;
 
-import org.gwtproject.user.cellview.client.Column;
-import org.gwtproject.user.cellview.client.IdentityColumn;
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.cell.client.AbstractEditableCell;
 import org.gwtproject.cell.client.Cell.Context;
 import org.gwtproject.cell.client.FieldUpdater;
@@ -32,6 +31,7 @@ import org.gwtproject.timer.client.Timer;
 /**
  * Tests for {@link Column}.
  */
+@J2clTestInput(ColumnTest.class)
 public class ColumnTest extends GWTTestCase {
 
   /**

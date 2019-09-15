@@ -17,8 +17,6 @@ package org.gwtproject.user.client.ui;
 
 import java.util.Locale;
 
-import com.google.gwt.junit.DoNotRunWith;
-import com.google.gwt.junit.Platform;
 import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
@@ -69,13 +67,6 @@ public class DOMTest extends GWTTestCase {
         assertEquals("", cssClass);
     }
 
-    @Override
-    protected void reportUncaughtException(Throwable ex) {
-        if (!ex.getMessage().contains("_expected_")) {
-            super.reportUncaughtException(ex);
-        }
-    }
-
     /**
      * Tests {@link DOM#getAbsoluteLeft(Element)} and
      * {@link DOM#getAbsoluteTop(Element)}.
@@ -116,7 +107,6 @@ public class DOMTest extends GWTTestCase {
      * {@link DOM#getAbsoluteLeft(Element)} for consistency when the element
      * contains children and has scrollbars. See issue #1093 for more details.
      */
-    @DoNotRunWith(Platform.HtmlUnitLayout)
     public void testGetAbsolutePositionWhenScrolled() {
         final Element outer = DOM.createDiv();
         final Element inner = DOM.createDiv();

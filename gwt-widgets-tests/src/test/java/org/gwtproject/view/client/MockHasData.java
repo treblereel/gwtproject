@@ -33,10 +33,10 @@ public class MockHasData<T> implements HasData<T> {
   private static final int DEFAULT_PAGE_SIZE = 10;
 
   /**
-   * A mock {@link org.gwtproject.view.client.RowCountChangeEvent.Handler} used for testing.
+   * A mock {@link RowCountChangeEvent.Handler} used for testing.
    */
   public static class MockRowCountChangeHandler
-      implements org.gwtproject.view.client.RowCountChangeEvent.Handler {
+      implements RowCountChangeEvent.Handler {
 
     private int lastRowCount = -1;
     private boolean lastRowCountExact;
@@ -50,7 +50,7 @@ public class MockHasData<T> implements HasData<T> {
     }
 
     @Override
-    public void onRowCountChange(org.gwtproject.view.client.RowCountChangeEvent event) {
+    public void onRowCountChange(RowCountChangeEvent event) {
       this.lastRowCount = event.getNewRowCount();
       this.lastRowCountExact = event.isNewRowCountExact();
     }
@@ -62,19 +62,19 @@ public class MockHasData<T> implements HasData<T> {
   }
 
   /**
-   * A mock {@link org.gwtproject.view.client.RangeChangeEvent.Handler} used for testing.
+   * A mock {@link RangeChangeEvent.Handler} used for testing.
    */
   public static class MockRangeChangeHandler
-      implements org.gwtproject.view.client.RangeChangeEvent.Handler {
+      implements RangeChangeEvent.Handler {
 
-    private org.gwtproject.view.client.Range lastRange;
+    private Range lastRange;
 
-    public org.gwtproject.view.client.Range getLastRange() {
+    public Range getLastRange() {
       return lastRange;
     }
 
     @Override
-    public void onRangeChange(org.gwtproject.view.client.RangeChangeEvent event) {
+    public void onRangeChange(RangeChangeEvent event) {
       this.lastRange = event.getNewRange();
     }
 
@@ -84,7 +84,7 @@ public class MockHasData<T> implements HasData<T> {
   }
 
   private final HandlerManager handlerManager = new HandlerManager(this);
-  private org.gwtproject.view.client.Range lastRange;
+  private Range lastRange;
   private List<T> lastRowData;
 
   private int pageStart;
@@ -92,7 +92,7 @@ public class MockHasData<T> implements HasData<T> {
   private int rowCount;
   private boolean rowCountExact;
   private HandlerRegistration selectionHandler;
-  private org.gwtproject.view.client.SelectionModel<? super T> selectionModel;
+  private SelectionModel<? super T> selectionModel;
 
   @Override
   public HandlerRegistration addCellPreviewHandler(Handler<T> handler) {
@@ -101,14 +101,14 @@ public class MockHasData<T> implements HasData<T> {
 
   @Override
   public HandlerRegistration addRangeChangeHandler(
-      org.gwtproject.view.client.RangeChangeEvent.Handler handler) {
-    return handlerManager.addHandler(org.gwtproject.view.client.RangeChangeEvent.getType(), handler);
+      RangeChangeEvent.Handler handler) {
+    return handlerManager.addHandler(RangeChangeEvent.getType(), handler);
   }
 
   @Override
   public HandlerRegistration addRowCountChangeHandler(
-      org.gwtproject.view.client.RowCountChangeEvent.Handler handler) {
-    return handlerManager.addHandler(org.gwtproject.view.client.RowCountChangeEvent.getType(), handler);
+      RowCountChangeEvent.Handler handler) {
+    return handlerManager.addHandler(RowCountChangeEvent.getType(), handler);
   }
 
   /**
@@ -163,7 +163,7 @@ public class MockHasData<T> implements HasData<T> {
    *
    * @return the last data range
    */
-  public org.gwtproject.view.client.Range getLastRowDataRange() {
+  public Range getLastRowDataRange() {
     return lastRange;
   }
 
@@ -173,13 +173,13 @@ public class MockHasData<T> implements HasData<T> {
   }
 
   @Override
-  public org.gwtproject.view.client.SelectionModel<? super T> getSelectionModel() {
+  public SelectionModel<? super T> getSelectionModel() {
     return selectionModel;
   }
 
   @Override
-  public org.gwtproject.view.client.Range getVisibleRange() {
-    return new org.gwtproject.view.client.Range(pageStart, pageSize);
+  public Range getVisibleRange() {
+    return new Range(pageStart, pageSize);
   }
 
   @Override
@@ -189,7 +189,7 @@ public class MockHasData<T> implements HasData<T> {
 
   @Override
   public void setRowData(int start, List<? extends T> values) {
-    lastRange = new org.gwtproject.view.client.Range(start, values.size());
+    lastRange = new Range(start, values.size());
     lastRowData = new ArrayList<T>(values);
   }
 
@@ -210,17 +210,17 @@ public class MockHasData<T> implements HasData<T> {
 
   @Override
   public final void setVisibleRange(int start, int length) {
-    setVisibleRange(new org.gwtproject.view.client.Range(start, length));
+    setVisibleRange(new Range(start, length));
   }
 
   @Override
-  public void setVisibleRange(org.gwtproject.view.client.Range range) {
+  public void setVisibleRange(Range range) {
     setVisibleRange(range, false, false);
   }
 
   @Override
   public void setVisibleRangeAndClearData(
-      org.gwtproject.view.client.Range range, boolean forceRangeChangeEvent) {
+      Range range, boolean forceRangeChangeEvent) {
     setVisibleRange(range, true, forceRangeChangeEvent);
   }
 
@@ -236,11 +236,8 @@ public class MockHasData<T> implements HasData<T> {
     this.selectionModel = selectionModel;
     if (selectionModel != null) {
       selectionHandler = selectionModel.addSelectionChangeHandler(
-          new org.gwtproject.view.client.SelectionChangeEvent.Handler() {
-            @Override
-            public void onSelectionChange(SelectionChangeEvent event) {
-            }
-          });
+              event -> {
+              });
     }
   }
 

@@ -19,8 +19,6 @@ import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import org.gwtproject.event.dom.client.ScrollEvent;
 import org.gwtproject.event.dom.client.ScrollHandler;
-import com.google.gwt.junit.DoNotRunWith;
-import com.google.gwt.junit.Platform;
 import org.gwtproject.timer.client.Timer;
 
 /**
@@ -62,7 +60,6 @@ public abstract class NativeScrollbarTestBase<S extends AbstractNativeScrollbar>
    * Test that changing the scrollbar size can affect the scroll position and
    * fires a scroll event.
    */
-  @DoNotRunWith(Platform.HtmlUnitLayout)
   public void testSetScrollbarSizeFiresScrollEvent() {
     setScrollSize(scrollbar, 400);
     assertEquals(400, getScrollSize(scrollbar));
@@ -107,7 +104,6 @@ public abstract class NativeScrollbarTestBase<S extends AbstractNativeScrollbar>
     });
   }
 
-  @DoNotRunWith(Platform.HtmlUnitLayout)
   public void testSetScrollPosition() {
     // Add a scroll handler.
     final TestScrollHandler handler = new TestScrollHandler() {
@@ -152,7 +148,6 @@ public abstract class NativeScrollbarTestBase<S extends AbstractNativeScrollbar>
   /**
    * Test that changing the scroll size can affect the scroll position.
    */
-  @DoNotRunWith(Platform.HtmlUnitLayout)
   public void testSetScrollSizeFiresScrollEvent() {
     setScrollSize(scrollbar, 500);
     assertEquals(500, getScrollSize(scrollbar));

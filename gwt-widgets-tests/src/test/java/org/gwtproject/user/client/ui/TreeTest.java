@@ -16,8 +16,6 @@
 package org.gwtproject.user.client.ui;
 
 import org.gwtproject.dom.client.Element;
-import com.google.gwt.junit.DoNotRunWith;
-import com.google.gwt.junit.Platform;
 import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.safehtml.shared.SafeHtmlUtils;
 import org.gwtproject.user.client.DOM;
@@ -355,7 +353,6 @@ public class TreeTest extends GWTTestCase {
     assertScrollingOnSelection(tree, false);
   }
 
-  @DoNotRunWith(Platform.HtmlUnitLayout)
   // TODO: Test fails in recent chrome versions when using manual mode.
   // https://github.com/gwtproject/gwt/issues/9475
   // https://bugs.chromium.org/p/chromium/issues/detail?id=681382

@@ -15,6 +15,7 @@
  */
 package org.gwtproject.cell.client;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.cell.client.Cell.Context;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
@@ -25,6 +26,7 @@ import org.gwtproject.user.client.ui.HasVerticalAlignment;
 /**
  * Tests for {@link org.gwtproject.cell.client.IconCellDecorator}.
  */
+@J2clTestInput(IconCellDecoratorTest.class)
 public class IconCellDecoratorTest extends CellTestBase<String> {
 
   /**
@@ -40,7 +42,7 @@ public class IconCellDecoratorTest extends CellTestBase<String> {
   public void testRenderNoImage() {
     MockCell<String> innerCell = new MockCell<String>(true,
         "newValueFromInnerCell", "click");
-    org.gwtproject.cell.client.IconCellDecorator<String> cell = new org.gwtproject.cell.client.IconCellDecorator<String>(
+    IconCellDecorator<String> cell = new IconCellDecorator<String>(
         Resources.prettyPiccy(), innerCell) {
       @Override
       protected boolean isIconUsed(String value) {
@@ -65,7 +67,7 @@ public class IconCellDecoratorTest extends CellTestBase<String> {
   public void testSelectableDelegate() {
     MockCell<String> innerCell = new MockCell<String>(true,
         "newValueFromInnerCell", "click");
-    org.gwtproject.cell.client.IconCellDecorator<String> iconCell = new org.gwtproject.cell.client.IconCellDecorator<String>(
+    IconCellDecorator<String> iconCell = new IconCellDecorator<>(
         Resources.prettyPiccy(), innerCell);
     assertTrue(iconCell.dependsOnSelection());
     assertTrue(iconCell.handlesSelection());
@@ -84,10 +86,10 @@ public class IconCellDecoratorTest extends CellTestBase<String> {
   }
 
   @Override
-  protected org.gwtproject.cell.client.IconCellDecorator<String> createCell() {
+  protected IconCellDecorator<String> createCell() {
     MockCell<String> innerCell = new MockCell<String>(false,
         "newValueFromInnerCell", "click");
-    org.gwtproject.cell.client.IconCellDecorator<String> iconCell = new org.gwtproject.cell.client.IconCellDecorator<String>(
+    IconCellDecorator<String> iconCell = new IconCellDecorator<>(
         Resources.prettyPiccy(), innerCell);
     return iconCell;
   }
@@ -109,7 +111,7 @@ public class IconCellDecoratorTest extends CellTestBase<String> {
 
   @Override
   protected String getExpectedInnerHtml() {
-    org.gwtproject.cell.client.IconCellDecorator<String> cell = createCell();
+    IconCellDecorator<String> cell = createCell();
     String html = "<div style=\"padding-left: 64px;position:relative;zoom:1;\">";
     html += cell.getIconHtml("helloworld").asString();
     html += "<div>helloworld</div>";
@@ -126,4 +128,9 @@ public class IconCellDecoratorTest extends CellTestBase<String> {
     html += "</div>";
     return html;
   }
+
+    @Override
+    public String getModuleName() {
+        return "";
+    }
 }

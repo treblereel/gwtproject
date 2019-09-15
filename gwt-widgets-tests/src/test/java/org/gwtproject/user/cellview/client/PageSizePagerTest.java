@@ -15,13 +15,14 @@
  */
 package org.gwtproject.user.cellview.client;
 
-import org.gwtproject.user.cellview.client.PageSizePager;
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.view.client.HasRows;
 import org.gwtproject.view.client.MockHasData;
 
 /**
  * Tests for {@link PageSizePager}.
  */
+@J2clTestInput(PageSizePagerTest.class)
 public class PageSizePagerTest extends AbstractPagerTest {
 
   private static final int PAGE_INCREMENT = 100;

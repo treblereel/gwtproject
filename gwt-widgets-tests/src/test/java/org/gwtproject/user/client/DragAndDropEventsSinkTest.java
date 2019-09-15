@@ -16,6 +16,7 @@
 
 package org.gwtproject.user.client;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLDivElement;
 import jsinterop.base.Js;
@@ -26,6 +27,7 @@ import org.gwtproject.user.client.ui.*;
 /**
  * Test Case for sinking of drag and drop events.
  */
+@J2clTestInput(DragAndDropEventsSinkTest.class)
 public class DragAndDropEventsSinkTest extends GWTTestCase {
 
   private static class DragEndHandlerImpl extends HandlerImpl implements DragEndHandler {

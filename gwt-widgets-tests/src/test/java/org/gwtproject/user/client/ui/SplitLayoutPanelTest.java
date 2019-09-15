@@ -17,8 +17,6 @@ package org.gwtproject.user.client.ui;
 
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.NativeEvent;
-import com.google.gwt.junit.DoNotRunWith;
-import com.google.gwt.junit.Platform;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -153,7 +151,6 @@ public class SplitLayoutPanelTest extends DockLayoutPanelTest {
     assertEquals(splitter0, children.get(1));
   }
 
-  @DoNotRunWith({Platform.HtmlUnitLayout})
   public void testResize() {
     SplitLayoutPanel p = new SplitLayoutPanel();
     RootLayoutPanel.get().add(p);

@@ -15,11 +15,13 @@
  */
 package org.gwtproject.user.cellview.client;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.view.client.TreeViewModel;
 
 /**
  * Tests for {@link CellTree} with animations enabled.
  */
+@J2clTestInput(AnimatedCellTreeTest.class)
 public class AnimatedCellTreeTest extends CellTreeTest {
 
   @Override

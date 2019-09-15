@@ -17,8 +17,6 @@ package org.gwtproject.user.client.ui;
 
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.junit.DoNotRunWith;
-import com.google.gwt.junit.Platform;
 import org.gwtproject.timer.client.Timer;
 
 import java.util.Iterator;
@@ -132,7 +130,6 @@ public class HeaderPanelTest extends PanelTestBase<HeaderPanel> {
     assertEquals(footer, iter.next());
   }
 
-  @DoNotRunWith(Platform.HtmlUnitLayout)
   public void testResizeFooter() {
     final HeaderPanel panel = createPanel();
     panel.setSize("200px", "400px");
@@ -170,7 +167,6 @@ public class HeaderPanelTest extends PanelTestBase<HeaderPanel> {
     });
   }
 
-  @DoNotRunWith(Platform.HtmlUnitLayout)
   public void testResizeHeader() {
     final HeaderPanel panel = createPanel();
     panel.setSize("200px", "400px");

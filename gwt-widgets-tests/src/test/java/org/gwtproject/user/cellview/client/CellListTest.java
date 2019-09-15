@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.cellview.client;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.cell.client.Cell;
 import org.gwtproject.cell.client.TextCell;
 import org.gwtproject.dom.client.Document;
@@ -34,6 +35,7 @@ import java.util.List;
 /**
  * Tests for {@link CellList}.
  */
+//@J2clTestInput(CellListTest.class)
 public class CellListTest extends AbstractHasDataTestBase {
 
   public void testGetRowElement() {
@@ -160,6 +162,6 @@ public class CellListTest extends AbstractHasDataTestBase {
 
   @Override
   protected CellList<String> createAbstractHasData(Cell<String> cell) {
-    return new CellList<String>(cell);
+    return new CellList<>(cell);
   }
 }
