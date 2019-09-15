@@ -16,6 +16,7 @@
 
 package org.gwtproject.user.client;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.event.dom.client.*;
 import com.google.gwt.junit.client.GWTTestCase;
@@ -24,6 +25,7 @@ import org.gwtproject.user.client.ui.*;
 /**
  * Test Case for sinking of touch events.
  */
+@J2clTestInput(TouchEventSinkTest.class)
 public class TouchEventSinkTest extends GWTTestCase {
 
   @Override

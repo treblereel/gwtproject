@@ -15,19 +15,15 @@
  */
 package org.gwtproject.user.client;
 
-import elemental2.dom.DomGlobal;
+import com.google.gwt.junit.client.GWTTestCase;
+import com.google.j2cl.junit.apt.J2clTestInput;
 import elemental2.dom.Event;
-import elemental2.dom.EventInit;
 import jsinterop.base.Js;
 import org.gwtproject.core.client.JavaScriptObject;
-import org.gwtproject.core.client.GWT;
-import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.event.dom.client.DomEvent;
 import org.gwtproject.event.legacy.shared.EventHandler;
-import com.google.gwt.junit.client.GWTTestCase;
-import org.gwtproject.user.client.impl.DOMImpl;
 import org.gwtproject.user.client.impl.DOMImplStandard;
 import org.gwtproject.user.client.impl.DOMImplStandardBase;
 import org.gwtproject.user.client.ui.Button;
@@ -40,98 +36,76 @@ import org.gwtproject.user.client.ui.RootPanel;
  * this way, we can make sure that the custom event registration always takes place before the event
  * system gets initialized.
  */
+@J2clTestInput(CustomEventsTest.class)
 public class CustomEventsTest extends GWTTestCase {
 
-  private static class CustomHandler implements EventHandler {
-    void on(DomEvent<?> customEvent) {
-      Element el = customEvent.getRelativeElement();
-      el.setTitle(el.getTitle() + "-dispatched");
-    }
-  }
+    private static boolean initCustomEventDispatch = true;
+    private Button button;
 
-  private static class CustomEvent1 extends DomEvent<CustomHandler> {
-    static final Type<CustomHandler> TYPE = new Type<CustomHandler>("c1", new CustomEvent1());
-
-    @Override
-    public Type<CustomHandler> getAssociatedType() {
-      return TYPE;
+    private static NativeEvent createCustomEvent(String evt) {
+        elemental2.dom.Event event = new Event("Event");
+        event.initEvent(evt, true, false);
+        return Js.uncheckedCast(event);
     }
 
-    @Override
-    protected void dispatch(CustomHandler handler) {
-      handler.on(this);
+    private static JavaScriptObject getBitlessCustomDisptachers() {
+        throw new UnsupportedOperationException();
     }
-  }
 
-  private static class CustomEvent2 extends DomEvent<CustomHandler> {
-    static final Type<CustomHandler> TYPE = new Type<CustomHandler>("c2", new CustomEvent2());
+    private static void ensureCustomEventDispatch() {
+        if (initCustomEventDispatch) {
+            DOMImplStandard.addBitlessEventDispatchers(getBitlessCustomDisptachers());
+            initCustomEventDispatch = false;
+        }
+    }
 
-    @Override
-    public Type<CustomHandler> getAssociatedType() {
-      return TYPE;
+    private static boolean isStandard() {
+        return new DOMImplStandardBase() instanceof DOMImplStandard;
     }
 
     @Override
-    protected void dispatch(CustomHandler handler) {
-      handler.on(this);
-    }
-  }
-
-  private Button button;
-
-  @Override
-  public String getModuleName() {
-    return "org.gwtproject.user.CustomEventsTest";
-  }
-
-  @Override
-  protected void gwtSetUp() throws Exception {
-    ensureCustomEventDispatch();
-
-    button = new Button();
-    button.setTitle("event");
-    button.addBitlessDomHandler(new CustomHandler(), CustomEvent1.TYPE);
-    button.addBitlessDomHandler(new CustomHandler(), CustomEvent2.TYPE);
-
-    RootPanel.get().add(button);
-  }
-
-  @Override
-  protected void gwtTearDown() throws Exception {
-    RootPanel.get().remove(button);
-  }
-
-  public void testCustomEvent() {
-    if (!isStandard()) {
-      return; // Custom event support is for standard browsers (i.e. no IE 6/7/8)
+    public String getModuleName() {
+        return "org.gwtproject.user.CustomEventsTest";
     }
 
-    dispatchEvent("c1");
-    assertEquals("event-dispatched", button.getTitle());
-  }
+    @Override
+    protected void gwtSetUp() throws Exception {
+        ensureCustomEventDispatch();
 
-  public void testCustomDispatchEvent() {
-    if (!isStandard()) {
-      return; // Custom event support is for standard browsers (i.e. no IE 6/7/8)
+        button = new Button();
+        button.setTitle("event");
+        button.addBitlessDomHandler(new CustomHandler(), CustomEvent1.TYPE);
+        button.addBitlessDomHandler(new CustomHandler(), CustomEvent2.TYPE);
+
+        RootPanel.get().add(button);
     }
 
-    dispatchEvent("c2");
-    assertEquals("event-dispatched-custom_method", button.getTitle());
-  }
+    @Override
+    protected void gwtTearDown() throws Exception {
+        RootPanel.get().remove(button);
+    }
 
-  private void dispatchEvent(String evt) {
-    button.getElement().dispatchEvent(createCustomEvent(evt));
-  }
+    public void testCustomEvent() {
+        if (!isStandard()) {
+            return; // Custom event support is for standard browsers (i.e. no IE 6/7/8)
+        }
 
-  private static NativeEvent createCustomEvent(String evt) {
-    elemental2.dom.Event event = new Event("Event");
-    event.initEvent(evt, true, false);
-    return Js.uncheckedCast(event);
-  }
+        dispatchEvent("c1");
+        assertEquals("event-dispatched", button.getTitle());
+    }
 
-  private static  JavaScriptObject getBitlessCustomDisptachers() {
-    throw new UnsupportedOperationException();
-  }
+    public void testCustomDispatchEvent() {
+        if (!isStandard()) {
+            return; // Custom event support is for standard browsers (i.e. no IE 6/7/8)
+        }
+
+        dispatchEvent("c2");
+        assertEquals("event-dispatched-custom_method", button.getTitle());
+    }
+
+    private void dispatchEvent(String evt) {
+        button.getElement().dispatchEvent(createCustomEvent(evt));
+    }
 
   /*-{
     return {
@@ -142,16 +116,41 @@ public class CustomEventsTest extends GWTTestCase {
     };
   }-*/;
 
-  private static boolean initCustomEventDispatch = true;
+    private static class CustomHandler implements EventHandler {
 
-  private static void ensureCustomEventDispatch() {
-    if (initCustomEventDispatch) {
-      DOMImplStandard.addBitlessEventDispatchers(getBitlessCustomDisptachers());
-      initCustomEventDispatch = false;
+        void on(DomEvent<?> customEvent) {
+            Element el = customEvent.getRelativeElement();
+            el.setTitle(el.getTitle() + "-dispatched");
+        }
     }
-  }
 
-  private static boolean isStandard() {
-    return new DOMImplStandardBase() instanceof DOMImplStandard;
-  }
+    private static class CustomEvent1 extends DomEvent<CustomHandler> {
+
+        static final Type<CustomHandler> TYPE = new Type<CustomHandler>("c1", new CustomEvent1());
+
+        @Override
+        public Type<CustomHandler> getAssociatedType() {
+            return TYPE;
+        }
+
+        @Override
+        protected void dispatch(CustomHandler handler) {
+            handler.on(this);
+        }
+    }
+
+    private static class CustomEvent2 extends DomEvent<CustomHandler> {
+
+        static final Type<CustomHandler> TYPE = new Type<CustomHandler>("c2", new CustomEvent2());
+
+        @Override
+        public Type<CustomHandler> getAssociatedType() {
+            return TYPE;
+        }
+
+        @Override
+        protected void dispatch(CustomHandler handler) {
+            handler.on(this);
+        }
+    }
 }

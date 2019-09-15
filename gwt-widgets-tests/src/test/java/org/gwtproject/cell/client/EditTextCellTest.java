@@ -15,6 +15,7 @@
  */
 package org.gwtproject.cell.client;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.cell.client.Cell.Context;
 import org.gwtproject.cell.client.EditTextCell.ViewData;
 import org.gwtproject.dom.client.Document;
@@ -27,10 +28,11 @@ import org.gwtproject.safehtml.shared.SafeHtmlBuilder;
 /**
  * Tests for {@link org.gwtproject.cell.client.EditTextCell}.
  */
+@J2clTestInput(EditTextCellTest.class)
 public class EditTextCellTest extends EditableCellTestBase<String, ViewData> {
 
   public void testEdit() {
-    org.gwtproject.cell.client.EditTextCell cell = createCell();
+    EditTextCell cell = createCell();
     Element parent = Document.get().createDivElement();
     parent.setInnerHTML("<input type='text' value='editing'></input>");
     ViewData viewData = new ViewData("originalValue");
@@ -126,7 +128,7 @@ public class EditTextCellTest extends EditableCellTestBase<String, ViewData> {
    * editing.
    */
   public void testRenderViewDataDoneEditing() {
-    org.gwtproject.cell.client.EditTextCell cell = createCell();
+    EditTextCell cell = createCell();
     ViewData viewData = new ViewData("originalValue");
     viewData.setText("newValue");
     viewData.setEditing(false);
@@ -141,7 +143,7 @@ public class EditTextCellTest extends EditableCellTestBase<String, ViewData> {
    * Test rendering the cell with a malicious value.
    */
   public void testRenderUnsafeHtml() {
-    org.gwtproject.cell.client.EditTextCell cell = createCell();
+    EditTextCell cell = createCell();
     SafeHtmlBuilder sb = new SafeHtmlBuilder();
     Context context = new Context(0, 0, null);
     cell.render(context, "<script>malicious</script>", sb);
@@ -152,7 +154,7 @@ public class EditTextCellTest extends EditableCellTestBase<String, ViewData> {
    * Test rendering the cell with a malicious value in edit mode.
    */
   public void testRenderUnsafeHtmlWhenEditing() {
-    org.gwtproject.cell.client.EditTextCell cell = createCell();
+    EditTextCell cell = createCell();
     ViewData viewData = new ViewData("originalValue");
     viewData.setText("<script>malicious</script>");
     viewData.setEditing(true);
@@ -195,7 +197,7 @@ public class EditTextCellTest extends EditableCellTestBase<String, ViewData> {
   }
 
   @Override
-  protected org.gwtproject.cell.client.EditTextCell createCell() {
+  protected EditTextCell createCell() {
     return new EditTextCell();
   }
 
@@ -232,5 +234,10 @@ public class EditTextCellTest extends EditableCellTestBase<String, ViewData> {
   @Override
   protected String getExpectedInnerHtmlViewData() {
     return "<input type=\"text\" value=\"newValue\" tabindex=\"-1\"></input>";
+  }
+
+  @Override
+  public String getModuleName() {
+    return "";
   }
 }

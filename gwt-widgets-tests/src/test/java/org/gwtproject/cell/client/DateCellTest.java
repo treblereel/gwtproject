@@ -15,22 +15,25 @@
  */
 package org.gwtproject.cell.client;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.i18n.client.DateTimeFormat;
 import org.gwtproject.i18n.client.TimeZone;
-import org.gwtproject.i18n.client.TimeZoneInfo;
 
 import java.util.Date;
 
 /**
  * Tests for {@link org.gwtproject.cell.client.DateCell}.
  */
+//@J2clTestInput(DateCellTest.class)
 public class DateCellTest extends CellTestBase<Date> {
 
   @Override
   protected Cell<Date> createCell() {
+
+    throw new NullPointerException();
     // Set format that shows all fields and timezone of GMT-7
-    return new DateCell(DateTimeFormat.getFormat("dd-MM-yyyy HH:mm:ss"),
-        TimeZone.createTimeZoneInMinutes(7 * 60));
+/*    return new DateCell(DateTimeFormat.getFormat("dd-MM-yyyy HH:mm:ss"),
+        TimeZone.createTimeZoneInMinutes(7 * 60));*/
   }
 
   @Override
@@ -58,6 +61,11 @@ public class DateCellTest extends CellTestBase<Date> {
 
   @Override
   protected String getExpectedInnerHtmlNull() {
+    return "";
+  }
+
+  @Override
+  public String getModuleName() {
     return "";
   }
 }

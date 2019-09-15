@@ -17,16 +17,13 @@ package org.gwtproject.user.client.ui;
 
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.junit.DoNotRunWith;
-import com.google.gwt.junit.Platform;
-import com.google.gwt.touch.client.TouchScroller;
+import org.gwtproject.touch.client.TouchScroller;
 
 /**
  * Tests the ScrollPanel widget.
  */
 public class ScrollPanelTest extends SimplePanelTestBase<ScrollPanel> {
 
-  @DoNotRunWith(Platform.HtmlUnitLayout)
   public void testGetMaximumScrollPosition() {
     final ScrollPanel scrollPanel = createPanel();
     scrollPanel.setPixelSize(200, 300);
@@ -52,7 +49,6 @@ public class ScrollPanelTest extends SimplePanelTestBase<ScrollPanel> {
     });
   }
 
-  @DoNotRunWith(Platform.HtmlUnitLayout)
   public void testScrollToPosition() {
     final ScrollPanel scrollPanel = createPanel();
     scrollPanel.setPixelSize(200, 300);
@@ -90,7 +86,7 @@ public class ScrollPanelTest extends SimplePanelTestBase<ScrollPanel> {
 
     // Touch support is enabled by default for browsers that support it.
     assertEquals(TouchScroller.isSupported(),
-        !scrollPanel.isTouchScrollingDisabled());
+                 !scrollPanel.isTouchScrollingDisabled());
 
     // Disable touch support.
     scrollPanel.setTouchScrollingDisabled(true);

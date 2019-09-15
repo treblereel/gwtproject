@@ -20,8 +20,6 @@ import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.event.logical.shared.ResizeEvent;
 import org.gwtproject.event.logical.shared.ResizeHandler;
-import com.google.gwt.junit.DoNotRunWith;
-import com.google.gwt.junit.Platform;
 import org.gwtproject.user.client.Command;
 import org.gwtproject.timer.client.Timer;
 
@@ -83,7 +81,6 @@ public class ResizeLayoutPanelTest extends
   /**
    * Test that changing the font size triggers a resize event.
    */
-  @DoNotRunWith(Platform.HtmlUnitLayout)
   public void testChangeFontSize() {
     // Create a panel and add a handler.
     ResizeLayoutPanel panel = createPanel();
@@ -127,7 +124,6 @@ public class ResizeLayoutPanelTest extends
   /**
    * Test that resizing the outer container triggers a resize event.
    */
-  @DoNotRunWith(Platform.HtmlUnitLayout)
   public void testEnlargeContainerHeight() {
     final SimplePanel container = new SimplePanel();
     container.setPixelSize(100, 100);
@@ -142,7 +138,6 @@ public class ResizeLayoutPanelTest extends
   /**
    * Test that resizing the outer container triggers a resize event.
    */
-  @DoNotRunWith(Platform.HtmlUnitLayout)
   public void testEnlargeContainerWidth() {
     final SimplePanel container = new SimplePanel();
     container.setPixelSize(100, 100);
@@ -158,7 +153,6 @@ public class ResizeLayoutPanelTest extends
    * Test that resizing the outer container triggers a resize event even if the
    * dimensions are too small to render a scrollbar.
    */
-  @DoNotRunWith(Platform.HtmlUnitLayout)
   public void testEnlargeSmallContainerHeight() {
     final SimplePanel container = new SimplePanel();
     container.setPixelSize(20, 20);
@@ -174,7 +168,6 @@ public class ResizeLayoutPanelTest extends
    * Test that resizing the outer container triggers a resize event even if the
    * dimensions are too small to render a scrollbar.
    */
-  @DoNotRunWith(Platform.HtmlUnitLayout)
   public void testEnlargeSmallContainerWidth() {
     final SimplePanel container = new SimplePanel();
     container.setPixelSize(20, 20);
@@ -211,7 +204,6 @@ public class ResizeLayoutPanelTest extends
   /**
    * Test that resizing the outer container triggers a resize event.
    */
-  @DoNotRunWith(Platform.HtmlUnitLayout)
   public void testShrinkContainerHeight() {
     final SimplePanel container = new SimplePanel();
     container.setPixelSize(100, 100);
@@ -226,7 +218,6 @@ public class ResizeLayoutPanelTest extends
   /**
    * Test that resizing the outer container triggers a resize event.
    */
-  @DoNotRunWith(Platform.HtmlUnitLayout)
   public void testShrinkContainerWidth() {
     final SimplePanel container = new SimplePanel();
     container.setPixelSize(100, 100);
@@ -242,7 +233,6 @@ public class ResizeLayoutPanelTest extends
    * Test that resizing the outer container triggers a resize event even if the
    * dimensions are too small to render a scrollbar.
    */
-  @DoNotRunWith(Platform.HtmlUnitLayout)
   public void testShrinkSmallContainerHeight() {
     final SimplePanel container = new SimplePanel();
     container.setPixelSize(21, 21);
@@ -258,7 +248,6 @@ public class ResizeLayoutPanelTest extends
    * Test that resizing the outer container triggers a resize event even if the
    * dimensions are too small to render a scrollbar.
    */
-  @DoNotRunWith(Platform.HtmlUnitLayout)
   public void testShrinkSmallContainerWidth() {
     final SimplePanel container = new SimplePanel();
     container.setPixelSize(21, 21);

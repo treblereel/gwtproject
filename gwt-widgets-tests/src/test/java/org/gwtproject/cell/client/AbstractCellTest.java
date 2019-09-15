@@ -62,4 +62,9 @@ public class AbstractCellTest extends CellTestBase<String> {
   protected String getExpectedInnerHtmlNull() {
     return "";
   }
+
+  @Override
+  public String getModuleName() {
+    return "";
+  }
 }

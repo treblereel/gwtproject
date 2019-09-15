@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.cellview.client;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.cell.client.NumberCell;
 import org.gwtproject.cell.client.TextCell;
 import org.gwtproject.user.cellview.client.CellBrowser.BrowserCellList;
@@ -27,6 +28,7 @@ import org.gwtproject.view.client.TreeViewModel;
 /**
  * Tests for {@link CellBrowser}.
  */
+@J2clTestInput(CellBrowserTest.class)
 public class CellBrowserTest extends AbstractCellTreeTestBase {
 
   /**

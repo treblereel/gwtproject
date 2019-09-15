@@ -15,14 +15,16 @@
  */
 package org.gwtproject.view.client;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.timer.client.Timer;
 
 import java.util.Locale;
 
 /**
- * Tests for {@link org.gwtproject.view.client.SingleSelectionModel}.
+ * Tests for {@link SingleSelectionModel}.
  */
+@J2clTestInput(SingleSelectionModelTest.class)
 public class SingleSelectionModelTest extends AbstractSelectionModelTest {
 
   /**
@@ -30,7 +32,7 @@ public class SingleSelectionModelTest extends AbstractSelectionModelTest {
    * cause the pending selection to be lost.
    */
   public void testDeselectWhileSelectionPending() {
-    org.gwtproject.view.client.SingleSelectionModel<String> model = createSelectionModel(null);
+    SingleSelectionModel<String> model = createSelectionModel(null);
     model.setSelected("test", true);
     model.setSelected("other", false);
     assertTrue(model.isSelected("test"));
@@ -38,7 +40,7 @@ public class SingleSelectionModelTest extends AbstractSelectionModelTest {
   }
 
   public void testGetSelectedObject() {
-    org.gwtproject.view.client.SingleSelectionModel<String> model = createSelectionModel(null);
+    SingleSelectionModel<String> model = createSelectionModel(null);
     assertNull(model.getSelectedObject());
 
     model.setSelected("test", true);
@@ -51,13 +53,8 @@ public class SingleSelectionModelTest extends AbstractSelectionModelTest {
   }
 
   public void testSelectedChangeEvent() {
-    org.gwtproject.view.client.SingleSelectionModel<String> model = createSelectionModel(null);
-    org.gwtproject.view.client.SelectionChangeEvent.Handler handler = new org.gwtproject.view.client.SelectionChangeEvent.Handler() {
-      @Override
-      public void onSelectionChange(org.gwtproject.view.client.SelectionChangeEvent event) {
-        finishTest();
-      }
-    };
+    SingleSelectionModel<String> model = createSelectionModel(null);
+    SelectionChangeEvent.Handler handler = event -> finishTest();
     model.addSelectionChangeHandler(handler);
 
     delayTestFinish(2000);
@@ -74,15 +71,12 @@ public class SingleSelectionModelTest extends AbstractSelectionModelTest {
     // selection events fire at the end of current event loop (finally command)
     handler.assertEventFired(false);
 
-    Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-      @Override
-      public void execute() {
-        handler.assertEventFired(true);
-        // No further selection events should be fired
-        model.addSelectionChangeHandler(new FailingSelectionChangeEventHandler());
-        model.setSelected("test", true);
-        model.setSelected("test", true);
-      }
+    Scheduler.get().scheduleDeferred(() -> {
+      handler.assertEventFired(true);
+      // No further selection events should be fired
+      model.addSelectionChangeHandler(new FailingSelectionChangeEventHandler());
+      model.setSelected("test", true);
+      model.setSelected("test", true);
     });
 
 
@@ -115,7 +109,7 @@ public class SingleSelectionModelTest extends AbstractSelectionModelTest {
   }
 
   public void testSetSelected() {
-    org.gwtproject.view.client.SingleSelectionModel<String> model = createSelectionModel(null);
+    SingleSelectionModel<String> model = createSelectionModel(null);
     assertFalse(model.isSelected("test0"));
 
     model.setSelected("test0", true);
@@ -139,7 +133,7 @@ public class SingleSelectionModelTest extends AbstractSelectionModelTest {
   }
 
   public void testSetSelectedNull() {
-    org.gwtproject.view.client.SingleSelectionModel<String> model = createSelectionModel(null);
+    SingleSelectionModel<String> model = createSelectionModel(null);
 
     model.setSelected("test", true);
     assertTrue(model.isSelected("test"));
@@ -153,13 +147,8 @@ public class SingleSelectionModelTest extends AbstractSelectionModelTest {
   }
 
   public void testSetSelectedWithKeyProvider() {
-    org.gwtproject.view.client.ProvidesKey<String> keyProvider = new org.gwtproject.view.client.ProvidesKey<String>() {
-      @Override
-      public Object getKey(String item) {
-        return item.toUpperCase(Locale.ROOT);
-      }
-    };
-    org.gwtproject.view.client.SingleSelectionModel<String> model = createSelectionModel(keyProvider);
+    ProvidesKey<String> keyProvider = item -> item.toUpperCase(Locale.ROOT);
+    SingleSelectionModel<String> model = createSelectionModel(keyProvider);
     assertFalse(model.isSelected("test0"));
 
     model.setSelected("test0", true);
@@ -177,7 +166,7 @@ public class SingleSelectionModelTest extends AbstractSelectionModelTest {
   }
 
   @Override
-  protected org.gwtproject.view.client.SingleSelectionModel<String> createSelectionModel(ProvidesKey<String> keyProvider) {
+  protected SingleSelectionModel<String> createSelectionModel(ProvidesKey<String> keyProvider) {
     return new SingleSelectionModel<String>(keyProvider);
   }
 }

@@ -15,8 +15,7 @@
  */
 package org.gwtproject.user.cellview.client;
 
-import org.gwtproject.user.cellview.client.Column;
-import org.gwtproject.user.cellview.client.IdentityColumn;
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.cell.client.TextCell;
 import org.gwtproject.user.cellview.client.ColumnSortList.ColumnSortInfo;
 
@@ -25,6 +24,7 @@ import junit.framework.TestCase;
 /**
  * Tests for {@link ColumnSortInfo}.
  */
+@J2clTestInput(ColumnSortEventTest.class)
 public class ColumnSortInfoTest extends TestCase {
 
   public void testAccessors() {

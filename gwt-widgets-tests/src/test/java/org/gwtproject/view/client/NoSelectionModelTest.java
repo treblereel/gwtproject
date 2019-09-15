@@ -17,13 +17,16 @@ package org.gwtproject.view.client;
 
 import java.util.Locale;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
+
 /**
  * Tests for {@link org.gwtproject.view.client.NoSelectionModel}.
  */
+@J2clTestInput(NoSelectionModelTest.class)
 public class NoSelectionModelTest extends AbstractSelectionModelTest {
 
   public void testGetLastSelectedObject() {
-    org.gwtproject.view.client.NoSelectionModel<String> model = createSelectionModel(null);
+    NoSelectionModel<String> model = createSelectionModel(null);
     assertNull(model.getLastSelectedObject());
 
     model.setSelected("test", true);
@@ -34,13 +37,8 @@ public class NoSelectionModelTest extends AbstractSelectionModelTest {
   }
 
   public void testSelectedChangeEvent() {
-    org.gwtproject.view.client.NoSelectionModel<String> model = createSelectionModel(null);
-    org.gwtproject.view.client.SelectionChangeEvent.Handler handler = new org.gwtproject.view.client.SelectionChangeEvent.Handler() {
-      @Override
-      public void onSelectionChange(SelectionChangeEvent event) {
-        finishTest();
-      }
-    };
+    NoSelectionModel<String> model = createSelectionModel(null);
+    SelectionChangeEvent.Handler handler = event -> finishTest();
     model.addSelectionChangeHandler(handler);
 
     delayTestFinish(2000);
@@ -48,7 +46,7 @@ public class NoSelectionModelTest extends AbstractSelectionModelTest {
   }
 
   public void testSetSelected() {
-    org.gwtproject.view.client.NoSelectionModel<String> model = createSelectionModel(null);
+    NoSelectionModel<String> model = createSelectionModel(null);
     assertFalse(model.isSelected("test0"));
 
     model.setSelected("test0", true);
@@ -59,13 +57,8 @@ public class NoSelectionModelTest extends AbstractSelectionModelTest {
   }
 
   public void testSetSelectedWithKeyProvider() {
-    org.gwtproject.view.client.ProvidesKey<String> keyProvider = new org.gwtproject.view.client.ProvidesKey<String>() {
-      @Override
-      public Object getKey(String item) {
-        return item.toUpperCase(Locale.ROOT);
-      }
-    };
-    org.gwtproject.view.client.NoSelectionModel<String> model = createSelectionModel(keyProvider);
+    ProvidesKey<String> keyProvider = item -> item.toUpperCase(Locale.ROOT);
+    NoSelectionModel<String> model = createSelectionModel(keyProvider);
     assertFalse(model.isSelected("test0"));
 
     model.setSelected("test0", true);
@@ -81,7 +74,7 @@ public class NoSelectionModelTest extends AbstractSelectionModelTest {
   }
 
   @Override
-  protected org.gwtproject.view.client.NoSelectionModel<String> createSelectionModel(ProvidesKey<String> keyProvider) {
+  protected NoSelectionModel<String> createSelectionModel(ProvidesKey<String> keyProvider) {
     return new NoSelectionModel<String>(keyProvider);
   }
 }

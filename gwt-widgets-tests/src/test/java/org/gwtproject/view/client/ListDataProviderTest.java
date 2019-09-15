@@ -15,6 +15,7 @@
  */
 package org.gwtproject.view.client;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 
@@ -26,17 +27,18 @@ import java.util.ListIterator;
 /**
  * Test cases for {@link org.gwtproject.view.client.ListDataProvider}.
  */
+@J2clTestInput(ListDataProviderTest.class)
 public class ListDataProviderTest extends AbstractDataProviderTest {
 
   public void testConstructorList() {
     List<String> list = new ArrayList<String>();
     list.add("helloworld");
-    org.gwtproject.view.client.ListDataProvider<String> provider = new org.gwtproject.view.client.ListDataProvider<String>(list);
+    ListDataProvider<String> provider = new ListDataProvider<String>(list);
     assertEquals("helloworld", provider.getList().get(0));
   }
 
   public void testFlush() {
-    org.gwtproject.view.client.ListDataProvider<String> provider = createDataProvider();
+    ListDataProvider<String> provider = createDataProvider();
     List<String> list = provider.getList();
     MockHasData<String> display = new MockHasData<String>();
     display.setVisibleRange(0, 15);
@@ -57,11 +59,11 @@ public class ListDataProviderTest extends AbstractDataProviderTest {
     assertEquals(10, display.getRowCount());
     assertTrue(display.isRowCountExact());
     assertEquals(list, display.getLastRowData());
-    assertEquals(new org.gwtproject.view.client.Range(0, 10), display.getLastRowDataRange());
+    assertEquals(new Range(0, 10), display.getLastRowDataRange());
   }
 
   public void testListAdd() {
-    org.gwtproject.view.client.ListDataProvider<String> provider = createListDataProvider(10);
+    ListDataProvider<String> provider = createListDataProvider(10);
     List<String> list = provider.getList();
     MockHasData<String> display = new MockHasData<String>();
     display.setVisibleRange(0, 15);
@@ -73,17 +75,17 @@ public class ListDataProviderTest extends AbstractDataProviderTest {
     list.add("added");
     assertEquals("added", list.get(10));
     provider.flush();
-    assertEquals(new org.gwtproject.view.client.Range(10, 1), display.getLastRowDataRange());
+    assertEquals(new Range(10, 1), display.getLastRowDataRange());
 
     // add(int, String).
     list.add(2, "inserted");
     assertEquals("inserted", list.get(2));
     provider.flush();
-    assertEquals(new org.gwtproject.view.client.Range(2, 10), display.getLastRowDataRange());
+    assertEquals(new Range(2, 10), display.getLastRowDataRange());
   }
 
   public void testListAddAll() {
-    org.gwtproject.view.client.ListDataProvider<String> provider = createListDataProvider(10);
+    ListDataProvider<String> provider = createListDataProvider(10);
     List<String> list = provider.getList();
     MockHasData<String> display = new MockHasData<String>();
     display.setVisibleRange(0, 25);
@@ -99,7 +101,7 @@ public class ListDataProviderTest extends AbstractDataProviderTest {
     assertEquals("test 12", list.get(12));
     provider.flush();
     assertEquals(toAdd, display.getLastRowData());
-    assertEquals(new org.gwtproject.view.client.Range(10, 3), display.getLastRowDataRange());
+    assertEquals(new Range(10, 3), display.getLastRowDataRange());
 
     // addAll(int, Collection).
     List<String> toInsert = createData(20, 3);
@@ -108,11 +110,11 @@ public class ListDataProviderTest extends AbstractDataProviderTest {
     assertEquals("test 21", list.get(3));
     assertEquals("test 22", list.get(4));
     provider.flush();
-    assertEquals(new org.gwtproject.view.client.Range(2, 14), display.getLastRowDataRange());
+    assertEquals(new Range(2, 14), display.getLastRowDataRange());
   }
 
   public void testListClear() {
-    org.gwtproject.view.client.ListDataProvider<String> provider = createListDataProvider(10);
+    ListDataProvider<String> provider = createListDataProvider(10);
     List<String> list = provider.getList();
     assertEquals(10, list.size());
     MockHasData<String> display = new MockHasData<String>();
@@ -282,7 +284,7 @@ public class ListDataProviderTest extends AbstractDataProviderTest {
   }
 
   public void testListRemove() {
-    org.gwtproject.view.client.ListDataProvider<String> provider = createListDataProvider(10);
+    ListDataProvider<String> provider = createListDataProvider(10);
     List<String> list = provider.getList();
     MockHasData<String> display = new MockHasData<String>();
     display.setVisibleRange(0, 15);
@@ -294,20 +296,20 @@ public class ListDataProviderTest extends AbstractDataProviderTest {
     assertEquals("test 4", list.remove(4));
     assertEquals("test 5", list.get(4));
     provider.flush();
-    assertEquals(new org.gwtproject.view.client.Range(4, 5), display.getLastRowDataRange());
+    assertEquals(new Range(4, 5), display.getLastRowDataRange());
 
     // remove(String).
     assertTrue(list.remove("test 2"));
     assertEquals("test 3", list.get(2));
     provider.flush();
-    assertEquals(new org.gwtproject.view.client.Range(2, 6), display.getLastRowDataRange());
+    assertEquals(new Range(2, 6), display.getLastRowDataRange());
 
     // remove(String)
     assertFalse(list.remove("not in list"));
   }
 
   public void testListRemoveAll() {
-    org.gwtproject.view.client.ListDataProvider<String> provider = createListDataProvider(10);
+    ListDataProvider<String> provider = createListDataProvider(10);
     List<String> list = provider.getList();
     MockHasData<String> display = new MockHasData<String>();
     display.setVisibleRange(0, 15);
@@ -320,13 +322,13 @@ public class ListDataProviderTest extends AbstractDataProviderTest {
     assertEquals(7, list.size());
     assertEquals("test 5", list.get(2));
     provider.flush();
-    assertEquals(new org.gwtproject.view.client.Range(0, 7), display.getLastRowDataRange());
+    assertEquals(new Range(0, 7), display.getLastRowDataRange());
 
     assertFalse(list.removeAll(toRemove));
   }
 
   public void testListRetainAll() {
-    org.gwtproject.view.client.ListDataProvider<String> provider = createListDataProvider(10);
+    ListDataProvider<String> provider = createListDataProvider(10);
     List<String> list = provider.getList();
     MockHasData<String> display = new MockHasData<String>();
     display.setVisibleRange(0, 15);
@@ -339,11 +341,11 @@ public class ListDataProviderTest extends AbstractDataProviderTest {
     assertEquals(3, list.size());
     assertEquals("test 2", list.get(0));
     provider.flush();
-    assertEquals(new org.gwtproject.view.client.Range(0, 3), display.getLastRowDataRange());
+    assertEquals(new Range(0, 3), display.getLastRowDataRange());
   }
 
   public void testListSet() {
-    org.gwtproject.view.client.ListDataProvider<String> provider = createListDataProvider(10);
+    ListDataProvider<String> provider = createListDataProvider(10);
     List<String> list = provider.getList();
     MockHasData<String> display = new MockHasData<String>();
     display.setVisibleRange(0, 15);
@@ -354,11 +356,11 @@ public class ListDataProviderTest extends AbstractDataProviderTest {
     list.set(3, "newvalue");
     assertEquals("newvalue", list.get(3));
     provider.flush();
-    assertEquals(new org.gwtproject.view.client.Range(3, 1), display.getLastRowDataRange());
+    assertEquals(new Range(3, 1), display.getLastRowDataRange());
   }
 
   public void testSubList() {
-    org.gwtproject.view.client.ListDataProvider<String> provider = createListDataProvider(10);
+    ListDataProvider<String> provider = createListDataProvider(10);
     List<String> list = provider.getList();
     MockHasData<String> display = new MockHasData<String>();
     display.setVisibleRange(0, 15);
@@ -373,7 +375,7 @@ public class ListDataProviderTest extends AbstractDataProviderTest {
     assertEquals("test", subList.get(0));
     assertEquals("test", list.get(2));
     provider.flush();
-    assertEquals(new org.gwtproject.view.client.Range(2, 1), display.getLastRowDataRange());
+    assertEquals(new Range(2, 1), display.getLastRowDataRange());
   }
 
   public void testToArray() {
@@ -397,7 +399,7 @@ public class ListDataProviderTest extends AbstractDataProviderTest {
   }
 
   public void testOnRangeChanged() {
-    org.gwtproject.view.client.ListDataProvider<String> provider = createListDataProvider(10);
+    ListDataProvider<String> provider = createListDataProvider(10);
     List<String> list = provider.getList();
     MockHasData<String> display0 = new MockHasData<String>();
     MockHasData<String> display1 = new MockHasData<String>();
@@ -412,13 +414,13 @@ public class ListDataProviderTest extends AbstractDataProviderTest {
     // Change the range of display0.
     display0.setVisibleRange(0, 12);
     assertEquals(list, display0.getLastRowData());
-    assertEquals(new org.gwtproject.view.client.Range(0, 10), display0.getLastRowDataRange());
+    assertEquals(new Range(0, 10), display0.getLastRowDataRange());
     assertNull(display1.getLastRowData());
     assertNull(display1.getLastRowDataRange());
   }
 
   public void testRefresh() {
-    org.gwtproject.view.client.ListDataProvider<String> provider = createListDataProvider(10);
+    ListDataProvider<String> provider = createListDataProvider(10);
     List<String> list = provider.getList();
     MockHasData<String> display = new MockHasData<String>();
     display.setVisibleRange(0, 15);
@@ -429,11 +431,11 @@ public class ListDataProviderTest extends AbstractDataProviderTest {
     // Refresh the display.
     provider.refresh();
     assertEquals(list, display.getLastRowData());
-    assertEquals(new org.gwtproject.view.client.Range(0, 10), display.getLastRowDataRange());
+    assertEquals(new Range(0, 10), display.getLastRowDataRange());
   }
 
   public void testSetList() {
-    org.gwtproject.view.client.ListDataProvider<String> provider = createListDataProvider(10);
+    ListDataProvider<String> provider = createListDataProvider(10);
     final MockHasData<String> display = new MockHasData<String>();
     display.setVisibleRange(0, 15);
     provider.addDataDisplay(display);
@@ -449,7 +451,7 @@ public class ListDataProviderTest extends AbstractDataProviderTest {
     assertEquals("helloworld", provider.getList().get(0));
     assertEquals(1, display.getRowCount());
     assertEquals(replace, display.getLastRowData());
-    assertEquals(new org.gwtproject.view.client.Range(0, 1), display.getLastRowDataRange());
+    assertEquals(new Range(0, 1), display.getLastRowDataRange());
     display.clearLastRowDataAndRange();
 
     // Verify that the old list doesn't trigger updates in the display.
@@ -465,7 +467,7 @@ public class ListDataProviderTest extends AbstractDataProviderTest {
   }
 
   public void testSetListEmpty() {
-    org.gwtproject.view.client.ListDataProvider<String> provider = createListDataProvider(10);
+    ListDataProvider<String> provider = createListDataProvider(10);
     MockHasData<String> display = new MockHasData<String>();
     display.setVisibleRange(0, 15);
     provider.addDataDisplay(display);
@@ -483,11 +485,11 @@ public class ListDataProviderTest extends AbstractDataProviderTest {
   }
 
   @Override
-  protected org.gwtproject.view.client.ListDataProvider<String> createDataProvider() {
+  protected ListDataProvider<String> createDataProvider() {
     return createListDataProvider(0);
   }
 
-  private org.gwtproject.view.client.ListDataProvider<String> createListDataProvider(int size) {
+  private ListDataProvider<String> createListDataProvider(int size) {
     return new ListDataProvider<String>(createData(0, size));
   }
 }

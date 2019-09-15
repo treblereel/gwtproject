@@ -16,6 +16,7 @@
 package org.gwtproject.view.client;
 
 import com.google.gwt.junit.client.GWTTestCase;
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.timer.client.Timer;
 import org.gwtproject.view.client.SelectionModel.AbstractSelectionModel;
 
@@ -24,6 +25,7 @@ import java.util.Locale;
 /**
  * Tests for {@link AbstractSelectionModel}.
  */
+@J2clTestInput(AbstractSelectionModelTest.class)
 public class AbstractSelectionModelTest extends GWTTestCase {
 
   /**

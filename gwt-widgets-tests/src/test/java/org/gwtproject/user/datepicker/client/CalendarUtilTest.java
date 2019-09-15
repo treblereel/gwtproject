@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.datepicker.client;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import junit.framework.TestCase;
 
 import java.util.Date;
@@ -23,6 +24,7 @@ import java.util.Date;
  * Tests {@link CalendarUtil}.
  */
 @SuppressWarnings("deprecation")
+@J2clTestInput(CalendarUtilTest.class)
 public class CalendarUtilTest extends TestCase {
   public void testAddDaysToDate() {
     Date start = new Date(99, 5, 15, 3, 30, 5);

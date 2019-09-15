@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.cellview.client;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.core.client.JavaScriptObject;
 import org.gwtproject.core.client.JsArrayInteger;
 import org.gwtproject.core.client.Scheduler;
@@ -44,6 +45,7 @@ import java.util.List;
 /**
  * Tests for {@link HasDataPresenter}.
  */
+@J2clTestInput(HasDataPresenterTest.class)
 public class HasDataPresenterTest extends GWTTestCase {
 
   /**

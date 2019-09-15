@@ -15,17 +15,18 @@
  */
 package org.gwtproject.view.client;
 
+import com.google.gwt.junit.client.GWTTestCase;
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.cell.client.TextCell;
 import org.gwtproject.cell.client.ValueUpdater;
 import org.gwtproject.view.client.AbstractDataProviderTest.MockDataProvider;
 import org.gwtproject.view.client.TreeViewModel.DefaultNodeInfo;
 
-import junit.framework.TestCase;
-
 /**
  * Tests for {@link DefaultNodeInfo}.
  */
-public class DefaultNodeInfoTest extends TestCase {
+@J2clTestInput(DefaultNodeInfoTest.class)
+public class DefaultNodeInfoTest extends GWTTestCase {
 
   public void testAccessors() {
     org.gwtproject.view.client.ListDataProvider<String> provider = new ListDataProvider<String>();
@@ -73,5 +74,10 @@ public class DefaultNodeInfoTest extends TestCase {
     assertEquals(0, display.getHandlerCount(CellPreviewEvent.getType()));
     display.setVisibleRange(0, 5);
     provider.assertLastRangeChanged(null);
+  }
+
+  @Override
+  public String getModuleName() {
+    return "";
   }
 }

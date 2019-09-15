@@ -22,7 +22,6 @@ import org.gwtproject.event.dom.client.FocusEvent;
 import org.gwtproject.event.dom.client.FocusHandler;
 import org.gwtproject.event.logical.shared.AttachEvent;
 import com.google.gwt.junit.client.GWTTestCase;
-import org.gwtproject.user.client.Command;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.Event;
 

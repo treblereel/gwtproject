@@ -16,6 +16,7 @@
 package org.gwtproject.view.client;
 
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.timer.client.Timer;
 
@@ -26,6 +27,7 @@ import java.util.Map;
 /**
  * Tests for {@link org.gwtproject.view.client.DefaultSelectionModel}.
  */
+@J2clTestInput(DefaultSelectionModelTest.class)
 public class DefaultSelectionModelTest extends AbstractSelectionModelTest {
 
   /**
@@ -33,9 +35,9 @@ public class DefaultSelectionModelTest extends AbstractSelectionModelTest {
    * strings that start with "selected" are selected.
    */
   private static class MockDefaultSelectionModel extends
-      org.gwtproject.view.client.DefaultSelectionModel<String> {
+      DefaultSelectionModel<String> {
     
-    public MockDefaultSelectionModel(org.gwtproject.view.client.ProvidesKey<String> keyProvider) {
+    public MockDefaultSelectionModel(ProvidesKey<String> keyProvider) {
       super(keyProvider);
     }
 
@@ -46,7 +48,7 @@ public class DefaultSelectionModelTest extends AbstractSelectionModelTest {
   }
 
   public void testIsSelectedWithoutExceptions() {
-    org.gwtproject.view.client.DefaultSelectionModel<String> model = createSelectionModel(null);
+    DefaultSelectionModel<String> model = createSelectionModel(null);
     assertFalse(model.isSelected(null));
     assertFalse(model.isSelected("test"));
     assertTrue(model.isSelected("selected"));
@@ -54,7 +56,7 @@ public class DefaultSelectionModelTest extends AbstractSelectionModelTest {
   }
 
   public void testSelectedChangeEvent() {
-    org.gwtproject.view.client.DefaultSelectionModel<String> model = createSelectionModel(null);
+    DefaultSelectionModel<String> model = createSelectionModel(null);
     org.gwtproject.view.client.SelectionChangeEvent.Handler handler = new org.gwtproject.view.client.SelectionChangeEvent.Handler() {
       @Override
       public void onSelectionChange(org.gwtproject.view.client.SelectionChangeEvent event) {
@@ -98,7 +100,7 @@ public class DefaultSelectionModelTest extends AbstractSelectionModelTest {
 
   public void testSetSelectedDefault() {
     Map<Object, Boolean> exceptions = new HashMap<Object, Boolean>();
-    org.gwtproject.view.client.DefaultSelectionModel<String> model = createSelectionModel(null);
+    DefaultSelectionModel<String> model = createSelectionModel(null);
     assertTrue(model.isSelected("selected0"));
     assertTrue(model.isSelected("selected1"));
     assertEquals(0, model.getExceptions(exceptions).size());
@@ -121,7 +123,7 @@ public class DefaultSelectionModelTest extends AbstractSelectionModelTest {
   }
 
   public void testSetSelectedNonDefault() {
-    org.gwtproject.view.client.DefaultSelectionModel<String> model = createSelectionModel(null);
+    DefaultSelectionModel<String> model = createSelectionModel(null);
     assertFalse(model.isSelected("test0"));
     assertFalse(model.isSelected("test1"));
     assertTrue(model.isSelected("selected0"));
@@ -146,13 +148,13 @@ public class DefaultSelectionModelTest extends AbstractSelectionModelTest {
    * Tests that items with the same key share the same selection state.
    */
   public void testSetSelectedSameKey() {
-    org.gwtproject.view.client.ProvidesKey<String> keyProvider = new org.gwtproject.view.client.ProvidesKey<String>() {
+    ProvidesKey<String> keyProvider = new ProvidesKey<String>() {
         @Override
       public Object getKey(String item) {
         return item.toUpperCase(Locale.ROOT);
       }
     };
-    org.gwtproject.view.client.DefaultSelectionModel<String> model = createSelectionModel(keyProvider);
+    DefaultSelectionModel<String> model = createSelectionModel(keyProvider);
     assertFalse(model.isSelected("test0"));
 
     model.setSelected("test0", true);
@@ -169,13 +171,13 @@ public class DefaultSelectionModelTest extends AbstractSelectionModelTest {
 
   public void testSetSelectedWithKeyProvider() {
     Map<Object, Boolean> exceptions = new HashMap<Object, Boolean>();
-    org.gwtproject.view.client.ProvidesKey<String> keyProvider = new org.gwtproject.view.client.ProvidesKey<String>() {
+    ProvidesKey<String> keyProvider = new ProvidesKey<String>() {
       @Override
       public Object getKey(String item) {
         return item.toUpperCase(Locale.ROOT);
       }
     };
-    org.gwtproject.view.client.DefaultSelectionModel<String> model = createSelectionModel(keyProvider);
+    DefaultSelectionModel<String> model = createSelectionModel(keyProvider);
     assertFalse(model.isSelected("test"));
     assertTrue(model.isSelected("selected0"));
     assertFalse(model.isSelected("SELECTED0"));

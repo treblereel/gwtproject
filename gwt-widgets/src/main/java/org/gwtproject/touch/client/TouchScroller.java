@@ -343,14 +343,14 @@ public class TouchScroller {
    * The momentum that determines how the widget scrolls after the user
    * completes a gesture. Can be null if momentum is not supported.
    */
-  private Momentum momentum;
+  Momentum momentum;
 
   /**
    * The repeating command used to continue momentum after the gesture ends. The
    * command is instantiated after the user finishes a drag sequence. A non null
    * value indicates that momentum is occurring.
    */
-  private RepeatingCommand momentumCommand;
+  RepeatingCommand momentumCommand;
 
   /**
    * The coordinate of the most recent relevant touch event. For most drag

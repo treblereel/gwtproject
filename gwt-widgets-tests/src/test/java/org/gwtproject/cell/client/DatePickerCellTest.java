@@ -15,6 +15,7 @@
  */
 package org.gwtproject.cell.client;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.i18n.client.DateTimeFormat;
 import org.gwtproject.i18n.client.DateTimeFormat.PredefinedFormat;
 
@@ -23,6 +24,7 @@ import java.util.Date;
 /**
  * Tests for {@link org.gwtproject.cell.client.DatePickerCell}.
  */
+@J2clTestInput(DatePickerCellTest.class)
 public class DatePickerCellTest extends EditableCellTestBase<Date, Date> {
 
   @Override
@@ -66,5 +68,10 @@ public class DatePickerCellTest extends EditableCellTestBase<Date, Date> {
   @Override
   protected String getExpectedInnerHtmlViewData() {
     return "Jan 3, 2010";
+  }
+
+  @Override
+  public String getModuleName() {
+    return "";
   }
 }

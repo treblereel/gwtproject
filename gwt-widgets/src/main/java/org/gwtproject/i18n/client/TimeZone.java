@@ -17,7 +17,6 @@ package org.gwtproject.i18n.client;
 
 import java.util.Date;
 
-import jsinterop.annotations.JsType;
 import org.gwtproject.core.client.JsArrayInteger;
 import org.gwtproject.core.client.JsArrayString;
 

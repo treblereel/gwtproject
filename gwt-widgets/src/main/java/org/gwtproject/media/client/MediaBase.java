@@ -285,6 +285,10 @@ public abstract class MediaBase extends FocusWidget
     return getMediaElement().getReadyState();
   }
 
+  public String getModuleName() {
+    return "org.gwtproject.media.MediaTest";
+  }
+
   /**
    * Returns a {@link TimeRanges} object indicating which portions of the source
    * are seekable.

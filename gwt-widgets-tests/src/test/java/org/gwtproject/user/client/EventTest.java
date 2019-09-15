@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.event.dom.client.*;
@@ -28,6 +29,7 @@ import org.gwtproject.user.client.ui.RootPanel;
 /**
  * Test Case for {@link Event}.
  */
+@J2clTestInput(EventTest.class)
 public class EventTest extends GWTTestCase {
 
   /**

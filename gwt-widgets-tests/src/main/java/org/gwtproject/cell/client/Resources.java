@@ -24,8 +24,9 @@ import org.gwtproject.resources.client.Resource;
  */
 class Resources {
 
-  @Resource
+  //@Resource
   interface Bundle extends ClientBundle {
+    @Source("prettyPiccy.png")
     ImageResource prettyPiccy();
   }
 

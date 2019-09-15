@@ -15,6 +15,7 @@
  */
 package org.gwtproject.cell.client;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.NativeEvent;
 
@@ -24,6 +25,7 @@ import java.util.List;
 /**
  * Tests for {@link org.gwtproject.cell.client.SelectionCell}.
  */
+@J2clTestInput(SelectionCellTest.class)
 public class SelectionCellTest extends EditableCellTestBase<String, String> {
 
   public void testOnBrowser() {
@@ -81,4 +83,9 @@ public class SelectionCellTest extends EditableCellTestBase<String, String> {
         + "<option value=\"option 1\">option 1</option>"
         + "<option value=\"option 2\" selected=\"selected\">option 2</option></select>";
   }
+
+    @Override
+    public String getModuleName() {
+        return "";
+    }
 }

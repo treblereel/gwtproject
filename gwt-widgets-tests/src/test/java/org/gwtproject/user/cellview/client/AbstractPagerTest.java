@@ -16,6 +16,7 @@
 package org.gwtproject.user.cellview.client;
 
 import com.google.gwt.junit.client.GWTTestCase;
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.view.client.HasRows;
 import org.gwtproject.view.client.MockHasData;
 import org.gwtproject.view.client.Range;
@@ -25,6 +26,7 @@ import org.gwtproject.view.client.RowCountChangeEvent;
 /**
  * Tests for {@link AbstractPager}.
  */
+@J2clTestInput(AbstractPagerTest.class)
 public class AbstractPagerTest extends GWTTestCase {
 
   /**

@@ -4,8 +4,6 @@ import org.gwtproject.event.dom.client.LoadEvent;
 import org.gwtproject.event.dom.client.LoadHandler;
 import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.user.client.Event;
-import org.gwtproject.user.client.ui.Frame;
-import org.gwtproject.user.client.ui.RootPanel;
 
 public class FrameTest extends GWTTestCase {
 

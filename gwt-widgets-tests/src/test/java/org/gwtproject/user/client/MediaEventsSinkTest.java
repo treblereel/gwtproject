@@ -16,6 +16,7 @@
 
 package org.gwtproject.user.client;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.event.dom.client.*;
 import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.media.client.Audio;
@@ -26,6 +27,7 @@ import org.gwtproject.user.client.ui.Widget;
 /**
  * Test Case for sinking of media events.
  */
+@J2clTestInput(MediaEventsSinkTest.class)
 public class MediaEventsSinkTest extends GWTTestCase {
 
   private static class CanPlayThroughHandlerImpl extends HandlerImpl implements

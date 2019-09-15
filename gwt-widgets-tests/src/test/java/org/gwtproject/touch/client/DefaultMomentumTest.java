@@ -15,6 +15,8 @@
  */
 package org.gwtproject.touch.client;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
+import org.gwtproject.media.client.AudioTest;
 import org.gwtproject.touch.client.Momentum.State;
 
 import junit.framework.TestCase;
@@ -22,6 +24,7 @@ import junit.framework.TestCase;
 /**
  * Tests for {@link DefaultMomentum}.
  */
+@J2clTestInput(DefaultMomentumTest.class)
 public class DefaultMomentumTest extends TestCase {
 
   /**

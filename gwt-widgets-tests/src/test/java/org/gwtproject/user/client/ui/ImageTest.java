@@ -22,15 +22,8 @@ import org.gwtproject.event.dom.client.ErrorEvent;
 import org.gwtproject.event.dom.client.ErrorHandler;
 import org.gwtproject.event.dom.client.LoadEvent;
 import org.gwtproject.event.dom.client.LoadHandler;
-import com.google.gwt.junit.DoNotRunWith;
-import com.google.gwt.junit.Platform;
 import com.google.gwt.junit.client.GWTTestCase;
-import com.google.gwt.junit.client.WithProperties;
-import com.google.gwt.junit.client.WithProperties.Property;
-import org.gwtproject.resources.client.ClientBundle;
 import org.gwtproject.resources.client.ImageResource;
-import org.gwtproject.resources.client.ImageResource.ImageOptions;
-import org.gwtproject.resources.client.Resource;
 import org.gwtproject.resources.client.impl.ImageResourcePrototype;
 import org.gwtproject.timer.client.Timer;
 
@@ -39,14 +32,6 @@ import org.gwtproject.timer.client.Timer;
  * are tested, along with the transitions between the two modes.
  */
 public class ImageTest extends GWTTestCase {
-  @Resource
-  interface Bundle extends ClientBundle {
-    ImageResource prettyPiccy();
-
-    @Source("prettyPiccy.png")
-    @ImageOptions(preventInlining = true)
-    ImageResource prettyPiccyStandalone();
-  }
 
   private static class TestErrorHandler implements ErrorHandler {
     private Image image;
@@ -176,7 +161,6 @@ public class ImageTest extends GWTTestCase {
   /**
    * Tests the transition from the clipped state to the unclipped state.
    */
-  @DoNotRunWith(Platform.HtmlUnitUnknown)
   public void testChangeClippedImageToUnclipped() {
     final Image image = new Image("counting-forwards.png", 12, 13, 8, 8);
     assertEquals("clipped", getCurrentImageStateName(image));
@@ -208,7 +192,6 @@ public class ImageTest extends GWTTestCase {
   /**
    * Tests the transition from the unclipped state to the clipped state.
    */
-  @DoNotRunWith(Platform.HtmlUnitUnknown)
   public void testChangeImageToClipped() {
     final Image image = new Image("counting-forwards.png");
     assertEquals("unclipped", getCurrentImageStateName(image));
@@ -242,7 +225,6 @@ public class ImageTest extends GWTTestCase {
    * Tests the transition from the unclipped state to the clipped state
    * before a load event fires.
    */
-  @DoNotRunWith(Platform.HtmlUnitUnknown)
   public void testChangeImageToClippedSynchronously() {
 
     final Image image = new Image("counting-forwards.png");
@@ -316,7 +298,6 @@ public class ImageTest extends GWTTestCase {
   /**
    * Tests the creation of an image that does not exist.
    */
-  @DoNotRunWith(Platform.HtmlUnitUnknown)
   public void testCreateImageWithError() {
     final Image image = new Image("imageDoesNotExist.png");
 
@@ -369,7 +350,6 @@ public class ImageTest extends GWTTestCase {
    * <code>setUrlAndVisibleRect(String, int, int, int, int)</code> method on an
    * unclipped image, which causes a state transition to the clipped state.
    */
-  @DoNotRunWith(Platform.HtmlUnitUnknown)
   public void testSetUrlAndVisibleRectOnUnclippedImage() {
     final Image image = new Image("counting-backwards.png");
     assertEquals("unclipped", getCurrentImageStateName(image));
@@ -574,22 +554,22 @@ public class ImageTest extends GWTTestCase {
     }.schedule(LOAD_EVENT_TIMEOUT);
    }
 
-  @WithProperties({
+/*  @WithProperties({
     @Property(name = "ClientBundle.enableInlining", value = "false")
-  })
+  })*/
   public void testResourceConstructor() {
-    Bundle b = new ImageTest_BundleImpl();
+    ImageTestBundle b = new ImageTestBundleImpl();
     Image image = new Image(b.prettyPiccy());
     assertResourceWorked(image, b.prettyPiccy());
     assertTrue(b.prettyPiccy() instanceof ImageResourcePrototype.Bundle);
     assertEquals("clipped", getCurrentImageStateName(image));
   }
 
-  @WithProperties({
+/*  @WithProperties({
     @Property(name = "ClientBundle.enableInlining", value = "false")
-  })
+  })*/
   public void testSetResource() {
-    Bundle b = new ImageTest_BundleImpl();
+    ImageTestBundle b = new ImageTestBundleImpl();
     Image image = new Image();
     image.setResource(b.prettyPiccy());
     assertResourceWorked(image, b.prettyPiccy());
@@ -599,7 +579,7 @@ public class ImageTest extends GWTTestCase {
   }
 
   public void testStandaloneResourceConstructor() {
-    Bundle b = new ImageTest_BundleImpl();
+    ImageTestBundle b = new ImageTestBundleImpl();
     Image image = new Image(b.prettyPiccyStandalone());
     assertResourceWorked(image, b.prettyPiccyStandalone());
 
@@ -608,7 +588,7 @@ public class ImageTest extends GWTTestCase {
   }
 
   public void testStandaloneSetResource() {
-    Bundle b = new ImageTest_BundleImpl();
+    ImageTestBundle b = new ImageTestBundleImpl();
     Image image = new Image();
     image.setResource(b.prettyPiccyStandalone());
     assertResourceWorked(image, b.prettyPiccyStandalone());

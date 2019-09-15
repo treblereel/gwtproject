@@ -15,11 +15,11 @@
  */
 package org.gwtproject.cell.client;
 
+import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.cell.client.Cell.Context;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.NativeEvent;
-import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.safehtml.shared.SafeHtmlBuilder;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.Event;
@@ -120,11 +120,6 @@ public abstract class CellTestBase<T> extends GWTTestCase {
    * The default row value key used for all tests.
    */
   protected static final Object DEFAULT_KEY = new Object();
-
-  @Override
-  public String getModuleName() {
-    return "org.gwtproject.cell.CellTest";
-  }
 
   public void testDependsOnSelection() {
     assertEquals(dependsOnSelection(), createCell().dependsOnSelection());

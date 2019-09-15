@@ -15,12 +15,13 @@
  */
 package org.gwtproject.media.client;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.MediaElement;
-import com.google.gwt.junit.DoNotRunWith;
-import com.google.gwt.junit.Platform;
 import org.gwtproject.media.dom.client.MediaError;
 import org.gwtproject.timer.client.Timer;
 import org.gwtproject.user.client.ui.RootPanel;
+import org.junit.After;
+import org.junit.Before;
 
 /**
  * Tests {@link org.gwtproject.media.client.Video}.
@@ -30,7 +31,7 @@ import org.gwtproject.user.client.ui.RootPanel;
  * "debug configurations", select the test you would like to run, and put this
  * line in the VM args under the arguments tab: -Dgwt.args="-runStyle Manual:1"
  */
-@DoNotRunWith(Platform.HtmlUnitUnknown)
+@J2clTestInput(VideoTest.class)
 public class VideoTest extends MediaTest {
   protected org.gwtproject.media.client.Video video;
 
@@ -46,11 +47,6 @@ public class VideoTest extends MediaTest {
   @Override
   public MediaBase getMedia() {
     return video;
-  }
-
-  @Override
-  public String getModuleName() {
-    return "org.gwtproject.media.MediaTest";
   }
 
   public void testPoster() {
@@ -108,7 +104,7 @@ public class VideoTest extends MediaTest {
         }
         assertEquals(videoWidth, video.getVideoWidth());
         assertEquals(videoHeight, video.getVideoHeight());
-        finishTest();
+        //finishTest();
       }
     }.schedule(15 * 1000);
 
@@ -116,6 +112,11 @@ public class VideoTest extends MediaTest {
   }
 
   @Override
+  public String getModuleName() {
+     return "org.gwtproject.media.MediaTest";
+  }
+
+  @Before
   protected void gwtSetUp() throws Exception {
     video = Video.createIfSupported();
 
@@ -144,7 +145,7 @@ public class VideoTest extends MediaTest {
     RootPanel.get().add(video);
   }
 
-  @Override
+  @After
   protected void gwtTearDown() throws Exception {
     if (video == null) {
       return; // don't continue if not supported

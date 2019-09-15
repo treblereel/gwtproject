@@ -15,12 +15,14 @@
  */
 package org.gwtproject.cell.client;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.NativeEvent;
 
 /**
  * Tests for {@link org.gwtproject.cell.client.ClickableTextCell}.
  */
+@J2clTestInput(ClickableTextCellTest.class)
 public class ClickableTextCellTest extends CellTestBase<String> {
 
   public void testOnBrowserEvent() {
@@ -56,6 +58,11 @@ public class ClickableTextCellTest extends CellTestBase<String> {
 
   @Override
   protected String getExpectedInnerHtmlNull() {
+    return "";
+  }
+
+  @Override
+  public String getModuleName() {
     return "";
   }
 }

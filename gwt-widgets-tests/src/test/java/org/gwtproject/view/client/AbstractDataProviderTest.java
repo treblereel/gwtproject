@@ -16,6 +16,7 @@
 package org.gwtproject.view.client;
 
 import com.google.gwt.junit.client.GWTTestCase;
+import com.google.j2cl.junit.apt.J2clTestInput;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -24,24 +25,25 @@ import java.util.Locale;
 import java.util.Set;
 
 /**
- * Test cases for {@link org.gwtproject.view.client.AbstractDataProvider}.
+ * Test cases for {@link AbstractDataProvider}.
  */
+@J2clTestInput(AbstractDataProviderTest.class)
 public class AbstractDataProviderTest extends GWTTestCase {
 
   /**
-   * A mock {@link org.gwtproject.view.client.AbstractDataProvider} used for testing.
+   * A mock {@link AbstractDataProvider} used for testing.
    *
    * @param <T> the data type
    */
-  static class MockDataProvider<T> extends org.gwtproject.view.client.AbstractDataProvider<T> {
+  static class MockDataProvider<T> extends AbstractDataProvider<T> {
 
-    private org.gwtproject.view.client.HasData<T> lastChanged;
+    private HasData<T> lastChanged;
     
-    public MockDataProvider(org.gwtproject.view.client.ProvidesKey<T> keyProvider) {
+    public MockDataProvider(ProvidesKey<T> keyProvider) {
       super(keyProvider);
     }
 
-    public void assertLastRangeChanged(org.gwtproject.view.client.HasData<T> expected) {
+    public void assertLastRangeChanged(HasData<T> expected) {
       assertEquals(expected, lastChanged);
     }
 
@@ -50,7 +52,7 @@ public class AbstractDataProviderTest extends GWTTestCase {
     }
 
     @Override
-    protected void onRangeChanged(org.gwtproject.view.client.HasData<T> display) {
+    protected void onRangeChanged(HasData<T> display) {
       lastChanged = display;
     }
   }
@@ -300,7 +302,7 @@ public class AbstractDataProviderTest extends GWTTestCase {
   }
 
   /**
-   * Create an {@link org.gwtproject.view.client.AbstractDataProvider} for testing.
+   * Create an {@link AbstractDataProvider} for testing.
    *
    * @return the data provider
    */
@@ -309,7 +311,7 @@ public class AbstractDataProviderTest extends GWTTestCase {
   }
 
   /**
-   * Create an {@link org.gwtproject.view.client.AbstractDataProvider} for testing.
+   * Create an {@link AbstractDataProvider} for testing.
    *
    * @return the data provider
    */

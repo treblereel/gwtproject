@@ -15,7 +15,7 @@
  */
 package org.gwtproject.user.cellview.client;
 
-import org.gwtproject.user.cellview.client.CellWidget;
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.cell.client.AbstractCell;
 import org.gwtproject.cell.client.Cell;
 import org.gwtproject.cell.client.TextButtonCell;
@@ -34,6 +34,7 @@ import org.gwtproject.view.client.ProvidesKey;
 /**
  * Tests for {@link CellWidget}.
  */
+@J2clTestInput(CellWidgetTest.class)
 public class CellWidgetTest extends GWTTestCase {
 
   /**

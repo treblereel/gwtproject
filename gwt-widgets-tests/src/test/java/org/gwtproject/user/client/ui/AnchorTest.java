@@ -15,11 +15,11 @@
  */
 package org.gwtproject.user.client.ui;
 
+import junit.framework.TestCase;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.event.dom.client.ClickHandler;
 import org.gwtproject.i18n.client.HasDirection;
-import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.safehtml.shared.SafeHtmlUtils;
 import org.gwtproject.user.client.DOM;
 
@@ -28,7 +28,7 @@ import java.util.Locale;
 /**
  * Tests for {@link Anchor}.
  */
-public class AnchorTest extends GWTTestCase {
+public class AnchorTest extends TestCase {
   private static final class TestClickHandler implements ClickHandler {
     private int clicks = 0;
     private Object lastSender;
@@ -51,11 +51,6 @@ public class AnchorTest extends GWTTestCase {
   private static final String html = "<b>hello</b><i>world</i>";
   private static final String TEST_URL0 = "http://www.google.com/";
   private static final String TEST_URL1 = "http://code.google.com/";
-
-  @Override
-  public String getModuleName() {
-    return "org.gwtproject.user.UserTest";
-  }
 
   public void testProperties() {
     Anchor anchor = new Anchor("foo", TEST_URL0);

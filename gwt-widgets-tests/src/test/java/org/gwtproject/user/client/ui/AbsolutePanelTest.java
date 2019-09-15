@@ -17,8 +17,6 @@ package org.gwtproject.user.client.ui;
 
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
-import com.google.gwt.junit.DoNotRunWith;
-import com.google.gwt.junit.Platform;
 import org.gwtproject.user.window.client.Window;
 
 /**
@@ -70,7 +68,6 @@ public class AbsolutePanelTest extends PanelTestBase<AbsolutePanel> {
    * Failed in all modes with absolute positioning. TODO: (flin) File a new
    * HtmlUnit bug.
    */
-  @DoNotRunWith(Platform.HtmlUnitBug)
   public void testPositioning() {
     // Make an absolute panel with a label at (3, 7).
     AbsolutePanel abs = createPanel();

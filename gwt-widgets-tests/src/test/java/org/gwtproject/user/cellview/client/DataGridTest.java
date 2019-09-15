@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.cellview.client;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.TableCellElement;
 import org.gwtproject.dom.client.TableElement;
 import org.gwtproject.dom.client.TableRowElement;
@@ -25,6 +26,7 @@ import org.gwtproject.user.client.ui.RootPanel;
 /**
  * Tests for {@link DataGrid}.
  */
+@J2clTestInput(DataGridTest.class)
 public class DataGridTest extends AbstractCellTableTestBase<DataGrid<String>> {
   
   /**

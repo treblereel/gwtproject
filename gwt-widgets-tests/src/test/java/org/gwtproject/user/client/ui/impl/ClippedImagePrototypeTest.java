@@ -15,12 +15,11 @@
  */
 package org.gwtproject.user.client.ui.impl;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.event.dom.client.ErrorEvent;
 import org.gwtproject.event.dom.client.ErrorHandler;
 import org.gwtproject.event.dom.client.LoadEvent;
 import org.gwtproject.event.dom.client.LoadHandler;
-import com.google.gwt.junit.DoNotRunWith;
-import com.google.gwt.junit.Platform;
 import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.safehtml.shared.UriUtils;
 import org.gwtproject.timer.client.Timer;
@@ -36,6 +35,7 @@ import org.gwtproject.user.client.ui.RootPanel;
  * Tests are also done to ensure that load events fire correctly after the
  * application of the prototype to the image.
  */
+@J2clTestInput(ClippedImagePrototypeTest.class)
 public class ClippedImagePrototypeTest extends GWTTestCase {
   private static class TestLoadHandler implements LoadHandler {
     private int onloadEventFireCount = 0;
@@ -63,7 +63,6 @@ public class ClippedImagePrototypeTest extends GWTTestCase {
    *
    * TODO(jlabanca): Enable this test when issue 863 is fixed
    */
-  @DoNotRunWith({Platform.HtmlUnitBug})
   public void disabledTestApplyToClippedImage() {
     final Image image = new Image("counting-backwards.png", 12, 13, 8, 8);
 
