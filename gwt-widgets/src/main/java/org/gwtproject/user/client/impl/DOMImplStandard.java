@@ -102,7 +102,7 @@ public abstract class DOMImplStandard extends DOMImpl {
         new DOMImplStandardBase();
     }
 
-    private static void dispatchEvent(Event evt) {
+    public static void dispatchEvent(Event evt) {
         Element element = getFirstAncestorWithListener(evt);
         if (element == null) {
             return;
@@ -145,15 +145,17 @@ public abstract class DOMImplStandard extends DOMImpl {
     }
 
     private static EventMap getBitlessEventDispatchers() {
-        JsPropertyMap map = JsPropertyMap.of();
+        EventMap eventMap = new EventMap();
+        JsPropertyMap map = Js.uncheckedCast(eventMap);
         map.set("_default_", (Fn) (event) -> dispatchEvent(event));
         map.set("dragenter", (Fn) (event) -> dispatchDragEvent(event));
         map.set("dragover", (Fn) (event) -> dispatchDragEvent(event));
-        return Js.uncheckedCast(map);
+        return eventMap;
     }
 
     private static EventMap getCaptureEventDispatchers() {
-        JsPropertyMap map = JsPropertyMap.of();
+        EventMap eventMap = new EventMap();
+        JsPropertyMap map = Js.uncheckedCast(eventMap);
         // Mouse events
         map.set("click", (Fn) (event) -> dispatchCapturedMouseEvent(event));
         map.set("dblclick", (Fn) (event) -> dispatchCapturedMouseEvent(event));
@@ -175,7 +177,7 @@ public abstract class DOMImplStandard extends DOMImpl {
         map.set("gesturestart", (Fn) (event) -> dispatchCapturedMouseEvent(event));
         map.set("gestureend", (Fn) (event) -> dispatchCapturedMouseEvent(event));
         map.set("gesturechange", (Fn) (event) -> dispatchCapturedMouseEvent(event));
-        return Js.uncheckedCast(map);
+        return eventMap;
     }
 
     @Override
