@@ -32,22 +32,16 @@ class EventMap extends JavaScriptObject {
     /**
      * Returns a function that copies the passed key-value to target object.
      */
-    private static JavaScriptObject copyTo(EventMap target) {
-        FnVarArgs func = (key, value) -> {
-            Js.asPropertyMap(target).set(key.toString(), value);
-        };
-        return Js.uncheckedCast(func);
+    private static FnVarArgs copyTo(EventMap target) {
+        return (key, value) -> Js.asPropertyMap(target).set(key.toString(), value);
     }
 
     /**
      * Executes a provided function over the key-value pairs of the map object.
      */
-    static void foreach(JavaScriptObject map, JavaScriptObject fn) {
+    static void foreach(JavaScriptObject map, FnVarArgs fn) {
         JsPropertyMap _map = map.cast();
-        _map.forEach(cb -> {
-            FnVarArgs func = fn.cast();
-            func.onInvoke(cb, _map.get(cb));
-        });
+        _map.forEach(cb -> fn.onInvoke(cb, _map.get(cb)));
     }
 
     /**
@@ -60,8 +54,13 @@ class EventMap extends JavaScriptObject {
 
     @FunctionalInterface
     @JsFunction
-    interface FnVarArgs {
+    interface Fn {
+        void onInvoke();
+    }
 
+    @FunctionalInterface
+    @JsFunction
+    interface FnVarArgs {
         void onInvoke(Object key, Object value);
     }
 }
