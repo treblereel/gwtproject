@@ -1,13 +1,13 @@
-import net.ltgt.gradle.errorprone.javacplugin.CheckSeverity
-import net.ltgt.gradle.errorprone.javacplugin.errorprone
 import java.time.Year
+import net.ltgt.gradle.errorprone.CheckSeverity
+import net.ltgt.gradle.errorprone.errorprone
 
 plugins {
     `java-library`
-    id("net.ltgt.errorprone-javacplugin") version "0.5"
-    id("com.github.sherter.google-java-format") version "0.7.1"
-    id("com.github.hierynomus.license") version "0.14.0"
-    id("local.ktlint")
+    id("net.ltgt.errorprone") version "0.8.1"
+    id("com.github.sherter.google-java-format") version "0.8"
+    id("org.jlleitschuh.gradle.ktlint") version "8.2.0"
+    id("com.github.hierynomus.license") version "0.15.0"
     id("local.maven-publish")
 }
 
@@ -20,7 +20,7 @@ repositories {
 }
 
 dependencies {
-    errorprone("com.google.errorprone:error_prone_core:2.3.1")
+    errorprone("com.google.errorprone:error_prone_core:2.3.3")
     errorproneJavac("com.google.errorprone:javac:9+181-r4173-1")
 
     api("org.gwtproject.event:gwt-logical-event:HEAD-SNAPSHOT")
@@ -35,18 +35,21 @@ dependencies {
 }
 
 java.sourceCompatibility = JavaVersion.VERSION_1_8
-tasks.withType<JavaCompile> {
+tasks.withType<JavaCompile>().configureEach {
     options.encoding = "UTF-8"
     options.compilerArgs.addAll(arrayOf("-Werror", "-Xlint:all"))
+    if (JavaVersion.current().isJava9Compatible) {
+        options.compilerArgs.addAll(arrayOf("--release", java.sourceCompatibility.majorVersion))
+    }
     options.errorprone.check("StringSplitter", CheckSeverity.OFF)
 }
 
 tasks {
-    "jar"(Jar::class) {
+    jar {
         from(sourceSets["main"].allJava)
     }
 
-    "test"(Test::class) {
+    test {
         val warDir = file("$buildDir/gwt/www-test")
         val workDir = file("$buildDir/gwt/work")
         val cacheDir = file("$buildDir/gwt/cache")
@@ -65,7 +68,7 @@ tasks {
         systemProperty("gwt.persistentunitcachedir", cacheDir)
     }
 
-    "javadoc"(Javadoc::class) {
+    javadoc {
         (options as CoreJavadocOptions).apply {
             addBooleanOption("Xdoclint:all,-missing", true)
             // Workaround for https://github.com/gradle/gradle/issues/5630
@@ -75,7 +78,11 @@ tasks {
 }
 
 googleJavaFormat {
-    toolVersion = "1.6"
+    toolVersion = "1.7"
+}
+ktlint {
+    version.set("0.34.2")
+    enableExperimentalRules.set(true)
 }
 
 license {

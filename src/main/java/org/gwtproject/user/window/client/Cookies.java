@@ -283,7 +283,7 @@ public class Cookies {
       String name, String value, double expires, String domain, String path, boolean secure) {
     String c = name + '=' + value;
     if (Js.isTruthy(expires)) {
-      c += ";expires=" + (new JsDate(expires)).toGMTString();
+      c += ";expires=" + new JsDate(expires).toGMTString();
     }
     if (Js.isTruthy(domain)) {
       c += ";domain=" + domain;

@@ -338,7 +338,7 @@ public class CookieTest extends GWTTestCase {
    */
   private long getClientTime() {
     if (GWT.isScript()) {
-      return (new Date()).getTime();
+      return new Date().getTime();
     }
     return (long) getClientTimeImpl();
   }
