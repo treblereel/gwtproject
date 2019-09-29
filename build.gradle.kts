@@ -3,10 +3,10 @@ import java.time.Year
 plugins {
     id("java-library")
     id("maven")
-    id("net.ltgt.errorprone-javacplugin") version "0.5"
-    id("com.github.sherter.google-java-format") version "0.7.1"
-    id("com.github.hierynomus.license") version "0.14.0"
-    id("local.ktlint")
+    id("net.ltgt.errorprone") version "0.8.1"
+    id("com.github.sherter.google-java-format") version "0.8"
+    id("org.jlleitschuh.gradle.ktlint") version "8.2.0"
+    id("com.github.hierynomus.license") version "0.15.0"
     id("local.maven-publish")
 }
 
@@ -19,7 +19,7 @@ repositories {
 }
 
 dependencies {
-    errorprone("com.google.errorprone:error_prone_core:2.3.1")
+    errorprone("com.google.errorprone:error_prone_core:2.3.3")
     errorproneJavac("com.google.errorprone:javac:9+181-r4173-1")
 
     api("org.gwtproject.event:gwt-logical-event:HEAD-SNAPSHOT")
@@ -36,14 +36,17 @@ java.sourceCompatibility = JavaVersion.VERSION_1_8
 tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
     options.compilerArgs.addAll(arrayOf("-Werror", "-Xlint:all"))
+    if (JavaVersion.current().isJava9Compatible) {
+        options.compilerArgs.addAll(arrayOf("--release", java.sourceCompatibility.majorVersion))
+    }
 }
 
 tasks {
-    "jar"(Jar::class) {
-        from(sourceSets["main"].allJava)
+    jar {
+        from(sourceSets.main.map { it.allJava })
     }
 
-    "test"(Test::class) {
+    test {
         val warDir = file("$buildDir/gwt/www-test")
         val workDir = file("$buildDir/gwt/work")
         val cacheDir = file("$buildDir/gwt/cache")
@@ -53,10 +56,11 @@ tasks {
             mkdir(cacheDir)
         }
 
-        classpath += sourceSets["main"].allJava.sourceDirectories + sourceSets["test"].allJava.sourceDirectories
+        classpath += sourceSets.main.get().allJava.sourceDirectories + sourceSets.test.get().allJava.sourceDirectories
         include("**/*Suite.class")
         systemProperty(
-            "gwt.args", "-ea -draftCompile -batch module -war \"$warDir\" -workDir \"$workDir\" " +
+            "gwt.args",
+            "-ea -draftCompile -batch module -war \"$warDir\" -workDir \"$workDir\" " +
                 "-runStyle ${project.findProperty("test.gwt.runStyle") ?: "HtmlUnit:Chrome"}"
         )
         systemProperty("gwt.persistentunitcachedir", cacheDir)
@@ -80,17 +84,17 @@ tasks {
             standardOutput.close()
         }
 
-        inputs.files(sourceSets["main"].allJava)
+        inputs.files(sourceSets.main.map { it.allJava })
         outputs.file(outFile)
 
         main = "com.google.gwt.dev.Compiler"
-        classpath = sourceSets["test"].runtimeClasspath + sourceSets["main"].allJava.sourceDirectories
+        classpath = sourceSets.test.get().runtimeClasspath + sourceSets.main.get().allJava.sourceDirectories
         args("-strict", "-validateOnly", "-workDir", workDir, "org.gwtproject.user.history.History")
         systemProperty("gwt.persistentunitcachedir", cacheDir)
     }
-    "check" { dependsOn(validateGwtModule) }
+    check { dependsOn(validateGwtModule) }
 
-    "javadoc"(Javadoc::class) {
+    javadoc {
         (options as CoreJavadocOptions).apply {
             addBooleanOption("Xdoclint:all,-missing", true)
             // Workaround for https://github.com/gradle/gradle/issues/5630
@@ -100,7 +104,11 @@ tasks {
 }
 
 googleJavaFormat {
-    toolVersion = "1.6"
+    toolVersion = "1.7"
+}
+ktlint {
+    version.set("0.34.2")
+    enableExperimentalRules.set(true)
 }
 
 license {
