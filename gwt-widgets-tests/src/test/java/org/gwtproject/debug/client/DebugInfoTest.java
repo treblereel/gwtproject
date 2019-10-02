@@ -15,6 +15,7 @@
  */
 package org.gwtproject.debug.client;
 
+import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
 import junit.framework.TestCase;
 
@@ -22,12 +23,17 @@ import junit.framework.TestCase;
  * Test Case for {@link DebugInfo} when <code>gwt.enableDebugId</code> is enabled.
  */
 @J2clTestInput(DebugInfoTest.class)
-public class DebugInfoTest extends TestCase {
+public class DebugInfoTest extends GWTTestCase {
 
     /**
      * Test that the {@link DebugInfo#isDebugIdEnabled()} method works correctly.
      */
     public void testIsDebugIdEnabled() {
         assertTrue(DebugInfo.isDebugIdEnabled());
+    }
+
+    @Override
+    public String getModuleName() {
+        return "";
     }
 }
