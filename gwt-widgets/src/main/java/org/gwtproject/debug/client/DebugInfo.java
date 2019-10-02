@@ -63,7 +63,12 @@ public class DebugInfo {
    * @see org.gwtproject.user.client.ui.UIObject#ensureDebugId(String)
    */
   public static boolean isDebugIdEnabled() {
-    return false;
+    return DebugIdHolder.isDebugIdEnabled;
+  }
+
+
+  private static class DebugIdHolder {
+    private static final boolean isDebugIdEnabled = Boolean.valueOf(System.getProperty("gwt.enableDebugId"));
   }
 
   /**
