@@ -24,7 +24,7 @@ import junit.framework.TestCase;
 /**
  * Tests for {@link ColumnSortInfo}.
  */
-@J2clTestInput(ColumnSortEventTest.class)
+@J2clTestInput(ColumnSortInfoTest.class)
 public class ColumnSortInfoTest extends TestCase {
 
   public void testAccessors() {

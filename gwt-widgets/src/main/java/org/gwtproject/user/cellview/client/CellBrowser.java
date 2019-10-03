@@ -775,7 +775,7 @@ public class CellBrowser extends AbstractCellTree implements ProvidesResize, Req
    * Pager factory used to create pagers for each {@link CellList} of the
    * {@link CellBrowser}.
    */
-  public static interface PagerFactory {
+  public interface PagerFactory {
     AbstractPager create(HasRows display);
   }
 

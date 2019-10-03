@@ -36,7 +36,7 @@ public class ColumnSortEvent extends Event<ColumnSortEvent.Handler> {
   /**
    * Handler for {@link ColumnSortEvent}.
    */
-  public static interface Handler {
+  public interface Handler {
 
     /**
      * Called when {@link ColumnSortEvent} is fired.
@@ -171,7 +171,7 @@ public class ColumnSortEvent extends Event<ColumnSortEvent.Handler> {
    */
   public static Type<Handler> getType() {
     if (TYPE == null) {
-      TYPE = new Type<Handler>();
+      TYPE = new Type<>();
     }
     return TYPE;
   }

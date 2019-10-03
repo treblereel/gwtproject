@@ -36,7 +36,7 @@ import java.util.Locale;
 /**
  * Tests for {@link CellTable}.
  */
-@J2clTestInput(CellListTest.class)
+@J2clTestInput(CellTableTest.class)
 public class CellTableTest extends AbstractCellTableTestBase<CellTable<String>> {
 
   /**
@@ -44,7 +44,7 @@ public class CellTableTest extends AbstractCellTableTestBase<CellTable<String>> 
    */
   public void testMultiColumnHeader() {
     Resources res = new CellTable_ResourcesImpl();
-    CellTable<String> table = new CellTable<String>(10, res);
+    CellTable<String> table = new CellTable<>(10, res);
     TextHeader header = new TextHeader("Hello");
 
     // Get the style information.
@@ -424,14 +424,14 @@ public class CellTableTest extends AbstractCellTableTestBase<CellTable<String>> 
     assertEquals(1, counter.getCount());
 
     // Cause the table to redraw by resetting the {@link CellTableBuilder}.
-    table.setTableBuilder(new DefaultCellTableBuilder<String>(table));
+    table.setTableBuilder(new DefaultCellTableBuilder<>(table));
     table.getPresenter().flush();
     assertEquals(2, counter.getCount());
   }
 
   @Override
   protected CellTable<String> createAbstractHasData() {
-    return new CellTable<String>();
+    return new CellTable<>();
   }
 
   @Override

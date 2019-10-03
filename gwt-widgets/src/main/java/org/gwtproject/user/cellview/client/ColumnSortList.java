@@ -102,7 +102,7 @@ public class ColumnSortList {
   /**
    * The delegate that handles modifications to the list.
    */
-  public static interface Delegate {
+  public interface Delegate {
 
     /**
      * Called when the list is modified.

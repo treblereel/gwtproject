@@ -1083,7 +1083,7 @@ public abstract class AbstractHasData<T> extends Composite implements HasData<T>
      */
     public static class RedrawEvent extends org.gwtproject.event.shared.Event<RedrawEvent.Handler> {
 
-        private static final Type<Handler> TYPE = new Type<Handler>();
+        private static final Type<Handler> TYPE = new Type<>();
 
         @Override
         public Type<Handler> getAssociatedType() {

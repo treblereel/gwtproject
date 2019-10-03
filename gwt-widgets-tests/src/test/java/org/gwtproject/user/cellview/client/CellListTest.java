@@ -35,7 +35,7 @@ import java.util.List;
 /**
  * Tests for {@link CellList}.
  */
-//@J2clTestInput(CellListTest.class)
+@J2clTestInput(CellListTest.class)
 public class CellListTest extends AbstractHasDataTestBase {
 
   public void testGetRowElement() {

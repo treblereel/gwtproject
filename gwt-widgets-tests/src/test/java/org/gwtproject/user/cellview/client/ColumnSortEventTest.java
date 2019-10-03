@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.cellview.client;
 
+import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.cell.client.TextCell;
 import org.gwtproject.user.cellview.client.ColumnSortEvent.AsyncHandler;
@@ -33,8 +34,8 @@ import java.util.List;
 /**
  * Tests for {@link ColumnSortEvent}.
  */
-//@J2clTestInput(ColumnSortEventTest.class)
-public class ColumnSortEventTest extends TestCase {
+@J2clTestInput(ColumnSortEventTest.class)
+public class ColumnSortEventTest extends GWTTestCase {
 
   public void testAccessors() {
     ColumnSortList sortList = new ColumnSortList();
@@ -136,5 +137,10 @@ public class ColumnSortEventTest extends TestCase {
     assertEquals("c", values.get(0));
     assertEquals("b", values.get(1));
     assertEquals("a", values.get(2));
+  }
+
+  @Override
+  public String getModuleName() {
+    return "";
   }
 }

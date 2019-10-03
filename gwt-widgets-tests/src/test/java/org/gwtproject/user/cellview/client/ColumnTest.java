@@ -40,6 +40,10 @@ public class ColumnTest extends GWTTestCase {
   private static class MockEditableCell extends
       AbstractEditableCell<String, String> {
 
+    MockEditableCell() {
+      super();
+    }
+
     @Override
     public boolean isEditing(Context context, Element parent, String value) {
       return false;
@@ -116,7 +120,7 @@ public class ColumnTest extends GWTTestCase {
         }.schedule(200);
       }
     };
-    final Column<String, String> column = new IdentityColumn<String>(cell);
+    final Column<String, String> column = new IdentityColumn<>(cell);
     final MockFieldUpdater<String, String> fieldUpdater = new MockFieldUpdater<String, String>() {
       @Override
       public void update(int index, String object, String value) {
