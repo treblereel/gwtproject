@@ -30,7 +30,7 @@ public interface HasCell<T, C> {
    * 
    * @return a Cell
    */
-  org.gwtproject.cell.client.Cell<C> getCell();
+  Cell<C> getCell();
 
   /**
    * Returns the {@link FieldUpdater} instance.

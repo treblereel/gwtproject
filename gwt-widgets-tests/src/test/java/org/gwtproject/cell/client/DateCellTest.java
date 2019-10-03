@@ -18,13 +18,15 @@ package org.gwtproject.cell.client;
 import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.i18n.client.DateTimeFormat;
 import org.gwtproject.i18n.client.TimeZone;
+import org.junit.Ignore;
 
 import java.util.Date;
 
 /**
  * Tests for {@link org.gwtproject.cell.client.DateCell}.
  */
-//@J2clTestInput(DateCellTest.class)
+@Ignore
+@J2clTestInput(DateCellTest.class)
 public class DateCellTest extends CellTestBase<Date> {
 
   @Override

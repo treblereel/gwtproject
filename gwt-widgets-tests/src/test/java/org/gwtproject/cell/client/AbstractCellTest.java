@@ -15,6 +15,7 @@
  */
 package org.gwtproject.cell.client;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.cell.client.Cell.Context;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
@@ -22,6 +23,7 @@ import org.gwtproject.dom.client.Element;
 /**
  * Tests for {@link org.gwtproject.cell.client.AbstractCell}.
  */
+@J2clTestInput(AbstractCellTest.class)
 public class AbstractCellTest extends CellTestBase<String> {
 
   public void testSetValue() {

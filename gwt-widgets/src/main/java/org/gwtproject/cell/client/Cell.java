@@ -35,7 +35,7 @@ import java.util.Set;
  * </p>
  * 
  * <p>
- * However, some interactive Cells ({@link EditTextCell}, {@link org.gwtproject.cell.client.CheckboxCell},
+ * However, some interactive Cells ({@link EditTextCell}, {@link CheckboxCell},
  * {@link TextInputCell}, etc...) have a stateful "pending" state, which is a
  * map of row values/keys to the end user entered pending value. For example, if
  * an end user types a new value in a {@link TextInputCell}, the
@@ -76,7 +76,7 @@ public interface Cell<C> {
   /**
    * Contains information about the context of the Cell.
    */
-  public static class Context {
+  class Context {
 
     private final int column;
     private final int index;

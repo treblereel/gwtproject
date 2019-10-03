@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -27,7 +27,7 @@ import java.util.Set;
 
 /**
  * A default implementation of the {@link org.gwtproject.cell.client.Cell} interface.
- * 
+ *
  * <p>
  * <h3>Examples</h3>
  * <dl>
@@ -41,10 +41,10 @@ import java.util.Set;
  * <dd>{@example com.google.gwt.examples.cell.EditableCellExample}</dd>
  * </dl>
  * </p>
- * 
+ *
  * @param <C> the type that this Cell represents
  */
-public abstract class AbstractCell<C> implements org.gwtproject.cell.client.Cell<C> {
+public abstract class AbstractCell<C> implements Cell<C> {
 
   /**
    * The unmodifiable set of events consumed by this cell.
@@ -54,13 +54,19 @@ public abstract class AbstractCell<C> implements org.gwtproject.cell.client.Cell
   /**
    * Construct a new {@link AbstractCell} with the specified consumed events.
    * The input arguments are passed by copy.
-   * 
-   * @param consumedEvents the {@link org.gwtproject.dom.client.BrowserEvents
+   *
+   * @param consumedEvents the {@link BrowserEvents
    *          events} that this cell consumes
    *
-   * @see org.gwtproject.dom.client.BrowserEvents
+   * @see BrowserEvents
    */
+
+  private AbstractCell() {
+
+  }
+
   public AbstractCell(String... consumedEvents) {
+    this();
     Set<String> events = null;
     if (consumedEvents != null && consumedEvents.length > 0) {
       events = new HashSet<>();
@@ -73,10 +79,11 @@ public abstract class AbstractCell<C> implements org.gwtproject.cell.client.Cell
 
   /**
    * Construct a new {@link AbstractCell} with the specified consumed events.
-   * 
+   *
    * @param consumedEvents the events that this cell consumes
    */
   public AbstractCell(Set<String> consumedEvents) {
+    this();
     init(consumedEvents);
   }
 
@@ -102,14 +109,14 @@ public abstract class AbstractCell<C> implements org.gwtproject.cell.client.Cell
 
   /**
    * {@inheritDoc}
-   * 
+   *
    * <p>
    * If you override this method to add support for events, remember to pass the
    * event types that the cell expects into the constructor.
    * </p>
    */
   public void onBrowserEvent(Context context, Element parent, C value,
-                             NativeEvent event, org.gwtproject.cell.client.ValueUpdater<C> valueUpdater) {
+                             NativeEvent event, ValueUpdater<C> valueUpdater) {
     String eventType = event.getType();
     // Special case the ENTER key for a unified user experience.
     if (BrowserEvents.KEYDOWN.equals(eventType) && event.getKeyCode() == KeyCodes.KEY_ENTER) {
@@ -121,7 +128,7 @@ public abstract class AbstractCell<C> implements org.gwtproject.cell.client.Cell
 
   /**
    * {@inheritDoc}
-   * 
+   *
    * <p>
    * This method is a no-op and returns false. If your cell is editable or can
    * be focused by the user, override this method to reset focus when the
@@ -144,20 +151,20 @@ public abstract class AbstractCell<C> implements org.gwtproject.cell.client.Cell
    * should override this method to provide a consistent user experience. Your
    * widget must consume <code>keydown</code> events for this method to be
    * called.
-   * 
+   *
    * @param context the {@link Context} of the cell
    * @param parent the parent Element
    * @param value the value associated with the cell
    * @param event the native browser event
-   * @param valueUpdater a {@link org.gwtproject.cell.client.ValueUpdater}, or null if not specified
+   * @param valueUpdater a {@link ValueUpdater}, or null if not specified
    */
   protected void onEnterKeyDown(Context context, Element parent, C value,
-                                NativeEvent event, org.gwtproject.cell.client.ValueUpdater<C> valueUpdater) {
+                                NativeEvent event, ValueUpdater<C> valueUpdater) {
   }
 
   /**
    * Initialize the cell.
-   * 
+   *
    * @param consumedEvents the events that the cell consumes
    */
   private void init(Set<String> consumedEvents) {

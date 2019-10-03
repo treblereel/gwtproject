@@ -27,7 +27,6 @@ public class SafeHtmlCell extends org.gwtproject.cell.client.AbstractCell<SafeHt
    * Construct a new SafeHtmlCell.
    */
   public SafeHtmlCell() {
-    super();
   }
 
   @Override

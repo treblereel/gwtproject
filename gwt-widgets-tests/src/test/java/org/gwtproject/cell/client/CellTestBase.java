@@ -99,7 +99,7 @@ public abstract class CellTestBase<T> extends GWTTestCase {
   /**
    * A mock {@link org.gwtproject.cell.client.ValueUpdater} used for testing.
    */
-  class MockValueUpdater implements org.gwtproject.cell.client.ValueUpdater<T> {
+  class MockValueUpdater implements ValueUpdater<T> {
 
     private T lastValue;
 
@@ -158,7 +158,7 @@ public abstract class CellTestBase<T> extends GWTTestCase {
    * Test rendering the cell with a negative index is handled.
    */
   public void testRenderNegativeIndex() {
-    org.gwtproject.cell.client.Cell<T> cell = createCell();
+    Cell<T> cell = createCell();
     T value = createCellValue();
     SafeHtmlBuilder sb = new SafeHtmlBuilder();
     Context context = new Context(-1, -1, null);
@@ -182,7 +182,7 @@ public abstract class CellTestBase<T> extends GWTTestCase {
    *
    * @return the new cell
    */
-  protected abstract org.gwtproject.cell.client.Cell<T> createCell();
+  protected abstract Cell<T> createCell();
 
   /**
    * Create a value to test.
