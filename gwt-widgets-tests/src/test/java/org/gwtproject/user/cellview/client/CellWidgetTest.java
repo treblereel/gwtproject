@@ -16,6 +16,7 @@
 package org.gwtproject.user.cellview.client;
 
 import com.google.j2cl.junit.apt.J2clTestInput;
+import jsinterop.base.Js;
 import org.gwtproject.cell.client.AbstractCell;
 import org.gwtproject.cell.client.Cell;
 import org.gwtproject.cell.client.TextButtonCell;
@@ -130,10 +131,10 @@ public class CellWidgetTest extends GWTTestCase {
 
   public void testOnBrowserEvent() {
     CustomCell cell = new CustomCell();
-    CellWidget<String> cw = new CellWidget<String>(cell, "test");
+    CellWidget<String> cw = new CellWidget<>(cell, "test");
     assertEquals("test", cw.getValue());
 
-    Event event = Document.get().createChangeEvent().cast();
+    Event event = Js.uncheckedCast(Document.get().createChangeEvent());
     cw.onBrowserEvent(event);
     cell.assertLastEventKey("test");
     cell.assertLastEventValue("test");
@@ -153,8 +154,8 @@ public class CellWidgetTest extends GWTTestCase {
     assertEquals("test", cw.getValue());
     assertEquals(keyProvider, cw.getKeyProvider());
 
-    Event event = Document.get().createChangeEvent().cast();
-    cw.onBrowserEvent(event);
+    NativeEvent event = Document.get().createChangeEvent();
+    cw.onBrowserEvent(Js.uncheckedCast(event));
     cell.assertLastEventKey("t");
     cell.assertLastEventValue("test");
     assertEquals("newValue", cw.getValue());
@@ -170,8 +171,8 @@ public class CellWidgetTest extends GWTTestCase {
     cw.addValueChangeHandler(handler);
 
     // Fire an native event that will trigger a value change event.
-    Event event = Document.get().createChangeEvent().cast();
-    cw.onBrowserEvent(event);
+    NativeEvent event = Document.get().createChangeEvent();
+    cw.onBrowserEvent(Js.uncheckedCast(event));
     cell.assertLastEventKey("test");
     cell.assertLastEventValue("test");
     handler.assertLastValue("newValue");

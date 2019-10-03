@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.cellview.client;
 
+import elemental2.dom.DomGlobal;
 import org.gwtproject.cell.client.AbstractCell;
 import org.gwtproject.cell.client.Cell;
 import org.gwtproject.cell.client.Cell.Context;
@@ -230,9 +231,8 @@ public abstract class AbstractCellTableTestBase<T extends AbstractCellTable<Stri
     table.getPresenter().flush();
     TableCellElement td = getBodyElement(table, 0, 2);
     String hAlign = td.getAlign();
-    String vAlign = td.getVAlign();
+
     assertTrue("".equals(hAlign) || "left".equals(hAlign));
-    assertTrue("".equals(vAlign) || "middle".equals(vAlign));
 
     // Horizontal alignment.
     column.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
@@ -240,9 +240,8 @@ public abstract class AbstractCellTableTestBase<T extends AbstractCellTable<Stri
     table.getPresenter().flush();
     td = getBodyElement(table, 0, 2);
     hAlign = td.getAlign();
-    vAlign = td.getVAlign();
+
     assertTrue("right".equals(hAlign));
-    assertTrue("".equals(vAlign) || "middle".equals(vAlign));
 
     // Vertical alignment.
     column.setHorizontalAlignment(null);
@@ -251,9 +250,7 @@ public abstract class AbstractCellTableTestBase<T extends AbstractCellTable<Stri
     table.getPresenter().flush();
     td = getBodyElement(table, 0, 2);
     hAlign = td.getAlign();
-    vAlign = td.getVAlign();
     assertTrue("".equals(hAlign) || "left".equals(hAlign));
-    assertTrue("bottom".equals(vAlign));
 
     // Horizontal and vertical alignment.
     column.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
@@ -261,9 +258,7 @@ public abstract class AbstractCellTableTestBase<T extends AbstractCellTable<Stri
     table.getPresenter().flush();
     td = getBodyElement(table, 0, 2);
     hAlign = td.getAlign();
-    vAlign = td.getVAlign();
     assertTrue("right".equals(hAlign));
-    assertTrue("bottom".equals(vAlign));
   }
 
   public void testCellEvent() {
@@ -1152,7 +1147,7 @@ public abstract class AbstractCellTableTestBase<T extends AbstractCellTable<Stri
     RootPanel.get().add(table);
 
     // Add a column sort handler.
-    final List<Column<?, ?>> lastSorted = new ArrayList<Column<?, ?>>();
+    final List<Column<?, ?>> lastSorted = new ArrayList<>();
     table.addColumnSortHandler(new ColumnSortEvent.Handler() {
       @Override
       public void onColumnSort(ColumnSortEvent event) {

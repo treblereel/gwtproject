@@ -98,6 +98,8 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
    */
   @DefaultLocale("en_US")
   public interface CellTreeMessages extends Messages {
+    CellTreeMessages INSTANCE = new CellTree_CellTreeMessages_en_US();
+
     @DefaultMessage("Show more")
     String showMore();
     @DefaultMessage("Empty")
@@ -468,7 +470,7 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
    */
   private static final int DEFAULT_LIST_SIZE = 25;
 
-  private static Resources DEFAULT_RESOURCES;
+  private static Resources DEFAULT_RESOURCES = new CellTree_ResourcesImpl();
 
   private static Template template;
 
@@ -578,7 +580,7 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
    * @param resources the resources used to render the tree
    */
   public <T> CellTree(TreeViewModel viewModel, T rootValue, Resources resources) {
-    this(viewModel, rootValue, resources, null);
+    this(viewModel, rootValue, resources, CellTreeMessages.INSTANCE);
   }
 
   /**
