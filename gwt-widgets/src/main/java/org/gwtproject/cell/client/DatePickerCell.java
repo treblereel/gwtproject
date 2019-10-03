@@ -207,6 +207,7 @@ public class DatePickerCell extends org.gwtproject.cell.client.AbstractEditableC
     } else if (value != null) {
       s = format.format(value);
     }
+
     if (s != null) {
       sb.append(renderer.render(s));
     }

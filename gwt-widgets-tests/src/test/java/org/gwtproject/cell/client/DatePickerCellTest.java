@@ -55,9 +55,12 @@ public class DatePickerCellTest extends EditableCellTestBase<Date, Date> {
     return new String[]{"click", "keydown"};
   }
 
+
+  //TODO for en_US Jan 1, 2010, must redone when i18n ll be finished
   @Override
   protected String getExpectedInnerHtml() {
-    return "Jan 1, 2010";
+    return "2010 Jan 1";  // for default locale
+    //return "Jan 1, 2010";
   }
 
   @Override
@@ -65,9 +68,11 @@ public class DatePickerCellTest extends EditableCellTestBase<Date, Date> {
     return "";
   }
 
+  //TODO for en_US Jan 3, 2010, must redone when i18n ll be finished
   @Override
   protected String getExpectedInnerHtmlViewData() {
-    return "Jan 3, 2010";
+    return "2010 Jan 3"; // for default locale
+    //return "Jan 3, 2010";
   }
 
   @Override

@@ -73,6 +73,7 @@ public class NumberCell extends AbstractCell<Number> {
    *          number as HTML
    */
   public NumberCell(NumberFormat format, SafeHtmlRenderer<String> renderer) {
+    super();
     if (format == null) {
       throw new IllegalArgumentException("format == null");
     }

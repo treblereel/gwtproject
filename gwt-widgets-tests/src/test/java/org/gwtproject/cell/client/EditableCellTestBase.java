@@ -15,6 +15,7 @@
  */
 package org.gwtproject.cell.client;
 
+import elemental2.dom.DomGlobal;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.NativeEvent;

@@ -24,12 +24,12 @@ import java.util.*;
 
 /**
  * <p>
- * A {@link org.gwtproject.cell.client.Cell} that is composed of other {@link org.gwtproject.cell.client.Cell}s.
+ * A {@link Cell} that is composed of other {@link Cell}s.
  * </p>
  * 
  * <p>
- * When this cell is rendered, it will render each component {@link org.gwtproject.cell.client.Cell} inside
- * a span. If the component {@link org.gwtproject.cell.client.Cell} uses block level elements (such as a
+ * When this cell is rendered, it will render each component {@link Cell} inside
+ * a span. If the component {@link Cell} uses block level elements (such as a
  * Div), the component cells will stack vertically.
  * </p>
  * 
@@ -61,7 +61,11 @@ public class CompositeCell<C> extends AbstractCell<C> {
    * hasCells array.
    * </p>
    */
-  private final List<HasCell<C, ?>> hasCells;
+  private List<HasCell<C, ?>> hasCells;
+
+  private CompositeCell() {
+    super();
+  }
 
   /**
    * Construct a new {@link CompositeCell}.
@@ -69,17 +73,19 @@ public class CompositeCell<C> extends AbstractCell<C> {
    * @param hasCells the cells that makeup the composite
    */
   public CompositeCell(List<HasCell<C, ?>> hasCells) {
+    this();
+
     // Create a new, readonly copy so cells cannot be added or removed.
-    this.hasCells = Collections.unmodifiableList(new ArrayList<HasCell<C, ?>>(hasCells));
+    this.hasCells = Collections.unmodifiableList(new ArrayList<>(hasCells));
 
     // Get the consumed events and depends on selection.
     Set<String> theConsumedEvents = null;
     for (HasCell<C, ?> hasCell : hasCells) {
-      org.gwtproject.cell.client.Cell<?> cell = hasCell.getCell();
+      Cell<?> cell = hasCell.getCell();
       Set<String> events = cell.getConsumedEvents();
       if (events != null) {
         if (theConsumedEvents == null) {
-          theConsumedEvents = new HashSet<String>();
+          theConsumedEvents = new HashSet<>();
         }
         theConsumedEvents.addAll(events);
       }

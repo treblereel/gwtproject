@@ -43,7 +43,7 @@ public class ImageCell extends AbstractCell<String> {
    * Construct a new ImageCell.
    */
   public ImageCell() {
-
+    super();
   }
 
   @Override
