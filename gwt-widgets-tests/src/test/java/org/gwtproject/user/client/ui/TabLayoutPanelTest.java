@@ -16,6 +16,7 @@
 package org.gwtproject.user.client.ui;
 
 import com.google.gwt.junit.client.GWTTestCase;
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.event.logical.shared.BeforeSelectionEvent;
@@ -32,6 +33,7 @@ import java.util.Locale;
 /**
  * Tests for {@link TabLayoutPanel}.
  */
+@J2clTestInput(TabLayoutPanelTest.class)
 public class TabLayoutPanelTest extends GWTTestCase {
 
   static class Adder implements HasWidgetsTester.WidgetAdder {

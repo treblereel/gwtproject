@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.client.SelectElement;
 import org.gwtproject.i18n.client.HasDirection.Direction;
@@ -24,6 +25,7 @@ import com.google.gwt.junit.client.GWTTestCase;
 /**
  * Tests {@link ListBox}. Needs many, many more tests.
  */
+@J2clTestInput(ListBoxTest.class)
 public class ListBoxTest extends GWTTestCase {
 
   private final String RTL_TEXT = "\u05e0 \u05e0\u05e0\u05e0\u05e0\u05e0" +

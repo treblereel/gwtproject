@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.Element;
 import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.safehtml.shared.SafeHtmlUtils;
@@ -25,6 +26,7 @@ import java.util.Locale;
 /**
  * Tests {@link CaptionPanel}.
  */
+@J2clTestInput(CaptionPanelTest.class)
 public class CaptionPanelTest extends GWTTestCase {
 
   private static final String html = "<b>hello</b><i>world</i>";
@@ -38,7 +40,7 @@ public class CaptionPanelTest extends GWTTestCase {
    * Tests {@link CaptionPanel#add(IsWidget)}.
    */
   public void testAddAsIsWidget() {
-    CaptionPanel panel = createEmptyCaptionPanel();
+      CaptionPanel panel = createEmptyCaptionPanel();
     Widget widget = new Label("foo");
     
     // IsWidget cast to call the overloaded version

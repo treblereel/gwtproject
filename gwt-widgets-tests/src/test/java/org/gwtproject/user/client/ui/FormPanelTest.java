@@ -15,9 +15,9 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import elemental2.dom.HTMLIFrameElement;
 import jsinterop.base.Js;
-import org.gwtproject.core.client.GWT;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.InputElement;
@@ -30,8 +30,8 @@ import org.gwtproject.user.client.ui.FormPanel.SubmitHandler;
 /**
  * Tests the FormPanel.
  *
- * @see org.gwtproject.user.server.ui.FormPanelTestServlet
  */
+@J2clTestInput(FormPanelTest.class)
 public class FormPanelTest extends SimplePanelTestBase<FormPanel> {
 
   /**
@@ -75,7 +75,7 @@ public class FormPanelTest extends SimplePanelTestBase<FormPanel> {
     form.setMethod(FormPanel.METHOD_POST);
     form.setEncoding(FormPanel.ENCODING_MULTIPART);
     assertEquals(FormPanel.ENCODING_MULTIPART, form.getEncoding());
-    form.setAction(GWT.getModuleBaseURL() + "formHandler");
+    form.setAction("formHandler");
 
     FileUpload file = new FileUpload();
     file.setName("file0");
@@ -105,7 +105,7 @@ public class FormPanelTest extends SimplePanelTestBase<FormPanel> {
     final FormPanel form = new FormPanel();
     form.setMethod(FormPanel.METHOD_GET);
     form.setEncoding(FormPanel.ENCODING_URLENCODED);
-    form.setAction(GWT.getModuleBaseURL() + "formHandler");
+    form.setAction("formHandler");
 
     TextBox tb = new TextBox();
     tb.setText("text");
@@ -173,7 +173,6 @@ public class FormPanelTest extends SimplePanelTestBase<FormPanel> {
     final Element container = Document.get().createDivElement();
     container.setInnerHTML(
         "<form method='post' target='" + iframeName + "' action='"
-            + GWT.getModuleBaseURL()
             + "formHandler?sendHappyHtml'>"
             + "<input type='submit' id='submitBtn'></input></form>"
             + "<iframe src=\"javascript:\'\'\" id='" + iframeId + "' "
@@ -215,7 +214,7 @@ public class FormPanelTest extends SimplePanelTestBase<FormPanel> {
     final FormPanel form = new FormPanel();
     form.setMethod(FormPanel.METHOD_GET);
     form.setEncoding(FormPanel.ENCODING_URLENCODED);
-    form.setAction(GWT.getModuleBaseURL() + "formHandler");
+    form.setAction("formHandler");
 
     TextBox tb = new TextBox();
     form.add(tb);
@@ -250,7 +249,7 @@ public class FormPanelTest extends SimplePanelTestBase<FormPanel> {
     final NamedFrame frame = new NamedFrame("myFrame");
     FormPanel form = new FormPanel(frame);
     form.setMethod(FormPanel.METHOD_POST);
-    form.setAction(GWT.getModuleBaseURL() + "formHandler?sendHappyHtml");
+    form.setAction("formHandler?sendHappyHtml");
     RootPanel.get().add(form);
     RootPanel.get().add(frame);
 
@@ -276,7 +275,6 @@ public class FormPanelTest extends SimplePanelTestBase<FormPanel> {
     final Element container = Document.get().createDivElement();
     container.setInnerHTML(
         "<form method='post' target='" + iframeName + "' action='"
-            + GWT.getModuleBaseURL()
             + "formHandler?sendHappyHtml'>"
             + "<input type='hidden' name='foo' value='bar'></input></form>"
             + "<iframe src=\"javascript:\'\'\" id='" + iframeId + "' "
@@ -308,7 +306,6 @@ public class FormPanelTest extends SimplePanelTestBase<FormPanel> {
 
   public void testWrappedFormTargetAssertion() {
     // Testing a dev-mode-only assertion.
-    if (!GWT.isScript()) {
       // Create a form element with the target attribute already set.
       final Element container = Document.get().createDivElement();
       container.setInnerHTML("<form target='foo'></form>");
@@ -320,7 +317,6 @@ public class FormPanelTest extends SimplePanelTestBase<FormPanel> {
         fail("Assertion expected wrapping a form with the target set");
       } catch (AssertionError e) {
         assertTrue(e.getMessage().contains("target is already set"));
-      }
     }
   }
 
@@ -330,7 +326,7 @@ public class FormPanelTest extends SimplePanelTestBase<FormPanel> {
     container.setInnerHTML(
         "<form method='get' "
         + "encoding='application/x-www-form-urlencoded' action='"
-        + GWT.getModuleBaseURL() + "formHandler'>"
+        + "formHandler'>"
         + "<input type='text' name='tb' value='text'></input></form>");
     Document.get().getBody().appendChild(container);
 

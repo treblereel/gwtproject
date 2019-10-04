@@ -16,10 +16,12 @@
 package org.gwtproject.user.client.ui;
 
 import com.google.gwt.junit.client.GWTTestCase;
+import com.google.j2cl.junit.apt.J2clTestInput;
 
 /**
  * TODO: document me.
  */
+@J2clTestInput(HiddenTest.class)
 public class HiddenTest extends GWTTestCase {
 
   @Override

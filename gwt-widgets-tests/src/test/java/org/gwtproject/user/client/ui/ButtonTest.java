@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.EventTarget;
 import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.event.dom.client.ClickHandler;
@@ -29,6 +30,7 @@ import java.util.Locale;
 /**
  * Tests for {@link Button}.
  */
+@J2clTestInput(ButtonTest.class)
 public class ButtonTest extends GWTTestCase {
 
   private static final String html = "<b>hello</b><i>world</i>";

@@ -15,6 +15,8 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
+import elemental2.dom.HTMLIFrameElement;
 import jsinterop.base.Js;
 import org.gwtproject.core.client.GWT;
 import org.gwtproject.dom.client.Document;
@@ -39,6 +41,7 @@ import java.util.Locale;
 /**
  * Tests the {@link RichTextArea} widget.
  */
+@J2clTestInput(RichTextAreaTest.class)
 public class RichTextAreaTest extends GWTTestCase {
   static final int RICH_TEXT_ASYNC_DELAY = 3000;
   private static final String html = "<b>hello</b><i>world</i>";
@@ -417,7 +420,7 @@ public class RichTextAreaTest extends GWTTestCase {
    * @return the body element
    */
   private Element getBodyElement(RichTextArea rta) {
-    return getDocument(rta).getBody().cast();
+    return Js.uncheckedCast(getDocument(rta).getBody());
   }
 
   /**
@@ -432,11 +435,7 @@ public class RichTextAreaTest extends GWTTestCase {
   }
 
   private Document getDocumentImpl(Element iframe) {
-    return Js.uncheckedCast(
-            Js.asPropertyMap(
-                    Js.asPropertyMap(iframe)
-                            .get("contentWindow"))
-                    .get("document"));
-
+    HTMLIFrameElement frameElement = Js.uncheckedCast(iframe);
+    return  Js.uncheckedCast(Js.asPropertyMap(frameElement.contentWindow).get("document"));
   }
 }

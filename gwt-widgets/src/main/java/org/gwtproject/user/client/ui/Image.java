@@ -86,6 +86,7 @@ import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.resources.client.impl.ImageResourcePrototype;
 import org.gwtproject.safehtml.shared.SafeUri;
 import org.gwtproject.safehtml.shared.UriUtils;
+import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.Event;
 import org.gwtproject.user.client.ui.impl.ClippedImageImpl;
 
@@ -146,7 +147,7 @@ public class Image extends Widget implements HasLoadHandlers,
      * sometimes keeps them from getting fully fetched.
      */
     private static HashMap<String, Element> prefetchImages = new HashMap<String, Element>();
-    private State state;
+    State state;
 
     /**
      * Creates an empty image.
@@ -466,7 +467,7 @@ public class Image extends Widget implements HasLoadHandlers,
         // We have to clear the unhandled event before firing handlers because the
         // handlers could trigger onLoad, which would refire the event.
         if (Js.asPropertyMap(event).has("getTypeInt") &&
-                event.getTypeInt() == Event.ONLOAD) {
+                DOM.eventGetType(event) == Event.ONLOAD) {
             clearUnhandledEvent();
             state.onLoadEvent(this);
         }
@@ -703,7 +704,7 @@ public class Image extends Widget implements HasLoadHandlers,
      * Abstract class which is used to hold the state associated with an image
      * object.
      */
-    private abstract static class State {
+    abstract static class State {
 
         /**
          * The pending command to create a synthetic event.

@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import org.gwtproject.dom.client.Document;
@@ -31,6 +32,7 @@ import java.util.List;
  * behavior, not general layout correctness, which is covered by
  * {@link org.gwtproject.layout.client.LayoutTest}.
  */
+@J2clTestInput(LayoutPanelTest.class)
 public class LayoutPanelTest extends WidgetTestBase {
 
   /**

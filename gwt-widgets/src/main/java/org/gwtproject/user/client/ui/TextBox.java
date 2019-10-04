@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import jsinterop.base.Js;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.InputElement;
@@ -134,6 +135,6 @@ public class TextBox extends TextBoxBase {
   }
 
   private InputElement getInputElement() {
-    return getElement().cast();
+    return Js.uncheckedCast(getElement());
   }
 }

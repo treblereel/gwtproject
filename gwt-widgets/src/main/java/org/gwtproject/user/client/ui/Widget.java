@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import jsinterop.base.Js;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.event.dom.client.DomEvent;
 import org.gwtproject.event.legacy.shared.EventHandler;
@@ -208,7 +209,7 @@ public class Widget extends UIObject implements EventListener,
             case Event.ONMOUSEOUT:
                 // Only fire the mouse out event if it's leaving this
                 // widget.
-                Element related = event.getRelatedEventTarget().cast();
+                Element related = Js.uncheckedCast(event.getRelatedEventTarget());
                 if (related != null && getElement().isOrHasChild(related)) {
                     return;
                 }

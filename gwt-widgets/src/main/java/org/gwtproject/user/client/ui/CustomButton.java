@@ -23,6 +23,7 @@ import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.event.dom.client.ClickHandler;
+import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.safehtml.client.HasSafeHtml;
 import org.gwtproject.safehtml.shared.SafeHtml;
 import org.gwtproject.safehtml.shared.annotations.IsSafeHtml;
@@ -122,7 +123,7 @@ import org.gwtproject.user.client.Event;
  *
  * Each face element can take an optional <code>image</code> attribute
  * and an html body. For example:<pre>
- * &lt;ui:image field='downButton'/> &lt;!-- define an {@link com.google.gwt.resources.client.ImageResource ImageResource} -->
+ * &lt;ui:image field='downButton'/> &lt;!-- define an {@link ImageResource ImageResource} -->
  *
  * &lt;g:PushButton ui:field='pushButton' enabled='true'>
  *   &lt;g:upFace>
@@ -651,7 +652,7 @@ public abstract class CustomButton extends ButtonBase {
 
     super.onBrowserEvent(event);
     // Synthesize clicks based on keyboard events AFTER the normal key handling.
-    if ((event.getTypeInt() & Event.KEYEVENTS) != 0) {
+    if ((DOM.eventGetType(event) & Event.KEYEVENTS) != 0) {
       char keyCode = (char) event.getKeyCode();
       switch (type) {
         case Event.ONKEYDOWN:

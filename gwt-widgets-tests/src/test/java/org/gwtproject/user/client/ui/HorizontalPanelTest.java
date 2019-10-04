@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.user.client.DOM;
 
 import java.util.Iterator;
@@ -22,6 +23,7 @@ import java.util.Iterator;
 /**
  * A test for {@link HorizontalPanel}.
  */
+@J2clTestInput(HorizontalPanelTest.class)
 public class HorizontalPanelTest extends AbstractCellPanelTest<HorizontalPanel> {
 
   public void testDebugId() {

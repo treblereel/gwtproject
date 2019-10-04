@@ -16,6 +16,7 @@
 
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.event.dom.client.ClickHandler;
@@ -36,6 +37,7 @@ import java.util.Map;
  * based, the primary test will be in the new UI testing framework once it is
  * released.
  */
+@J2clTestInput(CustomButtonTest.class)
 public class CustomButtonTest extends GWTTestCase {
 
   private static class Handler implements ValueChangeHandler<Boolean> {

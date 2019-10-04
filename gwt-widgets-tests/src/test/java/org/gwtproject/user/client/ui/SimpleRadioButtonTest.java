@@ -16,10 +16,12 @@
 package org.gwtproject.user.client.ui;
 
 import com.google.gwt.junit.client.GWTTestCase;
+import com.google.j2cl.junit.apt.J2clTestInput;
 
 /**
  * Tests for {@link SimpleRadioButton}.
  */
+@J2clTestInput(SimpleRadioButtonTest.class)
 public class SimpleRadioButtonTest extends GWTTestCase {
 
   @Override

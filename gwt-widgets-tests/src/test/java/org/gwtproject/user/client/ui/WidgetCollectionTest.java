@@ -16,6 +16,7 @@
 package org.gwtproject.user.client.ui;
 
 import com.google.gwt.junit.client.GWTTestCase;
+import com.google.j2cl.junit.apt.J2clTestInput;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -23,6 +24,7 @@ import java.util.NoSuchElementException;
 /**
  * TODO: document me.
  */
+@J2clTestInput(WidgetCollectionTest.class)
 public class WidgetCollectionTest extends GWTTestCase {
 
   @Override

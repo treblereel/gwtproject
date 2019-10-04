@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.Element;
 
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ import java.util.Set;
 /**
  * Tests the FlowPanel widget.
  */
+@J2clTestInput(FlowPanelTest.class)
 public class FlowPanelTest extends PanelTestBase<FlowPanel> {
 
   public void testClear() {

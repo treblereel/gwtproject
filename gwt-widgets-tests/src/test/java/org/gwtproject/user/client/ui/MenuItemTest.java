@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.aria.client.Roles;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.junit.client.GWTTestCase;
@@ -26,6 +27,7 @@ import java.util.Locale;
 /**
  * Tests for {@link MenuItem}.
  */
+@J2clTestInput(MenuItemTest.class)
 public class MenuItemTest extends GWTTestCase {
 
   private static final String html = "<b>hello</b><i>world</i>";

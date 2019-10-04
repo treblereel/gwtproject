@@ -16,6 +16,7 @@
 package org.gwtproject.user.client.ui.impl;
 
 import jsinterop.annotations.JsConstructor;
+import jsinterop.base.Js;
 import org.gwtproject.safehtml.shared.SafeHtml;
 import org.gwtproject.safehtml.shared.SafeUri;
 import org.gwtproject.safehtml.shared.UriUtils;
@@ -64,7 +65,7 @@ public class ClippedImagePrototype extends AbstractImagePrototype {
 
   @Override
   public ImagePrototypeElement createElement() {
-    return (ImagePrototypeElement) impl.createStructure(url, left, top, width, height);
+    return Js.uncheckedCast(impl.createStructure(url, left, top, width, height));
   }
 
   @Override

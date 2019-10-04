@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.event.logical.shared.ValueChangeEvent;
@@ -28,6 +29,7 @@ import java.text.ParseException;
 /**
  * Testing ValueBoxBase.
  */
+@J2clTestInput(ValueBoxBaseTest.class)
 public class ValueBoxBaseTest extends GWTTestCase {
 
   /**

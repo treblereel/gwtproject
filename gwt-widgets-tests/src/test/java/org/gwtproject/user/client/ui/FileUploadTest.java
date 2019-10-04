@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.EventTarget;
 import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.event.dom.client.ClickHandler;
@@ -24,6 +25,7 @@ import com.google.gwt.junit.client.GWTTestCase;
  * Tests for {@link FileUpload}.
  * 
  */
+@J2clTestInput(FileUploadTest.class)
 public class FileUploadTest extends GWTTestCase {
 
   private static class TestHandler implements ClickHandler {

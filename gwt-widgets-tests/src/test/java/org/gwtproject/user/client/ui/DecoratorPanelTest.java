@@ -16,12 +16,14 @@
 
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.DOM;
 
 /**
  * Test for {@link DecoratorPanel}.
  */
+@J2clTestInput(DecoratorPanelTest.class)
 public class DecoratorPanelTest extends SimplePanelTestBase<DecoratorPanel> {
 
   /**

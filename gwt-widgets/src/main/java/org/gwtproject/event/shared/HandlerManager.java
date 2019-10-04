@@ -9,7 +9,6 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 
-import elemental2.dom.DomGlobal;
 import org.gwtproject.event.legacy.shared.EventHandler;
 
 /**
@@ -223,6 +222,7 @@ public class HandlerManager implements HasHandlers {
                 if (source != null) {
                     setSourceOfEvent(event, source);
                 }
+
                 List<H> handlers = getDispatchList(event.getAssociatedType(), source);
                 Set<Throwable> causes = null;
 

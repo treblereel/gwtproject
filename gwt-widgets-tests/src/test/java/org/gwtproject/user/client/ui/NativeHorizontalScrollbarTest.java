@@ -15,9 +15,12 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
+
 /**
  * Tests the {@link NativeHorizontalScrollbar} widget.
  */
+@J2clTestInput(NativeHorizontalScrollbarTest.class)
 public class NativeHorizontalScrollbarTest extends
     NativeScrollbarTestBase<NativeHorizontalScrollbar> {
 

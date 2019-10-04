@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import junit.framework.TestCase;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.event.dom.client.ClickEvent;
@@ -28,6 +29,7 @@ import java.util.Locale;
 /**
  * Tests for {@link Anchor}.
  */
+@J2clTestInput(AnchorTest.class)
 public class AnchorTest extends TestCase {
   private static final class TestClickHandler implements ClickHandler {
     private int clicks = 0;

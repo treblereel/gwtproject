@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.event.dom.client.BlurEvent;
 import org.gwtproject.event.dom.client.BlurHandler;
@@ -28,6 +29,7 @@ import org.gwtproject.user.client.Event;
 /**
  * Tests for {@link Composite}.
  */
+@J2clTestInput(CompositeTest.class)
 public class CompositeTest extends GWTTestCase {
 
   static int orderIndex;

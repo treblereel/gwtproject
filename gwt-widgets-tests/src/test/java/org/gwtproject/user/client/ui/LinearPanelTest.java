@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.Element;
 import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.user.client.DOM;
@@ -22,6 +23,7 @@ import org.gwtproject.user.client.DOM;
 /**
  * TODO: document me.
  */
+@J2clTestInput(LinearPanelTest.class)
 public class LinearPanelTest extends GWTTestCase {
 
   @Override

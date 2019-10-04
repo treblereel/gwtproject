@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.HTMLTable.ColumnFormatter;
@@ -22,6 +23,7 @@ import org.gwtproject.user.client.ui.HTMLTable.ColumnFormatter;
 /**
  * Tests for {@link Grid}.
  */
+@J2clTestInput(GridTest.class)
 public class GridTest extends HTMLTableTestBase {
 
   @Override

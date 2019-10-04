@@ -16,9 +16,12 @@
 
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
+
 /**
  * Tests a {@link TextArea}.
  */
+@J2clTestInput(TextAreaTest.class)
 public class TextAreaTest extends TextBoxBaseTestBase {
 
   /**

@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import jsinterop.base.Js;
 import org.gwtproject.aria.client.ExpandedValue;
 import org.gwtproject.aria.client.Id;
 import org.gwtproject.aria.client.Roles;
@@ -1192,10 +1193,10 @@ public class Tree extends Widget implements HasTreeItems.ForIsWidget, HasWidgets
     if (child == null) {
       // If no image element has been created yet, create one from the
       // prototype.
-      DOM.appendChild(holder, proto.createElement().<Element> cast());
+      DOM.appendChild(holder, proto.createElement());
     } else {
       // Otherwise, simply apply the prototype to the existing element.
-      proto.applyTo(child.<ImagePrototypeElement> cast());
+      proto.applyTo(Js.<Image>uncheckedCast(child));
     }
   }
 

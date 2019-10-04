@@ -15,9 +15,12 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
+
 /**
  * Tests {@link PasswordTextBox}.
  */
+@J2clTestInput(PasswordTextBoxTest.class)
 public class PasswordTextBoxTest extends TextBoxTest {
 
   @Override

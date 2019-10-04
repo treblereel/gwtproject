@@ -16,6 +16,7 @@
 package org.gwtproject.user.client.ui;
 
 import com.google.gwt.junit.client.GWTTestCase;
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.safehtml.shared.SafeHtmlUtils;
 
 import java.util.Locale;
@@ -23,6 +24,7 @@ import java.util.Locale;
 /**
  * Tests {@link InlineHyperlinkTest}.
  */
+@J2clTestInput(InlineHyperlinkTest.class)
 public class InlineHyperlinkTest extends GWTTestCase {
 
   static final String html = "<b>hello</b><i>world</i>";

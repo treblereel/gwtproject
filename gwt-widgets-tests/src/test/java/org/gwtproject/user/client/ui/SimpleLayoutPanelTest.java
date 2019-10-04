@@ -15,9 +15,12 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
+
 /**
  * Tests for {@link SimpleLayoutPanel}.
  */
+@J2clTestInput(SimpleLayoutPanelTest.class)
 public class SimpleLayoutPanelTest extends
     SimplePanelTestBase<SimpleLayoutPanel> {
 

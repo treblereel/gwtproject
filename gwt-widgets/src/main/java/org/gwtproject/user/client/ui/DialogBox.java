@@ -295,8 +295,8 @@ public class DialogBox extends DecoratedPopupPanel implements HasHTML,
   @Override
   public void hide(boolean autoClosed) {
     if (resizeHandlerRegistration != null) {
-      resizeHandlerRegistration.removeHandler();
-      resizeHandlerRegistration = null;
+      this.resizeHandlerRegistration.removeHandler();
+      this.resizeHandlerRegistration = null;
     }
     super.hide(autoClosed);
   }
@@ -305,7 +305,7 @@ public class DialogBox extends DecoratedPopupPanel implements HasHTML,
   public void onBrowserEvent(Event event) {
     // If we're not yet dragging, only trigger mouse events if the event occurs
     // in the caption wrapper
-    switch (event.getTypeInt()) {
+    switch (DOM.eventGetType(event)) {
       case Event.ONMOUSEDOWN:
       case Event.ONMOUSEUP:
       case Event.ONMOUSEMOVE:

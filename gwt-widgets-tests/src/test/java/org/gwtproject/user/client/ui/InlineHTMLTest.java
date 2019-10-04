@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.i18n.client.HasDirection.Direction;
 import org.gwtproject.safehtml.shared.SafeHtmlUtils;
 
@@ -24,6 +25,7 @@ import java.util.Locale;
  * Tests {@link InlineHTML}.
  * Note: tests only the direction and alignment logic.
  */
+@J2clTestInput(InlineHTMLTest.class)
 public class InlineHTMLTest extends LabelTest {
 
   static final String html = "<b>hello</b><i>world</i>";

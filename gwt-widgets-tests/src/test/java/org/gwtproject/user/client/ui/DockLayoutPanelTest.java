@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.user.client.ui.DockLayoutPanel.Direction;
 
@@ -24,6 +25,7 @@ import java.util.List;
 /**
  * Tests for {@link DockLayoutPanel}.
  */
+@J2clTestInput(DockLayoutPanelTest.class)
 public class DockLayoutPanelTest extends WidgetTestBase {
 
   public void testGetResolvedDirection() {

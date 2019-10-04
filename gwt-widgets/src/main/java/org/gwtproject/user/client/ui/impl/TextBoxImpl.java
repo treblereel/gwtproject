@@ -15,10 +15,11 @@
  */
 package org.gwtproject.user.client.ui.impl;
 
+import jsinterop.annotations.JsPackage;
+import jsinterop.annotations.JsType;
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 import org.gwtproject.dom.client.Element;
-import org.gwtproject.user.client.ui.ValueBoxBase;
 
 /**
  * Implementation class used by {@link org.gwtproject.user.client.ui.TextBox}.
@@ -26,7 +27,7 @@ import org.gwtproject.user.client.ui.ValueBoxBase;
 public class TextBoxImpl {
 
   public int getCursorPos(Element elem) {
-    JsPropertyMap jsObject = ((JsPropertyMap)elem);
+    JsPropertyMap jsObject = Js.asPropertyMap(elem);
     if(jsObject.has("selectionStart")) {
         try {
           return Integer.valueOf(jsObject.get("selectionStart").toString());
@@ -38,7 +39,7 @@ public class TextBoxImpl {
   }
 
   public int getSelectionLength(Element elem) {
-    JsPropertyMap jsObject = ((JsPropertyMap)elem);
+    JsPropertyMap jsObject = Js.asPropertyMap(elem);
     if(jsObject.has("selectionEnd") && jsObject.has("selectionStart")) {
       try {
         int selectionEnd = Integer.valueOf(jsObject.get("selectionEnd").toString());
@@ -61,9 +62,14 @@ public class TextBoxImpl {
 
   public void setSelectionRange(Element elem, int pos, int length) {
     try {
-      ((ValueBoxBase) Js.uncheckedCast(elem)).setSelectionRange(pos, pos + length);
+      Js.<HTMLInputElement>uncheckedCast(elem).setSelectionRange(pos, pos + length);
     } catch (Exception e) {
-
     }
   }
+
+  @JsType(isNative = true, namespace = JsPackage.GLOBAL)
+  public static class HTMLInputElement {
+    public native void setSelectionRange(int pos, int i);
+  }
+
 }

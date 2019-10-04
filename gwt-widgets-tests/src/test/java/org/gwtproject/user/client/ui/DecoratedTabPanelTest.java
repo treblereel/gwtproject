@@ -15,9 +15,12 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
+
 /**
  * Tests the {@link DecoratedTabPanel}.
  */
+@J2clTestInput(DecoratedTabPanelTest.class)
 public class DecoratedTabPanelTest extends TabPanelTest {
   @Override
   protected TabPanel createTabPanel() {

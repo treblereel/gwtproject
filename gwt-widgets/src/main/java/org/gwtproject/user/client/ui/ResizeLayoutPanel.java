@@ -192,7 +192,7 @@ public class ResizeLayoutPanel extends SimplePanel implements ProvidesResize,
     }
 
     public void onBrowserEvent(Event event) {
-      if (!resettingScrollables && Event.ONSCROLL == event.getTypeInt()) {
+      if (!resettingScrollables && Event.ONSCROLL == DOM.eventGetType(event)) {
         EventTarget eventTarget = event.getEventTarget();
         if (!Element.is(eventTarget)) {
           return;

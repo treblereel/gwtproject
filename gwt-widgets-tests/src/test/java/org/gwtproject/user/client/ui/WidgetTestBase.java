@@ -16,15 +16,17 @@
 package org.gwtproject.user.client.ui;
 
 import com.google.gwt.junit.client.GWTTestCase;
+import com.google.j2cl.junit.apt.J2clTestInput;
 
 /**
  * Convenience class to use user module and a default tear down code for widget
  * tests.
  */
+@J2clTestInput(WidgetTestBase.class)
 public class WidgetTestBase extends GWTTestCase {
   @Override
   public String getModuleName() {
-    return "org.gwtproject.user.Widgets";
+    return "";
   }
 
   public void testAsWidget() {
@@ -38,7 +40,6 @@ public class WidgetTestBase extends GWTTestCase {
    * can be used to perform cleanup. Override this method instead of
    * {@link #tearDown()}.
    */
-  @Override
   protected void gwtTearDown() {
     RootPanel.get().clear();
   }

@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.Element;
 import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.user.client.DOM;
@@ -22,7 +23,7 @@ import org.gwtproject.user.client.DOM;
 /**
  * Tests the DockPanel widget.
  */
-
+@J2clTestInput(DockPanelTest.class)
 public class DockPanelTest extends GWTTestCase {
 
   static class Adder implements HasWidgetsTester.WidgetAdder {

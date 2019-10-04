@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import org.gwtproject.dom.client.Document;
@@ -31,6 +32,7 @@ import org.gwtproject.event.dom.client.MouseWheelHandler;
 import org.gwtproject.event.shared.HandlerRegistration;
 import org.gwtproject.safehtml.shared.SafeHtml;
 import org.gwtproject.safehtml.shared.SafeHtmlUtils;
+import org.gwtproject.timer.client.Timer;
 import org.gwtproject.user.client.DOM;
 
 import java.util.Locale;
@@ -38,6 +40,7 @@ import java.util.Locale;
 /**
  * Unit test for {@link DialogBox}.
  */
+@J2clTestInput(DialogBoxTest.class)
 public class DialogBoxTest extends PopupTest {
 
   /**
@@ -231,7 +234,12 @@ public class DialogBoxTest extends PopupTest {
         0, 0, 0, 0, 0, false, false, false, false, 0);
     Document.get().getBody().dispatchEvent(mouseDownEvent);
     // handler should be gone
-    assertNull(autoHideBox.resizeHandlerRegistration);
+    new Timer() {
+      @Override
+      public void run() {
+        assertNull(autoHideBox.resizeHandlerRegistration);
+      }
+    }.schedule(1000);
   }
 
   public void testSafeHtmlConstructor() {

@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.core.client.GWT;
 import org.gwtproject.dom.client.Document;
 import com.google.gwt.junit.client.GWTTestCase;
@@ -23,6 +24,7 @@ import com.google.gwt.junit.client.GWTTestCase;
  * A series of tests to ensure that widgets with a wrap() method properly assert
  * their element types.
  */
+@J2clTestInput(WidgetSubclassingTest.class)
 public class WidgetSubclassingTest extends GWTTestCase {
 
   private static final String ASSERTION_ERROR = "Should have received an assertion error trying to use the wrong element type";

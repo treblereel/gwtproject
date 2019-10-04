@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.Command;
@@ -23,6 +24,7 @@ import org.gwtproject.user.client.DOM;
 /**
  * Test cases for {@link StackPanel}.
  */
+@J2clTestInput(StackPanelTest.class)
 public class StackPanelTest extends PanelTestBase<StackPanel> {
 
   static class Adder implements HasWidgetsTester.WidgetAdder {

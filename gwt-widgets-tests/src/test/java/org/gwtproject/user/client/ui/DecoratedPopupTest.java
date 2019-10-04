@@ -15,9 +15,12 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
+
 /**
  * Test cases for {@link DecoratedPopupPanel}.
  */
+@J2clTestInput(DecoratedPopupTest.class)
 public class DecoratedPopupTest extends PopupTest {
   @Override
   public void testDependantPopupPanel() {

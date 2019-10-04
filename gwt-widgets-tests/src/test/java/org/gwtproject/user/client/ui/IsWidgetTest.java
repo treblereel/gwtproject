@@ -15,6 +15,8 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.gwt.junit.client.GWTTestCase;
+import com.google.j2cl.junit.apt.J2clTestInput;
 import junit.framework.TestCase;
 
 import java.util.ArrayList;
@@ -24,7 +26,14 @@ import java.util.List;
 /**
  * Demonstrates that IsWidget and related interfaces can be used in JRE tests.
  */
-public class IsWidgetTest extends TestCase {
+@J2clTestInput(IsWidgetTest.class)
+public class IsWidgetTest extends GWTTestCase {
+
+  @Override
+  public String getModuleName() {
+    return "";
+  }
+
   interface SomeView extends IsWidget {
     void blah(); // Empty interface warning be damned
   }

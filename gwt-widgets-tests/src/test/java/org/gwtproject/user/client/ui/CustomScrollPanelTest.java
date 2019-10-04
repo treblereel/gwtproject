@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.style.shared.Overflow;
 import org.gwtproject.timer.client.Timer;
@@ -22,6 +23,7 @@ import org.gwtproject.timer.client.Timer;
 /**
  * Tests the ScrollPanel widget.
  */
+@J2clTestInput(CustomScrollPanelTest.class)
 public class CustomScrollPanelTest extends ScrollPanelTest {
 
   /**

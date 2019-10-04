@@ -15,6 +15,8 @@
  */
 package org.gwtproject.user.client.ui.impl;
 
+import jsinterop.annotations.JsFunction;
+import jsinterop.base.Js;
 import org.gwtproject.core.client.JavaScriptObject;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
@@ -67,7 +69,12 @@ public class ClippedImageImpl {
   }
 
   public static JavaScriptObject createOnLoadHandlerFunction() {
-    throw new UnsupportedOperationException();
+    return Js.uncheckedCast(new Fn(){
+      @Override
+      public void onInvoke() {
+        Js.asPropertyMap(this).set("__gwtLastUnhandledEvent", "load");
+      }
+    });
   }
 
   public Element getImgElement(Image image) {
@@ -107,5 +114,11 @@ public class ClippedImageImpl {
       template = new ClippedImageImpl_TemplateImpl();
     }
     return template;
+  }
+
+  @FunctionalInterface
+  @JsFunction
+  interface Fn {
+    void onInvoke();
   }
 }

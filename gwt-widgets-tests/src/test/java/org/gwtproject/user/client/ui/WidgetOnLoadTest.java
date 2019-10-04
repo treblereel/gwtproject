@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.event.logical.shared.AttachEvent;
 import com.google.gwt.junit.client.GWTTestCase;
@@ -22,6 +23,7 @@ import com.google.gwt.junit.client.GWTTestCase;
 /**
  * Tests the semantics and ordering of onAttach/onDetach/onLoad/onUnload.
  */
+@J2clTestInput(WidgetOnLoadTest.class)
 public class WidgetOnLoadTest extends GWTTestCase {
 
   static class TestPanel extends FlowPanel {

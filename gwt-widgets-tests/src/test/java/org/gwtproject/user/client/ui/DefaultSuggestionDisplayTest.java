@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
 import org.gwtproject.user.client.ui.SuggestOracle.Suggestion;
 
@@ -23,6 +24,7 @@ import java.util.List;
 /**
  * Tests for {@link DefaultSuggestionDisplay}.
  */
+@J2clTestInput(DefaultSuggestionDisplayTest.class)
 public class DefaultSuggestionDisplayTest extends SuggestionDisplayTestBase {
 
   public void testAccessors() {

@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import org.gwtproject.dom.style.shared.Unit;
@@ -29,6 +30,7 @@ import java.util.List;
 /**
  * Tests for {@link ResizeLayoutPanel}.
  */
+@J2clTestInput(ResizeLayoutPanelTest.class)
 public class ResizeLayoutPanelTest extends
     SimplePanelTestBase<ResizeLayoutPanel> {
 

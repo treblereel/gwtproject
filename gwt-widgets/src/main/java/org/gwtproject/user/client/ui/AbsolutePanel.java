@@ -286,8 +286,8 @@ public class AbsolutePanel extends ComplexPanel implements
         + "'position:static', which is the CSS default, is in effect. One "
         + "possible fix is to call "
         + "'panel.getElement().getStyle().setPosition(Position.RELATIVE)'.",
-                  // Stack trace provides context for the developer
-                  new IllegalStateException(className
+                           // Stack trace provides context for the developer
+                           new IllegalStateException(className
             + " is missing CSS 'position:{relative,absolute,fixed}'"));
   }
 }

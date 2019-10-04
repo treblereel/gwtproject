@@ -15,9 +15,12 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
+
 /**
  * Test the FocusPanel widget.
  */
+@J2clTestInput(FocusPanelTest.class)
 public class FocusPanelTest extends SimplePanelTestBase<FocusPanel> {
 
   @Override

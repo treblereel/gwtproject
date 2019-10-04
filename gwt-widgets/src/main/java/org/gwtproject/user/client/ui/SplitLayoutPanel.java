@@ -22,6 +22,7 @@ import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.style.shared.Position;
 import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.Event;
 import org.gwtproject.user.window.client.Window;
 
@@ -116,7 +117,7 @@ public class SplitLayoutPanel extends DockLayoutPanel {
 
     @Override
     public void onBrowserEvent(Event event) {
-      switch (event.getTypeInt()) {
+      switch (DOM.eventGetType(event)) {
         case Event.ONMOUSEDOWN:
           mouseDown = true;
 

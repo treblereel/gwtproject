@@ -16,6 +16,7 @@
 package org.gwtproject.user.client.ui;
 
 import com.google.gwt.junit.client.GWTTestCase;
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.user.client.ui.FiniteWidgetIterator.WidgetProvider;
 
 import java.util.HashMap;
@@ -25,6 +26,7 @@ import java.util.NoSuchElementException;
 /**
  * Test cases for {@link FiniteWidgetIterator}.
  */
+@J2clTestInput(FiniteWidgetIteratorTest.class)
 public class FiniteWidgetIteratorTest extends GWTTestCase {
 
   /**

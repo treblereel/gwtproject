@@ -322,7 +322,6 @@ public abstract class RichTextAreaImplStandard extends RichTextAreaImpl implemen
 
   @Override
   protected void hookEvents() {
-    //return ((IFrameElement)Js.uncheckedCast(this.elem)).getContentDocument().getBody().getInnerHTML();
     HTMLIFrameElement iframe = Js.uncheckedCast(elem);
     Window wnd = iframe.contentWindow;
     elem.setPropertyObject("__gwt_handler", (DOMImplStandard.Fn) event -> {
@@ -373,7 +372,8 @@ public abstract class RichTextAreaImplStandard extends RichTextAreaImpl implemen
             .equals("ON");
   }
 
-  @Override @SuppressIsSafeHtmlCastCheck
+  @Override
+  @SuppressIsSafeHtmlCastCheck
   protected void onElementInitialized() {
     // Issue 1897: This method is called after a timeout, during which time the
     // element might by detached.
@@ -468,7 +468,9 @@ public abstract class RichTextAreaImplStandard extends RichTextAreaImpl implemen
   }
 
   void execCommandAssumingFocus(String cmd, String param) {
-    throw new UnsupportedOperationException();
+    HTMLIFrameElement iframe = Js.uncheckedCast(elem);
+    Document document = Js.uncheckedCast(Js.asPropertyMap(iframe.contentWindow).get("document"));
+    ((ExecCommand)Js.uncheckedCast(Js.asPropertyMap(document).get("execCommand"))).onInvoke(cmd, false, param);
   }
 
   boolean queryCommandState(String cmd) {
@@ -486,7 +488,9 @@ public abstract class RichTextAreaImplStandard extends RichTextAreaImpl implemen
   }
 
   boolean queryCommandStateAssumingFocus(String cmd) {
-    throw new UnsupportedOperationException();
+    HTMLIFrameElement iframe = Js.uncheckedCast(elem);
+    Document document = Js.uncheckedCast(Js.asPropertyMap(iframe.contentWindow).get("document"));
+    return ((QueryCommandState)Js.uncheckedCast(Js.asPropertyMap(document).get("queryCommandState"))).onInvoke(cmd);
   }
 
   String queryCommandValue(String cmd) {
@@ -504,12 +508,32 @@ public abstract class RichTextAreaImplStandard extends RichTextAreaImpl implemen
   }
 
   String queryCommandValueAssumingFocus(String cmd) {
-    throw new UnsupportedOperationException();
+    HTMLIFrameElement iframe = Js.uncheckedCast(elem);
+    Document document = Js.uncheckedCast(Js.asPropertyMap(iframe.contentWindow).get("document"));
+    return ((QueryCommandValue)Js.uncheckedCast(Js.asPropertyMap(document).get("queryCommandValue"))).onInvoke(cmd);
   }
 
   @FunctionalInterface
   @JsFunction
   public interface Fn {
     void onInvoke(Event evt);
+  }
+
+  @FunctionalInterface
+  @JsFunction
+  public interface QueryCommandValue {
+    String onInvoke(String evt);
+  }
+
+  @FunctionalInterface
+  @JsFunction
+  public interface QueryCommandState {
+    boolean onInvoke(String evt);
+  }
+
+  @FunctionalInterface
+  @JsFunction
+  public interface ExecCommand {
+    void onInvoke(String evt, boolean rep, String param);
   }
 }

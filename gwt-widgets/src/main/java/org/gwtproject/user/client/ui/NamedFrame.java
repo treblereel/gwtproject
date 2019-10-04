@@ -15,9 +15,9 @@
  */
 package org.gwtproject.user.client.ui;
 
-import org.gwtproject.core.client.JavaScriptObject;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.IFrameElement;
+import org.gwtproject.regexp.shared.RegExp;
 import org.gwtproject.safehtml.client.SafeHtmlTemplates;
 import org.gwtproject.safehtml.shared.SafeHtml;
 import org.gwtproject.uibinder.client.UiConstructor;
@@ -42,7 +42,7 @@ public class NamedFrame extends Frame {
 
   // Used inside JSNI, so please don't delete this field just because
   // your compiler or IDE says it's unused.
-  private static JavaScriptObject PATTERN_NAME;
+  private static RegExp PATTERN_NAME;
 
   static {
     initStatics();
@@ -72,7 +72,7 @@ public class NamedFrame extends Frame {
   }
 
   private static void initStatics()  {
-    throw new UnsupportedOperationException();
+    PATTERN_NAME = RegExp.compile("^[^<>&\\'\\\"]+$");
   }
 
 
@@ -82,7 +82,7 @@ public class NamedFrame extends Frame {
    *         not
    */
   private static boolean isValidName(String name)  {
-    throw new UnsupportedOperationException();
+    return PATTERN_NAME.test(name);
   }
 
 

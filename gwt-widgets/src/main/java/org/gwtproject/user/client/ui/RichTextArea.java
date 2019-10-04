@@ -23,6 +23,7 @@ import org.gwtproject.safehtml.client.HasSafeHtml;
 import org.gwtproject.safehtml.shared.SafeHtml;
 import org.gwtproject.safehtml.shared.annotations.IsSafeHtml;
 import org.gwtproject.user.client.ui.impl.RichTextAreaImpl;
+import org.gwtproject.user.client.ui.impl.RichTextAreaImplMozilla;
 
 /**
  * A rich text editor that allows complex styling and formatting.
@@ -572,7 +573,7 @@ public class RichTextArea extends FocusWidget implements HasHTML,
     }
   }
 
-  private RichTextAreaImpl impl = new RichTextAreaImpl();
+  private RichTextAreaImpl impl = new RichTextAreaImplMozilla();
 
   /**
    * Creates a new, blank {@link RichTextArea} object with no stylesheet.

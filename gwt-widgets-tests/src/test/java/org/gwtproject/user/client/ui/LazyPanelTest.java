@@ -16,10 +16,12 @@
 package org.gwtproject.user.client.ui;
 
 import com.google.gwt.junit.client.GWTTestCase;
+import com.google.j2cl.junit.apt.J2clTestInput;
 
 /**
  * Tests {@link LazyPanel}.
  */
+@J2clTestInput(LazyPanelTest.class)
 public class LazyPanelTest extends GWTTestCase {
   private final static class MyLazyPanel extends LazyPanel {
     final Widget widgetToCreate;
