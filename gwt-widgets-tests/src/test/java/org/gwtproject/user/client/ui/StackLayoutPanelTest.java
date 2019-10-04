@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.event.logical.shared.BeforeSelectionEvent;
 import org.gwtproject.event.logical.shared.BeforeSelectionHandler;
@@ -30,6 +31,7 @@ import java.util.Locale;
 /**
  * Tests for {@link StackLayoutPanel}.
  */
+@J2clTestInput(StackLayoutPanelTest.class)
 public class StackLayoutPanelTest extends WidgetTestBase {
   static class Adder implements HasWidgetsTester.WidgetAdder {
     @Override

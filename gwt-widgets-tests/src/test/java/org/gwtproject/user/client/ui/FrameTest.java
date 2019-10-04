@@ -1,10 +1,13 @@
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.event.dom.client.LoadEvent;
 import org.gwtproject.event.dom.client.LoadHandler;
 import com.google.gwt.junit.client.GWTTestCase;
+import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.Event;
 
+@J2clTestInput(FrameTest.class)
 public class FrameTest extends GWTTestCase {
 
   private static final int FRAME_LOAD_DELAY = 3000;
@@ -20,7 +23,7 @@ public class FrameTest extends GWTTestCase {
     org.gwtproject.user.client.ui.Frame frame = new org.gwtproject.user.client.ui.Frame() {
       @Override
       public void onBrowserEvent(Event event) {
-        if (event.getTypeInt() == Event.ONLOAD) {
+        if (DOM.eventGetType(event) == Event.ONLOAD) {
           finishTest();
         }
         super.onBrowserEvent(event);

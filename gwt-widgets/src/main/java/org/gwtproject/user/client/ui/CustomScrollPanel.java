@@ -248,7 +248,7 @@ public class CustomScrollPanel extends ScrollPanel {
   @Override
   public void onBrowserEvent(Event event) {
     // Align the scrollbars with the content.
-    if (Event.ONSCROLL == event.getTypeInt()) {
+    if (Event.ONSCROLL == DOM.eventGetType(event)) {
       double curTime = Duration.currentTimeMillis();
       if (curTime > ignoreContentUntil) {
         ignoreScrollbarsUntil = curTime + IGNORE_SCROLL_TIMEOUT;

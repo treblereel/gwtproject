@@ -18,6 +18,7 @@ package org.gwtproject.user.client.ui;
 /**
  * Simple IsWidget, handy for testing.
  */
+
 public class IsWidgetImpl implements IsWidget {
   public final Widget w;
 

@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.cell.client.TextCell;
 import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.user.cellview.client.CellList;
@@ -25,6 +26,7 @@ import java.util.List;
 /**
  * Tests for {@link ValuePicker}.
  */
+@J2clTestInput(ValuePickerTest.class)
 public class ValuePickerTest extends GWTTestCase {
 
   @Override

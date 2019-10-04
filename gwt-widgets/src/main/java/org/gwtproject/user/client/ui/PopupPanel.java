@@ -117,7 +117,7 @@ public class PopupPanel extends SimplePanel implements
    * <li>ROLL_DOWN - Expand from the top to the bottom, do not animate hiding</li>
    * </ul>
    */
-  public static enum AnimationType {
+  public enum AnimationType {
     CENTER, ONE_WAY_CORNER, ROLL_DOWN
   }
 
@@ -479,7 +479,7 @@ public class PopupPanel extends SimplePanel implements
   public void addAutoHidePartner(Element partner) {
     assert partner != null : "partner cannot be null";
     if (autoHidePartners == null) {
-      autoHidePartners = new ArrayList<Element>();
+      autoHidePartners = new ArrayList<>();
     }
     autoHidePartners.add(partner);
   }
@@ -1281,7 +1281,7 @@ public class PopupPanel extends SimplePanel implements
     }
 
     // Switch on the event type
-    int type = nativeEvent.getTypeInt();
+    int type = event.getTypeInt();
     switch (type) {
       case Event.ONKEYDOWN: {
         return;

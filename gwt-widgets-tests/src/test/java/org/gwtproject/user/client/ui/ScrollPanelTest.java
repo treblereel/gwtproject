@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import org.gwtproject.touch.client.TouchScroller;
@@ -22,6 +23,7 @@ import org.gwtproject.touch.client.TouchScroller;
 /**
  * Tests the ScrollPanel widget.
  */
+@J2clTestInput(ScrollPanelTest.class)
 public class ScrollPanelTest extends SimplePanelTestBase<ScrollPanel> {
 
   public void testGetMaximumScrollPosition() {

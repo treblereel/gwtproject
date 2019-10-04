@@ -684,7 +684,7 @@ public abstract class HTMLTable extends Panel implements
 
 
     protected Element getRow(Element tbody, int row) {
-      return getRow(tbody, row);
+      return getRows(tbody).getAt(row);
     }
 
     /**

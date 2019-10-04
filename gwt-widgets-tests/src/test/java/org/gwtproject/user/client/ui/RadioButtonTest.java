@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.InputElement;
@@ -31,6 +32,7 @@ import java.util.Locale;
 /**
  * Tests the RadioButton class.
  */
+@J2clTestInput(RadioButtonTest.class)
 public class RadioButtonTest extends GWTTestCase {
 
   private static class Changeable implements ValueChangeHandler<Boolean> {

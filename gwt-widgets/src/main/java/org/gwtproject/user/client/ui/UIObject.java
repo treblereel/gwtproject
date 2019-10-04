@@ -155,6 +155,7 @@ public abstract class UIObject implements HasVisibility {
      * leading portion of an input string.
      */
     private static JavaScriptObject numberRegex;
+
     private static DebugIdImpl debugIdImpl =
             DebugInfo.isDebugIdEnabled() ? new DebugIdImplEnabled() : new DebugIdImpl();
     private Element element;
@@ -825,7 +826,7 @@ public abstract class UIObject implements HasVisibility {
      * @see IsRenderable
      */
     protected Element resolvePotentialElement() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("resolvePotentialElement");
     }
 
     /**

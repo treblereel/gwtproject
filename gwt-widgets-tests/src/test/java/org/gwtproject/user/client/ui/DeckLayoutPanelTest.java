@@ -19,9 +19,12 @@ package org.gwtproject.user.client.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
+
 /**
  * Test for {@link DeckLayoutPanel}.
  */
+@J2clTestInput(DeckLayoutPanelTest.class)
 public class DeckLayoutPanelTest extends PanelTestBase<DeckLayoutPanel> {
 
   /**

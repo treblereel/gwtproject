@@ -15,14 +15,18 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.i18n.client.LocaleInfo;
 import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.user.client.DOM;
+import org.junit.Ignore;
 
 /**
  * Tests standard DOM operations in the {@link DOM} class in RTL mode.
  */
+@Ignore
+@J2clTestInput(DOMRtlTest.class)
 public class DOMRtlTest extends GWTTestCase {
   @Override
   public String getModuleName() {

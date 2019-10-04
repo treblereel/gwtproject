@@ -16,6 +16,7 @@
 package org.gwtproject.user.client.ui;
 
 import com.google.gwt.junit.client.GWTTestCase;
+import com.google.j2cl.junit.apt.J2clTestInput;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -23,6 +24,7 @@ import java.util.NoSuchElementException;
 /**
  * Tests {@link WidgetIterators}.
  */
+@J2clTestInput(WidgetIteratorsTest.class)
 public class WidgetIteratorsTest extends GWTTestCase {
 
   /**

@@ -16,9 +16,12 @@
 
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
+
 /**
  * Test for {@link DeckPanel}.
  */
+@J2clTestInput(DeckPanelTest.class)
 public class DeckPanelTest extends PanelTestBase<DeckPanel> {
 
   /**

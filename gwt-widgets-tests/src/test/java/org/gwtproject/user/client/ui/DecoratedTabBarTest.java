@@ -15,9 +15,12 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
+
 /**
  * Test cases for {@link DecoratedTabBar}.
  */
+@J2clTestInput(DecoratedTabBarTest.class)
 public class DecoratedTabBarTest extends TabBarTest {
   @Override
   protected TabBar createTabBar() {

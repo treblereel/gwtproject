@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.DivElement;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
@@ -30,6 +31,7 @@ import org.gwtproject.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentC
  * Note: tests only the alignment logic. direction logic is tested at
  * {@link HTMLTest}, and other stuff remains currently untested.
  */
+@J2clTestInput(LabelTest.class)
 public class LabelTest extends GWTTestCase {
 
   static final String html1 = "<b>hello</b><i>world</i>:)";

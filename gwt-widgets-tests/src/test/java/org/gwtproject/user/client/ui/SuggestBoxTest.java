@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.NativeEvent;
@@ -37,6 +38,7 @@ import java.util.List;
 /**
  * Tests for {@link SuggestBoxTest}.
  */
+@J2clTestInput(SuggestBoxTest.class)
 public class SuggestBoxTest extends WidgetTestBase {
 
   /**

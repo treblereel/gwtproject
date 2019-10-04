@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import org.gwtproject.timer.client.Timer;
@@ -25,6 +26,7 @@ import java.util.NoSuchElementException;
 /**
  * Tests for {@link HeaderPanel}.
  */
+@J2clTestInput(HeaderPanelTest.class)
 public class HeaderPanelTest extends PanelTestBase<HeaderPanel> {
 
   public void testAdd() {

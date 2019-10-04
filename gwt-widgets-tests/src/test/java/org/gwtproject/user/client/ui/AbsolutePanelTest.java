@@ -15,13 +15,16 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
+import org.gwtproject.user.client.EventTest;
 import org.gwtproject.user.window.client.Window;
 
 /**
  * Tests for {@link AbsolutePanel}.
  */
+@J2clTestInput(AbsolutePanelTest.class)
 public class AbsolutePanelTest extends PanelTestBase<AbsolutePanel> {
 
   /**

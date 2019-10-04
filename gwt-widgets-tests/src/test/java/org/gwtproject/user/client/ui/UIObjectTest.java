@@ -15,6 +15,8 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
+import jsinterop.base.Js;
 import org.gwtproject.aria.client.State;
 import org.gwtproject.debug.client.DebugInfo;
 import org.gwtproject.dom.client.Document;
@@ -27,6 +29,7 @@ import org.gwtproject.user.client.DOM;
 /**
  * Tests UIObject. Currently, focuses on style name behaviors.
  */
+@J2clTestInput(UIObjectTest.class)
 public class UIObjectTest extends GWTTestCase {
   static class MyObject extends UIObject {
     public Element subElement;
@@ -51,7 +54,7 @@ public class UIObjectTest extends GWTTestCase {
    */
   public static void assertDebugId(String debugID, Element elem) {
     debugID = UIObject.DEBUG_ID_PREFIX + debugID;
-    assertEquals(debugID, elem.getPropertyString("id"));
+    assertEquals(debugID, elem.getId());
   }
 
   /**

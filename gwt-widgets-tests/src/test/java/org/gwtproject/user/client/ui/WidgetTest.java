@@ -15,18 +15,20 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.gwt.junit.client.GWTTestCase;
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.event.dom.client.ChangeEvent;
 import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.event.dom.client.ClickHandler;
 import org.gwtproject.event.shared.HandlerManager;
 import org.gwtproject.event.shared.HandlerRegistration;
-import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.user.client.Event;
 
 /**
  * Tests the basic widget infrastructure.
  * 
  */
+@J2clTestInput(WidgetTest.class)
 public class WidgetTest extends GWTTestCase {
 
   ClickHandler handlerA = new ClickHandler() {
@@ -45,7 +47,7 @@ public class WidgetTest extends GWTTestCase {
 
   @Override
   public String getModuleName() {
-    return "org.gwtproject.user.Widgets";
+    return "";
   }
 
   public void testCreateHandlerManager() {

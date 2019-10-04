@@ -15,12 +15,14 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.DivElement;
 import org.gwtproject.dom.client.Document;
 
 /**
  * Testing TextBox.
  */
+@J2clTestInput(TextBoxTest.class)
 public class TextBoxTest extends TextBoxBaseTestBase {
 
   @Override

@@ -16,6 +16,7 @@
 package org.gwtproject.user.client.ui;
 
 import com.google.gwt.junit.client.GWTTestCase;
+import com.google.j2cl.junit.apt.J2clTestInput;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,7 @@ import java.util.List;
 /**
  * TODO(bobv): comment me.
  */
+@J2clTestInput(PrefixTreeTest.class)
 public class PrefixTreeTest extends GWTTestCase {
   @Override
   public String getModuleName() {

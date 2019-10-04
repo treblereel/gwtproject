@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.event.logical.shared.BeforeSelectionEvent;
 import org.gwtproject.event.logical.shared.BeforeSelectionHandler;
@@ -29,6 +30,7 @@ import java.util.Locale;
 /**
  * Tests the {@link TabBar} widget.
  */
+@J2clTestInput(TabBarTest.class)
 public class TabBarTest extends GWTTestCase {
 
   private class TestSelectionHandler implements

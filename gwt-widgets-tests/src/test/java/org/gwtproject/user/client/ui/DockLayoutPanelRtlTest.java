@@ -15,12 +15,16 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.user.client.ui.DockLayoutPanel.Direction;
+import org.junit.Ignore;
 
 /**
  * Tests for {@link DockLayoutPanel}.
  */
+@Ignore
+@J2clTestInput(DockLayoutPanelRtlTest.class)
 public class DockLayoutPanelRtlTest extends WidgetTestBase {
 
   @Override

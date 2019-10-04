@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.core.client.GWT;
 import org.gwtproject.dom.client.AnchorElement;
 import org.gwtproject.dom.client.Document;
@@ -24,6 +25,7 @@ import com.google.gwt.junit.client.GWTTestCase;
 /**
  * Tests for various methods of the form {@link Button#wrap(Element)}.
  */
+@J2clTestInput(ElementWrappingTest.class)
 public class ElementWrappingTest extends GWTTestCase {
 
   private static final String TEST_URL = "http://www.google.com/";

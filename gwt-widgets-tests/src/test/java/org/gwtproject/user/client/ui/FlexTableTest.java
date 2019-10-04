@@ -15,11 +15,13 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.user.client.ui.FlexTable.FlexCellFormatter;
 
 /**
  * TODO: document me.
  */
+@J2clTestInput(FlexTableTest.class)
 public class FlexTableTest extends HTMLTableTestBase {
 
   @Override

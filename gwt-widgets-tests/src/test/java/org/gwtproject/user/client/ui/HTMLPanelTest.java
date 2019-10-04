@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.Node;
 import com.google.gwt.junit.client.GWTTestCase;
@@ -26,6 +27,7 @@ import java.util.Locale;
 /**
  * Tests the HTMLPanel widget.
  */
+@J2clTestInput(HTMLPanelTest.class)
 public class HTMLPanelTest extends GWTTestCase {
   static class Adder implements HasWidgetsTester.WidgetAdder {
     @Override

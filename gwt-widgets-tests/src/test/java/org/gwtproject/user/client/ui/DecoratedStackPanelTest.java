@@ -15,9 +15,12 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
+
 /**
  * Test cases for {@link DecoratedStackPanel}.
  */
+@J2clTestInput(DecoratedStackPanelTest.class)
 public class DecoratedStackPanelTest extends StackPanelTest {
   @Override
   protected StackPanel createStackPanel() {

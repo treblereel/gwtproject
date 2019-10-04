@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.DivElement;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
@@ -24,6 +25,7 @@ import org.gwtproject.user.client.DOM;
 /**
  * Tests {@link RootPanel}.
  */
+@J2clTestInput(RootPanelTest.class)
 public class RootPanelTest extends GWTTestCase {
 
   @Override

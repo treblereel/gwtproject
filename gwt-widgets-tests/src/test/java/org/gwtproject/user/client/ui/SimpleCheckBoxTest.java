@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.ButtonElement;
 import org.gwtproject.event.logical.shared.ValueChangeEvent;
 import org.gwtproject.event.logical.shared.ValueChangeHandler;
@@ -23,6 +24,7 @@ import com.google.gwt.junit.client.GWTTestCase;
 /**
  * Tests for {@link SimpleCheckBox}.
  */
+@J2clTestInput(SimpleCheckBoxTest.class)
 public class SimpleCheckBoxTest extends GWTTestCase {
 
   private static class Handler implements ValueChangeHandler<Boolean> {

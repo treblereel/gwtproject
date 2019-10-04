@@ -15,7 +15,8 @@
  */
 package org.gwtproject.user.client.ui;
 
-import junit.framework.TestCase;
+import com.google.gwt.junit.client.GWTTestCase;
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.DivElement;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
@@ -23,14 +24,15 @@ import org.gwtproject.dom.client.EventTarget;
 import org.gwtproject.dom.client.ImageElement;
 import org.gwtproject.dom.client.InputElement;
 import org.gwtproject.dom.client.NativeEvent;
+import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.Event;
 import org.gwtproject.user.client.EventListener;
-import org.junit.Before;
 
 /**
  * Tests for the native event triggering methods in {@link Event}.
  */
-public class CreateEventTest extends TestCase {
+@J2clTestInput(CreateEventTest.class)
+public class CreateEventTest extends GWTTestCase {
 
     private static final int ALL_EVENTS = Event.MOUSEEVENTS | Event.KEYEVENTS
             | Event.FOCUSEVENTS | Event.ONCHANGE | Event.ONCLICK | Event.ONDBLCLICK
@@ -204,7 +206,7 @@ public class CreateEventTest extends TestCase {
                 if (cancelled) {
                     return;
                 }
-                if (event.getTypeInt() == Event.ONCLICK) {
+                if (DOM.eventGetType(event) == Event.ONCLICK) {
                     // Some browsers (IE, I'm looking at you) synthesize an extra click
                     // event when a double-click is triggered. This synthesized click
                     // will *not* have the same properties as the dblclick, so we will
@@ -277,6 +279,10 @@ public class CreateEventTest extends TestCase {
             @Override
             public NativeEvent createEvent(boolean ctrlKey, boolean altKey,
                                            boolean shiftKey, boolean metaKey) {
+
+                NativeEvent evt = Document.get().createKeyDownEvent(ctrlKey, altKey, shiftKey,
+                                                  metaKey, KEY_CODE);
+
                 return Document.get().createKeyDownEvent(ctrlKey, altKey, shiftKey,
                                                          metaKey, KEY_CODE);
             }
@@ -468,11 +474,18 @@ public class CreateEventTest extends TestCase {
         assertTrue("Expected child to receive event", listener.childReceived);
     }
 
-    @Before
+    @Override
+    public String getModuleName() {
+        return "";
+    }
+
     protected void gwtSetUp() throws Exception {
         parent = Document.get().createDivElement();
         child = Document.get().createTextInputElement();
         img = Document.get().createImageElement();
+
+        parent.setId("parent");
+        child.setId("child");
 
         Document.get().getBody().appendChild(parent);
         parent.appendChild(child);
@@ -516,7 +529,7 @@ public class CreateEventTest extends TestCase {
     /**
      * Interface to create a new event for testing.
      */
-    private static interface EventCreator {
+    private interface EventCreator {
 
         NativeEvent createEvent(boolean ctrlKey, boolean altKey, boolean shiftKey,
                                 boolean metaKey);
@@ -610,7 +623,6 @@ public class CreateEventTest extends TestCase {
             if (cancelled) {
                 return;
             }
-
             assertTrue("Expected child to receive event", childReceived);
             assertTrue("Expected parent to receive event", parentReceived);
             childReceived = false;
@@ -626,8 +638,9 @@ public class CreateEventTest extends TestCase {
             if (cancelled) {
                 return;
             }
-
             assertEquals(eventType, event.getType());
+
+
             if (supportsShiftKeys) {
                 assertAllShiftKeys(event, expectedCtrl, expectedAlt, expectedShift,
                                    expectedMeta);
@@ -674,7 +687,7 @@ public class CreateEventTest extends TestCase {
 
         @Override
         public void onBrowserEvent(Event event) {
-            switch (Event.getCurrentEvent().getTypeInt()) {
+            switch (DOM.eventGetType(Event.getCurrentEvent())) {
                 case Event.ONCLICK:
                     gotClick = true;
                     break;

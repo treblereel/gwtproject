@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.SelectElement;
 import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.text.shared.AbstractRenderer;
@@ -26,6 +27,7 @@ import java.util.Arrays;
 /**
  * Eponymous unit test.
  */
+@J2clTestInput(ValueListBoxTest.class)
 public class ValueListBoxTest extends GWTTestCase {
 
   static class Foo {

@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.DivElement;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
@@ -31,6 +32,7 @@ import org.gwtproject.timer.client.Timer;
  * Tests for the Image widget. Images in both clipped mode and unclipped mode
  * are tested, along with the transitions between the two modes.
  */
+@J2clTestInput(ImageTest.class)
 public class ImageTest extends GWTTestCase {
 
   private static class TestErrorHandler implements ErrorHandler {
@@ -110,12 +112,9 @@ public class ImageTest extends GWTTestCase {
    *         image is in the clipped state
    */
   public static String getCurrentImageStateName(Image image) {
-    throw new UnsupportedOperationException();
-
-  }/*-{
-    var imgState = image.@org.gwtproject.user.client.ui.Image::state;
-    return imgState.@org.gwtproject.user.client.ui.Image.State::getStateName() ();
-  }-*/;
+    Image.State state = image.state;
+    return state.getStateName();
+  }
 
   private int firedError;
 

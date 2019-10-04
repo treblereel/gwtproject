@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.EventTarget;
 import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.event.dom.client.ClickHandler;
@@ -26,6 +27,7 @@ import java.util.Locale;
 /**
  * Tests for {@link ResetButton}.
  */
+@J2clTestInput(ResetButtonTest.class)
 public class ResetButtonTest extends GWTTestCase {
 
   @Override

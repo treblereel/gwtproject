@@ -16,6 +16,7 @@
 package org.gwtproject.user.client.ui;
 
 import com.google.gwt.junit.client.GWTTestCase;
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.safehtml.shared.SafeHtmlUtils;
 
 import java.util.Locale;
@@ -23,6 +24,7 @@ import java.util.Locale;
 /**
  * Tests the {@link TreeItem}.
  */
+@J2clTestInput(TreeItemTest.class)
 public class TreeItemTest extends GWTTestCase {
 
   private static final String HTML = "<b>hello</b><i>world</i>";

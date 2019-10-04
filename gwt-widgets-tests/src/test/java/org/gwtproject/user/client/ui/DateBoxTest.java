@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.event.logical.shared.ValueChangeEvent;
@@ -31,6 +32,7 @@ import java.util.Date;
 /**
  * Tests {@link DateBox}.
  */
+@J2clTestInput(DateBoxTest.class)
 public class DateBoxTest extends WidgetTestBase {
   @Override
   public String getModuleName() {
