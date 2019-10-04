@@ -15,6 +15,7 @@
  */
 package org.gwtproject.touch.client;
 
+import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.media.client.AudioTest;
 import org.gwtproject.touch.client.Momentum.State;
@@ -25,7 +26,7 @@ import junit.framework.TestCase;
  * Tests for {@link DefaultMomentum}.
  */
 @J2clTestInput(DefaultMomentumTest.class)
-public class DefaultMomentumTest extends TestCase {
+public class DefaultMomentumTest extends GWTTestCase {
 
   /**
    * Test updating the state before the acceleration falls below the minimum
@@ -110,5 +111,10 @@ public class DefaultMomentumTest extends TestCase {
     state.setElapsedMillis(5);
 
     assertFalse(momentum.updateState(state));
+  }
+
+  @Override
+  public String getModuleName() {
+    return "";
   }
 }

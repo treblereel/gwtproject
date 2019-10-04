@@ -15,6 +15,7 @@
  */
 package org.gwtproject.touch.client;
 
+import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
 import junit.framework.TestCase;
 
@@ -22,7 +23,7 @@ import junit.framework.TestCase;
  * Tests for {@link Point}.
  */
 @J2clTestInput(PointTest.class)
-public class PointTest extends TestCase {
+public class PointTest extends GWTTestCase {
 
   public void testDiv() {
     Point p0 = new Point(6.0, 10.0);
@@ -89,5 +90,10 @@ public class PointTest extends TestCase {
     assertEquals(5.0, p1.getY());
     assertEquals(5.0, result.getX());
     assertEquals(7.0, result.getY());
+  }
+
+  @Override
+  public String getModuleName() {
+    return "";
   }
 }
