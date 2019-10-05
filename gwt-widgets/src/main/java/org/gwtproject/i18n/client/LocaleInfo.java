@@ -19,6 +19,7 @@ import org.gwtproject.i18n.client.constants.DateTimeConstants;
 import org.gwtproject.i18n.client.constants.NumberConstants;
 import org.gwtproject.i18n.client.impl.CldrImpl;
 import org.gwtproject.i18n.client.impl.LocaleInfoImpl;
+import org.gwtproject.i18n.client.impl.NumberConstantsImpl_;
 import org.gwtproject.i18n.client.impl.cldr.DateTimeFormatInfoImpl;
 import org.gwtproject.i18n.client.impl.cldr.DateTimeFormatInfoImpl_en;
 
@@ -83,5 +84,16 @@ public class LocaleInfo {
 
     public DateTimeFormatInfo getDateTimeFormatInfo() {
         return dateTimeFormatInfo;
+    }
+
+    public final NumberConstants getNumberConstants() {
+        ensureNumberConstants();
+        return numberConstants;
+    }
+
+    private void ensureNumberConstants() {
+        if (numberConstants == null) {
+            numberConstants = new NumberConstantsImpl_();
+        }
     }
 }

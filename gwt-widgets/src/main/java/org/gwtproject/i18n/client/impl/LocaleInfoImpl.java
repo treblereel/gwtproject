@@ -15,6 +15,8 @@
  */
 package org.gwtproject.i18n.client.impl;
 
+import org.gwtproject.i18n.client.constants.NumberConstants;
+
 /**
  * Implementation detail of LocaleInfo -- not a public API and subject to
  * change.
@@ -27,5 +29,9 @@ public class LocaleInfoImpl {
 
     public boolean hasAnyRTL() {
         return false;
+    }
+
+    public NumberConstants getNumberConstants() {
+        return new NumberConstantsImpl_();
     }
 }
