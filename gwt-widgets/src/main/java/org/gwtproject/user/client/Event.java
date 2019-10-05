@@ -16,12 +16,12 @@
 package org.gwtproject.user.client;
 
 import jsinterop.annotations.JsConstructor;
-import jsinterop.annotations.JsOverlay;
-import jsinterop.annotations.JsPackage;
-import jsinterop.annotations.JsType;
+import jsinterop.base.Js;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.event.dom.client.HasNativeEvent;
+import org.gwtproject.event.legacy.shared.EventHandler;
+import org.gwtproject.event.legacy.shared.GwtEvent;
 import org.gwtproject.event.shared.HandlerManager;
 import org.gwtproject.event.shared.HandlerRegistration;
 
@@ -35,176 +35,139 @@ import org.gwtproject.event.shared.HandlerRegistration;
  * calling methods in the {@link DOM} class.
  * </p>
  */
-@JsType(
-        isNative = true,
-        name = "Object",
-        namespace = JsPackage.GLOBAL
-)
 public class Event extends NativeEvent {
 
     /**
      * Fired when an element loses keyboard focus.
      */
-    @JsOverlay
     public static final int ONBLUR = 0x01000;
     /**
      * Fired when the value of an input element changes.
      */
-    @JsOverlay
     public static final int ONCHANGE = 0x00400;
     /**
      * Fired when the user clicks on an element.
      */
-    @JsOverlay
     public static final int ONCLICK = 0x00001;
     /**
      * Fired when the user double-clicks on an element.
      */
-    @JsOverlay
     public static final int ONDBLCLICK = 0x00002;
     /**
      * Fired when an image encounters an error.
      */
-    @JsOverlay
     public static final int ONERROR = 0x10000;
     /**
      * Fired when an element receives keyboard focus.
      */
-    @JsOverlay
     public static final int ONFOCUS = 0x00800;
     /**
      * Fired when the user gesture changes.
      */
-    @JsOverlay
     public static final int ONGESTURECHANGE = 0x2000000;
     /**
      * Fired when the user gesture ends.
      */
-    @JsOverlay
     public static final int ONGESTUREEND = 0x4000000;
     /**
      * Fired when the user gesture starts.
      */
-    @JsOverlay
     public static final int ONGESTURESTART = 0x1000000;
     /**
      * Fired when the user depresses a key.
      */
-    @JsOverlay
     public static final int ONKEYDOWN = 0x00080;
     /**
      * Fired when the a character is generated from a keypress (either directly or
      * through auto-repeat).
      */
-    @JsOverlay
     public static final int ONKEYPRESS = 0x00100;
     /**
      * Fired when the user releases a key.
      */
-    @JsOverlay
     public static final int ONKEYUP = 0x00200;
     /**
      * Fired when an element (normally an IMG) finishes loading.
      */
-    @JsOverlay
     public static final int ONLOAD = 0x08000;
     /**
      * Fired when an element that has mouse capture loses it.
      */
-    @JsOverlay
     public static final int ONLOSECAPTURE = 0x02000;
     /**
      * Fired when the user depresses a mouse button over an element.
      */
-    @JsOverlay
     public static final int ONMOUSEDOWN = 0x00004;
     /**
      * Fired when the mouse is moved within an element's area.
      */
-    @JsOverlay
     public static final int ONMOUSEMOVE = 0x00040;
     /**
      * Fired when the mouse is moved out of an element's area.
      */
-    @JsOverlay
     public static final int ONMOUSEOUT = 0x00020;
     /**
      * Fired when the mouse is moved into an element's area.
      */
-    @JsOverlay
     public static final int ONMOUSEOVER = 0x00010;
     /**
      * Fired when the user releases a mouse button over an element.
      */
-    @JsOverlay
     public static final int ONMOUSEUP = 0x00008;
     /**
      * Fired when the user scrolls the mouse wheel over an element.
      */
-    @JsOverlay
     public static final int ONMOUSEWHEEL = 0x20000;
     /**
      * Fired when the user pastes text into an input element.
      */
-    @JsOverlay
     public static final int ONPASTE = 0x80000;
     /**
      * Fired when a scrollable element's scroll offset changes.
      */
-    @JsOverlay
     public static final int ONSCROLL = 0x04000;
     /**
      * Fired when the user cancels touching an element.
      */
-    @JsOverlay
     public static final int ONTOUCHCANCEL = 0x800000;
     /**
      * Fired when the user ends touching an element.
      */
-    @JsOverlay
     public static final int ONTOUCHEND = 0x400000;
     /**
      * Fired when the user moves while touching an element.
      */
-    @JsOverlay
     public static final int ONTOUCHMOVE = 0x200000;
     /**
      * Fired when the user starts touching an element.
      */
-    @JsOverlay
     public static final int ONTOUCHSTART = 0x100000;
     /**
      * Fired when the user requests an element's context menu (usually by
      * right-clicking).
      */
-    @JsOverlay
     public static final int ONCONTEXTMENU = 0x40000;
     /**
      * A bit-mask covering both focus events (focus and blur).
      */
-    @JsOverlay
     public static final int FOCUSEVENTS = ONFOCUS | ONBLUR;
     /**
      * A bit-mask covering all keyboard events (down, up, and press).
      */
-    @JsOverlay
     public static final int KEYEVENTS = ONKEYDOWN | ONKEYPRESS | ONKEYUP;
     /**
      * A bit-mask covering all mouse events (down, up, move, over, and out), but
      * not click, dblclick, or wheel events.
      */
-    @JsOverlay
     public static final int MOUSEEVENTS = ONMOUSEDOWN | ONMOUSEUP | ONMOUSEMOVE
             | ONMOUSEOVER | ONMOUSEOUT;
     /**
      * A bit-mask covering all touch events (start, move, end, cancel).
      */
-    @JsOverlay
     public static final int TOUCHEVENTS = ONTOUCHSTART | ONTOUCHMOVE | ONTOUCHEND | ONTOUCHCANCEL;
     /**
      * A bit-mask covering all gesture events (start, change, end).
      */
-    @JsOverlay
     public static final int GESTUREEVENTS = ONGESTURESTART | ONGESTURECHANGE | ONGESTUREEND;
     /**
      * Value returned by accessors when the actual integer value is undefined. In
@@ -213,7 +176,6 @@ public class Event extends NativeEvent {
      * @see Event
      */
     @Deprecated
-    @JsOverlay
     public static final int UNDEFINED = 0;
     /**
      * The list of {@link NativePreviewHandler}. We use a list instead of a
@@ -253,12 +215,10 @@ public class Event extends NativeEvent {
      * @param handler the {@link NativePreviewHandler}
      * @return {@link HandlerRegistration} used to remove this handler
      */
-    @JsOverlay
     public static HandlerRegistration addNativePreviewHandler(
             final NativePreviewHandler handler) {
         assert handler != null : "Cannot add a null handler";
         DOM.maybeInitializeEventSystem();
-
         // Initialize the type
         NativePreviewEvent.getType();
         if (handlers == null) {
@@ -272,9 +232,8 @@ public class Event extends NativeEvent {
      * Converts the {@link NativeEvent} to Event. This is always safe.
      * @param event the event to downcast
      */
-    @JsOverlay
     public static Event as(NativeEvent event) {
-        return (Event) event;
+        return  Js.uncheckedCast(event);
     }
 
     /**
@@ -282,7 +241,6 @@ public class Event extends NativeEvent {
      * @param nativeEvent the native event
      * @return true to fire the event normally, false to cancel the event
      */
-    @JsOverlay
     public static boolean fireNativePreviewEvent(NativeEvent nativeEvent) {
         return NativePreviewEvent.fire(handlers, nativeEvent);
     }
@@ -293,7 +251,6 @@ public class Event extends NativeEvent {
      * onBrowserEvent method returns, the current event is reset to null.
      * @return the current event
      */
-    @JsOverlay
     public static Event getCurrentEvent() {
         return DOM.eventGetCurrentEvent();
     }
@@ -304,7 +261,6 @@ public class Event extends NativeEvent {
      * @param elem the element whose listener is to be set
      * @return the element's event listener
      */
-    @JsOverlay
     public static EventListener getEventListener(Element elem) {
         return DOM.getEventListener(elem);
     }
@@ -315,7 +271,6 @@ public class Event extends NativeEvent {
      * @return a bitfield describing the events sunk on this element (its possible
      * values are described in {@link Event})
      */
-    @JsOverlay
     public static int getEventsSunk(Element elem) {
         return DOM.getEventsSunk(elem);
     }
@@ -325,7 +280,6 @@ public class Event extends NativeEvent {
      * @param typeName the typeName to be tested
      * @return the event's enumerated type, or -1 if not defined
      */
-    @JsOverlay
     public static int getTypeInt(String typeName) {
         return DOM.impl.eventGetTypeInt(typeName);
     }
@@ -336,7 +290,6 @@ public class Event extends NativeEvent {
      * @param elem the element to release capture
      * @see #setCapture(Element)
      */
-    @JsOverlay
     public static void releaseCapture(Element elem) {
         DOM.releaseCapture(elem);
     }
@@ -346,7 +299,6 @@ public class Event extends NativeEvent {
      * all mouse events until {@link #releaseCapture(Element)} is called on it.
      * @param elem the element on which to set mouse capture
      */
-    @JsOverlay
     public static void setCapture(Element elem) {
         DOM.setCapture(elem);
     }
@@ -357,7 +309,6 @@ public class Event extends NativeEvent {
      * @param elem the element whose listener is to be set
      * @param listener the listener to receive {@link Event events}
      */
-    @JsOverlay
     public static void setEventListener(Element elem, EventListener listener) {
         DOM.setEventListener(elem, listener);
     }
@@ -370,9 +321,19 @@ public class Event extends NativeEvent {
      * @param eventBits a bitfield describing the events sunk on this element (its
      * possible values are described in {@link Event})
      */
-    @JsOverlay
     public static void sinkEvents(Element elem, int eventBits) {
         DOM.sinkEvents(elem, eventBits);
+    }
+
+    /**
+     * Cancels bubbling for the given event. This will stop the event from being
+     * propagated to parent elements.
+     * @param cancel <code>true</code> to cancel bubbling
+     * @deprecated use {@link NativeEvent#stopPropagation()} instead
+     */
+    @Deprecated
+    public final void cancelBubble(boolean cancel) {
+        DOM.eventCancelBubble(this, cancel);
     }
 
     /**
@@ -382,7 +343,6 @@ public class Event extends NativeEvent {
      * @deprecated use {@link NativeEvent#getCurrentEventTarget()} instead
      */
     @Deprecated
-    @JsOverlay
     public final Element getCurrentTarget() {
         return getCurrentEventTarget().cast();
     }
@@ -394,7 +354,6 @@ public class Event extends NativeEvent {
      * @deprecated use {@link NativeEvent#getRelatedEventTarget()} instead
      */
     @Deprecated
-    @JsOverlay
     public final Element getFromElement() {
         return DOM.eventGetFromElement(this);
     }
@@ -405,7 +364,6 @@ public class Event extends NativeEvent {
      * @deprecated use {@link NativeEvent#getRelatedEventTarget()} instead
      */
     @Deprecated
-    @JsOverlay
     public final Element getRelatedTarget() {
         return getRelatedEventTarget().cast();
     }
@@ -416,7 +374,6 @@ public class Event extends NativeEvent {
      * @deprecated not supported on all browsers
      */
     @Deprecated
-    @JsOverlay
     public final boolean getRepeat() {
         return DOM.eventGetRepeat(this);
     }
@@ -427,7 +384,6 @@ public class Event extends NativeEvent {
      * @deprecated use {@link NativeEvent#getEventTarget()} instead
      */
     @Deprecated
-    @JsOverlay
     public final Element getTarget() {
         return getEventTarget().cast();
     }
@@ -439,25 +395,14 @@ public class Event extends NativeEvent {
      * @deprecated use {@link NativeEvent#getRelatedEventTarget()} instead
      */
     @Deprecated
-    @JsOverlay
     public final Element getToElement() {
         return DOM.eventGetToElement(this);
     }
 
     /**
-     * Gets the enumerated type of this event, as defined by {@link #ONCLICK},
-     * {@link #ONMOUSEDOWN}, and so forth.
-     * @return the event's enumerated type
-     */
-    @JsOverlay
-    public final int getTypeInt() {
-        return DOM.eventGetType(this);
-    }
-
-    /**
      * Handler interface for {@link NativePreviewEvent} events.
      */
-    public interface NativePreviewHandler {
+    public interface NativePreviewHandler extends EventHandler {
 
         /**
          * Called when {@link NativePreviewEvent} is fired.
@@ -469,7 +414,7 @@ public class Event extends NativeEvent {
     /**
      * Represents a preview of a native {@link Event}.
      */
-    public static class NativePreviewEvent extends org.gwtproject.event.shared.Event<NativePreviewHandler>
+    public static class NativePreviewEvent extends GwtEvent<NativePreviewHandler>
             implements HasNativeEvent {
 
         /**
@@ -532,6 +477,7 @@ public class Event extends NativeEvent {
 
                 // Fire the event
                 handlers.fireEvent(singleton);
+
                 boolean ret = !(singleton.isCanceled() && !singleton.isConsumed());
 
                 // Restore the state of the singleton.
@@ -588,7 +534,7 @@ public class Event extends NativeEvent {
          * @return the type int associated with this native event
          */
         public final int getTypeInt() {
-            return Event.as(getNativeEvent()).getTypeInt();
+            return getNativeEvent().getKeyCode();
         }
 
         /**
@@ -625,10 +571,9 @@ public class Event extends NativeEvent {
             singleton.isFirstHandler = false;
         }
 
-        // FIXME: not called anymore by HandlerManager
-        //@Override
+        @Override
         protected void revive() {
-            //super.revive();
+            super.revive();
             isCanceled = false;
             isConsumed = false;
             isFirstHandler = true;
