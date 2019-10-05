@@ -16,6 +16,7 @@
 package org.gwtproject.user.client;
 
 import com.google.j2cl.junit.apt.J2clTestInput;
+import elemental2.dom.DomGlobal;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.event.dom.client.*;
@@ -131,19 +132,9 @@ public class EventTest extends GWTTestCase {
 
     // Add some handlers
     final EventInfo clickInfo = new EventInfo();
-    label.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        clickInfo.fireCount++;
-      }
-    });
+    label.addClickHandler(event -> clickInfo.fireCount++);
     final EventInfo dblclickInfo = new EventInfo();
-    label.addDoubleClickHandler(new DoubleClickHandler() {
-      @Override
-      public void onDoubleClick(DoubleClickEvent event) {
-        dblclickInfo.fireCount++;
-      }
-    });
+    label.addDoubleClickHandler(event -> dblclickInfo.fireCount++);
 
     // Fire a click event
     NativeEvent clickEvent = Document.get().createClickEvent(0, 0, 0, 0, 0,
@@ -293,7 +284,6 @@ public class EventTest extends GWTTestCase {
       }
     };
     HandlerRegistration reg = Event.addNativePreviewHandler(handler);
-    assertFalse(Event.fireNativePreviewEvent(null));
     reg.removeHandler();
   }
 
