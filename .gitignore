@@ -1,9 +1,2 @@
-.idea/workspace.xml
-src-generated
 .idea/
-build/
-.gradle/
-war/
-gwt-unitCache/
-gwt-widgets/gwt-widgets.iml
-gwt-widgets-tests/gwt-widgets-tests.iml
+*.iml
