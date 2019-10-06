@@ -18,6 +18,7 @@ package org.gwtproject.user.datepicker.client;
 
 import java.util.Date;
 
+import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
 import junit.framework.TestCase;
 import org.gwtproject.event.logical.shared.ValueChangeEvent;
@@ -32,10 +33,15 @@ import org.gwtproject.user.client.ui.HasValue;
  * Test the DateChangeEvent in isolation from GWT.
  */
 @J2clTestInput(DateChangeEventTest.class)
-public class DateChangeEventTest extends TestCase {
+public class DateChangeEventTest extends GWTTestCase {
 
     public void testValueChangeViaHasValue() {
         new DateValueChangeTester(new MockWidget()).run();
+    }
+
+    @Override
+    public String getModuleName() {
+        return "";
     }
 
     private static class MockWidget implements HasValue<Date> {
