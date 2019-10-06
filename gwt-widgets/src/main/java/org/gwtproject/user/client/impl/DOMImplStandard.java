@@ -157,25 +157,25 @@ public abstract class DOMImplStandard extends DOMImpl {
         EventMap eventMap = new EventMap();
         JsPropertyMap map = Js.uncheckedCast(eventMap);
         // Mouse events
-        map.set("click", (Fn) (event) -> dispatchCapturedMouseEvent(event));
-        map.set("dblclick", (Fn) (event) -> dispatchCapturedMouseEvent(event));
-        map.set("mousedown", (Fn) (event) -> dispatchCapturedMouseEvent(event));
-        map.set("mouseup", (Fn) (event) -> dispatchCapturedMouseEvent(event));
-        map.set("mousemove", (Fn) (event) -> dispatchCapturedMouseEvent(event));
-        map.set("mouseover", (Fn) (event) -> dispatchCapturedMouseEvent(event));
-        map.set("mouseout", (Fn) (event) -> dispatchCapturedMouseEvent(event));
+        map.set("click", (Fn) (event) ->      dispatchCapturedMouseEvent(event));
+        map.set("dblclick", (Fn) (event) ->   dispatchCapturedMouseEvent(event));
+        map.set("mousedown", (Fn) (event) ->  dispatchCapturedMouseEvent(event));
+        map.set("mouseup", (Fn) (event) ->    dispatchCapturedMouseEvent(event));
+        map.set("mousemove", (Fn) (event) ->  dispatchCapturedMouseEvent(event));
+        map.set("mouseover", (Fn) (event) ->  dispatchCapturedMouseEvent(event));
+        map.set("mouseout", (Fn) (event) ->   dispatchCapturedMouseEvent(event));
         map.set("mousewheel", (Fn) (event) -> dispatchCapturedMouseEvent(event));
         // Keyboard events
-        map.set("keydown", (Fn) (event) -> dispatchCapturedEvent(event));
-        map.set("keyup", (Fn) (event) -> dispatchCapturedEvent(event));
-        map.set("keypress", (Fn) (event) -> dispatchCapturedEvent(event));
+        map.set("keydown", (Fn) (event) ->    dispatchCapturedEvent(event));
+        map.set("keyup", (Fn) (event) ->      dispatchCapturedEvent(event));
+        map.set("keypress", (Fn) (event) ->   dispatchCapturedEvent(event));
         // Touch events
-        map.set("touchstart", (Fn) (event) -> dispatchCapturedMouseEvent(event));
-        map.set("touchend", (Fn) (event) -> dispatchCapturedMouseEvent(event));
-        map.set("touchmove", (Fn) (event) -> dispatchCapturedMouseEvent(event));
-        map.set("touchcancel", (Fn) (event) -> dispatchCapturedMouseEvent(event));
-        map.set("gesturestart", (Fn) (event) -> dispatchCapturedMouseEvent(event));
-        map.set("gestureend", (Fn) (event) -> dispatchCapturedMouseEvent(event));
+        map.set("touchstart", (Fn) (event) ->    dispatchCapturedMouseEvent(event));
+        map.set("touchend", (Fn) (event) ->      dispatchCapturedMouseEvent(event));
+        map.set("touchmove", (Fn) (event) ->     dispatchCapturedMouseEvent(event));
+        map.set("touchcancel", (Fn) (event) ->   dispatchCapturedMouseEvent(event));
+        map.set("gesturestart", (Fn) (event) ->  dispatchCapturedMouseEvent(event));
+        map.set("gestureend", (Fn) (event) ->    dispatchCapturedMouseEvent(event));
         map.set("gesturechange", (Fn) (event) -> dispatchCapturedMouseEvent(event));
         return eventMap;
     }
@@ -296,26 +296,25 @@ public abstract class DOMImplStandard extends DOMImpl {
 
     @Override
     protected void initEventSystem() {
-        JsPropertyMap map = ((JsPropertyMap) captureEventDispatchers);
-        map.forEach(elm -> {
-            DomGlobal.window.addEventListener(elm, Js.uncheckedCast(map.get(elm)), true);
-        });
+        EventMap.foreach(captureEventDispatchers, (elm, value) -> DomGlobal.window.addEventListener(elm, Js.uncheckedCast(value), true));
     }
 
     protected void sinkBitlessEventImpl(Element elem, String eventTypeName) {
-        JsPropertyMap map = ((JsPropertyMap) bitlessEventDispatchers);
+        JsPropertyMap map = Js.asPropertyMap(bitlessEventDispatchers);
         Object dispatcher;
         if (map.has(eventTypeName)) {
             dispatcher = map.get(eventTypeName);
         } else {
             dispatcher = map.get("_default_");
         }
+
+
         ((EventTarget) Js.uncheckedCast(elem))
                 .addEventListener(eventTypeName, Js.uncheckedCast(dispatcher), false);
     }
 
     protected void sinkEventsImpl(Element elem, int bits) {
-        JsPropertyMap map = ((JsPropertyMap) elem);
+        JsPropertyMap map = Js.asPropertyMap(elem);
         int chMask = (map.has("__eventBits") ? Integer.valueOf(map.get("__eventBits").toString()) : 0) ^ bits;
         map.set("__eventBits", bits);
 

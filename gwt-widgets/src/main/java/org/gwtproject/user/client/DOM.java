@@ -15,7 +15,7 @@
  */
 package org.gwtproject.user.client;
 
-import jsinterop.base.JsPropertyMap;
+import jsinterop.base.Js;
 import org.gwtproject.core.client.JavaScriptObject;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
@@ -26,6 +26,7 @@ import org.gwtproject.dom.client.Style;
 import org.gwtproject.safehtml.shared.annotations.IsSafeHtml;
 import org.gwtproject.user.client.impl.DOMImpl;
 import org.gwtproject.user.client.impl.DOMImplStandardBase;
+import org.gwtproject.user.client.ui.PotentialElement;
 import org.gwtproject.user.window.client.Window;
 
 /**
@@ -39,19 +40,18 @@ public class DOM {
   // The current event being fired
   private static Event currentEvent = null;
   static final DOMImpl impl = new DOMImplStandardBase();
-
   private static Element sCaptureElem;
 
   /**
    * Appends one element to another's list of children.
    * <p>
-   * If the child element is a {@link ui.PotentialElement}, it is first
+   * If the child element is a {@link PotentialElement}, it is first
    * resolved.
    * </p>
    *
    * @param parent the parent element
    * @param child its new child
-   * @see ui.PotentialElement#resolve(Element)
+   * @see PotentialElement#resolve(Element)
    */
   public static void appendChild(Element parent, Element child) {
     assert !isPotential(parent) : "Cannot append to a PotentialElement";
@@ -91,7 +91,7 @@ public class DOM {
    * @return the newly-created element
    */
   public static Element createAnchor() {
-    return Document.get().createAnchorElement();
+    return Document.get().createAnchorElement().cast();
   }
 
   /**
@@ -99,7 +99,7 @@ public class DOM {
    *
    * @return the newly-created element
    */
-
+  @SuppressWarnings("deprecation")
   public static Element createButton() {
     return Document.get().createPushButtonElement();
   }
@@ -110,7 +110,7 @@ public class DOM {
    * @return the newly-created element
    */
   public static Element createCaption() {
-    return Document.get().createCaptionElement();
+    return Document.get().createCaptionElement().cast();
   }
 
   /**
@@ -119,7 +119,7 @@ public class DOM {
    * @return the newly-created element
    */
   public static Element createCol() {
-    return Document.get().createColElement();
+    return Document.get().createColElement().cast();
   }
 
   /**
@@ -128,7 +128,7 @@ public class DOM {
    * @return the newly-created element
    */
   public static Element createColGroup() {
-    return Document.get().createColGroupElement();
+    return Document.get().createColGroupElement().cast();
   }
 
   /**
@@ -137,7 +137,7 @@ public class DOM {
    * @return the newly-created element
    */
   public static Element createDiv() {
-    return Document.get().createDivElement();
+    return Document.get().createDivElement().cast();
   }
 
   /**
@@ -156,7 +156,7 @@ public class DOM {
    * @return the newly-created element
    */
   public static Element createFieldSet() {
-    return Document.get().createFieldSetElement();
+    return Document.get().createFieldSetElement().cast();
   }
 
   /**
@@ -165,7 +165,7 @@ public class DOM {
    * @return the newly-created element
    */
   public static Element createForm() {
-    return Document.get().createFormElement();
+    return Document.get().createFormElement().cast();
   }
 
   /**
@@ -174,7 +174,7 @@ public class DOM {
    * @return the newly-created element
    */
   public static Element createIFrame() {
-    return Document.get().createIFrameElement();
+    return Document.get().createIFrameElement().cast();
   }
 
   /**
@@ -183,7 +183,7 @@ public class DOM {
    * @return the newly-created element
    */
   public static Element createImg() {
-    return Document.get().createImageElement();
+    return Document.get().createImageElement().cast();
   }
 
   /**
@@ -192,7 +192,7 @@ public class DOM {
    * @return the newly-created element
    */
   public static Element createInputCheck() {
-    return Document.get().createCheckInputElement();
+    return Document.get().createCheckInputElement().cast();
   }
 
   /**
@@ -201,7 +201,7 @@ public class DOM {
    * @return the newly-created element
    */
   public static Element createInputPassword() {
-    return Document.get().createPasswordInputElement();
+    return Document.get().createPasswordInputElement().cast();
   }
 
   /**
@@ -212,7 +212,7 @@ public class DOM {
    * @return the newly-created element
    */
   public static Element createInputRadio(String name) {
-    return Document.get().createRadioInputElement(name);
+    return Document.get().createRadioInputElement(name).cast();
   }
 
   /**
@@ -221,7 +221,7 @@ public class DOM {
    * @return the newly-created element
    */
   public static Element createInputText() {
-    return Document.get().createTextInputElement();
+    return Document.get().createTextInputElement().cast();
   }
 
   /**
@@ -230,7 +230,7 @@ public class DOM {
    * @return the newly-created element
    */
   public static Element createLabel() {
-    return Document.get().createLabelElement();
+    return Document.get().createLabelElement().cast();
   }
 
   /**
@@ -239,7 +239,7 @@ public class DOM {
    * @return the newly-created element
    */
   public static Element createLegend() {
-    return Document.get().createLegendElement();
+    return Document.get().createLegendElement().cast();
   }
 
   /**
@@ -248,7 +248,7 @@ public class DOM {
    * @return the newly-created element
    */
   public static Element createOption() {
-    return Document.get().createOptionElement();
+    return Document.get().createOptionElement().cast();
   }
 
   /**
@@ -273,7 +273,7 @@ public class DOM {
    * @return the newly-created element
    */
   public static Element createSelect() {
-    return Document.get().createSelectElement();
+    return Document.get().createSelectElement().cast();
   }
 
   /**
@@ -294,7 +294,7 @@ public class DOM {
    * @return the newly-created element
    */
   public static Element createSpan() {
-    return Document.get().createSpanElement();
+    return Document.get().createSpanElement().cast();
   }
 
   /**
@@ -303,7 +303,7 @@ public class DOM {
    * @return the newly-created element
    */
   public static Element createTable() {
-    return Document.get().createTableElement();
+    return Document.get().createTableElement().cast();
   }
 
   /**
@@ -312,7 +312,7 @@ public class DOM {
    * @return the newly-created element
    */
   public static Element createTBody() {
-    return DOM.resolve(Document.get().createTBodyElement());
+    return Document.get().createTBodyElement().cast();
   }
 
   /**
@@ -321,7 +321,7 @@ public class DOM {
    * @return the newly-created element
    */
   public static Element createTD() {
-    return Document.get().createTDElement();
+    return Document.get().createTDElement().cast();
   }
 
   /**
@@ -330,7 +330,7 @@ public class DOM {
    * @return the newly-created element
    */
   public static Element createTextArea() {
-    return Document.get().createTextAreaElement();
+    return Document.get().createTextAreaElement().cast();
   }
 
   /**
@@ -339,7 +339,7 @@ public class DOM {
    * @return the newly-created element
    */
   public static Element createTFoot() {
-    return Document.get().createTFootElement();
+    return Document.get().createTFootElement().cast();
   }
 
   /**
@@ -348,7 +348,7 @@ public class DOM {
    * @return the newly-created element
    */
   public static Element createTH() {
-    return Document.get().createTHElement();
+    return Document.get().createTHElement().cast();
   }
 
   /**
@@ -357,7 +357,7 @@ public class DOM {
    * @return the newly-created element
    */
   public static Element createTHead() {
-    return Document.get().createTHeadElement();
+    return Document.get().createTHeadElement().cast();
   }
 
   /**
@@ -366,7 +366,7 @@ public class DOM {
    * @return the newly-created element
    */
   public static Element createTR() {
-    return Document.get().createTRElement();
+    return Document.get().createTRElement().cast();
   }
 
   /**
@@ -495,7 +495,7 @@ public class DOM {
    *
    * @param evt the event to be tested
    * @return the Unicode character or key code.
-   * @see ui.KeyboardListener
+   * @see KeyboardListener
    * @deprecated Use {@link Event#getKeyCode()} instead.
    */
   @Deprecated
@@ -915,7 +915,8 @@ public class DOM {
    * @return the style attribute's value as an integer
    */
   public static int getIntStyleAttribute(Element elem, String attr) {
-     return Integer.valueOf(elem.getStyle().getProperty(attr));
+    String val = elem.getStyle().getProperty(attr);
+    return val != null ? Integer.valueOf(val) : 0;
   }
 
   /**
@@ -939,10 +940,24 @@ public class DOM {
   }
 
   /**
+   * Gets an attribute of the given element's style.
+   *
+   * @param elem the element whose style attribute is to be retrieved
+   * @param attr the name of the style attribute to be retrieved
+   * @return the style attribute's value
+   * @deprecated Use {@link Element#getStyle()} and
+   *             {@link Style#getProperty(String)} instead.
+   */
+  @Deprecated
+  public static String getStyleAttribute(Element elem, String attr) {
+    return elem.getStyle().getProperty(attr);
+  }
+
+  /**
    * Inserts an element as a child of the given parent element, before another
    * child of that parent.
    * <p>
-   * If the child element is a {@link ui.PotentialElement}, it is first
+   * If the child element is a {@link PotentialElement}, it is first
    * resolved.
    * </p>
    *
@@ -950,7 +965,7 @@ public class DOM {
    * @param child the child element to add to <code>parent</code>
    * @param before an existing child element of <code>parent</code> before which
    *          <code>child</code> will be inserted
-   * @see ui.PotentialElement#resolve(Element)
+   * @see PotentialElement#resolve(Element)
    */
   public static void insertBefore(Element parent, Element child, Element before) {
     assert !isPotential(parent) : "Cannot insert into a PotentialElement";
@@ -963,7 +978,7 @@ public class DOM {
   /**
    * Inserts an element as a child of the given parent element.
    * <p>
-   * If the child element is a {@link ui.PotentialElement}, it is first
+   * If the child element is a {@link PotentialElement}, it is first
    * resolved.
    * </p>
    *
@@ -972,7 +987,7 @@ public class DOM {
    * @param index the index before which the child will be inserted (any value
    *          greater than the number of existing children will cause the child
    *          to be appended)
-   * @see ui.PotentialElement#resolve(Element)
+   * @see PotentialElement#resolve(Element)
    */
   public static void insertChild(Element parent, Element child, int index) {
     assert !isPotential(parent) : "Cannot insert into a PotentialElement";
@@ -995,10 +1010,10 @@ public class DOM {
    * @param index the index at which to insert the child
    */
   public static void insertListItem(Element selectElem, String item,
-      String value, int index) {
+                                    String value, int index) {
     assert !isPotential(selectElem) : "Cannot insert into a PotentialElement";
 
-    SelectElement select = selectElem.<SelectElement> cast();
+    SelectElement select = selectElem.cast();
     OptionElement option = Document.get().createOptionElement();
     option.setText(item);
     option.setValue(value);
@@ -1011,10 +1026,9 @@ public class DOM {
     }
   }
 
-  //TODO check this
   public static boolean isPotential(JavaScriptObject o) {
     try {
-      return (o != null) &&  ((JsPropertyMap)o).has("__gwt_resolve");
+      return (o != null) &&  Js.asPropertyMap(o).has("__gwt_resolve");
     } catch (Exception e) {
 
     }
@@ -1022,8 +1036,8 @@ public class DOM {
   }
 
   private static Element resolve(Element maybePotential) {
-    if(((JsPropertyMap)maybePotential).has("__gwt_resolve")) {
-      return (Element)((JsPropertyMap)maybePotential).get("__gwt_resolve");
+    if((Js.asPropertyMap(maybePotential).has("__gwt_resolve"))) {
+      return (Element)Js.asPropertyMap(maybePotential).get("__gwt_resolve");
     }else {
       return maybePotential;
     }
@@ -1124,7 +1138,7 @@ public class DOM {
    */
   @Deprecated
   public static void setBooleanAttribute(Element elem, String attr,
-      boolean value) {
+                                         boolean value) {
     elem.setPropertyBoolean(attr, value);
   }
 
@@ -1176,7 +1190,7 @@ public class DOM {
    */
   @Deprecated
   public static void setElementPropertyBoolean(Element elem, String prop,
-      boolean value) {
+                                               boolean value) {
     elem.setPropertyBoolean(prop, value);
   }
 
@@ -1395,7 +1409,6 @@ public class DOM {
   public static boolean previewEvent(Event evt) {
     // Fire a NativePreviewEvent to NativePreviewHandlers
     boolean ret = Event.fireNativePreviewEvent(evt);
-
     // If the preview cancels the event, stop it from bubbling and performing
     // its default action. Check for a null evt to allow unit tests to run.
     if (!ret && evt != null) {
@@ -1407,14 +1420,15 @@ public class DOM {
   }
 
   private static void dispatchEventImpl(Event evt, Element elem,
-      EventListener listener) {
-    // If this element has capture...
+                                        EventListener listener) {
+      // If this element has capture...
     if (elem == sCaptureElem) {
       // ... and it's losing capture, clear sCaptureElem.
       if (eventGetType(evt) == Event.ONLOSECAPTURE) {
         sCaptureElem = null;
       }
     }
+
     // Pass the event to the listener.
     listener.onBrowserEvent(evt);
   }
