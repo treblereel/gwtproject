@@ -17,7 +17,6 @@ package org.gwtproject.user.client.impl;
 
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
-import org.gwtproject.core.client.JavaScriptObject;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.Event;
@@ -33,7 +32,8 @@ public abstract class DOMImpl {
     public static EventListener getEventListener(Element elem) {
         JsPropertyMap _this = Js.asPropertyMap(elem);
         if (_this.has("__listener")) {
-            return Js.uncheckedCast(_this.get("__listener"));
+            EventListener maybeListener = Js.uncheckedCast(_this.get("__listener"));
+            return isMyListener(maybeListener) ? maybeListener : null;
         }
         return null;
     }
@@ -57,18 +57,7 @@ public abstract class DOMImpl {
      * </pre>
      */
     private static boolean isMyListener(Object object) {
-        /*
-         * The first test ensures the Object belongs to this module in Production
-         * Mode by ensuring this is not a JavaScriptObject. In Production Mode,
-         * foreign Java objects appear to be JavaScriptObject. See
-         * Cast.isJavaScriptObject().
-         *
-         * The second test then checks the exact type.
-         *
-         * TODO: make the generated code smaller!
-         */
-        return !(object instanceof JavaScriptObject)
-                && (object instanceof org.gwtproject.user.client.EventListener);
+        return (object instanceof org.gwtproject.user.client.EventListener);
     }
 
     public void eventCancelBubble(Event event, boolean cancel) {
