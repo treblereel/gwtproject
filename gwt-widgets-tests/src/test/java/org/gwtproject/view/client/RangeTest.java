@@ -15,6 +15,7 @@
  */
 package org.gwtproject.view.client;
 
+import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
 import junit.framework.TestCase;
 
@@ -22,7 +23,7 @@ import junit.framework.TestCase;
  * Tests for {@link Range}.
  */
 @J2clTestInput(RangeTest.class)
-public class RangeTest extends TestCase {
+public class RangeTest extends GWTTestCase {
 
   public void testAccessors() {
     Range range = new Range(10, 20);
@@ -62,5 +63,10 @@ public class RangeTest extends TestCase {
     assertNotSame(range0, range1);
     assertFalse(range0.equals(range1));
     assertNotSame(range0.hashCode(), range1.hashCode());
+  }
+
+  @Override
+  public String getModuleName() {
+    return "";
   }
 }
