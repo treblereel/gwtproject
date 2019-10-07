@@ -1,0 +1,10 @@
+
+    .contents {
+      display: inline;
+    }
+
+    .errorLabel {
+      display: none;
+      white-space: pre;
+    }
+  
