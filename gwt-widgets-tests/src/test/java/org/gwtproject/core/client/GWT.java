@@ -43,7 +43,7 @@ public final class GWT {
   /** @deprecated */
   @Deprecated
   public static String getModuleBaseURL() {
-    return null;
+    return DomGlobal.window.location.getHref();
   }
 
   /** @deprecated */

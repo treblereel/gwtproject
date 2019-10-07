@@ -18,7 +18,9 @@ package org.gwtproject.user.client;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
 import elemental2.dom.Event;
+import jsinterop.annotations.JsFunction;
 import jsinterop.base.Js;
+import jsinterop.base.JsPropertyMap;
 import org.gwtproject.core.client.JavaScriptObject;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.NativeEvent;
@@ -49,7 +51,14 @@ public class CustomEventsTest extends GWTTestCase {
     }
 
     private static JavaScriptObject getBitlessCustomDisptachers() {
-        throw new UnsupportedOperationException();
+        JsPropertyMap result = JsPropertyMap.of();
+        Fn fn = event -> {
+            DOMImplStandard.dispatchEvent(event);
+            String title = Js.uncheckedCast(Js.asPropertyMap(Js.asPropertyMap(event).get("target")).get("title"));
+            Js.asPropertyMap(Js.asPropertyMap(event).get("target")).set("title", title + "-custom_method");
+        };
+        result.set("c2", fn);
+        return Js.uncheckedCast(result);
     }
 
     private static void ensureCustomEventDispatch() {
@@ -107,14 +116,12 @@ public class CustomEventsTest extends GWTTestCase {
         button.getElement().dispatchEvent(createCustomEvent(evt));
     }
 
-  /*-{
-    return {
-      c2: function(evt) {
-        @org.gwtproject.user.client.impl.DOMImplStandard::dispatchEvent(*)(evt);
-        evt.target.title += "-custom_method";
-      }
-    };
-  }-*/;
+    @FunctionalInterface
+    @JsFunction
+    public interface Fn {
+
+        void onInvoke(org.gwtproject.user.client.Event event);
+    }
 
     private static class CustomHandler implements EventHandler {
 
