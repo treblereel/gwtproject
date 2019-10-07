@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
 import junit.framework.TestCase;
 import org.gwtproject.editor.client.EditorContext;
@@ -41,7 +42,7 @@ import org.junit.Before;
  * backing {@link HasData}.
  */
 @J2clTestInput(HasDataEditorTest.class)
-public class HasDataEditorTest extends TestCase {
+public class HasDataEditorTest extends GWTTestCase {
 
     FakeHasData hasData;
     HasDataEditor<Integer> editor;
@@ -114,11 +115,15 @@ public class HasDataEditorTest extends TestCase {
         assertEquals(expectedValue, hasData.getRowData());
     }
 
-    @Before
+    @Override
+    public String getModuleName() {
+        return "org.gwtproject.editor.client.adapters";
+    }
+
     protected void gwtSetUp() {
         hasData = new FakeHasData();
         editor = HasDataEditor.of(hasData);
-        driver = null;
+        driver = new HasDataEditorTest_HasDataEditorDriver_Impl();
         driver.initialize(editor);
     }
 

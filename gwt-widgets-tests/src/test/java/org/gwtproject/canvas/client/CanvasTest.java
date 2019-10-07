@@ -19,6 +19,7 @@ import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.canvas.dom.client.Context2d;
 import org.gwtproject.user.client.ui.RootPanel;
+import org.gwtproject.user.client.ui.Widget;
 
 /**
  * Tests {@link Canvas}.
