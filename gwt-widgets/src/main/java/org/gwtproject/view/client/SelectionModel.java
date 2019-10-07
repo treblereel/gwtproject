@@ -35,7 +35,7 @@ public interface SelectionModel<T> extends HasSelectionChangedHandlers, org.gwtp
    * 
    * @param <T> the data type of records in the list
    */
-  public abstract class AbstractSelectionModel<T> implements SelectionModel<T> {
+   abstract class AbstractSelectionModel<T> implements SelectionModel<T> {
 
     private final HandlerManager handlerManager = new HandlerManager(this);
 
