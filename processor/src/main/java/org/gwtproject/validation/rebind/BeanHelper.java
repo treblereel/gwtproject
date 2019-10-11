@@ -19,18 +19,18 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.element.TypeParameterElement;
 import javax.lang.model.element.VariableElement;
+import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 
 import com.google.auto.common.MoreElements;
 import com.google.auto.common.MoreTypes;
 import com.google.common.base.Function;
 import org.gwtproject.validation.context.AptContext;
-import org.gwtproject.validation.rebind.beaninfo.BeanDescriptor;
 import org.gwtproject.validation.rebind.beaninfo.BeanInfo;
 import org.gwtproject.validation.rebind.beaninfo.PropertyDescriptor;
 import org.gwtproject.validation.rebind.ext.NotFoundException;
@@ -45,8 +45,8 @@ public final class BeanHelper {
             helper -> helper.getClazz().asType();
 
     private final TypeElement jClass;
-
     private final BeanInfo beanInfo;
+    private AptContext context;
 
     /**
      * Shouldn't be created directly; instead use BeanHelperCache.
@@ -54,28 +54,20 @@ public final class BeanHelper {
     BeanHelper(AptContext context, TypeElement jClass) {
         this.beanInfo = new BeanInfo(context, jClass);
         this.jClass = jClass;
+        this.context = context;
     }
 
     public TypeElement getAssociationType(PropertyDescriptor p, boolean useField) {
-        throw new UnsupportedOperationException("getAssociationType");
-/*    JType type = this.getElementType(p, useField);
-    JArrayType jArray = type.isArray();
-    if (jArray != null) {
-      return jArray.getComponentType().isClassOrInterface();
-    }
-    JParameterizedType pType = type.isParameterized();
-    TypeElement[] typeArgs;
-    if (pType == null) {
-      JRawType rType = type.isRawType();
-      typeArgs = rType.getGenericType().getTypeParameters();
-    } else {
-      typeArgs = pType.getTypeArgs();
-    }
-    // it is either a Iterable or a Map use the last type arg.
-    return typeArgs[typeArgs.length - 1].isClassOrInterface();*/
+        TypeMirror type = this.getElementType(p, useField);
+        if (type.getKind().equals(TypeKind.ARRAY)) {
+            return MoreTypes.asTypeElement(MoreTypes.asArray(type).getComponentType());
+        }
+
+        List<? extends TypeParameterElement> params = MoreTypes.asTypeElement(type).getTypeParameters();
+        return MoreElements.asType(params.get(params.size() - 1).getGenericElement());
     }
 
-    public BeanDescriptor getBeanDescriptor() {
+    public BeanInfo getBeanDescriptor() {
         return beanInfo;
     }
 
@@ -88,10 +80,6 @@ public final class BeanHelper {
 
     public String getFullyQualifiedValidatorName() {
         return getPackage() + "." + getValidatorName();
-    }
-
-    public TypeElement getJClass() {
-        return jClass;
     }
 
     public String getPackage() {
@@ -115,30 +103,26 @@ public final class BeanHelper {
         return getTypeCanonicalName();
     }
 
-    TypeElement getElementType(PropertyDescriptor p, boolean useField) {
+    TypeMirror getElementType(PropertyDescriptor p, boolean useField) {
         if (useField) {
-            return MoreTypes.asTypeElement(getField(p.getPropertyName()).asType());
+            return getField(p.getPropertyName()).asType();
         } else {
-            return MoreTypes.asTypeElement(findMethod(GwtSpecificValidatorCreator.asGetter(p.getPropertyName()),
-                                                      Collections.EMPTY_LIST).getReturnType());
+            return findMethod(GwtSpecificValidatorCreator.asGetter(p),
+                              Collections.emptyList()).getReturnType();
         }
     }
 
     boolean hasField(PropertyDescriptor p) {
-        if (jClass.getEnclosedElements()
+        return jClass.getEnclosedElements()
                 .stream()
                 .filter(elm -> (elm.getKind().equals(ElementKind.FIELD)))
-                .findFirst()
-                .isPresent()) {
-            return true;
-        }
-        return false;
+                .filter(field -> MoreElements.asVariable(field)
+                        .getSimpleName().toString()
+                        .equals(p.getPropertyName())
+                ).findFirst().isPresent();
     }
 
     public VariableElement getField(String name) {
-
-        System.out.println("Get Field " + name);
-
         return MoreElements.asVariable(jClass.getEnclosedElements()
                                                .stream()
                                                .filter(elm -> (elm.getKind().equals(ElementKind.FIELD)))
@@ -147,14 +131,18 @@ public final class BeanHelper {
                         new NotFoundException("No field" + name + " presented in " + jClass.getQualifiedName().toString()))));
     }
 
-    boolean hasGetter(String name) {
-        String getter = GwtSpecificValidatorCreator.asGetter(name);
+    boolean hasGetter(PropertyDescriptor p) {
+        return hasGetter(p.getPropertyName(), p.getElementClass());
+    }
+
+    boolean hasGetter(String name, TypeMirror type) {
+        String getter = GwtSpecificValidatorCreator.asGetter(name, type);
         jClass.getEnclosedElements().stream().filter(elm -> (elm.getKind().equals(ElementKind.METHOD)))
                 .filter(elm -> (elm).getSimpleName().toString().equals(getter))
                 .filter(elm -> MoreElements.asExecutable(elm).getParameters().isEmpty())
                 .findFirst()
                 .orElseThrow(() -> new Error(
-                        new NotFoundException("No " + getter + " presented in " + jClass.getQualifiedName().toString())));
+                        new NotFoundException("No " + getter + " presented in " + jClass.toString())));
         return true;
     }
 

@@ -12,13 +12,11 @@ import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
-import javax.lang.model.type.MirroredTypeException;
-import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
 
+import com.google.auto.common.MoreElements;
 import com.google.auto.common.MoreTypes;
 import org.gwtproject.validation.context.AptContext;
-import org.gwtproject.validation.rebind.beaninfo.impl.ConstraintDescriptorImpl;
 import org.gwtproject.validation.rebind.beaninfo.impl.PropertyDescriptorImpl;
 import org.gwtproject.validation.rg.util.Util;
 import org.gwtproject.validation.rg.util.tools.IsGetter;
@@ -40,36 +38,18 @@ public class BeanInfo implements BeanDescriptor {
         this.context = context;
 
         for (VariableElement field : ElementFilter.fieldsIn(bean.getEnclosedElements())) {
-            Set<Annotation> annotations = new HashSet<>();
-            for (Class<? extends Annotation> annotation : context.getConstraints()) {
-                if (field.getAnnotation(annotation) != null) {
-                    annotations.add(field.getAnnotation(annotation));
+            Set<AnnotationMirror> annotations = new HashSet<>();
+            for (AnnotationMirror annotationMirror : field.getAnnotationMirrors()) {
+                String annotation = MoreElements.asType(annotationMirror.getAnnotationType()
+                                                                .asElement()).getQualifiedName().toString();
+                if(context.isSupported(annotation)) {
+                    annotations.add(annotationMirror);
                 }
             }
             if (!annotations.isEmpty()) {
-                propertyDescriptors.add(PropertyDescriptorImpl.of(field, annotations));
+                propertyDescriptors.add(PropertyDescriptorImpl.of(field, annotations, context));
             }
         }
-    }
-
-    public Optional<? extends AnnotationMirror> getAnnotationMirror(final Element element, final Class<? extends Annotation> annotationClass) {
-        final String annotationClassName = annotationClass.getName();
-        final Optional<? extends AnnotationMirror> retValue = element.getAnnotationMirrors().stream()
-                .filter(m -> m.getAnnotationType().toString().equals(annotationClassName))
-                .findFirst();
-        return retValue;
-    }
-
-    public Collection<VariableElement> getProperties() {
-        Map<String, VariableElement> fields = Util.getAllFieldsIn(context.elements, bean)
-                .stream()
-                .collect(Collectors.toMap(p -> p.getSimpleName().toString(), p -> p));
-
-        return Util.getAllMethodsIn(context.elements, bean)
-                .stream()
-                .filter(method -> IsGetter.isGetterMethod(method))
-                .map(method -> IsGetter.getVariableName(method)).filter(variable -> fields.containsKey(variable))
-                .map(m -> fields.get(m)).collect(Collectors.toSet());
     }
 
     public Set<PropertyDescriptor> getPropertyDescriptors() {
@@ -102,12 +82,13 @@ public class BeanInfo implements BeanDescriptor {
     }
 
     @Override
+    public String getFullyQualifiedFieldName() {
+        return bean.asType().getKind().isPrimitive() ? bean.asType().toString() :
+                MoreTypes.asTypeElement(bean.asType()).getQualifiedName().toString();    }
+
+    @Override
     public Set<ConstraintDescriptor> getConstraintDescriptors() {
         return constraintDescriptors;
     }
 
-    @Override
-    public ConstraintFinder findConstraints() {
-        return null;
-    }
 }

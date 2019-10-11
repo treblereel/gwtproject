@@ -78,7 +78,7 @@ public abstract class AbstractCreator extends AbstractSourceCreator {
             throws UnableToCompleteException;
 
     protected String getQualifiedName() {
-        return (packageName == "" ? "" : packageName + ".") + simpleName;
+        return (packageName.equals("") ? "" : packageName + ".") + simpleName;
     }
 
     private SourceWriter getSourceWriter(TreeLogger logger, GeneratorContext ctx) throws UnableToCompleteException {

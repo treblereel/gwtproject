@@ -19,15 +19,16 @@ import org.gwtproject.validation.ext.Generator;
 import org.gwtproject.validation.rebind.ext.TreeLogger;
 import org.gwtproject.validation.rebind.ext.UnableToCompleteException;
 
-import java.util.Locale;
-
-import javax.lang.model.element.TypeElement;
-
 /**
  * Super class for AbstractMethod and AbstractClass creators. The primary
  * purpose is to pull up helper methods for logging and printing.
  */
 public class AbstractSourceCreator {
+
+
+    protected AbstractSourceCreator() {
+
+    }
 
     /**
      * Creates a branch for the treelogger.
@@ -71,25 +72,6 @@ public class AbstractSourceCreator {
                                                      Throwable e) {
         logger.log(TreeLogger.ERROR, e.getMessage(), e);
         return new UnableToCompleteException();
-    }
-
-    /**
-     * Returns the String represention of the java type for a primitive for
-     * example int/Integer, float/Float.
-     *
-     * @param type
-     * @return the string representation
-     */
-    protected static String getJavaObjectTypeFor(TypeElement type) {
-       throw new UnsupportedOperationException("getJavaObjectTypeFor");
-        /*        if (type == JPrimitiveType.INT) {
-            return "Integer";
-        } else if (type == JPrimitiveType.CHAR) {
-            return "Character";
-        } else {
-            String s = type.getSimpleSourceName();
-            return s.substring(0, 1).toUpperCase(Locale.ROOT) + s.substring(1);
-        }*/
     }
 
     /**

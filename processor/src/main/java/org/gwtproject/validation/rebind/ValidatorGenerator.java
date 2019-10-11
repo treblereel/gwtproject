@@ -15,15 +15,23 @@
  */
 package org.gwtproject.validation.rebind;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+import javax.lang.model.element.AnnotationMirror;
+import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.TypeMirror;
 import javax.validation.Validator;
 
+import com.google.auto.common.MoreElements;
 import com.google.auto.common.MoreTypes;
 import org.gwtproject.validation.client.GwtValidation;
 import org.gwtproject.validation.client.impl.GwtSpecificValidator;
+import org.gwtproject.validation.context.AptContext;
 import org.gwtproject.validation.ext.Generator;
 import org.gwtproject.validation.rebind.ext.GeneratorContext;
 import org.gwtproject.validation.rebind.ext.TreeLogger;
@@ -42,7 +50,7 @@ public final class ValidatorGenerator extends Generator {
 
     private List<TypeElement> groups;
 
-    private List<TypeElement> values;
+    private Set<TypeElement> values = new HashSet<>();
 
     // called by the compiler via reflection
     public ValidatorGenerator() {
@@ -72,9 +80,14 @@ public final class ValidatorGenerator extends Generator {
             throw new UnableToCompleteException();
         }
 
-        values = Util.getValues(gwtValidation);
+        Set<TypeElement> beans = Util.getValues(gwtValidation);
+        values.addAll(beans);
 
-        if (values.size() == 0) {
+        for (TypeElement bean : beans) {
+            checkInheritance(bean.getSuperclass(), context.getAptContext());
+        }
+
+        if (values.isEmpty()) {
             logger.log(TreeLogger.ERROR,
                        "The @" + GwtValidation.class.getSimpleName() + "  of " + validatorType
                                + "must specify at least one bean type to validate.", null);
@@ -83,7 +96,7 @@ public final class ValidatorGenerator extends Generator {
 
         groups = Util.getGroups(gwtValidation);
 
-        if (groups.size() == 0) {
+        if (groups.isEmpty()) {
             logger.log(TreeLogger.ERROR,
                        "The @" + GwtValidation.class.getSimpleName() + "  of " + validatorType
                                + "must specify at least one validation group.", null);
@@ -102,32 +115,39 @@ public final class ValidatorGenerator extends Generator {
                         + ".", null);
                 throw new UnableToCompleteException();
             }
-            generateGwtSpecificValidator(validatorType, value, beanHelper, validatorLogger, context, cache, groups);
+            generateGwtSpecificValidator(value, beanHelper, validatorLogger, context, cache, groups);
         }
         return generateGenericValidator(logger, context, validatorType);
     }
 
-    private String generateGwtSpecificValidator(TypeElement validator, TypeElement type,
+    private void checkInheritance(TypeMirror bean, AptContext context) {
+        TypeElement object = context.elements.getTypeElement(Object.class.getCanonicalName());
+        if (!context.types.isSameType(object.asType(), bean)) {
+            checkInheritance(MoreTypes.asTypeElement(bean).getSuperclass(), context);
+            if (!values.contains(MoreTypes.asTypeElement(bean))) {
+                Set<VariableElement> fields = MoreTypes.asTypeElement(bean).getEnclosedElements()
+                        .stream()
+                        .filter(elm -> elm.getKind().equals(ElementKind.FIELD))
+                        .map(MoreElements::asVariable).collect(Collectors.toSet());
+                loop:
+                for (VariableElement field : fields) {
+                    for (AnnotationMirror annotationMirror : field.getAnnotationMirrors()) {
+                        if (context.isSupported(annotationMirror.getAnnotationType().asElement().toString())) {
+                            values.add(MoreTypes.asTypeElement(bean));
+                            break loop;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private String generateGwtSpecificValidator(TypeElement type,
                                                 BeanHelper beanHelper, TreeLogger logger,
                                                 GeneratorContext context, BeanHelperCache cache,
                                                 List<TypeElement> groups) throws UnableToCompleteException {
-        AbstractCreator creator = new GwtSpecificValidatorCreator(validator,
-                                                                  type, beanHelper, logger, context, cache, groups);
+        AbstractCreator creator = new GwtSpecificValidatorCreator(type, beanHelper, logger, context, cache, groups);
         return creator.create();
-    }
-
-    private TypeElement getGwtSpecificValidator(TreeLogger logger,
-                                                TypeElement validator) throws UnableToCompleteException {
-        for (TypeMirror interfaceType : validator.getInterfaces()) {
-            if (MoreTypes.asTypeElement(interfaceType).getQualifiedName().toString().endsWith(
-                    Validator.class.getCanonicalName())) {
-                return MoreTypes.asTypeElement(interfaceType);
-            }
-        }
-        logger.log(TreeLogger.ERROR, validator.getQualifiedName()
-                           + " must implement " + GwtSpecificValidator.class.getCanonicalName(),
-                   null);
-        throw new UnableToCompleteException();
     }
 
     private String generateGenericValidator(TreeLogger logger, GeneratorContext context,

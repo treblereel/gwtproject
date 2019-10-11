@@ -1,17 +1,20 @@
 package org.gwtproject.validation.rebind.beaninfo.impl;
 
-import java.lang.annotation.Annotation;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
-import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
+import javax.lang.model.type.TypeKind;
+import javax.lang.model.type.TypeMirror;
 import javax.validation.Valid;
 
+import com.google.auto.common.MoreElements;
 import com.google.auto.common.MoreTypes;
+import org.gwtproject.validation.context.AptContext;
 import org.gwtproject.validation.rebind.beaninfo.ConstraintDescriptor;
 import org.gwtproject.validation.rebind.beaninfo.PropertyDescriptor;
 
@@ -27,30 +30,31 @@ public class PropertyDescriptorImpl implements PropertyDescriptor {
 
     private Element field;
 
-    private Set<Annotation> annotation;
+    private Set<AnnotationMirror> annotations;
 
     private Set<ConstraintDescriptor> constraintDescriptors;
 
-    PropertyDescriptorImpl(Element field) {
+    PropertyDescriptorImpl(Element field, AptContext context) {
         this.field = field;
         this.constraintDescriptors = new HashSet<>();
-
         for (AnnotationMirror annotationMirror : field.getAnnotationMirrors()) {
-            constraintDescriptors.add(new ConstraintDescriptorImpl(annotationMirror, field));
+            String annotation = MoreElements.asType(annotationMirror.getAnnotationType().asElement()).getQualifiedName().toString();
+            if (context.isSupported(annotation)) {
+                constraintDescriptors.add(new ConstraintDescriptorImpl(annotationMirror, field, context));
+                context.getConstraint(annotation).getInheritedConstraint().forEach(i -> {
+                    constraintDescriptors.add(new ConstraintDescriptorImpl(i, field, context));
+                });
+            }
         }
     }
 
-    public static PropertyDescriptorImpl of(VariableElement field, Set<Annotation> annotation) {
-        PropertyDescriptorImpl impl = new PropertyDescriptorImpl(field);
+    public static PropertyDescriptorImpl of(VariableElement field, Set<AnnotationMirror> annotations, AptContext context) {
+        PropertyDescriptorImpl impl = new PropertyDescriptorImpl(field, context);
         impl.propertyName = field.getSimpleName().toString();
         impl.isCascaded = field.getAnnotation(Valid.class) != null;
-        impl.annotation = annotation;
+        impl.annotations = annotations;
 
         return impl;
-    }
-
-    private boolean isArray(Object obj) {
-        return obj != null && obj.getClass().isArray();
     }
 
     @Override
@@ -65,22 +69,24 @@ public class PropertyDescriptorImpl implements PropertyDescriptor {
 
     @Override
     public boolean hasConstraints() {
-        return false;
+        return !constraintDescriptors.isEmpty();
     }
 
     @Override
-    public TypeElement getElementClass() {
-        return MoreTypes.asTypeElement(field.asType());
+    public TypeMirror getElementClass() {
+        return field.asType();
+    }
+
+    @Override
+    public String getFullyQualifiedFieldName() {
+        return (field.asType().getKind().isPrimitive() ||
+                field.asType().getKind().equals(TypeKind.ARRAY)) ? field.asType().toString() :
+                MoreTypes.asTypeElement(field.asType()).getQualifiedName().toString();
     }
 
     @Override
     public Set<ConstraintDescriptor> getConstraintDescriptors() {
         return constraintDescriptors;
-    }
-
-    @Override
-    public ConstraintFinder findConstraints() {
-        return null;
     }
 
     @Override
@@ -95,12 +101,12 @@ public class PropertyDescriptorImpl implements PropertyDescriptor {
         return isCascaded == that.isCascaded &&
                 Objects.equals(propertyName, that.propertyName) &&
                 Objects.equals(field, that.field) &&
-                Objects.equals(annotation, that.annotation);
+                Objects.equals(annotations, that.annotations);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(propertyName, isCascaded, field, annotation);
+        return Objects.hash(propertyName, isCascaded, field, annotations);
     }
 
     @Override
@@ -109,7 +115,7 @@ public class PropertyDescriptorImpl implements PropertyDescriptor {
                 "propertyName='" + propertyName + '\'' +
                 ", isCascaded=" + isCascaded +
                 ", field=" + field +
-                ", annotation=" + annotation +
+                ", annotations=" + annotations.stream().map(m -> m.toString()).collect(Collectors.joining(",")) +
                 '}';
     }
 }
