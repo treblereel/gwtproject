@@ -1,5 +1,4 @@
-// $Id: Validator.java 17625 2009-10-05 16:48:45Z epbernard $
-/*
+/**
  * JBoss, Home of Professional Open Source
  * Copyright 2009, Red Hat, Inc. and/or its affiliates, and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a

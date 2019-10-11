@@ -1,4 +1,5 @@
-/**
+// $Id: GroupDefinitionException.java 17620 2009-10-04 19:19:28Z hardy.ferentschik $
+/*
  * JBoss, Home of Professional Open Source
  * Copyright 2009, Red Hat, Inc. and/or its affiliates, and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
@@ -16,22 +17,25 @@
  */
 package javax.validation;
 
-import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.ElementType.CONSTRUCTOR;
-import static java.lang.annotation.ElementType.PARAMETER;
-import java.lang.annotation.Retention;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import java.lang.annotation.Target;
-
 /**
- * Mark an association as cascaded.
- * The associated object will be validated by cascade.
+ * Exception raised if a group definition is not legal
  *
  * @author Emmanuel Bernard
- * @author Hardy Ferentschik
  */
-@Target({ METHOD, FIELD, CONSTRUCTOR, PARAMETER })
-@Retention(RUNTIME)
-public @interface Valid {
+public class GroupDefinitionException extends ValidationException {
+    public GroupDefinitionException(String message) {
+        super( message );
+    }
+
+    public GroupDefinitionException() {
+        super();
+    }
+
+    public GroupDefinitionException(String message, Throwable cause) {
+        super( message, cause );
+    }
+
+    public GroupDefinitionException(Throwable cause) {
+        super( cause );
+    }
 }
