@@ -8,6 +8,7 @@ import org.gwtproject.validation.rg.util.DiskCache;
 import org.gwtproject.validation.rg.util.GeneratedUnit;
 import org.gwtproject.validation.rg.util.Util;
 
+import javax.annotation.processing.FilerException;
 import javax.tools.JavaFileObject;
 import java.io.*;
 import java.util.*;
@@ -87,7 +88,7 @@ public class StandardGeneratorContext implements GeneratorContext {
         // it is pending so another attempt to create the same type will fail.
         Generated gcup;
         StringWriter sw = new StringWriter();
-        PrintWriter pw;
+        PrintWriter pw = null;
         try {
             JavaFileObject builderFile = aptContext.filer.createSourceFile(packageName + "." + simpleTypeName);
             pw = new PrintWriter(builderFile.openWriter(), true) {
@@ -101,9 +102,10 @@ public class StandardGeneratorContext implements GeneratorContext {
                     super.flush();
                 }
             };
-
+        } catch (FilerException fe) {
+            // ok to ignore
         } catch (IOException e) {
-            logger.log(TreeLogger.Type.ERROR, "Unable to create a Class : " + e.getMessage());
+            logger.log(TreeLogger.Type.ERROR, "Unable to create a Class : " + e.getMessage() + " " + e.getClass().getCanonicalName());
             throw new UnableToCompleteException();
         }
 

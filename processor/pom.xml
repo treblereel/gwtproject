@@ -40,6 +40,14 @@
       <version>1.0-SNAPSHOT</version>
     </dependency>
 
+
+    <dependency>
+      <groupId>com.vertispan.elemental2</groupId>
+      <artifactId>elemental2-dom</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+      <scope>test</scope>
+    </dependency>
+
     <dependency>
       <groupId>org.gwtproject.dom</groupId>
       <artifactId>gwt-dom</artifactId>
@@ -129,29 +137,26 @@
     </dependency>
 
     <dependency>
+      <groupId>org.gwtproject.event</groupId>
+      <artifactId>gwt-event-dom</artifactId>
+      <version>1.0-SNAPSHOT</version>
+      <exclusions>
+        <exclusion>
+          <groupId>com.google.elemental2</groupId>
+          <artifactId>elemental2-dom</artifactId>
+        </exclusion>
+      </exclusions>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
       <groupId>org.gwtproject.widgets</groupId>
       <artifactId>gwt-widgets</artifactId>
       <version>1.0-SNAPSHOT</version>
       <exclusions>
         <exclusion>
-          <groupId>org.gwtproject.user.window</groupId>
-          <artifactId>gwt-window</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.gwtproject.user.history</groupId>
-          <artifactId>gwt-history</artifactId>
-        </exclusion>
-        <exclusion>
           <groupId>org.gwtproject.event</groupId>
           <artifactId>gwt-event-dom</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.gwtproject.animation</groupId>
-          <artifactId>gwt-animation</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.gwtproject.layout</groupId>
-          <artifactId>gwt-layout</artifactId>
         </exclusion>
         <exclusion>
           <groupId>org.gwtproject.dom</groupId>
@@ -169,23 +174,6 @@
       <scope>test</scope>
     </dependency>
 
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.google.gwt</groupId>
-      <artifactId>gwt-user</artifactId>
-      <version>2.8.2</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.google.gwt</groupId>
-      <artifactId>gwt-dev</artifactId>
-      <version>2.8.2</version>
-      <scope>test</scope>
-    </dependency>
   </dependencies>
 
   <build>
@@ -206,76 +194,7 @@
       </testResource>
     </testResources>
     <plugins>
-      <!--      <plugin>
-              <artifactId>maven-shade-plugin</artifactId>
-              <executions>
-                <execution>
-                  <phase>package</phase>
-                  <goals>
-                    <goal>shade</goal>
-                  </goals>
-                  <configuration>
-                    <artifactSet>
-                      <excludes>
-                        <exclude>org.easymock:easymock</exclude>
-                        <exclude>org.mockito:mockito-core</exclude>
-                        <exclude>org.gwtproject:gwt-user</exclude>
-                        <exclude>org.gwtproject:gwt-core</exclude>
-                        <exclude>com.google.jsinterop:base</exclude>
-                        <exclude>org.realityforge.com.google.jsinterop:base</exclude>
-                        <exclude>net.java.dev.javacc:javacc</exclude>
-                        <exclude>com.google.code.findbugs:jsr305</exclude>
-                        <exclude>javax.validation:validation-api</exclude>
-                        <exclude>javax.servlet:javax.servlet-api</exclude>
-                        <exclude>com.google.jsinterop:base</exclude>
-                      </excludes>
-                    </artifactSet>
-                    <relocations>
-                      <relocation>
-                        <pattern>com.google.auto.common</pattern>
-                        <shadedPattern>org.gwtproject.resources.shaded.auto.common</shadedPattern>
-                      </relocation>
-                      <relocation>
-                        <pattern>com.google.auto.service</pattern>
-                        <shadedPattern>org.gwtproject.resources.shaded.auto.service</shadedPattern>
-                      </relocation>
-                      <relocation>
-                        <pattern>com.google.common.base</pattern>
-                        <shadedPattern>org.gwtproject.resources.shaded.com.google.common.base</shadedPattern>
-                      </relocation>
-                      <relocation>
-                        <pattern>com.google.common.collect</pattern>
-                        <shadedPattern>org.gwtproject.resources.shaded.com.google.common.collect</shadedPattern>
-                      </relocation>
-                    </relocations>
-                  </configuration>
-                </execution>
-              </executions>
-            </plugin>-->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>default-compile</id>
-            <goals>
-              <goal>compile</goal>
-            </goals>
-            <configuration>
-              <showWarnings>true</showWarnings>
-              <compilerArgument>-proc:none</compilerArgument>
-            </configuration>
-          </execution>
-          <execution>
-            <id>default-testCompile</id>
-            <goals>
-              <goal>testCompile</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
+       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>${maven.surefire.plugin}</version>
@@ -288,6 +207,12 @@
           </additionalClasspathElements>
           <useManifestOnlyJar>false</useManifestOnlyJar>
           <forkMode>always</forkMode>
+          <systemProperties>
+            <property>
+              <name>gwt.args</name>
+              <value>-out ${webAppDirectory}</value>
+            </property>
+          </systemProperties>
         </configuration>
       </plugin>
       <plugin>

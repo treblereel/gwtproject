@@ -107,14 +107,14 @@ public final class Util {
      * @param availableClasses classes to search
      * @return Set of only the most specific classes that match the target.
      */
-    public static Set<TypeMirror> findBestMatches(AptContext context, TypeElement target,
+    public static Set<TypeMirror> findBestMatches(AptContext context, TypeMirror target,
                                                    Set<TypeMirror> availableClasses) {
         Set<TypeMirror> matches = new HashSet<>();
-        if (availableClasses.contains(target.asType())) {
-            return ImmutableSet.of(target.asType());
+        if (availableClasses.contains(target)) {
+            return ImmutableSet.of(target);
         } else {
             for (TypeMirror clazz : availableClasses) {
-                if(context.types.isAssignable(target.asType(), clazz)) {
+                if(context.types.isAssignable(target, clazz)) {
                     matches.add(clazz);
                 }
             }
@@ -171,11 +171,11 @@ public final class Util {
         return Collections.EMPTY_LIST;
     }
 
-    public static List<TypeElement> getValues(GwtValidation annotation) {
+    public static Set<TypeElement> getValues(GwtValidation annotation) {
         try {
             annotation.value();
         } catch (javax.lang.model.type.MirroredTypesException mte) {
-            return mte.getTypeMirrors().stream().map(m -> MoreTypes.asTypeElement(m)).collect(Collectors.toList());
+            return mte.getTypeMirrors().stream().map(m -> MoreTypes.asTypeElement(m)).collect(Collectors.toSet());
         }
         return null;
     }

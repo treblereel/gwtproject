@@ -1,15 +1,15 @@
-package org.gwtproject.validation.rebind;
+package org.gwtproject.validation.context;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.lang.model.element.AnnotationMirror;
 import javax.validation.constraints.AssertFalse;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.DecimalMax;
@@ -59,9 +59,9 @@ import org.gwtproject.validation.client.constraints.SizeValidatorForString;
  */
 public class ConstraintHelper {
 
-    private final Map<String, List<String>> builtinConstraints = new HashMap<>();
+    private final Map<String, ConstraintHolder> builtinConstraints = new HashMap<>();
 
-    public ConstraintHelper() {
+    ConstraintHelper() {
         addConstraint(AssertFalse.class, AssertFalseValidator.class);
         addConstraint(AssertTrue.class, AssertTrueValidator.class);
 
@@ -116,24 +116,16 @@ public class ConstraintHelper {
         ));
     }
 
-    public List<String> get(String annotation) {
-        if(builtinConstraints.containsKey(annotation)) {
+    public ConstraintHolder get(String annotation) {
+        if (builtinConstraints.containsKey(annotation)) {
             return builtinConstraints.get(annotation);
         }
-        return Collections.EMPTY_LIST;
+        return null;
     }
 
-/*    public Set<String> getByValidator(String validator) {
-        Set<String> result = new HashSet<>();
-        for (Map.Entry<String, List<String>> entry : builtinConstraints.entrySet()) {
-            for (String v : entry.getValue()) {
-                if (v.equals(validator)) {
-                    result.add(entry.getKey());
-                }
-            }
-        }
-        return result;
-    }*/
+    void addConstraint(String annotation, List<String> clazzz, Set<AnnotationMirror> inheritedConstraint) {
+        builtinConstraints.put(annotation, new ConstraintHolder(clazzz.stream().collect(Collectors.toList()), inheritedConstraint));
+    }
 
     private void addConstraint(Class<?> annotation, Class<?> clazz) {
         List<Class<?>> list = new ArrayList<>();
@@ -142,7 +134,34 @@ public class ConstraintHelper {
     }
 
     private void addConstraint(Class<?> annotation, List<Class<?>> clazzz) {
-        builtinConstraints.put(annotation.getCanonicalName(), clazzz.stream().map(m -> m.getCanonicalName())
-                .collect(Collectors.toList()));
+        builtinConstraints.put(annotation.getCanonicalName(), new ConstraintHolder(clazzz.stream().map(Class::getCanonicalName)
+                .collect(Collectors.toList())));
+    }
+
+    public Set<String> getAnnotations() {
+        return builtinConstraints.entrySet().stream().map(Map.Entry::getKey).collect(Collectors.toSet());
+    }
+
+    public static class ConstraintHolder {
+
+        private List<String> validators;
+        private Set<AnnotationMirror> inheritedConstraint;
+
+        ConstraintHolder(List<String> validators) {
+            this.validators = validators;
+        }
+
+        ConstraintHolder(List<String> validators, Set<AnnotationMirror> inheritedConstraint) {
+            this.validators = validators;
+            this.inheritedConstraint = inheritedConstraint;
+        }
+
+        public List<String> getValidators() {
+            return validators;
+        }
+
+        public Set<AnnotationMirror> getInheritedConstraint() {
+            return inheritedConstraint != null ? inheritedConstraint : Collections.emptySet();
+        }
     }
 }

@@ -22,7 +22,7 @@ import javax.validation.groups.Default;
 
 import com.google.auto.common.MoreElements;
 import com.google.auto.common.MoreTypes;
-import org.gwtproject.validation.rebind.ConstraintHelper;
+import org.gwtproject.validation.context.AptContext;
 import org.gwtproject.validation.rebind.beaninfo.ConstraintDescriptor;
 
 /**
@@ -39,9 +39,13 @@ public class ConstraintDescriptorImpl implements ConstraintDescriptor {
 
     private Map<String, DefaultValueHolder> defaultValues = new HashMap<>();
 
-    public ConstraintDescriptorImpl(AnnotationMirror annotationMirror, Element source) {
+    private AptContext context;
+
+    public ConstraintDescriptorImpl(AnnotationMirror annotationMirror, Element source, AptContext context) {
         this.annotation = annotationMirror;
         this.source = source;
+        this.context = context;
+
         for (ExecutableElement meth : ElementFilter.methodsIn(annotationMirror.getAnnotationType()
                                                                       .asElement()
                                                                       .getEnclosedElements())) {
@@ -53,21 +57,7 @@ public class ConstraintDescriptorImpl implements ConstraintDescriptor {
             }
         }
 
-        annotationMirror.getElementValues().forEach((k, v) -> {
-            this.holder.put(k.getSimpleName().toString(), parseValue(k.getReturnType(), v.getValue()));
-        });
-    }
-
-    //TODO shitty workarounds
-    private static Object parseValue(Object value) {
-        if (value.getClass().toString().contains("com.sun.tools.javac.util.List")) {
-            List<String> result = new ArrayList<>();
-            for (Object object : (java.util.AbstractCollection) value) {
-                result.add(object.toString().replaceAll(".class", ""));
-            }
-            return result.toArray();
-        }
-        return value;
+        annotationMirror.getElementValues().forEach((k, v) -> this.holder.put(k.getSimpleName().toString(), parseValue(k.getReturnType(), v.getValue())));
     }
 
     private Object parseValue(TypeMirror typeMirror, Object value) {
@@ -103,8 +93,8 @@ public class ConstraintDescriptorImpl implements ConstraintDescriptor {
     }
 
     @Override
-    public String getAnnotation() {
-        return MoreElements.asType(annotation.getAnnotationType().asElement()).getQualifiedName().toString();
+    public AnnotationMirror getAnnotation() {
+        return annotation;
     }
 
     @Override
@@ -123,12 +113,14 @@ public class ConstraintDescriptorImpl implements ConstraintDescriptor {
 
     @Override
     public Set<Class<? extends Payload>> getPayload() {
-        return Collections.EMPTY_SET;
+        return Collections.emptySet();
     }
 
     @Override
     public List<String> getConstraintValidatorClasses() {
-        return new ConstraintHelper().get(getAnnotation());
+        return context.getValidators(MoreElements.asType(annotation.getAnnotationType()
+                                                                 .asElement())
+                                             .getQualifiedName().toString());
     }
 
     @Override
@@ -149,7 +141,7 @@ public class ConstraintDescriptorImpl implements ConstraintDescriptor {
 
     @Override
     public Set<ConstraintDescriptor> getComposingConstraints() {
-        return Collections.EMPTY_SET;
+        return Collections.emptySet();
     }
 
     @Override

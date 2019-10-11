@@ -58,13 +58,12 @@ public final class ValidatorCreator extends AbstractCreator {
      */
     private final ImmutableList<BeanHelper> beansToValidate;
 
-    private final List<TypeElement> values;
     private final List<TypeElement> groups;
     private final TypeElement validatorType;
 
 
     public ValidatorCreator(TypeElement validatorType, //
-                            List<TypeElement> values,
+                            Set<TypeElement> values,
                             List<TypeElement> groups,
                             TreeLogger logger, //
                             GeneratorContext context,
@@ -72,7 +71,6 @@ public final class ValidatorCreator extends AbstractCreator {
         super(context, logger, MoreElements.getPackage(validatorType).getQualifiedName().toString(),
               getSimpleClassName(validatorType),
               cache);
-        this.values = values;
         this.groups = groups;
         this.validatorType = validatorType;
 

@@ -22,6 +22,7 @@ import java.util.Map;
 
 import javax.lang.model.element.TypeElement;
 
+import com.google.auto.common.MoreTypes;
 import org.gwtproject.validation.client.impl.GwtSpecificValidator;
 import org.gwtproject.validation.context.AptContext;
 import org.gwtproject.validation.rebind.beaninfo.PropertyDescriptor;
@@ -77,16 +78,12 @@ public class BeanHelperCache { // public for testing
         return cache.get(key);
     }
 
-    boolean isClassConstrained(TypeElement clazz) {
-        return true;
-    }
-
     private BeanHelper doCreateHelper(TypeElement beanType, TreeLogger logger, GeneratorContext context)
             throws UnableToCompleteException {
         BeanHelper helper = getBean(beanType);
         if (helper == null) {
             helper = new BeanHelper(context.getAptContext(), beanType);
-            cache.put(helper.getJClass(), helper);
+            cache.put(helper.getClazz(), helper);
             writeInterface(context, logger, helper);
             // now recurse on all Cascaded elements
             for (PropertyDescriptor p : helper.getBeanDescriptor().getConstrainedProperties()) {
@@ -111,16 +108,12 @@ public class BeanHelperCache { // public for testing
                 TypeElement type = parent.getAssociationType(p, true);
                 createHelper(type, logger, context);
             }
-            if (parent.hasGetter(p.getPropertyName())) {
+            if (parent.hasGetter(p)) {
                 TypeElement type = parent.getAssociationType(p, false);
                 createHelper(type, logger, context);
             }
         } else {
-            createHelper(p.getElementClass(), logger, context);
-
-/*            if (serverSideValidator.getConstraintsForClass(elementClass).isBeanConstrained()) {
-                createHelper(elementClass, logger, context);
-            }*/
+            createHelper(MoreTypes.asTypeElement(p.getElementClass()), logger, context);
         }
     }
 

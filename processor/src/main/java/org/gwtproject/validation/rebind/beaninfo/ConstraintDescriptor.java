@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.lang.model.element.AnnotationMirror;
 import javax.validation.Payload;
 
 import org.gwtproject.validation.rebind.beaninfo.impl.ConstraintDescriptorImpl;
@@ -22,7 +23,7 @@ public interface ConstraintDescriptor {
      * the overridden attributes of the composing constraint
      * @return The annotation for this constraint.
      */
-    String getAnnotation();
+    AnnotationMirror getAnnotation();
 
     /**
      * The set of groups the constraint is applied on.
