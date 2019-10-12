@@ -17,7 +17,7 @@ package org.gwtproject.layout.client;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
-import static org.gwtproject.dom.client.Style.Unit.*;
+import static org.gwtproject.dom.style.shared.Unit.*;
 
 import com.google.gwt.junit.DoNotRunWith;
 import com.google.gwt.junit.Platform;
@@ -538,6 +538,7 @@ public class LayoutJ2clTest {
 
   // This method may only be called once per test, as it uses delayTestFinish()
   // internally.
+  // TODO: use promise
   private void testAnimationTransitionsHelper(LayerInitializer before, LayerInitializer after) {
     //    before.setupLayers(layer0,
     //                       layer1);

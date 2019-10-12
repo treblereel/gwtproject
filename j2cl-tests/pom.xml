@@ -7,7 +7,7 @@
   <artifactId>j2cl-tests</artifactId>
   <version>1.0-SNAPSHOT</version>
 
-  <name>GWT LAyout J2CL Tests</name>
+  <name>GWT Layout J2CL Tests</name>
   <description>Test cases for the J2Cl tests</description>
   <url>https://github.com/gwtproject/gwt-layout</url>
 
@@ -60,6 +60,9 @@
     <google.snapshot.repo.url>https://oss.sonatype.org/content/repositories/google-snapshots/</google.snapshot.repo.url>
 
     <elemental2.version>1.0.0-RC1</elemental2.version>
+    <gwt.dom.version>1.0-SNAPSHOT</gwt.dom.version>
+    <gwt.dom.style.definitions.version>1.0-SNAPSHOT</gwt.dom.style.definitions.version>
+    <gwt.regexp.version>1.0-SNAPSHOT</gwt.regexp.version>
     <jsinterop.base.version>1.0.0-SNAPSHOT</jsinterop.base.version>
     <j2cl.version>0.3-SNAPSHOT</j2cl.version>
     <slf4j.version>1.7.5</slf4j.version>
@@ -77,14 +80,38 @@
     <!-- transitive dependencies that aren't correctly available at runtime -->
     <dependency>
       <groupId>com.google.elemental2</groupId>
-      <artifactId>elemental2-promise</artifactId>
+      <artifactId>elemental2-core</artifactId>
+      <version>${elemental2.version}</version>
+      <scope>test</scope>
+    </dependency>
+   <dependency>
+      <groupId>com.google.elemental2</groupId>
+      <artifactId>elemental2-dom</artifactId>
       <version>${elemental2.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.google.elemental2</groupId>
-      <artifactId>elemental2-dom</artifactId>
+      <artifactId>elemental2-promise</artifactId>
       <version>${elemental2.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.gwtproject.dom</groupId>
+      <artifactId>gwt-dom</artifactId>
+      <version>${gwt.dom.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.gwtproject.dom</groupId>
+      <artifactId>gwt-dom-style-definitions</artifactId>
+      <version>${gwt.dom.style.definitions.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.gwtproject.regexp</groupId>
+      <artifactId>gwt-regexp</artifactId>
+      <version>${gwt.regexp.version}</version>
       <scope>test</scope>
     </dependency>
 
@@ -93,6 +120,7 @@
       <groupId>com.vertispan.jsinterop</groupId>
       <artifactId>base</artifactId>
       <version>${jsinterop.base.version}</version>
+      <scope>test</scope>
     </dependency>
 
     <dependency>
