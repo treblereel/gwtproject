@@ -1,17 +1,17 @@
 /*
- * Copyright 2018 The GWT Project Authors
+ * Copyright © 2019 The GWT Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.gwtproject.layout.client;
 
@@ -35,8 +35,8 @@ import org.gwtproject.layout.client.Layout.Layer;
  * Default implementation, which works with all browsers except for IE6. It uses only the "top",
  * "left", "bottom", "right", "width", and "height" CSS properties.
  *
- * Note: This implementation class has state, so {@link Layout} must create a new instance for each
- * layout-parent.
+ * <p>Note: This implementation class has state, so {@link Layout} must create a new instance for
+ * each layout-parent.
  */
 class LayoutImpl {
 
@@ -83,8 +83,8 @@ class LayoutImpl {
     Element beforeContainer = null;
     if (before != null) {
       beforeContainer = before.getParentElement();
-      assert beforeContainer.getParentElement()
-          == parent : "Element to insert before must be a sibling";
+      assert beforeContainer.getParentElement() == parent
+          : "Element to insert before must be a sibling";
     }
     parent.insertBefore(container, beforeContainer);
     return container;
@@ -99,22 +99,17 @@ class LayoutImpl {
     style.setBottom(0, PX);
   }
 
-  /**
-   * @param parent the parent element
-   */
-  public void finalizeLayout(Element parent) {
-  }
+  /** @param parent the parent element */
+  public void finalizeLayout(Element parent) {}
 
-  public double getUnitSizeInPixels(
-      Element parent, Unit unit, boolean vertical) {
+  public double getUnitSizeInPixels(Element parent, Unit unit, boolean vertical) {
     if (unit == null) {
       return 1;
     }
 
     switch (unit) {
       case PCT:
-        return (vertical ? parent.getClientHeight() : parent.getClientWidth())
-            / 100.0;
+        return (vertical ? parent.getClientHeight() : parent.getClientWidth()) / 100.0;
       case EM:
         return relativeRuler.getOffsetWidth() / 10.0;
       case EX:
@@ -149,18 +144,12 @@ class LayoutImpl {
       style.setDisplay(Display.NONE);
     }
 
-    style.setProperty(
-        "left", layer.setLeft ? (layer.left + layer.leftUnit.getType()) : "");
-    style.setProperty(
-        "top", layer.setTop ? (layer.top + layer.topUnit.getType()) : "");
-    style.setProperty("right",
-        layer.setRight ? (layer.right + layer.rightUnit.getType()) : "");
-    style.setProperty("bottom",
-        layer.setBottom ? (layer.bottom + layer.bottomUnit.getType()) : "");
-    style.setProperty("width",
-        layer.setWidth ? (layer.width + layer.widthUnit.getType()) : "");
-    style.setProperty("height",
-        layer.setHeight ? (layer.height + layer.heightUnit.getType()) : "");
+    style.setProperty("left", layer.setLeft ? (layer.left + layer.leftUnit.getType()) : "");
+    style.setProperty("top", layer.setTop ? (layer.top + layer.topUnit.getType()) : "");
+    style.setProperty("right", layer.setRight ? (layer.right + layer.rightUnit.getType()) : "");
+    style.setProperty("bottom", layer.setBottom ? (layer.bottom + layer.bottomUnit.getType()) : "");
+    style.setProperty("width", layer.setWidth ? (layer.width + layer.widthUnit.getType()) : "");
+    style.setProperty("height", layer.setHeight ? (layer.height + layer.heightUnit.getType()) : "");
 
     style = layer.child.getStyle();
     switch (layer.hPos) {
