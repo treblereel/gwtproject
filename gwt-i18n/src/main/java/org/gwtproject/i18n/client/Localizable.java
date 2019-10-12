@@ -20,8 +20,6 @@ package org.gwtproject.i18n.client;
  * 
  * deprecated use {@link org.gwtproject.i18n.shared.Localizable} instead
  */
-// Temporarily remove deprecation to keep from breaking teams that don't allow
-// deprecated references.
-// @Deprecated
+@Deprecated
 public interface Localizable extends org.gwtproject.i18n.shared.Localizable {
 }
