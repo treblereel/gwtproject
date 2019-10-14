@@ -51,6 +51,10 @@
     <maven.licence.plugin>3.0</maven.licence.plugin>
     <maven.source.plugin>3.1.0</maven.source.plugin>
 
+    <!-- CI -->
+    <vertispan.j2cl.repo.url>https://repo.vertispan.com/j2cl/</vertispan.j2cl.repo.url>
+    <google.snapshot.repo.url>https://oss.sonatype.org/content/repositories/google-snapshots/</google.snapshot.repo.url>
+
     <aria.version>1.0-SNAPSHOT</aria.version>
     <animation.version>1.0-SNAPSHOT</animation.version>
     <core.version>1.0-SNAPSHOT</core.version>
@@ -158,17 +162,49 @@
     </plugins>
   </build>
 
-  <distributionManagement>
-    <snapshotRepository>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </snapshotRepository>
+  <repositories>
     <repository>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+      <id>${vertispan.j2cl.repo.id}</id>
+      <name>${vertispan.j2cl.repo.name}</name>
+      <url>${vertispan.j2cl.repo.url}</url>
     </repository>
-  </distributionManagement>
+    <repository>
+      <id>vertispan-releases</id>
+      <name>Vertispan hosted artifacts-releases</name>
+      <url>${vertispan.j2cl.repo.url}</url>
+    </repository>
+    <repository>
+      <id>vertispan-snapshots</id>
+      <name>Vertispan hosted artifacts-snapshots</name>
+      <url>${vertispan.j2cl.repo.url}</url>
+    </repository>
+    <repository>
+      <id>google-snapshot-repo</id>
+      <name>Google SnapShot Repo</name>
+      <url>${google.snapshot.repo.url}</url>
+    </repository>
+  </repositories>
 
+  <pluginRepositories>
+    <pluginRepository>
+      <id>vertispan-releases</id>
+      <name>Vertispan hosted artifacts-releases</name>
+      <url>${vertispan.j2cl.repo.url}</url>
+    </pluginRepository>
+  </pluginRepositories>
+
+  <distributionManagement>
+    <repository>
+      <id>vertispan-releases</id>
+      <name>Vertispan hosted artifacts-releases</name>
+      <url>${vertispan.j2cl.repo.url}</url>
+    </repository>
+    <snapshotRepository>
+      <id>vertispan-snapshots</id>
+      <name>Vertispan hosted artifacts-snapshots</name>
+      <url>${vertispan.j2cl.repo.url}</url>
+    </snapshotRepository>
+  </distributionManagement>
   <profiles>
     <!-- release profile to create sources, javadoc, and sign all artifacts before uploading -->
     <profile>
