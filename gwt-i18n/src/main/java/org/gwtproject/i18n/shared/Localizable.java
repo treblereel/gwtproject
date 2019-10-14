@@ -15,6 +15,8 @@
  */
 package org.gwtproject.i18n.shared;
 
+import java.lang.annotation.*;
+
 /**
  * A tag interface that serves as the root of a family of types used in static
  * internationalization. Using <code>GWT.create(<i>class</i>)</code> to
@@ -101,5 +103,17 @@ package org.gwtproject.i18n.shared;
  * @see org.gwtproject.i18n.client.Messages
  * @see org.gwtproject.i18n.client.Dictionary
  */
+@Localizable.I18nLocaleSuffuxes({"default", "en", "es", "fr", "de"})//TODO real list
 public interface Localizable {
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.TYPE)
+    @Documented
+    @interface IsLocalizable {}
+
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.TYPE)
+    @Documented
+    @interface I18nLocaleSuffuxes {
+        String[] value();
+    }
 }
