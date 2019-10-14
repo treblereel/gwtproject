@@ -31,6 +31,8 @@ import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.style.shared.Position;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.layout.client.Layout.Layer;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 /** Tests for the {@link org.gwtproject.layout.client.Layout} class. */
@@ -427,6 +429,7 @@ public class LayoutJ2clTest {
     assertEquals(ph - 2, wrapper0.getOffsetHeight());
   }
 
+  @Before
   public void setUp() throws Exception {
     // ensure enough sizes for this test
     ResizeHelper.resizeTo(800, 600);
@@ -450,6 +453,7 @@ public class LayoutJ2clTest {
     wrapper1 = child1.getParentElement();
   }
 
+  @After
   public void tearDown() throws Exception {
     enableScrolling(true);
     Document.get().getBody().removeChild(parent);
