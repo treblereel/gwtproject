@@ -15,8 +15,6 @@
  */
 package org.gwtproject.json;
 
-import com.google.gwt.junit.tools.GWTTestSuite;
-import junit.framework.Test;
 import org.gwtproject.json.client.JsonGwt2Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -24,5 +22,4 @@ import org.junit.runners.Suite;
 /** All JSON tests. */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({JsonGwt2Test.class})
-public class JsonGwt2Suite {
-}
+public class JsonGwt2Suite {}

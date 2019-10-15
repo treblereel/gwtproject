@@ -1,27 +1,35 @@
 /*
- * Copyright © 2019 The GWT Authors
+ * Copyright 2007 Google Inc.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.gwtproject.json.client;
 
 import static elemental2.core.Global.JSON;
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertFalse;
+import static junit.framework.TestCase.assertNotNull;
+import static junit.framework.TestCase.assertNull;
+import static junit.framework.TestCase.assertTrue;
+import static junit.framework.TestCase.fail;
 
-import com.google.gwt.junit.client.GWTTestCase;
+import com.google.j2cl.junit.apt.J2clTestInput;
 import java.util.Set;
+import org.junit.Test;
 
 /** Test case for JSONValue and friends. */
-public class JsonGwt2Test extends GWTTestCase {
+@J2clTestInput(JSONJ2clTest.class)
+public class JSONJ2clTest {
 
   static final String menuTest =
       "{\"menu\": {\n"
@@ -109,12 +117,7 @@ public class JsonGwt2Test extends GWTTestCase {
     }
   }
 
-  /** Returns the module name for GWT unit test running. */
-  @Override
-  public String getModuleName() {
-    return "org.gwtproject.json.Json";
-  }
-
+  @Test
   public void testArrayBasics() {
     JSONArray a = new JSONArray();
     JSONString s = new JSONString("s");
@@ -133,6 +136,7 @@ public class JsonGwt2Test extends GWTTestCase {
   }
 
   /** Test deep recursion of arrays. */
+  @Test
   public void testArrayOfArraysOfArrays() {
     JSONArray array = populateRecursiveArray(3, 5);
     assertEquals(
@@ -145,6 +149,7 @@ public class JsonGwt2Test extends GWTTestCase {
   }
 
   /** Tests an array of raw numbers, like [1,2,3]. */
+  @Test
   public void testArrayOfNumbers() {
     JSONArray arr = new JSONArray();
     for (int i = 0; i < 10; i++) {
@@ -161,6 +166,7 @@ public class JsonGwt2Test extends GWTTestCase {
     }
   }
 
+  @Test
   public void testBooleanBasics() {
     assertTrue(JSONBoolean.getInstance(true).booleanValue());
     assertFalse(JSONBoolean.getInstance(false).booleanValue());
@@ -174,6 +180,7 @@ public class JsonGwt2Test extends GWTTestCase {
     assertFalse(falseVal.isBoolean().booleanValue());
   }
 
+  @Test
   public void testEquals() {
     JSONArray array = parseStrictVsLenient("[]").isArray();
     assertEquals(array, new JSONArray(array.getJavaScriptObject()));
@@ -192,6 +199,7 @@ public class JsonGwt2Test extends GWTTestCase {
   }
 
   // Null characters do not work in Development Mode
+  @Test
   public void testEscaping() {
     JSONObject o = new JSONObject();
     char[] charsToEscape = new char[42];
@@ -229,6 +237,7 @@ public class JsonGwt2Test extends GWTTestCase {
         o.toString());
   }
 
+  @Test
   public void testHashCode() {
     JSONArray array = parseStrictVsLenient("[]").isArray();
     assertHashCodeEquals(array, new JSONArray(array.getJavaScriptObject()));
@@ -246,6 +255,7 @@ public class JsonGwt2Test extends GWTTestCase {
     assertHashCodeEquals(new JSONString("foo"), new JSONString("foo"));
   }
 
+  @Test
   public void testLargeArrays() {
     JSONArray arr = null;
     for (int j = 1; j < 500; j *= 2) {
@@ -254,6 +264,7 @@ public class JsonGwt2Test extends GWTTestCase {
     }
   }
 
+  @Test
   public void testLenientAndStrict() {
     String jsonString = "{ a:27, 'b': 'value' }";
 
@@ -279,6 +290,7 @@ public class JsonGwt2Test extends GWTTestCase {
     }
   }
 
+  @Test
   public void testMenu() {
     JSONObject v = (JSONObject) parseStrictVsLenient(menuTest);
     assertTrue(v.containsKey("menu"));
@@ -286,6 +298,7 @@ public class JsonGwt2Test extends GWTTestCase {
     assertEquals(3, menu.keySet().size());
   }
 
+  @Test
   public void testNested() {
     JSONObject obj = new JSONObject();
     nestedAux(obj, 3);
@@ -331,6 +344,7 @@ public class JsonGwt2Test extends GWTTestCase {
         obj.toString());
   }
 
+  @Test
   public void testNumberBasics() {
     JSONNumber n0 = new JSONNumber(1000);
     assertEquals(1000, n0.doubleValue(), .000001);
@@ -348,6 +362,7 @@ public class JsonGwt2Test extends GWTTestCase {
     assertNull(n2.isObject());
   }
 
+  @Test
   public void testObjectBasics() {
     JSONObject s = new JSONObject();
     assertNull(s.get("buba"));
@@ -357,6 +372,7 @@ public class JsonGwt2Test extends GWTTestCase {
   }
 
   /** Tests an object whose keys are filled out with numbers, like {"a":1}. */
+  @Test
   public void testObjectOfNumbers() {
     JSONObject obj = new JSONObject();
     for (int i = 0; i < 10; i++) {
@@ -377,6 +393,7 @@ public class JsonGwt2Test extends GWTTestCase {
   }
 
   /** Tests generic parsing. */
+  @Test
   public void testParse() {
     try {
       new JSONString(null);
@@ -415,12 +432,14 @@ public class JsonGwt2Test extends GWTTestCase {
         somethingHelloObject.get("something").isString().stringValue().equals("hello"));
   }
 
+  @Test
   public void testParseUnescaped() {
     for (int i = 0; i <= 0xffff; i += JSON_CHUNK_SIZE) {
-      doTestParseUnescaped(i, 1);
+      doTestParseUnescaped(i, JSON_CHUNK_SIZE);
     }
   }
 
+  @Test
   public void testRoundTripEscaping() {
     JSONObject obj = new JSONObject();
     obj.put("a", new JSONNumber(42));
@@ -434,6 +453,7 @@ public class JsonGwt2Test extends GWTTestCase {
     assertJSONObjectEquals(obj, obj2);
   }
 
+  @Test
   public void testSimpleNested() {
     JSONObject j1 = new JSONObject();
     j1.put("test1", new JSONString(""));
@@ -454,6 +474,7 @@ public class JsonGwt2Test extends GWTTestCase {
         j3.toString());
   }
 
+  @Test
   public void testStringBasics() {
     JSONString arr = new JSONString("");
     assertEquals("\"\"", arr.toString());
@@ -461,6 +482,7 @@ public class JsonGwt2Test extends GWTTestCase {
     assertEquals(menuTest, s.stringValue());
   }
 
+  @Test
   public void testStringEscaping() {
     checkRoundTripJsonText("\"hello\"", "hello");
     checkRoundTripJsonText("\"hel\\\"lo\"", "hel\"lo");
@@ -468,22 +490,7 @@ public class JsonGwt2Test extends GWTTestCase {
     checkRoundTripJsonText("\"hel\\\\\\\"lo\"", "hel\\\"lo");
   }
 
-  public void testStringTypes() {
-    JSONObject object = parseStrictVsLenient("{\"a\":\"b\",\"null\":\"foo\"}").isObject();
-    assertNotNull(object);
-
-    assertEquals("b", object.get(stringAsPrimitive("a")).isString().stringValue());
-    assertEquals("b", object.get(stringAsObject("a")).isString().stringValue());
-    assertEquals("foo", object.get(stringAsPrimitive("null")).isString().stringValue());
-    assertEquals("foo", object.get(stringAsObject("null")).isString().stringValue());
-
-    try {
-      assertNull(object.get(null));
-      fail("Expected NullPointerException");
-    } catch (NullPointerException expected) {
-    }
-  }
-
+  @Test
   public void testUndefined() {
     JSONObject o = parseStrictVsLenient("{\"foo\":\"foo\",\"bar\":null}").isObject();
     assertEquals(new JSONString("foo"), o.get("foo"));
@@ -512,7 +519,7 @@ public class JsonGwt2Test extends GWTTestCase {
      * (paragraph separator) characters to occur inside strings.
      */
     String jsonString =
-        "{ \"name\": \"miles\\u2028da\\u2029vis\", \"ins\\u2028tru\\u2029ment\": \"trumpet\" }";
+        "{ \"name\": \"miles\u2028da\u2029vis\", \"ins\u2028tru\u2029ment\": \"trumpet\" }";
     try {
       JSONValue parsed = parseStrictVsLenient(jsonString);
       JSONObject result = parsed.isObject();
@@ -525,7 +532,7 @@ public class JsonGwt2Test extends GWTTestCase {
       String nameString = nameJsonString.stringValue();
       assertEquals("miles\u2028da\u2029vis", nameString);
       String nameStringQuoted = nameJsonString.toString();
-      assertEquals("\"miles\u2028da\u2029vis\"", nameStringQuoted);
+      assertEquals("\"miles\\u2028da\\u2029vis\"", nameStringQuoted);
 
       JSONValue instrumentValue = result.get("ins\u2028tru\u2029ment");
       assertNotNull(instrumentValue);
@@ -555,11 +562,13 @@ public class JsonGwt2Test extends GWTTestCase {
     }
   }
 
+  @Test
   public void testUnsafeEval() {
     JSON.parse("{\"name\":\"value\"}");
     JSON.parse("[0,1,2,3,4]");
   }
 
+  @Test
   public void testWidget() {
     JSONObject v = (JSONObject) parseStrictVsLenient(widgetTest);
     JSONObject widget = (JSONObject) v.get("widget");
@@ -599,26 +608,6 @@ public class JsonGwt2Test extends GWTTestCase {
     for (int i = start; i < start + len; i++) {
       // Skip control characters
       if (i < 0x20) {
-        continue;
-      }
-      if (i == 0x22
-          || i == 0x27
-          || i == 0x02BA
-          || i == 0x02DD
-          || i == 0x02EE
-          || i == 0x02F6
-          || i == 0x05F2
-          || i == 0x05F4
-          || i == 0x1CD3
-          || i == 0x2028
-          || i == 0x2029
-          || i == 0x201C
-          || i == 0x201D
-          || i == 0x201F
-          || i == 0x2033
-          || i == 0x2036
-          || i == 0x3003
-          || i == 0xFF02) {
         continue;
       }
       // Skip surrogate pairs
@@ -700,12 +689,4 @@ public class JsonGwt2Test extends GWTTestCase {
     }
     return newArray;
   }
-
-  private native String stringAsObject(String str) /*-{
-    return new String(str);
-  }-*/;
-
-  private native String stringAsPrimitive(String str) /*-{
-    return String(str);
-  }-*/;
 }
