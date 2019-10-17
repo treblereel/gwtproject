@@ -10,8 +10,8 @@
 
   <packaging>pom</packaging>
 
-  <name>GWT Timer Parent</name>
-  <description>Parent POM containing the gwlayout module and the test modules (gwt2-tests and j2cl-tests)</description>
+  <name>GWT Layout Parent</name>
+  <description>Parent POM containing the gwt-layout module and the test modules (gwt2-tests and j2cl-tests)</description>
   <url>https://github.com/gwtproject/gwt-layout</url>
 
   <organization>
