@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -18,14 +18,10 @@ package org.gwtproject.i18n.processor;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Encodes the mapping of languages to their default script.
- */
+/** Encodes the mapping of languages to their default script. */
 public class DefaultLanguageScripts {
 
-  /**
-   * Maps languages to their default script.
-   */
+  /** Maps languages to their default script. */
   private static Map<String, String> defaultScripts;
 
   static {
@@ -201,7 +197,7 @@ public class DefaultLanguageScripts {
 
   /**
    * Returns the default script for a language, or null if none.
-   * 
+   *
    * @param language language code to get default script for (in lowercase)
    * @return default script for language, or null if none
    */
@@ -210,12 +206,10 @@ public class DefaultLanguageScripts {
   }
 
   /**
-   * Returns the default script for a language/region combination, or null if
-   * none.
-   * 
+   * Returns the default script for a language/region combination, or null if none.
+   *
    * @param language language code to get default script for (in lowercase)
-   * @param region region code to get default script for (in uppercase); may be
-   *     null
+   * @param region region code to get default script for (in uppercase); may be null
    * @return default script for language/region, or null if none
    */
   public static String getDefaultScript(String language, String region) {

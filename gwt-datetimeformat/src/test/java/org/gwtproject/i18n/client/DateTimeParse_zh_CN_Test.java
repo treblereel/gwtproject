@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -16,16 +16,12 @@
 
 package org.gwtproject.i18n.client;
 
+import java.util.Date;
 import org.gwtproject.i18n.client.DateTimeFormat.PredefinedFormat;
 import org.gwtproject.i18n.shared.DateTimeFormatTestBase;
 
-import java.util.Date;
-
-/**
- * Tests formatting functionality in {@link DateTimeFormat} for the Chinese
- * language.
- */
-public class DateTimeParse_zh_CN_Test  extends DateTimeFormatTestBase {
+/** Tests formatting functionality in {@link DateTimeFormat} for the Chinese language. */
+public class DateTimeParse_zh_CN_Test extends DateTimeFormatTestBase {
 
   @Override
   public void setUp() throws Exception {
@@ -45,8 +41,8 @@ public class DateTimeParse_zh_CN_Test  extends DateTimeFormatTestBase {
        * disagree about whether or not daylight savings time is in effect on day
        * 0 of the epoch.
        */
-      long expectedTimeUTC = Date.UTC(date.getYear(), date.getMonth(),
-          date.getDate(), 15 + 7, 26, 28);
+      long expectedTimeUTC =
+          Date.UTC(date.getYear(), date.getMonth(), date.getDate(), 15 + 7, 26, 28);
       Date expectedDate = new Date(expectedTimeUTC);
 
       assertEquals(expectedDate.getHours(), date.getHours());
@@ -56,8 +52,7 @@ public class DateTimeParse_zh_CN_Test  extends DateTimeFormatTestBase {
 
     {
       String date_2006_07_24 = "2006\u5E747\u670824\u65e5\u661f\u671f\u4e00";
-      assertTrue(DateTimeFormat.getFullDateFormat().parse(date_2006_07_24, 0,
-          date) > 0);
+      assertTrue(DateTimeFormat.getFullDateFormat().parse(date_2006_07_24, 0, date) > 0);
 
       // Create the expected date object, adjusting for the local timezone.
       long localTzOffset = new Date().getTimezoneOffset();

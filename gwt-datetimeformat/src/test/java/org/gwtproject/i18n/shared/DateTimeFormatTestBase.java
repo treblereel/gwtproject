@@ -15,32 +15,28 @@
  */
 package org.gwtproject.i18n.shared;
 
+import java.util.Date;
 import junit.framework.TestCase;
 import org.gwtproject.i18n.shared.DateTimeFormat.PredefinedFormat;
 
-import java.util.Date;
+// import org.gwtproject.i18n.client.Messages;
 
-//import org.gwtproject.i18n.client.Messages;
-
-/**
- * Base class for date/time format tests.
- */
+/** Base class for date/time format tests. */
 public abstract class DateTimeFormatTestBase extends TestCase {
 
-  /**
-   * The timezone used by any tests which use a fixed timezone.
-   */
-  protected static final TimeZone TEST_TIMEZONE = org.gwtproject.i18n.client.TimeZone.createTimeZone(300);
+  /** The timezone used by any tests which use a fixed timezone. */
+  protected static final TimeZone TEST_TIMEZONE =
+      org.gwtproject.i18n.client.TimeZone.createTimeZone(300);
 
   //  /**
-//   * Test date/time formats in messages.
-//   */
-//  public interface MyMessages extends Messages {
-//    @DefaultMessage("It is {0,localdatetime,dMMMy}")
-//    String getCustomizedDate(Date date);
-//  }
+  //   * Test date/time formats in messages.
+  //   */
+  //  public interface MyMessages extends Messages {
+  //    @DefaultMessage("It is {0,localdatetime,dMMMy}")
+  //    String getCustomizedDate(Date date);
+  //  }
 
-  protected void setLocale(String locale){
+  protected void setLocale(String locale) {
     System.setProperty("locale", locale);
   }
 

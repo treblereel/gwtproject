@@ -19,10 +19,7 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Target;
 
-
-/**
- * Marks an interface as a custom DateTimeFormat for CustomDateTimeFormatProcessor
- */
+/** Marks an interface as a custom DateTimeFormat for CustomDateTimeFormatProcessor */
 @Documented
 @Target(ElementType.TYPE)
 public @interface IsCustomDateTimeFormat {}

@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -17,10 +17,7 @@ package org.gwtproject.i18n.datetimeformat.processor;
 
 import com.ibm.icu.util.ULocale;
 
-/**
- * Helper class to create a localized date/time pattern based on a pattern
- * skeleton.
- */
+/** Helper class to create a localized date/time pattern based on a pattern skeleton. */
 public class DateTimePatternGenerator {
   // TODO(jat): Currently uses ICU4J's DateTimePatternGenerator, but should
   // probably be rewritten to avoid that dependency.
@@ -29,7 +26,7 @@ public class DateTimePatternGenerator {
 
   /**
    * Construct a DateTimePatternGenerator for a given locale.
-   * 
+   *
    * @param localeName
    */
   public DateTimePatternGenerator(String localeName) {
@@ -39,13 +36,12 @@ public class DateTimePatternGenerator {
   }
 
   /**
-   * Get the best matching localized pattern for the requested skeleton
-   * pattern.
-   * 
-   * @param skeleton a skeleton pattern consisting of groups of pattern
-   *     characters - spaces and punctuation are ignored
-   * @return a localized pattern suitable for use with
-   *     {@link org.gwtproject.i18n.client.DateTimeFormat}.
+   * Get the best matching localized pattern for the requested skeleton pattern.
+   *
+   * @param skeleton a skeleton pattern consisting of groups of pattern characters - spaces and
+   *     punctuation are ignored
+   * @return a localized pattern suitable for use with {@link
+   *     org.gwtproject.i18n.client.DateTimeFormat}.
    */
   public String getBestPattern(String skeleton) {
     return dtpg.getBestPattern(skeleton);

@@ -32,8 +32,6 @@ public class CustomDateTimeFormatProcessor extends BasicAnnotationProcessor {
   @Override
   protected Iterable<? extends ProcessingStep> initSteps() {
     return ImmutableList.of(
-        new CustomDateTimeFormatProcessingStep.Builder()
-            .setProcessingEnv(processingEnv)
-            .build());
+        new CustomDateTimeFormatProcessingStep.Builder().setProcessingEnv(processingEnv).build());
   }
 }

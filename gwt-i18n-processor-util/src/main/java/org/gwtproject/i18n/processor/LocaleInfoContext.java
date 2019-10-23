@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,20 +15,15 @@
  */
 package org.gwtproject.i18n.processor;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.gwtproject.ext.ConfigurationProperty;
 import org.gwtproject.ext.SelectionProperty;
 
-import java.util.HashMap;
-import java.util.Map;
-
-/**
- * A LocaleUtils specific context for caching.
- */
+/** A LocaleUtils specific context for caching. */
 public class LocaleInfoContext {
 
-  /**
-   * A key for lookup of computed values in a cache.
-   */
+  /** A key for lookup of computed values in a cache. */
   private static class CacheKey {
     private final SelectionProperty localeProperty;
     private final ConfigurationProperty runtimeLocaleProperty;
@@ -37,13 +32,14 @@ public class LocaleInfoContext {
 
     /**
      * Create a key for cache lookup.
-     * 
+     *
      * @param localeProperty "locale" property, must not be null
      * @param runtimeLocaleProperty "runtime.locales.new" property, must not be null
      * @param cookieProperty "locale.queryparam" property, must not be null
      * @param queryParamProperty "locale.cookie" property, must not be null
      */
-    public CacheKey(SelectionProperty localeProperty,
+    public CacheKey(
+        SelectionProperty localeProperty,
         ConfigurationProperty runtimeLocaleProperty,
         ConfigurationProperty queryParamProperty,
         ConfigurationProperty cookieProperty) {
@@ -83,22 +79,24 @@ public class LocaleInfoContext {
     }
   }
 
-  private final Map<CacheKey, LocaleUtils> localeUtilsCache = new HashMap<
-      CacheKey, LocaleUtils>();
+  private final Map<CacheKey, LocaleUtils> localeUtilsCache = new HashMap<CacheKey, LocaleUtils>();
 
-  public LocaleUtils getLocaleUtils(SelectionProperty localeProperty,
+  public LocaleUtils getLocaleUtils(
+      SelectionProperty localeProperty,
       ConfigurationProperty runtimeLocaleProperty,
-      ConfigurationProperty queryParamProp, ConfigurationProperty cookieProp) {
-    CacheKey key = new CacheKey(localeProperty, runtimeLocaleProperty,
-        queryParamProp, cookieProp);
+      ConfigurationProperty queryParamProp,
+      ConfigurationProperty cookieProp) {
+    CacheKey key = new CacheKey(localeProperty, runtimeLocaleProperty, queryParamProp, cookieProp);
     return localeUtilsCache.get(key);
   }
 
-  public void putLocaleUtils(SelectionProperty localeProperty,
-      ConfigurationProperty runtimeLocaleProperty, ConfigurationProperty queryParamProp,
-      ConfigurationProperty cookieProp, LocaleUtils localeUtils) {
-    CacheKey key = new CacheKey(localeProperty, runtimeLocaleProperty,
-        queryParamProp, cookieProp);
+  public void putLocaleUtils(
+      SelectionProperty localeProperty,
+      ConfigurationProperty runtimeLocaleProperty,
+      ConfigurationProperty queryParamProp,
+      ConfigurationProperty cookieProp,
+      LocaleUtils localeUtils) {
+    CacheKey key = new CacheKey(localeProperty, runtimeLocaleProperty, queryParamProp, cookieProp);
     localeUtilsCache.put(key, localeUtils);
   }
 }
