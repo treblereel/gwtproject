@@ -25,6 +25,20 @@
     <module>gwt-widgets-tests</module>
   </modules>
 
+  <pluginRepositories>
+    <pluginRepository>
+      <id>vertispan-jre</id>
+      <name>Vertispan Public Repo</name>
+      <url>https://repo.vertispan.com/j2cl/</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+    </pluginRepository>
+  </pluginRepositories>
+
   <repositories>
     <repository>
       <id>vertispan-jre</id>
