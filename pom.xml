@@ -259,6 +259,7 @@
         <module>gwt-i18n-processor-util</module>
         <module>gwt-i18n</module>
         <module>gwt-datetimeformat</module>
+        <module>gwt-localizable-processor</module>
     </modules>
 
 </project>

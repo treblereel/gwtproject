@@ -18,24 +18,21 @@ package org.gwtproject.i18n.shared;
 import java.lang.annotation.*;
 
 /**
- * A tag interface that serves as the root of a family of types used in static
- * internationalization. Using <code>GWT.create(<i>class</i>)</code> to
- * instantiate a type that directly extends or implements
- * <code>Localizable</code> invites locale-sensitive type substitution.
+ * A tag interface that serves as the root of a family of types used in static internationalization.
+ * Using <code>GWT.create(<i>class</i>)</code> to instantiate a type that directly extends or
+ * implements <code>Localizable</code> invites locale-sensitive type substitution.
  *
  * <h3>Locale-sensitive Type Substitution</h3>
- * If a type <code>Type</code> directly extends or implements
- * <code>Localizable</code> (as opposed to
- * {@link org.gwtproject.i18n.client.Constants} or
- * {@link org.gwtproject.i18n.client.Messages}) and the following code is used
- * to create an object from <code>Type</code> as follows:
+ *
+ * If a type <code>Type</code> directly extends or implements <code>Localizable</code> (as opposed
+ * to {@link org.gwtproject.i18n.client.Constants} or {@link org.gwtproject.i18n.client.Messages})
+ * and the following code is used to create an object from <code>Type</code> as follows:
  *
  * <pre class="code">Type localized = (Type)GWT.create(Type.class);</pre>
  *
- * then <code>localized</code> will be assigned an instance of a localized
- * subclass, selected based on the value of the <code>locale</code> client
- * property. The choice of subclass is determined by the following naming
- * pattern:
+ * then <code>localized</code> will be assigned an instance of a localized subclass, selected based
+ * on the value of the <code>locale</code> client property. The choice of subclass is determined by
+ * the following naming pattern:
  *
  * <table>
  *
@@ -65,37 +62,32 @@ import java.lang.annotation.*;
  * </table>
  *
  * where in the table above <code>x</code> is a <a
- * href="http://ftp.ics.uci.edu/pub/ietf/http/related/iso639.txt">ISO language
- * code</a> and <code>Y</code> is a two-letter <a
- * href="http://userpage.chemie.fu-berlin.de/diverse/doc/ISO_3166.html">ISO
- * country code</a>.
+ * href="http://ftp.ics.uci.edu/pub/ietf/http/related/iso639.txt">ISO language code</a> and <code>Y
+ * </code> is a two-letter <a
+ * href="http://userpage.chemie.fu-berlin.de/diverse/doc/ISO_3166.html">ISO country code</a>.
  *
  * <h3>Specifying Locale</h3>
- * The locale of a module is specified using the <code>locale</code> client
- * property, which can be specified using either a meta tag or as part of the
- * query string in the host page's URL. If both are specified, the query string
- * takes precedence.
  *
- * <p>
- * To specify the <code>locale</code> client property using a meta tag in the
- * host HTML, use <code>gwt:property</code> as follows:
+ * The locale of a module is specified using the <code>locale</code> client property, which can be
+ * specified using either a meta tag or as part of the query string in the host page's URL. If both
+ * are specified, the query string takes precedence.
+ *
+ * <p>To specify the <code>locale</code> client property using a meta tag in the host HTML, use
+ * <code>gwt:property</code> as follows:
  *
  * <pre>&lt;meta name="gwt:property" content="locale.new=x_Y"&gt;</pre>
  *
  * For example, the following host HTML page sets the locale to "ja_JP":
  *
- * {@gwt.include com/google/gwt/examples/i18n/ColorNameLookupExample_ja_JP.html}
- * </p>
+ * <p>{@gwt.include com/google/gwt/examples/i18n/ColorNameLookupExample_ja_JP.html}
  *
- * <p>
- * To specify the <code>locale</code> client property using a query string,
- * specify a value for the name <code>locale</code>. For example,
+ * <p>To specify the <code>locale</code> client property using a query string, specify a value for
+ * the name <code>locale</code>. For example,
  *
  * <pre>http://www.example.org/myapp.html?locale=fr_CA</pre>
  *
- * </p>
- *
  * <h3>For More Information</h3>
+ *
  * See the GWT Developer Guide for an introduction to internationalization.
  *
  * @see org.gwtproject.i18n.client.Constants
@@ -103,17 +95,17 @@ import java.lang.annotation.*;
  * @see org.gwtproject.i18n.client.Messages
  * @see org.gwtproject.i18n.client.Dictionary
  */
-@Localizable.I18nLocaleSuffuxes({"default", "en", "es", "fr", "de"})//TODO real list
+@Localizable.I18nLocaleSuffuxes({"default", "en", "es", "fr", "de"}) // TODO real list
 public interface Localizable {
-    @Retention(RetentionPolicy.RUNTIME)
-    @Target(ElementType.TYPE)
-    @Documented
-    @interface IsLocalizable {}
+  @Retention(RetentionPolicy.RUNTIME)
+  @Target(ElementType.TYPE)
+  @Documented
+  @interface IsLocalizable {}
 
-    @Retention(RetentionPolicy.RUNTIME)
-    @Target(ElementType.TYPE)
-    @Documented
-    @interface I18nLocaleSuffuxes {
-        String[] value();
-    }
+  @Retention(RetentionPolicy.RUNTIME)
+  @Target(ElementType.TYPE)
+  @Documented
+  @interface I18nLocaleSuffuxes {
+    String[] value();
+  }
 }

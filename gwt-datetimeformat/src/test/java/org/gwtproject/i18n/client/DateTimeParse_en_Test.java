@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -16,19 +16,14 @@
 
 package org.gwtproject.i18n.client;
 
+import java.util.Date;
 import org.gwtproject.i18n.shared.DateTimeFormatTestBase;
 
-import java.util.Date;
-
-/**
- * Tests parsing functionality in {@link DateTimeFormat} for the English
- * language.
- */
+/** Tests parsing functionality in {@link DateTimeFormat} for the English language. */
 @SuppressWarnings("deprecation")
-public class DateTimeParse_en_Test  extends DateTimeFormatTestBase {
+public class DateTimeParse_en_Test extends DateTimeFormatTestBase {
   // TODO: replace the rest of the assertTrue calls to assertEquals
   //    for better error reporting, where possible.
-
 
   @Override
   public void setUp() throws Exception {
@@ -84,8 +79,8 @@ public class DateTimeParse_en_Test  extends DateTimeFormatTestBase {
 
   public void testAmbiguousYear() {
     Date date = new Date();
-    if (date.getMonth() == 0 && date.getDate() == 1 || date.getMonth() == 11
-        && date.getDate() >= 31) {
+    if (date.getMonth() == 0 && date.getDate() == 1
+        || date.getMonth() == 11 && date.getDate() >= 31) {
       // we are using current time to resolve ambiguous year.
       // This test case is not designed to work on new year's eve and new year.
       return;
@@ -111,10 +106,9 @@ public class DateTimeParse_en_Test  extends DateTimeFormatTestBase {
   }
 
   /**
-   * Parse the pattern MMMMyyyy when the day of the current month is passed the
-   * last day of the parsed leap month. For example, parse "February2004" (leap
-   * month) on January 31. The date should be limited to the last day of the
-   * month.
+   * Parse the pattern MMMMyyyy when the day of the current month is passed the last day of the
+   * parsed leap month. For example, parse "February2004" (leap month) on January 31. The date
+   * should be limited to the last day of the month.
    */
   public void testCurrentDayInvalidInParsedLeapMonth() {
     // Parse "February2004" (leap year) on January 31, 2006.
@@ -127,9 +121,9 @@ public class DateTimeParse_en_Test  extends DateTimeFormatTestBase {
   }
 
   /**
-   * Parse the pattern MMMMyyyy when the day of the current month is passed the
-   * last day of the parsed month. For example, parse "February2006" on January
-   * 31. The date should be limited to the last day of the month.
+   * Parse the pattern MMMMyyyy when the day of the current month is passed the last day of the
+   * parsed month. For example, parse "February2006" on January 31. The date should be limited to
+   * the last day of the month.
    */
   public void testCurrentDayInvalidInParsedMonth() {
     // Parse "February2006" on January 31, 2006.
@@ -142,9 +136,9 @@ public class DateTimeParse_en_Test  extends DateTimeFormatTestBase {
   }
 
   /**
-   * Parse the pattern MMMMyyyy when the day of the current month is passed the
-   * last day of the parsed month. For example, parse "February2006" on January
-   * 31. The date should be limited to the last day of the month.
+   * Parse the pattern MMMMyyyy when the day of the current month is passed the last day of the
+   * parsed month. For example, parse "February2006" on January 31. The date should be limited to
+   * the last day of the month.
    */
   public void testCurrentDayInvalidInParsedMonthStrict() {
     // Parse "February2006" on January 31, 2006.
@@ -157,9 +151,8 @@ public class DateTimeParse_en_Test  extends DateTimeFormatTestBase {
   }
 
   /**
-   * Parse the pattern MMMMyyyy when the day of the current month is within the
-   * last day of the parsed month. For example, parse "February2006" on January
-   * 10.
+   * Parse the pattern MMMMyyyy when the day of the current month is within the last day of the
+   * parsed month. For example, parse "February2006" on January 10.
    */
   public void testCurrentDayValidInParsedMonth() {
     // Set the date to January 31, 2006.
@@ -181,9 +174,8 @@ public class DateTimeParse_en_Test  extends DateTimeFormatTestBase {
   }
 
   /**
-   * Issue 4633: Test that an empty integer value throws an
-   * {@link IllegalArgumentException}, but does not throw an
-   * {@link IndexOutOfBoundsException}.
+   * Issue 4633: Test that an empty integer value throws an {@link IllegalArgumentException}, but
+   * does not throw an {@link IndexOutOfBoundsException}.
    */
   public void testEmptyIntegerValue() {
     char[] parts = new char[] {'M', 'd', 'y', 'h', 'H', 'm', 's', 'S', 'k'};
@@ -209,9 +201,7 @@ public class DateTimeParse_en_Test  extends DateTimeFormatTestBase {
     assertEquals(44, date.getMinutes());
   }
 
-  /**
-   * Add as many tests as you like.
-   */
+  /** Add as many tests as you like. */
   public void testFractionalSeconds() {
     Date date = new Date();
 
@@ -731,22 +721,18 @@ public class DateTimeParse_en_Test  extends DateTimeFormatTestBase {
   public void testTimeZone() {
     Date date = new Date();
 
-    assertTrue(parse("MM/dd/yyyy, hh:mm:ss zzz",
-        "07/21/2003, 11:22:33 GMT-0700", 0, date) > 0);
+    assertTrue(parse("MM/dd/yyyy, hh:mm:ss zzz", "07/21/2003, 11:22:33 GMT-0700", 0, date) > 0);
     int gmtNegative07 = date.getHours();
 
-    assertTrue(parse("MM/dd/yyyy, hh:mm:ss zzz",
-        "07/21/2003, 11:22:33 GMT-0600", 0, date) > 0);
+    assertTrue(parse("MM/dd/yyyy, hh:mm:ss zzz", "07/21/2003, 11:22:33 GMT-0600", 0, date) > 0);
     int gmtNegative06 = date.getHours();
     assertTrue((gmtNegative07 + 24 - gmtNegative06) % 24 == 1);
 
-    assertTrue(parse("MM/dd/yyyy, hh:mm:ss zzz",
-        "07/21/2003, 11:22:33 GMT-0800", 0, date) > 0);
+    assertTrue(parse("MM/dd/yyyy, hh:mm:ss zzz", "07/21/2003, 11:22:33 GMT-0800", 0, date) > 0);
     int gmtNegative08 = date.getHours();
     assertTrue((gmtNegative08 + 24 - gmtNegative07) % 24 == 1);
 
-    assertTrue(parse("MM/dd/yyyy, HH:mm:ss zzz",
-        "07/21/2003, 11:22:33 GMT+0800", 0, date) > 0);
+    assertTrue(parse("MM/dd/yyyy, HH:mm:ss zzz", "07/21/2003, 11:22:33 GMT+0800", 0, date) > 0);
     int gmtPositive08 = date.getHours();
     assertTrue((gmtNegative08 + 24 - gmtPositive08) % 24 == 16);
   }

@@ -16,15 +16,14 @@
 package org.gwtproject.i18n.processor;
 
 import com.google.auto.common.BasicAnnotationProcessor.ProcessingStep;
-
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import javax.annotation.processing.Filer;
 import javax.annotation.processing.Messager;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 
 public abstract class AbstractProcessingStep implements ProcessingStep {
 
@@ -42,15 +41,11 @@ public abstract class AbstractProcessingStep implements ProcessingStep {
     this.processingEnv = processingEnv;
   }
 
-  /**
-   *
-   * @param e exception to be printed
-   */
+  /** @param e exception to be printed */
   public void printStackTrace(Exception e) {
     StringWriter out = new StringWriter();
     e.printStackTrace(new PrintWriter(out));
-    messager.printMessage(Diagnostic.Kind.ERROR, "error while creating source file " + out.getBuffer().toString());
+    messager.printMessage(
+        Diagnostic.Kind.ERROR, "error while creating source file " + out.getBuffer().toString());
   }
-
-
 }

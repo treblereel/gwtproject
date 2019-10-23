@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,15 +15,14 @@
  */
 package org.gwtproject.i18n.processor;
 
+import java.util.*;
 import org.gwtproject.i18n.shared.GwtLocale;
 import org.gwtproject.i18n.shared.GwtLocaleFactory;
 
-import java.util.*;
-
 /**
  * Class representing GWT locales and conversion to/from other formats.
- * 
- * These locales correspond to BCP47.
+ *
+ * <p>These locales correspond to BCP47.
  */
 public class GwtLocaleImpl implements GwtLocale {
   // TODO(jat): implement a version of this suitable for client-side use,
@@ -32,67 +31,74 @@ public class GwtLocaleImpl implements GwtLocale {
   // the property provider to handle inheritance there.
 
   /**
-   * Maps deprecated language codes to the canonical code.  Strings are always
-   * in pairs, with the first being the canonical code and the second being
-   * a deprecated code which maps to it.
-   * <p>
-   * Source: http://www.loc.gov/standards/iso639-2/php/code_changes.php
-   * <p> 
-   * TODO: consider building maps if this list grows much.
+   * Maps deprecated language codes to the canonical code. Strings are always in pairs, with the
+   * first being the canonical code and the second being a deprecated code which maps to it.
+   *
+   * <p>Source: http://www.loc.gov/standards/iso639-2/php/code_changes.php
+   *
+   * <p>TODO: consider building maps if this list grows much.
    */
-  private static final String[] deprecatedLanguages = new String[] {
-    "he", "iw",   // Hebrew
-    "id", "in",   // Indonesian 
-    "jv", "jw",   // Javanese, typo in original publication 
-    "ro", "mo",   // Moldovian
-    "yi", "ji",   // Yiddish
-  };
+  private static final String[] deprecatedLanguages =
+      new String[] {
+        "he", "iw", // Hebrew
+        "id", "in", // Indonesian
+        "jv", "jw", // Javanese, typo in original publication
+        "ro", "mo", // Moldovian
+        "yi", "ji", // Yiddish
+      };
 
   /**
-   * Maps deprecated region codes to the canonical code.  Strings are always
-   * in pairs, with the first being the canonical code and the second being
-   * a deprecated code which maps to it.
-   * 
-   * Note that any mappings which split an old code into multiple new codes
-   * cannot be done automatically (such as cs -> rs/me) -- perhaps we could
-   * have a way of flagging region codes which are no longer valid and allow
-   * an appropriate warning message.
-   * <p>
-   * Source: http://en.wikipedia.org/wiki/ISO_3166-1
-   * <p>
-   * TODO: consider building maps if this list grows much.
+   * Maps deprecated region codes to the canonical code. Strings are always in pairs, with the first
+   * being the canonical code and the second being a deprecated code which maps to it.
+   *
+   * <p>Note that any mappings which split an old code into multiple new codes cannot be done
+   * automatically (such as cs -> rs/me) -- perhaps we could have a way of flagging region codes
+   * which are no longer valid and allow an appropriate warning message.
+   *
+   * <p>Source: http://en.wikipedia.org/wiki/ISO_3166-1
+   *
+   * <p>TODO: consider building maps if this list grows much.
    */
-  private static final String[] deprecatedRegions = new String[] {
-    // East Timor - http://www.iso.org/iso/newsletter_v-5_east_timor.pdf
-    "TL", "TP",
-  };
+  private static final String[] deprecatedRegions =
+      new String[] {
+        // East Timor - http://www.iso.org/iso/newsletter_v-5_east_timor.pdf
+        "TL", "TP",
+      };
 
   /**
    * Add in the missing locale of a deprecated pair.
-   * 
+   *
    * @param factory GwtLocaleFactory to create new instances with
    * @param locale locale to add deprecated pair for
    * @param aliases where to store the alias if present
    */
-  private static void addDeprecatedPairs(GwtLocaleFactory factory,
-                                         GwtLocale locale, List<GwtLocale> aliases) {
+  private static void addDeprecatedPairs(
+      GwtLocaleFactory factory, GwtLocale locale, List<GwtLocale> aliases) {
     int n = deprecatedLanguages.length;
     for (int i = 0; i < n; i += 2) {
       if (deprecatedLanguages[i].equals(locale.getLanguage())) {
-        aliases.add(factory.fromComponents(deprecatedLanguages[i + 1],
-            locale.getScript(), locale.getRegion(), locale.getVariant()));
+        aliases.add(
+            factory.fromComponents(
+                deprecatedLanguages[i + 1],
+                locale.getScript(),
+                locale.getRegion(),
+                locale.getVariant()));
         break;
       }
       if (deprecatedLanguages[i + 1].equals(locale.getLanguage())) {
-        aliases.add(factory.fromComponents(deprecatedLanguages[i],
-            locale.getScript(), locale.getRegion(), locale.getVariant()));
+        aliases.add(
+            factory.fromComponents(
+                deprecatedLanguages[i],
+                locale.getScript(),
+                locale.getRegion(),
+                locale.getVariant()));
         break;
       }
     }
   }
 
-  private static void addImmediateParentRegions(GwtLocaleFactory factory,
-      GwtLocale locale, Collection<GwtLocale> work) {
+  private static void addImmediateParentRegions(
+      GwtLocaleFactory factory, GwtLocale locale, Collection<GwtLocale> work) {
     String language = locale.getLanguage();
     String script = locale.getScript();
     String region = locale.getRegion();
@@ -123,7 +129,7 @@ public class GwtLocaleImpl implements GwtLocale {
 
   /**
    * Add inherited regions for a given locale.
-   * 
+   *
    * @param factory
    * @param inherits
    * @param language
@@ -131,8 +137,12 @@ public class GwtLocaleImpl implements GwtLocale {
    * @param region
    * @param variant
    */
-  private static void addParentRegionLocales(GwtLocaleFactory factory,
-      List<GwtLocale> inherits, String language, String script, String region,
+  private static void addParentRegionLocales(
+      GwtLocaleFactory factory,
+      List<GwtLocale> inherits,
+      String language,
+      String script,
+      String region,
       String variant) {
     for (String parent : RegionInheritance.getAllAncestors(region)) {
       inherits.add(factory.fromComponents(language, script, parent, variant));
@@ -142,27 +152,27 @@ public class GwtLocaleImpl implements GwtLocale {
   /**
    * Add special aliases for a given locale.
    *
-   * This includes things like choosing the default region for Chinese based on
-   * the script, handling Norwegian language changes, and treating pt_BR as the
-   * default pt type.
+   * <p>This includes things like choosing the default region for Chinese based on the script,
+   * handling Norwegian language changes, and treating pt_BR as the default pt type.
    *
    * @param factory GwtLocaleFactory to create new instances with
    * @param locale locale to add deprecated pair for
    * @param aliases where to store the alias if present
    */
-  private static void addSpecialAliases(GwtLocaleFactory factory,
-      GwtLocale locale, String initialScript, List<GwtLocale> aliases) {
+  private static void addSpecialAliases(
+      GwtLocaleFactory factory, GwtLocale locale, String initialScript, List<GwtLocale> aliases) {
     String language = locale.getLanguage();
     String script = locale.getScript();
     String region = locale.getRegion();
     String variant = locale.getVariant();
-    if ("zh".equals(language) && region == null
+    if ("zh".equals(language)
+        && region == null
         && (initialScript == null || initialScript.equals(script))) {
       // Add aliases for main users of particular scripts, but only if the
       // script matches what was initially supplied.  This is to avoid cases
       // like zh_TW => zh => zh_CN, while still allowing zh => zh_CN.
-      aliases.add(factory.fromComponents("zh", script,
-          "Hant".equals(script) ? "TW" : "CN", variant));
+      aliases.add(
+          factory.fromComponents("zh", script, "Hant".equals(script) ? "TW" : "CN", variant));
     } else if ("no".equals(language)) {
       if (variant == null || "BOKMAL".equals(variant)) {
         aliases.add(factory.fromComponents("nb", script, region, null));
@@ -192,12 +202,10 @@ public class GwtLocaleImpl implements GwtLocale {
   }
 
   /**
-   * Compare strings, accounting for nulls (which are treated as before any
-   * other value).
-   * 
+   * Compare strings, accounting for nulls (which are treated as before any other value).
+   *
    * @param a first string
    * @param b second string
-   * 
    * @return positive if a>b, negative if a<b, 0 if equal
    */
   private static int stringCompare(String a, String b) {
@@ -221,18 +229,16 @@ public class GwtLocaleImpl implements GwtLocale {
   private final String variant;
 
   private final Object cacheLock = new Object[0];
-  
+
   // protected by cacheLock
   private List<GwtLocale> cachedSearchList;
 
   // protected by cacheLock
   private List<GwtLocale> cachedAliases;
 
-  /**
-   * Must only be called from a factory to preserve instance caching.
-   */
-  GwtLocaleImpl(GwtLocaleFactory factory, String language, String region,
-                String script, String variant) {
+  /** Must only be called from a factory to preserve instance caching. */
+  GwtLocaleImpl(
+      GwtLocaleFactory factory, String language, String region, String script, String variant) {
     this.factory = factory;
     this.language = language;
     this.region = region;
@@ -280,15 +286,12 @@ public class GwtLocaleImpl implements GwtLocale {
         ArrayList<GwtLocale> nextGroup = new ArrayList<GwtLocale>();
         nextGroup.add(this);
         // Account for default script
-        String defaultScript = DefaultLanguageScripts.getDefaultScript(language,
-            region);
+        String defaultScript = DefaultLanguageScripts.getDefaultScript(language, region);
         if (defaultScript != null) {
           if (script == null) {
-            nextGroup.add(factory.fromComponents(language, defaultScript,
-                region, variant));
+            nextGroup.add(factory.fromComponents(language, defaultScript, region, variant));
           } else if (script.equals(defaultScript)) {
-            nextGroup.add(factory.fromComponents(language, null, region,
-                variant));
+            nextGroup.add(factory.fromComponents(language, null, region, variant));
           }
         }
         String initialScript = script == null ? defaultScript : script;
@@ -309,7 +312,7 @@ public class GwtLocaleImpl implements GwtLocale {
         }
         cachedAliases = Collections.unmodifiableList(cachedAliases);
       }
-      return cachedAliases;    
+      return cachedAliases;
     }
   }
 
@@ -334,12 +337,13 @@ public class GwtLocaleImpl implements GwtLocale {
   }
 
   /**
-   * Returns this locale in canonical form.  Changes for canonical form are:
+   * Returns this locale in canonical form. Changes for canonical form are:
+   *
    * <ul>
-   *  <li>Deprecated language/region tags are replaced with official versions
+   *   <li>Deprecated language/region tags are replaced with official versions
    * </ul>
-   * 
-   * @return GwtLocale instance 
+   *
+   * @return GwtLocale instance
    */
   public GwtLocale getCanonicalForm() {
     String canonLanguage = language;
@@ -395,12 +399,12 @@ public class GwtLocaleImpl implements GwtLocale {
       }
     }
     // Remove any default script for the language
-    if (canonScript != null && canonScript.equals(
-        DefaultLanguageScripts.getDefaultScript(canonLanguage, canonRegion))) {
+    if (canonScript != null
+        && canonScript.equals(
+            DefaultLanguageScripts.getDefaultScript(canonLanguage, canonRegion))) {
       canonScript = null;
     }
-    return factory.fromComponents(canonLanguage, canonScript, canonRegion,
-        canonVariant);
+    return factory.fromComponents(canonLanguage, canonScript, canonRegion, canonVariant);
   }
 
   public List<GwtLocale> getCompleteSearchList() {
@@ -415,16 +419,14 @@ public class GwtLocaleImpl implements GwtLocale {
         Set<GwtLocale> seen = new HashSet<GwtLocale>();
         String initialScript = script;
         if (initialScript == null) {
-          initialScript = DefaultLanguageScripts.getDefaultScript(language,
-              region);
+          initialScript = DefaultLanguageScripts.getDefaultScript(language, region);
         }
         List<GwtLocale> thisGroup = new ArrayList<GwtLocale>();
         if (initialScript != null) {
           // Make sure the default script is listed first in the search list,
           // which ensures that zh_Hant appears before zh in the search list for
           // zh_TW.
-          thisGroup.add(factory.fromComponents(language, initialScript, region,
-              variant));
+          thisGroup.add(factory.fromComponents(language, initialScript, region, variant));
         }
         thisGroup.add(this);
         seen.addAll(thisGroup);
@@ -444,11 +446,10 @@ public class GwtLocaleImpl implements GwtLocale {
             if (locale.getRegion() != null) {
               addImmediateParentRegions(factory, locale, work);
             } else if (locale.getVariant() != null) {
-              work.add(factory.fromComponents(locale.getLanguage(),
-                  locale.getScript(), null, null));
+              work.add(
+                  factory.fromComponents(locale.getLanguage(), locale.getScript(), null, null));
             } else if (locale.getScript() != null) {
-              work.add(factory.fromComponents(locale.getLanguage(), null, null,
-                  null));
+              work.add(factory.fromComponents(locale.getLanguage(), null, null, null));
             }
             work.removeAll(seen);
             nextGroup.addAll(work);
@@ -466,10 +467,10 @@ public class GwtLocaleImpl implements GwtLocale {
   }
 
   /**
-   * Return a list of locales to search for, in order of preference.  The
-   * current locale is always first on the list.  Aliases are not included
-   * in the list -- use {@link #getAliases} to expand those.
-   * 
+   * Return a list of locales to search for, in order of preference. The current locale is always
+   * first on the list. Aliases are not included in the list -- use {@link #getAliases} to expand
+   * those.
+   *
    * @return inheritance list
    */
   public List<GwtLocale> getInheritanceChain() {
@@ -479,8 +480,7 @@ public class GwtLocaleImpl implements GwtLocale {
       inherits.add(factory.fromComponents(language, script, region, null));
     }
     if (region != null) {
-      addParentRegionLocales(factory, inherits, language, script, region,
-          null);
+      addParentRegionLocales(factory, inherits, language, script, region, null);
       inherits.add(factory.fromComponents(language, script, null, null));
     }
     if (script != null) {
@@ -538,10 +538,10 @@ public class GwtLocaleImpl implements GwtLocale {
   }
 
   /**
-   * Return true if this locale inherits from the specified locale.  Note that
-   * locale.inheritsFrom(locale) is false -- if you want that to be true, you
-   * should just use locale.getInheritanceChain().contains(x).
-   * 
+   * Return true if this locale inherits from the specified locale. Note that
+   * locale.inheritsFrom(locale) is false -- if you want that to be true, you should just use
+   * locale.getInheritanceChain().contains(x).
+   *
    * @param parent locale to test against
    * @return true if parent is an ancestor of this locale
    */
@@ -565,17 +565,19 @@ public class GwtLocaleImpl implements GwtLocale {
   }
 
   /**
-   * Checks if this locale uses the same script as another locale, taking into
-   * account default scripts.
-   * 
+   * Checks if this locale uses the same script as another locale, taking into account default
+   * scripts.
+   *
    * @param other
    * @return true if the scripts are the same
    */
   public boolean usesSameScript(GwtLocale other) {
-    String myScript = script != null ? script : DefaultLanguageScripts.getDefaultScript(language,
-        region);
-    String otherScript = other.getScript() != null ? other.getScript()
-        : DefaultLanguageScripts.getDefaultScript(other.getLanguage(), other.getRegion());
+    String myScript =
+        script != null ? script : DefaultLanguageScripts.getDefaultScript(language, region);
+    String otherScript =
+        other.getScript() != null
+            ? other.getScript()
+            : DefaultLanguageScripts.getDefaultScript(other.getLanguage(), other.getRegion());
     // two locales with an unspecified script and no default for the language
     // match only if the language is the same
     if (myScript == null) {
@@ -586,15 +588,14 @@ public class GwtLocaleImpl implements GwtLocale {
   }
 
   /**
-   * Remove aliases which are incompatible with the initial script provided or
-   * defaulted in a locale.
-   * 
+   * Remove aliases which are incompatible with the initial script provided or defaulted in a
+   * locale.
+   *
    * @param aliases
    * @param initialScript
    * @return copy of aliases with incompatible scripts removed
    */
-  private List<GwtLocale> filterBadScripts(List<GwtLocale> aliases,
-      String initialScript) {
+  private List<GwtLocale> filterBadScripts(List<GwtLocale> aliases, String initialScript) {
     if (initialScript == null) {
       return aliases;
     }
