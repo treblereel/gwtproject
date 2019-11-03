@@ -260,6 +260,7 @@
         <module>gwt-i18n</module>
         <module>gwt-datetimeformat</module>
         <module>gwt-localizable-processor</module>
+        <module>gwt-numberformat</module>
     </modules>
 
 </project>
