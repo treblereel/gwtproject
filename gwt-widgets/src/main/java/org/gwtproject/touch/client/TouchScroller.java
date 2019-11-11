@@ -15,6 +15,7 @@
  */
 package org.gwtproject.touch.client;
 
+import elemental2.dom.DomGlobal;
 import org.gwtproject.core.client.Duration;
 import org.gwtproject.core.client.JsArray;
 import org.gwtproject.core.client.Scheduler;
@@ -307,7 +308,17 @@ public class TouchScroller {
    * 
    */
   private static boolean isAndroid3() {
-    throw new UnsupportedOperationException();
+    String useragent = DomGlobal.navigator.userAgent;
+
+    DomGlobal.console.log("isAndroid3 " + useragent);
+
+    int androidpoint = useragent.indexOf("Android");
+    if (androidpoint >= 0) {
+      String rest = useragent.substring(androidpoint + 8, useragent.length());
+      String version = rest.substring(0, rest.indexOf(';'));
+      return (Integer.parseInt(version.split("\\.")[0]) == 3) ? true : false;
+    }
+    return false;
   }
 
   /**
