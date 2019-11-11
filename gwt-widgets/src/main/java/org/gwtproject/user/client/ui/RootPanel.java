@@ -66,16 +66,14 @@ public class RootPanel extends AbsolutePanel {
   /**
    * The singleton command used to detach widgets.
    */
-  private static final AttachDetachException.Command maybeDetachCommand = new AttachDetachException.Command() {
-    public void execute(Widget w) {
-      if (w.isAttached()) {
-        w.onDetach();
-      }
+  private static final AttachDetachException.Command maybeDetachCommand = w -> {
+    if (w.isAttached()) {
+      w.onDetach();
     }
   };
 
-  private static Map<String, RootPanel> rootPanels = new HashMap<String, RootPanel>();
-  private static Set<Widget> widgetsToDetach = new HashSet<Widget>();
+  private static Map<String, RootPanel> rootPanels = new HashMap<>();
+  private static Set<Widget> widgetsToDetach = new HashSet<>();
 
   /**
    * Marks a widget as detached and removes it from the detach list.
@@ -260,11 +258,7 @@ public class RootPanel extends AbsolutePanel {
 
   private static void hookWindowClosing() {
     // Catch the window closing event.
-    Window.addCloseHandler(new CloseHandler<Window>() {
-      public void onClose(CloseEvent<Window> closeEvent) {
-        detachWidgets();
-      }
-    });
+    Window.addCloseHandler(closeEvent -> detachWidgets());
   }
 
   /*
@@ -290,6 +284,7 @@ public class RootPanel extends AbsolutePanel {
 
   private RootPanel(Element elem) {
     super(elem);
+
     onAttach();
   }
 
