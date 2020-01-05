@@ -44,8 +44,8 @@
 
   <modules>
     <module>gwt-layout</module>
-    <module>gwt2-tests</module>
-    <module>j2cl-tests</module>
+    <module>gwt-layout-gwt2-tests</module>
+    <module>gwt-layout-j2cl-tests</module>
   </modules>
 
   <properties>

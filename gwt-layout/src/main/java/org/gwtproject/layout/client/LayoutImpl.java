@@ -15,9 +15,6 @@
  */
 package org.gwtproject.layout.client;
 
-import static org.gwtproject.dom.client.Style.Unit.EM;
-import static org.gwtproject.dom.client.Style.Unit.EX;
-import static org.gwtproject.dom.client.Style.Unit.PX;
 
 import org.gwtproject.aria.client.State;
 import org.gwtproject.dom.client.DivElement;
@@ -30,6 +27,10 @@ import org.gwtproject.dom.style.shared.Position;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.dom.style.shared.Visibility;
 import org.gwtproject.layout.client.Layout.Layer;
+
+import static org.gwtproject.dom.client.Style.Unit.PX;
+import static org.gwtproject.dom.style.shared.Unit.EM;
+import static org.gwtproject.dom.style.shared.Unit.EX;
 
 /**
  * Default implementation, which works with all browsers except for IE6. It uses only the "top",

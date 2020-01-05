@@ -58,6 +58,7 @@
     <animation.version>1.0-SNAPSHOT</animation.version>
     <core.version>1.0-SNAPSHOT</core.version>
     <dom.version>1.0-SNAPSHOT</dom.version>
+    <dom.style.definitions.version>1.0-SNAPSHOT</dom.style.definitions.version>
   </properties>
 
   <dependencies>
@@ -75,6 +76,11 @@
       <groupId>org.gwtproject.core</groupId>
       <artifactId>gwt-core</artifactId>
       <version>${core.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.gwtproject.dom</groupId>
+      <artifactId>gwt-dom-style-definitions</artifactId>
+      <version>${dom.style.definitions.version}</version>
     </dependency>
     <dependency>
       <groupId>org.gwtproject.dom</groupId>
