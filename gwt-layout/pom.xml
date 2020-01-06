@@ -48,7 +48,7 @@
     <maven.gpg.plugin>1.6</maven.gpg.plugin>
     <maven.javadoc.plugin>3.1.1</maven.javadoc.plugin>
     <maven.licence.plugin>3.0</maven.licence.plugin>
-    <maven.source.plugin>3.1.0</maven.source.plugin>
+    <maven.source.plugin>3.2.1</maven.source.plugin>
 
     <!-- CI -->
     <vertispan.j2cl.repo.url>https://repo.vertispan.com/j2cl/</vertispan.j2cl.repo.url>

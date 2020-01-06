@@ -15,13 +15,13 @@
  */
 package org.gwtproject.layout.client;
 
+import static org.gwtproject.dom.style.shared.Unit.PX;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.gwtproject.animation.client.Animation;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.style.shared.Unit;
-
-import static org.gwtproject.dom.style.shared.Unit.PX;
 
 /**
  * Helper class for laying out a container element and its children.

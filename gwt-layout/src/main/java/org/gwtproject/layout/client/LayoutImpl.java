@@ -15,6 +15,7 @@
  */
 package org.gwtproject.layout.client;
 
+import static org.gwtproject.dom.style.shared.Unit.*;
 
 import org.gwtproject.aria.client.State;
 import org.gwtproject.dom.client.DivElement;
@@ -27,10 +28,6 @@ import org.gwtproject.dom.style.shared.Position;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.dom.style.shared.Visibility;
 import org.gwtproject.layout.client.Layout.Layer;
-
-import static org.gwtproject.dom.client.Style.Unit.PX;
-import static org.gwtproject.dom.style.shared.Unit.EM;
-import static org.gwtproject.dom.style.shared.Unit.EX;
 
 /**
  * Default implementation, which works with all browsers except for IE6. It uses only the "top",
@@ -155,31 +152,31 @@ class LayoutImpl {
     style = layer.child.getStyle();
     switch (layer.hPos) {
       case BEGIN:
-        style.setLeft(0, Unit.PX);
+        style.setLeft(0, PX);
         style.clearRight();
         break;
       case END:
         style.clearLeft();
-        style.setRight(0, Unit.PX);
+        style.setRight(0, PX);
         break;
       case STRETCH:
-        style.setLeft(0, Unit.PX);
-        style.setRight(0, Unit.PX);
+        style.setLeft(0, PX);
+        style.setRight(0, PX);
         break;
     }
 
     switch (layer.vPos) {
       case BEGIN:
-        style.setTop(0, Unit.PX);
+        style.setTop(0, PX);
         style.clearBottom();
         break;
       case END:
         style.clearTop();
-        style.setBottom(0, Unit.PX);
+        style.setBottom(0, PX);
         break;
       case STRETCH:
-        style.setTop(0, Unit.PX);
-        style.setBottom(0, Unit.PX);
+        style.setTop(0, PX);
+        style.setBottom(0, PX);
         break;
     }
   }
