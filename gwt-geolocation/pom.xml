@@ -85,7 +85,7 @@
                 <version>${maven.gwt.plugin}</version>
                 <extensions>true</extensions>
                 <configuration>
-                    <moduleName>org.gwtproject.geolocation.RegExp</moduleName>
+                    <moduleName>org.gwtproject.geolocation.GeoLocation</moduleName>
                 </configuration>
             </plugin>
             <plugin>

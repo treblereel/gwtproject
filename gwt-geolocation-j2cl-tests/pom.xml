@@ -90,7 +90,7 @@
                             </defines>
                             <compilationLevel>BUNDLE</compilationLevel>
                             <tests>
-                                <test>org.gwtproject.geolocation.shared.RegExpJ2clTest</test>
+                                <test>org.gwtproject.geolocation.client.GeolocationTest</test>
                             </tests>
                         </configuration>
                     </execution>
