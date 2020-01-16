@@ -1,5 +1,5 @@
-# GWT Callbacks
+![GWT3/J2CL compatible](https://img.shields.io/badge/GWT3/J2CL-compatible-brightgreen.svg)
 
-[![Build Status](https://travis-ci.org/gwtproject/gwt-callback.svg?branch=master)](https://travis-ci.org/gwtproject/gwt-callback)
+# GWT Callbacks
 
 Preparing for GWT 3 and j2cl
