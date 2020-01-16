@@ -65,7 +65,7 @@
         <version>${maven.gwt.plugin}</version>
         <extensions>true</extensions>
         <configuration>
-          <moduleName>org.gwtproject.callback.GeoLocation</moduleName>
+          <moduleName>org.gwtproject.user.AsyncCallback</moduleName>
         </configuration>
       </plugin>
       <plugin>
