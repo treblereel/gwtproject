@@ -15,7 +15,14 @@
  */
 package org.gwtproject.i18n.client;
 
-import org.gwtproject.i18n.client.constants.NumberConstants;
+//import elemental2.core.JsNumber;
+//import jsinterop.base.Js;
+import elemental2.core.JsNumber;
+import jsinterop.base.Js;
+import org.gwtproject.i18n.shared.cldr.CurrencyData;
+import org.gwtproject.i18n.shared.cldr.CurrencyList;
+import org.gwtproject.i18n.shared.cldr.LocaleInfo;
+import org.gwtproject.i18n.shared.cldr.NumberConstants;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -307,6 +314,7 @@ import java.math.BigInteger;
 public class NumberFormat {
 
   // Sets of constants as defined for the current locale from CLDR.
+//  protected static final NumberConstants localizedNumberConstants = LocaleInfo.getCurrentLocale().getNumberConstants();
   protected static final NumberConstants localizedNumberConstants = LocaleInfo.getCurrentLocale().getNumberConstants();
 
   /**
@@ -726,7 +734,7 @@ public class NumberFormat {
    * @return scale to apply to the result
    */
   // @VisibleForTesting
-  static int toScaledString(StringBuilder buf, double val) {
+  public static int toScaledString(StringBuilder buf, double val) {
     int startLen = buf.length();
     buf.append(toPrecision(val, 20));
     int scale = 0;
@@ -781,9 +789,9 @@ public class NumberFormat {
    * @param digits number of digits of precision to include
    * @return non-localized string representation of {@code d}
    */
-  private static native String toPrecision(double d, int digits) /*-{
-    return d.toPrecision(digits);
-  }-*/;
+  private static String toPrecision(double d, int digits) {
+    return Js.<JsNumber>cast(d).toPrecision(digits);
+  }
 
   /**
    * Information about the currency being used.

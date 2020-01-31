@@ -28,7 +28,7 @@ import java.lang.annotation.*;
  * <p>The annotations defined here are common to both -- see the individual subinterfaces for
  * additional annotations which apply only to each one.
  */
-public interface LocalizableResource extends Localizable {
+public interface LocalizableResource extends org.gwtproject.i18n.shared.Localizable {
 
   /**
    * Specifies the default locale for messages in this file. If not specified, the default is <code>

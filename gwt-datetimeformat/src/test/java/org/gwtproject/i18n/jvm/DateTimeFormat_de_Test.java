@@ -13,17 +13,20 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.gwtproject.i18n.client;
+package org.gwtproject.i18n.jvm;
+
+import org.gwtproject.i18n.client.DateTimeFormat;
+import org.gwtproject.i18n.shared.DateTimeFormatTestBaseJava;
 
 import java.util.Date;
-import org.gwtproject.i18n.shared.DateTimeFormatTestBase;
 
 /** Tests formatting functionality in {@link DateTimeFormat} for the German language. */
 @SuppressWarnings("deprecation")
-public class DateTimeFormat_de_Test extends DateTimeFormatTestBase {
+public class DateTimeFormat_de_Test extends DateTimeFormatTestBaseJava {
+
 
   @Override
-  protected void gwtSetUp() throws Exception {
+  public void setUp() throws Exception {
     setLocale("de");
   }
 

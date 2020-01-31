@@ -15,21 +15,15 @@
  */
 package org.gwtproject.i18n.shared;
 
-import java.util.Date;
-
-import com.google.gwt.junit.client.GWTTestCase;
 import junit.framework.TestCase;
 import org.gwtproject.i18n.shared.DateTimeFormat.PredefinedFormat;
+
+import java.util.Date;
 
 // import org.gwtproject.i18n.client.Messages;
 
 /** Base class for date/time format tests. */
-public abstract class DateTimeFormatTestBase extends GWTTestCase {
-
-  @Override
-  public String getModuleName() {
-    return "org.gwtproject.i18n.DateTimeFormat";
-  }
+public abstract class DateTimeFormatTestBaseJava extends TestCase {
 
   /** The timezone used by any tests which use a fixed timezone. */
   protected static final TimeZone TEST_TIMEZONE =

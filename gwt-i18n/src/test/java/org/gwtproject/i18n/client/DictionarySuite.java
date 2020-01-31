@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 Google Inc.
+ * Copyright 2013 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -15,10 +15,20 @@
  */
 package org.gwtproject.i18n.client;
 
+import com.google.gwt.junit.tools.GWTTestSuite;
+import junit.framework.Test;
+import org.junit.Ignore;
+
 /**
- * For backwards compatibility only.
- *
- * <p>deprecated use {@link org.gwtproject.i18n.shared.Localizable} instead
+ * I18N tests for client code running as a GWT test.
  */
-@Deprecated
-public interface Localizable extends org.gwtproject.i18n.shared.Localizable {}
+@Ignore
+public class DictionarySuite {
+  public static Test suite() {
+    GWTTestSuite suite = new GWTTestSuite("I18N Dictionary tests");
+
+    suite.addTestSuite(DictionaryTest.class);
+
+    return suite;
+  }
+}

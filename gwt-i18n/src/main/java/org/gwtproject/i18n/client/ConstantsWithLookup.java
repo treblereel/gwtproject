@@ -19,11 +19,11 @@ import java.util.Map;
 import java.util.MissingResourceException;
 
 /**
- * Like {@link com.google.gwt.i18n.client.Constants}, a tag interface that facilitates
+ * Like {@link org.gwtproject.i18n.client.Constants}, a tag interface that facilitates
  * locale-sensitive, compile-time binding of constant values supplied from properties files with the
  * added ability to look up constants at runtime with a string key.
  *
- * <p><code>ConstantsWithLookup</code> extends {@link com.google.gwt.i18n.client.Constants} and is
+ * <p><code>ConstantsWithLookup</code> extends {@link org.gwtproject.i18n.client.Constants} and is
  * identical in behavior, adding only a family of special-purpose lookup methods such as {@link
  * ConstantsWithLookup#getString(String)}.
  *
@@ -41,10 +41,9 @@ import java.util.MissingResourceException;
  * <h3>Note</h3>
  *
  * You should not directly implement this interface or interfaces derived from it since an
- * implementation is generated automatically when message interfaces are created using {@link
- * com.google.gwt.core.client.GWT#create(Class)}.
+ * implementation is generated automatically when message interfaces are created using.
  *
- * @see com.google.gwt.i18n.client.Constants
+ * @see org.gwtproject.i18n.client.Constants
  */
 public interface ConstantsWithLookup extends Constants {
   /**

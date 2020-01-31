@@ -16,8 +16,11 @@
 package org.gwtproject.i18n.shared;
 
 import java.util.*;
+
+import org.gwtproject.i18n.shared.cldr.DateTimeFormatInfo;
+import org.gwtproject.i18n.shared.cldr.impl.DefaultDateTimeFormatInfo;
 import org.gwtproject.i18n.shared.impl.DateRecord;
-import org.gwtproject.i18n.shared.impl.cldr.DateTimeFormatInfo_factory;
+import org.gwtproject.i18n.shared.cldr.impl.DateTimeFormatInfo_factory;
 
 /**
  * Formats and parses dates and times using locale-sensitive patterns.

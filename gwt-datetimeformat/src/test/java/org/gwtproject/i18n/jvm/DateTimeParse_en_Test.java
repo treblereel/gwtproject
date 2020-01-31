@@ -14,19 +14,21 @@
  * the License.
  */
 
-package org.gwtproject.i18n.client;
+package org.gwtproject.i18n.jvm;
+
+import org.gwtproject.i18n.client.DateTimeFormat;
+import org.gwtproject.i18n.shared.DateTimeFormatTestBaseJava;
 
 import java.util.Date;
-import org.gwtproject.i18n.shared.DateTimeFormatTestBase;
 
 /** Tests parsing functionality in {@link DateTimeFormat} for the English language. */
 @SuppressWarnings("deprecation")
-public class DateTimeParse_en_Test extends DateTimeFormatTestBase {
+public class DateTimeParse_en_Test extends DateTimeFormatTestBaseJava {
   // TODO: replace the rest of the assertTrue calls to assertEquals
   //    for better error reporting, where possible.
 
   @Override
-  protected void gwtSetUp() throws Exception {
+  public void setUp() throws Exception {
     setLocale("en");
   }
 

@@ -17,10 +17,10 @@ package org.gwtproject.i18n.client;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.gwtproject.i18n.client.impl.cldr.DateTimeFormatInfoImpl_en;
+import org.gwtproject.i18n.shared.cldr.impl.DateTimeFormatInfoImpl_en;
 import org.gwtproject.i18n.shared.CustomDateTimeFormat;
-import org.gwtproject.i18n.shared.DateTimeFormatInfo;
-import org.gwtproject.i18n.shared.impl.cldr.DateTimeFormatInfo_factory;
+import org.gwtproject.i18n.shared.cldr.DateTimeFormatInfo;
+import org.gwtproject.i18n.shared.cldr.impl.DateTimeFormatInfo_factory;
 
 /**
  * Formats and parses dates and times using locale-sensitive patterns.

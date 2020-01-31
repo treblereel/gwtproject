@@ -34,12 +34,10 @@
         <dependency>
             <groupId>org.gwtproject.i18n</groupId>
             <artifactId>gwt-cldr</artifactId>
-            <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.gwtproject.i18n</groupId>
             <artifactId>gwt-cldr</artifactId>
-            <version>1.0-SNAPSHOT</version>
             <classifier>sources</classifier>
         </dependency>
         <dependency>
@@ -52,19 +50,6 @@
             <artifactId>gwt-i18n</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-        <!--
-
-
-    <parent>
-        <groupId>org.gwtproject.i18n</groupId>
-        <artifactId>gwt-i18n-parent</artifactId>
-        <version>1.0-SNAPSHOT</version>
-    </parent>
-
-    <artifactId>gwt-datetimeformat</artifactId>
-    <packaging>gwt-lib</packaging>
-
-        -->
         <dependency>
             <groupId>org.gwtproject.i18n</groupId>
             <artifactId>gwt-datetimeformat</artifactId>
