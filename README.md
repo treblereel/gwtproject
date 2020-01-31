@@ -1,8 +1,14 @@
-### Work in Progress
+![GWT3/J2CL compatible](https://img.shields.io/badge/GWT3/J2CL-compatible-brightgreen.svg)
 
-This repository exists to break cyclic dependency between gwt-dom and gwt-safecss.
+# GWT DOM Style Defenitions
+Provides various enums/constants for CSS style properties for GWT 2 and J2CL.
 
-It contains a new GWT module `org.gwtproject.dom.style.Style` which provides various enums/constants 
-for CSS style properties.
+### Dependency
 
-Commits can be rewritten at any time.
+```xml
+<dependency>
+   <groupId>org.gwtproject.dom</groupId>
+   <artifactId>gwt-dom-style-definitions</artifactId>
+    <version>1.0-SNAPSHOT</version>
+</dependency>
+```
