@@ -1,31 +1,26 @@
 /*
- * Copyright 2008 Google Inc.
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- * 
- * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * Copyright © 2018 The GWT Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
-
 package org.gwtproject.i18n.client;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
-/**
- * GWT JUnit tests must extend GWTTestCase.
- */
+/** GWT JUnit tests must extend GWTTestCase. */
 public class NumberParse_fr_Test extends GWTTestCase {
 
-  /**
-   * Must refer to a valid module that inherits from com.google.gwt.junit.JUnit.
-   */
+  /** Must refer to a valid module that inherits from com.google.gwt.junit.JUnit. */
   @Override
   public String getModuleName() {
     return "org.gwtproject.i18n.I18NTest_fr";
@@ -122,7 +117,7 @@ public class NumberParse_fr_Test extends GWTTestCase {
     value = numberParse("%#.##;(%#.##)", "(%123,4579)");
     assertTrue(value.doubleValue() == (-123.4579 / 100));
 
-    //--------------
+    // --------------
     value = numberParse("#.##", "123,4579\u2030");
     assertTrue(value.doubleValue() == (123.4579 / 1000));
 
@@ -156,65 +151,65 @@ public class NumberParse_fr_Test extends GWTTestCase {
     value = numberParse("0.0;(0.0)", "(\u2030123,4579)");
     assertTrue(value.doubleValue() == (-123.4579 / 1000));
 
-    try{
+    try {
       numberParse("#.##%", "123,4579");
       fail("should throw number format exception for missing % in input string.");
-    }catch (NumberFormatException e){
+    } catch (NumberFormatException e) {
     }
 
-    try{
+    try {
       numberParse("%#.##", "123,4579");
       fail("should throw number format exception for missing % in input string.");
-    }catch (NumberFormatException e){
+    } catch (NumberFormatException e) {
     }
 
-    try{
+    try {
       numberParse("#.##%;(#.##%)", "(123,4579)");
       fail("should throw number format exception for missing % in input string.");
-    }catch (NumberFormatException e){
+    } catch (NumberFormatException e) {
     }
 
-    try{
+    try {
       numberParse("%#.##;(%#.##)", "(123,4579)");
       fail("should throw number format exception for missing % in input string.");
-    }catch (NumberFormatException e){
+    } catch (NumberFormatException e) {
     }
 
-    try{
+    try {
       numberParse("%0.0;(%0.0)", "(123,4579)");
       fail("should throw number format exception for missing % in input string.");
-    }catch (NumberFormatException e){
+    } catch (NumberFormatException e) {
     }
 
-    //---------------
-    try{
+    // ---------------
+    try {
       numberParse("#.##\u2030", "123,4579");
       fail("should throw number format exception for missing \u2030 in input string.");
-    }catch (NumberFormatException e){
+    } catch (NumberFormatException e) {
     }
 
-    try{
+    try {
       numberParse("\u2030#.##", "123,4579");
       fail("should throw number format exception for missing \u2030 in input string.");
-    }catch (NumberFormatException e){
+    } catch (NumberFormatException e) {
     }
 
-    try{
+    try {
       numberParse("#.##\u2030;(#.##\u2030)", "(123,4579)");
       fail("should throw number format exception for missing \u2030 in input string.");
-    }catch (NumberFormatException e){
+    } catch (NumberFormatException e) {
     }
 
-    try{
+    try {
       numberParse("\u2030#.##;(\u2030#.##)", "(123,4579)");
       fail("should throw number format exception for missing \u2030 in input string.");
-    }catch (NumberFormatException e){
+    } catch (NumberFormatException e) {
     }
 
-    try{
+    try {
       numberParse("\u20300.0;(\u20300.0)", "(123,4579)");
       fail("should throw number format exception for missing \u2030 in input string.");
-    }catch (NumberFormatException e){
+    } catch (NumberFormatException e) {
     }
   }
 
@@ -228,5 +223,4 @@ public class NumberParse_fr_Test extends GWTTestCase {
     value = numberParse("0.0;(0.0)", "(123,4579)");
     assertEquals(-123.4579, value.doubleValue(), 0.0);
   }
-
 }

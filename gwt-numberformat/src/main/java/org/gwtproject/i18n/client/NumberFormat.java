@@ -1,84 +1,68 @@
 /*
- * Copyright 2008 Google Inc.
+ * Copyright © 2018 The GWT Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.gwtproject.i18n.client;
 
-//import elemental2.core.JsNumber;
-//import jsinterop.base.Js;
 import elemental2.core.JsNumber;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import jsinterop.base.Js;
 import org.gwtproject.i18n.shared.cldr.CurrencyData;
 import org.gwtproject.i18n.shared.cldr.CurrencyList;
 import org.gwtproject.i18n.shared.cldr.LocaleInfo;
 import org.gwtproject.i18n.shared.cldr.NumberConstants;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-
 /**
  * Formats and parses numbers using locale-sensitive patterns.
  *
- * This class provides comprehensive and flexible support for a wide variety of
- * localized formats, including
+ * <p>This class provides comprehensive and flexible support for a wide variety of localized
+ * formats, including
+ *
  * <ul>
- * <li><b>Locale-specific symbols</b> such as decimal point, group separator,
- * digit representation, currency symbol, percent, and permill</li>
- * <li><b>Numeric variations</b> including integers ("123"), fixed-point
- * numbers ("123.4"), scientific notation ("1.23E4"), percentages ("12%"), and
- * currency amounts ("$123")</li>
- * <li><b>Predefined standard patterns</b> that can be used both for parsing
- * and formatting, including {@link #getDecimalFormat() decimal},
- * {@link #getCurrencyFormat() currency},
- * {@link #getPercentFormat() percentages}, and
- * {@link #getScientificFormat() scientific}</li>
- * <li><b>Custom patterns</b> and supporting features designed to make it
- * possible to parse and format numbers in any locale, including support for
- * Western, Arabic, and Indic digits</li>
+ *   <li><b>Locale-specific symbols</b> such as decimal point, group separator, digit
+ *       representation, currency symbol, percent, and permill
+ *   <li><b>Numeric variations</b> including integers ("123"), fixed-point numbers ("123.4"),
+ *       scientific notation ("1.23E4"), percentages ("12%"), and currency amounts ("$123")
+ *   <li><b>Predefined standard patterns</b> that can be used both for parsing and formatting,
+ *       including {@link #getDecimalFormat() decimal}, {@link #getCurrencyFormat() currency},
+ *       {@link #getPercentFormat() percentages}, and {@link #getScientificFormat() scientific}
+ *   <li><b>Custom patterns</b> and supporting features designed to make it possible to parse and
+ *       format numbers in any locale, including support for Western, Arabic, and Indic digits
  * </ul>
  *
  * <h3>Patterns</h3>
- * <p>
- * Formatting and parsing are based on customizable patterns that can include a
- * combination of literal characters and special characters that act as
- * placeholders and are replaced by their localized counterparts. Many
- * characters in a pattern are taken literally; they are matched during parsing
- * and output unchanged during formatting. Special characters, on the other
- * hand, stand for other characters, strings, or classes of characters. For
- * example, the '<code>#</code>' character is replaced by a localized digit.
- * </p>
  *
- * <p>
- * Often the replacement character is the same as the pattern character. In the
- * U.S. locale, for example, the '<code>,</code>' grouping character is
- * replaced by the same character '<code>,</code>'. However, the replacement
- * is still actually happening, and in a different locale, the grouping
- * character may change to a different character, such as '<code>.</code>'.
- * Some special characters affect the behavior of the formatter by their
- * presence. For example, if the percent character is seen, then the value is
- * multiplied by 100 before being displayed.
- * </p>
+ * <p>Formatting and parsing are based on customizable patterns that can include a combination of
+ * literal characters and special characters that act as placeholders and are replaced by their
+ * localized counterparts. Many characters in a pattern are taken literally; they are matched during
+ * parsing and output unchanged during formatting. Special characters, on the other hand, stand for
+ * other characters, strings, or classes of characters. For example, the '<code>#</code>' character
+ * is replaced by a localized digit.
  *
- * <p>
- * The characters listed below are used in patterns. Localized symbols use the
- * corresponding characters taken from corresponding locale symbol collection,
- * which can be found in the properties files residing in the
- * <code><nobr>org.gwtproject.i18n.client.constants</nobr></code>. To insert
- * a special character in a pattern as a literal (that is, without any special
- * meaning) the character must be quoted. There are some exceptions to this
- * which are noted below.
- * </p>
+ * <p>Often the replacement character is the same as the pattern character. In the U.S. locale, for
+ * example, the '<code>,</code>' grouping character is replaced by the same character '<code>,
+ * </code>'. However, the replacement is still actually happening, and in a different locale, the
+ * grouping character may change to a different character, such as '<code>.</code>'. Some special
+ * characters affect the behavior of the formatter by their presence. For example, if the percent
+ * character is seen, then the value is multiplied by 100 before being displayed.
+ *
+ * <p>The characters listed below are used in patterns. Localized symbols use the corresponding
+ * characters taken from corresponding locale symbol collection, which can be found in the
+ * properties files residing in the <code><nobr>org.gwtproject.i18n.client.constants</nobr></code>.
+ * To insert a special character in a pattern as a literal (that is, without any special meaning)
+ * the character must be quoted. There are some exceptions to this which are noted below.
  *
  * <table>
  * <tr>
@@ -173,41 +157,29 @@ import java.math.BigInteger;
  *
  * </table>
  *
- * <p>
- * A <code>NumberFormat</code> pattern contains a postive and negative
- * subpattern separated by a semicolon, such as
- * <code>"#,##0.00;(#,##0.00)"</code>. Each subpattern has a prefix, a
- * numeric part, and a suffix. If there is no explicit negative subpattern, the
- * negative subpattern is the localized minus sign prefixed to the positive
- * subpattern. That is, <code>"0.00"</code> alone is equivalent to
- * <code>"0.00;-0.00"</code>. If there is an explicit negative subpattern, it
- * serves only to specify the negative prefix and suffix; the number of digits,
- * minimal digits, and other characteristics are ignored in the negative
- * subpattern. That means that <code>"#,##0.0#;(#)"</code> has precisely the
- * same result as <code>"#,##0.0#;(#,##0.0#)"</code>.
- * </p>
+ * <p>A <code>NumberFormat</code> pattern contains a postive and negative subpattern separated by a
+ * semicolon, such as <code>"#,##0.00;(#,##0.00)"</code>. Each subpattern has a prefix, a numeric
+ * part, and a suffix. If there is no explicit negative subpattern, the negative subpattern is the
+ * localized minus sign prefixed to the positive subpattern. That is, <code>"0.00"</code> alone is
+ * equivalent to <code>"0.00;-0.00"</code>. If there is an explicit negative subpattern, it serves
+ * only to specify the negative prefix and suffix; the number of digits, minimal digits, and other
+ * characteristics are ignored in the negative subpattern. That means that <code>"#,##0.0#;(#)"
+ * </code> has precisely the same result as <code>"#,##0.0#;(#,##0.0#)"</code>.
  *
- * <p>
- * The prefixes, suffixes, and various symbols used for infinity, digits,
- * thousands separators, decimal separators, etc. may be set to arbitrary
- * values, and they will appear properly during formatting. However, care must
- * be taken that the symbols and strings do not conflict, or parsing will be
- * unreliable. For example, the decimal separator and thousands separator should
- * be distinct characters, or parsing will be impossible.
- * </p>
+ * <p>The prefixes, suffixes, and various symbols used for infinity, digits, thousands separators,
+ * decimal separators, etc. may be set to arbitrary values, and they will appear properly during
+ * formatting. However, care must be taken that the symbols and strings do not conflict, or parsing
+ * will be unreliable. For example, the decimal separator and thousands separator should be distinct
+ * characters, or parsing will be impossible.
  *
- * <p>
- * The grouping separator is a character that separates clusters of integer
- * digits to make large numbers more legible. It commonly used for thousands,
- * but in some locales it separates ten-thousands. The grouping size is the
- * number of digits between the grouping separators, such as 3 for "100,000,000"
- * or 4 for "1 0000 0000".
- * </p>
+ * <p>The grouping separator is a character that separates clusters of integer digits to make large
+ * numbers more legible. It commonly used for thousands, but in some locales it separates
+ * ten-thousands. The grouping size is the number of digits between the grouping separators, such as
+ * 3 for "100,000,000" or 4 for "1 0000 0000".
  *
  * <h3>Pattern Grammar (BNF)</h3>
- * <p>
- * The pattern itself uses the following grammar:
- * </p>
+ *
+ * <p>The pattern itself uses the following grammar:
  *
  * <table>
  * <tr>
@@ -271,9 +243,7 @@ import java.math.BigInteger;
  * </tr>
  * </table>
  *
- * <p>
- * Notation:
- * </p>
+ * <p>Notation:
  *
  * <table>
  * <tr>
@@ -302,24 +272,24 @@ import java.math.BigInteger;
  * </tr>
  * </table>
  *
- * <p>
- * The first subpattern is for positive numbers. The second (optional)
- * subpattern is for negative numbers.
- * </p>
+ * <p>The first subpattern is for positive numbers. The second (optional) subpattern is for negative
+ * numbers.
  *
- *  <h3>Example</h3> {@example com.google.gwt.examples.NumberFormatExample}
+ * <h3>Example</h3>
  *
- *
+ * {@example com.google.gwt.examples.NumberFormatExample}
  */
 public class NumberFormat {
 
   // Sets of constants as defined for the current locale from CLDR.
-//  protected static final NumberConstants localizedNumberConstants = LocaleInfo.getCurrentLocale().getNumberConstants();
-  protected static final NumberConstants localizedNumberConstants = LocaleInfo.getCurrentLocale().getNumberConstants();
+  //  protected static final NumberConstants localizedNumberConstants =
+  // LocaleInfo.getCurrentLocale().getNumberConstants();
+  protected static final NumberConstants localizedNumberConstants =
+      LocaleInfo.getCurrentLocale().getNumberConstants();
 
   /**
-   * Current NumberConstants interface to use, see
-   * {@link #setForcedLatinDigits(boolean)} for changing it.
+   * Current NumberConstants interface to use, see {@link #setForcedLatinDigits(boolean)} for
+   * changing it.
    */
   protected static NumberConstants defaultNumberConstants = localizedNumberConstants;
 
@@ -337,7 +307,8 @@ public class NumberFormat {
   // Localized characters for dot and comma in number patterns, used to produce
   // the latin mapping for arbitrary locales.  Any separator not in either of
   // these strings will be mapped to non-breaking space (U+00A0).
-  private static final String LOCALIZED_COMMA_EQUIVALENTS = ",\u060C\u066B\u3001\uFE10\uFE11\uFE50\uFE51\uFF0C\uFF64";
+  private static final String LOCALIZED_COMMA_EQUIVALENTS =
+      ",\u060C\u066B\u3001\uFE10\uFE11\uFE50\uFE51\uFF0C\uFF64";
 
   private static final String LOCALIZED_DOT_EQUIVALENTS = ".\u2024\u3002\uFE12\uFE52\uFF0E\uFF61";
   private static final char PATTERN_DECIMAL_SEPARATOR = '.';
@@ -353,8 +324,8 @@ public class NumberFormat {
   private static final char QUOTE = '\'';
 
   /**
-   * Returns true if all new NumberFormat instances will use latin digits and
-   * related characters rather than the localized ones.
+   * Returns true if all new NumberFormat instances will use latin digits and related characters
+   * rather than the localized ones.
    */
   public static boolean forcedLatinDigits() {
     return defaultNumberConstants != localizedNumberConstants;
@@ -363,8 +334,8 @@ public class NumberFormat {
   /**
    * Provides the standard currency format for the current locale.
    *
-   * @return a <code>NumberFormat</code> capable of producing and consuming
-   *         currency format for the default locale
+   * @return a <code>NumberFormat</code> capable of producing and consuming currency format for the
+   *     default locale
    */
   public static NumberFormat getCurrencyFormat() {
     if (cachedCurrencyFormat == null) {
@@ -374,51 +345,47 @@ public class NumberFormat {
   }
 
   /**
-   * Provides the standard currency format for the current locale using a
-   * specified currency.
+   * Provides the standard currency format for the current locale using a specified currency.
    *
    * @param currencyData currency data to use
-   * @return a <code>NumberFormat</code> capable of producing and consuming
-   *         currency format for the current locale
+   * @return a <code>NumberFormat</code> capable of producing and consuming currency format for the
+   *     current locale
    */
   public static NumberFormat getCurrencyFormat(CurrencyData currencyData) {
-    return new NumberFormat(defaultNumberConstants.currencyPattern(),
-        currencyData, false);
+    return new NumberFormat(defaultNumberConstants.currencyPattern(), currencyData, false);
   }
 
   /**
-   * Provides the standard currency format for the current locale using a
-   * specified currency.
+   * Provides the standard currency format for the current locale using a specified currency.
    *
    * @param currencyCode valid currency code, as defined in
    *     org.gwtproject.i18n.client.constants.CurrencyCodeMapConstants.properties
-   * @return a <code>NumberFormat</code> capable of producing and consuming
-   *         currency format for the current locale
+   * @return a <code>NumberFormat</code> capable of producing and consuming currency format for the
+   *     current locale
    * @throws IllegalArgumentException if the currency code is unknown
    */
   public static NumberFormat getCurrencyFormat(String currencyCode) {
     return getCurrencyFormat(lookupCurrency(currencyCode));
   }
 
-
   /**
    * Provides the standard decimal format for the default locale.
    *
-   * @return a <code>NumberFormat</code> capable of producing and consuming
-   *         decimal format for the default locale
+   * @return a <code>NumberFormat</code> capable of producing and consuming decimal format for the
+   *     default locale
    */
   public static NumberFormat getDecimalFormat() {
     if (cachedDecimalFormat == null) {
-      cachedDecimalFormat = new NumberFormat(
-          defaultNumberConstants.decimalPattern(),
-          CurrencyList.get().getDefault(), false);
+      cachedDecimalFormat =
+          new NumberFormat(
+              defaultNumberConstants.decimalPattern(), CurrencyList.get().getDefault(), false);
     }
     return cachedDecimalFormat;
   }
 
   /**
-   * Gets a <code>NumberFormat</code> instance for the default locale using
-   * the specified pattern and the default currencyCode.
+   * Gets a <code>NumberFormat</code> instance for the default locale using the specified pattern
+   * and the default currencyCode.
    *
    * @param pattern pattern for this formatter
    * @return a NumberFormat instance
@@ -429,65 +396,60 @@ public class NumberFormat {
   }
 
   /**
-   * Gets a custom <code>NumberFormat</code> instance for the default locale
-   * using the specified pattern and currency code.
+   * Gets a custom <code>NumberFormat</code> instance for the default locale using the specified
+   * pattern and currency code.
    *
    * @param pattern pattern for this formatter
    * @param currencyData currency data
    * @return a NumberFormat instance
    * @throws IllegalArgumentException if the specified pattern is invalid
    */
-  public static NumberFormat getFormat(String pattern,
-                                       CurrencyData currencyData) {
+  public static NumberFormat getFormat(String pattern, CurrencyData currencyData) {
     return new NumberFormat(pattern, currencyData, true);
   }
 
   /**
-   * Gets a custom <code>NumberFormat</code> instance for the default locale
-   * using the specified pattern and currency code.
+   * Gets a custom <code>NumberFormat</code> instance for the default locale using the specified
+   * pattern and currency code.
    *
    * @param pattern pattern for this formatter
    * @param currencyCode international currency code
    * @return a NumberFormat instance
-   * @throws IllegalArgumentException if the specified pattern is invalid
-   *     or the currency code is unknown
+   * @throws IllegalArgumentException if the specified pattern is invalid or the currency code is
+   *     unknown
    */
   public static NumberFormat getFormat(String pattern, String currencyCode) {
     return new NumberFormat(pattern, lookupCurrency(currencyCode), true);
   }
 
   /**
-   * Provides the global currency format for the current locale, using its
-   * default currency.
-   * 
-   * @return a <code>NumberFormat</code> capable of producing and consuming
-   *         currency format for the current locale
+   * Provides the global currency format for the current locale, using its default currency.
+   *
+   * @return a <code>NumberFormat</code> capable of producing and consuming currency format for the
+   *     current locale
    */
   public static NumberFormat getGlobalCurrencyFormat() {
     return getGlobalCurrencyFormat(CurrencyList.get().getDefault());
   }
 
   /**
-   * Provides the global currency format for the current locale, using a
-   * specified currency.
+   * Provides the global currency format for the current locale, using a specified currency.
    *
    * @param currencyData currency data to use
-   * @return a <code>NumberFormat</code> capable of producing and consuming
-   *         currency format for the current locale
+   * @return a <code>NumberFormat</code> capable of producing and consuming currency format for the
+   *     current locale
    */
   public static NumberFormat getGlobalCurrencyFormat(CurrencyData currencyData) {
-    return new NumberFormat(defaultNumberConstants.globalCurrencyPattern(),
-        currencyData, false);
+    return new NumberFormat(defaultNumberConstants.globalCurrencyPattern(), currencyData, false);
   }
-  
+
   /**
-   * Provides the global currency format for the current locale, using a
-   * specified currency.
+   * Provides the global currency format for the current locale, using a specified currency.
    *
    * @param currencyCode valid currency code, as defined in
    *     org.gwtproject.i18n.client.constants.CurrencyCodeMapConstants.properties
-   * @return a <code>NumberFormat</code> capable of producing and consuming
-   *         currency format for the current locale
+   * @return a <code>NumberFormat</code> capable of producing and consuming currency format for the
+   *     current locale
    * @throws IllegalArgumentException if the currency code is unknown
    */
   public static NumberFormat getGlobalCurrencyFormat(String currencyCode) {
@@ -497,14 +459,14 @@ public class NumberFormat {
   /**
    * Provides the standard percent format for the default locale.
    *
-   * @return a <code>NumberFormat</code> capable of producing and consuming
-   *         percent format for the default locale
+   * @return a <code>NumberFormat</code> capable of producing and consuming percent format for the
+   *     default locale
    */
   public static NumberFormat getPercentFormat() {
     if (cachedPercentFormat == null) {
-      cachedPercentFormat = new NumberFormat(
-          defaultNumberConstants.percentPattern(),
-          CurrencyList.get().getDefault(), false);
+      cachedPercentFormat =
+          new NumberFormat(
+              defaultNumberConstants.percentPattern(), CurrencyList.get().getDefault(), false);
     }
     return cachedPercentFormat;
   }
@@ -512,54 +474,49 @@ public class NumberFormat {
   /**
    * Provides the standard scientific format for the default locale.
    *
-   * @return a <code>NumberFormat</code> capable of producing and consuming
-   *         scientific format for the default locale
+   * @return a <code>NumberFormat</code> capable of producing and consuming scientific format for
+   *     the default locale
    */
   public static NumberFormat getScientificFormat() {
     if (cachedScientificFormat == null) {
-      cachedScientificFormat = new NumberFormat(
-          defaultNumberConstants.scientificPattern(),
-          CurrencyList.get().getDefault(), false);
+      cachedScientificFormat =
+          new NumberFormat(
+              defaultNumberConstants.scientificPattern(), CurrencyList.get().getDefault(), false);
     }
     return cachedScientificFormat;
   }
 
   /**
-   * Provides the simple currency format for the current locale using its
-   * default currency. Note that these formats may be ambiguous if the
-   * currency isn't clear from other content on the page.
+   * Provides the simple currency format for the current locale using its default currency. Note
+   * that these formats may be ambiguous if the currency isn't clear from other content on the page.
    *
-   * @return a <code>NumberFormat</code> capable of producing and consuming
-   *         currency format for the current locale
+   * @return a <code>NumberFormat</code> capable of producing and consuming currency format for the
+   *     current locale
    */
   public static NumberFormat getSimpleCurrencyFormat() {
     return getSimpleCurrencyFormat(CurrencyList.get().getDefault());
   }
 
   /**
-   * Provides the simple currency format for the current locale using a
-   * specified currency. Note that these formats may be ambiguous if the
-   * currency isn't clear from other content on the page.
+   * Provides the simple currency format for the current locale using a specified currency. Note
+   * that these formats may be ambiguous if the currency isn't clear from other content on the page.
    *
    * @param currencyData currency data to use
-   * @return a <code>NumberFormat</code> capable of producing and consuming
-   *         currency format for the current locale
+   * @return a <code>NumberFormat</code> capable of producing and consuming currency format for the
+   *     current locale
    */
   public static NumberFormat getSimpleCurrencyFormat(CurrencyData currencyData) {
-    return new NumberFormat(defaultNumberConstants.simpleCurrencyPattern(),
-        currencyData, false);
+    return new NumberFormat(defaultNumberConstants.simpleCurrencyPattern(), currencyData, false);
   }
 
   /**
-   * Provides the simple currency format for the current locale using a
-   * specified currency. Note that these formats may be ambiguous if the
-   * currency isn't clear from other content on the page.
-   * 
-   * @param currencyCode valid currency code, as defined in
-   *        org.gwtproject.i18n.client
-   *        .constants.CurrencyCodeMapConstants.properties
-   * @return a <code>NumberFormat</code> capable of producing and consuming
-   *         currency format for the current locale
+   * Provides the simple currency format for the current locale using a specified currency. Note
+   * that these formats may be ambiguous if the currency isn't clear from other content on the page.
+   *
+   * @param currencyCode valid currency code, as defined in org.gwtproject.i18n.client
+   *     .constants.CurrencyCodeMapConstants.properties
+   * @return a <code>NumberFormat</code> capable of producing and consuming currency format for the
+   *     current locale
    * @throws IllegalArgumentException if the currency code is unknown
    */
   public static NumberFormat getSimpleCurrencyFormat(String currencyCode) {
@@ -567,11 +524,11 @@ public class NumberFormat {
   }
 
   /**
-   * Specify whether all new NumberFormat instances will use latin digits
-   * and related characters rather than the localized ones.
+   * Specify whether all new NumberFormat instances will use latin digits and related characters
+   * rather than the localized ones.
    *
-   * @param useLatinDigits true if latin digits/etc should be used, false if
-   *    localized digits/etc should be used.
+   * @param useLatinDigits true if latin digits/etc should be used, false if localized digits/etc
+   *     should be used.
    */
   public static void setForcedLatinDigits(boolean useLatinDigits) {
     // Invalidate cached formats if changing
@@ -583,8 +540,7 @@ public class NumberFormat {
     }
     if (useLatinDigits) {
       if (latinNumberConstants == null) {
-        latinNumberConstants = createLatinNumberConstants(
-            localizedNumberConstants);
+        latinNumberConstants = createLatinNumberConstants(localizedNumberConstants);
       }
       defaultNumberConstants = latinNumberConstants;
     } else {
@@ -598,16 +554,11 @@ public class NumberFormat {
    * @param orig localized NumberConstants instance
    * @return NumberConstants instance using latin digits/etc
    */
-  protected static NumberConstants createLatinNumberConstants(
-      final NumberConstants orig) {
-    final String groupingSeparator = remapSeparator(
-        orig.groupingSeparator());
-    final String decimalSeparator = remapSeparator(
-        orig.decimalSeparator());
-    final String monetaryGroupingSeparator = remapSeparator(
-        orig.monetaryGroupingSeparator());
-    final String monetarySeparator = remapSeparator(
-        orig.monetarySeparator());
+  protected static NumberConstants createLatinNumberConstants(final NumberConstants orig) {
+    final String groupingSeparator = remapSeparator(orig.groupingSeparator());
+    final String decimalSeparator = remapSeparator(orig.decimalSeparator());
+    final String monetaryGroupingSeparator = remapSeparator(orig.monetaryGroupingSeparator());
+    final String monetarySeparator = remapSeparator(orig.monetarySeparator());
     return new NumberConstants() {
       @Override
       public String currencyPattern() {
@@ -724,10 +675,9 @@ public class NumberFormat {
   }
 
   /**
-   * Appends a scaled string representation to a buffer, returning the scale
-   * (which is the number of places to the right of the end of the string the
-   * decimal point should be moved -- i.e., 3.5 would be added to the buffer
-   * as "35" and a returned scale of -1).
+   * Appends a scaled string representation to a buffer, returning the scale (which is the number of
+   * places to the right of the end of the string the decimal point should be moved -- i.e., 3.5
+   * would be added to the buffer as "35" and a returned scale of -1).
    *
    * @param buf
    * @param val
@@ -774,16 +724,18 @@ public class NumberFormat {
   private static CurrencyData lookupCurrency(String currencyCode) {
     CurrencyData currencyData = CurrencyList.get().lookup(currencyCode);
     if (currencyData == null) {
-      throw new IllegalArgumentException("Currency code " + currencyCode
-          + " is unkown in locale "
-          + LocaleInfo.getCurrentLocale().getLocaleName());
+      throw new IllegalArgumentException(
+          "Currency code "
+              + currencyCode
+              + " is unkown in locale "
+              + LocaleInfo.getCurrentLocale().getLocaleName());
     }
     return currencyData;
   }
 
   /**
-   * Convert a double to a string with {@code digits} precision.  The resulting
-   * string may still be in exponential notation.
+   * Convert a double to a string with {@code digits} precision. The resulting string may still be
+   * in exponential notation.
    *
    * @param d double value
    * @param digits number of digits of precision to include
@@ -793,38 +745,29 @@ public class NumberFormat {
     return Js.<JsNumber>cast(d).toPrecision(digits);
   }
 
-  /**
-   * Information about the currency being used.
-   */
+  /** Information about the currency being used. */
   private CurrencyData currencyData;
 
   /**
-   * Holds the current decimal position during one call to
-   * {@link #format(boolean, StringBuilder, int)}.
+   * Holds the current decimal position during one call to {@link #format(boolean, StringBuilder,
+   * int)}.
    */
   private transient int decimalPosition;
 
-  /**
-   * Forces the decimal separator to always appear in a formatted number.
-   */
+  /** Forces the decimal separator to always appear in a formatted number. */
   private boolean decimalSeparatorAlwaysShown = false;
 
   /**
-   * Holds the current digits length during one call to
-   * {@link #format(boolean, StringBuilder, int)}.
+   * Holds the current digits length during one call to {@link #format(boolean, StringBuilder,
+   * int)}.
    */
   private transient int digitsLength;
 
-  /**
-   * Holds the current exponent during one call to
-   * {@link #format(boolean, StringBuilder, int)}.
-   */
+  /** Holds the current exponent during one call to {@link #format(boolean, StringBuilder, int)}. */
   private transient int exponent;
-  /**
-   * The number of digits between grouping separators in the integer portion of
-   * a number.
-   */
+  /** The number of digits between grouping separators in the integer portion of a number. */
   private int groupingSize = 3;
+
   private boolean isCurrencyFormat = false;
   private int maximumFractionDigits = 3; // invariant, >= minFractionDigits.
 
@@ -859,17 +802,19 @@ public class NumberFormat {
   /**
    * Constructs a format object based on the specified settings.
    *
-   * @param numberConstants the locale-specific number constants to use for this
-   *          format -- **NOTE** subclasses passing their own instance here
-   *          should pay attention to {@link #forcedLatinDigits()} and remap
-   *          localized symbols using
-   *          {@link #createLatinNumberConstants(NumberConstants)}
+   * @param numberConstants the locale-specific number constants to use for this format -- **NOTE**
+   *     subclasses passing their own instance here should pay attention to {@link
+   *     #forcedLatinDigits()} and remap localized symbols using {@link
+   *     #createLatinNumberConstants(NumberConstants)}
    * @param pattern pattern that specify how number should be formatted
    * @param cdata currency data that should be used
    * @param userSuppliedPattern true if the pattern was supplied by the user
    */
-  protected NumberFormat(NumberConstants numberConstants, String pattern, CurrencyData cdata,
-                         boolean userSuppliedPattern) {
+  protected NumberFormat(
+      NumberConstants numberConstants,
+      String pattern,
+      CurrencyData cdata,
+      boolean userSuppliedPattern) {
     if (cdata == null) {
       throw new IllegalArgumentException("Unknown currency code");
     }
@@ -886,8 +831,7 @@ public class NumberFormat {
   }
 
   /**
-   * Constructs a format object for the default locale based on the specified
-   * settings.
+   * Constructs a format object for the default locale based on the specified settings.
    *
    * @param pattern pattern that specify how number should be formatted
    * @param cdata currency data that should be used
@@ -907,8 +851,7 @@ public class NumberFormat {
     if (Double.isNaN(number)) {
       return numberConstants.notANumber();
     }
-    boolean isNegative = ((number < 0.0)
-        || (number == 0.0 && 1 / number < 0.0));
+    boolean isNegative = ((number < 0.0) || (number == 0.0 && 1 / number < 0.0));
     if (isNegative) {
       number = -number;
     }
@@ -925,8 +868,7 @@ public class NumberFormat {
     // pre-round value to deal with .15 being represented as .149999... etc
     // check at 3 more digits than will be required in the output
     int preRound = buf.length() + scale + maximumFractionDigits + 3;
-    if (preRound > 0 && preRound < buf.length()
-        && buf.charAt(preRound) == '9') {
+    if (preRound > 0 && preRound < buf.length() && buf.charAt(preRound) == '9') {
       propagateCarry(buf, preRound - 1);
       scale += buf.length() - preRound;
       buf.delete(preRound, buf.length());
@@ -938,9 +880,9 @@ public class NumberFormat {
 
   /**
    * This method formats a Number to produce a string.
-   * <p>
-   * Any {@link Number} which is not a {@link BigDecimal}, {@link BigInteger},
-   * or {@link Long} instance is formatted as a {@code double} value.
+   *
+   * <p>Any {@link Number} which is not a {@link BigDecimal}, {@link BigInteger}, or {@link Long}
+   * instance is formatted as a {@code double} value.
    *
    * @param number The Number instance to format
    * @return the formatted number string
@@ -975,19 +917,15 @@ public class NumberFormat {
     }
   }
 
-  /**
-   * Returns the pattern used by this number format.
-   */
+  /** Returns the pattern used by this number format. */
   public String getPattern() {
     return pattern;
   }
 
   /**
-   * Change the number of fractional digits used for formatting with this
-   * instance.
-   * 
-   * @param digits the exact number of fractional digits for formatted
-   *     values; must be >= 0
+   * Change the number of fractional digits used for formatting with this instance.
+   *
+   * @param digits the exact number of fractional digits for formatted values; must be >= 0
    * @return {@code this}, for chaining purposes
    */
   public NumberFormat overrideFractionDigits(int digits) {
@@ -995,14 +933,12 @@ public class NumberFormat {
   }
 
   /**
-   * Change the number of fractional digits used for formatting with this
-   * instance. Digits after {@code minDigits} that are zero will be omitted from
-   * the formatted value.
-   * 
-   * @param minDigits the minimum number of fractional digits for formatted
-   *     values; must be >= 0
-   * @param maxDigits the maximum number of fractional digits for formatted
-   *     values; must be >= {@code minDigits}
+   * Change the number of fractional digits used for formatting with this instance. Digits after
+   * {@code minDigits} that are zero will be omitted from the formatted value.
+   *
+   * @param minDigits the minimum number of fractional digits for formatted values; must be >= 0
+   * @param maxDigits the maximum number of fractional digits for formatted values; must be >=
+   *     {@code minDigits}
    * @return {@code this}, for chaining purposes
    */
   public NumberFormat overrideFractionDigits(int minDigits, int maxDigits) {
@@ -1014,14 +950,12 @@ public class NumberFormat {
   }
 
   /**
-   * Parses text to produce a numeric value. A {@link NumberFormatException} is
-   * thrown if either the text is empty or if the parse does not consume all
-   * characters of the text.
+   * Parses text to produce a numeric value. A {@link NumberFormatException} is thrown if either the
+   * text is empty or if the parse does not consume all characters of the text.
    *
    * @param text the string being parsed
    * @return a double value representing the parsed number
-   * @throws NumberFormatException if the entire text could not be converted
-   *     into a double
+   * @throws NumberFormatException if the entire text could not be converted into a double
    */
   public double parse(String text) throws NumberFormatException {
     int[] pos = {0};
@@ -1035,21 +969,17 @@ public class NumberFormat {
   /**
    * Parses text to produce a numeric value.
    *
-   * <p>
-   * The method attempts to parse text starting at the index given by pos. If
-   * parsing succeeds, then the index of <code>pos</code> is updated to the
-   * index after the last character used (parsing does not necessarily use all
-   * characters up to the end of the string), and the parsed number is returned.
-   * The updated <code>pos</code> can be used to indicate the starting point
-   * for the next call to this method. If an error occurs, then the index of
-   * <code>pos</code> is not changed.
-   * </p>
+   * <p>The method attempts to parse text starting at the index given by pos. If parsing succeeds,
+   * then the index of <code>pos</code> is updated to the index after the last character used
+   * (parsing does not necessarily use all characters up to the end of the string), and the parsed
+   * number is returned. The updated <code>pos</code> can be used to indicate the starting point for
+   * the next call to this method. If an error occurs, then the index of <code>pos</code> is not
+   * changed.
    *
    * @param text the string to be parsed
    * @param inOutPos position to pass in and get back
    * @return a double value representing the parsed number
-   * @throws NumberFormatException if the text segment could not be converted
-   *     into a double
+   * @throws NumberFormatException if the text segment could not be converted into a double
    */
   public double parse(String text, int[] inOutPos) throws NumberFormatException {
     double ret = 0.0;
@@ -1078,20 +1008,17 @@ public class NumberFormat {
         gotNegative = false;
       }
     } else if (!gotPositive && !gotNegative) {
-      throw new NumberFormatException(text
-          + " does not have either positive or negative affixes");
+      throw new NumberFormatException(text + " does not have either positive or negative affixes");
     }
 
     // Contains just the value to parse, stripping any prefix or suffix
     String valueOnly = null;
     if (gotPositive) {
       inOutPos[0] += positivePrefix.length();
-      valueOnly = text.substring(inOutPos[0],
-          text.length() - positiveSuffix.length());
+      valueOnly = text.substring(inOutPos[0], text.length() - positiveSuffix.length());
     } else {
       inOutPos[0] += negativePrefix.length();
-      valueOnly = text.substring(inOutPos[0],
-          text.length() - negativeSuffix.length());
+      valueOnly = text.substring(inOutPos[0], text.length() - negativeSuffix.length());
     }
 
     // Process digits or special values, and find decimal position.
@@ -1122,27 +1049,26 @@ public class NumberFormat {
   }
 
   /**
-   * Format a number with its significant digits already represented in string
-   * form.  This is done so both double and BigInteger/Decimal formatting can
-   * share code without requiring all users to pay the code size penalty for
-   * BigDecimal/etc.
-   * <p>
-   * Example values passed in:
+   * Format a number with its significant digits already represented in string form. This is done so
+   * both double and BigInteger/Decimal formatting can share code without requiring all users to pay
+   * the code size penalty for BigDecimal/etc.
+   *
+   * <p>Example values passed in:
+   *
    * <ul>
-   * <li>-13e2
-   * <br>{@code isNegative=true, digits="13", scale=2}
-   * <li>3.14158
-   * <br>{@code isNegative=false, digits="314158", scale=-5}
-   * <li>.0001
-   * <br>{@code isNegative=false, digits="1" ("0001" would be ok), scale=-4}
+   *   <li>-13e2 <br>
+   *       {@code isNegative=true, digits="13", scale=2}
+   *   <li>3.14158 <br>
+   *       {@code isNegative=false, digits="314158", scale=-5}
+   *   <li>.0001 <br>
+   *       {@code isNegative=false, digits="1" ("0001" would be ok), scale=-4}
    * </ul>
    *
    * @param isNegative true if the value to be formatted is negative
-   * @param digits a StringBuilder containing just the significant digits in
-   *     the value to be formatted, the formatted result will be left here
-   * @param scale the number of places to the right the decimal point should
-   *     be moved in the digit string -- negative means the value contains
-   *     fractional digits
+   * @param digits a StringBuilder containing just the significant digits in the value to be
+   *     formatted, the formatted result will be left here
+   * @param scale the number of places to the right the decimal point should be moved in the digit
+   *     string -- negative means the value contains fractional digits
    */
   protected void format(boolean isNegative, StringBuilder digits, int scale) {
     char decimalSeparator;
@@ -1191,54 +1117,42 @@ public class NumberFormat {
   }
 
   /**
-   * Parses text to produce a numeric value. A {@link NumberFormatException} is
-   * thrown if either the text is empty or if the parse does not consume all
-   * characters of the text.
+   * Parses text to produce a numeric value. A {@link NumberFormatException} is thrown if either the
+   * text is empty or if the parse does not consume all characters of the text.
    *
-   * param text the string to be parsed
-   * return a parsed number value, which may be a Double, BigInteger, or
-   *     BigDecimal
-   * throws NumberFormatException if the text segment could not be converted
-   *     into a number
+   * <p>param text the string to be parsed return a parsed number value, which may be a Double,
+   * BigInteger, or BigDecimal throws NumberFormatException if the text segment could not be
+   * converted into a number
    */
-//  public Number parseBig(String text) throws NumberFormatException {
-//    // TODO(jat): implement
-//    return Double.valueOf(parse(text));
-//  }
+  //  public Number parseBig(String text) throws NumberFormatException {
+  //    // TODO(jat): implement
+  //    return Double.valueOf(parse(text));
+  //  }
 
   /**
    * Parses text to produce a numeric value.
    *
-   * <p>
-   * The method attempts to parse text starting at the index given by pos. If
-   * parsing succeeds, then the index of <code>pos</code> is updated to the
-   * index after the last character used (parsing does not necessarily use all
-   * characters up to the end of the string), and the parsed number is returned.
-   * The updated <code>pos</code> can be used to indicate the starting point
-   * for the next call to this method. If an error occurs, then the index of
-   * <code>pos</code> is not changed.
-   * </p>
-   *
-   * param text the string to be parsed
-   * pparam inOutPos position to pass in and get back
-   * return a parsed number value, which may be a Double, BigInteger, or
-   *     BigDecimal
-   * throws NumberFormatException if the text segment could not be converted
-   *     into a number
+   * <p>The method attempts to parse text starting at the index given by pos. If parsing succeeds,
+   * then the index of <code>pos</code> is updated to the index after the last character used
+   * (parsing does not necessarily use all characters up to the end of the string), and the parsed
+   * number is returned. The updated <code>pos</code> can be used to indicate the starting point for
+   * the next call to this method. If an error occurs, then the index of <code>pos</code> is not
+   * changed. param text the string to be parsed pparam inOutPos position to pass in and get back
+   * return a parsed number value, which may be a Double, BigInteger, or BigDecimal throws
+   * NumberFormatException if the text segment could not be converted into a number
    */
-//  public Number parseBig(String text, int[] inOutPos)
-//      throws NumberFormatException {
-//    // TODO(jat): implement
-//    return Double.valueOf(parse(text, inOutPos));
-//  }
+  //  public Number parseBig(String text, int[] inOutPos)
+  //      throws NumberFormatException {
+  //    // TODO(jat): implement
+  //    return Double.valueOf(parse(text, inOutPos));
+  //  }
 
   /**
    * Format a possibly scaled long value.
    *
    * @param value value to format
-   * @param scale the number of places to the right the decimal point should
-   *     be moved in the digit string -- negative means the value contains
-   *     fractional digits
+   * @param scale the number of places to the right the decimal point should be moved in the digit
+   *     string -- negative means the value contains fractional digits
    * @return formatted value
    */
   protected String format(long value, int scale) {
@@ -1254,51 +1168,38 @@ public class NumberFormat {
   }
 
   /**
-   * Returns the number of digits between grouping separators in the integer
-   * portion of a number.
+   * Returns the number of digits between grouping separators in the integer portion of a number.
    */
   protected int getGroupingSize() {
     return groupingSize;
   }
 
-  /**
-   * Returns the prefix to use for negative values.
-   */
+  /** Returns the prefix to use for negative values. */
   protected String getNegativePrefix() {
     return negativePrefix;
   }
 
-  /**
-   * Returns the suffix to use for negative values.
-   */
+  /** Returns the suffix to use for negative values. */
   protected String getNegativeSuffix() {
     return negativeSuffix;
   }
 
-  /**
-   * Returns the NumberConstants instance for this formatter.
-   */
+  /** Returns the NumberConstants instance for this formatter. */
   protected NumberConstants getNumberConstants() {
     return numberConstants;
   }
 
-  /**
-   * Returns the prefix to use for positive values.
-   */
+  /** Returns the prefix to use for positive values. */
   protected String getPositivePrefix() {
     return positivePrefix;
   }
 
-  /**
-   * Returns the suffix to use for positive values.
-   */
+  /** Returns the suffix to use for positive values. */
   protected String getPositiveSuffix() {
     return positiveSuffix;
   }
 
-  /**
-   * Returns true if the decimal separator should always be shown.
-   */
+  /** Returns true if the decimal separator should always be shown. */
   protected boolean isDecimalSeparatorAlwaysShown() {
     return decimalSeparatorAlwaysShown;
   }
@@ -1339,8 +1240,8 @@ public class NumberFormat {
   }
 
   /**
-   * Adjust the fraction digits, adding trailing zeroes if necessary or removing
-   * excess trailing zeroes.
+   * Adjust the fraction digits, adding trailing zeroes if necessary or removing excess trailing
+   * zeroes.
    *
    * @param digits
    */
@@ -1359,8 +1260,7 @@ public class NumberFormat {
       if (toRemove > digitsLength) {
         toRemove = digitsLength;
       }
-      while (toRemove > requiredDigits
-          && digits.charAt(toRemove - 1) == '0') {
+      while (toRemove > requiredDigits && digits.charAt(toRemove - 1) == '0') {
         --toRemove;
       }
       if (toRemove < digitsLength) {
@@ -1371,8 +1271,7 @@ public class NumberFormat {
   }
 
   /**
-   * Compute the exponent to use and adjust decimal position if we are using
-   * exponential notation.
+   * Compute the exponent to use and adjust decimal position if we are using exponential notation.
    *
    * @param digits
    */
@@ -1389,8 +1288,7 @@ public class NumberFormat {
     }
 
     // decimal should wind up between minimum & maximumIntegerDigits
-    if (maximumIntegerDigits > minimumIntegerDigits
-        && maximumIntegerDigits > 0) {
+    if (maximumIntegerDigits > minimumIntegerDigits && maximumIntegerDigits > 0) {
       // in this case, the exponent should be a multiple of
       // maximumIntegerDigits and 1 <= decimal <= maximumIntegerDigits
       exponent += decimalPosition - 1;
@@ -1413,8 +1311,8 @@ public class NumberFormat {
   }
 
   /**
-   * This method return the digit that represented by current character, it
-   * could be either '0' to '9', or a locale specific digit.
+   * This method return the digit that represented by current character, it could be either '0' to
+   * '9', or a locale specific digit.
    *
    * @param ch character that represents a digit
    * @return the digit value
@@ -1435,8 +1333,7 @@ public class NumberFormat {
    * @param groupingSeparator
    * @param g
    */
-  private void insertGroupingSeparators(StringBuilder digits,
-      char groupingSeparator, int g) {
+  private void insertGroupingSeparators(StringBuilder digits, char groupingSeparator, int g) {
     if (g > 0) {
       for (int i = g; i < decimalPosition; i += g + 1) {
         digits.insert(decimalPosition - i, groupingSeparator);
@@ -1450,8 +1347,7 @@ public class NumberFormat {
    * Replace locale-independent digits with locale-specific ones.
    *
    * @param digits StringBuilder containing formatted number
-   * @param zero locale-specific zero character -- the rest of the digits must
-   *     be consecutive
+   * @param zero locale-specific zero character -- the rest of the digits must be consecutive
    */
   private void localizeDigits(StringBuilder digits, char zero) {
     // don't use digitsLength since we may have added an exponent
@@ -1470,12 +1366,12 @@ public class NumberFormat {
    * @param pattern pattern string that need to be parsed
    * @param start start position to parse
    * @param affix store the parsed result
-   * @param inNegativePattern true if we are parsing the negative pattern and
-   *     therefore only care about the prefix and suffix
+   * @param inNegativePattern true if we are parsing the negative pattern and therefore only care
+   *     about the prefix and suffix
    * @return how many characters parsed
    */
-  private int parseAffix(String pattern, int start, StringBuilder affix,
-      boolean inNegativePattern) {
+  private int parseAffix(
+      String pattern, int start, StringBuilder affix, boolean inNegativePattern) {
     affix.delete(0, affix.length());
     boolean inQuote = false;
     int len = pattern.length();
@@ -1506,7 +1402,8 @@ public class NumberFormat {
             isCurrencyFormat = true;
             if ((pos + 1) < len && pattern.charAt(pos + 1) == CURRENCY_SIGN) {
               ++pos;
-              if (pos < len - 2 && pattern.charAt(pos + 1) == CURRENCY_SIGN
+              if (pos < len - 2
+                  && pattern.charAt(pos + 1) == CURRENCY_SIGN
                   && pattern.charAt(pos + 2) == CURRENCY_SIGN) {
                 pos += 2;
                 affix.append(currencyData.getSimpleCurrencySymbol());
@@ -1521,8 +1418,7 @@ public class NumberFormat {
             if (!inNegativePattern) {
               if (multiplier != 1) {
                 throw new IllegalArgumentException(
-                    "Too many percent/per mille characters in pattern \""
-                    + pattern + '"');
+                    "Too many percent/per mille characters in pattern \"" + pattern + '"');
               }
               multiplier = 100;
             }
@@ -1532,8 +1428,7 @@ public class NumberFormat {
             if (!inNegativePattern) {
               if (multiplier != 1) {
                 throw new IllegalArgumentException(
-                    "Too many percent/per mille characters in pattern \""
-                    + pattern + '"');
+                    "Too many percent/per mille characters in pattern \"" + pattern + '"');
               }
               multiplier = 1000;
             }
@@ -1551,12 +1446,11 @@ public class NumberFormat {
   }
 
   /**
-   * This function parses a "localized" text into a <code>double</code>. It
-   * needs to handle locale specific decimal, grouping, exponent and digit.
+   * This function parses a "localized" text into a <code>double</code>. It needs to handle locale
+   * specific decimal, grouping, exponent and digit.
    *
    * @param text the text that need to be parsed
-   * @param pos in/out parsing position. in case of failure, this shouldn't be
-   *          changed
+   * @param pos in/out parsing position. in case of failure, this shouldn't be changed
    * @return double value, could be 0.0 if nothing can be parsed
    */
   private double parseNumber(String text, int[] pos) {
@@ -1565,11 +1459,12 @@ public class NumberFormat {
     boolean sawExponent = false;
     boolean sawDigit = false;
     int scale = 1;
-    String decimal = isCurrencyFormat ? numberConstants.monetarySeparator()
-        : numberConstants.decimalSeparator();
-    String grouping = isCurrencyFormat
-        ? numberConstants.monetaryGroupingSeparator()
-        : numberConstants.groupingSeparator();
+    String decimal =
+        isCurrencyFormat ? numberConstants.monetarySeparator() : numberConstants.decimalSeparator();
+    String grouping =
+        isCurrencyFormat
+            ? numberConstants.monetaryGroupingSeparator()
+            : numberConstants.groupingSeparator();
     String exponentChar = numberConstants.exponentialSymbol();
 
     StringBuilder normalizedText = new StringBuilder();
@@ -1665,8 +1560,8 @@ public class NumberFormat {
    *
    * @param pattern pattern string that need to be parsed
    * @param start where parse started
-   * @param ignorePattern true if we are only parsing this for length
-   *     and correctness, such as in the negative portion of the pattern
+   * @param ignorePattern true if we are only parsing this for length and correctness, such as in
+   *     the negative portion of the pattern
    * @return how many characters parsed
    */
   private int parseTrunk(String pattern, int start, boolean ignorePattern) {
@@ -1692,8 +1587,7 @@ public class NumberFormat {
           break;
         case PATTERN_ZERO_DIGIT:
           if (digitRightCount > 0) {
-            throw new IllegalArgumentException("Unexpected '0' in pattern \""
-                + pattern + '"');
+            throw new IllegalArgumentException("Unexpected '0' in pattern \"" + pattern + '"');
           }
           ++zeroDigitCount;
           if (groupingCount >= 0 && decimalPos < 0) {
@@ -1713,8 +1607,8 @@ public class NumberFormat {
         case PATTERN_EXPONENT:
           if (!ignorePattern) {
             if (useExponentialNotation) {
-              throw new IllegalArgumentException("Multiple exponential "
-                  + "symbols in pattern \"" + pattern + '"');
+              throw new IllegalArgumentException(
+                  "Multiple exponential " + "symbols in pattern \"" + pattern + '"');
             }
             useExponentialNotation = true;
             minExponentDigits = 0;
@@ -1722,18 +1616,16 @@ public class NumberFormat {
 
           // Use lookahead to parse out the exponential part
           // of the pattern, then jump into phase 2.
-          while ((pos + 1) < len
-              && pattern.charAt(pos + 1) == PATTERN_ZERO_DIGIT) {
+          while ((pos + 1) < len && pattern.charAt(pos + 1) == PATTERN_ZERO_DIGIT) {
             ++pos;
             if (!ignorePattern) {
               ++minExponentDigits;
             }
           }
 
-          if (!ignorePattern && (digitLeftCount + zeroDigitCount) < 1
-              || minExponentDigits < 1) {
-            throw new IllegalArgumentException("Malformed exponential "
-                + "pattern \"" + pattern + '"');
+          if (!ignorePattern && (digitLeftCount + zeroDigitCount) < 1 || minExponentDigits < 1) {
+            throw new IllegalArgumentException(
+                "Malformed exponential " + "pattern \"" + pattern + '"');
           }
           loop = false;
           break;
@@ -1757,7 +1649,8 @@ public class NumberFormat {
 
     // Do syntax checking on the digits.
     if ((decimalPos < 0 && digitRightCount > 0)
-        || (decimalPos >= 0 && (decimalPos < digitLeftCount || decimalPos > (digitLeftCount + zeroDigitCount)))
+        || (decimalPos >= 0
+            && (decimalPos < digitLeftCount || decimalPos > (digitLeftCount + zeroDigitCount)))
         || groupingCount == 0) {
       throw new IllegalArgumentException("Malformed pattern \"" + pattern + '"');
     }

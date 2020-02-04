@@ -13,14 +13,13 @@
 <!-- limitations under the License.                                         -->
 
 <module>
-	<!-- Inherit the JUnit support -->
-	<inherits name='com.google.gwt.junit.JUnit'/>
-	<inherits name="elemental2.core.Core"/>
-	<inherits name="elemental2.dom.Dom"/>
-<!--	<define-property name="locale" values="default" />-->
-	<inherits name="org.gwtproject.i18n.NumberFormat"/>
-	<!-- Include client-side source for the test cases -->
-	<source path="client"/>
-	<extend-property name="locale" values="ar"/>
-	<set-property name = "locale" value = "ar"/>
+    <!-- Inherit the JUnit support -->
+    <inherits name='com.google.gwt.junit.JUnit'/>
+    <inherits name="elemental2.core.Core"/>
+    <inherits name="elemental2.dom.Dom"/>
+    <inherits name="org.gwtproject.i18n.NumberFormat"/>
+    <!-- Include client-side source for the test cases -->
+    <source path="client"/>
+    <extend-property name="locale" values="ar"/>
+    <set-property name="locale" value="ar"/>
 </module>

@@ -1,39 +1,32 @@
 /*
- * Copyright 2006 Google Inc.
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- * 
- * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * Copyright © 2018 The GWT Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
-
 package org.gwtproject.i18n.client;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
-/**
- * GWT JUnit tests must extend GWTTestCase.
- */
+/** GWT JUnit tests must extend GWTTestCase. */
 public class NumberFormat_fr_Test extends GWTTestCase {
 
-  /**
-   * Must refer to a valid module that inherits from com.google.gwt.junit.JUnit.
-   */
+  /** Must refer to a valid module that inherits from com.google.gwt.junit.JUnit. */
   @Override
   public String getModuleName() {
     return "org.gwtproject.i18n.I18NTest_fr";
   }
 
-  /**
-   * Add as many tests as you like.
-   */
+  /** Add as many tests as you like. */
   public void testBasicFormat() {
     String str = NumberFormat.getFormat("0.0000").format(123.45789179565757f);
     assertEquals("123,4579", str);
@@ -42,29 +35,23 @@ public class NumberFormat_fr_Test extends GWTTestCase {
   public void testCurrency() {
     String str;
 
-    str = NumberFormat.getFormat("\u00a4#,##0.00;-\u00a4#,##0.00").format(
-        1234.56);
+    str = NumberFormat.getFormat("\u00a4#,##0.00;-\u00a4#,##0.00").format(1234.56);
     assertEquals("\u20AC1\u202F234,56", str);
-    str = NumberFormat.getFormat("\u00a4#,##0.00;-\u00a4#,##0.00").format(
-        -1234.56);
+    str = NumberFormat.getFormat("\u00a4#,##0.00;-\u00a4#,##0.00").format(-1234.56);
     assertEquals("-\u20AC1\u202F234,56", str);
 
-    str = NumberFormat.getFormat("\u00a4\u00a4 #,##0.00;-\u00a4\u00a4 #,##0.00").format(
-        1234.56);
+    str = NumberFormat.getFormat("\u00a4\u00a4 #,##0.00;-\u00a4\u00a4 #,##0.00").format(1234.56);
     assertEquals("EUR 1\u202F234,56", str);
-    str = NumberFormat.getFormat("\u00a4\u00a4 #,##0.00;\u00a4\u00a4 -#,##0.00").format(
-        -1234.56);
+    str = NumberFormat.getFormat("\u00a4\u00a4 #,##0.00;\u00a4\u00a4 -#,##0.00").format(-1234.56);
     assertEquals("EUR -1\u202F234,56", str);
 
-    NumberFormat formatter = NumberFormat.getFormat(
-        "\u00a4#,##0.00;-\u00a4#,##0.00", "BRL");
+    NumberFormat formatter = NumberFormat.getFormat("\u00a4#,##0.00;-\u00a4#,##0.00", "BRL");
     str = formatter.format(1234.56);
     assertEquals("R$1\u202F234,56", str);
     str = formatter.format(-1234.56);
     assertEquals("-R$1\u202F234,56", str);
 
-    formatter = NumberFormat.getFormat(
-        "\u00a4\u00a4 #,##0.00;(\u00a4\u00a4 #,##0.00)", "BRL");
+    formatter = NumberFormat.getFormat("\u00a4\u00a4 #,##0.00;(\u00a4\u00a4 #,##0.00)", "BRL");
     str = formatter.format(1234.56);
     assertEquals("BRL 1\u202F234,56", str);
     str = formatter.format(-1234.56);

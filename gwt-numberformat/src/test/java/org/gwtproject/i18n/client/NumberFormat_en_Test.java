@@ -1,34 +1,28 @@
 /*
- * Copyright 2008 Google Inc.
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- * 
- * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * Copyright © 2018 The GWT Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.gwtproject.i18n.client;
 
 import com.google.gwt.junit.client.GWTTestCase;
-import junit.framework.TestCase;
-
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-/**
- * Test {@link NumberFormat} in the {@code en} locale.
- */
+/** Test {@link NumberFormat} in the {@code en} locale. */
 public class NumberFormat_en_Test extends GWTTestCase {
 
-  /**
-   * Use a module which forces the Arabic locale.
-   */
+  /** Use a module which forces the Arabic locale. */
   @Override
   public String getModuleName() {
     return "org.gwtproject.i18n.I18NTest_en";
@@ -78,7 +72,7 @@ public class NumberFormat_en_Test extends GWTTestCase {
     decVal = new BigDecimal(".1499999999999999999999");
     str = NumberFormat.getFormat(".0").format(decVal);
     assertEquals(".1", str);
-}
+  }
 
   public void testBigInteger() {
     BigInteger intVal = new BigInteger("1000000000000000000000000");
@@ -93,29 +87,23 @@ public class NumberFormat_en_Test extends GWTTestCase {
   public void testCurrency() {
     String str;
 
-    str = NumberFormat.getFormat("\u00a4#,##0.00;-\u00a4#,##0.00").format(
-        1234.56);
+    str = NumberFormat.getFormat("\u00a4#,##0.00;-\u00a4#,##0.00").format(1234.56);
     assertEquals("$1,234.56", str);
-    str = NumberFormat.getFormat("\u00a4#,##0.00;-\u00a4#,##0.00").format(
-        -1234.56);
+    str = NumberFormat.getFormat("\u00a4#,##0.00;-\u00a4#,##0.00").format(-1234.56);
     assertEquals("-$1,234.56", str);
 
-    str = NumberFormat.getFormat("\u00a4\u00a4 #,##0.00;-\u00a4\u00a4 #,##0.00").format(
-        1234.56);
+    str = NumberFormat.getFormat("\u00a4\u00a4 #,##0.00;-\u00a4\u00a4 #,##0.00").format(1234.56);
     assertEquals("USD 1,234.56", str);
-    str = NumberFormat.getFormat("\u00a4\u00a4 #,##0.00;\u00a4\u00a4 -#,##0.00").format(
-        -1234.56);
+    str = NumberFormat.getFormat("\u00a4\u00a4 #,##0.00;\u00a4\u00a4 -#,##0.00").format(-1234.56);
     assertEquals("USD -1,234.56", str);
 
-    NumberFormat formatter = NumberFormat.getFormat(
-        "\u00a4#,##0.00;-\u00a4#,##0.00", "BRL");
+    NumberFormat formatter = NumberFormat.getFormat("\u00a4#,##0.00;-\u00a4#,##0.00", "BRL");
     str = formatter.format(1234.56);
     assertEquals("R$1,234.56", str);
     str = formatter.format(-1234.56);
     assertEquals("-R$1,234.56", str);
 
-    formatter = NumberFormat.getFormat(
-        "\u00a4\u00a4 #,##0.00;(\u00a4\u00a4 #,##0.00)", "BRL");
+    formatter = NumberFormat.getFormat("\u00a4\u00a4 #,##0.00;(\u00a4\u00a4 #,##0.00)", "BRL");
     str = formatter.format(1234.56);
     assertEquals("BRL 1,234.56", str);
     str = formatter.format(-1234.56);
@@ -335,8 +323,7 @@ public class NumberFormat_en_Test extends GWTTestCase {
 
   public void testLargeNumber() {
     // issue 4473
-    String str = NumberFormat.getFormat("0.00").format(
-        222222222222222222222222222222.0);
+    String str = NumberFormat.getFormat("0.00").format(222222222222222222222222222222.0);
     // we can't test the exact value, because different browsers round
     // differently, so we just check the prefix and that it isn't in exponential
     // format
