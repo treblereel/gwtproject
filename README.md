@@ -1,6 +1,6 @@
 ![GWT3/J2CL compatible](https://img.shields.io/badge/GWT3/J2CL-compatible-brightgreen.svg)
 
-# gwt-dom-style-defintions
+# gwt-dom-style-definitions
 A collection of CSS styles to use with GWT 2 and J2CL.
 
 ### Dependency
