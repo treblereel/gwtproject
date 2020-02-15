@@ -18,12 +18,6 @@
 /*.dic
 /*.mvn/
 
-/src/*/
-!/src/changes/
-!/src/main/
-!/src/site/
-!/src/test/
-
 **/TempTest.java
 /.idea/
 /threetenbp.iml
