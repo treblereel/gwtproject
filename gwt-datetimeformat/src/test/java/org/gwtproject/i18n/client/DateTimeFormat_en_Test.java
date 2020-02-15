@@ -1,24 +1,23 @@
 /*
- * Copyright 2008 Google Inc.
+ * Copyright © 2018 The GWT Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.gwtproject.i18n.client;
 
-// import org.gwtproject.i18n.client.constants.TimeZoneConstants;
 import java.util.Date;
-import org.gwtproject.i18n.client.impl.cldr.DateTimeFormatInfoImpl_de;
 import org.gwtproject.i18n.shared.DateTimeFormatTestBase;
+import org.gwtproject.i18n.shared.cldr.impl.DateTimeFormatInfoImpl_de;
 
 /**
  * Tests formatting functionality in {@link org.gwtproject.i18n.shared.DateTimeFormat} for the
@@ -28,7 +27,7 @@ import org.gwtproject.i18n.shared.DateTimeFormatTestBase;
 public class DateTimeFormat_en_Test extends DateTimeFormatTestBase {
 
   @Override
-  public void setUp() throws Exception {
+  protected void gwtSetUp() throws Exception {
     setLocale("en");
   }
 
@@ -57,38 +56,6 @@ public class DateTimeFormat_en_Test extends DateTimeFormatTestBase {
     Date date = new Date(2006 - 1900, 6, 27, 13, 10, 10);
     assertEquals("T", DateTimeFormat.getFormat("ccccc").format(date));
   }
-
-  //  public void test_daylightTimeTransition() {
-  //    // US PST transitioned to PDT on 2006/4/2 2:00am, jump to 2006/4/2 3:00am.
-  //    // That's UTC time 2006/4/2 10:00am
-  //
-  //    TimeZoneConstants timeZoneData = GWT.create(TimeZoneConstants.class);
-  //    String str = timeZoneData.americaLosAngeles();
-  //    TimeZone usPacific = TimeZone.createTimeZone(str);
-  //
-  //    Date date = new Date();
-  //    date.setTime(Date.UTC(2006 - 1900, 3, 2, 9, 59, 0));
-  //    assertEquals("04/02/2006 01:59:00 PST", DateTimeFormat.getFormat(
-  //        "MM/dd/yyyy HH:mm:ss z").format(date, usPacific));
-  //    date.setTime(Date.UTC(2006 - 1900, 3, 2, 10, 01, 0));
-  //    assertEquals("04/02/2006 03:01:00 PDT", DateTimeFormat.getFormat(
-  //        "MM/dd/yyyy HH:mm:ss z").format(date, usPacific));
-  //    date.setTime(Date.UTC(2006 - 1900, 3, 2, 10, 0, 0));
-  //    assertEquals("04/02/2006 03:00:00 PDT", DateTimeFormat.getFormat(
-  //        "MM/dd/yyyy HH:mm:ss z").format(date, usPacific));
-  //
-  //    // US PDT transition to PST on 2006/10/29 2:00am, jump back to PDT
-  //    // 2006/4/2 1:00am
-  //    date.setTime(Date.UTC(2006 - 1900, 10 - 1, 29, 8, 59, 0));
-  //    assertEquals("10/29/2006 01:59:00 PDT", DateTimeFormat.getFormat(
-  //        "MM/dd/yyyy HH:mm:ss z").format(date, usPacific));
-  //    date.setTime(Date.UTC(2006 - 1900, 10 - 1, 29, 9, 01, 0));
-  //    assertEquals("10/29/2006 01:01:00 PST", DateTimeFormat.getFormat(
-  //        "MM/dd/yyyy HH:mm:ss z").format(date, usPacific));
-  //    date.setTime(Date.UTC(2006 - 1900, 10 - 1, 29, 9, 0, 0));
-  //    assertEquals("10/29/2006 01:00:00 PST", DateTimeFormat.getFormat(
-  //        "MM/dd/yyyy HH:mm:ss z").format(date, usPacific));
-  //  }
 
   public void test_EEEEMMMddHHmmsszzzyy() {
     DateTimeFormat dtf = DateTimeFormat.getFormat("EEE MMM dd HH:mm:ss zzz yyyy");
@@ -153,53 +120,6 @@ public class DateTimeFormat_en_Test extends DateTimeFormatTestBase {
     Date date = new Date(2006 - 1900, 6, 27, 13, 10, 10);
     assertEquals("J", DateTimeFormat.getFormat("LLLLL").format(date));
   }
-
-  //  public void test_predefinedFormat() {
-  //    Date date = new Date(2006 - 1900, 7, 4, 13, 49, 24);
-  //
-  //    TimeZoneConstants timeZoneData = GWT.create(TimeZoneConstants.class);
-  //    String str = timeZoneData.americaLosAngeles();
-  //    TimeZone usPacific = TimeZone.createTimeZone(TimeZoneInfo.buildTimeZoneData(str));
-  //
-  //    String fullDateFormat = DateTimeFormat.getFullDateFormat().format(date);
-  //    assertEquals("Friday, August 4, 2006", fullDateFormat);
-  //
-  //    String longDateFormat = DateTimeFormat.getLongDateFormat().format(date);
-  //    assertEquals("August 4, 2006", longDateFormat);
-  //
-  //    String medDateFormat = DateTimeFormat.getMediumDateFormat().format(date);
-  //    assertEquals("Aug 4, 2006", medDateFormat);
-  //
-  //    String shortDateFormat = DateTimeFormat.getShortDateFormat().format(date);
-  //    assertEquals("8/4/06", shortDateFormat);
-  //
-  //    // When dealing with time zone, better use UTC time.
-  //    // And when UTC time is used, time zone must be given in "format".
-  //    date.setTime(Date.UTC(2006 - 1900, 7, 4, 20, 49, 24));
-  //    String fullTimeFormat = DateTimeFormat.getFullTimeFormat().format(date,
-  //        usPacific);
-  //    assertEquals("1:49:24 PM Pacific Daylight Time", fullTimeFormat);
-  //
-  //    String longTimeFormat = DateTimeFormat.getLongTimeFormat().format(date,
-  //        usPacific);
-  //    assertEquals("1:49:24 PM PDT", longTimeFormat);
-  //
-  //    String medTimeFormat = DateTimeFormat.getMediumTimeFormat().format(date,
-  //        usPacific);
-  //    assertEquals("1:49:24 PM", medTimeFormat);
-  //
-  //    String shortTimeFormat = DateTimeFormat.getShortTimeFormat().format(date,
-  //        usPacific);
-  //    assertEquals("1:49 PM", shortTimeFormat);
-  //
-  //    String medFormat = DateTimeFormat.getMediumDateTimeFormat().format(date,
-  //        usPacific);
-  //    assertEquals("Aug 4, 2006, 1:49:24 PM", medFormat);
-  //
-  //    String shortFormat = DateTimeFormat.getShortDateTimeFormat().format(date,
-  //        usPacific);
-  //    assertEquals("8/4/06, 1:49 PM", shortFormat);
-  //  }
 
   public void test_QQQQyy() {
     Date date;

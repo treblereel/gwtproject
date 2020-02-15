@@ -21,7 +21,6 @@
         <dependency>
             <groupId>org.gwtproject.i18n</groupId>
             <artifactId>gwt-i18n</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.squareup</groupId>
@@ -42,7 +41,7 @@
         <dependency>
             <groupId>org.gwtproject.i18n</groupId>
             <artifactId>gwt-i18n-processor-util</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>

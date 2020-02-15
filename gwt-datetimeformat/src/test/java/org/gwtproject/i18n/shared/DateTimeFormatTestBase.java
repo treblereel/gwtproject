@@ -1,28 +1,33 @@
 /*
- * Copyright 2010 Google Inc.
+ * Copyright © 2018 The GWT Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.gwtproject.i18n.shared;
 
+import com.google.gwt.junit.client.GWTTestCase;
 import java.util.Date;
-import junit.framework.TestCase;
 import org.gwtproject.i18n.shared.DateTimeFormat.PredefinedFormat;
 
 // import org.gwtproject.i18n.client.Messages;
 
 /** Base class for date/time format tests. */
-public abstract class DateTimeFormatTestBase extends TestCase {
+public abstract class DateTimeFormatTestBase extends GWTTestCase {
+
+  @Override
+  public String getModuleName() {
+    return "org.gwtproject.i18n.DateTimeFormat";
+  }
 
   /** The timezone used by any tests which use a fixed timezone. */
   protected static final TimeZone TEST_TIMEZONE =

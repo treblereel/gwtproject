@@ -69,3 +69,4 @@ local.properties
 .DS_Store
 
 **/gwt-unitCache/**
+**/war/*

@@ -67,12 +67,11 @@
         <dependency>
             <groupId>org.gwtproject.i18n</groupId>
             <artifactId>gwt-i18n-processor-util</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.gwtproject.i18n</groupId>
             <artifactId>gwt-datetimeformat</artifactId>
-            <version>${project.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.assertj/assertj-core -->
