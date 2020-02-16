@@ -55,7 +55,6 @@ import java.time.ZoneOffset;
 import java.time.chrono.ChronoLocalDate;
 import java.time.chrono.Chronology;
 import java.time.format.SimpleDateTimeTextProvider.LocaleStore;
-import java.time.jdk8.Jdk8Methods;
 import java.time.temporal.ChronoField;
 import java.time.temporal.IsoFields;
 import java.time.temporal.TemporalAccessor;
@@ -81,7 +80,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TimeZone;
 import java.util.TreeMap;
-
+import java.util.Objects;
 /**
  * Builder to create date-time formatters.
  * <p>
@@ -165,8 +164,8 @@ public final class DateTimeFormatterBuilder {
      */
     public static String getLocalizedDateTimePattern(
                     FormatStyle dateStyle, FormatStyle timeStyle, Chronology chrono, Locale locale) {
-        Jdk8Methods.requireNonNull(locale, "locale");
-        Jdk8Methods.requireNonNull(chrono, "chrono");
+        Objects.requireNonNull(locale, "locale");
+        Objects.requireNonNull(chrono, "chrono");
         if (dateStyle == null && timeStyle == null) {
             throw new IllegalArgumentException("Either dateStyle or timeStyle must be non-null");
         }
@@ -319,7 +318,7 @@ public final class DateTimeFormatterBuilder {
      * @return this, for chaining, not null
      */
     public DateTimeFormatterBuilder parseDefaulting(TemporalField field, long value) {
-        Jdk8Methods.requireNonNull(field, "field");
+    	Objects.requireNonNull(field, "field");
         appendInternal(new DefaultingParser(field, value));
         return this;
     }
@@ -344,7 +343,7 @@ public final class DateTimeFormatterBuilder {
      * @return this, for chaining, not null
      */
     public DateTimeFormatterBuilder appendValue(TemporalField field) {
-        Jdk8Methods.requireNonNull(field, "field");
+    	Objects.requireNonNull(field, "field");
         appendValue(new NumberPrinterParser(field, 1, 19, SignStyle.NORMAL));
         return this;
     }
@@ -398,7 +397,7 @@ public final class DateTimeFormatterBuilder {
      * @throws IllegalArgumentException if the width is invalid
      */
     public DateTimeFormatterBuilder appendValue(TemporalField field, int width) {
-        Jdk8Methods.requireNonNull(field, "field");
+        Objects.requireNonNull(field, "field");
         if (width < 1 || width > 19) {
             throw new IllegalArgumentException("The width must be from 1 to 19 inclusive but was " + width);
         }
@@ -441,8 +440,8 @@ public final class DateTimeFormatterBuilder {
         if (minWidth == maxWidth && signStyle == SignStyle.NOT_NEGATIVE) {
             return appendValue(field, maxWidth);
         }
-        Jdk8Methods.requireNonNull(field, "field");
-        Jdk8Methods.requireNonNull(signStyle, "signStyle");
+        Objects.requireNonNull(field, "field");
+        Objects.requireNonNull(signStyle, "signStyle");
         if (minWidth < 1 || minWidth > 19) {
             throw new IllegalArgumentException("The minimum width must be from 1 to 19 inclusive but was " + minWidth);
         }
@@ -499,7 +498,7 @@ public final class DateTimeFormatterBuilder {
      */
     public DateTimeFormatterBuilder appendValueReduced(TemporalField field,
             int width, int maxWidth, int baseValue) {
-        Jdk8Methods.requireNonNull(field, "field");
+        Objects.requireNonNull(field, "field");
         ReducedPrinterParser pp = new ReducedPrinterParser(field, width, maxWidth, baseValue, null);
         appendValue(pp);
         return this;
@@ -559,8 +558,8 @@ public final class DateTimeFormatterBuilder {
      */
     public DateTimeFormatterBuilder appendValueReduced(
             TemporalField field, int width, int maxWidth, ChronoLocalDate baseDate) {
-        Jdk8Methods.requireNonNull(field, "field");
-        Jdk8Methods.requireNonNull(baseDate, "baseDate");
+        Objects.requireNonNull(field, "field");
+        Objects.requireNonNull(baseDate, "baseDate");
         ReducedPrinterParser pp = new ReducedPrinterParser(field, width, maxWidth, 0, baseDate);
         appendValue(pp);
         return this;
@@ -677,8 +676,8 @@ public final class DateTimeFormatterBuilder {
      * @return this, for chaining, not null
      */
     public DateTimeFormatterBuilder appendText(TemporalField field, TextStyle textStyle) {
-        Jdk8Methods.requireNonNull(field, "field");
-        Jdk8Methods.requireNonNull(textStyle, "textStyle");
+        Objects.requireNonNull(field, "field");
+        Objects.requireNonNull(textStyle, "textStyle");
         appendInternal(new TextPrinterParser(field, textStyle, DateTimeTextProvider.getInstance()));
         return this;
     }
@@ -718,8 +717,8 @@ public final class DateTimeFormatterBuilder {
      * @return this, for chaining, not null
      */
     public DateTimeFormatterBuilder appendText(TemporalField field, Map<Long, String> textLookup) {
-        Jdk8Methods.requireNonNull(field, "field");
-        Jdk8Methods.requireNonNull(textLookup, "textLookup");
+        Objects.requireNonNull(field, "field");
+        Objects.requireNonNull(textLookup, "textLookup");
         Map<Long, String> copy = new LinkedHashMap<Long, String>(textLookup);
         Map<TextStyle, Map<Long, String>> map = Collections.singletonMap(TextStyle.FULL, copy);
         final LocaleStore store = new LocaleStore(map);
@@ -897,7 +896,7 @@ public final class DateTimeFormatterBuilder {
      * full} nor {@link TextStyle#SHORT short}
      */
     public DateTimeFormatterBuilder appendLocalizedOffset(TextStyle style) {
-        Jdk8Methods.requireNonNull(style, "style");
+        Objects.requireNonNull(style, "style");
         if (style != TextStyle.FULL && style != TextStyle.SHORT) {
             throw new IllegalArgumentException("Style must be either full or short");
         }
@@ -1058,7 +1057,7 @@ public final class DateTimeFormatterBuilder {
     public DateTimeFormatterBuilder appendZoneText(TextStyle textStyle,
                                                    Set<ZoneId> preferredZones) {
         // TODO: preferred zones currently ignored
-        Jdk8Methods.requireNonNull(preferredZones, "preferredZones");
+        Objects.requireNonNull(preferredZones, "preferredZones");
         appendInternal(new ZoneTextPrinterParser(textStyle));
         return this;
     }
@@ -1097,7 +1096,7 @@ public final class DateTimeFormatterBuilder {
      * @return this, for chaining, not null
      */
     public DateTimeFormatterBuilder appendChronologyText(TextStyle textStyle) {
-        Jdk8Methods.requireNonNull(textStyle, "textStyle");
+        Objects.requireNonNull(textStyle, "textStyle");
         appendInternal(new ChronoPrinterParser(textStyle));
         return this;
     }
@@ -1164,7 +1163,7 @@ public final class DateTimeFormatterBuilder {
      * @return this, for chaining, not null
      */
     public DateTimeFormatterBuilder appendLiteral(String literal) {
-        Jdk8Methods.requireNonNull(literal, "literal");
+        Objects.requireNonNull(literal, "literal");
         if (literal.length() > 0) {
             if (literal.length() == 1) {
                 appendInternal(new CharLiteralPrinterParser(literal.charAt(0)));
@@ -1186,7 +1185,7 @@ public final class DateTimeFormatterBuilder {
      * @return this, for chaining, not null
      */
     public DateTimeFormatterBuilder append(DateTimeFormatter formatter) {
-        Jdk8Methods.requireNonNull(formatter, "formatter");
+        Objects.requireNonNull(formatter, "formatter");
         appendInternal(formatter.toPrinterParser(false));
         return this;
     }
@@ -1205,7 +1204,7 @@ public final class DateTimeFormatterBuilder {
      * @return this, for chaining, not null
      */
     public DateTimeFormatterBuilder appendOptional(DateTimeFormatter formatter) {
-        Jdk8Methods.requireNonNull(formatter, "formatter");
+        Objects.requireNonNull(formatter, "formatter");
         appendInternal(formatter.toPrinterParser(true));
         return this;
     }
@@ -1377,7 +1376,7 @@ public final class DateTimeFormatterBuilder {
      * @throws IllegalArgumentException if the pattern is invalid
      */
     public DateTimeFormatterBuilder appendPattern(String pattern) {
-        Jdk8Methods.requireNonNull(pattern, "pattern");
+        Objects.requireNonNull(pattern, "pattern");
         parsePattern(pattern);
         return this;
     }
@@ -1831,7 +1830,7 @@ public final class DateTimeFormatterBuilder {
      * @return the index into the active parsers list
      */
     private int appendInternal(DateTimePrinterParser pp) {
-        Jdk8Methods.requireNonNull(pp, "pp");
+        Objects.requireNonNull(pp, "pp");
         if (active.padNextWidth > 0) {
             if (pp != null) {
                 pp = new PadPrinterParserDecorator(pp, active.padNextWidth, active.padNextChar);
@@ -1879,7 +1878,7 @@ public final class DateTimeFormatterBuilder {
      * @return the created formatter, not null
      */
     public DateTimeFormatter toFormatter(Locale locale) {
-        Jdk8Methods.requireNonNull(locale, "locale");
+        Objects.requireNonNull(locale, "locale");
         while (active.parent != null) {
             optionalEnd();
         }
@@ -2671,7 +2670,7 @@ public final class DateTimeFormatterBuilder {
          * @param decimalPoint  whether to output the localized decimal point symbol
          */
         FractionPrinterParser(TemporalField field, int minWidth, int maxWidth, boolean decimalPoint) {
-            Jdk8Methods.requireNonNull(field, "field");
+            Objects.requireNonNull(field, "field");
             if (field.range().isFixed() == false) {
                 throw new IllegalArgumentException("Field must have a fixed set of values: " + field);
             }
@@ -2937,8 +2936,8 @@ public final class DateTimeFormatterBuilder {
             if (inSec >= -SECONDS_0000_TO_1970) {
                 // current era
                 long zeroSecs = inSec - SECONDS_PER_10000_YEARS + SECONDS_0000_TO_1970;
-                long hi = Jdk8Methods.floorDiv(zeroSecs, SECONDS_PER_10000_YEARS) + 1;
-                long lo = Jdk8Methods.floorMod(zeroSecs, SECONDS_PER_10000_YEARS);
+                long hi = Math.floorDiv(zeroSecs, SECONDS_PER_10000_YEARS) + 1;
+                long lo = Math.floorMod(zeroSecs, SECONDS_PER_10000_YEARS);
                 LocalDateTime ldt = LocalDateTime.ofEpochSecond(lo - SECONDS_0000_TO_1970, 0, ZoneOffset.UTC);
                 if (hi > 0) {
                     buf.append('+').append(hi);
@@ -3033,7 +3032,7 @@ public final class DateTimeFormatterBuilder {
             try {
                 LocalDateTime ldt = LocalDateTime.of(year, month, day, hour, min, sec, 0).plusDays(days);
                 instantSecs = ldt.toEpochSecond(ZoneOffset.UTC);
-                instantSecs += Jdk8Methods.safeMultiply(yearParsed / 10000L, SECONDS_PER_10000_YEARS);
+                instantSecs += Math.multiplyExact(yearParsed / 10000L, SECONDS_PER_10000_YEARS);
             } catch (RuntimeException ex) {
                 return ~position;
             }
@@ -3068,8 +3067,8 @@ public final class DateTimeFormatterBuilder {
          * @param pattern  the pattern
          */
         OffsetIdPrinterParser(String noOffsetText, String pattern) {
-            Jdk8Methods.requireNonNull(noOffsetText, "noOffsetText");
-            Jdk8Methods.requireNonNull(pattern, "pattern");
+            Objects.requireNonNull(noOffsetText, "noOffsetText");
+            Objects.requireNonNull(pattern, "pattern");
             this.noOffsetText = noOffsetText;
             this.type = checkPattern(pattern);
         }
@@ -3089,7 +3088,7 @@ public final class DateTimeFormatterBuilder {
             if (offsetSecs == null) {
                 return false;
             }
-            int totalSecs = Jdk8Methods.safeToInt(offsetSecs);
+            int totalSecs = Math.toIntExact(offsetSecs);
             if (totalSecs == 0) {
                 buf.append(noOffsetText);
             } else {
@@ -3222,7 +3221,7 @@ public final class DateTimeFormatterBuilder {
             if (style == TextStyle.FULL) {
                 return new OffsetIdPrinterParser("", "+HH:MM:ss").print(context, buf);
             }
-            int totalSecs = Jdk8Methods.safeToInt(offsetSecs);
+            int totalSecs = Math.toIntExact(offsetSecs);
             if (totalSecs != 0) {
                 int absHours = Math.abs((totalSecs / 3600) % 100);  // anything larger than 99 silently dropped
                 int absMinutes = Math.abs((totalSecs / 60) % 60);
@@ -3352,7 +3351,7 @@ public final class DateTimeFormatterBuilder {
         private final TextStyle textStyle;
 
         ZoneTextPrinterParser(TextStyle textStyle) {
-            this.textStyle = Jdk8Methods.requireNonNull(textStyle, "textStyle");
+            this.textStyle = Objects.requireNonNull(textStyle, "textStyle");
         }
 
         //-----------------------------------------------------------------------
@@ -3807,7 +3806,7 @@ public final class DateTimeFormatterBuilder {
             DateTimePrinterParser pp = evaluate(weekFields);
             return pp.parse(context, text, position);
         }
-        
+
         private DateTimePrinterParser evaluate(WeekFields weekFields) {
             DateTimePrinterParser pp = null;
             switch (letter) {

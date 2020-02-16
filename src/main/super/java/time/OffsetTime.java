@@ -47,8 +47,6 @@ import java.io.ObjectStreamException;
 import java.io.Serializable;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.time.jdk8.DefaultInterfaceTemporalAccessor;
-import java.time.jdk8.Jdk8Methods;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
@@ -62,6 +60,7 @@ import java.time.temporal.TemporalUnit;
 import java.time.temporal.UnsupportedTemporalTypeException;
 import java.time.temporal.ValueRange;
 import java.time.zone.ZoneRules;
+import java.util.Objects;
 
 /**
  * A time with an offset from UTC/Greenwich in the ISO-8601 calendar system,
@@ -78,7 +77,6 @@ import java.time.zone.ZoneRules;
  * This class is immutable and thread-safe.
  */
 public final class OffsetTime
-        extends DefaultInterfaceTemporalAccessor
         implements Temporal, TemporalAdjuster, Comparable<OffsetTime>, Serializable {
 
     /**
@@ -97,15 +95,6 @@ public final class OffsetTime
      * This could be used by an application as a "far future" date.
      */
     public static final OffsetTime MAX = LocalTime.MAX.atOffset(ZoneOffset.MIN);
-    /**
-     * Simulate JDK 8 method reference OffsetTime::from.
-     */
-    public static final TemporalQuery<OffsetTime> FROM = new TemporalQuery<OffsetTime>() {
-        @Override
-        public OffsetTime queryFrom(TemporalAccessor temporal) {
-            return OffsetTime.from(temporal);
-        }
-    };
 
     /**
      * Serialization version.
@@ -168,7 +157,7 @@ public final class OffsetTime
      * @return the current time, not null
      */
     public static OffsetTime now(Clock clock) {
-        Jdk8Methods.requireNonNull(clock, "clock");
+        Objects.requireNonNull(clock, "clock");
         final Instant now = clock.instant();  // called once
         return ofInstant(now, clock.getZone().getRules().getOffset(now));
     }
@@ -225,8 +214,8 @@ public final class OffsetTime
      * @return the offset time, not null
      */
     public static OffsetTime ofInstant(Instant instant, ZoneId zone) {
-        Jdk8Methods.requireNonNull(instant, "instant");
-        Jdk8Methods.requireNonNull(zone, "zone");
+        Objects.requireNonNull(instant, "instant");
+        Objects.requireNonNull(zone, "zone");
         ZoneRules rules = zone.getRules();
         ZoneOffset offset = rules.getOffset(instant);
         long secsOfDay = instant.getEpochSecond() % SECONDS_PER_DAY;
@@ -294,8 +283,8 @@ public final class OffsetTime
      * @throws DateTimeParseException if the text cannot be parsed
      */
     public static OffsetTime parse(CharSequence text, DateTimeFormatter formatter) {
-        Jdk8Methods.requireNonNull(formatter, "formatter");
-        return formatter.parse(text, OffsetTime.FROM);
+        Objects.requireNonNull(formatter, "formatter");
+        return formatter.parse(text, OffsetTime::from);
     }
 
     //-----------------------------------------------------------------------
@@ -306,8 +295,8 @@ public final class OffsetTime
      * @param offset  the zone offset, not null
      */
     private OffsetTime(LocalTime time, ZoneOffset offset) {
-        this.time = Jdk8Methods.requireNonNull(time, "time");
-        this.offset = Jdk8Methods.requireNonNull(offset, "offset");
+        this.time = Objects.requireNonNull(time, "time");
+        this.offset = Objects.requireNonNull(offset, "offset");
     }
 
     /**
@@ -436,7 +425,7 @@ public final class OffsetTime
      */
     @Override  // override for Javadoc
     public int get(TemporalField field) {
-        return super.get(field);
+        return Temporal.super.get(field);
     }
 
     /**
@@ -988,7 +977,7 @@ public final class OffsetTime
         } else if (query == TemporalQueries.chronology() || query == TemporalQueries.localDate() || query == TemporalQueries.zoneId()) {
             return null;
         }
-        return super.query(query);
+        return query.queryFrom(this);
     }
 
     /**
@@ -1078,7 +1067,7 @@ public final class OffsetTime
             switch ((ChronoUnit) unit) {
                 case NANOS: return nanosUntil;
                 case MICROS: return nanosUntil / 1000;
-                case MILLIS: return nanosUntil / 1000000;
+                case MILLIS: return nanosUntil / 1000_000;
                 case SECONDS: return nanosUntil / NANOS_PER_SECOND;
                 case MINUTES: return nanosUntil / NANOS_PER_MINUTE;
                 case HOURS: return nanosUntil / NANOS_PER_HOUR;
@@ -1161,7 +1150,7 @@ public final class OffsetTime
         if (offset.equals(other.offset)) {
             return time.compareTo(other.time);
         }
-        int compare = Jdk8Methods.compareLongs(toEpochNano(), other.toEpochNano());
+        int compare = Long.compare(toEpochNano(), other.toEpochNano());
         if (compare == 0) {
             compare = time.compareTo(other.time);
         }
@@ -1283,7 +1272,7 @@ public final class OffsetTime
      * @throws DateTimeException if an error occurs during printing
      */
     public String format(DateTimeFormatter formatter) {
-        Jdk8Methods.requireNonNull(formatter, "formatter");
+        Objects.requireNonNull(formatter, "formatter");
         return formatter.format(this);
     }
 

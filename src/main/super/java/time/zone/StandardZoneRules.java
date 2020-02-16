@@ -41,7 +41,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Year;
 import java.time.ZoneOffset;
-import java.time.jdk8.Jdk8Methods;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -465,7 +465,7 @@ final class StandardZoneRules extends ZoneRules implements Serializable {
         if (savingsInstantTransitions.length == 0) {
             return null;
         }
-        
+
         long epochSec = instant.getEpochSecond();
 
         // check if using last rules
@@ -504,7 +504,7 @@ final class StandardZoneRules extends ZoneRules implements Serializable {
         if (savingsInstantTransitions.length == 0) {
             return null;
         }
-        
+
         long epochSec = instant.getEpochSecond();
         if (instant.getNano() > 0 && epochSec < Long.MAX_VALUE) {
             epochSec += 1;  // allow rest of method to only use seconds
@@ -545,7 +545,7 @@ final class StandardZoneRules extends ZoneRules implements Serializable {
     private int findYear(long epochSecond, ZoneOffset offset) {
         // inline for performance
         long localSecond = epochSecond + offset.getTotalSeconds();
-        long localEpochDay = Jdk8Methods.floorDiv(localSecond, 86400);
+        long localEpochDay = Math.floorDiv(localSecond, 86400);
         return LocalDate.ofEpochDay(localEpochDay).getYear();
     }
 

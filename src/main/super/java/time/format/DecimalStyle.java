@@ -32,10 +32,10 @@
 package java.time.format;
 
 import java.text.DecimalFormatSymbols;
-import java.time.jdk8.Jdk8Methods;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -60,7 +60,7 @@ public final class DecimalStyle {
     /**
      * The cache of symbols instances.
      */
-    private static final ConcurrentMap<Locale, DecimalStyle> CACHE = new ConcurrentHashMap<Locale, DecimalStyle>(16, 0.75f, 2);
+    private static final ConcurrentMap<Locale, DecimalStyle> CACHE = new ConcurrentHashMap<>(16, 0.75f, 2);
 
     /**
      * The zero digit.
@@ -112,7 +112,7 @@ public final class DecimalStyle {
      * @return the info, not null
      */
     public static DecimalStyle of(Locale locale) {
-        Jdk8Methods.requireNonNull(locale, "locale");
+        Objects.requireNonNull(locale, "locale");
         DecimalStyle info = CACHE.get(locale);
         if (info == null) {
             info = create(locale);

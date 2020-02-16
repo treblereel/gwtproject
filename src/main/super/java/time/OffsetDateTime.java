@@ -46,8 +46,6 @@ import java.io.Serializable;
 import java.time.chrono.IsoChronology;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.time.jdk8.DefaultInterfaceTemporal;
-import java.time.jdk8.Jdk8Methods;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
@@ -62,6 +60,7 @@ import java.time.temporal.TemporalUnit;
 import java.time.temporal.ValueRange;
 import java.time.zone.ZoneRules;
 import java.util.Comparator;
+import java.util.Objects;
 
 /**
  * A date-time with an offset from UTC/Greenwich in the ISO-8601 calendar system,
@@ -87,7 +86,6 @@ import java.util.Comparator;
  * This class is immutable and thread-safe.
  */
 public final class OffsetDateTime
-        extends DefaultInterfaceTemporal
         implements Temporal, TemporalAdjuster, Comparable<OffsetDateTime>, Serializable {
 
     /**
@@ -106,15 +104,6 @@ public final class OffsetDateTime
      * This could be used by an application as a "far future" date-time.
      */
     public static final OffsetDateTime MAX = LocalDateTime.MAX.atOffset(ZoneOffset.MIN);
-    /**
-     * Simulate JDK 8 method reference OffsetDateTime::from.
-     */
-    public static final TemporalQuery<OffsetDateTime> FROM = new TemporalQuery<OffsetDateTime>() {
-        @Override
-        public OffsetDateTime queryFrom(TemporalAccessor temporal) {
-            return OffsetDateTime.from(temporal);
-        }
-    };
 
     /**
      * Gets a comparator that compares two {@code OffsetDateTime} instances
@@ -130,18 +119,18 @@ public final class OffsetDateTime
      * @see #isEqual
      */
     public static Comparator<OffsetDateTime> timeLineOrder() {
-        return INSTANT_COMPARATOR;
+        return OffsetDateTime::compareInstant;
     }
-    private static final Comparator<OffsetDateTime> INSTANT_COMPARATOR = new Comparator<OffsetDateTime>() {
-        @Override
-        public int compare(OffsetDateTime datetime1, OffsetDateTime datetime2) {
-            int cmp = Jdk8Methods.compareLongs(datetime1.toEpochSecond(), datetime2.toEpochSecond());
+    private static int compareInstant(OffsetDateTime datetime1, OffsetDateTime datetime2) {
+        if (datetime1.getOffset().equals(datetime2.getOffset())) {
+            return datetime1.toLocalDateTime().compareTo(datetime2.toLocalDateTime());
+        }
+        int cmp = Long.compare(datetime1.toEpochSecond(), datetime2.toEpochSecond());
             if (cmp == 0) {
-                cmp = Jdk8Methods.compareLongs(datetime1.getNano(), datetime2.getNano());
+                cmp = Long.compare(datetime1.getNano(), datetime2.getNano());
             }
             return cmp;
-        }
-    };
+    }
 
     /**
      * Serialization version.
@@ -204,7 +193,7 @@ public final class OffsetDateTime
      * @return the current date-time, not null
      */
     public static OffsetDateTime now(Clock clock) {
-        Jdk8Methods.requireNonNull(clock, "clock");
+        Objects.requireNonNull(clock, "clock");
         final Instant now = clock.instant();  // called once
         return ofInstant(now, clock.getZone().getRules().getOffset(now));
     }
@@ -283,8 +272,8 @@ public final class OffsetDateTime
      * @throws DateTimeException if the result exceeds the supported range
      */
     public static OffsetDateTime ofInstant(Instant instant, ZoneId zone) {
-        Jdk8Methods.requireNonNull(instant, "instant");
-        Jdk8Methods.requireNonNull(zone, "zone");
+        Objects.requireNonNull(instant, "instant");
+        Objects.requireNonNull(zone, "zone");
         ZoneRules rules = zone.getRules();
         ZoneOffset offset = rules.getOffset(instant);
         LocalDateTime ldt = LocalDateTime.ofEpochSecond(instant.getEpochSecond(), instant.getNano(), offset);
@@ -354,8 +343,8 @@ public final class OffsetDateTime
      * @throws DateTimeParseException if the text cannot be parsed
      */
     public static OffsetDateTime parse(CharSequence text, DateTimeFormatter formatter) {
-        Jdk8Methods.requireNonNull(formatter, "formatter");
-        return formatter.parse(text, OffsetDateTime.FROM);
+        Objects.requireNonNull(formatter, "formatter");
+        return formatter.parse(text, OffsetDateTime::from);
     }
 
     //-----------------------------------------------------------------------
@@ -366,8 +355,8 @@ public final class OffsetDateTime
      * @param offset  the zone offset, not null
      */
     private OffsetDateTime(LocalDateTime dateTime, ZoneOffset offset) {
-        this.dateTime = Jdk8Methods.requireNonNull(dateTime, "dateTime");
-        this.offset = Jdk8Methods.requireNonNull(offset, "offset");
+        this.dateTime = Objects.requireNonNull(dateTime, "dateTime");
+        this.offset = Objects.requireNonNull(offset, "offset");
     }
 
     /**
@@ -515,7 +504,7 @@ public final class OffsetDateTime
             }
             return dateTime.get(field);
         }
-        return super.get(field);
+        return Temporal.super.get(field);
     }
 
     /**
@@ -1402,7 +1391,7 @@ public final class OffsetDateTime
         } else if (query == TemporalQueries.zoneId()) {
             return null;
         }
-        return super.query(query);
+        return query.queryFrom(this);
     }
 
     /**
@@ -1657,15 +1646,9 @@ public final class OffsetDateTime
      */
     @Override
     public int compareTo(OffsetDateTime other) {
-        if (getOffset().equals(other.getOffset())) {
-            return toLocalDateTime().compareTo(other.toLocalDateTime());
-        }
-        int cmp = Jdk8Methods.compareLongs(toEpochSecond(), other.toEpochSecond());
+        int cmp = compareInstant(this, other);
         if (cmp == 0) {
-            cmp = toLocalTime().getNano() - other.toLocalTime().getNano();
-            if (cmp == 0) {
-                cmp = toLocalDateTime().compareTo(other.toLocalDateTime());
-            }
+            cmp = toLocalDateTime().compareTo(other.toLocalDateTime());
         }
         return cmp;
     }
@@ -1786,7 +1769,7 @@ public final class OffsetDateTime
      * @throws DateTimeException if an error occurs during printing
      */
     public String format(DateTimeFormatter formatter) {
-        Jdk8Methods.requireNonNull(formatter, "formatter");
+        Objects.requireNonNull(formatter, "formatter");
         return formatter.format(this);
     }
 

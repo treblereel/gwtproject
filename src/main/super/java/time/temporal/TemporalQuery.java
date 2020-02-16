@@ -66,6 +66,7 @@ import java.time.DateTimeException;
  * This interface places no restrictions on the mutability of implementations,
  * however immutability is strongly recommended.
  */
+@FunctionalInterface
 public interface TemporalQuery<R> {
 
     /**

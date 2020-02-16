@@ -39,7 +39,6 @@ import java.time.chrono.IsoChronology;
 import java.time.format.DateTimeParseContext;
 import java.time.format.DateTimePrintContext;
 import java.time.format.DecimalStyle;
-import java.time.jdk8.DefaultInterfaceTemporalAccessor;
 import java.time.temporal.TemporalAccessor;
 import java.time.temporal.TemporalField;
 import java.util.Locale;
@@ -67,7 +66,7 @@ public class AbstractTestPrinterParser {
         buf = new StringBuilder();
     }
 
-    private static final TemporalAccessor EMPTY = new DefaultInterfaceTemporalAccessor() {
+    private static final TemporalAccessor EMPTY = new TemporalAccessor() {
         public boolean isSupported(TemporalField field) {
             return true;
         }

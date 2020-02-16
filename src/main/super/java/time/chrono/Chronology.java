@@ -47,8 +47,6 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.ResolverStyle;
 import java.time.format.TextStyle;
-import java.time.jdk8.DefaultInterfaceTemporalAccessor;
-import java.time.jdk8.Jdk8Methods;
 import java.time.temporal.ChronoField;
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAccessor;
@@ -61,6 +59,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.ServiceLoader;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -189,7 +188,7 @@ public abstract class Chronology implements Comparable<Chronology> {
      * @throws DateTimeException if unable to convert to an {@code Chronology}
      */
     public static Chronology from(TemporalAccessor temporal) {
-        Jdk8Methods.requireNonNull(temporal, "temporal");
+        Objects.requireNonNull(temporal, "temporal");
         Chronology obj = temporal.query(TemporalQueries.chronology());
         return (obj != null ? obj : IsoChronology.INSTANCE);
     }
@@ -237,7 +236,7 @@ public abstract class Chronology implements Comparable<Chronology> {
      */
     public static Chronology ofLocale(Locale locale) {
         init();
-        Jdk8Methods.requireNonNull(locale, "locale");
+        Objects.requireNonNull(locale, "locale");
         String type = "iso";
         if (LOCALE_METHOD != null) {
             // JDK 7: locale.getUnicodeLocaleType("ca");
@@ -553,7 +552,7 @@ public abstract class Chronology implements Comparable<Chronology> {
      * @throws DateTimeException if unable to create the date
      */
     public ChronoLocalDate dateNow(Clock clock) {
-        Jdk8Methods.requireNonNull(clock, "clock");
+    	Objects.requireNonNull(clock, "clock");
         return date(LocalDate.now(clock));
     }
 
@@ -750,7 +749,7 @@ public abstract class Chronology implements Comparable<Chronology> {
      * @return the text value of the chronology, not null
      */
     public String getDisplayName(TextStyle style, Locale locale) {
-        return new DateTimeFormatterBuilder().appendChronologyText(style).toFormatter(locale).format(new DefaultInterfaceTemporalAccessor() {
+        return new DateTimeFormatterBuilder().appendChronologyText(style).toFormatter(locale).format(new TemporalAccessor() {
             @Override
             public boolean isSupported(TemporalField field) {
                 return false;
@@ -765,7 +764,7 @@ public abstract class Chronology implements Comparable<Chronology> {
                 if (query == TemporalQueries.chronology()) {
                     return (R) Chronology.this;
                 }
-                return super.query(query);
+                return TemporalAccessor.super.query(query);
             }
         });
     }

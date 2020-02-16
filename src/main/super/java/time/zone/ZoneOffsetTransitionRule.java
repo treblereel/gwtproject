@@ -45,7 +45,7 @@ import java.time.LocalTime;
 import java.time.Month;
 import java.time.ZoneOffset;
 import java.time.chrono.IsoChronology;
-import java.time.jdk8.Jdk8Methods;
+import java.util.Objects;
 
 /**
  * A rule expressing how to create a transition.
@@ -148,12 +148,12 @@ public final class ZoneOffsetTransitionRule implements Serializable {
             ZoneOffset standardOffset,
             ZoneOffset offsetBefore,
             ZoneOffset offsetAfter) {
-        Jdk8Methods.requireNonNull(month, "month");
-        Jdk8Methods.requireNonNull(time, "time");
-        Jdk8Methods.requireNonNull(timeDefnition, "timeDefnition");
-        Jdk8Methods.requireNonNull(standardOffset, "standardOffset");
-        Jdk8Methods.requireNonNull(offsetBefore, "offsetBefore");
-        Jdk8Methods.requireNonNull(offsetAfter, "offsetAfter");
+        Objects.requireNonNull(month, "month");
+        Objects.requireNonNull(time, "time");
+        Objects.requireNonNull(timeDefnition, "timeDefnition");
+        Objects.requireNonNull(standardOffset, "standardOffset");
+        Objects.requireNonNull(offsetBefore, "offsetBefore");
+        Objects.requireNonNull(offsetAfter, "offsetAfter");
         if (dayOfMonthIndicator < -28 || dayOfMonthIndicator > 31 || dayOfMonthIndicator == 0) {
             throw new IllegalArgumentException("Day of month indicator must be between -28 and 31 inclusive excluding zero");
         }
@@ -277,8 +277,8 @@ public final class ZoneOffsetTransitionRule implements Serializable {
         if (dom < -28 || dom > 31 || dom == 0) {
             throw new IllegalArgumentException("Day of month indicator must be between -28 and 31 inclusive excluding zero");
         }
-        LocalTime time = LocalTime.ofSecondOfDay(Jdk8Methods.floorMod(timeOfDaysSecs, SECS_PER_DAY));
-        int adjustDays = Jdk8Methods.floorDiv(timeOfDaysSecs, SECS_PER_DAY);
+        LocalTime time = LocalTime.ofSecondOfDay(Math.floorMod(timeOfDaysSecs, SECS_PER_DAY));
+        int adjustDays = Math.floorDiv(timeOfDaysSecs, SECS_PER_DAY);
         return new ZoneOffsetTransitionRule(month, dom, dow, time, adjustDays, defn, std, before, after);
     }
 
@@ -493,9 +493,9 @@ public final class ZoneOffsetTransitionRule implements Serializable {
             buf.append(time);
         } else {
             long timeOfDaysMins = time.toSecondOfDay() / 60 + adjustDays * 24 * 60;
-            appendZeroPad(buf, Jdk8Methods.floorDiv(timeOfDaysMins, 60));
+            appendZeroPad(buf, Math.floorDiv(timeOfDaysMins, 60));
             buf.append(':');
-            appendZeroPad(buf, Jdk8Methods.floorMod(timeOfDaysMins, 60));
+            appendZeroPad(buf, Math.floorMod(timeOfDaysMins, 60));
         }
         buf.append(" ").append(timeDefinition)
             .append(", standard offset ").append(standardOffset)

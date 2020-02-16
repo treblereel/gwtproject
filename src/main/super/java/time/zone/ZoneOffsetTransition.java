@@ -39,10 +39,10 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.time.jdk8.Jdk8Methods;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A transition between two offsets caused by a discontinuity in the local time-line.
@@ -98,9 +98,9 @@ public final class ZoneOffsetTransition
      *         are equal, or {@code transition.getNano()} returns non-zero value
      */
     public static ZoneOffsetTransition of(LocalDateTime transition, ZoneOffset offsetBefore, ZoneOffset offsetAfter) {
-        Jdk8Methods.requireNonNull(transition, "transition");
-        Jdk8Methods.requireNonNull(offsetBefore, "offsetBefore");
-        Jdk8Methods.requireNonNull(offsetAfter, "offsetAfter");
+        Objects.requireNonNull(transition, "transition");
+        Objects.requireNonNull(offsetBefore, "offsetBefore");
+        Objects.requireNonNull(offsetAfter, "offsetAfter");
         if (offsetBefore.equals(offsetAfter)) {
             throw new IllegalArgumentException("Offsets must not be equal");
         }

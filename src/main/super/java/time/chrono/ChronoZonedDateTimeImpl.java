@@ -43,7 +43,6 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
-import java.time.jdk8.Jdk8Methods;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
@@ -52,6 +51,7 @@ import java.time.temporal.TemporalUnit;
 import java.time.zone.ZoneOffsetTransition;
 import java.time.zone.ZoneRules;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A date-time with a time-zone in the calendar neutral API.
@@ -70,8 +70,7 @@ import java.util.List;
  * @param <D> the date type
  */
 final class ChronoZonedDateTimeImpl<D extends ChronoLocalDate>
-        extends ChronoZonedDateTime<D>
-        implements Serializable {
+        implements ChronoZonedDateTime<D>, Serializable {
 
     /**
      * Serialization version.
@@ -102,10 +101,10 @@ final class ChronoZonedDateTimeImpl<D extends ChronoLocalDate>
      */
     static <R extends ChronoLocalDate> ChronoZonedDateTime<R> ofBest(
             ChronoLocalDateTimeImpl<R> localDateTime, ZoneId zone, ZoneOffset preferredOffset) {
-        Jdk8Methods.requireNonNull(localDateTime, "localDateTime");
-        Jdk8Methods.requireNonNull(zone, "zone");
+        Objects.requireNonNull(localDateTime, "localDateTime");
+        Objects.requireNonNull(zone, "zone");
         if (zone instanceof ZoneOffset) {
-            return new ChronoZonedDateTimeImpl<R>(localDateTime, (ZoneOffset) zone, zone);
+            return new ChronoZonedDateTimeImpl<>(localDateTime, (ZoneOffset) zone, zone);
         }
         ZoneRules rules = zone.getRules();
         LocalDateTime isoLDT = LocalDateTime.from(localDateTime);
@@ -124,8 +123,8 @@ final class ChronoZonedDateTimeImpl<D extends ChronoLocalDate>
                 offset = validOffsets.get(0);
             }
         }
-        Jdk8Methods.requireNonNull(offset, "offset");  // protect against bad ZoneRules
-        return new ChronoZonedDateTimeImpl<R>(localDateTime, offset, zone);
+        Objects.requireNonNull(offset, "offset");  // protect against bad ZoneRules
+        return new ChronoZonedDateTimeImpl<>(localDateTime, offset, zone);
     }
 
     /**
@@ -139,7 +138,7 @@ final class ChronoZonedDateTimeImpl<D extends ChronoLocalDate>
     static <R extends ChronoLocalDate> ChronoZonedDateTimeImpl<R> ofInstant(Chronology chrono, Instant instant, ZoneId zone) {
         ZoneRules rules = zone.getRules();
         ZoneOffset offset = rules.getOffset(instant);
-        Jdk8Methods.requireNonNull(offset, "offset");  // protect against bad ZoneRules
+        Objects.requireNonNull(offset, "offset");  // protect against bad ZoneRules
         LocalDateTime ldt = LocalDateTime.ofEpochSecond(instant.getEpochSecond(), instant.getNano(), offset);
         @SuppressWarnings("unchecked")
         ChronoLocalDateTimeImpl<R> cldt = (ChronoLocalDateTimeImpl<R>) chrono.localDateTime(ldt);
@@ -166,20 +165,13 @@ final class ChronoZonedDateTimeImpl<D extends ChronoLocalDate>
      * @param zone  the zone ID, not null
      */
     private ChronoZonedDateTimeImpl(ChronoLocalDateTimeImpl<D> dateTime, ZoneOffset offset, ZoneId zone) {
-        this.dateTime = Jdk8Methods.requireNonNull(dateTime, "dateTime");
-        this.offset = Jdk8Methods.requireNonNull(offset, "offset");
-        this.zone = Jdk8Methods.requireNonNull(zone, "zone");
+        this.dateTime = Objects.requireNonNull(dateTime, "dateTime");
+        this.offset = Objects.requireNonNull(offset, "offset");
+        this.zone = Objects.requireNonNull(zone, "zone");
     }
 
     //-----------------------------------------------------------------------
     @Override
-    public boolean isSupported(TemporalUnit unit) {
-        if (unit instanceof ChronoUnit) {
-            return unit.isDateBased() || unit.isTimeBased();
-        }
-        return unit != null && unit.isSupportedBy(this);
-    }
-
     public ZoneOffset getOffset() {
         return offset;
     }
@@ -190,7 +182,7 @@ final class ChronoZonedDateTimeImpl<D extends ChronoLocalDate>
         if (trans != null && trans.isOverlap()) {
             ZoneOffset earlierOffset = trans.getOffsetBefore();
             if (earlierOffset.equals(offset) == false) {
-                return new ChronoZonedDateTimeImpl<D>(dateTime, earlierOffset, zone);
+                return new ChronoZonedDateTimeImpl<>(dateTime, earlierOffset, zone);
             }
         }
         return this;
@@ -202,7 +194,7 @@ final class ChronoZonedDateTimeImpl<D extends ChronoLocalDate>
         if (trans != null) {
             ZoneOffset offset = trans.getOffsetAfter();
             if (offset.equals(getOffset()) == false) {
-                return new ChronoZonedDateTimeImpl<D>(dateTime, offset, zone);
+                return new ChronoZonedDateTimeImpl<>(dateTime, offset, zone);
             }
         }
         return this;
@@ -224,7 +216,7 @@ final class ChronoZonedDateTimeImpl<D extends ChronoLocalDate>
 
     @Override
     public ChronoZonedDateTime<D> withZoneSameInstant(ZoneId zone) {
-        Jdk8Methods.requireNonNull(zone, "zone");
+        Objects.requireNonNull(zone, "zone");
         return this.zone.equals(zone) ? this : create(dateTime.toInstant(offset), zone);
     }
 

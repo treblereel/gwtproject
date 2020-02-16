@@ -50,13 +50,11 @@ import java.io.Serializable;
 import java.time.chrono.ChronoLocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.time.jdk8.Jdk8Methods;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAccessor;
 import java.time.temporal.TemporalAdjuster;
-import java.time.temporal.TemporalAdjusters;
 import java.time.temporal.TemporalAmount;
 import java.time.temporal.TemporalField;
 import java.time.temporal.TemporalQueries;
@@ -65,6 +63,7 @@ import java.time.temporal.TemporalUnit;
 import java.time.temporal.UnsupportedTemporalTypeException;
 import java.time.temporal.ValueRange;
 import java.time.zone.ZoneRules;
+import java.util.Objects;
 
 /**
  * A date-time without a time-zone in the ISO-8601 calendar system,
@@ -94,8 +93,7 @@ import java.time.zone.ZoneRules;
  * This class is immutable and thread-safe.
  */
 public final class LocalDateTime
-        extends ChronoLocalDateTime<LocalDate>
-        implements Temporal, TemporalAdjuster, Serializable {
+        implements Temporal, TemporalAdjuster, ChronoLocalDateTime<LocalDate>, Serializable {
 
     /**
      * The minimum supported {@code LocalDateTime}, '-999999999-01-01T00:00:00'.
@@ -111,15 +109,6 @@ public final class LocalDateTime
      * This could be used by an application as a "far future" date-time.
      */
     public static final LocalDateTime MAX = LocalDateTime.of(LocalDate.MAX, LocalTime.MAX);
-    /**
-     * Simulate JDK 8 method reference LocalDateTime::from.
-     */
-    public static final TemporalQuery<LocalDateTime> FROM = new TemporalQuery<LocalDateTime>() {
-        @Override
-        public LocalDateTime queryFrom(TemporalAccessor temporal) {
-            return LocalDateTime.from(temporal);
-        }
-    };
 
     /**
      * Serialization version.
@@ -178,7 +167,7 @@ public final class LocalDateTime
      * @return the current date-time, not null
      */
     public static LocalDateTime now(Clock clock) {
-        Jdk8Methods.requireNonNull(clock, "clock");
+        Objects.requireNonNull(clock, "clock");
         final Instant now = clock.instant();  // called once
         ZoneOffset offset = clock.getZone().getRules().getOffset(now);
         return ofEpochSecond(now.getEpochSecond(), now.getNano(), offset);
@@ -330,8 +319,8 @@ public final class LocalDateTime
      * @return the local date-time, not null
      */
     public static LocalDateTime of(LocalDate date, LocalTime time) {
-        Jdk8Methods.requireNonNull(date, "date");
-        Jdk8Methods.requireNonNull(time, "time");
+        Objects.requireNonNull(date, "date");
+        Objects.requireNonNull(time, "time");
         return new LocalDateTime(date, time);
     }
 
@@ -350,8 +339,8 @@ public final class LocalDateTime
      * @throws DateTimeException if the result exceeds the supported range
      */
     public static LocalDateTime ofInstant(Instant instant, ZoneId zone) {
-        Jdk8Methods.requireNonNull(instant, "instant");
-        Jdk8Methods.requireNonNull(zone, "zone");
+        Objects.requireNonNull(instant, "instant");
+        Objects.requireNonNull(zone, "zone");
         ZoneRules rules = zone.getRules();
         ZoneOffset offset = rules.getOffset(instant);
         return ofEpochSecond(instant.getEpochSecond(), instant.getNano(), offset);
@@ -372,10 +361,10 @@ public final class LocalDateTime
      * @throws DateTimeException if the result exceeds the supported range
      */
     public static LocalDateTime ofEpochSecond(long epochSecond, int nanoOfSecond, ZoneOffset offset) {
-        Jdk8Methods.requireNonNull(offset, "offset");
+        Objects.requireNonNull(offset, "offset");
         long localSecond = epochSecond + offset.getTotalSeconds();  // overflow caught later
-        long localEpochDay = Jdk8Methods.floorDiv(localSecond, SECONDS_PER_DAY);
-        int secsOfDay = Jdk8Methods.floorMod(localSecond, SECONDS_PER_DAY);
+        long localEpochDay = Math.floorDiv(localSecond, SECONDS_PER_DAY);
+        int secsOfDay = (int) Math.floorMod(localSecond, SECONDS_PER_DAY);
         LocalDate date = LocalDate.ofEpochDay(localEpochDay);
         LocalTime time = LocalTime.ofSecondOfDay(secsOfDay, nanoOfSecond);
         return new LocalDateTime(date, time);
@@ -439,8 +428,8 @@ public final class LocalDateTime
      * @throws DateTimeParseException if the text cannot be parsed
      */
     public static LocalDateTime parse(CharSequence text, DateTimeFormatter formatter) {
-        Jdk8Methods.requireNonNull(formatter, "formatter");
-        return formatter.parse(text, LocalDateTime.FROM);
+        Objects.requireNonNull(formatter, "formatter");
+        return formatter.parse(text, LocalDateTime::from);
     }
 
     //-----------------------------------------------------------------------
@@ -530,11 +519,9 @@ public final class LocalDateTime
 
     @Override
     public boolean isSupported(TemporalUnit unit) {
-        if (unit instanceof ChronoUnit) {
-            return unit.isDateBased() || unit.isTimeBased();
+        return ChronoLocalDateTime.super.isSupported(unit);
         }
-        return unit != null && unit.isSupportedBy(this);
-    }
+
 
     /**
      * Gets the range of valid values for the specified field.
@@ -596,7 +583,7 @@ public final class LocalDateTime
         if (field instanceof ChronoField) {
             return (field.isTimeBased() ? time.get(field) : date.get(field));
         }
-        return super.get(field);
+        return ChronoLocalDateTime.super.get(field);
     }
 
     /**
@@ -1037,7 +1024,7 @@ public final class LocalDateTime
             switch (f) {
                 case NANOS: return plusNanos(amountToAdd);
                 case MICROS: return plusDays(amountToAdd / MICROS_PER_DAY).plusNanos((amountToAdd % MICROS_PER_DAY) * 1000);
-                case MILLIS: return plusDays(amountToAdd / MILLIS_PER_DAY).plusNanos((amountToAdd % MILLIS_PER_DAY) * 1000000);
+                case MILLIS: return plusDays(amountToAdd / MILLIS_PER_DAY).plusNanos((amountToAdd % MILLIS_PER_DAY) * 1000_000);
                 case SECONDS: return plusSeconds(amountToAdd);
                 case MINUTES: return plusMinutes(amountToAdd);
                 case HOURS: return plusHours(amountToAdd);
@@ -1404,8 +1391,8 @@ public final class LocalDateTime
                 (hours % HOURS_PER_DAY) * NANOS_PER_HOUR;          //   max  86400000000000
         long curNoD = time.toNanoOfDay();                       //   max  86400000000000
         totNanos = totNanos * sign + curNoD;                    // total 432000000000000
-        totDays += Jdk8Methods.floorDiv(totNanos, NANOS_PER_DAY);
-        long newNoD = Jdk8Methods.floorMod(totNanos, NANOS_PER_DAY);
+        totDays += Math.floorDiv(totNanos, NANOS_PER_DAY);
+        long newNoD = Math.floorMod(totNanos, NANOS_PER_DAY);
         LocalTime newTime = (newNoD == curNoD ? time : LocalTime.ofNanoOfDay(newNoD));
         return with(newDate.plusDays(totDays), newTime);
     }
@@ -1435,7 +1422,7 @@ public final class LocalDateTime
         if (query == TemporalQueries.localDate()) {
             return (R) toLocalDate();
         }
-        return super.query(query);
+        return ChronoLocalDateTime.super.query(query);
     }
 
     /**
@@ -1465,7 +1452,7 @@ public final class LocalDateTime
      */
     @Override  // override for Javadoc
     public Temporal adjustInto(Temporal temporal) {
-        return super.adjustInto(temporal);
+        return ChronoLocalDateTime.super.adjustInto(temporal);
     }
 
     /**
@@ -1531,26 +1518,26 @@ public final class LocalDateTime
                 long amount = daysUntil;
                 switch (f) {
                     case NANOS:
-                        amount = Jdk8Methods.safeMultiply(amount, NANOS_PER_DAY);
-                        return Jdk8Methods.safeAdd(amount, timeUntil);
+                        amount = Math.multiplyExact(amount, NANOS_PER_DAY);
+                        return Math.addExact(amount, timeUntil);
                     case MICROS:
-                        amount = Jdk8Methods.safeMultiply(amount, MICROS_PER_DAY);
-                        return Jdk8Methods.safeAdd(amount, timeUntil / 1000);
+                        amount = Math.multiplyExact(amount, MICROS_PER_DAY);
+                        return Math.addExact(amount, timeUntil / 1000);
                     case MILLIS:
-                        amount = Jdk8Methods.safeMultiply(amount, MILLIS_PER_DAY);
-                        return Jdk8Methods.safeAdd(amount, timeUntil / 1000000);
+                        amount = Math.multiplyExact(amount, MILLIS_PER_DAY);
+                        return Math.addExact(amount, timeUntil / 1000000);
                     case SECONDS:
-                        amount = Jdk8Methods.safeMultiply(amount, SECONDS_PER_DAY);
-                        return Jdk8Methods.safeAdd(amount, timeUntil / NANOS_PER_SECOND);
+                        amount = Math.multiplyExact(amount, SECONDS_PER_DAY);
+                        return Math.addExact(amount, timeUntil / NANOS_PER_SECOND);
                     case MINUTES:
-                        amount = Jdk8Methods.safeMultiply(amount, MINUTES_PER_DAY);
-                        return Jdk8Methods.safeAdd(amount, timeUntil / NANOS_PER_MINUTE);
+                        amount = Math.multiplyExact(amount, MINUTES_PER_DAY);
+                        return Math.addExact(amount, timeUntil / NANOS_PER_MINUTE);
                     case HOURS:
-                        amount = Jdk8Methods.safeMultiply(amount, HOURS_PER_DAY);
-                        return Jdk8Methods.safeAdd(amount, timeUntil / NANOS_PER_HOUR);
+                        amount = Math.multiplyExact(amount, HOURS_PER_DAY);
+                        return Math.addExact(amount, timeUntil / NANOS_PER_HOUR);
                     case HALF_DAYS:
-                        amount = Jdk8Methods.safeMultiply(amount, 2);
-                        return Jdk8Methods.safeAdd(amount, timeUntil / (NANOS_PER_HOUR * 12));
+                        amount = Math.multiplyExact(amount, 2);
+                        return Math.addExact(amount, timeUntil / (NANOS_PER_HOUR * 12));
                 }
                 throw new UnsupportedTemporalTypeException("Unsupported unit: " + unit);
             }
@@ -1660,7 +1647,7 @@ public final class LocalDateTime
         if (other instanceof LocalDateTime) {
             return compareTo0((LocalDateTime) other);
         }
-        return super.compareTo(other);
+        return ChronoLocalDateTime.super.compareTo(other);
     }
 
     private int compareTo0(LocalDateTime other) {
@@ -1697,7 +1684,7 @@ public final class LocalDateTime
         if (other instanceof LocalDateTime) {
             return compareTo0((LocalDateTime) other) > 0;
         }
-        return super.isAfter(other);
+        return ChronoLocalDateTime.super.isAfter(other);
     }
 
     /**
@@ -1726,7 +1713,7 @@ public final class LocalDateTime
         if (other instanceof LocalDateTime) {
             return compareTo0((LocalDateTime) other) < 0;
         }
-        return super.isBefore(other);
+        return ChronoLocalDateTime.super.isBefore(other);
     }
 
     /**
@@ -1755,7 +1742,7 @@ public final class LocalDateTime
         if (other instanceof LocalDateTime) {
             return compareTo0((LocalDateTime) other) == 0;
         }
-        return super.isEqual(other);
+        return ChronoLocalDateTime.super.isEqual(other);
     }
 
     //-----------------------------------------------------------------------
@@ -1824,7 +1811,7 @@ public final class LocalDateTime
      */
     @Override  // override for Javadoc
     public String format(DateTimeFormatter formatter) {
-        return super.format(formatter);
+        return formatter.format(this);
     }
 
     //-----------------------------------------------------------------------

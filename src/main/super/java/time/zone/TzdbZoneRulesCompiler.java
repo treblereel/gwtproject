@@ -53,7 +53,6 @@ import java.time.Year;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
-import java.time.jdk8.Jdk8Methods;
 import java.time.temporal.TemporalAccessor;
 import java.time.temporal.TemporalAdjusters;
 import java.time.zone.ZoneOffsetTransitionRule.TimeDefinition;
@@ -788,9 +787,9 @@ final class TzdbZoneRulesCompiler {
             if (st.hasMoreTokens()) {
                 String timeStr = st.nextToken();
                 int timeOfDaySecs = parseSecs(timeStr);
-                LocalTime time = deduplicate(LocalTime.ofSecondOfDay(Jdk8Methods.floorMod(timeOfDaySecs, 86400)));
+                LocalTime time = deduplicate(LocalTime.ofSecondOfDay(Math.floorMod(timeOfDaySecs, 86400)));
                 mdt.time = time;
-                mdt.adjustDays = Jdk8Methods.floorDiv(timeOfDaySecs, 86400);
+                mdt.adjustDays = Math.floorDiv(timeOfDaySecs, 86400);
                 mdt.timeDefinition = parseTimeDefinition(timeStr.charAt(timeStr.length() - 1));
             }
         }

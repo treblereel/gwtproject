@@ -86,7 +86,6 @@ import java.time.ZonedDateTime;
 import java.time.chrono.IsoChronology;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.time.jdk8.DefaultInterfaceTemporalAccessor;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.JulianFields;
@@ -595,7 +594,7 @@ public class TestZonedDateTime extends AbstractDateTimeTest {
 
     @Test
     public void factory_from_DateTimeAccessor_LDT_ZoneId() {
-        assertEquals(ZonedDateTime.from(new DefaultInterfaceTemporalAccessor() {
+        assertEquals(ZonedDateTime.from(new TemporalAccessor() {
             @Override
             public boolean isSupported(TemporalField field) {
                 return TEST_DATE_TIME_PARIS.toLocalDateTime().isSupported(field);
@@ -610,14 +609,14 @@ public class TestZonedDateTime extends AbstractDateTimeTest {
                 if (query == TemporalQueries.zoneId()) {
                     return (R) TEST_DATE_TIME_PARIS.getZone();
                 }
-                return super.query(query);
+                return query.queryFrom(this);
             }
         }), TEST_DATE_TIME_PARIS);
     }
 
     @Test
     public void factory_from_DateTimeAccessor_Instant_ZoneId() {
-        assertEquals(ZonedDateTime.from(new DefaultInterfaceTemporalAccessor() {
+        assertEquals(ZonedDateTime.from(new TemporalAccessor() {
             @Override
             public boolean isSupported(TemporalField field) {
                 return field == INSTANT_SECONDS || field == NANO_OF_SECOND;
@@ -632,7 +631,7 @@ public class TestZonedDateTime extends AbstractDateTimeTest {
                 if (query == TemporalQueries.zoneId()) {
                     return (R) TEST_DATE_TIME_PARIS.getZone();
                 }
-                return super.query(query);
+                return query.queryFrom(this);
             }
         }), TEST_DATE_TIME_PARIS);
     }

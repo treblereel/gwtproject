@@ -37,10 +37,8 @@ import static java.time.temporal.ChronoField.OFFSET_SECONDS;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
 import java.time.chrono.Chronology;
 
 /**
@@ -117,15 +115,9 @@ public final class TemporalQueries {
      *
      * @return a query that can obtain the zone ID of a temporal, not null
      */
-    public static final TemporalQuery<ZoneId> zoneId() {
-        return ZONE_ID;
-    }
-    static final TemporalQuery<ZoneId> ZONE_ID = new TemporalQuery<ZoneId>() {
-        @Override
-        public ZoneId queryFrom(TemporalAccessor temporal) {
-            return temporal.query(this);
+    public static TemporalQuery<ZoneId> zoneId() {
+        return TemporalQueries.ZONE_ID;
         }
-    };
 
     /**
      * A query for the {@code Chronology}.
@@ -162,15 +154,9 @@ public final class TemporalQueries {
      *
      * @return a query that can obtain the chronology of a temporal, not null
      */
-    public static final TemporalQuery<Chronology> chronology() {
-        return CHRONO;
-    }
-    static final TemporalQuery<Chronology> CHRONO = new TemporalQuery<Chronology>() {
-        @Override
-        public Chronology queryFrom(TemporalAccessor temporal) {
-            return temporal.query(this);
+    public static TemporalQuery<Chronology> chronology() {
+        return TemporalQueries.CHRONO;
         }
-    };
 
     /**
      * A query for the smallest supported unit.
@@ -205,15 +191,9 @@ public final class TemporalQueries {
      *
      * @return a query that can obtain the precision of a temporal, not null
      */
-    public static final TemporalQuery<TemporalUnit> precision() {
-        return PRECISION;
+    public static TemporalQuery<TemporalUnit> precision() {
+        return TemporalQueries.PRECISION;
     }
-    static final TemporalQuery<TemporalUnit> PRECISION = new TemporalQuery<TemporalUnit>() {
-        @Override
-        public TemporalUnit queryFrom(TemporalAccessor temporal) {
-            return temporal.query(this);
-        }
-    };
 
     //-----------------------------------------------------------------------
     // non-special constants are standard queries that derive information from other information
@@ -236,16 +216,9 @@ public final class TemporalQueries {
      *
      * @return a query that can obtain the zone ID or offset of a temporal, not null
      */
-    public static final TemporalQuery<ZoneId> zone() {
-        return ZONE;
+    public static TemporalQuery<ZoneId> zone() {
+        return TemporalQueries.ZONE;
     }
-    static final TemporalQuery<ZoneId> ZONE = new TemporalQuery<ZoneId>() {
-        @Override
-        public ZoneId queryFrom(TemporalAccessor temporal) {
-            ZoneId zone = temporal.query(ZONE_ID);
-            return (zone != null ? zone : temporal.query(OFFSET));
-        }
-    };
 
     /**
      * A query for {@code ZoneOffset} returning null if not found.
@@ -256,21 +229,19 @@ public final class TemporalQueries {
      * <p>
      * The query implementation examines the {@link ChronoField#OFFSET_SECONDS OFFSET_SECONDS}
      * field and uses it to create a {@code ZoneOffset}.
+     * <p>
+     * The method {@link java.time.ZoneOffset#from(TemporalAccessor)} can be used as a
+     * {@code TemporalQuery} via a method reference, {@code ZoneOffset::from}.
+     * This query and {@code ZoneOffset::from} will return the same result if the
+     * temporal object contains an offset. If the temporal object does not contain
+     * an offset, then the method reference will throw an exception, whereas this
+     * query will return null.
      *
      * @return a query that can obtain the offset of a temporal, not null
      */
-    public static final TemporalQuery<ZoneOffset> offset() {
-        return OFFSET;
+    public static TemporalQuery<ZoneOffset> offset() {
+        return TemporalQueries.OFFSET;
     }
-    static final TemporalQuery<ZoneOffset> OFFSET = new TemporalQuery<ZoneOffset>() {
-        @Override
-        public ZoneOffset queryFrom(TemporalAccessor temporal) {
-            if (temporal.isSupported(OFFSET_SECONDS)) {
-                return ZoneOffset.ofTotalSeconds(temporal.get(OFFSET_SECONDS));
-            }
-            return null;
-        }
-    };
 
     /**
      * A query for {@code LocalDate} returning null if not found.
@@ -281,21 +252,19 @@ public final class TemporalQueries {
      * <p>
      * The query implementation examines the {@link ChronoField#EPOCH_DAY EPOCH_DAY}
      * field and uses it to create a {@code LocalDate}.
+     * <p>
+     * The method {@link ZoneOffset#from(TemporalAccessor)} can be used as a
+     * {@code TemporalQuery} via a method reference, {@code LocalDate::from}.
+     * This query and {@code LocalDate::from} will return the same result if the
+     * temporal object contains a date. If the temporal object does not contain
+     * a date, then the method reference will throw an exception, whereas this
+     * query will return null.
      *
      * @return a query that can obtain the date of a temporal, not null
      */
-    public static final TemporalQuery<LocalDate> localDate() {
-        return LOCAL_DATE;
+    public static TemporalQuery<LocalDate> localDate() {
+        return TemporalQueries.LOCAL_DATE;
     }
-    static final TemporalQuery<LocalDate> LOCAL_DATE = new TemporalQuery<LocalDate>() {
-        @Override
-        public LocalDate queryFrom(TemporalAccessor temporal) {
-            if (temporal.isSupported(EPOCH_DAY)) {
-                return LocalDate.ofEpochDay(temporal.getLong(EPOCH_DAY));
-            }
-            return null;
-        }
-    };
 
     /**
      * A query for {@code LocalTime} returning null if not found.
@@ -306,12 +275,123 @@ public final class TemporalQueries {
      * <p>
      * The query implementation examines the {@link ChronoField#NANO_OF_DAY NANO_OF_DAY}
      * field and uses it to create a {@code LocalTime}.
+     * <p>
+     * The method {@link ZoneOffset#from(TemporalAccessor)} can be used as a
+     * {@code TemporalQuery} via a method reference, {@code LocalTime::from}.
+     * This query and {@code LocalTime::from} will return the same result if the
+     * temporal object contains a time. If the temporal object does not contain
+     * a time, then the method reference will throw an exception, whereas this
+     * query will return null.
      *
-     * @return a query that can obtain the date of a temporal, not null
+     * @return a query that can obtain the time of a temporal, not null
      */
-    public static final TemporalQuery<LocalTime> localTime() {
-        return LOCAL_TIME;
+    public static TemporalQuery<LocalTime> localTime() {
+        return TemporalQueries.LOCAL_TIME;
     }
+
+    //-----------------------------------------------------------------------
+    /**
+     * A strict query for the {@code ZoneId}.
+     */
+    static final TemporalQuery<ZoneId> ZONE_ID = new TemporalQuery<ZoneId>() {
+        @Override
+        public ZoneId queryFrom(TemporalAccessor temporal) {
+            return temporal.query(TemporalQueries.ZONE_ID);
+        }
+
+        @Override
+        public String toString() {
+            return "ZoneId";
+        }
+    };
+
+    /**
+     * A query for the {@code Chronology}.
+     */
+    static final TemporalQuery<Chronology> CHRONO = new TemporalQuery<Chronology>() {
+        @Override
+        public Chronology queryFrom(TemporalAccessor temporal) {
+            return temporal.query(TemporalQueries.CHRONO);
+        }
+
+        @Override
+        public String toString() {
+            return "Chronology";
+        }
+    };
+
+
+    /**
+     * A query for the smallest supported unit.
+     */
+    static final TemporalQuery<TemporalUnit> PRECISION = new TemporalQuery<TemporalUnit>() {
+        @Override
+        public TemporalUnit queryFrom(TemporalAccessor temporal) {
+            return temporal.query(TemporalQueries.PRECISION);
+        }
+
+        @Override
+        public String toString() {
+            return "Precision";
+        }
+    };
+
+    //-----------------------------------------------------------------------
+    /**
+     * A query for {@code ZoneOffset} returning null if not found.
+     */
+    static final TemporalQuery<ZoneOffset> OFFSET = new TemporalQuery<ZoneOffset>() {
+        @Override
+        public ZoneOffset queryFrom(TemporalAccessor temporal) {
+            if (temporal.isSupported(OFFSET_SECONDS)) {
+                return ZoneOffset.ofTotalSeconds(temporal.get(OFFSET_SECONDS));
+            }
+            return null;
+        }
+
+        @Override
+        public String toString() {
+            return "ZoneOffset";
+        }
+    };
+
+    /**
+     * A lenient query for the {@code ZoneId}, falling back to the {@code ZoneOffset}.
+     */
+    static final TemporalQuery<ZoneId> ZONE = new TemporalQuery<ZoneId>() {
+        @Override
+        public ZoneId queryFrom(TemporalAccessor temporal) {
+            ZoneId zone = temporal.query(ZONE_ID);
+            return (zone != null ? zone : temporal.query(OFFSET));
+        }
+
+        @Override
+        public String toString() {
+            return "Zone";
+        }
+    };
+
+    /**
+     * A query for {@code LocalDate} returning null if not found.
+     */
+    static final TemporalQuery<LocalDate> LOCAL_DATE = new TemporalQuery<LocalDate>() {
+        @Override
+        public LocalDate queryFrom(TemporalAccessor temporal) {
+            if (temporal.isSupported(EPOCH_DAY)) {
+                return LocalDate.ofEpochDay(temporal.getLong(EPOCH_DAY));
+            }
+            return null;
+        }
+
+        @Override
+        public String toString() {
+            return "LocalDate";
+        }
+    };
+
+    /**
+     * A query for {@code LocalTime} returning null if not found.
+     */
     static final TemporalQuery<LocalTime> LOCAL_TIME = new TemporalQuery<LocalTime>() {
         @Override
         public LocalTime queryFrom(TemporalAccessor temporal) {
@@ -319,6 +399,11 @@ public final class TemporalQueries {
                 return LocalTime.ofNanoOfDay(temporal.getLong(NANO_OF_DAY));
             }
             return null;
+        }
+
+        @Override
+        public String toString() {
+            return "LocalTime";
         }
     };
 

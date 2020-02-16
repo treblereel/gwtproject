@@ -113,15 +113,6 @@ public enum DayOfWeek implements TemporalAccessor, TemporalAdjuster {
      */
     SUNDAY;
     /**
-     * Simulate JDK 8 method reference DayOfWeek::from.
-     */
-    public static final TemporalQuery<DayOfWeek> FROM = new TemporalQuery<DayOfWeek>() {
-        @Override
-        public DayOfWeek queryFrom(TemporalAccessor temporal) {
-            return DayOfWeek.from(temporal);
-        }
-    };
-    /**
      * Private cache of all the constants.
      */
     private static final DayOfWeek[] ENUMS = DayOfWeek.values();
@@ -256,10 +247,8 @@ public enum DayOfWeek implements TemporalAccessor, TemporalAdjuster {
     public ValueRange range(TemporalField field) {
         if (field == DAY_OF_WEEK) {
             return field.range();
-        } else if (field instanceof ChronoField) {
-            throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
         }
-        return field.rangeRefinedBy(this);
+        return TemporalAccessor.super.range(field);
     }
 
     /**
@@ -291,7 +280,7 @@ public enum DayOfWeek implements TemporalAccessor, TemporalAdjuster {
         if (field == DAY_OF_WEEK) {
             return getValue();
         }
-        return range(field).checkValidIntValue(getLong(field), field);
+        return TemporalAccessor.super.get(field);
     }
 
     /**
@@ -381,11 +370,8 @@ public enum DayOfWeek implements TemporalAccessor, TemporalAdjuster {
     public <R> R query(TemporalQuery<R> query) {
         if (query == TemporalQueries.precision()) {
             return (R) DAYS;
-        } else if (query == TemporalQueries.localDate() || query == TemporalQueries.localTime() || query == TemporalQueries.chronology() ||
-                query == TemporalQueries.zone() || query == TemporalQueries.zoneId() || query == TemporalQueries.offset()) {
-            return null;
         }
-        return query.queryFrom(this);
+        return TemporalAccessor.super.query(query);
     }
 
     /**

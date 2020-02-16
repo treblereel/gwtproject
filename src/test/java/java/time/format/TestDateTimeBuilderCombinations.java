@@ -66,16 +66,18 @@ public class TestDateTimeBuilderCombinations {
 
     private static final ZoneId PARIS = ZoneId.of("Europe/Paris");
 
+    private static final TemporalQuery<?> FROM = LocalDate::from;
+
     @DataProvider(name = "combine")
     Object[][] data_combine() {
         return new Object[][] {
-            {YEAR, 2012, MONTH_OF_YEAR, 6, DAY_OF_MONTH, 3, null, null, LocalDate.FROM, LocalDate.of(2012, 6, 3)},
-            {PROLEPTIC_MONTH, 2012 * 12 + 6 - 1, DAY_OF_MONTH, 3, null, null, null, null, LocalDate.FROM, LocalDate.of(2012, 6, 3)},
-            {YEAR, 2012, ALIGNED_WEEK_OF_YEAR, 6, DAY_OF_WEEK, 3, null, null, LocalDate.FROM, LocalDate.of(2012, 2, 8)},
-            {YEAR, 2012, DAY_OF_YEAR, 155, null, null, null, null, LocalDate.FROM, LocalDate.of(2012, 6, 3)},
+            {YEAR, 2012, MONTH_OF_YEAR, 6, DAY_OF_MONTH, 3, null, null, FROM, LocalDate.of(2012, 6, 3)},
+            {PROLEPTIC_MONTH, 2012 * 12 + 6 - 1, DAY_OF_MONTH, 3, null, null, null, null, FROM, LocalDate.of(2012, 6, 3)},
+            {YEAR, 2012, ALIGNED_WEEK_OF_YEAR, 6, DAY_OF_WEEK, 3, null, null, FROM, LocalDate.of(2012, 2, 8)},
+            {YEAR, 2012, DAY_OF_YEAR, 155, null, null, null, null, FROM, LocalDate.of(2012, 6, 3)},
 //            {ERA, 1, YEAR_OF_ERA, 2012, DAY_OF_YEAR, 155, null, null, LocalDate.FROM, LocalDate.of(2012, 6, 3)},
 //            {YEAR, 2012, MONTH_OF_YEAR, 6, null, null, null, null, LocalDate.FROM, null},
-            {EPOCH_DAY, 12, null, null, null, null, null, null, LocalDate.FROM, LocalDate.of(1970, 1, 13)},
+            {EPOCH_DAY, 12, null, null, null, null, null, null, FROM, LocalDate.of(1970, 1, 13)},
         };
     }
 

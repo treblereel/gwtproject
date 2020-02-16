@@ -32,13 +32,13 @@
 package java.time.chrono;
 
 import java.time.DateTimeException;
-import java.time.jdk8.Jdk8Methods;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAmount;
 import java.time.temporal.TemporalUnit;
 import java.time.temporal.UnsupportedTemporalTypeException;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A date-based amount of time, such as '3 years, 4 months and 5 days' in an
@@ -62,8 +62,8 @@ import java.util.List;
  * In JDK 8, this is an interface with default methods.
  * Since there are no default methods in JDK 7, an abstract class is used.
  */
-public abstract class ChronoPeriod
-        implements TemporalAmount {
+public interface ChronoPeriod
+        extends TemporalAmount {
 
     /**
      * Obtains a {@code ChronoPeriod} consisting of amount of time between two dates.
@@ -85,8 +85,8 @@ public abstract class ChronoPeriod
      * @see ChronoLocalDate#until(ChronoLocalDate)
      */
     public static ChronoPeriod between(ChronoLocalDate startDateInclusive, ChronoLocalDate endDateExclusive) {
-        Jdk8Methods.requireNonNull(startDateInclusive, "startDateInclusive");
-        Jdk8Methods.requireNonNull(endDateExclusive, "endDateExclusive");
+        Objects.requireNonNull(startDateInclusive, "startDateInclusive");
+        Objects.requireNonNull(endDateExclusive, "endDateExclusive");
         return startDateInclusive.until(endDateExclusive);
     }
 
@@ -105,7 +105,7 @@ public abstract class ChronoPeriod
      * @throws UnsupportedTemporalTypeException if the unit is not supported
      */
     @Override
-    public abstract long get(TemporalUnit unit);
+    long get(TemporalUnit unit);
 
     /**
      * Gets the set of units supported by this period.
@@ -121,7 +121,7 @@ public abstract class ChronoPeriod
      * @return a list containing the supported units, not null
      */
     @Override
-    public abstract List<TemporalUnit> getUnits();
+    List<TemporalUnit> getUnits();
 
     /**
      * Gets the chronology that defines the meaning of the supported units.
@@ -132,7 +132,7 @@ public abstract class ChronoPeriod
      *
      * @return the chronology defining the period, not null
      */
-    public abstract Chronology getChronology();
+    Chronology getChronology();
 
     //-----------------------------------------------------------------------
     /**
@@ -140,7 +140,7 @@ public abstract class ChronoPeriod
      *
      * @return true if this period is zero-length
      */
-    public boolean isZero() {
+    default boolean isZero() {
         for (TemporalUnit unit : getUnits()) {
             if (get(unit) != 0) {
                 return false;
@@ -154,7 +154,7 @@ public abstract class ChronoPeriod
      *
      * @return true if any unit of this period is negative
      */
-    public boolean isNegative() {
+    default boolean isNegative() {
         for (TemporalUnit unit : getUnits()) {
             if (get(unit) < 0) {
                 return true;
@@ -177,7 +177,7 @@ public abstract class ChronoPeriod
      * @return a {@code ChronoPeriod} based on this period with the requested period added, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public abstract ChronoPeriod plus(TemporalAmount amountToAdd);
+    ChronoPeriod plus(TemporalAmount amountToAdd);
 
     /**
      * Returns a copy of this period with the specified period subtracted.
@@ -192,7 +192,7 @@ public abstract class ChronoPeriod
      * @return a {@code ChronoPeriod} based on this period with the requested period subtracted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public abstract ChronoPeriod minus(TemporalAmount amountToSubtract);
+    ChronoPeriod minus(TemporalAmount amountToSubtract);
 
     //-----------------------------------------------------------------------
     /**
@@ -209,7 +209,7 @@ public abstract class ChronoPeriod
      *  by the scalar, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public abstract ChronoPeriod multipliedBy(int scalar);
+    ChronoPeriod multipliedBy(int scalar);
 
     /**
      * Returns a new instance with each amount in this period negated.
@@ -223,7 +223,7 @@ public abstract class ChronoPeriod
      * @throws ArithmeticException if numeric overflow occurs, which only happens if
      *  one of the units has the value {@code Long.MIN_VALUE}
      */
-    public ChronoPeriod negated() {
+    default ChronoPeriod negated() {
         return multipliedBy(-1);
     }
 
@@ -242,7 +242,7 @@ public abstract class ChronoPeriod
      *  unit normalized, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public abstract ChronoPeriod normalized();
+    ChronoPeriod normalized();
 
     //-------------------------------------------------------------------------
     /**
@@ -270,7 +270,7 @@ public abstract class ChronoPeriod
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public abstract Temporal addTo(Temporal temporal);
+    Temporal addTo(Temporal temporal);
 
     /**
      * Subtracts this period from the specified temporal object.
@@ -297,7 +297,7 @@ public abstract class ChronoPeriod
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public abstract Temporal subtractFrom(Temporal temporal);
+    Temporal subtractFrom(Temporal temporal);
 
     //-----------------------------------------------------------------------
     /**
@@ -312,7 +312,7 @@ public abstract class ChronoPeriod
      * @return true if this is equal to the other period
      */
     @Override
-    public abstract boolean equals(Object obj);
+    boolean equals(Object obj);
 
     /**
      * A hash code for this period.
@@ -320,7 +320,7 @@ public abstract class ChronoPeriod
      * @return a suitable hash code
      */
     @Override
-    public abstract int hashCode();
+    int hashCode();
 
     //-----------------------------------------------------------------------
     /**
@@ -331,6 +331,6 @@ public abstract class ChronoPeriod
      * @return a string representation of this period, not null
      */
     @Override
-    public abstract String toString();
+    String toString();
 
 }

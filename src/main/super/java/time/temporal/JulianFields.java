@@ -38,9 +38,9 @@ import static java.time.temporal.ChronoUnit.FOREVER;
 import java.time.DateTimeException;
 import java.time.chrono.Chronology;
 import java.time.format.ResolverStyle;
-import java.time.jdk8.Jdk8Methods;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * A set of date fields that provide access to Julian Days.
@@ -230,12 +230,12 @@ public final class JulianFields {
             if (range().isValidValue(newValue) == false) {
                 throw new DateTimeException("Invalid value: " + name + " " + newValue);
             }
-            return (R) dateTime.with(EPOCH_DAY, Jdk8Methods.safeSubtract(newValue, offset));
+            return (R) dateTime.with(EPOCH_DAY, Math.subtractExact(newValue, offset));
         }
 
         @Override
         public String getDisplayName(Locale locale) {
-            Jdk8Methods.requireNonNull(locale, "locale");
+            Objects.requireNonNull(locale, "locale");
             return toString();
         }
 
@@ -245,7 +245,7 @@ public final class JulianFields {
                         TemporalAccessor partialTemporal, ResolverStyle resolverStyle) {
             long value = fieldValues.remove(this);
             Chronology chrono = Chronology.from(partialTemporal);
-            return chrono.dateEpochDay(Jdk8Methods.safeSubtract(value, offset));
+            return chrono.dateEpochDay(Math.subtractExact(value, offset));
         }
 
         //-----------------------------------------------------------------------

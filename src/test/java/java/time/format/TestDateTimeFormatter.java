@@ -158,20 +158,20 @@ public class TestDateTimeFormatter {
     //-----------------------------------------------------------------------
     @Test
     public void test_parse_Class_String() throws Exception {
-        LocalDate result = DATE_FORMATTER.parse("ONE2012 07 27", LocalDate.FROM);
+        LocalDate result = DATE_FORMATTER.parse("ONE2012 07 27", LocalDate::from);
         assertEquals(result, LocalDate.of(2012, 7, 27));
     }
 
     @Test
     public void test_parse_Class_CharSequence() throws Exception {
-        LocalDate result = DATE_FORMATTER.parse(new StringBuilder("ONE2012 07 27"), LocalDate.FROM);
+        LocalDate result = DATE_FORMATTER.parse(new StringBuilder("ONE2012 07 27"), LocalDate::from);
         assertEquals(result, LocalDate.of(2012, 7, 27));
     }
 
     @Test(expectedExceptions=DateTimeParseException.class)
     public void test_parse_Class_String_parseError() throws Exception {
         try {
-            DATE_FORMATTER.parse("ONE2012 07 XX", LocalDate.FROM);
+            DATE_FORMATTER.parse("ONE2012 07 XX", LocalDate::from);
         } catch (DateTimeParseException ex) {
             assertEquals(ex.getMessage().contains("could not be parsed"), true);
             assertEquals(ex.getMessage().contains("ONE2012 07 XX"), true);
@@ -184,7 +184,7 @@ public class TestDateTimeFormatter {
     @Test(expectedExceptions=DateTimeParseException.class)
     public void test_parse_Class_String_parseErrorLongText() throws Exception {
         try {
-            DATE_FORMATTER.parse("ONEXXX67890123456789012345678901234567890123456789012345678901234567890123456789", LocalDate.FROM);
+            DATE_FORMATTER.parse("ONEXXX67890123456789012345678901234567890123456789012345678901234567890123456789", LocalDate::from);
         } catch (DateTimeParseException ex) {
             assertEquals(ex.getMessage().contains("could not be parsed"), true);
             assertEquals(ex.getMessage().contains("ONEXXX6789012345678901234567890123456789012345678901234567890123..."), true);
@@ -197,7 +197,7 @@ public class TestDateTimeFormatter {
     @Test(expectedExceptions=DateTimeParseException.class)
     public void test_parse_Class_String_parseIncomplete() throws Exception {
         try {
-            DATE_FORMATTER.parse("ONE2012 07 27SomethingElse", LocalDate.FROM);
+            DATE_FORMATTER.parse("ONE2012 07 27SomethingElse", LocalDate::from);
         } catch (DateTimeParseException ex) {
             assertEquals(ex.getMessage().contains("could not be parsed"), true);
             assertEquals(ex.getMessage().contains("ONE2012 07 27SomethingElse"), true);
@@ -209,7 +209,7 @@ public class TestDateTimeFormatter {
 
     @Test(expectedExceptions=NullPointerException.class)
     public void test_parse_Class_String_nullText() throws Exception {
-        DATE_FORMATTER.parse((String) null, LocalDate.FROM);
+        DATE_FORMATTER.parse((String) null, LocalDate::from);
     }
 
     @Test(expectedExceptions=NullPointerException.class)
@@ -222,14 +222,14 @@ public class TestDateTimeFormatter {
     @Test
     public void test_parseBest_firstOption() throws Exception {
         DateTimeFormatter test = DateTimeFormatter.ofPattern("uuuu-MM[-dd]");
-        TemporalAccessor result = test.parseBest("2011-06-30", LocalDate.FROM, YearMonth.FROM);
+        TemporalAccessor result = test.parseBest("2011-06-30", LocalDate::from, YearMonth::from);
         assertEquals(result, LocalDate.of(2011, 6, 30));
     }
 
     @Test
     public void test_parseBest_secondOption() throws Exception {
         DateTimeFormatter test = DateTimeFormatter.ofPattern("uuuu-MM[-dd]");
-        TemporalAccessor result = test.parseBest("2011-06", LocalDate.FROM, YearMonth.FROM);
+        TemporalAccessor result = test.parseBest("2011-06", LocalDate::from, YearMonth::from);
         assertEquals(result, YearMonth.of(2011, 6));
     }
 
@@ -237,7 +237,7 @@ public class TestDateTimeFormatter {
     public void test_parseBest_String_parseError() throws Exception {
         DateTimeFormatter test = DateTimeFormatter.ofPattern("uuuu-MM[-dd]");
         try {
-            test.parseBest("2011-XX-30", LocalDate.FROM, YearMonth.FROM);
+            test.parseBest("2011-XX-30", LocalDate::from, YearMonth::from);
         } catch (DateTimeParseException ex) {
             assertEquals(ex.getMessage().contains("could not be parsed"), true);
             assertEquals(ex.getMessage().contains("XX"), true);
@@ -251,7 +251,7 @@ public class TestDateTimeFormatter {
     public void test_parseBest_String_parseErrorLongText() throws Exception {
         DateTimeFormatter test = fmt.withLocale(Locale.ENGLISH).withDecimalStyle(DecimalStyle.STANDARD);
         try {
-            test.parseBest("ONEXXX67890123456789012345678901234567890123456789012345678901234567890123456789", LocalDate.FROM, YearMonth.FROM);
+            test.parseBest("ONEXXX67890123456789012345678901234567890123456789012345678901234567890123456789", LocalDate::from, YearMonth::from);
         } catch (DateTimeParseException ex) {
             assertEquals(ex.getMessage().contains("could not be parsed"), true);
             assertEquals(ex.getMessage().contains("ONEXXX6789012345678901234567890123456789012345678901234567890123..."), true);
@@ -265,7 +265,7 @@ public class TestDateTimeFormatter {
     public void test_parseBest_String_parseIncomplete() throws Exception {
         DateTimeFormatter test = fmt.withLocale(Locale.ENGLISH).withDecimalStyle(DecimalStyle.STANDARD);
         try {
-            test.parseBest("ONE30SomethingElse", YearMonth.FROM, LocalDate.FROM);
+            test.parseBest("ONE30SomethingElse", YearMonth::from, LocalDate::from);
         } catch (DateTimeParseException ex) {
             assertEquals(ex.getMessage().contains("could not be parsed"), true);
             assertEquals(ex.getMessage().contains("ONE30SomethingElse"), true);
@@ -278,7 +278,7 @@ public class TestDateTimeFormatter {
     @Test(expectedExceptions=NullPointerException.class)
     public void test_parseBest_String_nullText() throws Exception {
         DateTimeFormatter test = fmt.withLocale(Locale.ENGLISH).withDecimalStyle(DecimalStyle.STANDARD);
-        test.parseBest((String) null, YearMonth.FROM, LocalDate.FROM);
+        test.parseBest((String) null, YearMonth::from, LocalDate::from);
     }
 
     @Test(expectedExceptions=NullPointerException.class)
@@ -296,7 +296,7 @@ public class TestDateTimeFormatter {
     @Test(expectedExceptions=IllegalArgumentException.class)
     public void test_parseBest_String_oneRule() throws Exception {
         DateTimeFormatter test = fmt.withLocale(Locale.ENGLISH).withDecimalStyle(DecimalStyle.STANDARD);
-        test.parseBest("30", LocalDate.FROM);
+        test.parseBest("30", LocalDate::from);
     }
 
     //-----------------------------------------------------------------------
@@ -477,14 +477,14 @@ public class TestDateTimeFormatter {
 
     @Test
     public void test_toFormat_Class_parseObject_String() throws Exception {
-        Format format = DATE_FORMATTER.toFormat(LocalDate.FROM);
+        Format format = DATE_FORMATTER.toFormat(LocalDate::from);
         LocalDate result = (LocalDate) format.parseObject("ONE2012 07 27");
         assertEquals(result, LocalDate.of(2012, 7, 27));
     }
 
     @Test(expectedExceptions=ParseException.class)
     public void test_toFormat_parseObject_StringParsePosition_dateTimeError() throws Exception {
-        Format format = DATE_FORMATTER.toFormat(LocalDate.FROM);
+        Format format = DATE_FORMATTER.toFormat(LocalDate::from);
         format.parseObject("ONE2012 07 32");
     }
 

@@ -46,7 +46,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Period;
 import java.time.ZoneId;
-import java.time.jdk8.Jdk8Methods;
 import java.time.temporal.ChronoField;
 import java.time.temporal.TemporalAccessor;
 import java.time.temporal.TemporalAdjuster;
@@ -56,6 +55,7 @@ import java.time.temporal.TemporalQuery;
 import java.time.temporal.TemporalUnit;
 import java.time.temporal.UnsupportedTemporalTypeException;
 import java.time.temporal.ValueRange;
+import java.util.Objects;
 
 /**
  * A date in the Thai Buddhist calendar system.
@@ -174,7 +174,7 @@ public final class ThaiBuddhistDate
      * @param isoDate  the standard local date, validated not null
      */
     ThaiBuddhistDate(LocalDate date) {
-        Jdk8Methods.requireNonNull(date, "date");
+        Objects.requireNonNull(date, "date");
         this.isoDate = date;
     }
 

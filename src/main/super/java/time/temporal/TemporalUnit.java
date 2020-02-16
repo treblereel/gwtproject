@@ -33,7 +33,11 @@ package java.time.temporal;
 
 import java.time.DateTimeException;
 import java.time.Duration;
+import java.time.LocalTime;
 import java.time.Period;
+import java.time.chrono.ChronoLocalDate;
+import java.time.chrono.ChronoLocalDateTime;
+import java.time.chrono.ChronoZonedDateTime;
 
 /**
  * A unit of date-time, such as Days or Hours.
@@ -114,7 +118,30 @@ public interface TemporalUnit {
      * @param temporal  the temporal object to check, not null
      * @return true if the unit is supported
      */
-    boolean isSupportedBy(Temporal temporal);
+    default boolean isSupportedBy(Temporal temporal) {
+        if (temporal instanceof LocalTime) {
+            return isTimeBased();
+        }
+        if (temporal instanceof ChronoLocalDate) {
+            return isDateBased();
+        }
+        if (temporal instanceof ChronoLocalDateTime || temporal instanceof ChronoZonedDateTime) {
+            return true;
+        }
+        try {
+            temporal.plus(1, this);
+            return true;
+        } catch (UnsupportedTemporalTypeException ex) {
+            return false;
+        } catch (RuntimeException ex) {
+            try {
+                temporal.plus(-1, this);
+                return true;
+            } catch (RuntimeException ex2) {
+                return false;
+            }
+        }
+    }
 
     /**
      * Returns a copy of the specified temporal object with the specified period added.

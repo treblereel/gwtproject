@@ -44,13 +44,13 @@ import java.time.Month;
 import java.time.Year;
 import java.time.ZoneOffset;
 import java.time.chrono.IsoChronology;
-import java.time.jdk8.Jdk8Methods;
 import java.time.zone.ZoneOffsetTransitionRule.TimeDefinition;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * A mutable builder used to create all the rules for a historic time-zone.
@@ -116,9 +116,9 @@ class ZoneRulesBuilder {
             ZoneOffset standardOffset,
             LocalDateTime until,
             TimeDefinition untilDefinition) {
-        Jdk8Methods.requireNonNull(standardOffset, "standardOffset");
-        Jdk8Methods.requireNonNull(until, "until");
-        Jdk8Methods.requireNonNull(untilDefinition, "untilDefinition");
+        Objects.requireNonNull(standardOffset, "standardOffset");
+        Objects.requireNonNull(until, "until");
+        Objects.requireNonNull(untilDefinition, "untilDefinition");
         TZWindow window = new TZWindow(standardOffset, until, untilDefinition);
         if (windowList.size() > 0) {
             TZWindow previous = windowList.get(windowList.size() - 1);
@@ -191,7 +191,7 @@ class ZoneRulesBuilder {
             LocalDateTime transitionDateTime,
             TimeDefinition timeDefinition,
             int savingAmountSecs) {
-        Jdk8Methods.requireNonNull(transitionDateTime, "transitionDateTime");
+    	Objects.requireNonNull(transitionDateTime, "transitionDateTime");
         return addRuleToWindow(
                 transitionDateTime.getYear(), transitionDateTime.getYear(),
                 transitionDateTime.getMonth(), transitionDateTime.getDayOfMonth(),
@@ -263,9 +263,9 @@ class ZoneRulesBuilder {
             boolean timeEndOfDay,
             TimeDefinition timeDefinition,
             int savingAmountSecs) {
-        Jdk8Methods.requireNonNull(month, "month");
-        Jdk8Methods.requireNonNull(time, "time");
-        Jdk8Methods.requireNonNull(timeDefinition, "timeDefinition");
+    	Objects.requireNonNull(month, "month");
+    	Objects.requireNonNull(time, "time");
+    	Objects.requireNonNull(timeDefinition, "timeDefinition");
         YEAR.checkValidValue(startYear);
         YEAR.checkValidValue(endYear);
         if (dayOfMonthIndicator < -28 || dayOfMonthIndicator > 31 || dayOfMonthIndicator == 0) {
@@ -292,8 +292,8 @@ class ZoneRulesBuilder {
             int adjustDays,
             TimeDefinition timeDefinition,
             int savingAmountSecs) {
-        Jdk8Methods.requireNonNull(month, "month");
-        Jdk8Methods.requireNonNull(timeDefinition, "timeDefinition");
+    	Objects.requireNonNull(month, "month");
+    	Objects.requireNonNull(timeDefinition, "timeDefinition");
         YEAR.checkValidValue(startYear);
         YEAR.checkValidValue(endYear);
         if (dayOfMonthIndicator < -28 || dayOfMonthIndicator > 31 || dayOfMonthIndicator == 0) {
@@ -336,7 +336,7 @@ class ZoneRulesBuilder {
      * @throws IllegalStateException if there is only one rule defined as being forever for any given window
      */
     ZoneRules toRules(String zoneId, Map<Object, Object> deduplicateMap) {
-        Jdk8Methods.requireNonNull(zoneId, "zoneId");
+    	Objects.requireNonNull(zoneId, "zoneId");
         this.deduplicateMap = deduplicateMap;
         if (windowList.isEmpty()) {
             throw new IllegalStateException("No windows have been added to the builder");

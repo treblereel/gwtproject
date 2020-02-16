@@ -39,7 +39,6 @@ import java.io.IOException;
 import java.io.InvalidObjectException;
 import java.io.ObjectStreamException;
 import java.io.Serializable;
-import java.time.jdk8.Jdk8Methods;
 import java.time.temporal.ChronoField;
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAccessor;
@@ -50,6 +49,7 @@ import java.time.temporal.TemporalQuery;
 import java.time.temporal.UnsupportedTemporalTypeException;
 import java.time.temporal.ValueRange;
 import java.time.zone.ZoneRules;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -88,16 +88,6 @@ import java.util.concurrent.ConcurrentMap;
 public final class ZoneOffset
         extends ZoneId
         implements TemporalAccessor, TemporalAdjuster, Comparable<ZoneOffset>, Serializable {
-
-    /**
-     * Simulate JDK 8 method reference ZoneOffset::from.
-     */
-    public static final TemporalQuery<ZoneOffset> FROM = new TemporalQuery<ZoneOffset>() {
-        @Override
-        public ZoneOffset queryFrom(TemporalAccessor temporal) {
-            return ZoneOffset.from(temporal);
-        }
-    };
 
     /** Cache of time-zone offset by offset in seconds. */
     private static final ConcurrentMap<Integer, ZoneOffset> SECONDS_CACHE = new ConcurrentHashMap<Integer, ZoneOffset>(16, 0.75f, 4);
@@ -179,7 +169,7 @@ public final class ZoneOffset
      * @throws DateTimeException if the offset ID is invalid
      */
     public static ZoneOffset of(String offsetId) {
-        Jdk8Methods.requireNonNull(offsetId, "offsetId");
+        Objects.requireNonNull(offsetId, "offsetId");
         // "Z" is always in the cache
         ZoneOffset offset = ID_CACHE.get(offsetId);
         if (offset != null) {
@@ -531,12 +521,7 @@ public final class ZoneOffset
      */
     @Override  // override for Javadoc
     public ValueRange range(TemporalField field) {
-        if (field == OFFSET_SECONDS) {
-            return field.range();
-        } else if (field instanceof ChronoField) {
-            throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
-        }
-        return field.rangeRefinedBy(this);
+        return TemporalAccessor.super.range(field);
     }
 
     /**
@@ -626,11 +611,8 @@ public final class ZoneOffset
     public <R> R query(TemporalQuery<R> query) {
         if (query == TemporalQueries.offset() || query == TemporalQueries.zone()) {
             return (R) this;
-        } else if (query == TemporalQueries.localDate() || query == TemporalQueries.localTime() ||
-                query == TemporalQueries.precision() || query == TemporalQueries.chronology() || query == TemporalQueries.zoneId()) {
-            return null;
         }
-        return query.queryFrom(this);
+        return TemporalAccessor.super.query(query);
     }
 
     /**

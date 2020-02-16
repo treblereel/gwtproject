@@ -52,8 +52,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
 import java.time.format.SignStyle;
-import java.time.jdk8.DefaultInterfaceTemporalAccessor;
-import java.time.jdk8.Jdk8Methods;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
@@ -66,6 +64,7 @@ import java.time.temporal.TemporalQuery;
 import java.time.temporal.TemporalUnit;
 import java.time.temporal.UnsupportedTemporalTypeException;
 import java.time.temporal.ValueRange;
+import java.util.Objects;
 
 /**
  * A year in the ISO-8601 calendar system, such as {@code 2007}.
@@ -95,26 +94,16 @@ import java.time.temporal.ValueRange;
  * This class is immutable and thread-safe.
  */
 public final class Year
-        extends DefaultInterfaceTemporalAccessor
         implements Temporal, TemporalAdjuster, Comparable<Year>, Serializable {
 
     /**
      * The minimum supported year, '-999,999,999'.
      */
-    public static final int MIN_VALUE = -999999999;
+    public static final int MIN_VALUE = -999_999_999;
     /**
      * The maximum supported year, '+999,999,999'.
      */
-    public static final int MAX_VALUE = 999999999;
-    /**
-     * Simulate JDK 8 method reference Year::from.
-     */
-    public static final TemporalQuery<Year> FROM = new TemporalQuery<Year>() {
-        @Override
-        public Year queryFrom(TemporalAccessor temporal) {
-            return Year.from(temporal);
-        }
-    };
+    public static final int MAX_VALUE = 999_999_999;
 
     /**
      * Serialization version.
@@ -258,8 +247,8 @@ public final class Year
      * @throws DateTimeParseException if the text cannot be parsed
      */
     public static Year parse(CharSequence text, DateTimeFormatter formatter) {
-        Jdk8Methods.requireNonNull(formatter, "formatter");
-        return formatter.parse(text, Year.FROM);
+        Objects.requireNonNull(formatter, "formatter");
+        return formatter.parse(text, Year::from);
     }
 
     //-------------------------------------------------------------------------
@@ -378,7 +367,7 @@ public final class Year
         if (field == YEAR_OF_ERA) {
             return (year <= 0 ? ValueRange.of(1, MAX_VALUE + 1) : ValueRange.of(1, MAX_VALUE));
         }
-        return super.range(field);
+        return Temporal.super.range(field);
     }
 
     /**
@@ -600,10 +589,10 @@ public final class Year
         if (unit instanceof ChronoUnit) {
             switch ((ChronoUnit) unit) {
                 case YEARS: return plusYears(amountToAdd);
-                case DECADES: return plusYears(Jdk8Methods.safeMultiply(amountToAdd, 10));
-                case CENTURIES: return plusYears(Jdk8Methods.safeMultiply(amountToAdd, 100));
-                case MILLENNIA: return plusYears(Jdk8Methods.safeMultiply(amountToAdd, 1000));
-                case ERAS: return with(ERA, Jdk8Methods.safeAdd(getLong(ERA), amountToAdd));
+                case DECADES: return plusYears(Math.multiplyExact(amountToAdd, 10));
+                case CENTURIES: return plusYears(Math.multiplyExact(amountToAdd, 100));
+                case MILLENNIA: return plusYears(Math.multiplyExact(amountToAdd, 1000));
+                case ERAS: return with(ERA, Math.addExact(getLong(ERA), amountToAdd));
             }
             throw new UnsupportedTemporalTypeException("Unsupported unit: " + unit);
         }
@@ -697,11 +686,8 @@ public final class Year
             return (R) IsoChronology.INSTANCE;
         } else if (query == TemporalQueries.precision()) {
             return (R) YEARS;
-        } else if (query == TemporalQueries.localDate() || query == TemporalQueries.localTime() ||
-                query == TemporalQueries.zone() || query == TemporalQueries.zoneId() || query == TemporalQueries.offset()) {
-            return null;
         }
-        return super.query(query);
+        return Temporal.super.query(query);
     }
 
     /**
@@ -953,7 +939,7 @@ public final class Year
      * @throws DateTimeException if an error occurs during printing
      */
     public String format(DateTimeFormatter formatter) {
-        Jdk8Methods.requireNonNull(formatter, "formatter");
+        Objects.requireNonNull(formatter, "formatter");
         return formatter.format(this);
     }
 

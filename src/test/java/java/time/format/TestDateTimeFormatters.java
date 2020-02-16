@@ -57,7 +57,6 @@ import java.time.ZonedDateTime;
 import java.time.chrono.Chronology;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.time.jdk8.DefaultInterfaceTemporalAccessor;
 import java.time.temporal.IsoFields;
 import java.time.temporal.TemporalAccessor;
 import java.time.temporal.TemporalField;
@@ -853,7 +852,7 @@ public class TestDateTimeFormatters {
 
     @Test
     public void test_print_isoOrdinalDate_fields() {
-        TemporalAccessor test = new DefaultInterfaceTemporalAccessor() {
+        TemporalAccessor test = new TemporalAccessor() {
             @Override
             public boolean isSupported(TemporalField field) {
                 return field == YEAR || field == DAY_OF_YEAR;
@@ -934,14 +933,14 @@ public class TestDateTimeFormatters {
     @Test
     public void test_parse_basicIsoDate() {
         LocalDate expected = LocalDate.of(2008, 6, 3);
-        assertEquals(DateTimeFormatter.BASIC_ISO_DATE.parse("20080603", LocalDate.FROM), expected);
+        assertEquals(DateTimeFormatter.BASIC_ISO_DATE.parse("20080603", LocalDate::from), expected);
     }
 
     @Test(expectedExceptions=DateTimeParseException.class)
     public void test_parse_basicIsoDate_largeYear() {
         try {
             LocalDate expected = LocalDate.of(123456, 6, 3);
-            assertEquals(DateTimeFormatter.BASIC_ISO_DATE.parse("+1234560603", LocalDate.FROM), expected);
+            assertEquals(DateTimeFormatter.BASIC_ISO_DATE.parse("+1234560603", LocalDate::from), expected);
         } catch (DateTimeParseException ex) {
             assertEquals(ex.getErrorIndex(), 0);
             assertEquals(ex.getParsedString(), "+1234560603");
@@ -1011,7 +1010,7 @@ public class TestDateTimeFormatters {
     @Test
     public void test_parse_weekDate() {
         LocalDate expected = LocalDate.of(2004, 1, 28);
-        assertEquals(DateTimeFormatter.ISO_WEEK_DATE.parse("2004-W05-3", LocalDate.FROM), expected);
+        assertEquals(DateTimeFormatter.ISO_WEEK_DATE.parse("2004-W05-3", LocalDate::from), expected);
     }
 
     @Test
@@ -1181,7 +1180,7 @@ public class TestDateTimeFormatters {
     }
 
     //-------------------------------------------------------------------------
-    static class MockAccessor extends DefaultInterfaceTemporalAccessor {
+    static class MockAccessor implements TemporalAccessor {
         Map<TemporalField, Long> fields = new HashMap<TemporalField, Long>();
         ZoneId zoneId;
 
@@ -1245,7 +1244,7 @@ public class TestDateTimeFormatters {
             if (query == TemporalQueries.zoneId()) {
                 return (R) zoneId;
             }
-            return super.query(query);
+            return query.queryFrom(this);
         }
 
         @Override

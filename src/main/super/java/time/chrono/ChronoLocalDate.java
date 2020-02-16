@@ -31,19 +31,15 @@
  */
 package java.time.chrono;
 
-import static java.time.temporal.ChronoField.DAY_OF_MONTH;
 import static java.time.temporal.ChronoField.EPOCH_DAY;
 import static java.time.temporal.ChronoField.ERA;
-import static java.time.temporal.ChronoField.MONTH_OF_YEAR;
 import static java.time.temporal.ChronoField.YEAR;
-import static java.time.temporal.ChronoField.YEAR_OF_ERA;
 
+import java.io.Serializable;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.time.jdk8.DefaultInterfaceTemporal;
-import java.time.jdk8.Jdk8Methods;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
@@ -55,6 +51,7 @@ import java.time.temporal.TemporalQueries;
 import java.time.temporal.TemporalQuery;
 import java.time.temporal.TemporalUnit;
 import java.util.Comparator;
+import java.util.Objects;
 
 /**
  * A date without time-of-day or time-zone in an arbitrary chronology, intended
@@ -217,9 +214,8 @@ import java.util.Comparator;
  * In JDK 8, this is an interface with default methods.
  * Since there are no default methods in JDK 7, an abstract class is used.
  */
-public abstract class ChronoLocalDate
-        extends DefaultInterfaceTemporal
-        implements Temporal, TemporalAdjuster, Comparable<ChronoLocalDate> {
+public interface ChronoLocalDate
+        extends Temporal, TemporalAdjuster, Comparable<ChronoLocalDate> {
 
     /**
      * Gets a comparator that compares {@code ChronoLocalDate} in
@@ -236,16 +232,11 @@ public abstract class ChronoLocalDate
      * @see #isBefore
      * @see #isEqual
      */
-    public static Comparator<ChronoLocalDate> timeLineOrder() {
-        return DATE_COMPARATOR;
+    static Comparator<ChronoLocalDate> timeLineOrder() {
+        return (Comparator<ChronoLocalDate> & Serializable) (date1, date2) -> {
+            return Long.compare(date1.toEpochDay(), date2.toEpochDay());
+        };
     }
-    private static final Comparator<ChronoLocalDate> DATE_COMPARATOR =
-            new Comparator<ChronoLocalDate>() {
-        @Override
-        public int compare(ChronoLocalDate date1, ChronoLocalDate date2) {
-            return Jdk8Methods.compareLongs(date1.toEpochDay(), date2.toEpochDay());
-        }
-    };
 
     //-----------------------------------------------------------------------
     /**
@@ -270,7 +261,7 @@ public abstract class ChronoLocalDate
      * @see Chronology#date(TemporalAccessor)
      */
     public static ChronoLocalDate from(TemporalAccessor temporal) {
-        Jdk8Methods.requireNonNull(temporal, "temporal");
+        Objects.requireNonNull(temporal, "temporal");
         if (temporal instanceof ChronoLocalDate) {
             return (ChronoLocalDate) temporal;
         }
@@ -290,7 +281,7 @@ public abstract class ChronoLocalDate
      *
      * @return the chronology, not null
      */
-    public abstract Chronology getChronology();
+    Chronology getChronology();
 
     /**
      * Gets the era, as defined by the chronology.
@@ -305,7 +296,7 @@ public abstract class ChronoLocalDate
      *
      * @return the chronology specific era constant applicable at this date, not null
      */
-    public Era getEra() {
+    default Era getEra() {
         return getChronology().eraOf(get(ERA));
     }
 
@@ -321,7 +312,7 @@ public abstract class ChronoLocalDate
      *
      * @return true if this date is in a leap year, false otherwise
      */
-    public boolean isLeapYear() {
+    default boolean isLeapYear() {
         return getChronology().isLeapYear(getLong(YEAR));
     }
 
@@ -332,7 +323,7 @@ public abstract class ChronoLocalDate
      *
      * @return the length of the month in days
      */
-    public abstract int lengthOfMonth();
+    int lengthOfMonth();
 
     /**
      * Returns the length of the year represented by this date, as defined by the calendar system.
@@ -343,12 +334,12 @@ public abstract class ChronoLocalDate
      *
      * @return the length of the year in days
      */
-    public int lengthOfYear() {
+    default int lengthOfYear() {
         return (isLeapYear() ? 366 : 365);
     }
 
     @Override
-    public boolean isSupported(TemporalField field) {
+    default boolean isSupported(TemporalField field) {
         if (field instanceof ChronoField) {
             return field.isDateBased();
         }
@@ -356,7 +347,7 @@ public abstract class ChronoLocalDate
     }
 
     @Override
-    public boolean isSupported(TemporalUnit unit) {
+    default boolean isSupported(TemporalUnit unit) {
         if (unit instanceof ChronoUnit) {
             return unit.isDateBased();
         }
@@ -366,35 +357,45 @@ public abstract class ChronoLocalDate
     //-------------------------------------------------------------------------
     // override for covariant return type
     @Override
-    public ChronoLocalDate with(TemporalAdjuster adjuster) {
-        return getChronology().ensureChronoLocalDate(super.with(adjuster));
+    default ChronoLocalDate with(TemporalAdjuster adjuster) {
+        return getChronology().ensureChronoLocalDate(Temporal.super.with(adjuster));
     }
 
     @Override
-    public abstract ChronoLocalDate with(TemporalField field, long newValue);
-
-    @Override
-    public ChronoLocalDate plus(TemporalAmount amount) {
-        return getChronology().ensureChronoLocalDate(super.plus(amount));
+    default ChronoLocalDate with(TemporalField field, long newValue) {
+        if (field instanceof ChronoField) {
+            throw new DateTimeException("Unsupported field: " + field);
+        }
+        return getChronology().ensureChronoLocalDate(field.adjustInto(this, newValue));
     }
 
     @Override
-    public abstract ChronoLocalDate plus(long amountToAdd, TemporalUnit unit);
-
-    @Override
-    public ChronoLocalDate minus(TemporalAmount amount) {
-        return getChronology().ensureChronoLocalDate(super.minus(amount));
+    default ChronoLocalDate plus(TemporalAmount amount) {
+        return getChronology().ensureChronoLocalDate(Temporal.super.plus(amount));
     }
 
     @Override
-    public ChronoLocalDate minus(long amountToSubtract, TemporalUnit unit) {
-        return getChronology().ensureChronoLocalDate(super.minus(amountToSubtract, unit));
+    default ChronoLocalDate plus(long amountToAdd, TemporalUnit unit) {
+        if (unit instanceof ChronoUnit) {
+            throw new DateTimeException("Unsupported unit: " + unit);
+        }
+        return getChronology().ensureChronoLocalDate(unit.addTo(this, amountToAdd));
+    }
+
+    @Override
+    default ChronoLocalDate minus(TemporalAmount amount) {
+        return getChronology().ensureChronoLocalDate(Temporal.super.minus(amount));
+    }
+
+    @Override
+    default ChronoLocalDate minus(long amountToSubtract, TemporalUnit unit) {
+        return getChronology().ensureChronoLocalDate(Temporal.super.minus(amountToSubtract, unit));
     }
 
     //-----------------------------------------------------------------------
     @SuppressWarnings("unchecked")
     @Override
-    public <R> R query(TemporalQuery<R> query) {
+    default <R> R query(TemporalQuery<R> query) {
         if (query == TemporalQueries.chronology()) {
             return (R) getChronology();
         } else if (query == TemporalQueries.precision()) {
@@ -405,11 +406,11 @@ public abstract class ChronoLocalDate
                 query == TemporalQueries.zoneId() || query == TemporalQueries.offset()) {
             return null;
         }
-        return super.query(query);
+        return query.queryFrom(this);
     }
 
     @Override
-    public Temporal adjustInto(Temporal temporal) {
+    default Temporal adjustInto(Temporal temporal) {
         return temporal.with(EPOCH_DAY, toEpochDay());
     }
 
@@ -435,7 +436,7 @@ public abstract class ChronoLocalDate
      * @throws DateTimeException if the period cannot be calculated
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public abstract ChronoPeriod until(ChronoLocalDate endDateExclusive);
+    ChronoPeriod until(ChronoLocalDate endDateExclusive);
 
     /**
      * Formats this date using the specified formatter.
@@ -451,8 +452,8 @@ public abstract class ChronoLocalDate
      * @return the formatted date string, not null
      * @throws DateTimeException if an error occurs during printing
      */
-    public String format(DateTimeFormatter formatter) {
-        Jdk8Methods.requireNonNull(formatter, "formatter");
+    default String format(DateTimeFormatter formatter) {
+        Objects.requireNonNull(formatter, "formatter");
         return formatter.format(this);
     }
 
@@ -466,7 +467,7 @@ public abstract class ChronoLocalDate
      * @param localTime  the local time to use, not null
      * @return the local date-time formed from this date and the specified time, not null
      */
-    public ChronoLocalDateTime<?> atTime(LocalTime localTime) {
+    default ChronoLocalDateTime<?> atTime(LocalTime localTime) {
         return ChronoLocalDateTimeImpl.of(this, localTime);
     }
 
@@ -480,7 +481,7 @@ public abstract class ChronoLocalDate
      *
      * @return the Epoch Day equivalent to this date
      */
-    public long toEpochDay() {
+    default long toEpochDay() {
         return getLong(EPOCH_DAY);
     }
 
@@ -512,8 +513,8 @@ public abstract class ChronoLocalDate
      * @return the comparator value, negative if less, positive if greater
      */
     @Override
-    public int compareTo(ChronoLocalDate other) {
-        int cmp = Jdk8Methods.compareLongs(toEpochDay(), other.toEpochDay());
+    default int compareTo(ChronoLocalDate other) {
+        int cmp = Long.compare(toEpochDay(), other.toEpochDay());
         if (cmp == 0) {
             cmp = getChronology().compareTo(other.getChronology());
         }
@@ -533,7 +534,7 @@ public abstract class ChronoLocalDate
      * @param other  the other date to compare to, not null
      * @return true if this is after the specified date
      */
-    public boolean isAfter(ChronoLocalDate other) {
+    default boolean isAfter(ChronoLocalDate other) {
         return this.toEpochDay() > other.toEpochDay();
     }
 
@@ -549,7 +550,7 @@ public abstract class ChronoLocalDate
      * @param other  the other date to compare to, not null
      * @return true if this is before the specified date
      */
-    public boolean isBefore(ChronoLocalDate other) {
+    default boolean isBefore(ChronoLocalDate other) {
         return this.toEpochDay() < other.toEpochDay();
     }
 
@@ -565,7 +566,7 @@ public abstract class ChronoLocalDate
      * @param other  the other date to compare to, not null
      * @return true if the underlying date is equal to the specified date
      */
-    public boolean isEqual(ChronoLocalDate other) {
+    default boolean isEqual(ChronoLocalDate other) {
         return this.toEpochDay() == other.toEpochDay();
     }
 
@@ -582,15 +583,7 @@ public abstract class ChronoLocalDate
      * @return true if this is equal to the other date
      */
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj instanceof ChronoLocalDate) {
-            return compareTo((ChronoLocalDate) obj) == 0;
-        }
-        return false;
-    }
+    boolean equals(Object obj);
 
     /**
      * A hash code for this date.
@@ -598,10 +591,7 @@ public abstract class ChronoLocalDate
      * @return a suitable hash code
      */
     @Override
-    public int hashCode() {
-        long epDay = toEpochDay();
-        return getChronology().hashCode() ^ ((int) (epDay ^ (epDay >>> 32)));
-    }
+    int hashCode();
 
     //-----------------------------------------------------------------------
     /**
@@ -612,20 +602,7 @@ public abstract class ChronoLocalDate
      * @return the formatted date, not null
      */
     @Override
-    public String toString() {
+    String toString();
         // getLong() reduces chances of exceptions in toString()
-        long yoe = getLong(YEAR_OF_ERA);
-        long moy = getLong(MONTH_OF_YEAR);
-        long dom = getLong(DAY_OF_MONTH);
-        StringBuilder buf = new StringBuilder(30);
-        buf.append(getChronology().toString())
-                .append(" ")
-                .append(getEra())
-                .append(" ")
-                .append(yoe)
-                .append(moy < 10 ? "-0" : "-").append(moy)
-                .append(dom < 10 ? "-0" : "-").append(dom);
-        return buf.toString();
-    }
 
 }

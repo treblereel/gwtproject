@@ -35,6 +35,7 @@ import static java.time.temporal.ChronoField.INSTANT_SECONDS;
 import static java.time.temporal.ChronoField.OFFSET_SECONDS;
 import static java.time.temporal.ChronoUnit.NANOS;
 
+import java.io.Serializable;
 import java.time.DateTimeException;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -43,9 +44,8 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.jdk8.DefaultInterfaceTemporal;
-import java.time.jdk8.Jdk8Methods;
 import java.time.temporal.ChronoField;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAccessor;
 import java.time.temporal.TemporalAdjuster;
@@ -57,6 +57,7 @@ import java.time.temporal.TemporalUnit;
 import java.time.temporal.UnsupportedTemporalTypeException;
 import java.time.temporal.ValueRange;
 import java.util.Comparator;
+import java.util.Objects;
 
 /**
  * A date-time with a time-zone in an arbitrary chronology,
@@ -90,9 +91,8 @@ import java.util.Comparator;
  *
  * @param <D> the date type
  */
-public abstract class ChronoZonedDateTime<D extends ChronoLocalDate>
-        extends DefaultInterfaceTemporal
-        implements Temporal, Comparable<ChronoZonedDateTime<?>> {
+public interface ChronoZonedDateTime<D extends ChronoLocalDate>
+        extends Temporal, Comparable<ChronoZonedDateTime<?>> {
 
     /**
      * Gets a comparator that compares {@code ChronoZonedDateTime} in
@@ -109,19 +109,15 @@ public abstract class ChronoZonedDateTime<D extends ChronoLocalDate>
      * @see #isBefore
      * @see #isEqual
      */
-    public static Comparator<ChronoZonedDateTime<?>> timeLineOrder() {
-        return INSTANT_COMPARATOR;
-    }
-    private static Comparator<ChronoZonedDateTime<?>> INSTANT_COMPARATOR = new Comparator<ChronoZonedDateTime<?>>() {
-        @Override
-        public int compare(ChronoZonedDateTime<?> datetime1, ChronoZonedDateTime<?> datetime2) {
-            int cmp = Jdk8Methods.compareLongs(datetime1.toEpochSecond(), datetime2.toEpochSecond());
+    static Comparator<ChronoZonedDateTime<?>> timeLineOrder() {
+        return (Comparator<ChronoZonedDateTime<?>> & Serializable) (datetime1, datetime2) -> {
+                int cmp = Long.compare(datetime1.toEpochSecond(), datetime2.toEpochSecond());
             if (cmp == 0) {
-                cmp = Jdk8Methods.compareLongs(datetime1.toLocalTime().toNanoOfDay(), datetime2.toLocalTime().toNanoOfDay());
+                cmp = Long.compare(datetime1.toLocalTime().toNanoOfDay(), datetime2.toLocalTime().toNanoOfDay());
             }
             return cmp;
-        }
-    };
+            };
+    }
 
     //-----------------------------------------------------------------------
     /**
@@ -145,8 +141,7 @@ public abstract class ChronoZonedDateTime<D extends ChronoLocalDate>
      * @throws DateTimeException if unable to convert to a {@code ChronoZonedDateTime}
      * @see Chronology#zonedDateTime(TemporalAccessor)
      */
-    public static ChronoZonedDateTime<?> from(TemporalAccessor temporal) {
-        Jdk8Methods.requireNonNull(temporal, "temporal");
+    static ChronoZonedDateTime<?> from(TemporalAccessor temporal) {
         if (temporal instanceof ChronoZonedDateTime) {
             return (ChronoZonedDateTime<?>) temporal;
         }
@@ -159,7 +154,7 @@ public abstract class ChronoZonedDateTime<D extends ChronoLocalDate>
 
     //-------------------------------------------------------------------------
     @Override
-    public ValueRange range(TemporalField field) {
+    default ValueRange range(TemporalField field) {
         if (field instanceof ChronoField) {
             if (field == INSTANT_SECONDS || field == OFFSET_SECONDS) {
                 return field.range();
@@ -170,7 +165,7 @@ public abstract class ChronoZonedDateTime<D extends ChronoLocalDate>
     }
 
     @Override
-    public int get(TemporalField field) {
+    default int get(TemporalField field) {
         if (field instanceof ChronoField) {
             switch ((ChronoField) field) {
                 case INSTANT_SECONDS: throw new UnsupportedTemporalTypeException("Field too large for an int: " + field);
@@ -178,11 +173,11 @@ public abstract class ChronoZonedDateTime<D extends ChronoLocalDate>
             }
             return toLocalDateTime().get(field);
         }
-        return super.get(field);
+        return Temporal.super.get(field);
     }
 
     @Override
-    public long getLong(TemporalField field) {
+    default long getLong(TemporalField field) {
         if (field instanceof ChronoField) {
             switch ((ChronoField) field) {
                 case INSTANT_SECONDS: return toEpochSecond();
@@ -202,7 +197,7 @@ public abstract class ChronoZonedDateTime<D extends ChronoLocalDate>
      *
      * @return the date part of this date-time, not null
      */
-    public D toLocalDate() {
+    default D toLocalDate() {
         return toLocalDateTime().toLocalDate();
     }
 
@@ -214,7 +209,7 @@ public abstract class ChronoZonedDateTime<D extends ChronoLocalDate>
      *
      * @return the time part of this date-time, not null
      */
-    public LocalTime toLocalTime() {
+    default LocalTime toLocalTime() {
         return toLocalDateTime().toLocalTime();
     }
 
@@ -226,7 +221,7 @@ public abstract class ChronoZonedDateTime<D extends ChronoLocalDate>
      *
      * @return the local date-time part of this date-time, not null
      */
-    public abstract ChronoLocalDateTime<D> toLocalDateTime();
+    ChronoLocalDateTime<D> toLocalDateTime();
 
     /**
      * Gets the chronology of this date-time.
@@ -236,7 +231,7 @@ public abstract class ChronoZonedDateTime<D extends ChronoLocalDate>
      *
      * @return the chronology, not null
      */
-    public Chronology getChronology() {
+    default Chronology getChronology() {
         return toLocalDate().getChronology();
     }
 
@@ -247,7 +242,7 @@ public abstract class ChronoZonedDateTime<D extends ChronoLocalDate>
      *
      * @return the zone offset, not null
      */
-    public abstract ZoneOffset getOffset();
+    ZoneOffset getOffset();
 
     /**
      * Gets the zone ID, such as 'Europe/Paris'.
@@ -256,7 +251,7 @@ public abstract class ChronoZonedDateTime<D extends ChronoLocalDate>
      *
      * @return the zone ID, not null
      */
-    public abstract ZoneId getZone();
+    ZoneId getZone();
 
     //-----------------------------------------------------------------------
     /**
@@ -277,7 +272,7 @@ public abstract class ChronoZonedDateTime<D extends ChronoLocalDate>
      * @throws DateTimeException if no rules can be found for the zone
      * @throws DateTimeException if no rules are valid for this date-time
      */
-    public abstract ChronoZonedDateTime<D> withEarlierOffsetAtOverlap();
+    ChronoZonedDateTime<D> withEarlierOffsetAtOverlap();
 
     /**
      * Returns a copy of this date-time changing the zone offset to the
@@ -297,7 +292,7 @@ public abstract class ChronoZonedDateTime<D extends ChronoLocalDate>
      * @throws DateTimeException if no rules can be found for the zone
      * @throws DateTimeException if no rules are valid for this date-time
      */
-    public abstract ChronoZonedDateTime<D> withLaterOffsetAtOverlap();
+    ChronoZonedDateTime<D> withLaterOffsetAtOverlap();
 
     //-----------------------------------------------------------------------
     /**
@@ -315,7 +310,7 @@ public abstract class ChronoZonedDateTime<D extends ChronoLocalDate>
      * @param zoneId  the time-zone to change to, not null
      * @return a {@code ChronoZonedDateTime} based on this date-time with the requested zone, not null
      */
-    public abstract ChronoZonedDateTime<D> withZoneSameLocal(ZoneId zoneId);
+    ChronoZonedDateTime<D> withZoneSameLocal(ZoneId zoneId);
 
     /**
      * Returns a copy of this date-time with a different time-zone,
@@ -334,40 +329,49 @@ public abstract class ChronoZonedDateTime<D extends ChronoLocalDate>
      * @return a {@code ChronoZonedDateTime} based on this date-time with the requested zone, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    public abstract ChronoZonedDateTime<D> withZoneSameInstant(ZoneId zoneId);
+    ChronoZonedDateTime<D> withZoneSameInstant(ZoneId zoneId);
 
+    @Override
+    boolean isSupported(TemporalField field);
+    @Override
+    default boolean isSupported(TemporalUnit unit) {
+        if (unit instanceof ChronoUnit) {
+            return unit.isDateBased() || unit.isTimeBased();
+        }
+        return unit != null && unit.isSupportedBy(this);
+    }
     //-------------------------------------------------------------------------
     // override for covariant return type
     @Override
-    public ChronoZonedDateTime<D> with(TemporalAdjuster adjuster) {
-        return toLocalDate().getChronology().ensureChronoZonedDateTime(super.with(adjuster));
+    default ChronoZonedDateTime<D> with(TemporalAdjuster adjuster) {
+        return (ChronoZonedDateTime<D>) toLocalDate().getChronology().ensureChronoZonedDateTime(Temporal.super.with(adjuster));
     }
 
     @Override
-    public abstract ChronoZonedDateTime<D> with(TemporalField field, long newValue);
+    ChronoZonedDateTime<D> with(TemporalField field, long newValue);
 
     @Override
-    public ChronoZonedDateTime<D> plus(TemporalAmount amount) {
-        return toLocalDate().getChronology().ensureChronoZonedDateTime(super.plus(amount));
+    default ChronoZonedDateTime<D> plus(TemporalAmount amount) {
+        return (ChronoZonedDateTime<D>) toLocalDate().getChronology().ensureChronoZonedDateTime(Temporal.super.plus(amount));
     }
 
     @Override
-    public abstract ChronoZonedDateTime<D> plus(long amountToAdd, TemporalUnit unit);
+    ChronoZonedDateTime<D> plus(long amountToAdd, TemporalUnit unit);
 
     @Override
-    public ChronoZonedDateTime<D> minus(TemporalAmount amount) {
-        return toLocalDate().getChronology().ensureChronoZonedDateTime(super.minus(amount));
+    default ChronoZonedDateTime<D> minus(TemporalAmount amount) {
+        return (ChronoZonedDateTime<D>) toLocalDate().getChronology().ensureChronoZonedDateTime(Temporal.super.minus(amount));
     }
 
     @Override
-    public ChronoZonedDateTime<D> minus(long amountToSubtract, TemporalUnit unit) {
-        return toLocalDate().getChronology().ensureChronoZonedDateTime(super.minus(amountToSubtract, unit));
+    default ChronoZonedDateTime<D> minus(long amountToSubtract, TemporalUnit unit) {
+        return (ChronoZonedDateTime<D>) toLocalDate().getChronology().ensureChronoZonedDateTime(Temporal.super.minus(amountToSubtract, unit));
     }
 
     //-----------------------------------------------------------------------
     @SuppressWarnings("unchecked")
     @Override
-    public <R> R query(TemporalQuery<R> query) {
+    default <R> R query(TemporalQuery<R> query) {
         if (query == TemporalQueries.zoneId() || query == TemporalQueries.zone()) {
             return (R) getZone();
         } else if (query == TemporalQueries.chronology()) {
@@ -381,7 +385,7 @@ public abstract class ChronoZonedDateTime<D extends ChronoLocalDate>
         } else if (query == TemporalQueries.localTime()) {
             return (R) toLocalTime();
         }
-        return super.query(query);
+        return query.queryFrom(this);
     }
 
     /**
@@ -391,8 +395,8 @@ public abstract class ChronoZonedDateTime<D extends ChronoLocalDate>
      * @return the formatted date-time string, not null
      * @throws DateTimeException if an error occurs during printing
      */
-    public String format(DateTimeFormatter formatter) {
-        Jdk8Methods.requireNonNull(formatter, "formatter");
+    default String format(DateTimeFormatter formatter) {
+        Objects.requireNonNull(formatter, "formatter");
         return formatter.format(this);
     }
 
@@ -407,7 +411,7 @@ public abstract class ChronoZonedDateTime<D extends ChronoLocalDate>
      *
      * @return an {@code Instant} representing the same instant, not null
      */
-    public Instant toInstant() {
+    default Instant toInstant() {
         return Instant.ofEpochSecond(toEpochSecond(), toLocalTime().getNano());
     }
 
@@ -422,7 +426,7 @@ public abstract class ChronoZonedDateTime<D extends ChronoLocalDate>
      *
      * @return the number of seconds from the epoch of 1970-01-01T00:00:00Z
      */
-    public long toEpochSecond() {
+    default long toEpochSecond() {
         long epochDay = toLocalDate().toEpochDay();
         long secs = epochDay * 86400 + toLocalTime().toSecondOfDay();
         secs -= getOffset().getTotalSeconds();
@@ -444,8 +448,8 @@ public abstract class ChronoZonedDateTime<D extends ChronoLocalDate>
      * @return the comparator value, negative if less, positive if greater
      */
     @Override
-    public int compareTo(ChronoZonedDateTime<?> other) {
-        int cmp = Jdk8Methods.compareLongs(toEpochSecond(), other.toEpochSecond());
+    default int compareTo(ChronoZonedDateTime<?> other) {
+        int cmp = Long.compare(toEpochSecond(), other.toEpochSecond());
         if (cmp == 0) {
             cmp = toLocalTime().getNano() - other.toLocalTime().getNano();
             if (cmp == 0) {
@@ -472,7 +476,7 @@ public abstract class ChronoZonedDateTime<D extends ChronoLocalDate>
      * @param other  the other date-time to compare to, not null
      * @return true if this is after the specified date-time
      */
-    public boolean isAfter(ChronoZonedDateTime<?> other) {
+    default boolean isAfter(ChronoZonedDateTime<?> other) {
         long thisEpochSec = toEpochSecond();
         long otherEpochSec = other.toEpochSecond();
         return thisEpochSec > otherEpochSec ||
@@ -489,7 +493,7 @@ public abstract class ChronoZonedDateTime<D extends ChronoLocalDate>
      * @param other  the other date-time to compare to, not null
      * @return true if this point is before the specified date-time
      */
-    public boolean isBefore(ChronoZonedDateTime<?> other) {
+    default boolean isBefore(ChronoZonedDateTime<?> other) {
         long thisEpochSec = toEpochSecond();
         long otherEpochSec = other.toEpochSecond();
         return thisEpochSec < otherEpochSec ||
@@ -506,7 +510,7 @@ public abstract class ChronoZonedDateTime<D extends ChronoLocalDate>
      * @param other  the other date-time to compare to, not null
      * @return true if the instant equals the instant of the specified date-time
      */
-    public boolean isEqual(ChronoZonedDateTime<?> other) {
+    default boolean isEqual(ChronoZonedDateTime<?> other) {
         return toEpochSecond() == other.toEpochSecond() &&
                 toLocalTime().getNano() == other.toLocalTime().getNano();
     }
@@ -523,15 +527,7 @@ public abstract class ChronoZonedDateTime<D extends ChronoLocalDate>
      * @return true if this is equal to the other date-time
      */
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj instanceof ChronoZonedDateTime) {
-            return compareTo((ChronoZonedDateTime<?>) obj) == 0;
-        }
-        return false;
-    }
+    boolean equals(Object obj);
 
     /**
      * A hash code for this date-time.
@@ -539,9 +535,7 @@ public abstract class ChronoZonedDateTime<D extends ChronoLocalDate>
      * @return a suitable hash code
      */
     @Override
-    public int hashCode() {
-        return toLocalDateTime().hashCode() ^ getOffset().hashCode() ^ Integer.rotateLeft(getZone().hashCode(), 3);
-    }
+    int hashCode();
 
     //-----------------------------------------------------------------------
     /**
@@ -552,12 +546,6 @@ public abstract class ChronoZonedDateTime<D extends ChronoLocalDate>
      * @return a string representation of this date-time, not null
      */
     @Override
-    public String toString() {
-        String str = toLocalDateTime().toString() + getOffset().toString();
-        if (getOffset() != getZone()) {
-            str += '[' + getZone().toString() + ']';
-        }
-        return str;
-    }
+    String toString();
 
 }

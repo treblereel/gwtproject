@@ -49,7 +49,6 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.time.format.DateTimeParseException;
-import java.time.jdk8.Jdk8Methods;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
@@ -59,6 +58,7 @@ import java.time.temporal.UnsupportedTemporalTypeException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -143,7 +143,7 @@ public final class Duration
      * @throws ArithmeticException if the input days exceeds the capacity of {@code Duration}
      */
     public static Duration ofDays(long days) {
-        return create(Jdk8Methods.safeMultiply(days, 86400), 0);
+        return create(Math.multiplyExact(days, 86400), 0);
     }
 
     /**
@@ -158,7 +158,7 @@ public final class Duration
      * @throws ArithmeticException if the input hours exceeds the capacity of {@code Duration}
      */
     public static Duration ofHours(long hours) {
-        return create(Jdk8Methods.safeMultiply(hours, 3600), 0);
+        return create(Math.multiplyExact(hours, 3600), 0);
     }
 
     /**
@@ -173,7 +173,7 @@ public final class Duration
      * @throws ArithmeticException if the input minutes exceeds the capacity of {@code Duration}
      */
     public static Duration ofMinutes(long minutes) {
-        return create(Jdk8Methods.safeMultiply(minutes, 60), 0);
+        return create(Math.multiplyExact(minutes, 60), 0);
     }
 
     //-----------------------------------------------------------------------
@@ -209,8 +209,8 @@ public final class Duration
      * @throws ArithmeticException if the adjustment causes the seconds to exceed the capacity of {@code Duration}
      */
     public static Duration ofSeconds(long seconds, long nanoAdjustment) {
-        long secs = Jdk8Methods.safeAdd(seconds, Jdk8Methods.floorDiv(nanoAdjustment, NANOS_PER_SECOND));
-        int nos = Jdk8Methods.floorMod(nanoAdjustment, NANOS_PER_SECOND);
+        long secs = Math.addExact(seconds, Math.floorDiv(nanoAdjustment, NANOS_PER_SECOND));
+        int nos = (int) Math.floorMod(nanoAdjustment, NANOS_PER_SECOND);
         return create(secs, nos);
     }
 
@@ -294,7 +294,7 @@ public final class Duration
      * @throws ArithmeticException if a numeric overflow occurs
      */
     public static Duration from(TemporalAmount amount) {
-        Jdk8Methods.requireNonNull(amount, "amount");
+        Objects.requireNonNull(amount, "amount");
         Duration duration = ZERO;
         for (TemporalUnit unit : amount.getUnits()) {
             duration = duration.plus(amount.get(unit), unit);
@@ -392,7 +392,7 @@ public final class Duration
      * @throws DateTimeParseException if the text cannot be parsed to a duration
      */
     public static Duration parse(CharSequence text) {
-        Jdk8Methods.requireNonNull(text, "text");
+        Objects.requireNonNull(text, "text");
         Matcher matcher = PATTERN.matcher(text);
         if (matcher.matches()) {
             // check for letter T but no time sections
@@ -431,10 +431,8 @@ public final class Duration
                 parsed = parsed.substring(1);
             }
             long val = Long.parseLong(parsed);
-            return Jdk8Methods.safeMultiply(val, multiplier);
-        } catch (NumberFormatException ex) {
-            throw (DateTimeParseException) new DateTimeParseException("Text cannot be parsed to a Duration: " + errorText, text, 0).initCause(ex);
-        } catch (ArithmeticException ex) {
+            return Math.multiplyExact(val, multiplier);
+        } catch (NumberFormatException | ArithmeticException ex) {
             throw (DateTimeParseException) new DateTimeParseException("Text cannot be parsed to a Duration: " + errorText, text, 0).initCause(ex);
         }
     }
@@ -455,7 +453,7 @@ public final class Duration
     }
 
     private static Duration create(boolean negate, long daysAsSecs, long hoursAsSecs, long minsAsSecs, long secs, int nanos) {
-        long seconds = Jdk8Methods.safeAdd(daysAsSecs, Jdk8Methods.safeAdd(hoursAsSecs, Jdk8Methods.safeAdd(minsAsSecs, secs)));
+        long seconds = Math.addExact(daysAsSecs, Math.addExact(hoursAsSecs, Math.addExact(minsAsSecs, secs)));
         if (negate) {
             return ofSeconds(seconds, nanos).negated();
         }
@@ -632,9 +630,9 @@ public final class Duration
      * @throws ArithmeticException if numeric overflow occurs
      */
     public Duration plus(long amountToAdd, TemporalUnit unit) {
-        Jdk8Methods.requireNonNull(unit, "unit");
+        Objects.requireNonNull(unit, "unit");
         if (unit == DAYS) {
-            return plus(Jdk8Methods.safeMultiply(amountToAdd, SECONDS_PER_DAY), 0);
+            return plus(Math.multiplyExact(amountToAdd, SECONDS_PER_DAY), 0);
         }
         if (unit.isDurationEstimated()) {
             throw new DateTimeException("Unit must not have an estimated duration");
@@ -645,11 +643,11 @@ public final class Duration
         if (unit instanceof ChronoUnit) {
             switch ((ChronoUnit) unit) {
                 case NANOS: return plusNanos(amountToAdd);
-                case MICROS: return plusSeconds((amountToAdd / (1000000L * 1000)) * 1000).plusNanos((amountToAdd % (1000000L * 1000)) * 1000);
+                case MICROS: return plusSeconds((amountToAdd / (1000_000L * 1000)) * 1000).plusNanos((amountToAdd % (1000_000L * 1000)) * 1000);
                 case MILLIS: return plusMillis(amountToAdd);
                 case SECONDS: return plusSeconds(amountToAdd);
             }
-            return plusSeconds(Jdk8Methods.safeMultiply(unit.getDuration().seconds, amountToAdd));
+            return plusSeconds(Math.multiplyExact(unit.getDuration().seconds, amountToAdd));
         }
         Duration duration = unit.getDuration().multipliedBy(amountToAdd);
         return plusSeconds(duration.getSeconds()).plusNanos(duration.getNano());
@@ -666,7 +664,7 @@ public final class Duration
      * @throws ArithmeticException if numeric overflow occurs
      */
     public Duration plusDays(long daysToAdd) {
-        return plus(Jdk8Methods.safeMultiply(daysToAdd, SECONDS_PER_DAY), 0);
+        return plus(Math.multiplyExact(daysToAdd, SECONDS_PER_DAY), 0);
     }
 
     /**
@@ -679,7 +677,7 @@ public final class Duration
      * @throws ArithmeticException if numeric overflow occurs
      */
     public Duration plusHours(long hoursToAdd) {
-        return plus(Jdk8Methods.safeMultiply(hoursToAdd, SECONDS_PER_HOUR), 0);
+        return plus(Math.multiplyExact(hoursToAdd, SECONDS_PER_HOUR), 0);
     }
 
     /**
@@ -692,7 +690,7 @@ public final class Duration
      * @throws ArithmeticException if numeric overflow occurs
      */
     public Duration plusMinutes(long minutesToAdd) {
-        return plus(Jdk8Methods.safeMultiply(minutesToAdd, SECONDS_PER_MINUTE), 0);
+        return plus(Math.multiplyExact(minutesToAdd, SECONDS_PER_MINUTE), 0);
     }
 
     /**
@@ -748,8 +746,8 @@ public final class Duration
         if ((secondsToAdd | nanosToAdd) == 0) {
             return this;
         }
-        long epochSec = Jdk8Methods.safeAdd(seconds, secondsToAdd);
-        epochSec = Jdk8Methods.safeAdd(epochSec, nanosToAdd / NANOS_PER_SECOND);
+        long epochSec = Math.addExact(seconds, secondsToAdd);
+        epochSec = Math.addExact(epochSec, nanosToAdd / NANOS_PER_SECOND);
         nanosToAdd = nanosToAdd % NANOS_PER_SECOND;
         long nanoAdjustment = nanos + nanosToAdd;  // safe int+NANOS_PER_SECOND
         return ofSeconds(epochSec, nanoAdjustment);
@@ -1098,8 +1096,8 @@ public final class Duration
      * @throws ArithmeticException if numeric overflow occurs
      */
     public long toMillis() {
-        long result = Jdk8Methods.safeMultiply(seconds, 1000);
-        result = Jdk8Methods.safeAdd(result, nanos / NANOS_PER_MILLI);
+        long result = Math.multiplyExact(seconds, 1000);
+        result = Math.addExact(result, nanos / NANOS_PER_MILLI);
         return result;
     }
 
@@ -1113,8 +1111,8 @@ public final class Duration
      * @throws ArithmeticException if numeric overflow occurs
      */
     public long toNanos() {
-        long result = Jdk8Methods.safeMultiply(seconds, NANOS_PER_SECOND);
-        result = Jdk8Methods.safeAdd(result, nanos);
+        long result = Math.multiplyExact(seconds, NANOS_PER_SECOND);
+        result = Math.addExact(result, nanos);
         return result;
     }
 
@@ -1130,7 +1128,7 @@ public final class Duration
      */
     @Override
     public int compareTo(Duration otherDuration) {
-        int cmp = Jdk8Methods.compareLongs(seconds, otherDuration.seconds);
+        int cmp = Long.compare(seconds, otherDuration.seconds);
         if (cmp != 0) {
             return cmp;
         }

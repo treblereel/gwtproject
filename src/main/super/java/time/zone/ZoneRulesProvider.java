@@ -34,9 +34,9 @@ package java.time.zone;
 import java.time.DateTimeException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.time.jdk8.Jdk8Methods;
 import java.util.Collections;
 import java.util.NavigableMap;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -72,11 +72,11 @@ public abstract class ZoneRulesProvider {
     /**
      * The set of loaded providers.
      */
-    private static final CopyOnWriteArrayList<ZoneRulesProvider> PROVIDERS = new CopyOnWriteArrayList<ZoneRulesProvider>();
+    private static final CopyOnWriteArrayList<ZoneRulesProvider> PROVIDERS = new CopyOnWriteArrayList<>();
     /**
      * The lookup from zone region ID to provider.
      */
-    private static final ConcurrentMap<String, ZoneRulesProvider> ZONES = new ConcurrentHashMap<String, ZoneRulesProvider>(512, 0.75f, 2);
+    private static final ConcurrentMap<String, ZoneRulesProvider> ZONES = new ConcurrentHashMap<>(512, 0.75f, 2);
     static {
         ZoneRulesInitializer.initialize();
     }
@@ -117,7 +117,7 @@ public abstract class ZoneRulesProvider {
      * @throws ZoneRulesException if rules cannot be obtained for the zone ID
      */
     public static ZoneRules getRules(String zoneId, boolean forCaching) {
-        Jdk8Methods.requireNonNull(zoneId, "zoneId");
+        Objects.requireNonNull(zoneId, "zoneId");
         return getProvider(zoneId).provideRules(zoneId, forCaching);
     }
 
@@ -146,7 +146,7 @@ public abstract class ZoneRulesProvider {
      * @throws ZoneRulesException if history cannot be obtained for the zone ID
      */
     public static NavigableMap<String, ZoneRules> getVersions(String zoneId) {
-        Jdk8Methods.requireNonNull(zoneId, "zoneId");
+        Objects.requireNonNull(zoneId, "zoneId");
         return getProvider(zoneId).provideVersions(zoneId);
     }
 
@@ -185,7 +185,7 @@ public abstract class ZoneRulesProvider {
      * @throws ZoneRulesException if a region is already registered
      */
     public static void registerProvider(ZoneRulesProvider provider) {
-        Jdk8Methods.requireNonNull(provider, "provider");
+        Objects.requireNonNull(provider, "provider");
         registerProvider0(provider);
         PROVIDERS.add(provider);
     }
@@ -198,7 +198,7 @@ public abstract class ZoneRulesProvider {
      */
     private static void registerProvider0(ZoneRulesProvider provider) {
         for (String zoneId : provider.provideZoneIds()) {
-            Jdk8Methods.requireNonNull(zoneId, "zoneId");
+            Objects.requireNonNull(zoneId, "zoneId");
             ZoneRulesProvider old = ZONES.putIfAbsent(zoneId, provider);
             if (old != null) {
                 throw new ZoneRulesException(

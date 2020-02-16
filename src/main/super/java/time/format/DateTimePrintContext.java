@@ -41,8 +41,6 @@ import java.time.ZoneOffset;
 import java.time.chrono.ChronoLocalDate;
 import java.time.chrono.Chronology;
 import java.time.chrono.IsoChronology;
-import java.time.jdk8.DefaultInterfaceTemporalAccessor;
-import java.time.jdk8.Jdk8Methods;
 import java.time.temporal.ChronoField;
 import java.time.temporal.TemporalAccessor;
 import java.time.temporal.TemporalField;
@@ -50,6 +48,7 @@ import java.time.temporal.TemporalQueries;
 import java.time.temporal.TemporalQuery;
 import java.time.temporal.ValueRange;
 import java.util.Locale;
+import java.util.Objects;
 
 /**
  * Context object used during date and time printing.
@@ -111,10 +110,10 @@ final class DateTimePrintContext {
         // ensure minimal change
         Chronology temporalChrono = temporal.query(TemporalQueries.chronology());
         ZoneId temporalZone = temporal.query(TemporalQueries.zoneId());
-        if (Jdk8Methods.equals(temporalChrono, overrideChrono)) {
+        if (Objects.equals(temporalChrono, overrideChrono)) {
             overrideChrono = null;
         }
-        if (Jdk8Methods.equals(temporalZone, overrideZone)) {
+        if (Objects.equals(temporalZone, overrideZone)) {
             overrideZone = null;
         }
         if (overrideChrono == null && overrideZone == null) {
@@ -157,7 +156,7 @@ final class DateTimePrintContext {
         }
 
         // need class here to handle non-standard cases
-        return new DefaultInterfaceTemporalAccessor() {
+        return new TemporalAccessor() {
             @Override
             public boolean isSupported(TemporalField field) {
                 if (effectiveDate != null && field.isDateBased()) {
@@ -192,6 +191,12 @@ final class DateTimePrintContext {
                     return temporal.query(query);
                 }
                 return query.queryFrom(this);
+            }
+            @Override
+            public String toString() {
+                return temporal +
+                        (effectiveChrono != null ? " with chronology " + effectiveChrono : "") +
+                        (effectiveZone != null ? " with zone " + effectiveZone : "");
             }
         };
     }
@@ -298,7 +303,7 @@ final class DateTimePrintContext {
      * @param temporal  the date-time object, not null
      */
     void setDateTime(TemporalAccessor temporal) {
-        Jdk8Methods.requireNonNull(temporal, "temporal");
+        Objects.requireNonNull(temporal, "temporal");
         this.temporal = temporal;
     }
 
@@ -311,7 +316,7 @@ final class DateTimePrintContext {
      * @param locale  the locale, not null
      */
     void setLocale(Locale locale) {
-        Jdk8Methods.requireNonNull(locale, "locale");
+        Objects.requireNonNull(locale, "locale");
         this.locale = locale;
     }
 

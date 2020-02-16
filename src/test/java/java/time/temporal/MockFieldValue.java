@@ -32,7 +32,6 @@
 package java.time.temporal;
 
 import java.time.DateTimeException;
-import java.time.jdk8.DefaultInterfaceTemporalAccessor;
 import java.time.temporal.ChronoField;
 import java.time.temporal.TemporalField;
 import java.time.temporal.ValueRange;
@@ -40,7 +39,7 @@ import java.time.temporal.ValueRange;
 /**
  * Mock simple date-time with one field-value.
  */
-public final class MockFieldValue extends DefaultInterfaceTemporalAccessor {
+public final class MockFieldValue implements TemporalAccessor {
 
     private final TemporalField field;
     private final long value;

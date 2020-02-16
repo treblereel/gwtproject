@@ -35,7 +35,7 @@ import static java.time.LocalTime.NANOS_PER_MINUTE;
 import static java.time.LocalTime.NANOS_PER_SECOND;
 
 import java.io.Serializable;
-import java.time.jdk8.Jdk8Methods;
+import java.util.Objects;
 import java.util.TimeZone;
 
 /**
@@ -152,7 +152,7 @@ public abstract class Clock {
      * @return a clock that uses the best available system clock in the specified zone, not null
      */
     public static Clock system(ZoneId zone) {
-        Jdk8Methods.requireNonNull(zone, "zone");
+        Objects.requireNonNull(zone, "zone");
         return new SystemClock(zone);
     }
 
@@ -235,15 +235,15 @@ public abstract class Clock {
      * @throws ArithmeticException if the duration is too large to be represented as nanos
      */
     public static Clock tick(Clock baseClock, Duration tickDuration) {
-        Jdk8Methods.requireNonNull(baseClock, "baseClock");
-        Jdk8Methods.requireNonNull(tickDuration, "tickDuration");
+        Objects.requireNonNull(baseClock, "baseClock");
+        Objects.requireNonNull(tickDuration, "tickDuration");
         if (tickDuration.isNegative()) {
             throw new IllegalArgumentException("Tick duration must not be negative");
         }
         long tickNanos = tickDuration.toNanos();
-        if (tickNanos % 1000000 == 0) {
+        if (tickNanos % 1000_000 == 0) {
             // ok, no fraction of millisecond
-        } else if (1000000000 % tickNanos == 0) {
+        } else if (1000_000_000 % tickNanos == 0) {
             // ok, divides into one second without remainder
         } else {
             throw new IllegalArgumentException("Invalid tick duration");
@@ -270,8 +270,8 @@ public abstract class Clock {
      * @return a clock that always returns the same instant, not null
      */
     public static Clock fixed(Instant fixedInstant, ZoneId zone) {
-        Jdk8Methods.requireNonNull(fixedInstant, "fixedInstant");
-        Jdk8Methods.requireNonNull(zone, "zone");
+        Objects.requireNonNull(fixedInstant, "fixedInstant");
+        Objects.requireNonNull(zone, "zone");
         return new FixedClock(fixedInstant, zone);
     }
 
@@ -296,8 +296,8 @@ public abstract class Clock {
      * @return a clock based on the base clock with the duration added, not null
      */
     public static Clock offset(Clock baseClock, Duration offsetDuration) {
-        Jdk8Methods.requireNonNull(baseClock, "baseClock");
-        Jdk8Methods.requireNonNull(offsetDuration, "offsetDuration");
+        Objects.requireNonNull(baseClock, "baseClock");
+        Objects.requireNonNull(offsetDuration, "offsetDuration");
         if (offsetDuration.equals(Duration.ZERO)) {
             return baseClock;
         }
@@ -515,7 +515,7 @@ public abstract class Clock {
         }
         @Override
         public long millis() {
-            return Jdk8Methods.safeAdd(baseClock.millis(), offset.toMillis());
+            return Math.addExact(baseClock.millis(), offset.toMillis());
         }
         @Override
         public Instant instant() {
@@ -566,17 +566,17 @@ public abstract class Clock {
         @Override
         public long millis() {
             long millis = baseClock.millis();
-            return millis - Jdk8Methods.floorMod(millis, tickNanos / 1000000L);
+            return millis - Math.floorMod(millis, tickNanos / 1000_000L);
         }
         @Override
         public Instant instant() {
-            if ((tickNanos % 1000000) == 0) {
+            if ((tickNanos % 1000_000) == 0) {
                 long millis = baseClock.millis();
-                return Instant.ofEpochMilli(millis - Jdk8Methods.floorMod(millis, tickNanos / 1000000L));
+                return Instant.ofEpochMilli(millis - Math.floorMod(millis, tickNanos / 1000_000L));
             }
             Instant instant = baseClock.instant();
             long nanos = instant.getNano();
-            long adjust = Jdk8Methods.floorMod(nanos, tickNanos);
+            long adjust = Math.floorMod(nanos, tickNanos);
             return instant.minusNanos(adjust);
         }
         @Override

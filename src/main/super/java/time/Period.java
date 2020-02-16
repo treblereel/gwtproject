@@ -41,7 +41,6 @@ import java.time.chrono.ChronoPeriod;
 import java.time.chrono.Chronology;
 import java.time.chrono.IsoChronology;
 import java.time.format.DateTimeParseException;
-import java.time.jdk8.Jdk8Methods;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAmount;
@@ -50,6 +49,7 @@ import java.time.temporal.UnsupportedTemporalTypeException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -88,8 +88,7 @@ import java.util.regex.Pattern;
  * This class is immutable and thread-safe.
  */
 public final class Period
-        extends ChronoPeriod
-        implements Serializable {
+        implements ChronoPeriod, Serializable {
 
     /**
      * A constant for a period of zero.
@@ -155,7 +154,7 @@ public final class Period
      * @return the period of days, not null
      */
     public static Period ofWeeks(int weeks) {
-        return create(0, 0, Jdk8Methods.safeMultiply(weeks, 7));
+        return create(0, 0, Math.multiplyExact(weeks, 7));
     }
 
     /**
@@ -215,18 +214,18 @@ public final class Period
                 throw new DateTimeException("Period requires ISO chronology: " + amount);
             }
         }
-        Jdk8Methods.requireNonNull(amount, "amount");
+        Objects.requireNonNull(amount, "amount");
         int years = 0;
         int months = 0;
         int days = 0;
         for (TemporalUnit unit : amount.getUnits()) {
             long unitAmount = amount.get(unit);
             if (unit == ChronoUnit.YEARS) {
-                years = Jdk8Methods.safeToInt(unitAmount);
+                years = Math.toIntExact(unitAmount);
             } else if (unit == ChronoUnit.MONTHS) {
-                months = Jdk8Methods.safeToInt(unitAmount);
+                months = Math.toIntExact(unitAmount);
             } else if (unit == ChronoUnit.DAYS) {
-                days = Jdk8Methods.safeToInt(unitAmount);
+                days = Math.toIntExact(unitAmount);
             } else {
                 throw new DateTimeException("Unit must be Years, Months or Days, but was " + unit);
             }
@@ -299,7 +298,7 @@ public final class Period
      * @throws DateTimeParseException if the text cannot be parsed to a period
      */
     public static Period parse(CharSequence text) {
-        Jdk8Methods.requireNonNull(text, "text");
+        Objects.requireNonNull(text, "text");
         Matcher matcher = PATTERN.matcher(text);
         if (matcher.matches()) {
             int negate = ("-".equals(matcher.group(1)) ? -1 : 1);
@@ -313,7 +312,7 @@ public final class Period
                     int months = parseNumber(text, monthMatch, negate);
                     int weeks = parseNumber(text, weekMatch, negate);
                     int days = parseNumber(text, dayMatch, negate);
-                    days = Jdk8Methods.safeAdd(days, Jdk8Methods.safeMultiply(weeks, 7));
+                    days = Math.addExact(days, Math.multiplyExact(weeks, 7));
                     return create(years, months, days);
                 } catch (NumberFormatException ex) {
                     throw (DateTimeParseException) new DateTimeParseException("Text cannot be parsed to a Period", text, 0).initCause(ex);
@@ -329,7 +328,7 @@ public final class Period
         }
         int val = Integer.parseInt(str);
         try {
-            return Jdk8Methods.safeMultiply(val, negate);
+            return Math.multiplyExact(val, negate);
         } catch (ArithmeticException ex) {
             throw (DateTimeParseException) new DateTimeParseException("Text cannot be parsed to a Period", text, 0).initCause(ex);
         }
@@ -547,9 +546,9 @@ public final class Period
     public Period plus(TemporalAmount amountToAdd) {
         Period amount = Period.from(amountToAdd);
         return create(
-                Jdk8Methods.safeAdd(years, amount.years),
-                Jdk8Methods.safeAdd(months, amount.months),
-                Jdk8Methods.safeAdd(days, amount.days));
+                Math.addExact(years, amount.years),
+                Math.addExact(months, amount.months),
+                Math.addExact(days, amount.days));
     }
 
     /**
@@ -569,7 +568,7 @@ public final class Period
         if (yearsToAdd == 0) {
             return this;
         }
-        return create(Jdk8Methods.safeToInt(Jdk8Methods.safeAdd(years, yearsToAdd)), months, days);
+        return create(Math.toIntExact(Math.addExact(years, yearsToAdd)), months, days);
     }
 
     /**
@@ -589,7 +588,7 @@ public final class Period
         if (monthsToAdd == 0) {
             return this;
         }
-        return create(years, Jdk8Methods.safeToInt(Jdk8Methods.safeAdd(months, monthsToAdd)), days);
+        return create(years, Math.toIntExact(Math.addExact(months, monthsToAdd)), days);
     }
 
     /**
@@ -609,7 +608,7 @@ public final class Period
         if (daysToAdd == 0) {
             return this;
         }
-        return create(years, months, Jdk8Methods.safeToInt(Jdk8Methods.safeAdd(days, daysToAdd)));
+        return create(years, months, Math.toIntExact(Math.addExact(days, daysToAdd)));
     }
 
     //-----------------------------------------------------------------------
@@ -631,9 +630,9 @@ public final class Period
     public Period minus(TemporalAmount amountToSubtract) {
         Period amount = Period.from(amountToSubtract);
         return create(
-                Jdk8Methods.safeSubtract(years, amount.years),
-                Jdk8Methods.safeSubtract(months, amount.months),
-                Jdk8Methods.safeSubtract(days, amount.days));
+                Math.subtractExact(years, amount.years),
+                Math.subtractExact(months, amount.months),
+                Math.subtractExact(days, amount.days));
     }
 
     /**
@@ -704,9 +703,9 @@ public final class Period
             return this;
         }
         return create(
-                Jdk8Methods.safeMultiply(years, scalar),
-                Jdk8Methods.safeMultiply(months, scalar),
-                Jdk8Methods.safeMultiply(days, scalar));
+                Math.multiplyExact(years, scalar),
+                Math.multiplyExact(months, scalar),
+                Math.multiplyExact(days, scalar));
     }
 
     /**
@@ -747,7 +746,7 @@ public final class Period
         if (splitYears == years && splitMonths == months) {
             return this;
         }
-        return create(Jdk8Methods.safeToInt(splitYears), splitMonths, days);
+        return create(Math.toIntExact(splitYears), splitMonths, days);
     }
 
     /**
@@ -795,7 +794,7 @@ public final class Period
      */
     @Override
     public Temporal addTo(Temporal temporal) {
-        Jdk8Methods.requireNonNull(temporal, "temporal");
+        Objects.requireNonNull(temporal, "temporal");
         if (years != 0) {
             if (months != 0) {
                 temporal = temporal.plus(toTotalMonths(), MONTHS);
@@ -845,7 +844,7 @@ public final class Period
      */
     @Override
     public Temporal subtractFrom(Temporal temporal) {
-        Jdk8Methods.requireNonNull(temporal, "temporal");
+        Objects.requireNonNull(temporal, "temporal");
         if (years != 0) {
             if (months != 0) {
                 temporal = temporal.minus(toTotalMonths(), MONTHS);

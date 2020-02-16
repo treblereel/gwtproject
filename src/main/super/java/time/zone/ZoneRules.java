@@ -37,9 +37,9 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
-import java.time.jdk8.Jdk8Methods;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * The rules defining how the zone offset varies for a single time-zone.
@@ -81,11 +81,11 @@ public abstract class ZoneRules {
                                List<ZoneOffsetTransition> standardOffsetTransitionList,
                                List<ZoneOffsetTransition> transitionList,
                                List<ZoneOffsetTransitionRule> lastRules) {
-        Jdk8Methods.requireNonNull(baseStandardOffset, "baseStandardOffset");
-        Jdk8Methods.requireNonNull(baseWallOffset, "baseWallOffset");
-        Jdk8Methods.requireNonNull(standardOffsetTransitionList, "standardOffsetTransitionList");
-        Jdk8Methods.requireNonNull(transitionList, "transitionList");
-        Jdk8Methods.requireNonNull(lastRules, "lastRules");
+        Objects.requireNonNull(baseStandardOffset, "baseStandardOffset");
+        Objects.requireNonNull(baseWallOffset, "baseWallOffset");
+        Objects.requireNonNull(standardOffsetTransitionList, "standardOffsetTransitionList");
+        Objects.requireNonNull(transitionList, "transitionList");
+        Objects.requireNonNull(lastRules, "lastRules");
         return new StandardZoneRules(baseStandardOffset, baseWallOffset,
                              standardOffsetTransitionList, transitionList, lastRules);
     }
@@ -99,7 +99,7 @@ public abstract class ZoneRules {
      * @return the zone rules, not null
      */
     public static ZoneRules of(ZoneOffset offset) {
-        Jdk8Methods.requireNonNull(offset, "offset");
+        Objects.requireNonNull(offset, "offset");
         return new Fixed(offset);
     }
 

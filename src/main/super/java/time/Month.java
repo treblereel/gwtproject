@@ -134,15 +134,6 @@ public enum Month implements TemporalAccessor, TemporalAdjuster {
      */
     DECEMBER;
     /**
-     * Simulate JDK 8 method reference Month::from.
-     */
-    public static final TemporalQuery<Month> FROM = new TemporalQuery<Month>() {
-        @Override
-        public Month queryFrom(TemporalAccessor temporal) {
-            return Month.from(temporal);
-        }
-    };
-    /**
      * Private cache of all the constants.
      */
     private static final Month[] ENUMS = Month.values();
@@ -282,10 +273,8 @@ public enum Month implements TemporalAccessor, TemporalAdjuster {
     public ValueRange range(TemporalField field) {
         if (field == MONTH_OF_YEAR) {
             return field.range();
-        } else if (field instanceof ChronoField) {
-            throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
         }
-        return field.rangeRefinedBy(this);
+        return TemporalAccessor.super.range(field);
     }
 
     /**
@@ -317,7 +306,7 @@ public enum Month implements TemporalAccessor, TemporalAdjuster {
         if (field == MONTH_OF_YEAR) {
             return getValue();
         }
-        return range(field).checkValidIntValue(getLong(field), field);
+        return TemporalAccessor.super.get(field);
     }
 
     /**
@@ -539,11 +528,8 @@ public enum Month implements TemporalAccessor, TemporalAdjuster {
             return (R) IsoChronology.INSTANCE;
         } else if (query == TemporalQueries.precision()) {
             return (R) MONTHS;
-        } else if (query == TemporalQueries.localDate() || query == TemporalQueries.localTime() ||
-                query == TemporalQueries.zone() || query == TemporalQueries.zoneId() || query == TemporalQueries.offset()) {
-            return null;
         }
-        return query.queryFrom(this);
+        return TemporalAccessor.super.query(query);
     }
 
     /**

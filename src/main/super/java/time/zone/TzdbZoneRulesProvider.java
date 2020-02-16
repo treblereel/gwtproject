@@ -37,12 +37,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StreamCorruptedException;
 import java.net.URL;
-import java.time.jdk8.Jdk8Methods;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.List;
 import java.util.NavigableMap;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentNavigableMap;
@@ -133,7 +133,7 @@ public final class TzdbZoneRulesProvider extends ZoneRulesProvider {
 
     @Override
     protected ZoneRules provideRules(String zoneId, boolean forCaching) {
-        Jdk8Methods.requireNonNull(zoneId, "zoneId");
+        Objects.requireNonNull(zoneId, "zoneId");
         ZoneRules rules = versions.lastEntry().getValue().getRules(zoneId);
         if (rules == null) {
             throw new ZoneRulesException("Unknown time-zone ID: " + zoneId);

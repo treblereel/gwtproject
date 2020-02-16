@@ -275,9 +275,24 @@ public interface TemporalField {
      * @throws DateTimeException if resolving results in an error. This must not be thrown
      *  by querying a field on the temporal without first checking if it is supported
      */
-    TemporalAccessor resolve(
+    default TemporalAccessor resolve(
                     Map<TemporalField, Long> fieldValues,
                     TemporalAccessor partialTemporal,
-                    ResolverStyle resolverStyle);
+            ResolverStyle resolverStyle) {
+        return null;
+    }
+
+    /**
+     * Gets a descriptive name for the field.
+     * <p>
+     * The should be of the format 'BaseOfRange', such as 'MonthOfYear',
+     * unless the field has a range of {@code FOREVER}, when only
+     * the base unit is mentioned, such as 'Year' or 'Era'.
+     *
+     * @return the name of the field, not null
+     */
+    @Override
+    String toString();
+
 
 }

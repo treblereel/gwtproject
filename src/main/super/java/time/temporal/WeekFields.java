@@ -49,10 +49,10 @@ import java.time.Year;
 import java.time.chrono.ChronoLocalDate;
 import java.time.chrono.Chronology;
 import java.time.format.ResolverStyle;
-import java.time.jdk8.Jdk8Methods;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -126,7 +126,7 @@ public final class WeekFields implements Serializable {
      * The cache of rules by firstDayOfWeek plus minimalDays.
      * Initialized first to be available for definition of ISO, etc.
      */
-    private static final ConcurrentMap<String, WeekFields> CACHE = new ConcurrentHashMap<String, WeekFields>(4, 0.75f, 2);
+    private static final ConcurrentMap<String, WeekFields> CACHE = new ConcurrentHashMap<>(4, 0.75f, 2);
 
     /**
      * The ISO-8601 definition, where a week starts on Monday and the first week
@@ -195,7 +195,7 @@ public final class WeekFields implements Serializable {
      * @return the week-definition, not null
      */
     public static WeekFields of(Locale locale) {
-        Jdk8Methods.requireNonNull(locale, "locale");
+        Objects.requireNonNull(locale, "locale");
         locale = new Locale(locale.getLanguage(), locale.getCountry());  // elminate variants
 
         // obtain these from GregorianCalendar for now
@@ -246,7 +246,7 @@ public final class WeekFields implements Serializable {
      * @throws IllegalArgumentException if the minimal days value is invalid
      */
     private WeekFields(DayOfWeek firstDayOfWeek, int minimalDaysInFirstWeek) {
-        Jdk8Methods.requireNonNull(firstDayOfWeek, "firstDayOfWeek");
+        Objects.requireNonNull(firstDayOfWeek, "firstDayOfWeek");
         if (minimalDaysInFirstWeek < 1 || minimalDaysInFirstWeek > 7) {
             throw new IllegalArgumentException("Minimal number of days is invalid");
         }
@@ -256,7 +256,7 @@ public final class WeekFields implements Serializable {
 
     /**
      * Ensure valid singleton.
-     * 
+     *
      * @return the valid week fields instance, not null
      * @throws InvalidObjectException if invalid
      */
@@ -632,7 +632,7 @@ public final class WeekFields implements Serializable {
             // Offset the ISO DOW by the start of this week
             int sow = weekDef.getFirstDayOfWeek().getValue();
             int isoDow = temporal.get(ChronoField.DAY_OF_WEEK);
-            int dow = Jdk8Methods.floorMod(isoDow - sow, 7) + 1;
+            int dow = Math.floorMod(isoDow - sow, 7) + 1;
 
             if (rangeUnit == ChronoUnit.WEEKS) {
                 return dow;
@@ -655,7 +655,7 @@ public final class WeekFields implements Serializable {
 
         private int localizedDayOfWeek(TemporalAccessor temporal, int sow) {
             int isoDow = temporal.get(DAY_OF_WEEK);
-            return Jdk8Methods.floorMod(isoDow - sow, 7) + 1;
+            return Math.floorMod(isoDow - sow, 7) + 1;
         }
 
         private long localizedWeekOfMonth(TemporalAccessor temporal, int dow) {
@@ -673,7 +673,7 @@ public final class WeekFields implements Serializable {
         private int localizedWOWBY(TemporalAccessor temporal) {
             int sow = weekDef.getFirstDayOfWeek().getValue();
             int isoDow = temporal.get(DAY_OF_WEEK);
-            int dow = Jdk8Methods.floorMod(isoDow - sow, 7) + 1;
+            int dow = Math.floorMod(isoDow - sow, 7) + 1;
             long woy = localizedWeekOfYear(temporal, dow);
             if (woy == 0) {
                 ChronoLocalDate previous = Chronology.from(temporal).date(temporal).minus(1, ChronoUnit.WEEKS);
@@ -693,7 +693,7 @@ public final class WeekFields implements Serializable {
         private int localizedWBY(TemporalAccessor temporal) {
             int sow = weekDef.getFirstDayOfWeek().getValue();
             int isoDow = temporal.get(DAY_OF_WEEK);
-            int dow = Jdk8Methods.floorMod(isoDow - sow, 7) + 1;
+            int dow = Math.floorMod(isoDow - sow, 7) + 1;
             int year = temporal.get(YEAR);
             long woy = localizedWeekOfYear(temporal, dow);
             if (woy == 0) {
@@ -719,7 +719,7 @@ public final class WeekFields implements Serializable {
          */
         private int startOfWeekOffset(int day, int dow) {
             // offset of first day corresponding to the day of week in first 7 days (zero origin)
-            int weekStart = Jdk8Methods.floorMod(day - dow, 7);
+            int weekStart = Math.floorMod(day - dow, 7);
             int offset = -weekStart;
             if (weekStart + 1 > weekDef.getMinimalDaysInFirstWeek()) {
                 // The previous week has the minimum days in the current month to be a 'week'
@@ -785,14 +785,14 @@ public final class WeekFields implements Serializable {
             if (rangeUnit == WEEKS) {  // day-of-week
                 final long value = fieldValues.remove(this);
                 int localDow = range.checkValidIntValue(value, this);
-                int isoDow = Jdk8Methods.floorMod((sow - 1) + (localDow - 1), 7) + 1;
+                int isoDow = Math.floorMod((sow - 1) + (localDow - 1), 7) + 1;
                 fieldValues.put(DAY_OF_WEEK, (long) isoDow);
                 return null;
             }
             if (fieldValues.containsKey(DAY_OF_WEEK) == false) {
                 return null;
             }
-            
+
             // week-based-year
             if (rangeUnit == ChronoUnit.FOREVER) {
                 if (fieldValues.containsKey(weekDef.weekOfWeekBasedYear) == false) {
@@ -800,7 +800,7 @@ public final class WeekFields implements Serializable {
                 }
                 Chronology chrono = Chronology.from(partialTemporal);  // defaults to ISO
                 int isoDow = DAY_OF_WEEK.checkValidIntValue(fieldValues.get(DAY_OF_WEEK));
-                int dow = Jdk8Methods.floorMod(isoDow - sow, 7) + 1;
+                int dow = Math.floorMod(isoDow - sow, 7) + 1;
                 final int wby = range().checkValidIntValue(fieldValues.get(this), this);
                 ChronoLocalDate date;
                 long days;
@@ -829,12 +829,12 @@ public final class WeekFields implements Serializable {
                 fieldValues.remove(DAY_OF_WEEK);
                 return date;
             }
-            
+
             if (fieldValues.containsKey(YEAR) == false) {
                 return null;
             }
             int isoDow = DAY_OF_WEEK.checkValidIntValue(fieldValues.get(DAY_OF_WEEK));
-            int dow = Jdk8Methods.floorMod(isoDow - sow, 7) + 1;
+            int dow = Math.floorMod(isoDow - sow, 7) + 1;
             int year = YEAR.checkValidIntValue(fieldValues.get(YEAR));
             Chronology chrono = Chronology.from(partialTemporal);  // defaults to ISO
             if (rangeUnit == MONTHS) {  // week-of-month
@@ -966,7 +966,7 @@ public final class WeekFields implements Serializable {
             // Offset the ISO DOW by the start of this week
             int sow = weekDef.getFirstDayOfWeek().getValue();
             int isoDow = temporal.get(ChronoField.DAY_OF_WEEK);
-            int dow = Jdk8Methods.floorMod(isoDow - sow, 7) + 1;
+            int dow = Math.floorMod(isoDow - sow, 7) + 1;
 
             int offset = startOfWeekOffset(temporal.get(field), dow);
             ValueRange fieldRange = temporal.range(field);
@@ -977,7 +977,7 @@ public final class WeekFields implements Serializable {
         private ValueRange rangeWOWBY(TemporalAccessor temporal) {
             int sow = weekDef.getFirstDayOfWeek().getValue();
             int isoDow = temporal.get(DAY_OF_WEEK);
-            int dow = Jdk8Methods.floorMod(isoDow - sow, 7) + 1;
+            int dow = Math.floorMod(isoDow - sow, 7) + 1;
             long woy = localizedWeekOfYear(temporal, dow);
             if (woy == 0) {
                 return rangeWOWBY(Chronology.from(temporal).date(temporal).minus(2, ChronoUnit.WEEKS));
@@ -994,7 +994,7 @@ public final class WeekFields implements Serializable {
 
         @Override
         public String getDisplayName(Locale locale) {
-            Jdk8Methods.requireNonNull(locale, "locale");
+            Objects.requireNonNull(locale, "locale");
             if (rangeUnit == YEARS) {  // week-of-year
                 return "Week";
             }

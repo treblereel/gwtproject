@@ -58,7 +58,6 @@ import java.time.Year;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.ResolverStyle;
-import java.time.jdk8.Jdk8Methods;
 import java.time.temporal.ChronoField;
 import java.time.temporal.TemporalAccessor;
 import java.time.temporal.TemporalField;
@@ -67,6 +66,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * The ISO calendar system.
@@ -327,7 +327,7 @@ public final class IsoChronology extends Chronology implements Serializable {
      */
     @Override  // override with covariant return type
     public LocalDate dateNow(Clock clock) {
-        Jdk8Methods.requireNonNull(clock, "clock");
+        Objects.requireNonNull(clock, "clock");
         return date(LocalDate.now(clock));
     }
 
@@ -392,8 +392,8 @@ public final class IsoChronology extends Chronology implements Serializable {
             if (resolverStyle != ResolverStyle.LENIENT) {
                 PROLEPTIC_MONTH.checkValidValue(prolepticMonth);
             }
-            updateResolveMap(fieldValues, MONTH_OF_YEAR, Jdk8Methods.floorMod(prolepticMonth, 12) + 1);
-            updateResolveMap(fieldValues, YEAR, Jdk8Methods.floorDiv(prolepticMonth, 12));
+            updateResolveMap(fieldValues, MONTH_OF_YEAR, Math.floorMod(prolepticMonth, 12) + 1);
+            updateResolveMap(fieldValues, YEAR, Math.floorMod(prolepticMonth, 12));
         }
 
         // eras
@@ -408,19 +408,19 @@ public final class IsoChronology extends Chronology implements Serializable {
                 if (resolverStyle == ResolverStyle.STRICT) {
                     // do not invent era if strict, but do cross-check with year
                     if (year != null) {
-                        updateResolveMap(fieldValues, YEAR, (year > 0 ? yoeLong: Jdk8Methods.safeSubtract(1, yoeLong)));
+                        updateResolveMap(fieldValues, YEAR, (year > 0 ? yoeLong: Math.subtractExact(1, yoeLong)));
                     } else {
                         // reinstate the field removed earlier, no cross-check issues
                         fieldValues.put(YEAR_OF_ERA, yoeLong);
                     }
                 } else {
                     // invent era
-                    updateResolveMap(fieldValues, YEAR, (year == null || year > 0 ? yoeLong: Jdk8Methods.safeSubtract(1, yoeLong)));
+                    updateResolveMap(fieldValues, YEAR, (year == null || year > 0 ? yoeLong: Math.subtractExact(1, yoeLong)));
                 }
             } else if (era.longValue() == 1L) {
                 updateResolveMap(fieldValues, YEAR, yoeLong);
             } else if (era.longValue() == 0L) {
-                updateResolveMap(fieldValues, YEAR, Jdk8Methods.safeSubtract(1, yoeLong));
+                updateResolveMap(fieldValues, YEAR, Math.subtractExact(1, yoeLong));
             } else {
                 throw new DateTimeException("Invalid value for era: " + era);
             }
@@ -433,11 +433,11 @@ public final class IsoChronology extends Chronology implements Serializable {
             if (fieldValues.containsKey(MONTH_OF_YEAR)) {
                 if (fieldValues.containsKey(DAY_OF_MONTH)) {
                     int y = YEAR.checkValidIntValue(fieldValues.remove(YEAR));
-                    int moy = Jdk8Methods.safeToInt(fieldValues.remove(MONTH_OF_YEAR));
-                    int dom = Jdk8Methods.safeToInt(fieldValues.remove(DAY_OF_MONTH));
+                    int moy = Math.toIntExact(fieldValues.remove(MONTH_OF_YEAR));
+                    int dom = Math.toIntExact(fieldValues.remove(DAY_OF_MONTH));
                     if (resolverStyle == ResolverStyle.LENIENT) {
-                        long months = Jdk8Methods.safeSubtract(moy, 1);
-                        long days = Jdk8Methods.safeSubtract(dom, 1);
+                        long months = Math.subtractExact(moy, 1);
+                        long days = Math.subtractExact(dom, 1);
                         return LocalDate.of(y, 1, 1).plusMonths(months).plusDays(days);
                     } else if (resolverStyle == ResolverStyle.SMART){
                         DAY_OF_MONTH.checkValidValue(dom);
@@ -455,9 +455,9 @@ public final class IsoChronology extends Chronology implements Serializable {
                     if (fieldValues.containsKey(ALIGNED_DAY_OF_WEEK_IN_MONTH)) {
                         int y = YEAR.checkValidIntValue(fieldValues.remove(YEAR));
                         if (resolverStyle == ResolverStyle.LENIENT) {
-                            long months = Jdk8Methods.safeSubtract(fieldValues.remove(MONTH_OF_YEAR), 1);
-                            long weeks = Jdk8Methods.safeSubtract(fieldValues.remove(ALIGNED_WEEK_OF_MONTH), 1);
-                            long days = Jdk8Methods.safeSubtract(fieldValues.remove(ALIGNED_DAY_OF_WEEK_IN_MONTH), 1);
+                            long months = Math.subtractExact(fieldValues.remove(MONTH_OF_YEAR), 1);
+                            long weeks = Math.subtractExact(fieldValues.remove(ALIGNED_WEEK_OF_MONTH), 1);
+                            long days = Math.subtractExact(fieldValues.remove(ALIGNED_DAY_OF_WEEK_IN_MONTH), 1);
                             return LocalDate.of(y, 1, 1).plusMonths(months).plusWeeks(weeks).plusDays(days);
                         }
                         int moy = MONTH_OF_YEAR.checkValidIntValue(fieldValues.remove(MONTH_OF_YEAR));
@@ -472,9 +472,9 @@ public final class IsoChronology extends Chronology implements Serializable {
                     if (fieldValues.containsKey(DAY_OF_WEEK)) {
                         int y = YEAR.checkValidIntValue(fieldValues.remove(YEAR));
                         if (resolverStyle == ResolverStyle.LENIENT) {
-                            long months = Jdk8Methods.safeSubtract(fieldValues.remove(MONTH_OF_YEAR), 1);
-                            long weeks = Jdk8Methods.safeSubtract(fieldValues.remove(ALIGNED_WEEK_OF_MONTH), 1);
-                            long days = Jdk8Methods.safeSubtract(fieldValues.remove(DAY_OF_WEEK), 1);
+                            long months = Math.subtractExact(fieldValues.remove(MONTH_OF_YEAR), 1);
+                            long weeks = Math.subtractExact(fieldValues.remove(ALIGNED_WEEK_OF_MONTH), 1);
+                            long days = Math.subtractExact(fieldValues.remove(DAY_OF_WEEK), 1);
                             return LocalDate.of(y, 1, 1).plusMonths(months).plusWeeks(weeks).plusDays(days);
                         }
                         int moy = MONTH_OF_YEAR.checkValidIntValue(fieldValues.remove(MONTH_OF_YEAR));
@@ -491,7 +491,7 @@ public final class IsoChronology extends Chronology implements Serializable {
             if (fieldValues.containsKey(DAY_OF_YEAR)) {
                 int y = YEAR.checkValidIntValue(fieldValues.remove(YEAR));
                 if (resolverStyle == ResolverStyle.LENIENT) {
-                    long days = Jdk8Methods.safeSubtract(fieldValues.remove(DAY_OF_YEAR), 1);
+                    long days = Math.subtractExact(fieldValues.remove(DAY_OF_YEAR), 1);
                     return LocalDate.ofYearDay(y, 1).plusDays(days);
                 }
                 int doy = DAY_OF_YEAR.checkValidIntValue(fieldValues.remove(DAY_OF_YEAR));
@@ -501,8 +501,8 @@ public final class IsoChronology extends Chronology implements Serializable {
                 if (fieldValues.containsKey(ALIGNED_DAY_OF_WEEK_IN_YEAR)) {
                     int y = YEAR.checkValidIntValue(fieldValues.remove(YEAR));
                     if (resolverStyle == ResolverStyle.LENIENT) {
-                        long weeks = Jdk8Methods.safeSubtract(fieldValues.remove(ALIGNED_WEEK_OF_YEAR), 1);
-                        long days = Jdk8Methods.safeSubtract(fieldValues.remove(ALIGNED_DAY_OF_WEEK_IN_YEAR), 1);
+                        long weeks = Math.subtractExact(fieldValues.remove(ALIGNED_WEEK_OF_YEAR), 1);
+                        long days = Math.subtractExact(fieldValues.remove(ALIGNED_DAY_OF_WEEK_IN_YEAR), 1);
                         return LocalDate.of(y, 1, 1).plusWeeks(weeks).plusDays(days);
                     }
                     int aw = ALIGNED_WEEK_OF_YEAR.checkValidIntValue(fieldValues.remove(ALIGNED_WEEK_OF_YEAR));
@@ -516,8 +516,8 @@ public final class IsoChronology extends Chronology implements Serializable {
                 if (fieldValues.containsKey(DAY_OF_WEEK)) {
                     int y = YEAR.checkValidIntValue(fieldValues.remove(YEAR));
                     if (resolverStyle == ResolverStyle.LENIENT) {
-                        long weeks = Jdk8Methods.safeSubtract(fieldValues.remove(ALIGNED_WEEK_OF_YEAR), 1);
-                        long days = Jdk8Methods.safeSubtract(fieldValues.remove(DAY_OF_WEEK), 1);
+                        long weeks = Math.subtractExact(fieldValues.remove(ALIGNED_WEEK_OF_YEAR), 1);
+                        long days = Math.subtractExact(fieldValues.remove(DAY_OF_WEEK), 1);
                         return LocalDate.of(y, 1, 1).plusWeeks(weeks).plusDays(days);
                     }
                     int aw = ALIGNED_WEEK_OF_YEAR.checkValidIntValue(fieldValues.remove(ALIGNED_WEEK_OF_YEAR));

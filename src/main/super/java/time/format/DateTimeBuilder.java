@@ -62,8 +62,6 @@ import java.time.chrono.ChronoLocalDateTime;
 import java.time.chrono.ChronoZonedDateTime;
 import java.time.chrono.Chronology;
 import java.time.chrono.IsoChronology;
-import java.time.jdk8.DefaultInterfaceTemporalAccessor;
-import java.time.jdk8.Jdk8Methods;
 import java.time.temporal.ChronoField;
 import java.time.temporal.TemporalAccessor;
 import java.time.temporal.TemporalField;
@@ -73,6 +71,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -91,9 +90,7 @@ import java.util.Set;
  * This class is mutable and not thread-safe.
  * It should only be used from a single thread.
  */
-final class DateTimeBuilder
-        extends DefaultInterfaceTemporalAccessor
-        implements TemporalAccessor, Cloneable {
+final class DateTimeBuilder implements TemporalAccessor, Cloneable {
 
     /**
      * The map of other fields.
@@ -163,7 +160,7 @@ final class DateTimeBuilder
      * @throws DateTimeException if the field is already present with a different value
      */
     DateTimeBuilder addFieldValue(TemporalField field, long value) {
-        Jdk8Methods.requireNonNull(field, "field");
+        Objects.requireNonNull(field, "field");
         Long old = getFieldValue0(field);  // check first for better error message
         if (old != null && old.longValue() != value) {
             throw new DateTimeException("Conflict found: " + field + " " + old + " differs from " + field + " " + value + ": " + this);
@@ -466,9 +463,9 @@ final class DateTimeBuilder
         if (resolverStyle != ResolverStyle.LENIENT) {
             if (hod != null) {
                 if (resolverStyle == ResolverStyle.SMART &&
-                                hod.longValue() == 24 && 
-                                (moh == null || moh.longValue() == 0) && 
-                                (som == null || som.longValue() == 0) && 
+                                hod.longValue() == 24 &&
+                                (moh == null || moh.longValue() == 0) &&
+                                (som == null || som.longValue() == 0) &&
                                 (nos == null || nos.longValue() == 0)) {
                     hod = 0L;
                     excessDays = Period.ofDays(1);
@@ -503,25 +500,25 @@ final class DateTimeBuilder
                         if (nos == null) {
                             nos = 0L;
                         }
-                        long totalNanos = Jdk8Methods.safeMultiply(hodVal, 3600000000000L);
-                        totalNanos = Jdk8Methods.safeAdd(totalNanos, Jdk8Methods.safeMultiply(moh, 60000000000L));
-                        totalNanos = Jdk8Methods.safeAdd(totalNanos, Jdk8Methods.safeMultiply(som, 1000000000L));
-                        totalNanos = Jdk8Methods.safeAdd(totalNanos, nos);
-                        int excessDays = (int) Jdk8Methods.floorDiv(totalNanos, 86400000000000L);  // safe int cast
-                        long nod = Jdk8Methods.floorMod(totalNanos, 86400000000000L);
+                        long totalNanos = Math.multiplyExact(hodVal, 3600000000000L);
+                        totalNanos = Math.addExact(totalNanos, Math.multiplyExact(moh, 60000000000L));
+                        totalNanos = Math.addExact(totalNanos, Math.multiplyExact(som, 1000000000L));
+                        totalNanos = Math.addExact(totalNanos, nos);
+                        int excessDays = (int) Math.floorDiv(totalNanos, 86400000000000L);  // safe int cast
+                        long nod = Math.floorMod(totalNanos, 86400000000000L);
                         addObject(LocalTime.ofNanoOfDay(nod));
                         this.excessDays = Period.ofDays(excessDays);
                     } else {
-                        long totalSecs = Jdk8Methods.safeMultiply(hodVal, 3600L);
-                        totalSecs = Jdk8Methods.safeAdd(totalSecs, Jdk8Methods.safeMultiply(moh, 60L));
-                        int excessDays = (int) Jdk8Methods.floorDiv(totalSecs, 86400L);  // safe int cast
-                        long sod = Jdk8Methods.floorMod(totalSecs, 86400L);
+                        long totalSecs = Math.multiplyExact(hodVal, 3600L);
+                        totalSecs = Math.addExact(totalSecs, Math.multiplyExact(moh, 60L));
+                        int excessDays = (int) Math.floorDiv(totalSecs, 86400L);  // safe int cast
+                        long sod = Math.floorMod(totalSecs, 86400L);
                         addObject(LocalTime.ofSecondOfDay(sod));
                         this.excessDays = Period.ofDays(excessDays);
                     }
                 } else {
-                    int excessDays = Jdk8Methods.safeToInt(Jdk8Methods.floorDiv(hodVal, 24L));
-                    hodVal = Jdk8Methods.floorMod(hodVal, 24);
+                    int excessDays = Math.toIntExact(Math.floorDiv(hodVal, 24L));
+                    hodVal = Math.floorMod(hodVal, 24);
                     addObject(LocalTime.of((int) hodVal, 0));
                     this.excessDays = Period.ofDays(excessDays);
                 }
@@ -654,7 +651,7 @@ final class DateTimeBuilder
 
     @Override
     public long getLong(TemporalField field) {
-        Jdk8Methods.requireNonNull(field, "field");
+    	Objects.requireNonNull(field, "field");
         Long value = getFieldValue0(field);
         if (value == null) {
             if (date != null && date.isSupported(field)) {

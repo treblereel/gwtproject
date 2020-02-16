@@ -39,7 +39,6 @@ import java.io.ObjectOutput;
 import java.io.Serializable;
 import java.time.LocalTime;
 import java.time.ZoneId;
-import java.time.jdk8.Jdk8Methods;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
@@ -47,6 +46,7 @@ import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalField;
 import java.time.temporal.TemporalUnit;
 import java.time.temporal.ValueRange;
+import java.util.Objects;
 
 /**
  * A date-time without a time-zone for the calendar neutral API.
@@ -65,8 +65,7 @@ import java.time.temporal.ValueRange;
  * @param <D> the date type
  */
 final class ChronoLocalDateTimeImpl<D extends ChronoLocalDate>
-        extends ChronoLocalDateTime<D>
-        implements Temporal, TemporalAdjuster, Serializable {
+        implements  ChronoLocalDateTime<D>, Temporal, TemporalAdjuster, Serializable {
 
     /**
      * Serialization version.
@@ -103,11 +102,11 @@ final class ChronoLocalDateTimeImpl<D extends ChronoLocalDate>
     /**
      * Microseconds per day.
      */
-    private static final long MICROS_PER_DAY = SECONDS_PER_DAY * 1000000L;
+    private static final long MICROS_PER_DAY = SECONDS_PER_DAY * 1000_000L;
     /**
      * Nanos per second.
      */
-    private static final long NANOS_PER_SECOND = 1000000000L;
+    private static final long NANOS_PER_SECOND = 1000_000_000L;
     /**
      * Nanos per minute.
      */
@@ -139,7 +138,7 @@ final class ChronoLocalDateTimeImpl<D extends ChronoLocalDate>
      * @return the local date-time, not null
      */
     static <R extends ChronoLocalDate> ChronoLocalDateTimeImpl<R> of(R date, LocalTime time) {
-        return new ChronoLocalDateTimeImpl<R>(date, time);
+        return new ChronoLocalDateTimeImpl<>(date, time);
     }
 
     /**
@@ -149,8 +148,8 @@ final class ChronoLocalDateTimeImpl<D extends ChronoLocalDate>
      * @param time  the time part of the date-time, not null
      */
     private ChronoLocalDateTimeImpl(D date, LocalTime time) {
-        Jdk8Methods.requireNonNull(date, "date");
-        Jdk8Methods.requireNonNull(time, "time");
+        Objects.requireNonNull(date, "date");
+        Objects.requireNonNull(time, "time");
         this.date = date;
         this.time = time;
     }
@@ -169,7 +168,7 @@ final class ChronoLocalDateTimeImpl<D extends ChronoLocalDate>
         }
         // Validate that the new DateTime is a ChronoLocalDate (and not something else)
         D cd = date.getChronology().ensureChronoLocalDate(newDate);
-        return new ChronoLocalDateTimeImpl<D>(cd, newTime);
+        return new ChronoLocalDateTimeImpl<>(cd, newTime);
     }
 
     //-----------------------------------------------------------------------
@@ -190,14 +189,6 @@ final class ChronoLocalDateTimeImpl<D extends ChronoLocalDate>
             return field.isDateBased() || field.isTimeBased();
         }
         return field != null && field.isSupportedBy(this);
-    }
-
-    @Override
-    public boolean isSupported(TemporalUnit unit) {
-        if (unit instanceof ChronoUnit) {
-            return unit.isDateBased() || unit.isTimeBased();
-        }
-        return unit != null && unit.isSupportedBy(this);
     }
 
     @Override
@@ -305,8 +296,8 @@ final class ChronoLocalDateTimeImpl<D extends ChronoLocalDate>
                 (hours % HOURS_PER_DAY) * NANOS_PER_HOUR;          //   max  86400000000000
         long curNoD = time.toNanoOfDay();                          //   max  86400000000000
         totNanos = totNanos + curNoD;                              // total 432000000000000
-        totDays += Jdk8Methods.floorDiv(totNanos, NANOS_PER_DAY);
-        long newNoD = Jdk8Methods.floorMod(totNanos, NANOS_PER_DAY);
+        totDays += Math.floorDiv(totNanos, NANOS_PER_DAY);
+        long newNoD = Math.floorMod(totNanos, NANOS_PER_DAY);
         LocalTime newTime = (newNoD == curNoD ? time : LocalTime.ofNanoOfDay(newNoD));
         return with(newDate.plus(totDays, ChronoUnit.DAYS), newTime);
     }
@@ -327,15 +318,15 @@ final class ChronoLocalDateTimeImpl<D extends ChronoLocalDate>
             if (f.isTimeBased()) {
                 long amount = end.getLong(EPOCH_DAY) - date.getLong(EPOCH_DAY);
                 switch (f) {
-                    case NANOS: amount = Jdk8Methods.safeMultiply(amount, NANOS_PER_DAY); break;
-                    case MICROS: amount = Jdk8Methods.safeMultiply(amount, MICROS_PER_DAY); break;
-                    case MILLIS: amount = Jdk8Methods.safeMultiply(amount, MILLIS_PER_DAY); break;
-                    case SECONDS: amount = Jdk8Methods.safeMultiply(amount, SECONDS_PER_DAY); break;
-                    case MINUTES: amount = Jdk8Methods.safeMultiply(amount, MINUTES_PER_DAY); break;
-                    case HOURS: amount = Jdk8Methods.safeMultiply(amount, HOURS_PER_DAY); break;
-                    case HALF_DAYS: amount = Jdk8Methods.safeMultiply(amount, 2); break;
+                    case NANOS: amount = Math.multiplyExact(amount, NANOS_PER_DAY); break;
+                    case MICROS: amount = Math.multiplyExact(amount, MICROS_PER_DAY); break;
+                    case MILLIS: amount = Math.multiplyExact(amount, MILLIS_PER_DAY); break;
+                    case SECONDS: amount = Math.multiplyExact(amount, SECONDS_PER_DAY); break;
+                    case MINUTES: amount = Math.multiplyExact(amount, MINUTES_PER_DAY); break;
+                    case HOURS: amount = Math.multiplyExact(amount, HOURS_PER_DAY); break;
+                    case HALF_DAYS: amount = Math.multiplyExact(amount, 2); break;
                 }
-                return Jdk8Methods.safeAdd(amount, time.until(end.toLocalTime(), unit));
+                return Math.addExact(amount, time.until(end.toLocalTime(), unit));
             }
             ChronoLocalDate endDate = end.toLocalDate();
             if (end.toLocalTime().isBefore(time)) {
@@ -362,4 +353,22 @@ final class ChronoLocalDateTimeImpl<D extends ChronoLocalDate>
         return date.atTime(time);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj instanceof ChronoLocalDateTime) {
+            return compareTo((ChronoLocalDateTime<?>) obj) == 0;
+        }
+        return false;
+    }
+    @Override
+    public int hashCode() {
+        return toLocalDate().hashCode() ^ toLocalTime().hashCode();
+    }
+    @Override
+    public String toString() {
+        return toLocalDate().toString() + 'T' + toLocalTime().toString();
+    }
 }

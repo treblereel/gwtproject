@@ -36,8 +36,7 @@ import java.time.ZoneId;
 import java.time.chrono.Chronology;
 import java.time.chrono.IsoChronology;
 import java.time.format.DateTimeFormatterBuilder.ReducedPrinterParser;
-import java.time.jdk8.DefaultInterfaceTemporalAccessor;
-import java.time.jdk8.Jdk8Methods;
+import java.time.temporal.TemporalAccessor;
 import java.time.temporal.TemporalField;
 import java.time.temporal.TemporalQueries;
 import java.time.temporal.TemporalQuery;
@@ -46,7 +45,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Map;
+import java.util.function.Consumer;
 
 /**
  * Context object used during date and time parsing.
@@ -92,7 +93,7 @@ final class DateTimeParseContext {
     /**
      * The list of parsed data.
      */
-    private final ArrayList<Parsed> parsed = new ArrayList<Parsed>();
+    private final ArrayList<Parsed> parsed = new ArrayList<>();
 
     /**
      * Creates a new instance of the context.
@@ -340,7 +341,7 @@ final class DateTimeParseContext {
      * @return the new position
      */
     int setParsedField(TemporalField field, long value, int errorPos, int successPos) {
-        Jdk8Methods.requireNonNull(field, "field");
+        Objects.requireNonNull(field, "field");
         Long old = currentParsed().fieldValues.put(field, value);
         return (old != null && old.longValue() != value) ? ~errorPos : successPos;
     }
@@ -354,7 +355,7 @@ final class DateTimeParseContext {
      * @param chrono  the parsed chronology, not null
      */
     void setParsed(Chronology chrono) {
-        Jdk8Methods.requireNonNull(chrono, "chrono");
+        Objects.requireNonNull(chrono, "chrono");
         Parsed currentParsed = currentParsed();
         currentParsed.chrono = chrono;
         if (currentParsed.callbacks != null) {
@@ -384,7 +385,7 @@ final class DateTimeParseContext {
      * @param zone  the parsed zone, not null
      */
     void setParsed(ZoneId zone) {
-        Jdk8Methods.requireNonNull(zone, "zone");
+        Objects.requireNonNull(zone, "zone");
         currentParsed().zone = zone;
     }
 
@@ -421,7 +422,7 @@ final class DateTimeParseContext {
     /**
      * Temporary store of parsed data.
      */
-    final class Parsed extends DefaultInterfaceTemporalAccessor {
+    final class Parsed implements TemporalAccessor {
         Chronology chrono = null;
         ZoneId zone = null;
         final Map<TemporalField, Long> fieldValues = new HashMap<TemporalField, Long>();
@@ -453,7 +454,7 @@ final class DateTimeParseContext {
                 throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
             }
             long value = fieldValues.get(field);
-            return Jdk8Methods.safeToInt(value);
+            return Math.toIntExact(value);
         }
         @Override
         public long getLong(TemporalField field) {
@@ -471,7 +472,7 @@ final class DateTimeParseContext {
             if (query == TemporalQueries.zoneId() || query == TemporalQueries.zone()) {
                 return (R) zone;
             }
-            return super.query(query);
+            return query.queryFrom(this);
         }
 
         /**
@@ -512,7 +513,7 @@ final class DateTimeParseContext {
      * @param locale  the locale, not null
      */
     void setLocale(Locale locale) {
-        Jdk8Methods.requireNonNull(locale, "locale");
+        Objects.requireNonNull(locale, "locale");
         this.locale = locale;
     }
 

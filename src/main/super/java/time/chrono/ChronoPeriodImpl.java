@@ -37,7 +37,6 @@ import static java.time.temporal.ChronoUnit.YEARS;
 
 import java.io.Serializable;
 import java.time.DateTimeException;
-import java.time.jdk8.Jdk8Methods;
 import java.time.temporal.ChronoField;
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAmount;
@@ -47,13 +46,13 @@ import java.time.temporal.UnsupportedTemporalTypeException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * An implementation of {@code ChronoPeriod}.
  */
 final class ChronoPeriodImpl
-        extends ChronoPeriod
-        implements Serializable {
+        implements ChronoPeriod, Serializable {
 
     /**
      * Serialization version.
@@ -105,9 +104,9 @@ final class ChronoPeriodImpl
             if (amount.getChronology().equals(getChronology())) {
                 return new ChronoPeriodImpl(
                         chronology,
-                        Jdk8Methods.safeAdd(years, amount.years),
-                        Jdk8Methods.safeAdd(months, amount.months),
-                        Jdk8Methods.safeAdd(days, amount.days));
+                Math.addExact(years, amount.years),
+                Math.addExact(months, amount.months),
+                Math.addExact(days, amount.days));
             }
         }
         throw new DateTimeException("Unable to add amount: " + amountToAdd);
@@ -120,9 +119,9 @@ final class ChronoPeriodImpl
             if (amount.getChronology().equals(getChronology())) {
                 return new ChronoPeriodImpl(
                         chronology,
-                        Jdk8Methods.safeSubtract(years, amount.years),
-                        Jdk8Methods.safeSubtract(months, amount.months),
-                        Jdk8Methods.safeSubtract(days, amount.days));
+                Math.subtractExact(years, amount.years),
+                Math.subtractExact(months, amount.months),
+                Math.subtractExact(days, amount.days));
             }
         }
         throw new DateTimeException("Unable to subtract amount: " + amountToSubtract);
@@ -132,9 +131,9 @@ final class ChronoPeriodImpl
     public ChronoPeriod multipliedBy(int scalar) {
         return new ChronoPeriodImpl(
                 chronology,
-                Jdk8Methods.safeMultiply(years, scalar),
-                Jdk8Methods.safeMultiply(months, scalar),
-                Jdk8Methods.safeMultiply(days, scalar));
+                Math.multiplyExact(years, scalar),
+                Math.multiplyExact(months, scalar),
+                Math.multiplyExact(days, scalar));
     }
 
     @Override
@@ -142,8 +141,8 @@ final class ChronoPeriodImpl
         if (chronology.range(ChronoField.MONTH_OF_YEAR).isFixed()) {
             long monthLength = chronology.range(ChronoField.MONTH_OF_YEAR).getMaximum() - chronology.range(ChronoField.MONTH_OF_YEAR).getMinimum() + 1;
             long total = years * monthLength + months;
-            int years = Jdk8Methods.safeToInt(total / monthLength);
-            int months = Jdk8Methods.safeToInt(total % monthLength);
+            int years = Math.toIntExact(total / monthLength);
+            int months = Math.toIntExact(total % monthLength);
             return new ChronoPeriodImpl(chronology, years, months, days);
         }
         return this;
@@ -151,7 +150,7 @@ final class ChronoPeriodImpl
 
     @Override
     public Temporal addTo(Temporal temporal) {
-        Jdk8Methods.requireNonNull(temporal, "temporal");
+        Objects.requireNonNull(temporal, "temporal");
         Chronology temporalChrono = temporal.query(TemporalQueries.chronology());
         if (temporalChrono != null && chronology.equals(temporalChrono) == false) {
             throw new DateTimeException("Invalid chronology, required: " + chronology.getId() + ", but was: " + temporalChrono.getId());
@@ -170,7 +169,7 @@ final class ChronoPeriodImpl
 
     @Override
     public Temporal subtractFrom(Temporal temporal) {
-        Jdk8Methods.requireNonNull(temporal, "temporal");
+        Objects.requireNonNull(temporal, "temporal");
         Chronology temporalChrono = temporal.query(TemporalQueries.chronology());
         if (temporalChrono != null && chronology.equals(temporalChrono) == false) {
             throw new DateTimeException("Invalid chronology, required: " + chronology.getId() + ", but was: " + temporalChrono.getId());

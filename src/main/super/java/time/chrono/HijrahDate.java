@@ -55,7 +55,6 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
-import java.time.jdk8.Jdk8Methods;
 import java.time.temporal.ChronoField;
 import java.time.temporal.TemporalAccessor;
 import java.time.temporal.TemporalAdjuster;
@@ -66,6 +65,7 @@ import java.time.temporal.TemporalUnit;
 import java.time.temporal.UnsupportedTemporalTypeException;
 import java.time.temporal.ValueRange;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.StringTokenizer;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -501,7 +501,7 @@ public final class HijrahDate
      * @throws InvalidCalendarFieldException if the day-of-month is invalid for the month-year
      */
     static HijrahDate of(HijrahEra era, int yearOfEra, int monthOfYear, int dayOfMonth) {
-        Jdk8Methods.requireNonNull(era, "era");
+        Objects.requireNonNull(era, "era");
         checkValidYearOfEra(yearOfEra);
         checkValidMonth(monthOfYear);
         checkValidDayOfMonth(dayOfMonth);
@@ -750,7 +750,7 @@ public final class HijrahDate
         if (years == 0) {
             return this;
         }
-        int newYear = Jdk8Methods.safeAdd(this.yearOfEra, (int)years);
+        int newYear = Math.addExact(this.yearOfEra, (int)years);
         return HijrahDate.of(this.era, newYear, this.monthOfYear, this.dayOfMonth);
     }
 
@@ -765,9 +765,9 @@ public final class HijrahDate
         newMonth = newMonth % 12;
         while (newMonth < 0) {
             newMonth += 12;
-            years = Jdk8Methods.safeSubtract(years, 1);
+            years = Math.subtractExact(years, 1);
         }
-        int newYear = Jdk8Methods.safeAdd(this.yearOfEra, years);
+        int newYear = Math.addExact(this.yearOfEra, years);
         return HijrahDate.of(this.era, newYear, newMonth + 1, this.dayOfMonth);
     }
 

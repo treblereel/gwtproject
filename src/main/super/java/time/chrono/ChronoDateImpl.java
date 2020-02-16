@@ -31,11 +31,13 @@
  */
 package java.time.chrono;
 
+import static java.time.temporal.ChronoField.DAY_OF_MONTH;
+import static java.time.temporal.ChronoField.MONTH_OF_YEAR;
+import static java.time.temporal.ChronoField.YEAR_OF_ERA;
 import java.io.Serializable;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.jdk8.Jdk8Methods;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAdjuster;
@@ -108,8 +110,7 @@ import java.time.temporal.TemporalUnit;
  * @param <D> the date type
  */
 abstract class ChronoDateImpl<D extends ChronoLocalDate>
-        extends ChronoLocalDate
-        implements Temporal, TemporalAdjuster, Serializable {
+        implements ChronoLocalDate, Temporal, TemporalAdjuster, Serializable {
 
     /**
      * Serialization version.
@@ -125,23 +126,23 @@ abstract class ChronoDateImpl<D extends ChronoLocalDate>
     //-----------------------------------------------------------------------
     @SuppressWarnings("unchecked")
     @Override
-    public ChronoDateImpl<D> plus(long amountToAdd, TemporalUnit unit) {
+    public D plus(long amountToAdd, TemporalUnit unit) {
         if (unit instanceof ChronoUnit) {
             ChronoUnit f = (ChronoUnit) unit;
             switch (f) {
                 case DAYS: return plusDays(amountToAdd);
-                case WEEKS: return plusDays(Jdk8Methods.safeMultiply(amountToAdd, 7));
+                case WEEKS: return plusDays(Math.multiplyExact(amountToAdd, 7));
                 case MONTHS: return plusMonths(amountToAdd);
                 case YEARS: return plusYears(amountToAdd);
-                case DECADES: return plusYears(Jdk8Methods.safeMultiply(amountToAdd, 10));
-                case CENTURIES: return plusYears(Jdk8Methods.safeMultiply(amountToAdd, 100));
-                case MILLENNIA: return plusYears(Jdk8Methods.safeMultiply(amountToAdd, 1000));
+                case DECADES: return plusYears(Math.multiplyExact(amountToAdd, 10));
+                case CENTURIES: return plusYears(Math.multiplyExact(amountToAdd, 100));
+                case MILLENNIA: return plusYears(Math.multiplyExact(amountToAdd, 1000));
 //                case ERAS: throw new DateTimeException("Unable to add era, standard calendar system only has one era");
 //                case FOREVER: return (period == 0 ? this : (period > 0 ? LocalDate.MAX_DATE : LocalDate.MIN_DATE));
             }
             throw new DateTimeException(unit + " not valid for chronology " + getChronology().getId());
         }
-        return (ChronoDateImpl<D>) getChronology().ensureChronoLocalDate(unit.addTo(this, amountToAdd));
+        return (D) ChronoLocalDate.super.plus(amountToAdd, unit);
     }
 
     //-----------------------------------------------------------------------
@@ -159,7 +160,7 @@ abstract class ChronoDateImpl<D extends ChronoLocalDate>
      * @return a date based on this one with the years added, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    abstract ChronoDateImpl<D> plusYears(long yearsToAdd);
+    abstract D plusYears(long yearsToAdd);
 
     /**
      * Returns a copy of this date with the specified period in months added.
@@ -175,7 +176,7 @@ abstract class ChronoDateImpl<D extends ChronoLocalDate>
      * @return a date based on this one with the months added, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    abstract ChronoDateImpl<D> plusMonths(long monthsToAdd);
+    abstract D plusMonths(long monthsToAdd);
 
     /**
      * Returns a copy of this date with the specified period in weeks added.
@@ -192,8 +193,8 @@ abstract class ChronoDateImpl<D extends ChronoLocalDate>
      * @return a date based on this one with the weeks added, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    ChronoDateImpl<D> plusWeeks(long weeksToAdd) {
-        return plusDays(Jdk8Methods.safeMultiply(weeksToAdd, 7));
+    D plusWeeks(long weeksToAdd) {
+        return plusDays(Math.multiplyExact(weeksToAdd, 7));
     }
 
     /**
@@ -207,7 +208,7 @@ abstract class ChronoDateImpl<D extends ChronoLocalDate>
      * @return a date based on this one with the days added, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    abstract ChronoDateImpl<D> plusDays(long daysToAdd);
+    abstract D plusDays(long daysToAdd);
 
     //-----------------------------------------------------------------------
     /**
@@ -226,8 +227,9 @@ abstract class ChronoDateImpl<D extends ChronoLocalDate>
      * @return a date based on this one with the years subtracted, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    ChronoDateImpl<D> minusYears(long yearsToSubtract) {
-        return (yearsToSubtract == Long.MIN_VALUE ? plusYears(Long.MAX_VALUE).plusYears(1) : plusYears(-yearsToSubtract));
+    @SuppressWarnings("unchecked")
+    D minusYears(long yearsToSubtract) {
+        return (yearsToSubtract == Long.MIN_VALUE ? ((ChronoLocalDateImpl<D>)plusYears(Long.MAX_VALUE)).plusYears(1) : plusYears(-yearsToSubtract));
     }
 
     /**
@@ -246,8 +248,9 @@ abstract class ChronoDateImpl<D extends ChronoLocalDate>
      * @return a date based on this one with the months subtracted, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    ChronoDateImpl<D> minusMonths(long monthsToSubtract) {
-        return (monthsToSubtract == Long.MIN_VALUE ? plusMonths(Long.MAX_VALUE).plusMonths(1) : plusMonths(-monthsToSubtract));
+    @SuppressWarnings("unchecked")
+    D minusMonths(long monthsToSubtract) {
+        return (monthsToSubtract == Long.MIN_VALUE ? ((ChronoLocalDateImpl<D>)plusMonths(Long.MAX_VALUE)).plusMonths(1) : plusMonths(-monthsToSubtract));
     }
 
     /**
@@ -265,8 +268,9 @@ abstract class ChronoDateImpl<D extends ChronoLocalDate>
      * @return a date based on this one with the weeks subtracted, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    ChronoDateImpl<D> minusWeeks(long weeksToSubtract) {
-        return (weeksToSubtract == Long.MIN_VALUE ? plusWeeks(Long.MAX_VALUE).plusWeeks(1) : plusWeeks(-weeksToSubtract));
+    @SuppressWarnings("unchecked")
+    D minusWeeks(long weeksToSubtract) {
+        return (weeksToSubtract == Long.MIN_VALUE ? ((ChronoLocalDateImpl<D>)plusWeeks(Long.MAX_VALUE)).plusWeeks(1) : plusWeeks(-weeksToSubtract));
     }
 
     /**
@@ -282,8 +286,9 @@ abstract class ChronoDateImpl<D extends ChronoLocalDate>
      * @return a date based on this one with the days subtracted, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    ChronoDateImpl<D> minusDays(long daysToSubtract) {
-        return (daysToSubtract == Long.MIN_VALUE ? plusDays(Long.MAX_VALUE).plusDays(1) : plusDays(-daysToSubtract));
+    @SuppressWarnings("unchecked")
+    D minusDays(long daysToSubtract) {
+        return (daysToSubtract == Long.MIN_VALUE ? ((ChronoLocalDateImpl<D>)plusDays(Long.MAX_VALUE)).plusDays(1) : plusDays(-daysToSubtract));
     }
 
     @Override
@@ -306,4 +311,36 @@ abstract class ChronoDateImpl<D extends ChronoLocalDate>
         throw new UnsupportedOperationException("Not supported in ThreeTen backport");
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj instanceof ChronoLocalDate) {
+            return compareTo((ChronoLocalDate) obj) == 0;
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        long epDay = toEpochDay();
+        return getChronology().hashCode() ^ ((int) (epDay ^ (epDay >>> 32)));
+    }
+
+    @Override
+    public String toString() {
+        long yoe = getLong(YEAR_OF_ERA);
+        long moy = getLong(MONTH_OF_YEAR);
+        long dom = getLong(DAY_OF_MONTH);
+        StringBuilder buf = new StringBuilder(30);
+        buf.append(getChronology().toString())
+                .append(" ")
+                .append(getEra())
+                .append(" ")
+                .append(yoe)
+                .append(moy < 10 ? "-0" : "-").append(moy)
+                .append(dom < 10 ? "-0" : "-").append(dom);
+        return buf.toString();
+    }
 }
