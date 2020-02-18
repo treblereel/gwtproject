@@ -15,7 +15,7 @@
     <url>https://github.com/gwtproject/gwt-geolocation</url>
 
     <properties>
-        <maven.j2cl.plugin>0.11-SNAPSHOT</maven.j2cl.plugin>
+        <maven.j2cl.plugin>0.13-SNAPSHOT</maven.j2cl.plugin>
         <maven.surfire.plugin>3.0.0-M1</maven.surfire.plugin>
         <!-- CI -->
         <vertispan.j2cl.repo.url>https://repo.vertispan.com/j2cl/</vertispan.j2cl.repo.url>
