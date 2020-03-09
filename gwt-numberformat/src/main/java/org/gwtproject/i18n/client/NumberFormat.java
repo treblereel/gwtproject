@@ -742,7 +742,7 @@ public class NumberFormat {
    * @return non-localized string representation of {@code d}
    */
   private static String toPrecision(double d, int digits) {
-    return Js.<JsNumber>cast(d).toPrecision(digits);
+    return Js.<JsNumber>uncheckedCast(d).toPrecision(digits);
   }
 
   /** Information about the currency being used. */
