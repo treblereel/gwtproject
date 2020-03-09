@@ -33,157 +33,157 @@ import org.gwtproject.i18n.shared.WordCountDirectionEstimator;
 public class AutoDirectionHandler implements KeyUpHandler,
                                              HasDirectionEstimator {
 
-  /**
-   * The interface an object must implement in order to add an
-   * AutoDirectionHandler to it.
-   *
-   * TODO(tomerigo): add Paste and Input events once they're available in GWT.
-   */
-  public interface Target extends HasDirection,
-                                  HasKeyUpHandlers {
     /**
-     * Gets this object's text.
-     */
-    String getText();
-
-    /**
-     * Sets this object's text.
+     * The interface an object must implement in order to add an
+     * AutoDirectionHandler to it.
      *
-     * @param text the object's new text
+     * TODO(tomerigo): add Paste and Input events once they're available in GWT.
      */
-    void setText(String text);
-  }
+    public interface Target extends HasDirection,
+                                    HasKeyUpHandlers {
+        /**
+         * Gets this object's text.
+         */
+        String getText();
 
-  /**
-   * Operates like {@link #addTo(Target, DirectionEstimator)}, but always uses
-   * a default DirectionEstimator, {@link
-   * org.gwtproject.i18n.shared.WordCountDirectionEstimator}.
-   *
-   * @param target Object whose direction should be automatically adjusted on
-   *     relevant events.
-   * @return AutoDirectionHandler An instance of AutoDirectionHandler for the
-   *     given object.
-   */
-  public static AutoDirectionHandler addTo(Target target) {
-    return addTo(target, true);
-  }
-
-  /**
-   * Operates like {@link #addTo(Target, DirectionEstimator)}, but uses a
-   * default DirectionEstimator, {@link
-   * org.gwtproject.i18n.shared.WordCountDirectionEstimator} if {@code enabled},
-   * or else a null DirectionEstimator, which means disabling direction
-   * estimation.
-   *
-   * @param target Object whose direction should be automatically adjusted on
-   *     relevant events.
-   * @param enabled Whether the handler is enabled upon creation.
-   * @return AutoDirectionHandler An instance of AutoDirectionHandler for the
-   *     given object.
-   */
-  public static AutoDirectionHandler addTo(Target target, boolean enabled) {
-    return addTo(target, enabled ? WordCountDirectionEstimator.get() : null);
-  }
-
-  /**
-   * Adds auto-direction adjustment to a given object:
-   * - Creates an AutoDirectionHandler.
-   * - Initializes it with the given DirectionEstimator.
-   * - Adds it as an event handler for the relevant events on the given object.
-   * - Returns the AutoDirectionHandler, so its setAutoDir() method can be
-   * called when the object's text changes by means other than the handled
-   * events.
-   *
-   * @param target Object whose direction should be automatically adjusted on
-   *     relevant events.
-   * @param directionEstimator A DirectionEstimator object used for direction
-   *     estimation (use null to disable direction estimation).
-   * @return AutoDirectionHandler An instance of AutoDirectionHandler for the
-   *     given object.
-   */
-  public static AutoDirectionHandler addTo(Target target, DirectionEstimator
-      directionEstimator) {
-    return new AutoDirectionHandler(target, directionEstimator);
-  }
-
-  /**
-   * A DirectionEstimator object used for direction estimation.
-   */
-  private DirectionEstimator directionEstimator;
-
-  /**
-   * A HandlerRegistration object used to remove this handler.
-   */
-  private HandlerRegistration handlerRegistration;
-
-  /**
-   * The object being handled.
-   */
-  private Target target;
-
-  /**
-   * Private constructor. Instantiate using one of the addTo() methods.
-   *
-   * @param target Object whose direction should be automatically adjusted on
-   *     relevant events.
-   * @param directionEstimator A DirectionEstimator object used for direction
-   *     estimation.
-   */
-  private AutoDirectionHandler(Target target, DirectionEstimator
-      directionEstimator) {
-    this.target = target;
-    this.handlerRegistration = null;
-    setDirectionEstimator(directionEstimator);
-  }
-
-  /**
-   * Returns the DirectionEstimator object.
-   */
-  public DirectionEstimator getDirectionEstimator() {
-    return directionEstimator;
-  }
-
-  /**
-   * Automatically adjusts hasDirection's direction on KeyUpEvent events.
-   * Implementation of KeyUpHandler interface method.
-   */
-  public void onKeyUp(KeyUpEvent event) {
-    refreshDirection();
-  }
-
-  /**
-   * Adjusts target's direction according to the estimated direction of the text
-   * it supplies.
-   */
-  public void refreshDirection() {
-    if (directionEstimator != null) {
-      Direction dir = directionEstimator.estimateDirection(target.getText());
-      if (dir != target.getDirection()) {
-        target.setDirection(dir);
-      }
+        /**
+         * Sets this object's text.
+         *
+         * @param text the object's new text
+         */
+        void setText(String text);
     }
-  }
 
-  /**
-   * Toggles direction estimation on (using a default estimator) and off.
-   */
-  public void setDirectionEstimator(boolean enabled) {
-    setDirectionEstimator(enabled ? WordCountDirectionEstimator.get() : null);
-  }
-
-  /**
-   * Sets the DirectionEstimator object.
-   */
-  public void setDirectionEstimator(DirectionEstimator directionEstimator) {
-    this.directionEstimator = directionEstimator;
-    if ((directionEstimator == null) != (handlerRegistration == null)) {
-      if (directionEstimator == null) {
-        handlerRegistration.removeHandler();
-        handlerRegistration = null;
-      } else {
-        handlerRegistration = target.addKeyUpHandler(this);
-      }
+    /**
+     * Operates like {@link #addTo(Target, DirectionEstimator)}, but always uses
+     * a default DirectionEstimator, {@link
+     * org.gwtproject.i18n.shared.WordCountDirectionEstimator}.
+     *
+     * @param target Object whose direction should be automatically adjusted on
+     *     relevant events.
+     * @return AutoDirectionHandler An instance of AutoDirectionHandler for the
+     *     given object.
+     */
+    public static AutoDirectionHandler addTo(Target target) {
+        return addTo(target, true);
     }
-    refreshDirection();
-  }
+
+    /**
+     * Operates like {@link #addTo(Target, DirectionEstimator)}, but uses a
+     * default DirectionEstimator, {@link
+     * org.gwtproject.i18n.shared.WordCountDirectionEstimator} if {@code enabled},
+     * or else a null DirectionEstimator, which means disabling direction
+     * estimation.
+     *
+     * @param target Object whose direction should be automatically adjusted on
+     *     relevant events.
+     * @param enabled Whether the handler is enabled upon creation.
+     * @return AutoDirectionHandler An instance of AutoDirectionHandler for the
+     *     given object.
+     */
+    public static AutoDirectionHandler addTo(Target target, boolean enabled) {
+        return addTo(target, enabled ? WordCountDirectionEstimator.get() : null);
+    }
+
+    /**
+     * Adds auto-direction adjustment to a given object:
+     * - Creates an AutoDirectionHandler.
+     * - Initializes it with the given DirectionEstimator.
+     * - Adds it as an event handler for the relevant events on the given object.
+     * - Returns the AutoDirectionHandler, so its setAutoDir() method can be
+     * called when the object's text changes by means other than the handled
+     * events.
+     *
+     * @param target Object whose direction should be automatically adjusted on
+     *     relevant events.
+     * @param directionEstimator A DirectionEstimator object used for direction
+     *     estimation (use null to disable direction estimation).
+     * @return AutoDirectionHandler An instance of AutoDirectionHandler for the
+     *     given object.
+     */
+    public static AutoDirectionHandler addTo(Target target, DirectionEstimator
+            directionEstimator) {
+        return new AutoDirectionHandler(target, directionEstimator);
+    }
+
+    /**
+     * A DirectionEstimator object used for direction estimation.
+     */
+    private DirectionEstimator directionEstimator;
+
+    /**
+     * A HandlerRegistration object used to remove this handler.
+     */
+    private HandlerRegistration handlerRegistration;
+
+    /**
+     * The object being handled.
+     */
+    private Target target;
+
+    /**
+     * Private constructor. Instantiate using one of the addTo() methods.
+     *
+     * @param target Object whose direction should be automatically adjusted on
+     *     relevant events.
+     * @param directionEstimator A DirectionEstimator object used for direction
+     *     estimation.
+     */
+    private AutoDirectionHandler(Target target, DirectionEstimator
+            directionEstimator) {
+        this.target = target;
+        this.handlerRegistration = null;
+        setDirectionEstimator(directionEstimator);
+    }
+
+    /**
+     * Returns the DirectionEstimator object.
+     */
+    public DirectionEstimator getDirectionEstimator() {
+        return directionEstimator;
+    }
+
+    /**
+     * Automatically adjusts hasDirection's direction on KeyUpEvent events.
+     * Implementation of KeyUpHandler interface method.
+     */
+    public void onKeyUp(KeyUpEvent event) {
+        refreshDirection();
+    }
+
+    /**
+     * Adjusts target's direction according to the estimated direction of the text
+     * it supplies.
+     */
+    public void refreshDirection() {
+        if (directionEstimator != null) {
+            Direction dir = directionEstimator.estimateDirection(target.getText());
+            if (dir != target.getDirection()) {
+                target.setDirection(dir);
+            }
+        }
+    }
+
+    /**
+     * Toggles direction estimation on (using a default estimator) and off.
+     */
+    public void setDirectionEstimator(boolean enabled) {
+        setDirectionEstimator(enabled ? WordCountDirectionEstimator.get() : null);
+    }
+
+    /**
+     * Sets the DirectionEstimator object.
+     */
+    public void setDirectionEstimator(DirectionEstimator directionEstimator) {
+        this.directionEstimator = directionEstimator;
+        if ((directionEstimator == null) != (handlerRegistration == null)) {
+            if (directionEstimator == null) {
+                handlerRegistration.removeHandler();
+                handlerRegistration = null;
+            } else {
+                handlerRegistration = target.addKeyUpHandler(this);
+            }
+        }
+        refreshDirection();
+    }
 }

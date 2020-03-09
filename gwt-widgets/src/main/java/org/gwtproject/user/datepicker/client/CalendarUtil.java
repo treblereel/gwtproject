@@ -16,9 +16,6 @@
 
 package org.gwtproject.user.datepicker.client;
 
-import org.gwtproject.i18n.client.DateTimeFormatInfo;
-import org.gwtproject.i18n.client.LocaleInfo;
-
 import java.util.Date;
 
 /**

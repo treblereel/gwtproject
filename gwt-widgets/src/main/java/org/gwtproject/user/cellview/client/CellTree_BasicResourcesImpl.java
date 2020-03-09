@@ -1,6 +1,6 @@
 package org.gwtproject.user.cellview.client;
 
-import org.gwtproject.i18n.client.LocaleInfo;
+import org.gwtproject.i18n.shared.cldr.LocaleInfo;
 import org.gwtproject.resources.client.ResourcePrototype;
 
 public class CellTree_BasicResourcesImpl implements CellTree.BasicResources {

@@ -1,6 +1,6 @@
 package org.gwtproject.cell.client;
 
-import org.gwtproject.i18n.client.LocaleInfo;
+import org.gwtproject.i18n.shared.cldr.LocaleInfo;
 import org.gwtproject.resources.client.ResourcePrototype;
 
 public class ButtonCellBase_DefaultAppearance_ResourcesImpl implements ButtonCellBase.DefaultAppearance.Resources {

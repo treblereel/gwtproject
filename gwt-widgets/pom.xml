@@ -160,13 +160,13 @@
     </dependency>
     <dependency>
       <groupId>org.gwtproject.i18n</groupId>
-      <artifactId>gwt-datetimeformat</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <artifactId>gwt-cldr</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.gwtproject.i18n</groupId>
-      <artifactId>gwt-cldr</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <artifactId>gwt-numberformat</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.gwtproject.resources</groupId>

@@ -15,6 +15,9 @@
  */
 package org.gwtproject.user.cellview.client;
 
+import elemental2.core.JsNumber;
+import elemental2.dom.DomGlobal;
+import jsinterop.base.Js;
 import org.gwtproject.aria.client.Roles;
 import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.event.dom.client.ClickHandler;
@@ -542,8 +545,12 @@ public class SimplePager extends AbstractPager {
     int endIndex = Math.min(dataSize, pageStart + pageSize - 1);
     endIndex = Math.max(pageStart, endIndex);
     boolean exact = display.isRowCountExact();
-    return formatter.format(pageStart) + "-" + formatter.format(endIndex)
-        + (exact ? " of " : " of over ") + formatter.format(dataSize);
+
+    DomGlobal.console.log("createText 1 " + pageSize);
+    DomGlobal.console.log("createText 2 " + endIndex);
+
+    return formatter.format(Js.uncheckedCast(pageStart)) + "-" + formatter.format(Js.uncheckedCast(endIndex))
+        + (exact ? " of " : " of over ") + formatter.format(Js.uncheckedCast(dataSize));
   }
 
   @Override

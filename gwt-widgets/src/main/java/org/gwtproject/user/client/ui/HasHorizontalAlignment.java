@@ -17,7 +17,7 @@ package org.gwtproject.user.client.ui;
 
 import org.gwtproject.dom.style.shared.TextAlign;
 import org.gwtproject.i18n.client.HasDirection.Direction;
-import org.gwtproject.i18n.client.LocaleInfo;
+import org.gwtproject.i18n.shared.cldr.LocaleInfo;
 
 /**
  * Characteristic interface which indicates that a widget can be aligned
