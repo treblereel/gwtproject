@@ -29,6 +29,7 @@ import org.gwtproject.event.shared.HandlerRegistration;
 import org.gwtproject.i18n.client.AutoDirectionHandler;
 import org.gwtproject.i18n.client.BidiPolicy;
 import org.gwtproject.i18n.client.BidiUtils;
+import org.gwtproject.i18n.client.HasDirection;
 import org.gwtproject.i18n.shared.DirectionEstimator;
 import org.gwtproject.i18n.shared.HasDirectionEstimator;
 import org.gwtproject.text.shared.Parser;
@@ -132,11 +133,11 @@ public class ValueBoxBase<T> extends FocusWidget implements
         setSelectionRange(pos, 0);
     }
 
-    public Direction getDirection() {
+    public HasDirection.Direction getDirection() {
         return BidiUtils.getDirectionOnElement(getElement());
     }
 
-    public void setDirection(Direction direction) {
+    public void setDirection(HasDirection.Direction direction) {
         BidiUtils.setDirectionOnElement(getElement(), direction);
     }
 

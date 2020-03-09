@@ -20,9 +20,9 @@ import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.i18n.client.BidiUtils;
 import org.gwtproject.i18n.client.HasDirection.Direction;
-import org.gwtproject.i18n.client.LocaleInfo;
 import org.gwtproject.i18n.shared.AnyRtlDirectionEstimator;
 import com.google.gwt.junit.client.GWTTestCase;
+import org.gwtproject.i18n.shared.cldr.LocaleInfo;
 
 import java.util.Locale;
 

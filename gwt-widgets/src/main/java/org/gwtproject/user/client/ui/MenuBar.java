@@ -31,7 +31,7 @@ import org.gwtproject.event.logical.shared.CloseEvent;
 import org.gwtproject.event.logical.shared.CloseHandler;
 import org.gwtproject.event.logical.shared.HasCloseHandlers;
 import org.gwtproject.event.shared.HandlerRegistration;
-import org.gwtproject.i18n.client.LocaleInfo;
+import org.gwtproject.i18n.shared.cldr.LocaleInfo;
 import org.gwtproject.resources.client.ClientBundle;
 import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.resources.client.ImageResource.ImageOptions;

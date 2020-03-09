@@ -1,6 +1,6 @@
 package org.gwtproject.user.client.ui;
 
-import org.gwtproject.i18n.client.LocaleInfo;
+import org.gwtproject.i18n.shared.cldr.LocaleInfo;
 import org.gwtproject.resources.client.ResourcePrototype;
 
 public class NativeHorizontalScrollbar_NativeHorizontalScrollbarUiBinderImpl_GenBundleImpl implements org.gwtproject.user.client.ui.NativeHorizontalScrollbar_NativeHorizontalScrollbarUiBinderImpl_GenBundle {

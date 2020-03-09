@@ -18,7 +18,8 @@ package org.gwtproject.user.client.ui;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.InputElement;
-import org.gwtproject.i18n.client.LocaleInfo;
+import org.gwtproject.i18n.client.HasDirection;
+import org.gwtproject.i18n.shared.cldr.LocaleInfo;
 import org.gwtproject.text.shared.Parser;
 import org.gwtproject.text.shared.Renderer;
 
@@ -64,7 +65,7 @@ public class ValueBox<T> extends ValueBoxBase<T> {
     // BiDi input is not expected - disable direction estimation.
     setDirectionEstimator(false);
     if (LocaleInfo.getCurrentLocale().isRTL()) {
-      setDirection(Direction.LTR);
+      setDirection(HasDirection.Direction.LTR);
     }
     assert InputElement.as(element).getType().equalsIgnoreCase("text");
   }

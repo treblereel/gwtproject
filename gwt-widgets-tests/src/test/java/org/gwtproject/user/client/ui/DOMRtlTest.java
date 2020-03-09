@@ -17,8 +17,8 @@ package org.gwtproject.user.client.ui;
 
 import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.Element;
-import org.gwtproject.i18n.client.LocaleInfo;
 import com.google.gwt.junit.client.GWTTestCase;
+import org.gwtproject.i18n.shared.cldr.LocaleInfo;
 import org.gwtproject.user.client.DOM;
 import org.junit.Ignore;
 
