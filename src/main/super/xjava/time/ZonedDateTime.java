@@ -35,48 +35,28 @@ import static xjava.time.temporal.ChronoField.INSTANT_SECONDS;
 import static xjava.time.temporal.ChronoField.NANO_OF_SECOND;
 import static xjava.time.temporal.ChronoField.OFFSET_SECONDS;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectStreamException;
 import java.io.Serializable;
-import xjava.time.Clock;
-import xjava.time.DateTimeException;
-import xjava.time.DayOfWeek;
-import xjava.time.Instant;
-import xjava.time.LocalDate;
-import xjava.time.LocalDateTime;
-import xjava.time.LocalTime;
-import xjava.time.Month;
-import xjava.time.MonthDay;
-import xjava.time.OffsetDateTime;
-import xjava.time.Period;
-import xjava.time.Ser;
-import xjava.time.ZoneId;
-import xjava.time.ZoneOffset;
-import xjava.time.ZonedDateTime;
-import xjava.time.format.DateTimeParseException;
-import xjava.time.temporal.Temporal;
-import xjava.time.temporal.TemporalAccessor;
-import xjava.time.temporal.TemporalAdjuster;
-import xjava.time.temporal.TemporalAmount;
-import xjava.time.temporal.TemporalField;
-import xjava.time.temporal.TemporalQuery;
-import xjava.time.temporal.UnsupportedTemporalTypeException;
-import xjava.time.temporal.ValueRange;
-import xjava.time.zone.ZoneOffsetTransition;
-import xjava.time.zone.ZoneRules;
 import java.util.List;
 import java.util.Objects;
 
 import xjava.time.chrono.ChronoZonedDateTime;
 import xjava.time.format.DateTimeFormatter;
+import xjava.time.format.DateTimeParseException;
 import xjava.time.temporal.ChronoField;
 import xjava.time.temporal.ChronoUnit;
+import xjava.time.temporal.Temporal;
+import xjava.time.temporal.TemporalAccessor;
+import xjava.time.temporal.TemporalAdjuster;
 import xjava.time.temporal.TemporalAdjusters;
+import xjava.time.temporal.TemporalAmount;
+import xjava.time.temporal.TemporalField;
 import xjava.time.temporal.TemporalQueries;
+import xjava.time.temporal.TemporalQuery;
 import xjava.time.temporal.TemporalUnit;
+import xjava.time.temporal.UnsupportedTemporalTypeException;
+import xjava.time.temporal.ValueRange;
+import xjava.time.zone.ZoneOffsetTransition;
+import xjava.time.zone.ZoneRules;
 
 /**
  * A date-time with a time-zone in the ISO-8601 calendar system,
@@ -2099,33 +2079,6 @@ public final class ZonedDateTime
     public String format(DateTimeFormatter formatter) {
         Objects.requireNonNull(formatter, "formatter");
         return formatter.format(this);
-    }
-
-    //-----------------------------------------------------------------------
-    private Object writeReplace() {
-        return new Ser(Ser.ZONED_DATE_TIME_TYPE, this);
-    }
-
-    /**
-     * Defend against malicious streams.
-     * @return never
-     * @throws InvalidObjectException always
-     */
-    private Object readResolve() throws ObjectStreamException {
-        throw new InvalidObjectException("Deserialization via serialization delegate");
-    }
-
-    void writeExternal(DataOutput out) throws IOException {
-        dateTime.writeExternal(out);
-        offset.writeExternal(out);
-        zone.write(out);
-    }
-
-    static ZonedDateTime readExternal(DataInput in) throws IOException {
-        LocalDateTime dateTime = LocalDateTime.readExternal(in);
-        ZoneOffset offset = ZoneOffset.readExternal(in);
-        ZoneId zone = (ZoneId) Ser.read(in);
-        return ZonedDateTime.ofLenient(dateTime, offset, zone);
     }
 
 }

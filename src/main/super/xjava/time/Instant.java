@@ -41,38 +41,23 @@ import static xjava.time.temporal.ChronoField.NANO_OF_SECOND;
 import static xjava.time.temporal.ChronoUnit.DAYS;
 import static xjava.time.temporal.ChronoUnit.NANOS;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectStreamException;
 import java.io.Serializable;
-import xjava.time.Clock;
-import xjava.time.DateTimeException;
-import xjava.time.Duration;
-import xjava.time.Instant;
-import xjava.time.LocalTime;
-import xjava.time.OffsetDateTime;
-import xjava.time.Ser;
-import xjava.time.ZoneId;
-import xjava.time.ZoneOffset;
-import xjava.time.ZonedDateTime;
+import java.util.Objects;
+
+import xjava.time.format.DateTimeFormatter;
 import xjava.time.format.DateTimeParseException;
+import xjava.time.temporal.ChronoField;
+import xjava.time.temporal.ChronoUnit;
 import xjava.time.temporal.Temporal;
 import xjava.time.temporal.TemporalAccessor;
 import xjava.time.temporal.TemporalAdjuster;
 import xjava.time.temporal.TemporalAmount;
 import xjava.time.temporal.TemporalField;
+import xjava.time.temporal.TemporalQueries;
 import xjava.time.temporal.TemporalQuery;
+import xjava.time.temporal.TemporalUnit;
 import xjava.time.temporal.UnsupportedTemporalTypeException;
 import xjava.time.temporal.ValueRange;
-import java.util.Objects;
-
-import xjava.time.format.DateTimeFormatter;
-import xjava.time.temporal.ChronoField;
-import xjava.time.temporal.ChronoUnit;
-import xjava.time.temporal.TemporalQueries;
-import xjava.time.temporal.TemporalUnit;
 
 /**
  * An instantaneous point on the time-line.
@@ -1168,31 +1153,6 @@ public final class Instant
     @Override
     public String toString() {
         return DateTimeFormatter.ISO_INSTANT.format(this);
-    }
-
-    //-----------------------------------------------------------------------
-    private Object writeReplace() {
-        return new Ser(Ser.INSTANT_TYPE, this);
-    }
-
-    /**
-     * Defend against malicious streams.
-     * @return never
-     * @throws InvalidObjectException always
-     */
-    private Object readResolve() throws ObjectStreamException {
-        throw new InvalidObjectException("Deserialization via serialization delegate");
-    }
-
-    void writeExternal(DataOutput out) throws IOException {
-        out.writeLong(seconds);
-        out.writeInt(nanos);
-    }
-
-    static Instant readExternal(DataInput in) throws IOException {
-        long seconds = in.readLong();
-        int nanos = in.readInt();
-        return Instant.ofEpochSecond(seconds, nanos);
     }
 
 }

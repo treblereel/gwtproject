@@ -33,27 +33,18 @@ package xjava.time.chrono;
 
 import static xjava.time.temporal.ChronoField.EPOCH_DAY;
 
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
 import java.io.Serializable;
-import xjava.time.chrono.ChronoLocalDate;
-import xjava.time.chrono.ChronoLocalDateTime;
-import xjava.time.chrono.ChronoLocalDateTimeImpl;
-import xjava.time.chrono.ChronoZonedDateTime;
-import xjava.time.chrono.ChronoZonedDateTimeImpl;
-import xjava.time.chrono.Ser;
-import xjava.time.temporal.Temporal;
-import xjava.time.temporal.TemporalAdjuster;
-import xjava.time.temporal.TemporalField;
-import xjava.time.temporal.ValueRange;
 import java.util.Objects;
 
 import xjava.time.LocalTime;
 import xjava.time.ZoneId;
 import xjava.time.temporal.ChronoField;
 import xjava.time.temporal.ChronoUnit;
+import xjava.time.temporal.Temporal;
+import xjava.time.temporal.TemporalAdjuster;
+import xjava.time.temporal.TemporalField;
 import xjava.time.temporal.TemporalUnit;
+import xjava.time.temporal.ValueRange;
 
 /**
  * A date-time without a time-zone for the calendar neutral API.
@@ -342,22 +333,6 @@ final class ChronoLocalDateTimeImpl<D extends ChronoLocalDate>
             return date.until(endDate, unit);
         }
         return unit.between(this, end);
-    }
-
-    //-----------------------------------------------------------------------
-    private Object writeReplace() {
-        return new Ser(Ser.CHRONO_LOCALDATETIME_TYPE, this);
-    }
-
-    void writeExternal(ObjectOutput out) throws IOException {
-        out.writeObject(date);
-        out.writeObject(time);
-    }
-
-    static ChronoLocalDateTime<?> readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-        ChronoLocalDate date = (ChronoLocalDate) in.readObject();
-        LocalTime time = (LocalTime) in.readObject();
-        return date.atTime(time);
     }
 
     @Override

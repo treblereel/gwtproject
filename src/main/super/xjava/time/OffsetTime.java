@@ -39,40 +39,24 @@ import static xjava.time.temporal.ChronoField.NANO_OF_DAY;
 import static xjava.time.temporal.ChronoField.OFFSET_SECONDS;
 import static xjava.time.temporal.ChronoUnit.NANOS;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectStreamException;
 import java.io.Serializable;
-import xjava.time.Clock;
-import xjava.time.DateTimeException;
-import xjava.time.Instant;
-import xjava.time.LocalDate;
-import xjava.time.LocalTime;
-import xjava.time.OffsetDateTime;
-import xjava.time.OffsetTime;
-import xjava.time.Period;
-import xjava.time.Ser;
-import xjava.time.ZoneId;
-import xjava.time.ZoneOffset;
+import java.util.Objects;
+
+import xjava.time.format.DateTimeFormatter;
 import xjava.time.format.DateTimeParseException;
+import xjava.time.temporal.ChronoField;
+import xjava.time.temporal.ChronoUnit;
 import xjava.time.temporal.Temporal;
 import xjava.time.temporal.TemporalAccessor;
 import xjava.time.temporal.TemporalAdjuster;
 import xjava.time.temporal.TemporalAmount;
 import xjava.time.temporal.TemporalField;
+import xjava.time.temporal.TemporalQueries;
 import xjava.time.temporal.TemporalQuery;
+import xjava.time.temporal.TemporalUnit;
 import xjava.time.temporal.UnsupportedTemporalTypeException;
 import xjava.time.temporal.ValueRange;
 import xjava.time.zone.ZoneRules;
-import java.util.Objects;
-
-import xjava.time.format.DateTimeFormatter;
-import xjava.time.temporal.ChronoField;
-import xjava.time.temporal.ChronoUnit;
-import xjava.time.temporal.TemporalQueries;
-import xjava.time.temporal.TemporalUnit;
 
 /**
  * A time with an offset from UTC/Greenwich in the ISO-8601 calendar system,
@@ -1286,31 +1270,6 @@ public final class OffsetTime
     public String format(DateTimeFormatter formatter) {
         Objects.requireNonNull(formatter, "formatter");
         return formatter.format(this);
-    }
-
-    // -----------------------------------------------------------------------
-    private Object writeReplace() {
-        return new Ser(Ser.OFFSET_TIME_TYPE, this);
-    }
-
-    /**
-     * Defend against malicious streams.
-     * @return never
-     * @throws InvalidObjectException always
-     */
-    private Object readResolve() throws ObjectStreamException {
-        throw new InvalidObjectException("Deserialization via serialization delegate");
-    }
-
-    void writeExternal(DataOutput out) throws IOException {
-        time.writeExternal(out);
-        offset.writeExternal(out);
-    }
-
-    static OffsetTime readExternal(DataInput in) throws IOException {
-        LocalTime time = LocalTime.readExternal(in);
-        ZoneOffset offset = ZoneOffset.readExternal(in);
-        return OffsetTime.of(time, offset);
     }
 
 }

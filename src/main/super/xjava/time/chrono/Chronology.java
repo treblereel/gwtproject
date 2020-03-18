@@ -31,38 +31,8 @@
  */
 package xjava.time.chrono;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectStreamException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import xjava.time.DateTimeException;
-import xjava.time.chrono.AbstractChronology;
-import xjava.time.chrono.ChronoLocalDate;
-import xjava.time.chrono.ChronoLocalDateTime;
-import xjava.time.chrono.ChronoLocalDateTimeImpl;
-import xjava.time.chrono.ChronoPeriod;
-import xjava.time.chrono.ChronoPeriodImpl;
-import xjava.time.chrono.ChronoZonedDateTime;
-import xjava.time.chrono.ChronoZonedDateTimeImpl;
-import xjava.time.chrono.Chronology;
-import xjava.time.chrono.Era;
-import xjava.time.chrono.HijrahChronology;
-import xjava.time.chrono.IsoChronology;
-import xjava.time.chrono.JapaneseChronology;
-import xjava.time.chrono.MinguoChronology;
-import xjava.time.chrono.Ser;
-import xjava.time.chrono.ThaiBuddhistChronology;
-import xjava.time.format.ResolverStyle;
-import xjava.time.format.TextStyle;
-import xjava.time.temporal.Temporal;
-import xjava.time.temporal.TemporalAccessor;
-import xjava.time.temporal.TemporalField;
-import xjava.time.temporal.TemporalQuery;
-import xjava.time.temporal.UnsupportedTemporalTypeException;
-import xjava.time.temporal.ValueRange;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -73,13 +43,22 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import xjava.time.Clock;
+import xjava.time.DateTimeException;
 import xjava.time.Instant;
 import xjava.time.LocalDate;
 import xjava.time.LocalTime;
 import xjava.time.ZoneId;
 import xjava.time.format.DateTimeFormatterBuilder;
+import xjava.time.format.ResolverStyle;
+import xjava.time.format.TextStyle;
 import xjava.time.temporal.ChronoField;
+import xjava.time.temporal.Temporal;
+import xjava.time.temporal.TemporalAccessor;
+import xjava.time.temporal.TemporalField;
 import xjava.time.temporal.TemporalQueries;
+import xjava.time.temporal.TemporalQuery;
+import xjava.time.temporal.UnsupportedTemporalTypeException;
+import xjava.time.temporal.ValueRange;
 
 /**
  * A calendar system, used to organize and identify dates.
@@ -884,29 +863,6 @@ public abstract class Chronology implements Comparable<Chronology> {
     @Override
     public String toString() {
         return getId();
-    }
-
-    //-----------------------------------------------------------------------
-    private Object writeReplace() {
-        return new Ser(Ser.CHRONO_TYPE, this);
-    }
-
-    /**
-     * Defend against malicious streams.
-     * @return never
-     * @throws InvalidObjectException always
-     */
-    private Object readResolve() throws ObjectStreamException {
-        throw new InvalidObjectException("Deserialization via serialization delegate");
-    }
-
-    void writeExternal(DataOutput out) throws IOException {
-        out.writeUTF(getId());
-    }
-
-    static Chronology readExternal(DataInput in) throws IOException {
-        String id = in.readUTF();
-        return Chronology.of(id);
     }
 
 }

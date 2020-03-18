@@ -31,25 +31,18 @@
  */
 package xjava.time.chrono;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
 import java.io.InvalidObjectException;
 import java.io.ObjectStreamException;
 import java.io.Serializable;
-import xjava.time.DateTimeException;
-import xjava.time.chrono.Era;
-import xjava.time.chrono.JapaneseChronology;
-import xjava.time.chrono.JapaneseEra;
-import xjava.time.chrono.Ser;
-import xjava.time.temporal.TemporalField;
-import xjava.time.temporal.ValueRange;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
+import xjava.time.DateTimeException;
 import xjava.time.LocalDate;
 import xjava.time.temporal.ChronoField;
+import xjava.time.temporal.TemporalField;
+import xjava.time.temporal.ValueRange;
 
 /**
  * An era in the Japanese Imperial calendar system.
@@ -326,20 +319,6 @@ public final class JapaneseEra
     @Override
     public String toString() {
         return name;
-    }
-
-    //-----------------------------------------------------------------------
-    private Object writeReplace() {
-        return new Ser(Ser.JAPANESE_ERA_TYPE, this);
-    }
-
-    void writeExternal(DataOutput out) throws IOException {
-        out.writeByte(this.getValue());
-    }
-
-    static JapaneseEra readExternal(DataInput in) throws IOException {
-        byte eraValue = in.readByte();
-        return JapaneseEra.of(eraValue);
     }
 
 }

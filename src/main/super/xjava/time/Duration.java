@@ -39,24 +39,10 @@ import static xjava.time.temporal.ChronoUnit.DAYS;
 import static xjava.time.temporal.ChronoUnit.NANOS;
 import static xjava.time.temporal.ChronoUnit.SECONDS;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectStreamException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
-import xjava.time.DateTimeException;
-import xjava.time.Duration;
-import xjava.time.Instant;
-import xjava.time.Period;
-import xjava.time.Ser;
-import xjava.time.format.DateTimeParseException;
-import xjava.time.temporal.Temporal;
-import xjava.time.temporal.TemporalAmount;
-import xjava.time.temporal.UnsupportedTemporalTypeException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -64,9 +50,13 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import xjava.time.format.DateTimeParseException;
 import xjava.time.temporal.ChronoField;
 import xjava.time.temporal.ChronoUnit;
+import xjava.time.temporal.Temporal;
+import xjava.time.temporal.TemporalAmount;
 import xjava.time.temporal.TemporalUnit;
+import xjava.time.temporal.UnsupportedTemporalTypeException;
 
 /**
  * A time-based amount of time, such as '34.5 seconds'.
@@ -1238,31 +1228,6 @@ public final class Duration
         }
         buf.append('S');
         return buf.toString();
-    }
-
-    //-----------------------------------------------------------------------
-    private Object writeReplace() {
-        return new Ser(Ser.DURATION_TYPE, this);
-    }
-
-    /**
-     * Defend against malicious streams.
-     * @return never
-     * @throws InvalidObjectException always
-     */
-    private Object readResolve() throws ObjectStreamException {
-        throw new InvalidObjectException("Deserialization via serialization delegate");
-    }
-
-    void writeExternal(DataOutput out) throws IOException {
-        out.writeLong(seconds);
-        out.writeInt(nanos);
-    }
-
-    static Duration readExternal(DataInput in) throws IOException {
-        long seconds = in.readLong();
-        int nanos = in.readInt();
-        return Duration.ofSeconds(seconds, nanos);
     }
 
 }

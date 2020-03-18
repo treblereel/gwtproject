@@ -31,22 +31,13 @@
  */
 package xjava.time;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectStreamException;
 import java.io.Serializable;
-import xjava.time.DateTimeException;
-import xjava.time.Ser;
-import xjava.time.ZoneId;
-import xjava.time.ZoneOffset;
-import xjava.time.ZoneRegion;
-import xjava.time.zone.ZoneRules;
-import xjava.time.zone.ZoneRulesException;
-import xjava.time.zone.ZoneRulesProvider;            
 import java.util.Objects;
 import java.util.regex.Pattern;
+
+import xjava.time.zone.ZoneRules;
+import xjava.time.zone.ZoneRulesException;
+import xjava.time.zone.ZoneRulesProvider;
 
 /**
  * A geographical region where the same time-zone rules apply.
@@ -179,35 +170,6 @@ final class ZoneRegion extends ZoneId implements Serializable {
         // additional query for group provider when null allows for possibility
         // that the provider was added after the ZoneId was created
         return (rules != null ? rules : ZoneRulesProvider.getRules(id, false));
-    }
-
-    //-----------------------------------------------------------------------
-    private Object writeReplace() {
-        return new Ser(Ser.ZONE_REGION_TYPE, this);
-    }
-
-    /**
-     * Defend against malicious streams.
-     * @return never
-     * @throws InvalidObjectException always
-     */
-    private Object readResolve() throws ObjectStreamException {
-        throw new InvalidObjectException("Deserialization via serialization delegate");
-    }
-
-    @Override
-    void write(DataOutput out) throws IOException {
-        out.writeByte(Ser.ZONE_REGION_TYPE);
-        writeExternal(out);
-    }
-
-    void writeExternal(DataOutput out) throws IOException {
-        out.writeUTF(id);
-    }
-
-    static ZoneId readExternal(DataInput in) throws IOException {
-        String id = in.readUTF();
-        return ofLenient(id);
     }
 
 }

@@ -38,7 +38,6 @@ import java.io.DataOutput;
 import java.io.IOException;
 import xjava.time.DateTimeException;
 import xjava.time.chrono.Era;
-import xjava.time.chrono.Ser;
 import xjava.time.chrono.ThaiBuddhistEra;
 import xjava.time.format.TextStyle;
 import xjava.time.temporal.Temporal;
@@ -121,20 +120,6 @@ public enum ThaiBuddhistEra implements Era {
     @Override
     public String getDisplayName(TextStyle style, Locale locale) {
         return new DateTimeFormatterBuilder().appendText(ERA, style).toFormatter(locale).format(this);
-    }
-
-    //-----------------------------------------------------------------------
-    private Object writeReplace() {
-        return new Ser(Ser.THAIBUDDHIST_ERA_TYPE, this);
-    }
-
-    void writeExternal(DataOutput out) throws IOException {
-        out.writeByte(this.getValue());
-    }
-
-    static ThaiBuddhistEra readExternal(DataInput in) throws IOException {
-        byte eraValue = in.readByte();
-        return ThaiBuddhistEra.of(eraValue);
     }
 
 }

@@ -31,40 +31,27 @@
  */
 package xjava.time.chrono;
 
-import static xjava.time.temporal.ChronoField.DAY_OF_MONTH;
-import static xjava.time.temporal.ChronoField.MONTH_OF_YEAR;
-import static xjava.time.temporal.ChronoField.YEAR;
-
-import java.io.DataInput;
-import java.io.DataOutput;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
-import xjava.time.DateTimeException;
-import xjava.time.chrono.ChronoLocalDate;
-import xjava.time.chrono.ChronoLocalDateTime;
-import xjava.time.chrono.ChronoPeriod;
-import xjava.time.chrono.JapaneseChronology;
-import xjava.time.chrono.JapaneseDate;
-import xjava.time.chrono.JapaneseEra;
-import xjava.time.chrono.Ser;
-import xjava.time.temporal.TemporalAccessor;
-import xjava.time.temporal.TemporalAdjuster;
-import xjava.time.temporal.TemporalAmount;
-import xjava.time.temporal.TemporalField;
-import xjava.time.temporal.TemporalQuery;
-import xjava.time.temporal.UnsupportedTemporalTypeException;
-import xjava.time.temporal.ValueRange;
 import java.util.Calendar;
 import java.util.Objects;
 
 import xjava.time.Clock;
+import xjava.time.DateTimeException;
 import xjava.time.LocalDate;
 import xjava.time.LocalTime;
 import xjava.time.Period;
 import xjava.time.ZoneId;
 import xjava.time.temporal.ChronoField;
+import xjava.time.temporal.TemporalAccessor;
+import xjava.time.temporal.TemporalAdjuster;
+import xjava.time.temporal.TemporalAmount;
+import xjava.time.temporal.TemporalField;
+import xjava.time.temporal.TemporalQuery;
 import xjava.time.temporal.TemporalUnit;
+import xjava.time.temporal.UnsupportedTemporalTypeException;
+import xjava.time.temporal.ValueRange;
 
 /**
  * A date in the Japanese Imperial calendar system.
@@ -590,25 +577,5 @@ public final class JapaneseDate
     public int hashCode() {
         return getChronology().getId().hashCode() ^ isoDate.hashCode();
     }
-
-    //-----------------------------------------------------------------------
-    private Object writeReplace() {
-        return new Ser(Ser.JAPANESE_DATE_TYPE, this);
-    }
-
-    void writeExternal(DataOutput out) throws IOException {
-        // JapaneseChrono is implicit in the JAPANESE_DATE_TYPE
-        out.writeInt(get(YEAR));
-        out.writeByte(get(MONTH_OF_YEAR));
-        out.writeByte(get(DAY_OF_MONTH));
-    }
-
-    static ChronoLocalDate readExternal(DataInput in) throws IOException {
-        int year = in.readInt();
-        int month = in.readByte();
-        int dayOfMonth = in.readByte();
-        return JapaneseChronology.INSTANCE.date(year, month, dayOfMonth);
-    }
-
 
 }

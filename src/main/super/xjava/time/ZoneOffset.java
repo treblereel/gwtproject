@@ -33,30 +33,21 @@ package xjava.time;
 
 import static xjava.time.temporal.ChronoField.OFFSET_SECONDS;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectStreamException;
 import java.io.Serializable;
-import xjava.time.DateTimeException;
-import xjava.time.Ser;
-import xjava.time.ZoneId;
-import xjava.time.ZoneOffset;
-import xjava.time.temporal.Temporal;
-import xjava.time.temporal.TemporalAccessor;
-import xjava.time.temporal.TemporalAdjuster;
-import xjava.time.temporal.TemporalField;
-import xjava.time.temporal.TemporalQuery;
-import xjava.time.temporal.UnsupportedTemporalTypeException;
-import xjava.time.temporal.ValueRange;
-import xjava.time.zone.ZoneRules;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import xjava.time.temporal.ChronoField;
+import xjava.time.temporal.Temporal;
+import xjava.time.temporal.TemporalAccessor;
+import xjava.time.temporal.TemporalAdjuster;
+import xjava.time.temporal.TemporalField;
 import xjava.time.temporal.TemporalQueries;
+import xjava.time.temporal.TemporalQuery;
+import xjava.time.temporal.UnsupportedTemporalTypeException;
+import xjava.time.temporal.ValueRange;
+import xjava.time.zone.ZoneRules;
 
 /**
  * A time-zone offset from Greenwich/UTC, such as {@code +02:00}.
@@ -708,40 +699,6 @@ public final class ZoneOffset
     @Override
     public String toString() {
         return id;
-    }
-
-    // -----------------------------------------------------------------------
-    private Object writeReplace() {
-        return new Ser(Ser.ZONE_OFFSET_TYPE, this);
-    }
-
-    /**
-     * Defend against malicious streams.
-     * @return never
-     * @throws InvalidObjectException always
-     */
-    private Object readResolve() throws ObjectStreamException {
-        throw new InvalidObjectException("Deserialization via serialization delegate");
-    }
-
-    @Override
-    void write(DataOutput out) throws IOException {
-        out.writeByte(Ser.ZONE_OFFSET_TYPE);
-        writeExternal(out);
-    }
-
-    void writeExternal(DataOutput out) throws IOException {
-        final int offsetSecs = totalSeconds;
-        int offsetByte = offsetSecs % 900 == 0 ? offsetSecs / 900 : 127;  // compress to -72 to +72
-        out.writeByte(offsetByte);
-        if (offsetByte == 127) {
-            out.writeInt(offsetSecs);
-        }
-    }
-
-    static ZoneOffset readExternal(DataInput in) throws IOException {
-        int offsetByte = in.readByte();
-        return (offsetByte == 127 ? ZoneOffset.ofTotalSeconds(in.readInt()) : ZoneOffset.ofTotalSeconds(offsetByte * 900));
     }
 
 }

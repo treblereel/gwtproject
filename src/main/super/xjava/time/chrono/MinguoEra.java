@@ -33,25 +33,11 @@ package xjava.time.chrono;
 
 import static xjava.time.temporal.ChronoField.ERA;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import xjava.time.DateTimeException;
-import xjava.time.chrono.Era;
-import xjava.time.chrono.MinguoEra;
-import xjava.time.chrono.Ser;
-import xjava.time.format.TextStyle;
-import xjava.time.temporal.Temporal;
-import xjava.time.temporal.TemporalField;
-import xjava.time.temporal.TemporalQuery;
-import xjava.time.temporal.UnsupportedTemporalTypeException;
-import xjava.time.temporal.ValueRange;
 import java.util.Locale;
 
+import xjava.time.DateTimeException;
 import xjava.time.format.DateTimeFormatterBuilder;
-import xjava.time.temporal.ChronoField;
-import xjava.time.temporal.ChronoUnit;
-import xjava.time.temporal.TemporalQueries;
+import xjava.time.format.TextStyle;
 
 /**
  * An era in the Minguo calendar system.
@@ -122,20 +108,6 @@ public enum MinguoEra implements Era  {
     @Override
     public String getDisplayName(TextStyle style, Locale locale) {
         return new DateTimeFormatterBuilder().appendText(ERA, style).toFormatter(locale).format(this);
-    }
-
-    //-----------------------------------------------------------------------
-    private Object writeReplace() {
-        return new Ser(Ser.MINGUO_ERA_TYPE, this);
-    }
-
-    void writeExternal(DataOutput out) throws IOException {
-        out.writeByte(this.getValue());
-    }
-
-    static MinguoEra readExternal(DataInput in) throws IOException {
-        byte eraValue = in.readByte();
-        return MinguoEra.of(eraValue);
     }
 
 }

@@ -44,53 +44,29 @@ import static xjava.time.temporal.ChronoField.MONTH_OF_YEAR;
 import static xjava.time.temporal.ChronoField.PROLEPTIC_MONTH;
 import static xjava.time.temporal.ChronoField.YEAR;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectStreamException;
 import java.io.Serializable;
-import xjava.time.Clock;
-import xjava.time.DateTimeException;
-import xjava.time.DayOfWeek;
-import xjava.time.Instant;
-import xjava.time.LocalDate;
-import xjava.time.LocalDateTime;
-import xjava.time.LocalTime;
-import xjava.time.Month;
-import xjava.time.MonthDay;
-import xjava.time.OffsetDateTime;
-import xjava.time.OffsetTime;
-import xjava.time.Period;
-import xjava.time.Ser;
-import xjava.time.Year;
-import xjava.time.ZoneId;
-import xjava.time.ZoneOffset;
-import xjava.time.ZonedDateTime;
+import java.util.Objects;
+
+import xjava.time.chrono.ChronoLocalDate;
 import xjava.time.chrono.Era;
 import xjava.time.chrono.IsoChronology;
+import xjava.time.format.DateTimeFormatter;
 import xjava.time.format.DateTimeParseException;
+import xjava.time.temporal.ChronoField;
+import xjava.time.temporal.ChronoUnit;
 import xjava.time.temporal.Temporal;
 import xjava.time.temporal.TemporalAccessor;
 import xjava.time.temporal.TemporalAdjuster;
+import xjava.time.temporal.TemporalAdjusters;
 import xjava.time.temporal.TemporalAmount;
 import xjava.time.temporal.TemporalField;
+import xjava.time.temporal.TemporalQueries;
 import xjava.time.temporal.TemporalQuery;
+import xjava.time.temporal.TemporalUnit;
 import xjava.time.temporal.UnsupportedTemporalTypeException;
 import xjava.time.temporal.ValueRange;
 import xjava.time.zone.ZoneOffsetTransition;
 import xjava.time.zone.ZoneRules;
-import java.util.Objects;
-import java.util.stream.LongStream;
-import java.util.stream.Stream;
-
-import xjava.time.chrono.ChronoLocalDate;
-import xjava.time.format.DateTimeFormatter;
-import xjava.time.temporal.ChronoField;
-import xjava.time.temporal.ChronoUnit;
-import xjava.time.temporal.TemporalAdjusters;
-import xjava.time.temporal.TemporalQueries;
-import xjava.time.temporal.TemporalUnit;
 
 /**
  * A date without a time-zone in the ISO-8601 calendar system,
@@ -1865,33 +1841,6 @@ public final class LocalDate
     @Override  // override for Javadoc
     public String format(DateTimeFormatter formatter) {
         return formatter.format(this);
-    }
-
-    //-----------------------------------------------------------------------
-    private Object writeReplace() {
-        return new Ser(Ser.LOCAL_DATE_TYPE, this);
-    }
-
-    /**
-     * Defend against malicious streams.
-     * @return never
-     * @throws InvalidObjectException always
-     */
-    private Object readResolve() throws ObjectStreamException {
-        throw new InvalidObjectException("Deserialization via serialization delegate");
-    }
-
-    void writeExternal(DataOutput out) throws IOException {
-        out.writeInt(year);
-        out.writeByte(month);
-        out.writeByte(day);
-    }
-
-    static LocalDate readExternal(DataInput in) throws IOException {
-        int year = in.readInt();
-        int month = in.readByte();
-        int dayOfMonth = in.readByte();
-        return LocalDate.of(year, month, dayOfMonth);
     }
 
 }

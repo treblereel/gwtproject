@@ -40,40 +40,23 @@ import static xjava.time.temporal.ChronoField.SECOND_OF_DAY;
 import static xjava.time.temporal.ChronoField.SECOND_OF_MINUTE;
 import static xjava.time.temporal.ChronoUnit.NANOS;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectStreamException;
 import java.io.Serializable;
-import xjava.time.Clock;
-import xjava.time.DateTimeException;
-import xjava.time.Duration;
-import xjava.time.Instant;
-import xjava.time.LocalDate;
-import xjava.time.LocalDateTime;
-import xjava.time.LocalTime;
-import xjava.time.OffsetTime;
-import xjava.time.Period;
-import xjava.time.Ser;
-import xjava.time.ZoneId;
-import xjava.time.ZoneOffset;
+import java.util.Objects;
+
+import xjava.time.format.DateTimeFormatter;
 import xjava.time.format.DateTimeParseException;
+import xjava.time.temporal.ChronoField;
+import xjava.time.temporal.ChronoUnit;
 import xjava.time.temporal.Temporal;
 import xjava.time.temporal.TemporalAccessor;
 import xjava.time.temporal.TemporalAdjuster;
 import xjava.time.temporal.TemporalAmount;
 import xjava.time.temporal.TemporalField;
+import xjava.time.temporal.TemporalQueries;
 import xjava.time.temporal.TemporalQuery;
+import xjava.time.temporal.TemporalUnit;
 import xjava.time.temporal.UnsupportedTemporalTypeException;
 import xjava.time.temporal.ValueRange;
-import java.util.Objects;
-
-import xjava.time.format.DateTimeFormatter;
-import xjava.time.temporal.ChronoField;
-import xjava.time.temporal.ChronoUnit;
-import xjava.time.temporal.TemporalQueries;
-import xjava.time.temporal.TemporalUnit;
 
 /**
  * A time without time-zone in the ISO-8601 calendar system,
@@ -1504,65 +1487,6 @@ public final class LocalTime
     public String format(DateTimeFormatter formatter) {
         Objects.requireNonNull(formatter, "formatter");
         return formatter.format(this);
-    }
-
-    //-----------------------------------------------------------------------
-    private Object writeReplace() {
-        return new Ser(Ser.LOCAL_TIME_TYPE, this);
-    }
-
-    /**
-     * Defend against malicious streams.
-     * @return never
-     * @throws InvalidObjectException always
-     */
-    private Object readResolve() throws ObjectStreamException {
-        throw new InvalidObjectException("Deserialization via serialization delegate");
-    }
-
-    void writeExternal(DataOutput out) throws IOException {
-        if (nano == 0) {
-            if (second == 0) {
-                if (minute == 0) {
-                    out.writeByte(~hour);
-                } else {
-                    out.writeByte(hour);
-                    out.writeByte(~minute);
-                }
-            } else {
-                out.writeByte(hour);
-                out.writeByte(minute);
-                out.writeByte(~second);
-            }
-        } else {
-            out.writeByte(hour);
-            out.writeByte(minute);
-            out.writeByte(second);
-            out.writeInt(nano);
-        }
-    }
-
-    static LocalTime readExternal(DataInput in) throws IOException {
-        int hour = in.readByte();
-        int minute = 0;
-        int second = 0;
-        int nano = 0;
-        if (hour < 0) {
-            hour = ~hour;
-        } else {
-            minute = in.readByte();
-            if (minute < 0) {
-                minute = ~minute;
-            } else {
-                second = in.readByte();
-                if (second < 0) {
-                    second = ~second;
-                } else {
-                    nano = in.readInt();
-                }
-            }
-        }
-        return LocalTime.of(hour, minute, second, nano);
     }
 
 }

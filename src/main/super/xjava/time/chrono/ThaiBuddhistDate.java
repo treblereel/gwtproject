@@ -32,38 +32,26 @@
 package xjava.time.chrono;
 
 import static xjava.time.chrono.ThaiBuddhistChronology.YEARS_DIFFERENCE;
-import static xjava.time.temporal.ChronoField.DAY_OF_MONTH;
-import static xjava.time.temporal.ChronoField.MONTH_OF_YEAR;
 import static xjava.time.temporal.ChronoField.YEAR;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
 import java.io.Serializable;
-import xjava.time.DateTimeException;
-import xjava.time.chrono.ChronoLocalDate;
-import xjava.time.chrono.ChronoLocalDateTime;
-import xjava.time.chrono.ChronoPeriod;
-import xjava.time.chrono.Ser;
-import xjava.time.chrono.ThaiBuddhistChronology;
-import xjava.time.chrono.ThaiBuddhistDate;
-import xjava.time.chrono.ThaiBuddhistEra;
-import xjava.time.temporal.TemporalAccessor;
-import xjava.time.temporal.TemporalAdjuster;
-import xjava.time.temporal.TemporalAmount;
-import xjava.time.temporal.TemporalField;
-import xjava.time.temporal.TemporalQuery;
-import xjava.time.temporal.UnsupportedTemporalTypeException;
-import xjava.time.temporal.ValueRange;
 import java.util.Objects;
 
 import xjava.time.Clock;
+import xjava.time.DateTimeException;
 import xjava.time.LocalDate;
 import xjava.time.LocalTime;
 import xjava.time.Period;
 import xjava.time.ZoneId;
 import xjava.time.temporal.ChronoField;
+import xjava.time.temporal.TemporalAccessor;
+import xjava.time.temporal.TemporalAdjuster;
+import xjava.time.temporal.TemporalAmount;
+import xjava.time.temporal.TemporalField;
+import xjava.time.temporal.TemporalQuery;
 import xjava.time.temporal.TemporalUnit;
+import xjava.time.temporal.UnsupportedTemporalTypeException;
+import xjava.time.temporal.ValueRange;
 
 /**
  * A date in the Thai Buddhist calendar system.
@@ -362,25 +350,6 @@ public final class ThaiBuddhistDate
     @Override  // override for performance
     public int hashCode() {
         return getChronology().getId().hashCode() ^ isoDate.hashCode();
-    }
-
-    //-----------------------------------------------------------------------
-    private Object writeReplace() {
-        return new Ser(Ser.THAIBUDDHIST_DATE_TYPE, this);
-    }
-
-    void writeExternal(DataOutput out) throws IOException {
-        // MinguoChrono is implicit in the THAIBUDDHIST_DATE_TYPE
-        out.writeInt(this.get(YEAR));
-        out.writeByte(this.get(MONTH_OF_YEAR));
-        out.writeByte(this.get(DAY_OF_MONTH));
-    }
-
-    static ChronoLocalDate readExternal(DataInput in) throws IOException {
-        int year = in.readInt();
-        int month = in.readByte();
-        int dayOfMonth = in.readByte();
-        return ThaiBuddhistChronology.INSTANCE.date(year, month, dayOfMonth);
     }
 
 }

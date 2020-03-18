@@ -556,7 +556,4 @@ public abstract class ZoneId implements Serializable {
         return getId();
     }
 
-    //-----------------------------------------------------------------------
-    abstract void write(DataOutput out) throws IOException;
-
 }
