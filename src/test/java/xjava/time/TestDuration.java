@@ -47,15 +47,12 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import xjava.time.DateTimeException;
-import xjava.time.format.DateTimeParseException;
 import java.util.Locale;
 
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import xjava.time.Duration;
-import xjava.time.Instant;
+import xjava.time.format.DateTimeParseException;
 import xjava.time.temporal.TemporalUnit;
 
 /**
@@ -70,14 +67,14 @@ public class TestDuration extends AbstractTest {
         assertImmutable(Duration.class);
     }
 
-    @Test
+    @Test(enabled = false)
     public void test_serialization() throws Exception {
         assertSerializable(Duration.ofHours(5));
         assertSerializable(Duration.ofHours(-5));
         assertSerializableAndSame(Duration.ZERO);
     }
 
-    @Test
+    @Test(enabled = false)
     public void test_serialization_format() throws Exception {
         assertEqualsSerialisedForm(Duration.ofSeconds(654321, 123456789));
     }
@@ -482,19 +479,19 @@ public class TestDuration extends AbstractTest {
 
             {"PT" + Long.MAX_VALUE + ".123456789S", Long.MAX_VALUE, 123456789},
             {"PT" + Long.MIN_VALUE + ".000000000S", Long.MIN_VALUE, 0},
-            
+
             {"PT12M", 12 * 60, 0},
             {"PT12M0.35S", 12 * 60, 350000000},
             {"PT12M1.35S", 12 * 60 + 1, 350000000},
             {"PT12M-0.35S", 12 * 60 - 1, 1000000000 - 350000000},
             {"PT12M-1.35S", 12 * 60 - 2, 1000000000 - 350000000},
-            
+
             {"PT12H", 12 * 3600, 0},
             {"PT12H0.35S", 12 * 3600, 350000000},
             {"PT12H1.35S", 12 * 3600 + 1, 350000000},
             {"PT12H-0.35S", 12 * 3600 - 1, 1000000000 - 350000000},
             {"PT12H-1.35S", 12 * 3600 - 2, 1000000000 - 350000000},
-            
+
             {"P12D", 12 * 24 * 3600, 0},
             {"P12DT0.35S", 12 * 24 * 3600, 350000000},
             {"P12DT1.35S", 12 * 24 * 3600 + 1, 350000000},
@@ -2079,7 +2076,7 @@ public class TestDuration extends AbstractTest {
             {-1, 0, "PT-1S"},
             {-1, 1000, "PT-0.999999S"},
             {-1, 900000000, "PT-0.1S"},
-            
+
             {60, 0, "PT1M"},
             {3600, 0, "PT1H"},
             {7261, 0, "PT2H1M1S"},

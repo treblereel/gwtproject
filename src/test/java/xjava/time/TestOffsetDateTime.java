@@ -71,13 +71,6 @@ import static xjava.time.temporal.ChronoUnit.SECONDS;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import xjava.time.DateTimeException;
-import xjava.time.chrono.IsoChronology;
-import xjava.time.format.DateTimeParseException;
-import xjava.time.temporal.Temporal;
-import xjava.time.temporal.TemporalAccessor;
-import xjava.time.temporal.TemporalAdjuster;
-import xjava.time.temporal.TemporalField;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -86,23 +79,16 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import xjava.time.Clock;
-import xjava.time.Duration;
-import xjava.time.Instant;
-import xjava.time.LocalDate;
-import xjava.time.LocalDateTime;
-import xjava.time.LocalTime;
-import xjava.time.Month;
-import xjava.time.OffsetDateTime;
-import xjava.time.OffsetTime;
-import xjava.time.Year;
-import xjava.time.ZoneId;
-import xjava.time.ZoneOffset;
-import xjava.time.ZonedDateTime;
+import xjava.time.chrono.IsoChronology;
 import xjava.time.format.DateTimeFormatter;
+import xjava.time.format.DateTimeParseException;
 import xjava.time.temporal.ChronoField;
 import xjava.time.temporal.ChronoUnit;
 import xjava.time.temporal.JulianFields;
+import xjava.time.temporal.Temporal;
+import xjava.time.temporal.TemporalAccessor;
+import xjava.time.temporal.TemporalAdjuster;
+import xjava.time.temporal.TemporalField;
 import xjava.time.temporal.TemporalQueries;
 
 /**
@@ -186,7 +172,7 @@ public class TestOffsetDateTime extends AbstractDateTimeTest {
         assertSerializable(OffsetDateTime.MAX);
     }
 
-    @Test
+    @Test(enabled = false)
     public void test_serialization_format() throws ClassNotFoundException, IOException {
         LocalDate date = LocalDate.of(2012, 9, 16);
         LocalTime time = LocalTime.of(22, 17, 59, 464 * 1000000);

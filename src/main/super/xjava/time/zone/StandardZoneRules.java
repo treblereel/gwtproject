@@ -162,7 +162,7 @@ final class StandardZoneRules extends ZoneRules implements Serializable {
      * @param wallOffsets  the wall offsets, not null
      * @param lastRules  the recurring last rules, size 15 or less, not null
      */
-    private StandardZoneRules(
+    protected StandardZoneRules(
             long[] standardTransitions,
             ZoneOffset[] standardOffsets,
             long[] savingsInstantTransitions,

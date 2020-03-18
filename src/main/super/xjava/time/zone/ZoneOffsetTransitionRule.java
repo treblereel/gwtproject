@@ -70,7 +70,7 @@ public final class ZoneOffsetTransitionRule implements Serializable {
     /**
      * The number of seconds per day.
      */
-    private static final int SECS_PER_DAY = 86400;
+    protected static final int SECS_PER_DAY = 86400;
 
     /**
      * The month of the month-day of the first day of the cutover week.
