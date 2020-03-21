@@ -57,6 +57,10 @@
     <maven.licence.plugin>3.0</maven.licence.plugin>
     <maven.surfire.plugin>3.0.0-M1</maven.surfire.plugin>
 
+    <!-- CI -->
+    <vertispan.j2cl.repo.url>https://repo.vertispan.com/j2cl/</vertispan.j2cl.repo.url>
+    <google.snapshot.repo.url>https://oss.sonatype.org/content/repositories/google-snapshots/</google.snapshot.repo.url>
+
     <elemental2.version>1.0.0-RC1</elemental2.version>
     <gwt.dom.version>1.0-SNAPSHOT</gwt.dom.version>
     <gwt.dom.style.definitions.version>1.0-SNAPSHOT</gwt.dom.style.definitions.version>
