@@ -5,11 +5,12 @@
   <groupId>org.gwtproject.layout</groupId>
   <artifactId>gwt-layout</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <packaging>jar</packaging>
+  <packaging>gwt-lib</packaging>
 
   <name>GWT Layout</name>
   <description>TBD</description>
   <url>https://github.com/gwtproject/gwt-layout</url>
+
   <organization>
     <name>The GWT Authors</name>
     <url>https://github.com/gwtproject</url>
@@ -46,13 +47,11 @@
 
     <maven.compiler.plugin>3.7.0</maven.compiler.plugin>
     <maven.gpg.plugin>1.6</maven.gpg.plugin>
+    <maven.gwt.plugin>1.0.0</maven.gwt.plugin>
     <maven.javadoc.plugin>3.1.1</maven.javadoc.plugin>
     <maven.licence.plugin>3.0</maven.licence.plugin>
     <maven.source.plugin>3.2.1</maven.source.plugin>
-
-    <!-- CI -->
-    <vertispan.j2cl.repo.url>https://repo.vertispan.com/j2cl/</vertispan.j2cl.repo.url>
-    <google.snapshot.repo.url>https://oss.sonatype.org/content/repositories/google-snapshots/</google.snapshot.repo.url>
+    <maven.deploy.plugin>3.0.0-M1</maven.deploy.plugin>
 
     <aria.version>1.0-SNAPSHOT</aria.version>
     <animation.version>1.0-SNAPSHOT</animation.version>
@@ -90,36 +89,16 @@
   </dependencies>
 
   <build>
-    <resources>
-      <resource>
-        <directory>src/main/java</directory>
-        <includes>
-          <include>**/layout/**</include>
-        </includes>
-      </resource>
-      <resource>
-        <directory>src/main/resources</directory>
-        <includes>
-          <include>**/layout/**</include>
-          <include>**/*.gwt.xml</include>
-          <include>**/*.html</include>
-          <include>**/public/**</include>
-        </includes>
-      </resource>
-    </resources>
-
     <plugins>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>${maven.compiler.plugin}</version>
+        <groupId>net.ltgt.gwt.maven</groupId>
+        <artifactId>gwt-maven-plugin</artifactId>
+        <version>${maven.gwt.plugin}</version>
+        <extensions>true</extensions>
         <configuration>
-          <encoding>${project.build.sourceEncoding}</encoding>
-          <source>${maven.compiler.source}</source>
-          <target>${maven.compiler.target}</target>
+          <moduleName>org.gwtproject.layout.Layout</moduleName>
         </configuration>
       </plugin>
-
       <plugin>
         <groupId>com.mycila</groupId>
         <artifactId>license-maven-plugin</artifactId>
@@ -153,52 +132,25 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>${maven.deploy.plugin}</version>
+      </plugin>
     </plugins>
   </build>
 
-  <repositories>
-    <repository>
-      <id>${vertispan.j2cl.repo.id}</id>
-      <name>${vertispan.j2cl.repo.name}</name>
-      <url>${vertispan.j2cl.repo.url}</url>
-    </repository>
-    <repository>
-      <id>vertispan-releases</id>
-      <name>Vertispan hosted artifacts-releases</name>
-      <url>${vertispan.j2cl.repo.url}</url>
-    </repository>
-    <repository>
-      <id>vertispan-snapshots</id>
-      <name>Vertispan hosted artifacts-snapshots</name>
-      <url>${vertispan.j2cl.repo.url}</url>
-    </repository>
-    <repository>
-      <id>google-snapshot-repo</id>
-      <name>Google SnapShot Repo</name>
-      <url>${google.snapshot.repo.url}</url>
-    </repository>
-  </repositories>
-
-  <pluginRepositories>
-    <pluginRepository>
-      <id>vertispan-releases</id>
-      <name>Vertispan hosted artifacts-releases</name>
-      <url>${vertispan.j2cl.repo.url}</url>
-    </pluginRepository>
-  </pluginRepositories>
-
   <distributionManagement>
-    <repository>
-      <id>vertispan-releases</id>
-      <name>Vertispan hosted artifacts-releases</name>
-      <url>${vertispan.j2cl.repo.url}</url>
-    </repository>
     <snapshotRepository>
-      <id>vertispan-snapshots</id>
-      <name>Vertispan hosted artifacts-snapshots</name>
-      <url>${vertispan.j2cl.repo.url}</url>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </snapshotRepository>
+    <repository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
   </distributionManagement>
+
   <profiles>
     <!-- release profile to create sources, javadoc, and sign all artifacts before uploading -->
     <profile>

@@ -14,6 +14,4 @@
  * limitations under the License.
  */
 
-/**
- * directory needed for j2cl ...
- */
+/** directory needed for j2cl ... */
