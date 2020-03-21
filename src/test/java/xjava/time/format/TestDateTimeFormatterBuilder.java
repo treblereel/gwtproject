@@ -38,10 +38,6 @@ import static xjava.time.temporal.ChronoField.MINUTE_OF_HOUR;
 import static xjava.time.temporal.ChronoField.MONTH_OF_YEAR;
 import static xjava.time.temporal.ChronoField.YEAR;
 
-import java.text.ParsePosition;
-import xjava.time.format.SignStyle;
-import xjava.time.format.TextStyle;
-import xjava.time.temporal.TemporalAccessor;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,8 +45,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import xjava.time.format.DateTimeFormatter;
-import xjava.time.format.DateTimeFormatterBuilder;
+import xjava.text.ParsePosition;
+import xjava.time.temporal.TemporalAccessor;
 
 /**
  * Test DateTimeFormatterBuilder.
@@ -726,7 +722,7 @@ public class TestDateTimeFormatterBuilder {
             {"fy"},
             {"fa"},
             {"fM"},
-            
+
             {"ddd"},
             {"FF"},
             {"FFF"},

@@ -42,25 +42,6 @@ import static xjava.time.temporal.ChronoField.SECOND_OF_MINUTE;
 import static xjava.time.temporal.ChronoField.YEAR;
 
 import java.io.IOException;
-import java.text.FieldPosition;
-import java.text.Format;
-import java.text.ParseException;
-import java.text.ParsePosition;
-import xjava.time.DateTimeException;
-import xjava.time.chrono.IsoChronology;
-import xjava.time.format.DateTimeFormatter;
-import xjava.time.format.DateTimeFormatterBuilder;
-import xjava.time.format.DateTimeParseContext;
-import xjava.time.format.DateTimeParseException;
-import xjava.time.format.DateTimePrintContext;
-import xjava.time.format.DecimalStyle;
-import xjava.time.format.FormatStyle;
-import xjava.time.format.ResolverStyle;
-import xjava.time.format.SignStyle;
-import xjava.time.format.TextStyle;
-import xjava.time.temporal.TemporalAccessor;
-import xjava.time.temporal.TemporalField;
-import xjava.time.temporal.TemporalQuery;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -70,14 +51,20 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
+import xjava.text.ParsePosition;
+import xjava.time.DateTimeException;
 import xjava.time.Period;
 import xjava.time.ZoneId;
 import xjava.time.ZoneOffset;
 import xjava.time.chrono.Chronology;
+import xjava.time.chrono.IsoChronology;
 import xjava.time.format.DateTimeFormatterBuilder.CompositePrinterParser;
 import xjava.time.format.DateTimeParseContext.Parsed;
 import xjava.time.temporal.ChronoField;
 import xjava.time.temporal.IsoFields;
+import xjava.time.temporal.TemporalAccessor;
+import xjava.time.temporal.TemporalField;
+import xjava.time.temporal.TemporalQuery;
 
 /**
  * Formatter for printing and parsing date-time objects.
@@ -1670,43 +1657,45 @@ public final class DateTimeFormatter {
         return printerParser.withOptional(optional);
     }
 
-    /**
-     * Returns this formatter as a {@code java.text.Format} instance.
-     * <p>
-     * The returned {@link Format} instance will print any {@link TemporalAccessor}
-     * and parses to a resolved {@link TemporalAccessor}.
-     * <p>
-     * Exceptions will follow the definitions of {@code Format}, see those methods
-     * for details about {@code IllegalArgumentException} during formatting and
-     * {@code ParseException} or null during parsing.
-     * The format does not support attributing of the returned format string.
-     *
-     * @return this formatter as a classic format instance, not null
-     */
-    public Format toFormat() {
-        return new ClassicFormat(this, null);
-    }
+//    /**
+//     * Returns this formatter as a {@code java.text.Format} instance.
+//     * <p>
+//     * The returned {@link Format} instance will print any {@link TemporalAccessor}
+//     * and parses to a resolved {@link TemporalAccessor}.
+//     * <p>
+//     * Exceptions will follow the definitions of {@code Format}, see those methods
+//     * for details about {@code IllegalArgumentException} during formatting and
+//     * {@code ParseException} or null during parsing.
+//     * The format does not support attributing of the returned format string.
+//     *
+//     * @return this formatter as a classic format instance, not null
+//     */
+//GWT specific
+//    public Format toFormat() {
+//        return new ClassicFormat(this, null);
+//    }
 
-    /**
-     * Returns this formatter as a {@code java.text.Format} instance that will
-     * parse to the specified type.
-     * <p>
-     * The returned {@link Format} instance will print any {@link TemporalAccessor}
-     * and parses to the type specified.
-     * The type must be one that is supported by {@link #parse}.
-     * <p>
-     * Exceptions will follow the definitions of {@code Format}, see those methods
-     * for details about {@code IllegalArgumentException} during formatting and
-     * {@code ParseException} or null during parsing.
-     * The format does not support attributing of the returned format string.
-     *
-     * @param query  the query to parse to, not null
-     * @return this formatter as a classic format instance, not null
-     */
-    public Format toFormat(TemporalQuery<?> query) {
-        Objects.requireNonNull(query, "parseQuery");
-        return new ClassicFormat(this, query);
-    }
+//    /**
+//     * Returns this formatter as a {@code java.text.Format} instance that will
+//     * parse to the specified type.
+//     * <p>
+//     * The returned {@link Format} instance will print any {@link TemporalAccessor}
+//     * and parses to the type specified.
+//     * The type must be one that is supported by {@link #parse}.
+//     * <p>
+//     * Exceptions will follow the definitions of {@code Format}, see those methods
+//     * for details about {@code IllegalArgumentException} during formatting and
+//     * {@code ParseException} or null during parsing.
+//     * The format does not support attributing of the returned format string.
+//     *
+//     * @param query  the query to parse to, not null
+//     * @return this formatter as a classic format instance, not null
+//     */
+//GWT specific
+//    public Format toFormat(TemporalQuery<?> query) {
+//        Objects.requireNonNull(query, "parseQuery");
+//        return new ClassicFormat(this, query);
+//    }
 
     //-----------------------------------------------------------------------
     /**
@@ -1720,85 +1709,86 @@ public final class DateTimeFormatter {
         return pattern.startsWith("[") ? pattern : pattern.substring(1, pattern.length() - 1);
     }
 
-    //-----------------------------------------------------------------------
-    /**
-     * Implements the classic Java Format API.
-     * @serial exclude
-     */
-    @SuppressWarnings("serial")  // not actually serializable
-    static class ClassicFormat extends Format {
-        /** The formatter. */
-        private final DateTimeFormatter formatter;
-        /** The query to be parsed. */
-        private final TemporalQuery<?> query;
-        /** Constructor. */
-        public ClassicFormat(DateTimeFormatter formatter, TemporalQuery<?> query) {
-            this.formatter = formatter;
-            this.query = query;
-        }
-
-        @Override
-        public StringBuffer format(Object obj, StringBuffer toAppendTo, FieldPosition pos) {
-            Objects.requireNonNull(obj, "obj");
-            Objects.requireNonNull(toAppendTo, "toAppendTo");
-            Objects.requireNonNull(pos, "pos");
-            if (obj instanceof TemporalAccessor == false) {
-                throw new IllegalArgumentException("Format target must implement TemporalAccessor");
-            }
-            pos.setBeginIndex(0);
-            pos.setEndIndex(0);
-            try {
-                formatter.formatTo((TemporalAccessor) obj, toAppendTo);
-            } catch (RuntimeException ex) {
-                throw new IllegalArgumentException(ex.getMessage(), ex);
-            }
-            return toAppendTo;
-        }
-        @Override
-        public Object parseObject(String text) throws ParseException {
-            Objects.requireNonNull(text, "text");
-            try {
-                if (query == null) {
-                    return formatter.parseToBuilder(text, null)
-                                    .resolve(formatter.getResolverStyle(), formatter.getResolverFields());
-                }
-                return formatter.parse(text, query);
-            } catch (DateTimeParseException ex) {
-                throw new ParseException(ex.getMessage(), ex.getErrorIndex());
-            } catch (RuntimeException ex) {
-                throw (ParseException) new ParseException(ex.getMessage(), 0).initCause(ex);
-            }
-        }
-        @Override
-        public Object parseObject(String text, ParsePosition pos) {
-            Objects.requireNonNull(text, "text");
-            Parsed unresolved;
-            try {
-                unresolved = formatter.parseUnresolved0(text, pos);
-            } catch (IndexOutOfBoundsException ex) {
-                if (pos.getErrorIndex() < 0) {
-                    pos.setErrorIndex(0);
-                }
-                return null;
-            }
-            if (unresolved == null) {
-                if (pos.getErrorIndex() < 0) {
-                    pos.setErrorIndex(0);
-                }
-                return null;
-            }
-            try {
-                DateTimeBuilder builder = unresolved.toBuilder()
-                                .resolve(formatter.getResolverStyle(), formatter.getResolverFields());
-                if (query == null) {
-                    return builder;
-                }
-                return builder.build(query);
-            } catch (RuntimeException ex) {
-                pos.setErrorIndex(0);
-                return null;
-            }
-        }
-    }
+//GWT specific
+//    //-----------------------------------------------------------------------
+//    /**
+//     * Implements the classic Java Format API.
+//     * @serial exclude
+//     */
+//    @SuppressWarnings("serial")  // not actually serializable
+//    static class ClassicFormat extends Format {
+//        /** The formatter. */
+//        private final DateTimeFormatter formatter;
+//        /** The query to be parsed. */
+//        private final TemporalQuery<?> query;
+//        /** Constructor. */
+//        public ClassicFormat(DateTimeFormatter formatter, TemporalQuery<?> query) {
+//            this.formatter = formatter;
+//            this.query = query;
+//        }
+//
+//        @Override
+//        public StringBuffer format(Object obj, StringBuffer toAppendTo, FieldPosition pos) {
+//            Objects.requireNonNull(obj, "obj");
+//            Objects.requireNonNull(toAppendTo, "toAppendTo");
+//            Objects.requireNonNull(pos, "pos");
+//            if (obj instanceof TemporalAccessor == false) {
+//                throw new IllegalArgumentException("Format target must implement TemporalAccessor");
+//            }
+//            pos.setBeginIndex(0);
+//            pos.setEndIndex(0);
+//            try {
+//                formatter.formatTo((TemporalAccessor) obj, toAppendTo);
+//            } catch (RuntimeException ex) {
+//                throw new IllegalArgumentException(ex.getMessage(), ex);
+//            }
+//            return toAppendTo;
+//        }
+//        @Override
+//        public Object parseObject(String text) throws ParseException {
+//            Objects.requireNonNull(text, "text");
+//            try {
+//                if (query == null) {
+//                    return formatter.parseToBuilder(text, null)
+//                                    .resolve(formatter.getResolverStyle(), formatter.getResolverFields());
+//                }
+//                return formatter.parse(text, query);
+//            } catch (DateTimeParseException ex) {
+//                throw new ParseException(ex.getMessage(), ex.getErrorIndex());
+//            } catch (RuntimeException ex) {
+//                throw (ParseException) new ParseException(ex.getMessage(), 0).initCause(ex);
+//            }
+//        }
+//        @Override
+//        public Object parseObject(String text, ParsePosition pos) {
+//            Objects.requireNonNull(text, "text");
+//            Parsed unresolved;
+//            try {
+//                unresolved = formatter.parseUnresolved0(text, pos);
+//            } catch (IndexOutOfBoundsException ex) {
+//                if (pos.getErrorIndex() < 0) {
+//                    pos.setErrorIndex(0);
+//                }
+//                return null;
+//            }
+//            if (unresolved == null) {
+//                if (pos.getErrorIndex() < 0) {
+//                    pos.setErrorIndex(0);
+//                }
+//                return null;
+//            }
+//            try {
+//                DateTimeBuilder builder = unresolved.toBuilder()
+//                                .resolve(formatter.getResolverStyle(), formatter.getResolverFields());
+//                if (query == null) {
+//                    return builder;
+//                }
+//                return builder.build(query);
+//            } catch (RuntimeException ex) {
+//                pos.setErrorIndex(0);
+//                return null;
+//            }
+//        }
+//    }
 
 }

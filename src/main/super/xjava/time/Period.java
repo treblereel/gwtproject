@@ -36,28 +36,26 @@ import static xjava.time.temporal.ChronoUnit.MONTHS;
 import static xjava.time.temporal.ChronoUnit.YEARS;
 
 import java.io.Serializable;
-import xjava.time.DateTimeException;
-import xjava.time.Duration;
-import xjava.time.LocalDate;
-import xjava.time.Period;
-import xjava.time.ZonedDateTime;
-import xjava.time.chrono.ChronoPeriod;
-import xjava.time.chrono.IsoChronology;
-import xjava.time.format.DateTimeParseException;
-import xjava.time.temporal.Temporal;
-import xjava.time.temporal.TemporalAmount;
-import xjava.time.temporal.UnsupportedTemporalTypeException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+//import java.util.regex.Matcher;
+//import java.util.regex.Pattern;
+
+import com.google.gwt.regexp.shared.MatchResult;
+import com.google.gwt.regexp.shared.RegExp;
 
 import xjava.time.chrono.ChronoLocalDate;
+import xjava.time.chrono.ChronoPeriod;
 import xjava.time.chrono.Chronology;
+import xjava.time.chrono.IsoChronology;
+import xjava.time.format.DateTimeParseException;
 import xjava.time.temporal.ChronoUnit;
+import xjava.time.temporal.Temporal;
+import xjava.time.temporal.TemporalAmount;
 import xjava.time.temporal.TemporalUnit;
+import xjava.time.temporal.UnsupportedTemporalTypeException;
 
 /**
  * A date-based amount of time, such as '2 years, 3 months and 4 days'.
@@ -107,8 +105,9 @@ public final class Period
     /**
      * The pattern for parsing.
      */
-    private final static Pattern PATTERN =
-            Pattern.compile("([-+]?)P(?:([-+]?[0-9]+)Y)?(?:([-+]?[0-9]+)M)?(?:([-+]?[0-9]+)W)?(?:([-+]?[0-9]+)D)?", Pattern.CASE_INSENSITIVE);
+
+    private final static RegExp PATTERN =
+    		RegExp.compile("([-+]?)P(?:([-+]?[0-9]+)Y)?(?:([-+]?[0-9]+)M)?(?:([-+]?[0-9]+)W)?(?:([-+]?[0-9]+)D)?", "i");
 
     /**
      * The number of years.
@@ -305,13 +304,13 @@ public final class Period
      */
     public static Period parse(CharSequence text) {
         Objects.requireNonNull(text, "text");
-        Matcher matcher = PATTERN.matcher(text);
-        if (matcher.matches()) {
-            int negate = ("-".equals(matcher.group(1)) ? -1 : 1);
-            String yearMatch = matcher.group(2);
-            String monthMatch = matcher.group(3);
-            String weekMatch = matcher.group(4);
-            String dayMatch = matcher.group(5);
+        MatchResult result = PATTERN.exec(text.toString());
+        if (result != null) {
+            int negate = ("-".equals(result.getGroup(1)) ? -1 : 1);
+            String yearMatch = result.getGroup(2);
+            String monthMatch = result.getGroup(3);
+            String weekMatch = result.getGroup(4);
+            String dayMatch = result.getGroup(5);
             if (yearMatch != null || monthMatch != null || weekMatch != null || dayMatch != null) {
                 try {
                     int years = parseNumber(text, yearMatch, negate);
@@ -835,7 +834,7 @@ public final class Period
      * Second, if the months are zero, the years are added if non-zero, otherwise
      * the combination of years and months is added if non-zero.
      * Finally, any days are added.
-     * 
+     *
      * The calculation will subtract the years, then months, then days.
      * Only non-zero amounts will be subtracted.
      * If the date-time has a calendar system with a fixed number of months in a

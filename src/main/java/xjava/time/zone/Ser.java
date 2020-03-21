@@ -53,11 +53,6 @@ import xjava.time.zone.ZoneOffsetTransitionRule.TimeDefinition;
  */
 final class Ser {
 
-    /**
-     * Serialization version.
-     */
-    private static final long serialVersionUID = -8885321777449118786L;
-
     /** Type for StandardZoneRules. */
     static final byte SZR = 1;
     /** Type for ZoneOffsetTransition. */

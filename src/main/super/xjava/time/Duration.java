@@ -47,8 +47,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
+import com.google.gwt.regexp.shared.MatchResult;
+import com.google.gwt.regexp.shared.RegExp;
 
 import xjava.time.format.DateTimeParseException;
 import xjava.time.temporal.ChronoField;
@@ -111,10 +112,10 @@ public final class Duration
     /**
      * The pattern for parsing.
      */
-    private final static Pattern PATTERN =
-            Pattern.compile("([-+]?)P(?:([-+]?[0-9]+)D)?" +
+    private final static RegExp PATTERN =
+    		RegExp.compile("([-+]?)P(?:([-+]?[0-9]+)D)?" +
                     "(T(?:([-+]?[0-9]+)H)?(?:([-+]?[0-9]+)M)?(?:([-+]?[0-9]+)(?:[.,]([0-9]{0,9}))?S)?)?",
-                    Pattern.CASE_INSENSITIVE);
+                    "i");
 
     /**
      * The number of seconds in the duration.
@@ -389,16 +390,16 @@ public final class Duration
      */
     public static Duration parse(CharSequence text) {
         Objects.requireNonNull(text, "text");
-        Matcher matcher = PATTERN.matcher(text);
-        if (matcher.matches()) {
+        MatchResult result = PATTERN.exec(text.toString());
+        if (result != null) {
             // check for letter T but no time sections
-            if ("T".equals(matcher.group(3)) == false) {
-                boolean negate = "-".equals(matcher.group(1));
-                String dayMatch = matcher.group(2);
-                String hourMatch = matcher.group(4);
-                String minuteMatch = matcher.group(5);
-                String secondMatch = matcher.group(6);
-                String fractionMatch = matcher.group(7);
+            if ("T".equals(result.getGroup(3)) == false) {
+                boolean negate = "-".equals(result.getGroup(1));
+                String dayMatch = result.getGroup(2);
+                String hourMatch = result.getGroup(4);
+                String minuteMatch = result.getGroup(5);
+                String secondMatch = result.getGroup(6);
+                String fractionMatch = result.getGroup(7);
                 if (dayMatch != null || hourMatch != null || minuteMatch != null || secondMatch != null) {
                     long daysAsSecs = parseNumber(text, dayMatch, SECONDS_PER_DAY, "days");
                     long hoursAsSecs = parseNumber(text, hourMatch, SECONDS_PER_HOUR, "hours");

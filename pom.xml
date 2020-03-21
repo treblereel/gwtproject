@@ -50,7 +50,7 @@
 				<groupId>net.ltgt.gwt.maven</groupId>
 				<artifactId>gwt-maven-plugin</artifactId>
 				<configuration>
-					<moduleName>org.jresearch.gwt.time.lib.module</moduleName>
+					<moduleName>xjava.time.module</moduleName>
 					<moduleShortName>module</moduleShortName>
 					<relocateSuperSource>true</relocateSuperSource>
 				</configuration>
@@ -89,6 +89,10 @@
 	<!-- ==================================================================== -->
 	<dependencies>
 		<dependency>
+			<groupId>com.google.jsinterop</groupId>
+			<artifactId>jsinterop-annotations</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-user</artifactId>
 			<scope>provided</scope>
@@ -97,6 +101,27 @@
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-dev</artifactId>
 			<scope>provided</scope>
+		</dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty.websocket</groupId>
+			<artifactId>websocket-client</artifactId>
+			<version>9.2.14.v20151106</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.testng</groupId>

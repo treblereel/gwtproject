@@ -86,9 +86,9 @@ public final class ZoneOffset
         implements TemporalAccessor, TemporalAdjuster, Comparable<ZoneOffset>, Serializable {
 
     /** Cache of time-zone offset by offset in seconds. */
-    private static final ConcurrentMap<Integer, ZoneOffset> SECONDS_CACHE = new ConcurrentHashMap<Integer, ZoneOffset>(16, 0.75f, 4);
+    private static final ConcurrentMap<Integer, ZoneOffset> SECONDS_CACHE = new ConcurrentHashMap<Integer, ZoneOffset>(16, 0.75f);
     /** Cache of time-zone offset by ID. */
-    private static final ConcurrentMap<String, ZoneOffset> ID_CACHE = new ConcurrentHashMap<String, ZoneOffset>(16, 0.75f, 4);
+    private static final ConcurrentMap<String, ZoneOffset> ID_CACHE = new ConcurrentHashMap<String, ZoneOffset>(16, 0.75f);
 
     /**
      * The number of seconds per hour.
