@@ -12,3 +12,10 @@ RPC Callback for GWT 2 and J2CL.
     <version>1.0-SNAPSHOT</version>
 </dependency>
 ```
+
+### Instructions
+To build gwt-callback:
+
+* run `mvn clean install`
+
+on the parent directory.

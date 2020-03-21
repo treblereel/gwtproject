@@ -42,9 +42,6 @@
 
   <modules>
     <module>gwt-callback</module>
-    <!-- atm, we have no tests -->
-<!--    <module>gwt-callback-gwt2-tests</module>-->
-<!--    <module>gwt-callback-j2cl-tests</module>-->
   </modules>
 
   <properties>
