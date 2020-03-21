@@ -25,29 +25,10 @@
     </properties>
 
     <dependencies>
-        <!-- As the other projects are gwt2, we need to explicitly depend on a j2cl-compatible version of jsinterop-base -->
-        <dependency>
-            <groupId>com.vertispan.jsinterop</groupId>
-            <artifactId>base</artifactId>
-            <version>${jsinterop.base.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>${slf4j.version}</version>
-            <scope>test</scope>
-        </dependency>
         <!-- test dependencies -->
         <dependency>
             <groupId>com.vertispan.j2cl</groupId>
             <artifactId>junit-annotations</artifactId>
-            <version>${j2cl.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.vertispan.j2cl</groupId>
-            <artifactId>gwttestcase-emul</artifactId>
             <version>${j2cl.version}</version>
             <scope>test</scope>
         </dependency>
@@ -76,23 +57,17 @@
                 <groupId>com.vertispan.j2cl</groupId>
                 <artifactId>j2cl-maven-plugin</artifactId>
                 <version>${maven.j2cl.plugin}</version>
+                <configuration>
+<!-- TODO: as long as ADVANCED compilationLevel will remove Assertions, we stay with BUNDLE -->
+<!--          <compilationLevel>ADVANCED</compilationLevel>-->
+                    <compilationLevel>BUNDLE</compilationLevel>
+                </configuration>
                 <executions>
                     <execution>
                         <id>j2cl-test</id>
                         <goals>
                             <goal>test</goal>
                         </goals>
-                        <configuration>
-                            <defines>
-                                <gwt.enableDebugId>true</gwt.enableDebugId>
-                                <gwt.cspCompatModeEnabled>true</gwt.cspCompatModeEnabled>
-                                <gwt.strictCspTestingEnabled>true</gwt.strictCspTestingEnabled>
-                            </defines>
-                            <compilationLevel>BUNDLE</compilationLevel>
-                            <tests>
-                                <test>org.gwtproject.geolocation.client.GeolocationTest</test>
-                            </tests>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -109,18 +84,8 @@
 
     <repositories>
         <repository>
-            <id>${vertispan.j2cl.repo.id}</id>
-            <name>${vertispan.j2cl.repo.name}</name>
-            <url>${vertispan.j2cl.repo.url}</url>
-        </repository>
-        <repository>
-            <id>vertispan-releases</id>
-            <name>Vertispan hosted artifacts-releases</name>
-            <url>${vertispan.j2cl.repo.url}</url>
-        </repository>
-        <repository>
             <id>vertispan-snapshots</id>
-            <name>Vertispan hosted artifacts-snapshots</name>
+            <name>Vertispan hosted artifacts-releases</name>
             <url>${vertispan.j2cl.repo.url}</url>
         </repository>
     </repositories>
