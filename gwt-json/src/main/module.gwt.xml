@@ -18,7 +18,6 @@
     <!-- Other module inherits                                      -->
     <inherits name="org.gwtproject.core.Core" />
 
-
     <!-- sources -->
     <source path="client"/>
 </module>
