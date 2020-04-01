@@ -1,131 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.gwtproject.xhr</groupId>
-    <artifactId>gwt-xhr</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <packaging>gwt-lib</packaging>
+    <artifactId>gwt-xhr-parent</artifactId>
 
-    <name>gwt-xhr</name>
-    <url>http://maven.apache.org</url>
+    <version>1.0-SNAPSHOT</version>
+
+    <packaging>pom</packaging>
+
+    <name>GWT XML Header Request Parent</name>
+    <description>Parent POM containing the gwt-xhr module and the test modules (gwt2- and j2cl-tests)</description>
+    <url>https://github.com/gwtproject/gwt-xhr</url>
+
+    <organization>
+        <name>The GWT Authors</name>
+        <url>https://github.com/gwtproject</url>
+    </organization>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>The GWT Authors</name>
+            <organization>The GWT Project Authors</organization>
+            <url>https://github.com/gwtproject</url>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/gwtproject/gwt-xhr.git</connection>
+        <developerConnection>scm:git:ssh://github.com/gwtproject/gwt-xhr.git</developerConnection>
+        <url>https://github.com/gwtproject/gwt-xhr/tree/master</url>
+    </scm>
+
+    <inceptionYear>2019</inceptionYear>
+
+    <modules>
+        <module>gwt-xhr</module>
+        <module>gwt-xhr-gwt2-tests</module>
+        <module>gwt-xhr-j2cl-tests</module>
+    </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <port>-port 8888</port>
-        <gwt.args/>
-    </properties>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>com.google.gwt</groupId>
-                <artifactId>gwt</artifactId>
-                <version>2.8.2</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+        <maven.deploy.plugin>3.0.0-M1</maven.deploy.plugin>
+        <maven.fmt.plugin>2.5.1</maven.fmt.plugin>
+        <maven.licence.plugin>3.0</maven.licence.plugin>
+    </properties>
 
     <dependencies>
         <dependency>
-            <groupId>com.google.gwt</groupId>
-            <artifactId>gwt-user</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.google.gwt</groupId>
-            <artifactId>gwt-dev</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.gwtproject</groupId>
-            <artifactId>typedarrays</artifactId>
+            <groupId>org.gwtproject.xhr</groupId>
+            <artifactId>gwt-xhr</artifactId>
             <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.jsinterop</groupId>
-            <artifactId>jsinterop-annotations</artifactId>
-            <version>1.0.1</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
             <plugin>
-                <groupId>net.ltgt.gwt.maven</groupId>
-                <artifactId>gwt-maven-plugin</artifactId>
-                <version>1.0-rc-8</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <moduleName>org.gwtproject.xhr.XMLHttpRequest</moduleName>
-                    <moduleShortName>gwtxhr</moduleShortName>
-                    <systemPropertyVariables>
-                        <gwt.args>${gwt.args}</gwt.args>
-                    </systemPropertyVariables>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.5.1</version>
-                <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>1.6.0</version>
+                <groupId>com.coveo</groupId>
+                <artifactId>fmt-maven-plugin</artifactId>
+                <version>${maven.fmt.plugin}</version>
                 <executions>
                     <execution>
                         <goals>
-                            <goal>exec</goal>
+                            <goal>check</goal>
                         </goals>
-                        <phase>test-compile</phase>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>${maven.deploy.plugin}</version>
                 <configuration>
-                    <executable>java</executable>
-                    <classpathScope>test</classpathScope>
-                    <arguments>
-                        <argument>-classpath</argument>
-                        <classpath/>
-                        <argument>org.gwtproject.xhr.CorsServer</argument>
-                        <argument>-port</argument>
-                        <argument>9999</argument>
-                    </arguments>
-                    <async>true</async>
+                    <skip>true</skip>
                 </configuration>
             </plugin>
         </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>com.mycila</groupId>
+                    <artifactId>license-maven-plugin</artifactId>
+                    <version>${maven.licence.plugin}</version>
+                    <configuration>
+                        <header>LICENSE.header</header>
+                        <encoding>${project.build.sourceEncoding}</encoding>
+                        <skipExistingHeaders>true</skipExistingHeaders>
+                        <mapping>
+                            <java>SLASHSTAR_STYLE</java>
+                        </mapping>
+                        <includes>
+                            <include>sec/test/java</include>
+                        </includes>
+                        <properties>
+                            <year>${project.inceptionYear}</year>
+                            <name>${project.organization.name}</name>
+                        </properties>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
-
-    <profiles>
-        <profile>
-            <id>test-prod</id>
-            <properties>
-                <gwt.args>${port}</gwt.args>
-            </properties>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-        </profile>
-        <profile>
-            <id>test-browser</id>
-            <properties>
-                <gwt.args>${port} -runStyle Manual:1</gwt.args>
-            </properties>
-        </profile>
-    </profiles>
 </project>
