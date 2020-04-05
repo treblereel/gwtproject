@@ -31,10 +31,8 @@
  */
 package xjava.time.chrono;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
-import java.util.Calendar;
+//import java.util.Calendar;
 import java.util.Objects;
 
 import xjava.time.Clock;
@@ -300,18 +298,6 @@ public final class JapaneseDate
         this.isoDate = isoDate;
     }
 
-    /**
-     * Reconstitutes this object from a stream.
-     *
-     * @param stream object input stream
-     */
-    private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
-        stream.defaultReadObject();
-        this.era = JapaneseEra.from(isoDate);
-        int yearOffset = this.era.startDate().getYear() - 1;
-        this.yearOfEra = isoDate.getYear() - yearOffset;
-    }
-
     //-----------------------------------------------------------------------
     @Override
     public JapaneseChronology getChronology() {
@@ -329,11 +315,13 @@ public final class JapaneseDate
     }
 
     @Override
+    //GWT specific
     public int lengthOfYear() {
-        Calendar jcal = Calendar.getInstance(JapaneseChronology.LOCALE);
-        jcal.set(Calendar.ERA, era.getValue() + JapaneseEra.ERA_OFFSET);
-        jcal.set(yearOfEra, isoDate.getMonthValue() - 1, isoDate.getDayOfMonth());
-        return  jcal.getActualMaximum(Calendar.DAY_OF_YEAR);
+//        Calendar jcal = Calendar.getInstance(JapaneseChronology.LOCALE);
+//        jcal.set(Calendar.ERA, era.getValue() + JapaneseEra.ERA_OFFSET);
+//        jcal.set(yearOfEra, isoDate.getMonthValue() - 1, isoDate.getDayOfMonth());
+//        return  jcal.getActualMaximum(Calendar.DAY_OF_YEAR);
+    	return -1;
     }
 
     //-----------------------------------------------------------------------
@@ -379,15 +367,18 @@ public final class JapaneseDate
     }
 
     @Override
+  //GWT Specific
     public ValueRange range(TemporalField field) {
         if (field instanceof ChronoField) {
             if (isSupported(field)) {
                 ChronoField f = (ChronoField) field;
                 switch (f) {
                     case DAY_OF_YEAR:
-                        return actualRange(Calendar.DAY_OF_YEAR);
+//                        return actualRange(Calendar.DAY_OF_YEAR);
+                        throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
                     case YEAR_OF_ERA:
-                        return actualRange(Calendar.YEAR);
+//                        return actualRange(Calendar.YEAR);
+                        throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
                 }
                 return getChronology().range(f);
             }
@@ -396,13 +387,14 @@ public final class JapaneseDate
         return field.rangeRefinedBy(this);
     }
 
-    private ValueRange actualRange(int calendarField) {
-        Calendar jcal = Calendar.getInstance(JapaneseChronology.LOCALE);
-        jcal.set(Calendar.ERA, era.getValue() + JapaneseEra.ERA_OFFSET);
-        jcal.set(yearOfEra, isoDate.getMonthValue() - 1, isoDate.getDayOfMonth());
-        return ValueRange.of(jcal.getActualMinimum(calendarField),
-                                     jcal.getActualMaximum(calendarField));
-    }
+//GWT Specific
+//    private ValueRange actualRange(int calendarField) {
+//        Calendar jcal = Calendar.getInstance(JapaneseChronology.LOCALE);
+//        jcal.set(Calendar.ERA, era.getValue() + JapaneseEra.ERA_OFFSET);
+//        jcal.set(yearOfEra, isoDate.getMonthValue() - 1, isoDate.getDayOfMonth());
+//        return ValueRange.of(jcal.getActualMinimum(calendarField),
+//                                     jcal.getActualMaximum(calendarField));
+//    }
 
     @Override
     public long getLong(TemporalField field) {

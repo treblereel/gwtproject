@@ -31,11 +31,7 @@
  */
 package xjava.time.zone;
 
-import xjava.time.zone.ZoneRulesProvider;
-import java.util.ServiceConfigurationError;
 import java.util.ServiceLoader;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Controls how the time-zone rules are initialized.
@@ -58,36 +54,41 @@ public abstract class ZoneRulesInitializer {
      */
     public static final ZoneRulesInitializer DO_NOTHING = new DoNothingZoneRulesInitializer();
 
-    private static final AtomicBoolean INITIALIZED = new AtomicBoolean(false);
-    private static final AtomicReference<ZoneRulesInitializer> INITIALIZER = new AtomicReference<ZoneRulesInitializer>();
+    //GWT Specific
+    private static boolean INITIALIZED = false;
+    private static ZoneRulesInitializer INITIALIZER;
 
     /**
      * Sets the initializer to use.
      * <p>
      * This can only be invoked before the {@link ZoneRulesProvider} class is loaded.
      * Invoking this method at a later point will throw an exception.
-     * 
+     *
      * @param initializer  the initializer to use
      * @throws IllegalStateException if initialization has already occurred or another initializer has been set
      */
+    //GWT Specific
     public static void setInitializer(ZoneRulesInitializer initializer) {
-        if (INITIALIZED.get()) {
+        if (INITIALIZER != null) {
             throw new IllegalStateException("Already initialized");
         }
-        if (!INITIALIZER.compareAndSet(null, initializer)) {
-            throw new IllegalStateException("Initializer was already set, possibly with a default during initialization");
-        }
+//        if (!INITIALIZER.compareAndSet(null, initializer)) {
+//            throw new IllegalStateException("Initializer was already set, possibly with a default during initialization");
+//        }
     }
 
     //-----------------------------------------------------------------------
     // initialize the providers
+    //GWT Specific
     static void initialize() {
-        if (INITIALIZED.getAndSet(true)) {
+        if (INITIALIZED) {
             throw new IllegalStateException("Already initialized");
         }
         // Set the default initializer if none has been provided yet.
-        INITIALIZER.compareAndSet(null, new ServiceLoaderZoneRulesInitializer());
-        INITIALIZER.get().initializeProviders();
+        if (INITIALIZER == null) {
+        	INITIALIZER = new ServiceLoaderZoneRulesInitializer();
+        }
+        INITIALIZER.initializeProviders();
     }
 
     /**
@@ -120,16 +121,17 @@ public abstract class ZoneRulesInitializer {
 
         @Override
         protected void initializeProviders() {
-            ServiceLoader<ZoneRulesProvider> loader = ServiceLoader.load(ZoneRulesProvider.class, ZoneRulesProvider.class.getClassLoader());
-            for (ZoneRulesProvider provider : loader) {
-                try {
-                    ZoneRulesProvider.registerProvider(provider);
-                } catch (ServiceConfigurationError ex) {
-                    if (!(ex.getCause() instanceof SecurityException)) {
-                        throw ex;
-                    }
-                }
-            }
+//GWT Specific TODO!!!
+//            ServiceLoader<ZoneRulesProvider> loader = ServiceLoader.load(ZoneRulesProvider.class, ZoneRulesProvider.class.getClassLoader());
+//            for (ZoneRulesProvider provider : loader) {
+//                try {
+//                    ZoneRulesProvider.registerProvider(provider);
+//                } catch (ServiceConfigurationError ex) {
+//                    if (!(ex.getCause() instanceof SecurityException)) {
+//                        throw ex;
+//                    }
+//                }
+//            }
         }
     }
 

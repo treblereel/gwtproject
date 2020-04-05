@@ -36,10 +36,7 @@ import static xjava.time.temporal.ChronoField.DAY_OF_WEEK;
 import static xjava.time.temporal.ChronoField.ERA;
 import static xjava.time.temporal.ChronoField.MONTH_OF_YEAR;
 
-import java.text.DateFormatSymbols;
-import xjava.time.format.DateTimeTextProvider;
-import xjava.time.format.TextStyle;
-import xjava.time.temporal.TemporalField;
+//import java.text.DateFormatSymbols;
 import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -55,7 +52,11 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import org.gwtproject.i18n.shared.cldr.DateTimeFormatInfo;
+import org.gwtproject.i18n.shared.cldr.LocaleInfo;
+
 import xjava.time.temporal.IsoFields;
+import xjava.time.temporal.TemporalField;
 
 /**
  * The Service Provider Implementation to obtain date-time text for a field.
@@ -78,7 +79,7 @@ final class SimpleDateTimeTextProvider extends DateTimeTextProvider {
 
     /** Cache. */
     private final ConcurrentMap<Entry<TemporalField, Locale>, Object> cache =
-            new ConcurrentHashMap<Entry<TemporalField, Locale>, Object>(16, 0.75f, 2);
+            new ConcurrentHashMap<Entry<TemporalField, Locale>, Object>(16, 0.75f);
 
     //-----------------------------------------------------------------------
     @Override
@@ -113,7 +114,8 @@ final class SimpleDateTimeTextProvider extends DateTimeTextProvider {
 
     private Object createStore(TemporalField field, Locale locale) {
         if (field == MONTH_OF_YEAR) {
-            DateFormatSymbols oldSymbols = DateFormatSymbols.getInstance(locale);
+            //GWT specific
+        	DateTimeFormatInfo dateTimeFormatInfo = LocaleInfo.getCurrentLocale().getDateTimeFormatInfo();
             Map<TextStyle, Map<Long, String>> styleMap = new HashMap<TextStyle, Map<Long,String>>();
             Long f1 = 1L;
             Long f2 = 2L;
@@ -127,7 +129,8 @@ final class SimpleDateTimeTextProvider extends DateTimeTextProvider {
             Long f10 = 10L;
             Long f11 = 11L;
             Long f12 = 12L;
-            String[] array = oldSymbols.getMonths();
+            //GWT specific
+            String[] array = dateTimeFormatInfo.monthsFullStandalone();
             Map<Long, String> map = new HashMap<Long, String>();
             map.put(f1, array[Calendar.JANUARY]);
             map.put(f2, array[Calendar.FEBRUARY]);
@@ -142,7 +145,7 @@ final class SimpleDateTimeTextProvider extends DateTimeTextProvider {
             map.put(f11, array[Calendar.NOVEMBER]);
             map.put(f12, array[Calendar.DECEMBER]);
             styleMap.put(TextStyle.FULL, map);
-            
+
             map = new HashMap<Long, String>();
             map.put(f1, array[Calendar.JANUARY].substring(0, 1));
             map.put(f2, array[Calendar.FEBRUARY].substring(0, 1));
@@ -157,8 +160,8 @@ final class SimpleDateTimeTextProvider extends DateTimeTextProvider {
             map.put(f11, array[Calendar.NOVEMBER].substring(0, 1));
             map.put(f12, array[Calendar.DECEMBER].substring(0, 1));
             styleMap.put(TextStyle.NARROW, map);
-            
-            array = oldSymbols.getShortMonths();
+
+            array = dateTimeFormatInfo.monthsShortStandalone();
             map = new HashMap<Long, String>();
             map.put(f1, array[Calendar.JANUARY]);
             map.put(f2, array[Calendar.FEBRUARY]);
@@ -176,7 +179,8 @@ final class SimpleDateTimeTextProvider extends DateTimeTextProvider {
             return createLocaleStore(styleMap);
         }
         if (field == DAY_OF_WEEK) {
-            DateFormatSymbols oldSymbols = DateFormatSymbols.getInstance(locale);
+            //GWT specific
+        	DateTimeFormatInfo dateTimeFormatInfo = LocaleInfo.getCurrentLocale().getDateTimeFormatInfo();
             Map<TextStyle, Map<Long, String>> styleMap = new HashMap<TextStyle, Map<Long,String>>();
             Long f1 = 1L;
             Long f2 = 2L;
@@ -185,7 +189,8 @@ final class SimpleDateTimeTextProvider extends DateTimeTextProvider {
             Long f5 = 5L;
             Long f6 = 6L;
             Long f7 = 7L;
-            String[] array = oldSymbols.getWeekdays();
+            //GWT specific
+            String[] array = dateTimeFormatInfo.weekdaysFullStandalone();
             Map<Long, String> map = new HashMap<Long, String>();
             map.put(f1, array[Calendar.MONDAY]);
             map.put(f2, array[Calendar.TUESDAY]);
@@ -195,7 +200,7 @@ final class SimpleDateTimeTextProvider extends DateTimeTextProvider {
             map.put(f6, array[Calendar.SATURDAY]);
             map.put(f7, array[Calendar.SUNDAY]);
             styleMap.put(TextStyle.FULL, map);
-            
+
             map = new HashMap<Long, String>();
             map.put(f1, array[Calendar.MONDAY].substring(0, 1));
             map.put(f2, array[Calendar.TUESDAY].substring(0, 1));
@@ -205,8 +210,9 @@ final class SimpleDateTimeTextProvider extends DateTimeTextProvider {
             map.put(f6, array[Calendar.SATURDAY].substring(0, 1));
             map.put(f7, array[Calendar.SUNDAY].substring(0, 1));
             styleMap.put(TextStyle.NARROW, map);
-            
-            array = oldSymbols.getShortWeekdays();
+
+            //GWT specific
+            array = dateTimeFormatInfo.weekdaysShortStandalone();
             map = new HashMap<Long, String>();
             map.put(f1, array[Calendar.MONDAY]);
             map.put(f2, array[Calendar.TUESDAY]);
@@ -219,9 +225,10 @@ final class SimpleDateTimeTextProvider extends DateTimeTextProvider {
             return createLocaleStore(styleMap);
         }
         if (field == AMPM_OF_DAY) {
-            DateFormatSymbols oldSymbols = DateFormatSymbols.getInstance(locale);
+            //GWT specific
+        	DateTimeFormatInfo dateTimeFormatInfo = LocaleInfo.getCurrentLocale().getDateTimeFormatInfo();
             Map<TextStyle, Map<Long, String>> styleMap = new HashMap<TextStyle, Map<Long,String>>();
-            String[] array = oldSymbols.getAmPmStrings();
+            String[] array = dateTimeFormatInfo.ampms();
             Map<Long, String> map = new HashMap<Long, String>();
             map.put(0L, array[Calendar.AM]);
             map.put(1L, array[Calendar.PM]);
@@ -230,22 +237,24 @@ final class SimpleDateTimeTextProvider extends DateTimeTextProvider {
             return createLocaleStore(styleMap);
         }
         if (field == ERA) {
-            DateFormatSymbols oldSymbols = DateFormatSymbols.getInstance(locale);
+            //GWT specific
+        	DateTimeFormatInfo dateTimeFormatInfo = LocaleInfo.getCurrentLocale().getDateTimeFormatInfo();
             Map<TextStyle, Map<Long, String>> styleMap = new HashMap<TextStyle, Map<Long,String>>();
-            String[] array = oldSymbols.getEras();
+            String[] array = dateTimeFormatInfo.erasFull();
             Map<Long, String> map = new HashMap<Long, String>();
             map.put(0L, array[GregorianCalendar.BC]);
             map.put(1L, array[GregorianCalendar.AD]);
             styleMap.put(TextStyle.SHORT, map);
-            if (locale.getLanguage().equals(Locale.ENGLISH.getLanguage())) {
-                map = new HashMap<Long, String>();
-                map.put(0L, "Before Christ");
-                map.put(1L, "Anno Domini");
-                styleMap.put(TextStyle.FULL, map);
-            } else {
+            //GWT Specific TODO!!!
+//            if (locale.getLanguage().equals(Locale.ENGLISH.getLanguage())) {
+//                map = new HashMap<Long, String>();
+//                map.put(0L, "Before Christ");
+//                map.put(1L, "Anno Domini");
+//                styleMap.put(TextStyle.FULL, map);
+//            } else {
                 // re-use, as we don't have different data
                 styleMap.put(TextStyle.FULL, map);
-            }
+//            }
             map = new HashMap<Long, String>();
             map.put(0L, array[GregorianCalendar.BC].substring(0, 1));
             map.put(1L, array[GregorianCalendar.AD].substring(0, 1));

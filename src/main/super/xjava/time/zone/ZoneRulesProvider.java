@@ -31,18 +31,15 @@
  */
 package xjava.time.zone;
 
-import xjava.time.DateTimeException;
-import xjava.time.zone.ZoneRules;
-import xjava.time.zone.ZoneRulesException;
-import xjava.time.zone.ZoneRulesProvider;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.NavigableMap;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 
+import xjava.time.DateTimeException;
 import xjava.time.ZoneId;
 import xjava.time.ZonedDateTime;
 
@@ -76,11 +73,12 @@ public abstract class ZoneRulesProvider {
     /**
      * The set of loaded providers.
      */
-    private static final CopyOnWriteArrayList<ZoneRulesProvider> PROVIDERS = new CopyOnWriteArrayList<>();
+	//GWT specific
+    private static final ArrayList<ZoneRulesProvider> PROVIDERS = new ArrayList<>();
     /**
      * The lookup from zone region ID to provider.
      */
-    private static final ConcurrentMap<String, ZoneRulesProvider> ZONES = new ConcurrentHashMap<>(512, 0.75f, 2);
+    private static final ConcurrentMap<String, ZoneRulesProvider> ZONES = new ConcurrentHashMap<>(512, 0.75f);
 
     static {
         ZoneRulesInitializer.initialize();

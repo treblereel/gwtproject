@@ -50,21 +50,7 @@ import static xjava.time.temporal.ChronoUnit.WEEKS;
 import static xjava.time.temporal.TemporalAdjusters.nextOrSame;
 
 import java.io.Serializable;
-import xjava.time.DateTimeException;
-import xjava.time.chrono.ChronoLocalDateTime;
-import xjava.time.chrono.ChronoZonedDateTime;
-import xjava.time.chrono.Chronology;
-import xjava.time.chrono.Era;
-import xjava.time.chrono.IsoChronology;
-import xjava.time.chrono.JapaneseChronology;
-import xjava.time.chrono.JapaneseDate;
-import xjava.time.chrono.JapaneseEra;
-import xjava.time.format.ResolverStyle;
-import xjava.time.temporal.TemporalAccessor;
-import xjava.time.temporal.TemporalField;
-import xjava.time.temporal.ValueRange;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -72,11 +58,16 @@ import java.util.Map;
 import java.util.Objects;
 
 import xjava.time.Clock;
+import xjava.time.DateTimeException;
 import xjava.time.DayOfWeek;
 import xjava.time.Instant;
 import xjava.time.LocalDate;
 import xjava.time.ZoneId;
+import xjava.time.format.ResolverStyle;
 import xjava.time.temporal.ChronoField;
+import xjava.time.temporal.TemporalAccessor;
+import xjava.time.temporal.TemporalField;
+import xjava.time.temporal.ValueRange;
 
 /**
  * The Japanese Imperial calendar system.
@@ -109,7 +100,8 @@ import xjava.time.temporal.ChronoField;
 public final class JapaneseChronology extends Chronology implements Serializable {
 
     // Locale for creating a JapaneseImpericalCalendar.
-    static final Locale LOCALE = new Locale("ja", "JP", "JP");
+    //GWT Specific
+//    static final Locale LOCALE = new Locale("ja", "JP", "JP");
 
     /**
      * Singleton instance for Japanese chronology.
@@ -366,6 +358,7 @@ public final class JapaneseChronology extends Chronology implements Serializable
     }
 
     //-----------------------------------------------------------------------
+    //GWT Specific
     @Override
     public ValueRange range(ChronoField field) {
         switch (field) {
@@ -389,7 +382,7 @@ public final class JapaneseChronology extends Chronology implements Serializable
             case PROLEPTIC_MONTH:
                 return field.range();
         }
-        Calendar jcal = Calendar.getInstance(LOCALE);
+//        Calendar jcal = Calendar.getInstance(LOCALE);
         switch (field) {
             case ERA: {
                 JapaneseEra[] eras = JapaneseEra.values();
@@ -410,8 +403,9 @@ public final class JapaneseChronology extends Chronology implements Serializable
                 return ValueRange.of(1, 6, min, maxJapanese);
             }
             case MONTH_OF_YEAR:
-                return ValueRange.of(jcal.getMinimum(Calendar.MONTH) + 1, jcal.getGreatestMinimum(Calendar.MONTH) + 1,
-                                             jcal.getLeastMaximum(Calendar.MONTH) + 1, jcal.getMaximum(Calendar.MONTH) + 1);
+                throw new UnsupportedOperationException("Unimplementable field: " + field);
+//                return ValueRange.of(jcal.getMinimum(Calendar.MONTH) + 1, jcal.getGreatestMinimum(Calendar.MONTH) + 1,
+//                                             jcal.getLeastMaximum(Calendar.MONTH) + 1, jcal.getMaximum(Calendar.MONTH) + 1);
             case DAY_OF_YEAR: {
                 JapaneseEra[] eras = JapaneseEra.values();
                 int min = 366;

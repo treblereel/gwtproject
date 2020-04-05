@@ -41,30 +41,19 @@ import static xjava.time.temporal.ChronoUnit.MONTHS;
 import static xjava.time.temporal.ChronoUnit.WEEKS;
 import static xjava.time.temporal.ChronoUnit.YEARS;
 
-import java.io.InvalidObjectException;
 import java.io.Serializable;
-import xjava.time.DateTimeException;
-import xjava.time.format.ResolverStyle;
-import xjava.time.temporal.ChronoField;
-import xjava.time.temporal.ChronoUnit;
-import xjava.time.temporal.IsoFields;
-import xjava.time.temporal.Temporal;
-import xjava.time.temporal.TemporalAccessor;
-import xjava.time.temporal.TemporalField;
-import xjava.time.temporal.TemporalUnit;
-import xjava.time.temporal.ValueRange;
-import xjava.time.temporal.WeekFields;
-import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import xjava.time.DateTimeException;
 import xjava.time.DayOfWeek;
 import xjava.time.Year;
 import xjava.time.chrono.ChronoLocalDate;
 import xjava.time.chrono.Chronology;
+import xjava.time.format.ResolverStyle;
 
 /**
  * Localized definitions of the day-of-week, week-of-month and week-of-year fields.
@@ -136,7 +125,7 @@ public final class WeekFields implements Serializable {
      * The cache of rules by firstDayOfWeek plus minimalDays.
      * Initialized first to be available for definition of ISO, etc.
      */
-    private static final ConcurrentMap<String, WeekFields> CACHE = new ConcurrentHashMap<>(4, 0.75f, 2);
+    private static final ConcurrentMap<String, WeekFields> CACHE = new ConcurrentHashMap<>(4, 0.75f);
 
     /**
      * The ISO-8601 definition, where a week starts on Monday and the first week
@@ -204,16 +193,19 @@ public final class WeekFields implements Serializable {
      * @param locale  the locale to use, not null
      * @return the week-definition, not null
      */
+    //GWT Specific TODO!!!
     public static WeekFields of(Locale locale) {
         Objects.requireNonNull(locale, "locale");
-        locale = new Locale(locale.getLanguage(), locale.getCountry());  // elminate variants
+//        locale = new Locale(locale.getLanguage(), locale.getCountry());  // elminate variants
 
         // obtain these from GregorianCalendar for now
-        GregorianCalendar gcal = new GregorianCalendar(locale);
-        int calDow = gcal.getFirstDayOfWeek();
-        DayOfWeek dow = DayOfWeek.SUNDAY.plus(calDow - 1);
-        int minDays = gcal.getMinimalDaysInFirstWeek();
-        return WeekFields.of(dow, minDays);
+//
+//        GregorianCalendar gcal = new GregorianCalendar(locale);
+//        int calDow = gcal.getFirstDayOfWeek();
+//        DayOfWeek dow = DayOfWeek.SUNDAY.plus(calDow - 1);
+//        int minDays = gcal.getMinimalDaysInFirstWeek();
+//        return WeekFields.of(dow, minDays);
+        return null;
     }
 
     /**
@@ -264,19 +256,20 @@ public final class WeekFields implements Serializable {
         this.minimalDays = minimalDaysInFirstWeek;
     }
 
-    /**
-     * Ensure valid singleton.
-     *
-     * @return the valid week fields instance, not null
-     * @throws InvalidObjectException if invalid
-     */
-    private Object readResolve() throws InvalidObjectException {
-        try {
-            return WeekFields.of(firstDayOfWeek, minimalDays);
-        } catch (IllegalArgumentException ex) {
-            throw new InvalidObjectException("Invalid WeekFields" + ex.getMessage());
-        }
-    }
+//GWT Specific
+//    /**
+//     * Ensure valid singleton.
+//     *
+//     * @return the valid week fields instance, not null
+//     * @throws InvalidObjectException if invalid
+//     */
+//    private Object readResolve() throws InvalidObjectException {
+//        try {
+//            return WeekFields.of(firstDayOfWeek, minimalDays);
+//        } catch (IllegalArgumentException ex) {
+//            throw new InvalidObjectException("Invalid WeekFields" + ex.getMessage());
+//        }
+//    }
 
     //-----------------------------------------------------------------------
     /**

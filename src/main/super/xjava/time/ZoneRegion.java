@@ -33,7 +33,8 @@ package xjava.time;
 
 import java.io.Serializable;
 import java.util.Objects;
-import java.util.regex.Pattern;
+
+import com.google.gwt.regexp.shared.RegExp;
 
 import xjava.time.zone.ZoneRules;
 import xjava.time.zone.ZoneRulesException;
@@ -66,7 +67,7 @@ final class ZoneRegion extends ZoneId implements Serializable {
     /**
      * The regex pattern for region IDs.
      */
-    private static final Pattern PATTERN = Pattern.compile("[A-Za-z][A-Za-z0-9~/._+-]+");
+    private static final RegExp PATTERN = RegExp.compile("[A-Za-z][A-Za-z0-9~/._+-]+");
 
     /**
      * The time-zone ID, not null.
@@ -127,9 +128,10 @@ final class ZoneRegion extends ZoneId implements Serializable {
      * @throws DateTimeException if the ID format is invalid
      * @throws DateTimeException if checking availability and the ID cannot be found
      */
+    //GWT specific
     static ZoneRegion ofId(String zoneId, boolean checkAvailable) {
         Objects.requireNonNull(zoneId, "zoneId");
-        if (zoneId.length() < 2 || PATTERN.matcher(zoneId).matches() == false) {
+        if (zoneId.length() < 2 || PATTERN.exec(zoneId) == null) {
             throw new DateTimeException("Invalid ID for region-based ZoneId, invalid format: " + zoneId);
         }
         ZoneRules rules = null;

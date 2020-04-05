@@ -29,7 +29,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package xjava.time.zone;
+package xxjava.time.zone;
 
 import java.io.DataInput;
 import java.io.DataOutput;
@@ -41,6 +41,9 @@ import xjava.time.DayOfWeek;
 import xjava.time.LocalTime;
 import xjava.time.Month;
 import xjava.time.ZoneOffset;
+import xjava.time.zone.StandardZoneRules;
+import xjava.time.zone.ZoneOffsetTransition;
+import xjava.time.zone.ZoneOffsetTransitionRule;
 import xjava.time.zone.ZoneOffsetTransitionRule.TimeDefinition;
 
 /**

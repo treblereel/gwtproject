@@ -70,7 +70,8 @@ public final class ZoneOffsetTransitionRule implements Serializable {
     /**
      * The number of seconds per day.
      */
-    protected static final int SECS_PER_DAY = 86400;
+    //GWT Specific
+    public static final int SECS_PER_DAY = 86400;
 
     /**
      * The month of the month-day of the first day of the cutover week.
@@ -178,7 +179,7 @@ public final class ZoneOffsetTransitionRule implements Serializable {
      * @throws IllegalArgumentException if the day of month indicator is invalid
      * @throws IllegalArgumentException if the end of day flag is true when the time is not midnight
      */
-    ZoneOffsetTransitionRule(
+    public ZoneOffsetTransitionRule(
             Month month,
             int dayOfMonthIndicator,
             DayOfWeek dayOfWeek,

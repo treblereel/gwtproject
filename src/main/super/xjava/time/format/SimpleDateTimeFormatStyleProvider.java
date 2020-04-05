@@ -31,11 +31,6 @@
  */
 package xjava.time.format;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import xjava.time.format.DateTimeFormatter;
-import xjava.time.format.DateTimeFormatterBuilder;
-import xjava.time.format.FormatStyle;
 import java.util.Locale;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -55,11 +50,13 @@ final class SimpleDateTimeFormatStyleProvider extends DateTimeFormatStyleProvide
 
     /** Cache of formatters. */
     private static final ConcurrentMap<String, Object> FORMATTER_CACHE =
-                        new ConcurrentHashMap<String, Object>(16, 0.75f, 2);
+                        new ConcurrentHashMap<String, Object>(16, 0.75f);
 
     @Override
+    //GWT Specific
     public Locale[] getAvailableLocales() {
-        return DateFormat.getAvailableLocales();
+    	return new Locale[] {Locale.getDefault()};
+//        return DateFormat.getAvailableLocales();
     }
 
     @Override
@@ -76,22 +73,23 @@ final class SimpleDateTimeFormatStyleProvider extends DateTimeFormatStyleProvide
             }
             return (DateTimeFormatter) cached;
         }
-        DateFormat dateFormat;
-        if (dateStyle != null) {
-            if (timeStyle != null) {
-                dateFormat = DateFormat.getDateTimeInstance(convertStyle(dateStyle), convertStyle(timeStyle), locale);
-            } else {
-                dateFormat = DateFormat.getDateInstance(convertStyle(dateStyle), locale);
-            }
-        } else {
-            dateFormat = DateFormat.getTimeInstance(convertStyle(timeStyle), locale);
-        }
-        if (dateFormat instanceof SimpleDateFormat) {
-            String pattern = ((SimpleDateFormat) dateFormat).toPattern();
-            DateTimeFormatter formatter = new DateTimeFormatterBuilder().appendPattern(pattern).toFormatter(locale);
-            FORMATTER_CACHE.putIfAbsent(key, formatter);
-            return formatter;
-        }
+//GWT Specific TODO!!!
+//        DateFormat dateFormat;
+//        if (dateStyle != null) {
+//            if (timeStyle != null) {
+//                dateFormat = DateFormat.getDateTimeInstance(convertStyle(dateStyle), convertStyle(timeStyle), locale);
+//            } else {
+//                dateFormat = DateFormat.getDateInstance(convertStyle(dateStyle), locale);
+//            }
+//        } else {
+//            dateFormat = DateFormat.getTimeInstance(convertStyle(timeStyle), locale);
+//        }
+//        if (dateFormat instanceof SimpleDateFormat) {
+//            String pattern = ((SimpleDateFormat) dateFormat).toPattern();
+//            DateTimeFormatter formatter = new DateTimeFormatterBuilder().appendPattern(pattern).toFormatter(locale);
+//            FORMATTER_CACHE.putIfAbsent(key, formatter);
+//            return formatter;
+//        }
         FORMATTER_CACHE.putIfAbsent(key, "");
         throw new IllegalArgumentException("Unable to convert DateFormat to DateTimeFormatter");
     }

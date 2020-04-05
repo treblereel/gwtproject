@@ -31,13 +31,11 @@
  */
 package xjava.time.format;
 
-import xjava.time.format.DateTimeTextProvider;
-import xjava.time.format.TextStyle;
-import xjava.time.temporal.TemporalField;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map.Entry;
-import java.util.concurrent.atomic.AtomicReference;
+
+import xjava.time.temporal.TemporalField;
 
 /**
  * The Service Provider Interface (SPI) to be implemented by classes providing
@@ -52,7 +50,8 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public abstract class DateTimeTextProvider {
 
-    private static final AtomicReference<DateTimeTextProvider> MUTABLE_PROVIDER = new AtomicReference<DateTimeTextProvider>();
+    //GWT specific
+    private static DateTimeTextProvider MUTABLE_PROVIDER;
 
     /**
      * Gets the provider.
@@ -68,14 +67,16 @@ public abstract class DateTimeTextProvider {
      * <p>
      * This can only be invoked before {@link DateTimeTextProvider} class is used for formatting/parsing.
      * Invoking this method at a later point will throw an exception.
-     * 
+     *
      * @param provider  the provider to use
      * @throws IllegalStateException if initialization has already occurred or another provider has been set
      */
+    //GWT specific
     public static void setInitializer(DateTimeTextProvider provider) {
-        if (!MUTABLE_PROVIDER.compareAndSet(null, provider)) {
+        if (MUTABLE_PROVIDER != null) {
             throw new IllegalStateException("Provider was already set, possibly with a default during initialization");
         }
+    	MUTABLE_PROVIDER = provider;
     }
 
     //-----------------------------------------------------------------------
@@ -115,14 +116,17 @@ public abstract class DateTimeTextProvider {
 
     //-----------------------------------------------------------------------
     // use JVM class initializtion to lock the singleton without additional synchronization
+    //GWT specific
     static class ProviderSingleton {
         static final DateTimeTextProvider PROVIDER = initialize();
 
         // initialize the provider
         static DateTimeTextProvider initialize() {
             // Set the default initializer if none has been provided yet
-            MUTABLE_PROVIDER.compareAndSet(null, new SimpleDateTimeTextProvider());
-            return MUTABLE_PROVIDER.get();
+        	if (MUTABLE_PROVIDER == null) {
+        		MUTABLE_PROVIDER = new SimpleDateTimeTextProvider();
+        	}
+            return MUTABLE_PROVIDER;
         }
     }
 

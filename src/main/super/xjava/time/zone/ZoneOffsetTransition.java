@@ -128,7 +128,7 @@ public final class ZoneOffsetTransition
      * @param offsetBefore  the offset before the transition, not null
      * @param offsetAfter  the offset at and after the transition, not null
      */
-    ZoneOffsetTransition(long epochSecond, ZoneOffset offsetBefore, ZoneOffset offsetAfter) {
+    public ZoneOffsetTransition(long epochSecond, ZoneOffset offsetBefore, ZoneOffset offsetAfter) {
         this.transition = LocalDateTime.ofEpochSecond(epochSecond, 0, offsetBefore);
         this.offsetBefore = offsetBefore;
         this.offsetAfter = offsetAfter;

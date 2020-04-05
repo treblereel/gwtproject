@@ -50,7 +50,7 @@
 				<groupId>net.ltgt.gwt.maven</groupId>
 				<artifactId>gwt-maven-plugin</artifactId>
 				<configuration>
-					<moduleName>xjava.time.module</moduleName>
+					<moduleName>xjava.module</moduleName>
 					<moduleShortName>module</moduleShortName>
 					<relocateSuperSource>true</relocateSuperSource>
 				</configuration>
@@ -88,6 +88,11 @@
 
 	<!-- ==================================================================== -->
 	<dependencies>
+		<dependency>
+			<groupId>org.jresearch.gwtproject.i18n</groupId>
+			<artifactId>gwt-cldr</artifactId>
+			<version>${gwt-cldr.ver}</version>
+		</dependency>
 		<dependency>
 			<groupId>com.google.jsinterop</groupId>
 			<artifactId>jsinterop-annotations</artifactId>
@@ -222,7 +227,7 @@
 
 	<!-- ==================================================================== -->
 	<properties>
+		<gwt-cldr.ver>1.0.10-SNAPSHOT</gwt-cldr.ver>
 		<!-- Other properties -->
-		<tz.database.version>2019c</tz.database.version>
 	</properties>
 </project>

@@ -54,7 +54,8 @@ import xjava.time.ZoneOffset;
  * <h3>Specification for implementors</h3>
  * This class is immutable and thread-safe.
  */
-final class StandardZoneRules extends ZoneRules implements Serializable {
+//GWT Specific
+public final class StandardZoneRules extends ZoneRules implements Serializable {
 
     /**
      * Serialization version.
@@ -162,7 +163,8 @@ final class StandardZoneRules extends ZoneRules implements Serializable {
      * @param wallOffsets  the wall offsets, not null
      * @param lastRules  the recurring last rules, size 15 or less, not null
      */
-    protected StandardZoneRules(
+    //GWT Specific
+    public StandardZoneRules(
             long[] standardTransitions,
             ZoneOffset[] standardOffsets,
             long[] savingsInstantTransitions,

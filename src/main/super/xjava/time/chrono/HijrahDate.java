@@ -36,19 +36,9 @@ import static xjava.time.temporal.ChronoField.ALIGNED_DAY_OF_WEEK_IN_YEAR;
 import static xjava.time.temporal.ChronoField.ALIGNED_WEEK_OF_MONTH;
 import static xjava.time.temporal.ChronoField.ALIGNED_WEEK_OF_YEAR;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.Serializable;
-import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Objects;
-import java.util.StringTokenizer;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 
 import xjava.time.Clock;
 import xjava.time.DateTimeException;
@@ -246,22 +236,26 @@ public final class HijrahDate
         10277
         };
 
-    /**
-     * File separator.
-     */
-    private static final char FILE_SEP = File.separatorChar;
-    /**
-     * Path separator.
-     */
-    private static final String PATH_SEP = File.pathSeparator;
-    /**
-     * Default config file name.
-     */
-    private static final String DEFAULT_CONFIG_FILENAME = "hijrah_deviation.cfg";
-    /**
-     * Default path to the config file.
-     */
-    private static final String DEFAULT_CONFIG_PATH = "org" + FILE_SEP + "threeten" + FILE_SEP + "bp" + FILE_SEP + "chrono";
+//GWT specific
+//    /**
+//     * File separator.
+//     */
+//    private static final char FILE_SEP = File.separatorChar;
+  //GWT specific
+//    /**
+//     * Path separator.
+//     */
+//    private static final String PATH_SEP = File.pathSeparator;
+  //GWT specific
+//    /**
+//     * Default config file name.
+//     */
+//    private static final String DEFAULT_CONFIG_FILENAME = "hijrah_deviation.cfg";
+//GWT specific
+//    /**
+//     * Default path to the config file.
+//     */
+//    private static final String DEFAULT_CONFIG_PATH = "org" + FILE_SEP + "threeten" + FILE_SEP + "bp" + FILE_SEP + "chrono";
     /**
      * Holding the adjusted month days in year. The key is a year (Integer) and
      * the value is the all the month days in year (Integer[]).
@@ -365,15 +359,16 @@ public final class HijrahDate
         for (int i = 0; i < MAX_VALUES.length; i++) {
             ADJUSTED_MAX_VALUES[i] = Integer.valueOf(MAX_VALUES[i]);
         }
-        try {
-            readDeviationConfig();
-        } catch (IOException e) {
-            // do nothing. Ignore deviation config.
-            // e.printStackTrace();
-        } catch (ParseException e) {
-            // do nothing. Ignore deviation config.
-            // e.printStackTrace();
-        }
+//GWT Specific
+//        try {
+//            readDeviationConfig();
+//        } catch (IOException e) {
+//            // do nothing. Ignore deviation config.
+//            // e.printStackTrace();
+//        } catch (ParseException e) {
+//            // do nothing. Ignore deviation config.
+//            // e.printStackTrace();
+//        }
     }
     /**
      * Number of Gregorian day of July 19, year 622 (Gregorian), which is epoch day
@@ -1210,544 +1205,548 @@ public final class HijrahDate
 
     // ----- Deviation handling -----//
 
-    /**
-     * Adds deviation definition. The year and month sepcifed should be the
-     * caluculated Hijrah year and month. The month is 0 based. e.g. 8 for
-     * Ramadan (9th month) Addition of anything minus deviation days is
-     * calculated negatively in the case the user wants to subtract days from
-     * the calendar. For example, adding -1 days will subtract one day from the
-     * current date. Please note that this behavior is different from the
-     * addDeviaiton method.
-     *
-     * @param startYear  start year
-     * @param startMonth  start month
-     * @param endYear  end year
-     * @param endMonth  end month
-     * @param offset  offset
-     */
-    private static void addDeviationAsHijrah(int startYear,
-            int startMonth, int endYear, int endMonth, int offset) {
+  //GWT Specific
+//    /**
+//     * Adds deviation definition. The year and month sepcifed should be the
+//     * caluculated Hijrah year and month. The month is 0 based. e.g. 8 for
+//     * Ramadan (9th month) Addition of anything minus deviation days is
+//     * calculated negatively in the case the user wants to subtract days from
+//     * the calendar. For example, adding -1 days will subtract one day from the
+//     * current date. Please note that this behavior is different from the
+//     * addDeviaiton method.
+//     *
+//     * @param startYear  start year
+//     * @param startMonth  start month
+//     * @param endYear  end year
+//     * @param endMonth  end month
+//     * @param offset  offset
+//     */
+//    private static void addDeviationAsHijrah(int startYear,
+//            int startMonth, int endYear, int endMonth, int offset) {
+//
+//        if (startYear < 1) {
+//            throw new IllegalArgumentException("startYear < 1");
+//        }
+//        if (endYear < 1) {
+//            throw new IllegalArgumentException("endYear < 1");
+//        }
+//        if (startMonth < 0 || startMonth > 11) {
+//            throw new IllegalArgumentException(
+//                    "startMonth < 0 || startMonth > 11");
+//        }
+//        if (endMonth < 0 || endMonth > 11) {
+//            throw new IllegalArgumentException("endMonth < 0 || endMonth > 11");
+//        }
+//        if (endYear > 9999) {
+//            throw new IllegalArgumentException("endYear > 9999");
+//        }
+//        if (endYear < startYear) {
+//            throw new IllegalArgumentException("startYear > endYear");
+//        }
+//        if (endYear == startYear && endMonth < startMonth) {
+//            throw new IllegalArgumentException(
+//                    "startYear == endYear && endMonth < startMonth");
+//        }
+//
+//        // Adjusting start year.
+//        boolean isStartYLeap = isLeapYear(startYear);
+//
+//        // Adjusting the number of month.
+//        Integer[] orgStartMonthNums = ADJUSTED_MONTH_DAYS.get(Integer.valueOf(
+//                startYear));
+//        if (orgStartMonthNums == null) {
+//            if (isStartYLeap) {
+//                orgStartMonthNums = new Integer[LEAP_NUM_DAYS.length];
+//                for (int l = 0; l < LEAP_NUM_DAYS.length; l++) {
+//                    orgStartMonthNums[l] = Integer.valueOf(LEAP_NUM_DAYS[l]);
+//                }
+//            } else {
+//                orgStartMonthNums = new Integer[NUM_DAYS.length];
+//                for (int l = 0; l < NUM_DAYS.length; l++) {
+//                    orgStartMonthNums[l] = Integer.valueOf(NUM_DAYS[l]);
+//                }
+//            }
+//        }
+//
+//        Integer[] newStartMonthNums = new Integer[orgStartMonthNums.length];
+//
+//        for (int month = 0; month < 12; month++) {
+//            if (month > startMonth) {
+//                newStartMonthNums[month] = Integer.valueOf(orgStartMonthNums[month]
+//                        .intValue()
+//                        - offset);
+//            } else {
+//                newStartMonthNums[month] = Integer.valueOf(orgStartMonthNums[month]
+//                        .intValue());
+//            }
+//        }
+//
+//        ADJUSTED_MONTH_DAYS.put(Integer.valueOf(startYear), newStartMonthNums);
+//
+//        // Adjusting the days of month.
+//
+//        Integer[] orgStartMonthLengths = ADJUSTED_MONTH_LENGTHS.get(Integer.valueOf(
+//                startYear));
+//        if (orgStartMonthLengths == null) {
+//            if (isStartYLeap) {
+//                orgStartMonthLengths = new Integer[LEAP_MONTH_LENGTH.length];
+//                for (int l = 0; l < LEAP_MONTH_LENGTH.length; l++) {
+//                    orgStartMonthLengths[l] = Integer.valueOf(LEAP_MONTH_LENGTH[l]);
+//                }
+//            } else {
+//                orgStartMonthLengths = new Integer[MONTH_LENGTH.length];
+//                for (int l = 0; l < MONTH_LENGTH.length; l++) {
+//                    orgStartMonthLengths[l] = Integer.valueOf(MONTH_LENGTH[l]);
+//                }
+//            }
+//        }
+//
+//        Integer[] newStartMonthLengths = new Integer[orgStartMonthLengths.length];
+//
+//        for (int month = 0; month < 12; month++) {
+//            if (month == startMonth) {
+//                newStartMonthLengths[month] = Integer.valueOf(
+//                        orgStartMonthLengths[month].intValue() - offset);
+//            } else {
+//                newStartMonthLengths[month] = Integer.valueOf(
+//                        orgStartMonthLengths[month].intValue());
+//            }
+//        }
+//
+//        ADJUSTED_MONTH_LENGTHS.put(Integer.valueOf(startYear), newStartMonthLengths);
+//
+//        if (startYear != endYear) {
+//            // System.out.println("over year");
+//            // Adjusting starting 30 year cycle.
+//            int sCycleNumber = (startYear - 1) / 30;
+//            int sYearInCycle = (startYear - 1) % 30; // 0-based.
+//            Integer[] startCycles = ADJUSTED_CYCLE_YEARS.get(Integer.valueOf(
+//                    sCycleNumber));
+//            if (startCycles == null) {
+//                startCycles = new Integer[CYCLEYEAR_START_DATE.length];
+//                for (int j = 0; j < startCycles.length; j++) {
+//                    startCycles[j] = Integer.valueOf(CYCLEYEAR_START_DATE[j]);
+//                }
+//            }
+//
+//            for (int j = sYearInCycle + 1; j < CYCLEYEAR_START_DATE.length; j++) {
+//                startCycles[j] = Integer.valueOf(startCycles[j].intValue() - offset);
+//            }
+//
+//            // System.out.println(sCycleNumber + ":" + sYearInCycle);
+//            ADJUSTED_CYCLE_YEARS.put(Integer.valueOf(sCycleNumber), startCycles);
+//
+//            int sYearInMaxY = (startYear - 1) / 30;
+//            int sEndInMaxY = (endYear - 1) / 30;
+//
+//            if (sYearInMaxY != sEndInMaxY) {
+//                // System.out.println("over 30");
+//                // Adjusting starting 30 * MAX_ADJUSTED_CYCLE year cycle.
+//                // System.out.println(sYearInMaxY);
+//
+//                for (int j = sYearInMaxY + 1; j < ADJUSTED_CYCLES.length; j++) {
+//                    ADJUSTED_CYCLES[j] = Long.valueOf(ADJUSTED_CYCLES[j].longValue()
+//                            - offset);
+//                }
+//
+//                // Adjusting ending 30 * MAX_ADJUSTED_CYCLE year cycles.
+//                for (int j = sEndInMaxY + 1; j < ADJUSTED_CYCLES.length; j++) {
+//                    ADJUSTED_CYCLES[j] = Long.valueOf(ADJUSTED_CYCLES[j].longValue()
+//                            + offset);
+//                }
+//            }
+//
+//            // Adjusting ending 30 year cycle.
+//            int eCycleNumber = (endYear - 1) / 30;
+//            int sEndInCycle = (endYear - 1) % 30; // 0-based.
+//            Integer[] endCycles = ADJUSTED_CYCLE_YEARS.get(Integer.valueOf(
+//                    eCycleNumber));
+//            if (endCycles == null) {
+//                endCycles = new Integer[CYCLEYEAR_START_DATE.length];
+//                for (int j = 0; j < endCycles.length; j++) {
+//                    endCycles[j] = Integer.valueOf(CYCLEYEAR_START_DATE[j]);
+//                }
+//            }
+//            for (int j = sEndInCycle + 1; j < CYCLEYEAR_START_DATE.length; j++) {
+//                endCycles[j] = Integer.valueOf(endCycles[j].intValue() + offset);
+//            }
+//            ADJUSTED_CYCLE_YEARS.put(Integer.valueOf(eCycleNumber), endCycles);
+//        }
+//
+//        // Adjusting ending year.
+//        boolean isEndYLeap = isLeapYear(endYear);
+//
+//        Integer[] orgEndMonthDays = ADJUSTED_MONTH_DAYS.get(Integer.valueOf(endYear));
+//
+//        if (orgEndMonthDays == null) {
+//            if (isEndYLeap) {
+//                orgEndMonthDays = new Integer[LEAP_NUM_DAYS.length];
+//                for (int l = 0; l < LEAP_NUM_DAYS.length; l++) {
+//                    orgEndMonthDays[l] = Integer.valueOf(LEAP_NUM_DAYS[l]);
+//                }
+//            } else {
+//                orgEndMonthDays = new Integer[NUM_DAYS.length];
+//                for (int l = 0; l < NUM_DAYS.length; l++) {
+//                    orgEndMonthDays[l] = Integer.valueOf(NUM_DAYS[l]);
+//                }
+//            }
+//        }
+//
+//        Integer[] newEndMonthDays = new Integer[orgEndMonthDays.length];
+//
+//        for (int month = 0; month < 12; month++) {
+//            if (month > endMonth) {
+//                newEndMonthDays[month] = Integer.valueOf(orgEndMonthDays[month]
+//                        .intValue()
+//                        + offset);
+//            } else {
+//                newEndMonthDays[month] = Integer.valueOf(orgEndMonthDays[month]
+//                        .intValue());
+//            }
+//        }
+//
+//        ADJUSTED_MONTH_DAYS.put(Integer.valueOf(endYear), newEndMonthDays);
+//
+//        // Adjusting the days of month.
+//        Integer[] orgEndMonthLengths = ADJUSTED_MONTH_LENGTHS.get(Integer.valueOf(
+//                endYear));
+//
+//        if (orgEndMonthLengths == null) {
+//            if (isEndYLeap) {
+//                orgEndMonthLengths = new Integer[LEAP_MONTH_LENGTH.length];
+//                for (int l = 0; l < LEAP_MONTH_LENGTH.length; l++) {
+//                    orgEndMonthLengths[l] = Integer.valueOf(LEAP_MONTH_LENGTH[l]);
+//                }
+//            } else {
+//                orgEndMonthLengths = new Integer[MONTH_LENGTH.length];
+//                for (int l = 0; l < MONTH_LENGTH.length; l++) {
+//                    orgEndMonthLengths[l] = Integer.valueOf(MONTH_LENGTH[l]);
+//                }
+//            }
+//        }
+//
+//        Integer[] newEndMonthLengths = new Integer[orgEndMonthLengths.length];
+//
+//        for (int month = 0; month < 12; month++) {
+//            if (month == endMonth) {
+//                newEndMonthLengths[month] = Integer.valueOf(
+//                        orgEndMonthLengths[month].intValue() + offset);
+//            } else {
+//                newEndMonthLengths[month] = Integer.valueOf(
+//                        orgEndMonthLengths[month].intValue());
+//            }
+//        }
+//
+//        ADJUSTED_MONTH_LENGTHS.put(Integer.valueOf(endYear), newEndMonthLengths);
+//
+//        Integer[] startMonthLengths = ADJUSTED_MONTH_LENGTHS.get(Integer.valueOf(
+//                startYear));
+//        Integer[] endMonthLengths = ADJUSTED_MONTH_LENGTHS.get(Integer.valueOf(
+//                endYear));
+//        Integer[] startMonthDays = ADJUSTED_MONTH_DAYS
+//                .get(Integer.valueOf(startYear));
+//        Integer[] endMonthDays = ADJUSTED_MONTH_DAYS.get(Integer.valueOf(endYear));
+//
+//        int startMonthLength = startMonthLengths[startMonth].intValue();
+//        int endMonthLength = endMonthLengths[endMonth].intValue();
+//        int startMonthDay = startMonthDays[11].intValue()
+//                + startMonthLengths[11].intValue();
+//        int endMonthDay = endMonthDays[11].intValue()
+//                + endMonthLengths[11].intValue();
+//
+//        int maxMonthLength = ADJUSTED_MAX_VALUES[POSITION_DAY_OF_MONTH]
+//                .intValue();
+//        int leastMaxMonthLength = ADJUSTED_LEAST_MAX_VALUES[POSITION_DAY_OF_MONTH]
+//                .intValue();
+//
+//        if (maxMonthLength < startMonthLength) {
+//            maxMonthLength = startMonthLength;
+//        }
+//        if (maxMonthLength < endMonthLength) {
+//            maxMonthLength = endMonthLength;
+//        }
+//        ADJUSTED_MAX_VALUES[POSITION_DAY_OF_MONTH] = Integer.valueOf(maxMonthLength);
+//
+//        if (leastMaxMonthLength > startMonthLength) {
+//            leastMaxMonthLength = startMonthLength;
+//        }
+//        if (leastMaxMonthLength > endMonthLength) {
+//            leastMaxMonthLength = endMonthLength;
+//        }
+//        ADJUSTED_LEAST_MAX_VALUES[POSITION_DAY_OF_MONTH] = Integer.valueOf(
+//                leastMaxMonthLength);
+//
+//        int maxMonthDay = ADJUSTED_MAX_VALUES[POSITION_DAY_OF_YEAR].intValue();
+//        int leastMaxMonthDay = ADJUSTED_LEAST_MAX_VALUES[POSITION_DAY_OF_YEAR]
+//                .intValue();
+//
+//        if (maxMonthDay < startMonthDay) {
+//            maxMonthDay = startMonthDay;
+//        }
+//        if (maxMonthDay < endMonthDay) {
+//            maxMonthDay = endMonthDay;
+//        }
+//
+//        ADJUSTED_MAX_VALUES[POSITION_DAY_OF_YEAR] = Integer.valueOf(maxMonthDay);
+//
+//        if (leastMaxMonthDay > startMonthDay) {
+//            leastMaxMonthDay = startMonthDay;
+//        }
+//        if (leastMaxMonthDay > endMonthDay) {
+//            leastMaxMonthDay = endMonthDay;
+//        }
+//        ADJUSTED_LEAST_MAX_VALUES[POSITION_DAY_OF_YEAR] = Integer.valueOf(
+//                leastMaxMonthDay);
+//    }
 
-        if (startYear < 1) {
-            throw new IllegalArgumentException("startYear < 1");
-        }
-        if (endYear < 1) {
-            throw new IllegalArgumentException("endYear < 1");
-        }
-        if (startMonth < 0 || startMonth > 11) {
-            throw new IllegalArgumentException(
-                    "startMonth < 0 || startMonth > 11");
-        }
-        if (endMonth < 0 || endMonth > 11) {
-            throw new IllegalArgumentException("endMonth < 0 || endMonth > 11");
-        }
-        if (endYear > 9999) {
-            throw new IllegalArgumentException("endYear > 9999");
-        }
-        if (endYear < startYear) {
-            throw new IllegalArgumentException("startYear > endYear");
-        }
-        if (endYear == startYear && endMonth < startMonth) {
-            throw new IllegalArgumentException(
-                    "startYear == endYear && endMonth < startMonth");
-        }
+//GWT Specific
+//    /**
+//     * Read hijrah_deviation.cfg file. The config file contains the deviation data with
+//     * following format.
+//     *
+//     * StartYear/StartMonth(0-based)-EndYear/EndMonth(0-based):Deviation day (1,
+//     * 2, -1, or -2)
+//     *
+//     * Line separator or ";" is used for the separator of each deviation data.
+//     *
+//     * Here is the example.
+//     *
+//     * 1429/0-1429/1:1
+//     * 1429/2-1429/7:1;1429/6-1429/11:1
+//     * 1429/11-9999/11:1
+//     *
+//     * @throws IOException for zip/jar file handling exception.
+//     * @throws ParseException if the format of the configuration file is wrong.
+//     */
+//    private static void readDeviationConfig() throws IOException, ParseException {
+//        InputStream is = getConfigFileInputStream();
+//        if (is != null) {
+//            BufferedReader br = null;
+//            try {
+//                br = new BufferedReader(new InputStreamReader(is));
+//                String line = "";
+//                int num = 0;
+//                while ((line = br.readLine()) != null) {
+//                    num++;
+//                    line = line.trim();
+//                    parseLine(line, num);
+//                }
+//            } finally {
+//                if (br != null) {
+//                    br.close();
+//                }
+//            }
+//        }
+//    }
 
-        // Adjusting start year.
-        boolean isStartYLeap = isLeapYear(startYear);
+    //GWT Specific
+//    /**
+//     * Parse each deviation element.
+//     *
+//     * @param line  a line to parse
+//     * @param num  line number
+//     * @throws ParseException if line has incorrect format.
+//     */
+//    private static void parseLine(String line, int num) throws ParseException {
+//        StringTokenizer st = new StringTokenizer(line, ";");
+//        while (st.hasMoreTokens()) {
+//            String deviationElement = st.nextToken();
+//            int offsetIndex = deviationElement.indexOf(':');
+//            if (offsetIndex != -1) {
+//                String offsetString = deviationElement.substring(
+//                        offsetIndex + 1, deviationElement.length());
+//                int offset;
+//                try {
+//                    offset = Integer.parseInt(offsetString);
+//                } catch (NumberFormatException ex) {
+//                    throw new ParseException(
+//                            "Offset is not properly set at line " + num + ".",
+//                            num);
+//                }
+//                int separatorIndex = deviationElement.indexOf('-');
+//                if (separatorIndex != -1) {
+//                    String startDateStg = deviationElement.substring(0,
+//                            separatorIndex);
+//                    String endDateStg = deviationElement.substring(
+//                            separatorIndex + 1, offsetIndex);
+//                    int startDateYearSepIndex = startDateStg.indexOf('/');
+//                    int endDateYearSepIndex = endDateStg.indexOf('/');
+//                    int startYear = -1;
+//                    int endYear = -1;
+//                    int startMonth = -1;
+//                    int endMonth = -1;
+//                    if (startDateYearSepIndex != -1) {
+//                        String startYearStg = startDateStg.substring(0,
+//                                startDateYearSepIndex);
+//                        String startMonthStg = startDateStg.substring(
+//                                startDateYearSepIndex + 1, startDateStg
+//                                        .length());
+//                        try {
+//                            startYear = Integer.parseInt(startYearStg);
+//                        } catch (NumberFormatException ex) {
+//                            throw new ParseException(
+//                                    "Start year is not properly set at line "
+//                                            + num + ".", num);
+//                        }
+//                        try {
+//                            startMonth = Integer.parseInt(startMonthStg);
+//                        } catch (NumberFormatException ex) {
+//                            throw new ParseException(
+//                                    "Start month is not properly set at line "
+//                                            + num + ".", num);
+//                        }
+//                    } else {
+//                        throw new ParseException(
+//                                "Start year/month has incorrect format at line "
+//                                        + num + ".", num);
+//                    }
+//                    if (endDateYearSepIndex != -1) {
+//                        String endYearStg = endDateStg.substring(0,
+//                                endDateYearSepIndex);
+//                        String endMonthStg = endDateStg.substring(
+//                                endDateYearSepIndex + 1, endDateStg.length());
+//                        try {
+//                            endYear = Integer.parseInt(endYearStg);
+//                        } catch (NumberFormatException ex) {
+//                            throw new ParseException(
+//                                    "End year is not properly set at line "
+//                                            + num + ".", num);
+//                        }
+//                        try {
+//                            endMonth = Integer.parseInt(endMonthStg);
+//                        } catch (NumberFormatException ex) {
+//                            throw new ParseException(
+//                                    "End month is not properly set at line "
+//                                            + num + ".", num);
+//                        }
+//                    } else {
+//                        throw new ParseException(
+//                                "End year/month has incorrect format at line "
+//                                        + num + ".", num);
+//                    }
+//                    if (startYear != -1 && startMonth != -1 && endYear != -1
+//                            && endMonth != -1) {
+//                        addDeviationAsHijrah(startYear, startMonth, endYear,
+//                                endMonth, offset);
+//                    } else {
+//                        throw new ParseException("Unknown error at line " + num
+//                                + ".", num);
+//                    }
+//                } else {
+//                    throw new ParseException(
+//                            "Start and end year/month has incorrect format at line "
+//                                    + num + ".", num);
+//                }
+//            } else {
+//                throw new ParseException("Offset has incorrect format at line "
+//                        + num + ".", num);
+//            }
+//        }
+//    }
 
-        // Adjusting the number of month.
-        Integer[] orgStartMonthNums = ADJUSTED_MONTH_DAYS.get(Integer.valueOf(
-                startYear));
-        if (orgStartMonthNums == null) {
-            if (isStartYLeap) {
-                orgStartMonthNums = new Integer[LEAP_NUM_DAYS.length];
-                for (int l = 0; l < LEAP_NUM_DAYS.length; l++) {
-                    orgStartMonthNums[l] = Integer.valueOf(LEAP_NUM_DAYS[l]);
-                }
-            } else {
-                orgStartMonthNums = new Integer[NUM_DAYS.length];
-                for (int l = 0; l < NUM_DAYS.length; l++) {
-                    orgStartMonthNums[l] = Integer.valueOf(NUM_DAYS[l]);
-                }
-            }
-        }
-
-        Integer[] newStartMonthNums = new Integer[orgStartMonthNums.length];
-
-        for (int month = 0; month < 12; month++) {
-            if (month > startMonth) {
-                newStartMonthNums[month] = Integer.valueOf(orgStartMonthNums[month]
-                        .intValue()
-                        - offset);
-            } else {
-                newStartMonthNums[month] = Integer.valueOf(orgStartMonthNums[month]
-                        .intValue());
-            }
-        }
-
-        ADJUSTED_MONTH_DAYS.put(Integer.valueOf(startYear), newStartMonthNums);
-
-        // Adjusting the days of month.
-
-        Integer[] orgStartMonthLengths = ADJUSTED_MONTH_LENGTHS.get(Integer.valueOf(
-                startYear));
-        if (orgStartMonthLengths == null) {
-            if (isStartYLeap) {
-                orgStartMonthLengths = new Integer[LEAP_MONTH_LENGTH.length];
-                for (int l = 0; l < LEAP_MONTH_LENGTH.length; l++) {
-                    orgStartMonthLengths[l] = Integer.valueOf(LEAP_MONTH_LENGTH[l]);
-                }
-            } else {
-                orgStartMonthLengths = new Integer[MONTH_LENGTH.length];
-                for (int l = 0; l < MONTH_LENGTH.length; l++) {
-                    orgStartMonthLengths[l] = Integer.valueOf(MONTH_LENGTH[l]);
-                }
-            }
-        }
-
-        Integer[] newStartMonthLengths = new Integer[orgStartMonthLengths.length];
-
-        for (int month = 0; month < 12; month++) {
-            if (month == startMonth) {
-                newStartMonthLengths[month] = Integer.valueOf(
-                        orgStartMonthLengths[month].intValue() - offset);
-            } else {
-                newStartMonthLengths[month] = Integer.valueOf(
-                        orgStartMonthLengths[month].intValue());
-            }
-        }
-
-        ADJUSTED_MONTH_LENGTHS.put(Integer.valueOf(startYear), newStartMonthLengths);
-
-        if (startYear != endYear) {
-            // System.out.println("over year");
-            // Adjusting starting 30 year cycle.
-            int sCycleNumber = (startYear - 1) / 30;
-            int sYearInCycle = (startYear - 1) % 30; // 0-based.
-            Integer[] startCycles = ADJUSTED_CYCLE_YEARS.get(Integer.valueOf(
-                    sCycleNumber));
-            if (startCycles == null) {
-                startCycles = new Integer[CYCLEYEAR_START_DATE.length];
-                for (int j = 0; j < startCycles.length; j++) {
-                    startCycles[j] = Integer.valueOf(CYCLEYEAR_START_DATE[j]);
-                }
-            }
-
-            for (int j = sYearInCycle + 1; j < CYCLEYEAR_START_DATE.length; j++) {
-                startCycles[j] = Integer.valueOf(startCycles[j].intValue() - offset);
-            }
-
-            // System.out.println(sCycleNumber + ":" + sYearInCycle);
-            ADJUSTED_CYCLE_YEARS.put(Integer.valueOf(sCycleNumber), startCycles);
-
-            int sYearInMaxY = (startYear - 1) / 30;
-            int sEndInMaxY = (endYear - 1) / 30;
-
-            if (sYearInMaxY != sEndInMaxY) {
-                // System.out.println("over 30");
-                // Adjusting starting 30 * MAX_ADJUSTED_CYCLE year cycle.
-                // System.out.println(sYearInMaxY);
-
-                for (int j = sYearInMaxY + 1; j < ADJUSTED_CYCLES.length; j++) {
-                    ADJUSTED_CYCLES[j] = Long.valueOf(ADJUSTED_CYCLES[j].longValue()
-                            - offset);
-                }
-
-                // Adjusting ending 30 * MAX_ADJUSTED_CYCLE year cycles.
-                for (int j = sEndInMaxY + 1; j < ADJUSTED_CYCLES.length; j++) {
-                    ADJUSTED_CYCLES[j] = Long.valueOf(ADJUSTED_CYCLES[j].longValue()
-                            + offset);
-                }
-            }
-
-            // Adjusting ending 30 year cycle.
-            int eCycleNumber = (endYear - 1) / 30;
-            int sEndInCycle = (endYear - 1) % 30; // 0-based.
-            Integer[] endCycles = ADJUSTED_CYCLE_YEARS.get(Integer.valueOf(
-                    eCycleNumber));
-            if (endCycles == null) {
-                endCycles = new Integer[CYCLEYEAR_START_DATE.length];
-                for (int j = 0; j < endCycles.length; j++) {
-                    endCycles[j] = Integer.valueOf(CYCLEYEAR_START_DATE[j]);
-                }
-            }
-            for (int j = sEndInCycle + 1; j < CYCLEYEAR_START_DATE.length; j++) {
-                endCycles[j] = Integer.valueOf(endCycles[j].intValue() + offset);
-            }
-            ADJUSTED_CYCLE_YEARS.put(Integer.valueOf(eCycleNumber), endCycles);
-        }
-
-        // Adjusting ending year.
-        boolean isEndYLeap = isLeapYear(endYear);
-
-        Integer[] orgEndMonthDays = ADJUSTED_MONTH_DAYS.get(Integer.valueOf(endYear));
-
-        if (orgEndMonthDays == null) {
-            if (isEndYLeap) {
-                orgEndMonthDays = new Integer[LEAP_NUM_DAYS.length];
-                for (int l = 0; l < LEAP_NUM_DAYS.length; l++) {
-                    orgEndMonthDays[l] = Integer.valueOf(LEAP_NUM_DAYS[l]);
-                }
-            } else {
-                orgEndMonthDays = new Integer[NUM_DAYS.length];
-                for (int l = 0; l < NUM_DAYS.length; l++) {
-                    orgEndMonthDays[l] = Integer.valueOf(NUM_DAYS[l]);
-                }
-            }
-        }
-
-        Integer[] newEndMonthDays = new Integer[orgEndMonthDays.length];
-
-        for (int month = 0; month < 12; month++) {
-            if (month > endMonth) {
-                newEndMonthDays[month] = Integer.valueOf(orgEndMonthDays[month]
-                        .intValue()
-                        + offset);
-            } else {
-                newEndMonthDays[month] = Integer.valueOf(orgEndMonthDays[month]
-                        .intValue());
-            }
-        }
-
-        ADJUSTED_MONTH_DAYS.put(Integer.valueOf(endYear), newEndMonthDays);
-
-        // Adjusting the days of month.
-        Integer[] orgEndMonthLengths = ADJUSTED_MONTH_LENGTHS.get(Integer.valueOf(
-                endYear));
-
-        if (orgEndMonthLengths == null) {
-            if (isEndYLeap) {
-                orgEndMonthLengths = new Integer[LEAP_MONTH_LENGTH.length];
-                for (int l = 0; l < LEAP_MONTH_LENGTH.length; l++) {
-                    orgEndMonthLengths[l] = Integer.valueOf(LEAP_MONTH_LENGTH[l]);
-                }
-            } else {
-                orgEndMonthLengths = new Integer[MONTH_LENGTH.length];
-                for (int l = 0; l < MONTH_LENGTH.length; l++) {
-                    orgEndMonthLengths[l] = Integer.valueOf(MONTH_LENGTH[l]);
-                }
-            }
-        }
-
-        Integer[] newEndMonthLengths = new Integer[orgEndMonthLengths.length];
-
-        for (int month = 0; month < 12; month++) {
-            if (month == endMonth) {
-                newEndMonthLengths[month] = Integer.valueOf(
-                        orgEndMonthLengths[month].intValue() + offset);
-            } else {
-                newEndMonthLengths[month] = Integer.valueOf(
-                        orgEndMonthLengths[month].intValue());
-            }
-        }
-
-        ADJUSTED_MONTH_LENGTHS.put(Integer.valueOf(endYear), newEndMonthLengths);
-
-        Integer[] startMonthLengths = ADJUSTED_MONTH_LENGTHS.get(Integer.valueOf(
-                startYear));
-        Integer[] endMonthLengths = ADJUSTED_MONTH_LENGTHS.get(Integer.valueOf(
-                endYear));
-        Integer[] startMonthDays = ADJUSTED_MONTH_DAYS
-                .get(Integer.valueOf(startYear));
-        Integer[] endMonthDays = ADJUSTED_MONTH_DAYS.get(Integer.valueOf(endYear));
-
-        int startMonthLength = startMonthLengths[startMonth].intValue();
-        int endMonthLength = endMonthLengths[endMonth].intValue();
-        int startMonthDay = startMonthDays[11].intValue()
-                + startMonthLengths[11].intValue();
-        int endMonthDay = endMonthDays[11].intValue()
-                + endMonthLengths[11].intValue();
-
-        int maxMonthLength = ADJUSTED_MAX_VALUES[POSITION_DAY_OF_MONTH]
-                .intValue();
-        int leastMaxMonthLength = ADJUSTED_LEAST_MAX_VALUES[POSITION_DAY_OF_MONTH]
-                .intValue();
-
-        if (maxMonthLength < startMonthLength) {
-            maxMonthLength = startMonthLength;
-        }
-        if (maxMonthLength < endMonthLength) {
-            maxMonthLength = endMonthLength;
-        }
-        ADJUSTED_MAX_VALUES[POSITION_DAY_OF_MONTH] = Integer.valueOf(maxMonthLength);
-
-        if (leastMaxMonthLength > startMonthLength) {
-            leastMaxMonthLength = startMonthLength;
-        }
-        if (leastMaxMonthLength > endMonthLength) {
-            leastMaxMonthLength = endMonthLength;
-        }
-        ADJUSTED_LEAST_MAX_VALUES[POSITION_DAY_OF_MONTH] = Integer.valueOf(
-                leastMaxMonthLength);
-
-        int maxMonthDay = ADJUSTED_MAX_VALUES[POSITION_DAY_OF_YEAR].intValue();
-        int leastMaxMonthDay = ADJUSTED_LEAST_MAX_VALUES[POSITION_DAY_OF_YEAR]
-                .intValue();
-
-        if (maxMonthDay < startMonthDay) {
-            maxMonthDay = startMonthDay;
-        }
-        if (maxMonthDay < endMonthDay) {
-            maxMonthDay = endMonthDay;
-        }
-
-        ADJUSTED_MAX_VALUES[POSITION_DAY_OF_YEAR] = Integer.valueOf(maxMonthDay);
-
-        if (leastMaxMonthDay > startMonthDay) {
-            leastMaxMonthDay = startMonthDay;
-        }
-        if (leastMaxMonthDay > endMonthDay) {
-            leastMaxMonthDay = endMonthDay;
-        }
-        ADJUSTED_LEAST_MAX_VALUES[POSITION_DAY_OF_YEAR] = Integer.valueOf(
-                leastMaxMonthDay);
-    }
-
-    /**
-     * Read hijrah_deviation.cfg file. The config file contains the deviation data with
-     * following format.
-     *
-     * StartYear/StartMonth(0-based)-EndYear/EndMonth(0-based):Deviation day (1,
-     * 2, -1, or -2)
-     *
-     * Line separator or ";" is used for the separator of each deviation data.
-     *
-     * Here is the example.
-     *
-     * 1429/0-1429/1:1
-     * 1429/2-1429/7:1;1429/6-1429/11:1
-     * 1429/11-9999/11:1
-     *
-     * @throws IOException for zip/jar file handling exception.
-     * @throws ParseException if the format of the configuration file is wrong.
-     */
-    private static void readDeviationConfig() throws IOException, ParseException {
-        InputStream is = getConfigFileInputStream();
-        if (is != null) {
-            BufferedReader br = null;
-            try {
-                br = new BufferedReader(new InputStreamReader(is));
-                String line = "";
-                int num = 0;
-                while ((line = br.readLine()) != null) {
-                    num++;
-                    line = line.trim();
-                    parseLine(line, num);
-                }
-            } finally {
-                if (br != null) {
-                    br.close();
-                }
-            }
-        }
-    }
-
-    /**
-     * Parse each deviation element.
-     *
-     * @param line  a line to parse
-     * @param num  line number
-     * @throws ParseException if line has incorrect format.
-     */
-    private static void parseLine(String line, int num) throws ParseException {
-        StringTokenizer st = new StringTokenizer(line, ";");
-        while (st.hasMoreTokens()) {
-            String deviationElement = st.nextToken();
-            int offsetIndex = deviationElement.indexOf(':');
-            if (offsetIndex != -1) {
-                String offsetString = deviationElement.substring(
-                        offsetIndex + 1, deviationElement.length());
-                int offset;
-                try {
-                    offset = Integer.parseInt(offsetString);
-                } catch (NumberFormatException ex) {
-                    throw new ParseException(
-                            "Offset is not properly set at line " + num + ".",
-                            num);
-                }
-                int separatorIndex = deviationElement.indexOf('-');
-                if (separatorIndex != -1) {
-                    String startDateStg = deviationElement.substring(0,
-                            separatorIndex);
-                    String endDateStg = deviationElement.substring(
-                            separatorIndex + 1, offsetIndex);
-                    int startDateYearSepIndex = startDateStg.indexOf('/');
-                    int endDateYearSepIndex = endDateStg.indexOf('/');
-                    int startYear = -1;
-                    int endYear = -1;
-                    int startMonth = -1;
-                    int endMonth = -1;
-                    if (startDateYearSepIndex != -1) {
-                        String startYearStg = startDateStg.substring(0,
-                                startDateYearSepIndex);
-                        String startMonthStg = startDateStg.substring(
-                                startDateYearSepIndex + 1, startDateStg
-                                        .length());
-                        try {
-                            startYear = Integer.parseInt(startYearStg);
-                        } catch (NumberFormatException ex) {
-                            throw new ParseException(
-                                    "Start year is not properly set at line "
-                                            + num + ".", num);
-                        }
-                        try {
-                            startMonth = Integer.parseInt(startMonthStg);
-                        } catch (NumberFormatException ex) {
-                            throw new ParseException(
-                                    "Start month is not properly set at line "
-                                            + num + ".", num);
-                        }
-                    } else {
-                        throw new ParseException(
-                                "Start year/month has incorrect format at line "
-                                        + num + ".", num);
-                    }
-                    if (endDateYearSepIndex != -1) {
-                        String endYearStg = endDateStg.substring(0,
-                                endDateYearSepIndex);
-                        String endMonthStg = endDateStg.substring(
-                                endDateYearSepIndex + 1, endDateStg.length());
-                        try {
-                            endYear = Integer.parseInt(endYearStg);
-                        } catch (NumberFormatException ex) {
-                            throw new ParseException(
-                                    "End year is not properly set at line "
-                                            + num + ".", num);
-                        }
-                        try {
-                            endMonth = Integer.parseInt(endMonthStg);
-                        } catch (NumberFormatException ex) {
-                            throw new ParseException(
-                                    "End month is not properly set at line "
-                                            + num + ".", num);
-                        }
-                    } else {
-                        throw new ParseException(
-                                "End year/month has incorrect format at line "
-                                        + num + ".", num);
-                    }
-                    if (startYear != -1 && startMonth != -1 && endYear != -1
-                            && endMonth != -1) {
-                        addDeviationAsHijrah(startYear, startMonth, endYear,
-                                endMonth, offset);
-                    } else {
-                        throw new ParseException("Unknown error at line " + num
-                                + ".", num);
-                    }
-                } else {
-                    throw new ParseException(
-                            "Start and end year/month has incorrect format at line "
-                                    + num + ".", num);
-                }
-            } else {
-                throw new ParseException("Offset has incorrect format at line "
-                        + num + ".", num);
-            }
-        }
-    }
-
-    /**
-     * Return InputStream for deviation configuration file.
-     * The default location of the deviation file is:
-     * <pre>
-     *   $CLASSPATH/org/threeten/bp/chrono
-     * </pre>
-     * And the default file name is:
-     * <pre>
-     *   hijrah_deviation.cfg
-     * </pre>
-     * The default location and file name can be overriden by setting
-     * following two Java's system property.
-     * <pre>
-     *   Location: org.threeten.bp.i18n.HijrahDate.deviationConfigDir
-     *   File name: org.threeten.bp.i18n.HijrahDate.deviationConfigFile
-     * </pre>
-     * Regarding the file format, see readDeviationConfig() method for details.
-     *
-     * @return InputStream for file reading exception.
-     * @throws IOException for zip/jar file handling exception.
-     */
-    private static InputStream getConfigFileInputStream() throws IOException {
-
-        String fileName = System
-                .getProperty("org.threeten.bp.i18n.HijrahDate.deviationConfigFile");
-
-        if (fileName == null) {
-            fileName = DEFAULT_CONFIG_FILENAME;
-        }
-
-        String dir = System
-                .getProperty("org.threeten.bp.i18n.HijrahDate.deviationConfigDir");
-
-        if (dir != null) {
-            if (!(dir.length() == 0 && dir.endsWith(System
-                    .getProperty("file.separator")))) {
-                dir = dir + System.getProperty("file.separator");
-            }
-            File file = new File(dir + FILE_SEP + fileName);
-            if (file.exists()) {
-                try {
-                    return new FileInputStream(file);
-                } catch (IOException ioe) {
-                    throw ioe;
-                }
-            } else {
-                return null;
-            }
-        } else {
-            String classPath = System.getProperty("java.class.path");
-            StringTokenizer st = new StringTokenizer(classPath, PATH_SEP);
-            while (st.hasMoreTokens()) {
-                String path = st.nextToken();
-                File file = new File(path);
-                if (file.exists()) {
-                    if (file.isDirectory()) {
-                        File f = new File(
-                                path + FILE_SEP + DEFAULT_CONFIG_PATH, fileName);
-                        if (f.exists()) {
-                            try {
-                                return new FileInputStream(path + FILE_SEP
-                                        + DEFAULT_CONFIG_PATH + FILE_SEP
-                                        + fileName);
-                            } catch (IOException ioe) {
-                                throw ioe;
-                            }
-                        }
-                    } else {
-                        ZipFile zip;
-                        try {
-                            zip = new ZipFile(file);
-                        } catch (IOException ioe) {
-                            zip = null;
-                        }
-
-                        if (zip != null) {
-                            String targetFile = DEFAULT_CONFIG_PATH + FILE_SEP
-                                    + fileName;
-                            ZipEntry entry = zip.getEntry(targetFile);
-
-                            if (entry == null) {
-                                if (FILE_SEP == '/') {
-                                    targetFile = targetFile.replace('/', '\\');
-                                } else if (FILE_SEP == '\\') {
-                                    targetFile = targetFile.replace('\\', '/');
-                                }
-                                entry = zip.getEntry(targetFile);
-                            }
-
-                            if (entry != null) {
-                                try {
-                                    return zip.getInputStream(entry);
-                                } catch (IOException ioe) {
-                                    throw ioe;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            return null;
-        }
-    }
+    //GWT Specific
+//    /**
+//     * Return InputStream for deviation configuration file.
+//     * The default location of the deviation file is:
+//     * <pre>
+//     *   $CLASSPATH/org/threeten/bp/chrono
+//     * </pre>
+//     * And the default file name is:
+//     * <pre>
+//     *   hijrah_deviation.cfg
+//     * </pre>
+//     * The default location and file name can be overriden by setting
+//     * following two Java's system property.
+//     * <pre>
+//     *   Location: org.threeten.bp.i18n.HijrahDate.deviationConfigDir
+//     *   File name: org.threeten.bp.i18n.HijrahDate.deviationConfigFile
+//     * </pre>
+//     * Regarding the file format, see readDeviationConfig() method for details.
+//     *
+//     * @return InputStream for file reading exception.
+//     * @throws IOException for zip/jar file handling exception.
+//     */
+//    private static InputStream getConfigFileInputStream() throws IOException {
+//
+//        String fileName = System
+//                .getProperty("org.threeten.bp.i18n.HijrahDate.deviationConfigFile");
+//
+//        if (fileName == null) {
+//            fileName = DEFAULT_CONFIG_FILENAME;
+//        }
+//
+//        String dir = System
+//                .getProperty("org.threeten.bp.i18n.HijrahDate.deviationConfigDir");
+//
+//        if (dir != null) {
+//            if (!(dir.length() == 0 && dir.endsWith(System
+//                    .getProperty("file.separator")))) {
+//                dir = dir + System.getProperty("file.separator");
+//            }
+//            File file = new File(dir + FILE_SEP + fileName);
+//            if (file.exists()) {
+//                try {
+//                    return new FileInputStream(file);
+//                } catch (IOException ioe) {
+//                    throw ioe;
+//                }
+//            } else {
+//                return null;
+//            }
+//        } else {
+//            String classPath = System.getProperty("java.class.path");
+//            StringTokenizer st = new StringTokenizer(classPath, PATH_SEP);
+//            while (st.hasMoreTokens()) {
+//                String path = st.nextToken();
+//                File file = new File(path);
+//                if (file.exists()) {
+//                    if (file.isDirectory()) {
+//                        File f = new File(
+//                                path + FILE_SEP + DEFAULT_CONFIG_PATH, fileName);
+//                        if (f.exists()) {
+//                            try {
+//                                return new FileInputStream(path + FILE_SEP
+//                                        + DEFAULT_CONFIG_PATH + FILE_SEP
+//                                        + fileName);
+//                            } catch (IOException ioe) {
+//                                throw ioe;
+//                            }
+//                        }
+//                    } else {
+//                        ZipFile zip;
+//                        try {
+//                            zip = new ZipFile(file);
+//                        } catch (IOException ioe) {
+//                            zip = null;
+//                        }
+//
+//                        if (zip != null) {
+//                            String targetFile = DEFAULT_CONFIG_PATH + FILE_SEP
+//                                    + fileName;
+//                            ZipEntry entry = zip.getEntry(targetFile);
+//
+//                            if (entry == null) {
+//                                if (FILE_SEP == '/') {
+//                                    targetFile = targetFile.replace('/', '\\');
+//                                } else if (FILE_SEP == '\\') {
+//                                    targetFile = targetFile.replace('\\', '/');
+//                                }
+//                                entry = zip.getEntry(targetFile);
+//                            }
+//
+//                            if (entry != null) {
+//                                try {
+//                                    return zip.getInputStream(entry);
+//                                } catch (IOException ioe) {
+//                                    throw ioe;
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//            return null;
+//        }
+//    }
 
 }

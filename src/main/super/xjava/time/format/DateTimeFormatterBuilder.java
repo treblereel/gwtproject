@@ -44,24 +44,6 @@ import static xjava.time.temporal.ChronoField.YEAR;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import xjava.time.DateTimeException;
-import xjava.time.format.DateTimeFormatter;
-import xjava.time.format.DateTimeFormatterBuilder;
-import xjava.time.format.DateTimeParseContext;
-import xjava.time.format.DateTimePrintContext;
-import xjava.time.format.DateTimeTextProvider;
-import xjava.time.format.DecimalStyle;
-import xjava.time.format.FormatStyle;
-import xjava.time.format.ResolverStyle;
-import xjava.time.format.SignStyle;
-import xjava.time.format.TextStyle;
-import xjava.time.temporal.TemporalAccessor;
-import xjava.time.temporal.TemporalField;
-import xjava.time.temporal.TemporalQuery;
-import xjava.time.temporal.ValueRange;
-import xjava.time.zone.ZoneRulesProvider;
 import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -73,7 +55,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
+import java.util.Set;
+import java.util.TreeMap;
 
+import xjava.time.DateTimeException;
 import xjava.time.Instant;
 import xjava.time.LocalDate;
 import xjava.time.LocalDateTime;
@@ -84,15 +70,13 @@ import xjava.time.chrono.Chronology;
 import xjava.time.format.SimpleDateTimeTextProvider.LocaleStore;
 import xjava.time.temporal.ChronoField;
 import xjava.time.temporal.IsoFields;
+import xjava.time.temporal.TemporalAccessor;
+import xjava.time.temporal.TemporalField;
 import xjava.time.temporal.TemporalQueries;
+import xjava.time.temporal.TemporalQuery;
+import xjava.time.temporal.ValueRange;
 import xjava.time.temporal.WeekFields;
-
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
-import java.util.Set;
-import java.util.TimeZone;
-import java.util.TreeMap;
-import java.util.Objects;
+import xjava.time.zone.ZoneRulesProvider;
 /**
  * Builder to create date-time formatters.
  * <p>
@@ -181,19 +165,20 @@ public final class DateTimeFormatterBuilder {
         if (dateStyle == null && timeStyle == null) {
             throw new IllegalArgumentException("Either dateStyle or timeStyle must be non-null");
         }
-        DateFormat dateFormat;
-        if (dateStyle != null) {
-            if (timeStyle != null) {
-                dateFormat = DateFormat.getDateTimeInstance(dateStyle.ordinal(), timeStyle.ordinal(), locale);
-            } else {
-                dateFormat = DateFormat.getDateInstance(dateStyle.ordinal(), locale);
-            }
-        } else {
-            dateFormat = DateFormat.getTimeInstance(timeStyle.ordinal(), locale);
-        }
-        if (dateFormat instanceof SimpleDateFormat) {
-            return ((SimpleDateFormat) dateFormat).toPattern();
-        }
+//GWT Specific
+//        DateFormat dateFormat;
+//        if (dateStyle != null) {
+//            if (timeStyle != null) {
+//                dateFormat = DateFormat.getDateTimeInstance(dateStyle.ordinal(), timeStyle.ordinal(), locale);
+//            } else {
+//                dateFormat = DateFormat.getDateInstance(dateStyle.ordinal(), locale);
+//            }
+//        } else {
+//            dateFormat = DateFormat.getTimeInstance(timeStyle.ordinal(), locale);
+//        }
+//        if (dateFormat instanceof SimpleDateFormat) {
+//            return ((SimpleDateFormat) dateFormat).toPattern();
+//        }
         throw new IllegalArgumentException("Unable to determine pattern");
     }
 
@@ -3383,9 +3368,11 @@ public final class DateTimeFormatterBuilder {
                 Instant instant = Instant.ofEpochSecond(temporal.getLong(INSTANT_SECONDS));
                 daylight = zone.getRules().isDaylightSavings(instant);
             }
-            TimeZone tz = TimeZone.getTimeZone(zone.getId());
-            int tzstyle = (textStyle.asNormal() == TextStyle.FULL ? TimeZone.LONG : TimeZone.SHORT);
-            String text = tz.getDisplayName(daylight, tzstyle, context.getLocale());
+//GWT Specific TODO!!!
+//            TimeZone tz = TimeZone.getTimeZone(zone.getId());
+//            int tzstyle = (textStyle.asNormal() == TextStyle.FULL ? TimeZone.LONG : TimeZone.SHORT);
+//            String text = tz.getDisplayName(daylight, tzstyle, context.getLocale());
+            String text = "GWT FIX IT";
             buf.append(text);
             return true;
         }
@@ -3397,13 +3384,17 @@ public final class DateTimeFormatterBuilder {
             Map<String, String> ids = new TreeMap<String, String>(LENGTH_COMPARATOR);
             for (String id : ZoneId.getAvailableZoneIds()) {
                 ids.put(id, id);
-                TimeZone tz = TimeZone.getTimeZone(id);
-                int tzstyle = (textStyle.asNormal() == TextStyle.FULL ? TimeZone.LONG : TimeZone.SHORT);
-                String textWinter = tz.getDisplayName(false, tzstyle, context.getLocale());
+              //GWT Specific TODO!!!
+//                TimeZone tz = TimeZone.getTimeZone(id);
+//                int tzstyle = (textStyle.asNormal() == TextStyle.FULL ? TimeZone.LONG : TimeZone.SHORT);
+//                String textWinter = tz.getDisplayName(false, tzstyle, context.getLocale());
+                String textWinter = "GWT textWinter";
                 if (id.startsWith("Etc/") || (!textWinter.startsWith("GMT+") && !textWinter.startsWith("GMT+"))) {
                     ids.put(textWinter, id);
                 }
-                String textSummer = tz.getDisplayName(true, tzstyle, context.getLocale());
+              //GWT Specific TODO!!!
+//                String textSummer = tz.getDisplayName(true, tzstyle, context.getLocale());
+                String textSummer = "GWT textSummer";
                 if (id.startsWith("Etc/") || (!textSummer.startsWith("GMT+") && !textSummer.startsWith("GMT+"))) {
                     ids.put(textSummer, id);
                 }
@@ -3696,23 +3687,24 @@ public final class DateTimeFormatterBuilder {
         }
 
         @Override
+//        GWT Specific TODO use i18n to load org.threeten.bp.format.ChronologyText
         public boolean print(DateTimePrintContext context, StringBuilder buf) {
             Chronology chrono = context.getValue(TemporalQueries.chronology());
             if (chrono == null) {
                 return false;
             }
-            if (textStyle == null) {
+//            if (textStyle == null) {
                 buf.append(chrono.getId());
-            } else {
-                ResourceBundle bundle = ResourceBundle.getBundle(
-                        "org.threeten.bp.format.ChronologyText", context.getLocale(), DateTimeFormatterBuilder.class.getClassLoader());
-                try {
-                    String text = bundle.getString(chrono.getId());
-                    buf.append(text);
-                } catch (MissingResourceException ex) {
-                    buf.append(chrono.getId());
-                }
-            }
+//            } else {
+//                ResourceBundle bundle = ResourceBundle.getBundle(
+//                        "org.threeten.bp.format.ChronologyText", context.getLocale(), DateTimeFormatterBuilder.class.getClassLoader());
+//                try {
+//                    String text = bundle.getString(chrono.getId());
+//                    buf.append(text);
+//                } catch (MissingResourceException ex) {
+//                    buf.append(chrono.getId());
+//                }
+//            }
             return true;
         }
 

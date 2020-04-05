@@ -32,16 +32,7 @@
 package xjava.time;
 
 import java.sql.Timestamp;
-import xjava.time.Instant;
-import xjava.time.LocalDate;
-import xjava.time.LocalDateTime;
-import xjava.time.LocalTime;
-import xjava.time.ZoneId;
-import xjava.time.ZonedDateTime;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
 
 /**
  * A set of utilities to assist in bridging the gap to Java 8.
@@ -85,83 +76,88 @@ public final class DateTimeUtils {
     }
 
     //-----------------------------------------------------------------------
-    /**
-     * Converts a {@code Calendar} to an {@code Instant}.
-     *
-     * @param calendar  the calendar, not null
-     * @return the instant, not null
-     */
-    public static Instant toInstant(Calendar calendar) {
-        return Instant.ofEpochMilli(calendar.getTimeInMillis());
-    }
+    //GWT specific
+//    /**
+//     * Converts a {@code Calendar} to an {@code Instant}.
+//     *
+//     * @param calendar  the calendar, not null
+//     * @return the instant, not null
+//     */
+//    public static Instant toInstant(Calendar calendar) {
+//        return Instant.ofEpochMilli(calendar.getTimeInMillis());
+//    }
 
-    /**
-     * Converts a {@code Calendar} to a {@code ZonedDateTime}.
-     * <p>
-     * Note that {@code GregorianCalendar} supports a Julian-Gregorian cutover
-     * date and {@code ZonedDateTime} does not so some differences will occur.
-     *
-     * @param calendar  the calendar, not null
-     * @return the instant, not null
-     */
-    public static ZonedDateTime toZonedDateTime(Calendar calendar) {
-        Instant instant = Instant.ofEpochMilli(calendar.getTimeInMillis());
-        ZoneId zone = toZoneId(calendar.getTimeZone());
-        return ZonedDateTime.ofInstant(instant, zone);
-    }
+    //GWT specific
+//    /**
+//     * Converts a {@code Calendar} to a {@code ZonedDateTime}.
+//     * <p>
+//     * Note that {@code GregorianCalendar} supports a Julian-Gregorian cutover
+//     * date and {@code ZonedDateTime} does not so some differences will occur.
+//     *
+//     * @param calendar  the calendar, not null
+//     * @return the instant, not null
+//     */
+//    public static ZonedDateTime toZonedDateTime(Calendar calendar) {
+//        Instant instant = Instant.ofEpochMilli(calendar.getTimeInMillis());
+//        ZoneId zone = toZoneId(calendar.getTimeZone());
+//        return ZonedDateTime.ofInstant(instant, zone);
+//    }
 
-    /**
-     * Converts a {@code ZonedDateTime} to a {@code Calendar}.
-     * <p>
-     * The resulting {@code GregorianCalendar} is pure Gregorian and uses
-     * ISO week definitions, starting on Monday and with 4 days in a minimal week.
-     * <p>
-     * Fractions of the instant smaller than milliseconds will be dropped.
-     *
-     * @param zdt  the zoned date-time, not null
-     * @return the calendar, not null
-     * @throws IllegalArgumentException if the conversion fails
-     */
-    public static GregorianCalendar toGregorianCalendar(ZonedDateTime zdt) {
-        TimeZone zone = toTimeZone(zdt.getZone());
-        GregorianCalendar cal = new GregorianCalendar(zone);
-        cal.setGregorianChange(new Date(Long.MIN_VALUE));
-        cal.setFirstDayOfWeek(Calendar.MONDAY);
-        cal.setMinimalDaysInFirstWeek(4);
-        try {
-            cal.setTimeInMillis(zdt.toInstant().toEpochMilli());
-        } catch (ArithmeticException ex) {
-            throw new IllegalArgumentException(ex);
-        }
-        return cal;
-    }
+    //GWT specific
+//    /**
+//     * Converts a {@code ZonedDateTime} to a {@code Calendar}.
+//     * <p>
+//     * The resulting {@code GregorianCalendar} is pure Gregorian and uses
+//     * ISO week definitions, starting on Monday and with 4 days in a minimal week.
+//     * <p>
+//     * Fractions of the instant smaller than milliseconds will be dropped.
+//     *
+//     * @param zdt  the zoned date-time, not null
+//     * @return the calendar, not null
+//     * @throws IllegalArgumentException if the conversion fails
+//     */
+//    public static GregorianCalendar toGregorianCalendar(ZonedDateTime zdt) {
+//        TimeZone zone = toTimeZone(zdt.getZone());
+//        GregorianCalendar cal = new GregorianCalendar(zone);
+//        cal.setGregorianChange(new Date(Long.MIN_VALUE));
+//        cal.setFirstDayOfWeek(Calendar.MONDAY);
+//        cal.setMinimalDaysInFirstWeek(4);
+//        try {
+//            cal.setTimeInMillis(zdt.toInstant().toEpochMilli());
+//        } catch (ArithmeticException ex) {
+//            throw new IllegalArgumentException(ex);
+//        }
+//        return cal;
+//    }
 
     //-----------------------------------------------------------------------
-    /**
-     * Converts a {@code TimeZone} to a {@code ZoneId}.
-     * 
-     * @param timeZone  the time-zone, not null
-     * @return the zone, not null
-     */
-    public static ZoneId toZoneId(TimeZone timeZone) {
-        return ZoneId.of(timeZone.getID(), ZoneId.SHORT_IDS);
-    }
+//GWT Specific
+//    /**
+//     * Converts a {@code TimeZone} to a {@code ZoneId}.
+//     *
+//     * @param timeZone  the time-zone, not null
+//     * @return the zone, not null
+//     */
+//    public static ZoneId toZoneId(TimeZone timeZone) {
+//        return ZoneId.of(timeZone.getID(), ZoneId.SHORT_IDS);
+//    }
 
-    /**
-     * Converts a {@code ZoneId} to a {@code TimeZone}.
-     * 
-     * @param zoneId  the zone, not null
-     * @return the time-zone, not null
-     */
-    public static TimeZone toTimeZone(ZoneId zoneId) {
-        String tzid = zoneId.getId();
-        if (tzid.startsWith("+") || tzid.startsWith("-")) {
-            tzid = "GMT" + tzid;
-        } else if (tzid.equals("Z")) {
-            tzid = "UTC";
-        }
-        return TimeZone.getTimeZone(tzid);
-    }
+//GWT Specific
+//    /**
+//     * Converts a {@code ZoneId} to a {@code TimeZone}.
+//     *
+//     * @param zoneId  the zone, not null
+//     * @return the time-zone, not null
+//     */
+//    public static TimeZone toTimeZone(ZoneId zoneId) {
+//        String tzid = zoneId.getId();
+//        if (tzid.startsWith("+") || tzid.startsWith("-")) {
+//            tzid = "GMT" + tzid;
+//        } else if (tzid.equals("Z")) {
+//            tzid = "UTC";
+//        }
+//        return TimeZone.getTimeZone(tzid);
+//    }
 
     //-----------------------------------------------------------------------
     /**

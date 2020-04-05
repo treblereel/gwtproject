@@ -31,14 +31,11 @@
  */
 package xjava.time.chrono;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
-import java.util.ServiceLoader;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -135,16 +132,6 @@ import xjava.time.temporal.ValueRange;
 public abstract class Chronology implements Comparable<Chronology> {
 
     /**
-     * Simulate JDK 8 method reference Chronology::from.
-     */
-    public static final TemporalQuery<Chronology> FROM = new TemporalQuery<Chronology>() {
-        @Override
-        public Chronology queryFrom(TemporalAccessor temporal) {
-            return Chronology.from(temporal);
-        }
-    };
-
-    /**
      * Map of available calendars by ID.
      */
     private static final ConcurrentHashMap<String, Chronology> CHRONOS_BY_ID = new ConcurrentHashMap<String, Chronology>();
@@ -152,19 +139,6 @@ public abstract class Chronology implements Comparable<Chronology> {
      * Map of available calendars by calendar type.
      */
     private static final ConcurrentHashMap<String, Chronology> CHRONOS_BY_TYPE = new ConcurrentHashMap<String, Chronology>();
-    /**
-     * Access JDK 7 method if on JDK 7.
-     */
-    private static final Method LOCALE_METHOD;
-    static {
-        Method method = null;
-        try {
-            method = Locale.class.getMethod("getUnicodeLocaleType", String.class);
-        } catch (Throwable ex) {
-            // ignore
-        }
-        LOCALE_METHOD = method;
-    }
 
     //-----------------------------------------------------------------------
     /**
@@ -233,21 +207,12 @@ public abstract class Chronology implements Comparable<Chronology> {
     public static Chronology ofLocale(Locale locale) {
         init();
         Objects.requireNonNull(locale, "locale");
+        //GWT specific - use gwt-i18n-apt
         String type = "iso";
-        if (LOCALE_METHOD != null) {
-            // JDK 7: locale.getUnicodeLocaleType("ca");
-            try {
-                type = (String) LOCALE_METHOD.invoke(locale, "ca");
-            } catch (IllegalArgumentException ex) {
-                // ignore
-            } catch (IllegalAccessException ex) {
-                // ignore
-            } catch (InvocationTargetException ex) {
-                // ignore
-            }
-        } else if (locale.equals(JapaneseChronology.LOCALE)) {
-            type = "japanese";
-        }
+//        if (locale.equals(JapaneseChronology.LOCALE)) {
+//            type = "japanese";
+//        }
+//        String type = locale.getUnicodeLocaleType("ca");
         if (type == null || "iso".equals(type) || "iso8601".equals(type)) {
             return IsoChronology.INSTANCE;
         } else {
@@ -313,14 +278,15 @@ public abstract class Chronology implements Comparable<Chronology> {
             register(HijrahChronology.INSTANCE);
             CHRONOS_BY_ID.putIfAbsent("Hijrah", HijrahChronology.INSTANCE);
             CHRONOS_BY_TYPE.putIfAbsent("islamic", HijrahChronology.INSTANCE);
-            ServiceLoader<Chronology> loader =  ServiceLoader.load(Chronology.class, Chronology.class.getClassLoader());
-            for (Chronology chrono : loader) {
-                CHRONOS_BY_ID.putIfAbsent(chrono.getId(), chrono);
-                String type = chrono.getCalendarType();
-                if (type != null) {
-                    CHRONOS_BY_TYPE.putIfAbsent(type, chrono);
-                }
-            }
+//GWT specific
+//            ServiceLoader<Chronology> loader =  ServiceLoader.load(Chronology.class, Chronology.class.getClassLoader());
+//            for (Chronology chrono : loader) {
+//                CHRONOS_BY_ID.putIfAbsent(chrono.getId(), chrono);
+//                String type = chrono.getCalendarType();
+//                if (type != null) {
+//                    CHRONOS_BY_TYPE.putIfAbsent(type, chrono);
+//                }
+//            }
         }
     }
 
