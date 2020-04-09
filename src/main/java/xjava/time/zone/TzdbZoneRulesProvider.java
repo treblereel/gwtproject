@@ -42,7 +42,12 @@ import java.util.NavigableMap;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.concurrent.atomic.AtomicReferenceArray;
+
+import org.gwtproject.typedarrays.client.ArrayBufferNative;
+import org.gwtproject.typedarrays.client.Int8ArrayNative;
+
+import elemental2.core.ArrayBuffer;
+import jsinterop.base.Js;
 
 /**
  * Loads time-zone rules for 'TZDB'.
@@ -163,13 +168,18 @@ public final class TzdbZoneRulesProvider extends ZoneRulesProvider {
 		regionIds = Arrays.asList(regionArray);
 		// rules
 		int ruleCount = dis.getShort();
-		Object[] ruleArray = new Object[ruleCount];
+//		ZoneRules[] ruleArray = new ZoneRules[ruleCount];
+		ArrayBuffer[] ruleArray = new ArrayBuffer[ruleCount];
 		for (int i = 0; i < ruleCount; i++) {
-			byte[] bytes = new byte[dis.getShort()];
-			dis.get(bytes);
-			ruleArray[i] = bytes;
+			short length = dis.getShort();
+			ArrayBufferNative buffer = new ArrayBufferNative(length);
+			Int8ArrayNative array = new Int8ArrayNative(buffer);
+			for (int j = 0; j < length; j++) {
+				array.set(j, dis.get());
+			}
+//			ruleArray[i] = (ZoneRules) Ser.read(dis);
+			ruleArray[i] = Js.cast(buffer);
 		}
-		AtomicReferenceArray<Object> ruleData = new AtomicReferenceArray<Object>(ruleArray);
 		// link version-region-rules
 		Set<Version> versionSet = new HashSet<Version>(versionCount);
 		for (int i = 0; i < versionCount; i++) {
@@ -180,7 +190,7 @@ public final class TzdbZoneRulesProvider extends ZoneRulesProvider {
 				versionRegionArray[j] = regionArray[dis.getShort()];
 				versionRulesArray[j] = dis.getShort();
 			}
-			versionSet.add(new Version(versionArray[i], versionRegionArray, versionRulesArray, ruleData));
+			versionSet.add(new Version(versionArray[i], versionRegionArray, versionRulesArray, ruleArray));
 		}
 		return versionSet;
 	}
@@ -205,10 +215,12 @@ public final class TzdbZoneRulesProvider extends ZoneRulesProvider {
 		private final String versionId;
 		private final String[] regionArray;
 		private final short[] ruleIndices;
-		private final AtomicReferenceArray<Object> ruleData;
+		private final ArrayBuffer[] encodeRuleData;
+		private final ZoneRules[] ruleData;
 
-		Version(String versionId, String[] regionIds, short[] ruleIndices, AtomicReferenceArray<Object> ruleData) {
-			this.ruleData = ruleData;
+		Version(String versionId, String[] regionIds, short[] ruleIndices, ArrayBuffer[] encodeRuleData) {
+			this.encodeRuleData = encodeRuleData;
+			this.ruleData = new ZoneRules[encodeRuleData.length];
 			this.versionId = versionId;
 			this.regionArray = regionIds;
 			this.ruleIndices = ruleIndices;
@@ -228,14 +240,14 @@ public final class TzdbZoneRulesProvider extends ZoneRulesProvider {
 		}
 
 		ZoneRules createRule(short index) throws Exception {
-			Object obj = ruleData.get(index);
-			if (obj instanceof byte[]) {
-				byte[] bytes = (byte[]) obj;
-				ByteBuffer dis = ByteBuffer.allocate(bytes.length).put(bytes);
-				obj = Ser.read(dis);
-				ruleData.set(index, obj);
+			ZoneRules rule = ruleData[index];
+			if (rule == null) {
+				ArrayBuffer arrayBuffer = encodeRuleData[index];
+				rule = (ZoneRules) Ser.read(ByteBuffer.wrapArrayBuffer(arrayBuffer));
+				ruleData[index] = rule;
+				encodeRuleData[index] = null;
 			}
-			return (ZoneRules) obj;
+			return rule;
 		}
 
 		@Override

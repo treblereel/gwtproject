@@ -9,3 +9,4 @@ if (typeof Intl == 'object' && typeof Intl.DateTimeFormat == 'function'  && type
 } else {
 	getTimezone = function() { return new Date().toTimeString().slice(9, 17); };
 }
+

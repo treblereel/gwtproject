@@ -48,13 +48,17 @@ import static xjava.time.temporal.ChronoUnit.MONTHS;
 import static xjava.time.temporal.ChronoUnit.WEEKS;
 import static xjava.time.temporal.ChronoUnit.YEARS;
 
-import org.testng.annotations.DataProvider;
+import java.nio.ByteBuffer;
+
+import org.junit.Test;
 
 import com.google.gwt.core.client.JavaScriptException;
 import com.google.gwt.junit.client.GWTTestCase;
 
+import elemental2.core.ArrayBuffer;
 import xjava.time.chrono.IsoChronology;
 import xjava.time.format.DateTimeFormatter;
+import xjava.time.format.DateTimeParseException;
 import xjava.time.temporal.ChronoField;
 import xjava.time.temporal.ChronoUnit;
 import xjava.time.temporal.MockFieldNoValue;
@@ -64,23 +68,27 @@ import xjava.time.temporal.TemporalAdjuster;
 import xjava.time.temporal.TemporalField;
 import xjava.time.temporal.TemporalQueries;
 import xjava.time.temporal.TemporalUnit;
+import xjava.time.zone.TzdbZoneRulesProvider;
+import xjava.time.zone.ZoneRulesProvider;
 
 /**
  * Test LocalDate.
  */
 public class GwtTestLocalDate extends GWTTestCase {
 
-	private ZoneOffset OFFSET_ZONE;
-//	private ZoneId ZONE_PARIS;
-//	private ZoneId ZONE_GAZA;
+	private static boolean firstTest = true;;
 
-	private LocalDate TEST_2007_07_15;
-	private long MAX_VALID_EPOCHDAYS;
-	private long MIN_VALID_EPOCHDAYS;
-	private LocalDate MAX_DATE;
-	private LocalDate MIN_DATE;
-	private Instant MAX_INSTANT;
-	private Instant MIN_INSTANT;
+	private static ZoneOffset OFFSET_ZONE;
+	private static ZoneId ZONE_PARIS;
+	private static ZoneId ZONE_GAZA;
+
+	private static LocalDate TEST_2007_07_15;
+	private static long MAX_VALID_EPOCHDAYS;
+	private static long MIN_VALID_EPOCHDAYS;
+	private static LocalDate MAX_DATE;
+	private static LocalDate MIN_DATE;
+	private static Instant MAX_INSTANT;
+	private static Instant MIN_INSTANT;
 
 	@Override
 	public String getModuleName() {
@@ -89,25 +97,28 @@ public class GwtTestLocalDate extends GWTTestCase {
 
 	@Override
 	public void gwtSetUp() throws Exception {
-		Support.init();
-//		while (!Support.isInitialized()) {
-////			Thread.sleep(500);
-//		}
-		TEST_2007_07_15 = LocalDate.of(2007, 7, 15);
+		if (firstTest) {
+			Support.init();
+			ArrayBuffer array = Support.decodeArrayBuffer(TzData.TZ_DATA);
+			ByteBuffer data = ByteBuffer.wrapArrayBuffer(array);
+			TzdbZoneRulesProvider provider = new TzdbZoneRulesProvider(data);
+			ZoneRulesProvider.registerProvider(provider);
+			TEST_2007_07_15 = LocalDate.of(2007, 7, 15);
 
-		LocalDate max = LocalDate.MAX;
-		LocalDate min = LocalDate.MIN;
-		MAX_VALID_EPOCHDAYS = max.toEpochDay();
-		MIN_VALID_EPOCHDAYS = min.toEpochDay();
-		MAX_DATE = max;
-		MIN_DATE = min;
-		MAX_INSTANT = max.atStartOfDay(ZoneOffset.UTC).toInstant();
-		MIN_INSTANT = min.atStartOfDay(ZoneOffset.UTC).toInstant();
+			LocalDate max = LocalDate.MAX;
+			LocalDate min = LocalDate.MIN;
+			MAX_VALID_EPOCHDAYS = max.toEpochDay();
+			MIN_VALID_EPOCHDAYS = min.toEpochDay();
+			MAX_DATE = max;
+			MIN_DATE = min;
+			MAX_INSTANT = max.atStartOfDay(ZoneOffset.UTC).toInstant();
+			MIN_INSTANT = min.atStartOfDay(ZoneOffset.UTC).toInstant();
 
-		OFFSET_ZONE = ZoneOffset.ofHours(1);
-//		ZONE_PARIS = ZoneId.of("Europe/Paris");
-//		ZONE_GAZA = ZoneId.of("Asia/Gaza");
-
+			OFFSET_ZONE = ZoneOffset.ofHours(1);
+			ZONE_PARIS = ZoneId.of("Europe/Paris");
+			ZONE_GAZA = ZoneId.of("Asia/Gaza");
+			firstTest = false;
+		}
 		super.gwtSetUp();
 	}
 
@@ -202,7 +213,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 	// -----------------------------------------------------------------------
 	// now(ZoneId)
 	// -----------------------------------------------------------------------
-//    //@Test(expectedExceptions=NullPointerException.class)
+	@Test(expected = NullPointerException.class)
 	public void now_ZoneId_nullZoneId() {
 		LocalDate.now((ZoneId) null);
 	}
@@ -224,7 +235,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 	// -----------------------------------------------------------------------
 	// now(Clock)
 	// -----------------------------------------------------------------------
-//    //@Test(expectedExceptions=NullPointerException.class)
+	@Test(expected = NullPointerException.class)
 	public void now_Clock_nullClock() {
 		LocalDate.now((Clock) null);
 	}
@@ -240,7 +251,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test
+	@Test
 	public void now_Clock_allSecsInDay_offset() {
 		for (int i = 0; i < (2 * 24 * 60 * 60); i++) {
 			Instant instant = Instant.ofEpochSecond(i);
@@ -252,7 +263,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test
+	@Test
 	public void now_Clock_allSecsInDay_beforeEpoch() {
 		for (int i = -1; i >= -(2 * 24 * 60 * 60); i--) {
 			Instant instant = Instant.ofEpochSecond(i);
@@ -265,27 +276,27 @@ public class GwtTestLocalDate extends GWTTestCase {
 	}
 
 	// -----------------------------------------------------------------------
-	// @Test
+	@Test
 	public void now_Clock_maxYear() {
 		Clock clock = Clock.fixed(MAX_INSTANT, ZoneOffset.UTC);
 		LocalDate test = LocalDate.now(clock);
 		assertEquals(test, MAX_DATE);
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void now_Clock_tooBig() {
 		Clock clock = Clock.fixed(MAX_INSTANT.plusSeconds(24 * 60 * 60), ZoneOffset.UTC);
 		LocalDate.now(clock);
 	}
 
-	// @Test
+	@Test
 	public void now_Clock_minYear() {
 		Clock clock = Clock.fixed(MIN_INSTANT, ZoneOffset.UTC);
 		LocalDate test = LocalDate.now(clock);
 		assertEquals(test, MIN_DATE);
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void now_Clock_tooLow() {
 		Clock clock = Clock.fixed(MIN_INSTANT.minusNanos(1), ZoneOffset.UTC);
 		LocalDate.now(clock);
@@ -294,84 +305,84 @@ public class GwtTestLocalDate extends GWTTestCase {
 	// -----------------------------------------------------------------------
 	// of() factories
 	// -----------------------------------------------------------------------
-	// @Test
+	@Test
 	public void factory_of_intsMonth() {
 		assertEquals(TEST_2007_07_15, LocalDate.of(2007, Month.JULY, 15));
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void factory_of_intsMonth_29febNonLeap() {
 		LocalDate.of(2007, Month.FEBRUARY, 29);
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void factory_of_intsMonth_31apr() {
 		LocalDate.of(2007, Month.APRIL, 31);
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void factory_of_intsMonth_dayTooLow() {
 		LocalDate.of(2007, Month.JANUARY, 0);
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void factory_of_intsMonth_dayTooHigh() {
 		LocalDate.of(2007, Month.JANUARY, 32);
 	}
 
-	// @Test(expectedExceptions=NullPointerException.class)
+	@Test(expected = NullPointerException.class)
 	public void factory_of_intsMonth_nullMonth() {
 		LocalDate.of(2007, null, 30);
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void factory_of_intsMonth_yearTooLow() {
 		LocalDate.of(Integer.MIN_VALUE, Month.JANUARY, 1);
 	}
 
 	// -----------------------------------------------------------------------
-	// @Test
+	@Test
 	public void factory_of_ints() {
 		check(TEST_2007_07_15, 2007, 7, 15);
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void factory_of_ints_29febNonLeap() {
 		LocalDate.of(2007, 2, 29);
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void factory_of_ints_31apr() {
 		LocalDate.of(2007, 4, 31);
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void factory_of_ints_dayTooLow() {
 		LocalDate.of(2007, 1, 0);
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void factory_of_ints_dayTooHigh() {
 		LocalDate.of(2007, 1, 32);
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void factory_of_ints_monthTooLow() {
 		LocalDate.of(2007, 0, 1);
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void factory_of_ints_monthTooHigh() {
 		LocalDate.of(2007, 13, 1);
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void factory_of_ints_yearTooLow() {
 		LocalDate.of(Integer.MIN_VALUE, 1, 1);
 	}
 
 	// -----------------------------------------------------------------------
-	// @Test
+	@Test
 	public void factory_ofYearDay_ints_nonLeap() {
 		LocalDate date = LocalDate.of(2007, 1, 1);
 		for (int i = 1; i <= 365; i++) {
@@ -380,7 +391,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test
+	@Test
 	public void factory_ofYearDay_ints_leap() {
 		LocalDate date = LocalDate.of(2008, 1, 1);
 		for (int i = 1; i <= 366; i++) {
@@ -389,22 +400,22 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void factory_ofYearDay_ints_366nonLeap() {
 		LocalDate.ofYearDay(2007, 366);
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void factory_ofYearDay_ints_dayTooLow() {
 		LocalDate.ofYearDay(2007, 0);
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void factory_ofYearDay_ints_dayTooHigh() {
 		LocalDate.ofYearDay(2007, 367);
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void factory_ofYearDay_ints_yearTooLow() {
 		LocalDate.ofYearDay(Integer.MIN_VALUE, 1);
 	}
@@ -439,7 +450,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 	// -----------------------------------------------------------------------
 	// ofEpochDay()
 	// -----------------------------------------------------------------------
-	// @Test
+	@Test
 	public void factory_ofEpochDay() {
 		long date_0000_01_01 = -678941 - 40587;
 		assertEquals(LocalDate.ofEpochDay(0), LocalDate.of(1970, 1, 1));
@@ -460,12 +471,12 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void factory_ofEpochDay_aboveMax() {
 		LocalDate.ofEpochDay(MAX_VALID_EPOCHDAYS + 1);
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void factory_ofEpochDay_belowMin() {
 		LocalDate.ofEpochDay(MIN_VALID_EPOCHDAYS - 1);
 	}
@@ -473,13 +484,13 @@ public class GwtTestLocalDate extends GWTTestCase {
 	// -----------------------------------------------------------------------
 	// from()
 	// -----------------------------------------------------------------------
-	// @Test
+	@Test
 	public void test_factory_CalendricalObject() {
 		assertEquals(LocalDate.from(LocalDate.of(2007, 7, 15)), LocalDate.of(2007, 7, 15));
 		assertEquals(LocalDate.from(LocalDateTime.of(2007, 7, 15, 12, 30)), LocalDate.of(2007, 7, 15));
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_factory_CalendricalObject_invalid_noDerive() {
 		try {
 			LocalDate.from(LocalTime.of(12, 30));
@@ -488,7 +499,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=NullPointerException.class)
+	@Test(expected = NullPointerException.class)
 	public void test_factory_CalendricalObject_null() {
 		try {
 			LocalDate.from((TemporalAccessor) null);
@@ -502,7 +513,16 @@ public class GwtTestLocalDate extends GWTTestCase {
 	// -----------------------------------------------------------------------
 	// parse()
 	// -----------------------------------------------------------------------
-	// @Test(dataProvider="sampleToString")
+	@Test(/* dataProvider="sampleToString" */)
+	public void factory_parse_validText() {
+		Object[][] data = provider_sampleToString();
+		for (int i = 0; i < data.length; i++) {
+			Object[] objects = data[i];
+			factory_parse_validText((Integer) objects[0], (Integer) objects[1], (Integer) objects[2],
+					(String) objects[3]);
+		}
+	}
+
 	public void factory_parse_validText(int y, int m, int d, String parsable) {
 		LocalDate t = LocalDate.parse(parsable);
 		assertNotNull(parsable, t);
@@ -511,15 +531,25 @@ public class GwtTestLocalDate extends GWTTestCase {
 		assertEquals(parsable, t.getDayOfMonth(), d);
 	}
 
-	@DataProvider(name = "sampleBadParse")
+//	@DataProvider(name = "sampleBadParse")
 	Object[][] provider_sampleBadParse() {
 		return new Object[][] { { "2008/07/05" }, { "10000-01-01" }, { "2008-1-1" }, { "2008--01" }, { "ABCD-02-01" },
 				{ "2008-AB-01" }, { "2008-02-AB" }, { "-0000-02-01" }, { "2008-02-01Z" }, { "2008-02-01+01:00" },
 				{ "2008-02-01+01:00[Europe/Paris]" }, };
 	}
 
-	// @Test(dataProvider="sampleBadParse",
-	// expectedExceptions={DateTimeParseException.class})
+	@Test(/* dataProvider="sampleBadParse", */ expected = DateTimeParseException.class)
+	public void factory_parse_invalidText() {
+		Object[][] data = provider_sampleBadParse();
+		for (int i = 0; i < data.length; i++) {
+			Object[] objects = data[i];
+			for (int j = 0; j < objects.length; j++) {
+				Object object = objects[j];
+				factory_parse_invalidText(object.toString());
+			}
+		}
+	}
+
 	public void factory_parse_invalidText(String unparsable) {
 		try {
 			LocalDate.parse(unparsable);
@@ -528,25 +558,25 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeParseException.class)
+	@Test(expected = DateTimeParseException.class)
 	public void factory_parse_illegalValue() {
 		try {
 			LocalDate.parse("2008-06-32");
-		} catch (DateTimeException e) {
+		} catch (DateTimeParseException e) {
 			// expected
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeParseException.class)
+	@Test(expected = DateTimeParseException.class)
 	public void factory_parse_invalidValue() {
 		try {
 			LocalDate.parse("2008-06-31");
-		} catch (DateTimeException e) {
+		} catch (DateTimeParseException e) {
 			// expected
 		}
 	}
 
-	// @Test(expectedExceptions=NullPointerException.class)
+	@Test(expected = NullPointerException.class)
 	public void factory_parse_nullText() {
 		try {
 			LocalDate.parse((String) null);
@@ -558,14 +588,14 @@ public class GwtTestLocalDate extends GWTTestCase {
 	// -----------------------------------------------------------------------
 	// parse(DateTimeFormatter)
 	// -----------------------------------------------------------------------
-	// @Test
+	@Test
 	public void factory_parse_formatter() {
 		DateTimeFormatter f = DateTimeFormatter.ofPattern("u M d");
 		LocalDate test = LocalDate.parse("2010 12 3", f);
 		assertEquals(test, LocalDate.of(2010, 12, 3));
 	}
 
-	// @Test(expectedExceptions=NullPointerException.class)
+	@Test(expected = NullPointerException.class)
 	public void factory_parse_formatter_nullText() {
 		try {
 			DateTimeFormatter f = DateTimeFormatter.ofPattern("u M d");
@@ -575,7 +605,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=NullPointerException.class)
+	@Test(expected = NullPointerException.class)
 	public void factory_parse_formatter_nullFormatter() {
 		try {
 			LocalDate.parse("ANY", null);
@@ -587,7 +617,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 	// -----------------------------------------------------------------------
 	// get(TemporalField)
 	// -----------------------------------------------------------------------
-	// @Test
+	@Test
 	public void test_get_TemporalField() {
 		LocalDate test = LocalDate.of(2008, 6, 30);
 		assertEquals(test.get(YEAR), 2008);
@@ -599,7 +629,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		assertEquals(test.get(ERA), 1);
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_get_TemporalField_tooBig() {
 		try {
 			TEST_2007_07_15.get(EPOCH_DAY);
@@ -608,7 +638,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=NullPointerException.class)
+	@Test(expected = NullPointerException.class)
 	public void test_get_TemporalField_null() {
 		try {
 			TEST_2007_07_15.get((TemporalField) null);
@@ -619,7 +649,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_get_TemporalField_invalidField() {
 		try {
 			TEST_2007_07_15.get(MockFieldNoValue.INSTANCE);
@@ -628,7 +658,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_get_TemporalField_timeField() {
 		try {
 			TEST_2007_07_15.get(ChronoField.AMPM_OF_DAY);
@@ -640,7 +670,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 	// -----------------------------------------------------------------------
 	// getLong(TemporalField)
 	// -----------------------------------------------------------------------
-	// @Test
+	@Test
 	public void test_getLong_TemporalField() {
 		LocalDate test = LocalDate.of(2008, 6, 30);
 		assertEquals(test.getLong(YEAR), 2008);
@@ -653,7 +683,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		assertEquals(test.getLong(PROLEPTIC_MONTH), 2008 * 12 + 6 - 1);
 	}
 
-	// @Test(expectedExceptions=NullPointerException.class)
+	@Test(expected = NullPointerException.class)
 	public void test_getLong_TemporalField_null() {
 		try {
 			TEST_2007_07_15.getLong((TemporalField) null);
@@ -664,7 +694,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_getLong_TemporalField_invalidField() {
 		try {
 			TEST_2007_07_15.getLong(MockFieldNoValue.INSTANCE);
@@ -673,7 +703,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_getLong_TemporalField_timeField() {
 		try {
 			TEST_2007_07_15.getLong(ChronoField.AMPM_OF_DAY);
@@ -685,7 +715,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 	// -----------------------------------------------------------------------
 	// query(TemporalQuery)
 	// -----------------------------------------------------------------------
-	// @Test
+	@Test
 	public void test_query() {
 		assertEquals(TEST_2007_07_15.query(TemporalQueries.chronology()), IsoChronology.INSTANCE);
 		assertEquals(TEST_2007_07_15.query(TemporalQueries.localDate()), TEST_2007_07_15);
@@ -696,7 +726,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		assertEquals(TEST_2007_07_15.query(TemporalQueries.zoneId()), null);
 	}
 
-	// @Test(expectedExceptions=NullPointerException.class)
+	@Test(expected = NullPointerException.class)
 	public void test_query_null() {
 		try {
 			TEST_2007_07_15.query(null);
@@ -710,14 +740,23 @@ public class GwtTestLocalDate extends GWTTestCase {
 	// -----------------------------------------------------------------------
 	// get*()
 	// -----------------------------------------------------------------------
-	@DataProvider(name = "sampleDates")
+//	@DataProvider(name = "sampleDates")
 	Object[][] provider_sampleDates() {
 		return new Object[][] { { 2008, 7, 5 }, { 2007, 7, 5 }, { 2006, 7, 5 }, { 2005, 7, 5 }, { 2004, 1, 1 },
 				{ -1, 1, 2 }, };
 	}
 
 	// -----------------------------------------------------------------------
-	// @Test(dataProvider="sampleDates")
+
+	@Test(/* dataProvider="sampleDates" */)
+	public void test_get() {
+		Object[][] data = provider_sampleDates();
+		for (int i = 0; i < data.length; i++) {
+			Object[] objects = data[i];
+			test_get((Integer)objects[0], (Integer)objects[1], (Integer)objects[2]);
+		}
+	}
+
 	public void test_get(int y, int m, int d) {
 		LocalDate a = LocalDate.of(y, m, d);
 		assertEquals(a.getYear(), y);
@@ -725,7 +764,15 @@ public class GwtTestLocalDate extends GWTTestCase {
 		assertEquals(a.getDayOfMonth(), d);
 	}
 
-	// @Test(dataProvider="sampleDates")
+	@Test(/* dataProvider="sampleDates" */)
+	public void test_getDOY() {
+		Object[][] data = provider_sampleDates();
+		for (int i = 0; i < data.length; i++) {
+			Object[] objects =  data[i];
+			test_getDOY((Integer)objects[0], (Integer)objects[1], (Integer)objects[2]);
+		}
+	}
+
 	public void test_getDOY(int y, int m, int d) {
 		LocalDate a = LocalDate.of(y, m, d);
 		int total = 0;
@@ -736,7 +783,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		assertEquals(a.getDayOfYear(), doy);
 	}
 
-	// @Test
+	@Test
 	public void test_getDayOfWeek() {
 		DayOfWeek dow = DayOfWeek.MONDAY;
 		for (Month month : Month.values()) {
@@ -752,7 +799,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 	// -----------------------------------------------------------------------
 	// isLeapYear()
 	// -----------------------------------------------------------------------
-	// @Test
+	@Test
 	public void test_isLeapYear() {
 		assertEquals(LocalDate.of(1999, 1, 1).isLeapYear(), false);
 		assertEquals(LocalDate.of(2000, 1, 1).isLeapYear(), true);
@@ -772,7 +819,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 	// -----------------------------------------------------------------------
 	// lengthOfMonth()
 	// -----------------------------------------------------------------------
-	// @Test
+	@Test
 	public void test_lengthOfMonth_notLeapYear() {
 		assertEquals(LocalDate.of(2007, 1, 1).lengthOfMonth(), 31);
 		assertEquals(LocalDate.of(2007, 2, 1).lengthOfMonth(), 28);
@@ -788,7 +835,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		assertEquals(LocalDate.of(2007, 12, 1).lengthOfMonth(), 31);
 	}
 
-	// @Test
+	@Test
 	public void test_lengthOfMonth_leapYear() {
 		assertEquals(LocalDate.of(2008, 1, 1).lengthOfMonth(), 31);
 		assertEquals(LocalDate.of(2008, 2, 1).lengthOfMonth(), 29);
@@ -807,7 +854,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 	// -----------------------------------------------------------------------
 	// lengthOfYear()
 	// -----------------------------------------------------------------------
-	// @Test
+	@Test
 	public void test_lengthOfYear() {
 		assertEquals(LocalDate.of(2007, 1, 1).lengthOfYear(), 365);
 		assertEquals(LocalDate.of(2008, 1, 1).lengthOfYear(), 366);
@@ -816,7 +863,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 	// -----------------------------------------------------------------------
 	// with()
 	// -----------------------------------------------------------------------
-	// @Test
+	@Test
 	public void test_with_adjustment() {
 		final LocalDate sample = LocalDate.of(2012, 3, 4);
 		TemporalAdjuster adjuster = new TemporalAdjuster() {
@@ -828,7 +875,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		assertEquals(TEST_2007_07_15.with(adjuster), sample);
 	}
 
-	// @Test(expectedExceptions=NullPointerException.class)
+	@Test(expected = NullPointerException.class)
 	public void test_with_adjustment_null() {
 		try {
 			TEST_2007_07_15.with((TemporalAdjuster) null);
@@ -842,13 +889,13 @@ public class GwtTestLocalDate extends GWTTestCase {
 	// -----------------------------------------------------------------------
 	// with(DateTimeField,long)
 	// -----------------------------------------------------------------------
-	// @Test
+	@Test
 	public void test_with_DateTimeField_long_normal() {
 		LocalDate t = TEST_2007_07_15.with(YEAR, 2008);
 		assertEquals(t, LocalDate.of(2008, 7, 15));
 	}
 
-	// @Test(expectedExceptions=NullPointerException.class)
+	@Test(expected = NullPointerException.class)
 	public void test_with_DateTimeField_long_null() {
 		try {
 			TEST_2007_07_15.with((TemporalField) null, 1);
@@ -859,7 +906,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_with_DateTimeField_long_invalidField() {
 		try {
 			TEST_2007_07_15.with(MockFieldNoValue.INSTANCE, 1);
@@ -868,7 +915,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_with_DateTimeField_long_timeField() {
 		try {
 			TEST_2007_07_15.with(ChronoField.AMPM_OF_DAY, 1);
@@ -877,7 +924,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_with_DateTimeField_long_invalidValue() {
 		try {
 			TEST_2007_07_15.with(ChronoField.DAY_OF_WEEK, -1);
@@ -889,13 +936,13 @@ public class GwtTestLocalDate extends GWTTestCase {
 	// -----------------------------------------------------------------------
 	// withYear()
 	// -----------------------------------------------------------------------
-	// @Test
+	@Test
 	public void test_withYear_int_normal() {
 		LocalDate t = TEST_2007_07_15.withYear(2008);
 		assertEquals(t, LocalDate.of(2008, 7, 15));
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_withYear_int_invalid() {
 		try {
 			TEST_2007_07_15.withYear(Year.MIN_VALUE - 1);
@@ -904,7 +951,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test
+	@Test
 	public void test_withYear_int_adjustDay() {
 		LocalDate t = LocalDate.of(2008, 2, 29).withYear(2007);
 		LocalDate expected = LocalDate.of(2007, 2, 28);
@@ -914,13 +961,13 @@ public class GwtTestLocalDate extends GWTTestCase {
 	// -----------------------------------------------------------------------
 	// withMonth()
 	// -----------------------------------------------------------------------
-	// @Test
+	@Test
 	public void test_withMonth_int_normal() {
 		LocalDate t = TEST_2007_07_15.withMonth(1);
 		assertEquals(t, LocalDate.of(2007, 1, 15));
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_withMonth_int_invalid() {
 		try {
 			TEST_2007_07_15.withMonth(13);
@@ -929,7 +976,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test
+	@Test
 	public void test_withMonth_int_adjustDay() {
 		LocalDate t = LocalDate.of(2007, 12, 31).withMonth(11);
 		LocalDate expected = LocalDate.of(2007, 11, 30);
@@ -939,13 +986,13 @@ public class GwtTestLocalDate extends GWTTestCase {
 	// -----------------------------------------------------------------------
 	// withDayOfMonth()
 	// -----------------------------------------------------------------------
-	// @Test
+	@Test
 	public void test_withDayOfMonth_normal() {
 		LocalDate t = TEST_2007_07_15.withDayOfMonth(1);
 		assertEquals(t, LocalDate.of(2007, 7, 1));
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_withDayOfMonth_illegal() {
 		try {
 			TEST_2007_07_15.withDayOfMonth(32);
@@ -954,7 +1001,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_withDayOfMonth_invalid() {
 		try {
 			LocalDate.of(2007, 11, 30).withDayOfMonth(31);
@@ -966,13 +1013,13 @@ public class GwtTestLocalDate extends GWTTestCase {
 	// -----------------------------------------------------------------------
 	// withDayOfYear(int)
 	// -----------------------------------------------------------------------
-	// @Test
+	@Test
 	public void test_withDayOfYear_normal() {
 		LocalDate t = TEST_2007_07_15.withDayOfYear(33);
 		assertEquals(t, LocalDate.of(2007, 2, 2));
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_withDayOfYear_illegal() {
 		try {
 			TEST_2007_07_15.withDayOfYear(367);
@@ -981,7 +1028,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_withDayOfYear_invalid() {
 		try {
 			TEST_2007_07_15.withDayOfYear(366);
@@ -993,21 +1040,21 @@ public class GwtTestLocalDate extends GWTTestCase {
 	// -----------------------------------------------------------------------
 	// plus(Period)
 	// -----------------------------------------------------------------------
-	// @Test
+	@Test
 	public void test_plus_Period_positiveMonths() {
 		MockSimplePeriod period = MockSimplePeriod.of(7, ChronoUnit.MONTHS);
 		LocalDate t = TEST_2007_07_15.plus(period);
 		assertEquals(t, LocalDate.of(2008, 2, 15));
 	}
 
-	// @Test
+	@Test
 	public void test_plus_Period_negativeDays() {
 		MockSimplePeriod period = MockSimplePeriod.of(-25, ChronoUnit.DAYS);
 		LocalDate t = TEST_2007_07_15.plus(period);
 		assertEquals(t, LocalDate.of(2007, 6, 20));
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_plus_Period_timeNotAllowed() {
 		try {
 			MockSimplePeriod period = MockSimplePeriod.of(7, ChronoUnit.HOURS);
@@ -1017,7 +1064,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=NullPointerException.class)
+	@Test(expected = NullPointerException.class)
 	public void test_plus_Period_null() {
 		try {
 			TEST_2007_07_15.plus((MockSimplePeriod) null);
@@ -1028,7 +1075,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_plus_Period_invalidTooLarge() {
 		try {
 			MockSimplePeriod period = MockSimplePeriod.of(1, ChronoUnit.YEARS);
@@ -1038,7 +1085,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_plus_Period_invalidTooSmall() {
 		try {
 			MockSimplePeriod period = MockSimplePeriod.of(-1, ChronoUnit.YEARS);
@@ -1051,19 +1098,19 @@ public class GwtTestLocalDate extends GWTTestCase {
 	// -----------------------------------------------------------------------
 	// plus(long,PeriodUnit)
 	// -----------------------------------------------------------------------
-	// @Test
+	@Test
 	public void test_plus_longPeriodUnit_positiveMonths() {
 		LocalDate t = TEST_2007_07_15.plus(7, ChronoUnit.MONTHS);
 		assertEquals(t, LocalDate.of(2008, 2, 15));
 	}
 
-	// @Test
+	@Test
 	public void test_plus_longPeriodUnit_negativeDays() {
 		LocalDate t = TEST_2007_07_15.plus(-25, ChronoUnit.DAYS);
 		assertEquals(t, LocalDate.of(2007, 6, 20));
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_plus_longPeriodUnit_timeNotAllowed() {
 		try {
 			TEST_2007_07_15.plus(7, ChronoUnit.HOURS);
@@ -1072,7 +1119,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=NullPointerException.class)
+	@Test(expected = NullPointerException.class)
 	public void test_plus_longPeriodUnit_null() {
 		try {
 			TEST_2007_07_15.plus(1, (TemporalUnit) null);
@@ -1083,7 +1130,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_plus_longPeriodUnit_invalidTooLarge() {
 		try {
 			LocalDate.of(Year.MAX_VALUE, 1, 1).plus(1, ChronoUnit.YEARS);
@@ -1092,7 +1139,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_plus_longPeriodUnit_invalidTooSmall() {
 		try {
 			LocalDate.of(Year.MIN_VALUE, 1, 1).plus(-1, ChronoUnit.YEARS);
@@ -1104,33 +1151,33 @@ public class GwtTestLocalDate extends GWTTestCase {
 	// -----------------------------------------------------------------------
 	// plusYears()
 	// -----------------------------------------------------------------------
-	// @Test
+	@Test
 	public void test_plusYears_long_normal() {
 		LocalDate t = TEST_2007_07_15.plusYears(1);
 		assertEquals(t, LocalDate.of(2008, 7, 15));
 	}
 
-	// @Test
+	@Test
 	public void test_plusYears_long_negative() {
 		LocalDate t = TEST_2007_07_15.plusYears(-1);
 		assertEquals(t, LocalDate.of(2006, 7, 15));
 	}
 
-	// @Test
+	@Test
 	public void test_plusYears_long_adjustDay() {
 		LocalDate t = LocalDate.of(2008, 2, 29).plusYears(1);
 		LocalDate expected = LocalDate.of(2009, 2, 28);
 		assertEquals(t, expected);
 	}
 
-	// @Test
+	@Test
 	public void test_plusYears_long_big() {
 		long years = 20L + Year.MAX_VALUE;
 		LocalDate test = LocalDate.of(-40, 6, 1).plusYears(years);
 		assertEquals(test, LocalDate.of((int) (-40L + years), 6, 1));
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_plusYears_long_invalidTooLarge() {
 		try {
 			LocalDate test = LocalDate.of(Year.MAX_VALUE, 6, 1);
@@ -1140,7 +1187,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_plusYears_long_invalidTooLargeMaxAddMax() {
 		try {
 			LocalDate test = LocalDate.of(Year.MAX_VALUE, 12, 1);
@@ -1150,7 +1197,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_plusYears_long_invalidTooLargeMaxAddMin() {
 		try {
 			LocalDate test = LocalDate.of(Year.MAX_VALUE, 12, 1);
@@ -1160,7 +1207,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_plusYears_long_invalidTooSmall_validInt() {
 		try {
 			LocalDate.of(Year.MIN_VALUE, 1, 1).plusYears(-1);
@@ -1169,7 +1216,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_plusYears_long_invalidTooSmall_invalidInt() {
 		try {
 			LocalDate.of(Year.MIN_VALUE, 1, 1).plusYears(-10);
@@ -1181,58 +1228,58 @@ public class GwtTestLocalDate extends GWTTestCase {
 	// -----------------------------------------------------------------------
 	// plusMonths()
 	// -----------------------------------------------------------------------
-	// @Test
+	@Test
 	public void test_plusMonths_long_normal() {
 		LocalDate t = TEST_2007_07_15.plusMonths(1);
 		assertEquals(t, LocalDate.of(2007, 8, 15));
 	}
 
-	// @Test
+	@Test
 	public void test_plusMonths_long_overYears() {
 		LocalDate t = TEST_2007_07_15.plusMonths(25);
 		assertEquals(t, LocalDate.of(2009, 8, 15));
 	}
 
-	// @Test
+	@Test
 	public void test_plusMonths_long_negative() {
 		LocalDate t = TEST_2007_07_15.plusMonths(-1);
 		assertEquals(t, LocalDate.of(2007, 6, 15));
 	}
 
-	// @Test
+	@Test
 	public void test_plusMonths_long_negativeAcrossYear() {
 		LocalDate t = TEST_2007_07_15.plusMonths(-7);
 		assertEquals(t, LocalDate.of(2006, 12, 15));
 	}
 
-	// @Test
+	@Test
 	public void test_plusMonths_long_negativeOverYears() {
 		LocalDate t = TEST_2007_07_15.plusMonths(-31);
 		assertEquals(t, LocalDate.of(2004, 12, 15));
 	}
 
-	// @Test
+	@Test
 	public void test_plusMonths_long_adjustDayFromLeapYear() {
 		LocalDate t = LocalDate.of(2008, 2, 29).plusMonths(12);
 		LocalDate expected = LocalDate.of(2009, 2, 28);
 		assertEquals(t, expected);
 	}
 
-	// @Test
+	@Test
 	public void test_plusMonths_long_adjustDayFromMonthLength() {
 		LocalDate t = LocalDate.of(2007, 3, 31).plusMonths(1);
 		LocalDate expected = LocalDate.of(2007, 4, 30);
 		assertEquals(t, expected);
 	}
 
-	// @Test
+	@Test
 	public void test_plusMonths_long_big() {
 		long months = 20L + Integer.MAX_VALUE;
 		LocalDate test = LocalDate.of(-40, 6, 1).plusMonths(months);
 		assertEquals(test, LocalDate.of((int) (-40L + months / 12), 6 + (int) (months % 12), 1));
 	}
 
-	// @Test(expectedExceptions={DateTimeException.class})
+	@Test(expected = DateTimeException.class)
 	public void test_plusMonths_long_invalidTooLarge() {
 		try {
 			LocalDate.of(Year.MAX_VALUE, 12, 1).plusMonths(1);
@@ -1241,7 +1288,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_plusMonths_long_invalidTooLargeMaxAddMax() {
 		try {
 			LocalDate test = LocalDate.of(Year.MAX_VALUE, 12, 1);
@@ -1251,7 +1298,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_plusMonths_long_invalidTooLargeMaxAddMin() {
 		try {
 			LocalDate test = LocalDate.of(Year.MAX_VALUE, 12, 1);
@@ -1261,7 +1308,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions={DateTimeException.class})
+	@Test(expected = DateTimeException.class)
 	public void test_plusMonths_long_invalidTooSmall() {
 		try {
 			LocalDate.of(Year.MIN_VALUE, 1, 1).plusMonths(-1);
@@ -1270,63 +1317,63 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test
+	@Test
 	public void test_plusWeeks_normal() {
 		LocalDate t = TEST_2007_07_15.plusWeeks(1);
 		assertEquals(t, LocalDate.of(2007, 7, 22));
 	}
 
-	// @Test
+	@Test
 	public void test_plusWeeks_overMonths() {
 		LocalDate t = TEST_2007_07_15.plusWeeks(9);
 		assertEquals(t, LocalDate.of(2007, 9, 16));
 	}
 
-	// @Test
+	@Test
 	public void test_plusWeeks_overYears() {
 		LocalDate t = LocalDate.of(2006, 7, 16).plusWeeks(52);
 		assertEquals(t, TEST_2007_07_15);
 	}
 
-	// @Test
+	@Test
 	public void test_plusWeeks_overLeapYears() {
 		LocalDate t = TEST_2007_07_15.plusYears(-1).plusWeeks(104);
 		assertEquals(t, LocalDate.of(2008, 7, 12));
 	}
 
-	// @Test
+	@Test
 	public void test_plusWeeks_negative() {
 		LocalDate t = TEST_2007_07_15.plusWeeks(-1);
 		assertEquals(t, LocalDate.of(2007, 7, 8));
 	}
 
-	// @Test
+	@Test
 	public void test_plusWeeks_negativeAcrossYear() {
 		LocalDate t = TEST_2007_07_15.plusWeeks(-28);
 		assertEquals(t, LocalDate.of(2006, 12, 31));
 	}
 
-	// @Test
+	@Test
 	public void test_plusWeeks_negativeOverYears() {
 		LocalDate t = TEST_2007_07_15.plusWeeks(-104);
 		assertEquals(t, LocalDate.of(2005, 7, 17));
 	}
 
-	// @Test
+	@Test
 	public void test_plusWeeks_maximum() {
 		LocalDate t = LocalDate.of(Year.MAX_VALUE, 12, 24).plusWeeks(1);
 		LocalDate expected = LocalDate.of(Year.MAX_VALUE, 12, 31);
 		assertEquals(t, expected);
 	}
 
-	// @Test
+	@Test
 	public void test_plusWeeks_minimum() {
 		LocalDate t = LocalDate.of(Year.MIN_VALUE, 1, 8).plusWeeks(-1);
 		LocalDate expected = LocalDate.of(Year.MIN_VALUE, 1, 1);
 		assertEquals(t, expected);
 	}
 
-	// @Test(expectedExceptions={DateTimeException.class})
+	@Test(expected = DateTimeException.class)
 	public void test_plusWeeks_invalidTooLarge() {
 		try {
 			LocalDate.of(Year.MAX_VALUE, 12, 25).plusWeeks(1);
@@ -1335,7 +1382,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions={DateTimeException.class})
+	@Test(expected = DateTimeException.class)
 	public void test_plusWeeks_invalidTooSmall() {
 		try {
 			LocalDate.of(Year.MIN_VALUE, 1, 7).plusWeeks(-1);
@@ -1344,7 +1391,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions={ArithmeticException.class})
+	@Test(expected = ArithmeticException.class)
 	public void test_plusWeeks_invalidMaxMinusMax() {
 		try {
 			LocalDate.of(Year.MAX_VALUE, 12, 25).plusWeeks(Long.MAX_VALUE);
@@ -1353,7 +1400,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions={ArithmeticException.class})
+	@Test(expected = ArithmeticException.class)
 	public void test_plusWeeks_invalidMaxMinusMin() {
 		try {
 			LocalDate.of(Year.MAX_VALUE, 12, 25).plusWeeks(Long.MIN_VALUE);
@@ -1362,63 +1409,63 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test
+	@Test
 	public void test_plusDays_normal() {
 		LocalDate t = TEST_2007_07_15.plusDays(1);
 		assertEquals(t, LocalDate.of(2007, 7, 16));
 	}
 
-	// @Test
+	@Test
 	public void test_plusDays_overMonths() {
 		LocalDate t = TEST_2007_07_15.plusDays(62);
 		assertEquals(t, LocalDate.of(2007, 9, 15));
 	}
 
-	// @Test
+	@Test
 	public void test_plusDays_overYears() {
 		LocalDate t = LocalDate.of(2006, 7, 14).plusDays(366);
 		assertEquals(t, TEST_2007_07_15);
 	}
 
-	// @Test
+	@Test
 	public void test_plusDays_overLeapYears() {
 		LocalDate t = TEST_2007_07_15.plusYears(-1).plusDays(365 + 366);
 		assertEquals(t, LocalDate.of(2008, 7, 15));
 	}
 
-	// @Test
+	@Test
 	public void test_plusDays_negative() {
 		LocalDate t = TEST_2007_07_15.plusDays(-1);
 		assertEquals(t, LocalDate.of(2007, 7, 14));
 	}
 
-	// @Test
+	@Test
 	public void test_plusDays_negativeAcrossYear() {
 		LocalDate t = TEST_2007_07_15.plusDays(-196);
 		assertEquals(t, LocalDate.of(2006, 12, 31));
 	}
 
-	// @Test
+	@Test
 	public void test_plusDays_negativeOverYears() {
 		LocalDate t = TEST_2007_07_15.plusDays(-730);
 		assertEquals(t, LocalDate.of(2005, 7, 15));
 	}
 
-	// @Test
+	@Test
 	public void test_plusDays_maximum() {
 		LocalDate t = LocalDate.of(Year.MAX_VALUE, 12, 30).plusDays(1);
 		LocalDate expected = LocalDate.of(Year.MAX_VALUE, 12, 31);
 		assertEquals(t, expected);
 	}
 
-	// @Test
+	@Test
 	public void test_plusDays_minimum() {
 		LocalDate t = LocalDate.of(Year.MIN_VALUE, 1, 2).plusDays(-1);
 		LocalDate expected = LocalDate.of(Year.MIN_VALUE, 1, 1);
 		assertEquals(t, expected);
 	}
 
-	// @Test(expectedExceptions={DateTimeException.class})
+	@Test(expected = DateTimeException.class)
 	public void test_plusDays_invalidTooLarge() {
 		try {
 			LocalDate.of(Year.MAX_VALUE, 12, 31).plusDays(1);
@@ -1427,7 +1474,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions={DateTimeException.class})
+	@Test(expected = DateTimeException.class)
 	public void test_plusDays_invalidTooSmall() {
 		try {
 			LocalDate.of(Year.MIN_VALUE, 1, 1).plusDays(-1);
@@ -1436,7 +1483,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=ArithmeticException.class)
+	@Test(expected = ArithmeticException.class)
 	public void test_plusDays_overflowTooLarge() {
 		try {
 			LocalDate.of(Year.MAX_VALUE, 12, 31).plusDays(Long.MAX_VALUE);
@@ -1445,7 +1492,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=ArithmeticException.class)
+	@Test(expected = ArithmeticException.class)
 	public void test_plusDays_overflowTooSmall() {
 		try {
 			LocalDate.of(Year.MIN_VALUE, 1, 1).plusDays(Long.MIN_VALUE);
@@ -1457,21 +1504,21 @@ public class GwtTestLocalDate extends GWTTestCase {
 	// -----------------------------------------------------------------------
 	// minus(Period)
 	// -----------------------------------------------------------------------
-	// @Test
+	@Test
 	public void test_minus_Period_positiveMonths() {
 		MockSimplePeriod period = MockSimplePeriod.of(7, ChronoUnit.MONTHS);
 		LocalDate t = TEST_2007_07_15.minus(period);
 		assertEquals(t, LocalDate.of(2006, 12, 15));
 	}
 
-	// @Test
+	@Test
 	public void test_minus_Period_negativeDays() {
 		MockSimplePeriod period = MockSimplePeriod.of(-25, ChronoUnit.DAYS);
 		LocalDate t = TEST_2007_07_15.minus(period);
 		assertEquals(t, LocalDate.of(2007, 8, 9));
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_minus_Period_timeNotAllowed() {
 		try {
 			MockSimplePeriod period = MockSimplePeriod.of(7, ChronoUnit.HOURS);
@@ -1481,7 +1528,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=NullPointerException.class)
+	@Test(expected = NullPointerException.class)
 	public void test_minus_Period_null() {
 		try {
 			TEST_2007_07_15.minus((MockSimplePeriod) null);
@@ -1492,7 +1539,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_minus_Period_invalidTooLarge() {
 		try {
 			MockSimplePeriod period = MockSimplePeriod.of(-1, ChronoUnit.YEARS);
@@ -1502,7 +1549,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_minus_Period_invalidTooSmall() {
 		try {
 			MockSimplePeriod period = MockSimplePeriod.of(1, ChronoUnit.YEARS);
@@ -1515,19 +1562,19 @@ public class GwtTestLocalDate extends GWTTestCase {
 	// -----------------------------------------------------------------------
 	// minus(long,PeriodUnit)
 	// -----------------------------------------------------------------------
-	// @Test
+	@Test
 	public void test_minus_longPeriodUnit_positiveMonths() {
 		LocalDate t = TEST_2007_07_15.minus(7, ChronoUnit.MONTHS);
 		assertEquals(t, LocalDate.of(2006, 12, 15));
 	}
 
-	// @Test
+	@Test
 	public void test_minus_longPeriodUnit_negativeDays() {
 		LocalDate t = TEST_2007_07_15.minus(-25, ChronoUnit.DAYS);
 		assertEquals(t, LocalDate.of(2007, 8, 9));
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_minus_longPeriodUnit_timeNotAllowed() {
 		try {
 			TEST_2007_07_15.minus(7, ChronoUnit.HOURS);
@@ -1536,7 +1583,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=NullPointerException.class)
+	@Test(expected = NullPointerException.class)
 	public void test_minus_longPeriodUnit_null() {
 		try {
 			TEST_2007_07_15.minus(1, (TemporalUnit) null);
@@ -1547,7 +1594,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_minus_longPeriodUnit_invalidTooLarge() {
 		try {
 			LocalDate.of(Year.MAX_VALUE, 1, 1).minus(-1, ChronoUnit.YEARS);
@@ -1556,7 +1603,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_minus_longPeriodUnit_invalidTooSmall() {
 		try {
 			LocalDate.of(Year.MIN_VALUE, 1, 1).minus(1, ChronoUnit.YEARS);
@@ -1568,33 +1615,33 @@ public class GwtTestLocalDate extends GWTTestCase {
 	// -----------------------------------------------------------------------
 	// minusYears()
 	// -----------------------------------------------------------------------
-	// @Test
+	@Test
 	public void test_minusYears_long_normal() {
 		LocalDate t = TEST_2007_07_15.minusYears(1);
 		assertEquals(t, LocalDate.of(2006, 7, 15));
 	}
 
-	// @Test
+	@Test
 	public void test_minusYears_long_negative() {
 		LocalDate t = TEST_2007_07_15.minusYears(-1);
 		assertEquals(t, LocalDate.of(2008, 7, 15));
 	}
 
-	// @Test
+	@Test
 	public void test_minusYears_long_adjustDay() {
 		LocalDate t = LocalDate.of(2008, 2, 29).minusYears(1);
 		LocalDate expected = LocalDate.of(2007, 2, 28);
 		assertEquals(t, expected);
 	}
 
-	// @Test
+	@Test
 	public void test_minusYears_long_big() {
 		long years = 20L + Year.MAX_VALUE;
 		LocalDate test = LocalDate.of(40, 6, 1).minusYears(years);
 		assertEquals(test, LocalDate.of((int) (40L - years), 6, 1));
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_minusYears_long_invalidTooLarge() {
 		try {
 			LocalDate test = LocalDate.of(Year.MAX_VALUE, 6, 1);
@@ -1604,7 +1651,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_minusYears_long_invalidTooLargeMaxAddMax() {
 		try {
 			LocalDate test = LocalDate.of(Year.MAX_VALUE, 12, 1);
@@ -1614,7 +1661,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_minusYears_long_invalidTooLargeMaxAddMin() {
 		try {
 			LocalDate test = LocalDate.of(Year.MAX_VALUE, 12, 1);
@@ -1624,7 +1671,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_minusYears_long_invalidTooSmall() {
 		try {
 			LocalDate.of(Year.MIN_VALUE, 1, 1).minusYears(1);
@@ -1636,58 +1683,58 @@ public class GwtTestLocalDate extends GWTTestCase {
 	// -----------------------------------------------------------------------
 	// minusMonths()
 	// -----------------------------------------------------------------------
-	// @Test
+	@Test
 	public void test_minusMonths_long_normal() {
 		LocalDate t = TEST_2007_07_15.minusMonths(1);
 		assertEquals(t, LocalDate.of(2007, 6, 15));
 	}
 
-	// @Test
+	@Test
 	public void test_minusMonths_long_overYears() {
 		LocalDate t = TEST_2007_07_15.minusMonths(25);
 		assertEquals(t, LocalDate.of(2005, 6, 15));
 	}
 
-	// @Test
+	@Test
 	public void test_minusMonths_long_negative() {
 		LocalDate t = TEST_2007_07_15.minusMonths(-1);
 		assertEquals(t, LocalDate.of(2007, 8, 15));
 	}
 
-	// @Test
+	@Test
 	public void test_minusMonths_long_negativeAcrossYear() {
 		LocalDate t = TEST_2007_07_15.minusMonths(-7);
 		assertEquals(t, LocalDate.of(2008, 2, 15));
 	}
 
-	// @Test
+	@Test
 	public void test_minusMonths_long_negativeOverYears() {
 		LocalDate t = TEST_2007_07_15.minusMonths(-31);
 		assertEquals(t, LocalDate.of(2010, 2, 15));
 	}
 
-	// @Test
+	@Test
 	public void test_minusMonths_long_adjustDayFromLeapYear() {
 		LocalDate t = LocalDate.of(2008, 2, 29).minusMonths(12);
 		LocalDate expected = LocalDate.of(2007, 2, 28);
 		assertEquals(t, expected);
 	}
 
-	// @Test
+	@Test
 	public void test_minusMonths_long_adjustDayFromMonthLength() {
 		LocalDate t = LocalDate.of(2007, 3, 31).minusMonths(1);
 		LocalDate expected = LocalDate.of(2007, 2, 28);
 		assertEquals(t, expected);
 	}
 
-	// @Test
+	@Test
 	public void test_minusMonths_long_big() {
 		long months = 20L + Integer.MAX_VALUE;
 		LocalDate test = LocalDate.of(40, 6, 1).minusMonths(months);
 		assertEquals(test, LocalDate.of((int) (40L - months / 12), 6 - (int) (months % 12), 1));
 	}
 
-	// @Test(expectedExceptions={DateTimeException.class})
+	@Test(expected = DateTimeException.class)
 	public void test_minusMonths_long_invalidTooLarge() {
 		try {
 			LocalDate.of(Year.MAX_VALUE, 12, 1).minusMonths(-1);
@@ -1696,7 +1743,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_minusMonths_long_invalidTooLargeMaxAddMax() {
 		try {
 			LocalDate test = LocalDate.of(Year.MAX_VALUE, 12, 1);
@@ -1706,7 +1753,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_minusMonths_long_invalidTooLargeMaxAddMin() {
 		try {
 			LocalDate test = LocalDate.of(Year.MAX_VALUE, 12, 1);
@@ -1716,7 +1763,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions={DateTimeException.class})
+	@Test(expected = DateTimeException.class)
 	public void test_minusMonths_long_invalidTooSmall() {
 		try {
 			LocalDate.of(Year.MIN_VALUE, 1, 1).minusMonths(1);
@@ -1725,63 +1772,63 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test
+	@Test
 	public void test_minusWeeks_normal() {
 		LocalDate t = TEST_2007_07_15.minusWeeks(1);
 		assertEquals(t, LocalDate.of(2007, 7, 8));
 	}
 
-	// @Test
+	@Test
 	public void test_minusWeeks_overMonths() {
 		LocalDate t = TEST_2007_07_15.minusWeeks(9);
 		assertEquals(t, LocalDate.of(2007, 5, 13));
 	}
 
-	// @Test
+	@Test
 	public void test_minusWeeks_overYears() {
 		LocalDate t = LocalDate.of(2008, 7, 13).minusWeeks(52);
 		assertEquals(t, TEST_2007_07_15);
 	}
 
-	// @Test
+	@Test
 	public void test_minusWeeks_overLeapYears() {
 		LocalDate t = TEST_2007_07_15.minusYears(-1).minusWeeks(104);
 		assertEquals(t, LocalDate.of(2006, 7, 18));
 	}
 
-	// @Test
+	@Test
 	public void test_minusWeeks_negative() {
 		LocalDate t = TEST_2007_07_15.minusWeeks(-1);
 		assertEquals(t, LocalDate.of(2007, 7, 22));
 	}
 
-	// @Test
+	@Test
 	public void test_minusWeeks_negativeAcrossYear() {
 		LocalDate t = TEST_2007_07_15.minusWeeks(-28);
 		assertEquals(t, LocalDate.of(2008, 1, 27));
 	}
 
-	// @Test
+	@Test
 	public void test_minusWeeks_negativeOverYears() {
 		LocalDate t = TEST_2007_07_15.minusWeeks(-104);
 		assertEquals(t, LocalDate.of(2009, 7, 12));
 	}
 
-	// @Test
+	@Test
 	public void test_minusWeeks_maximum() {
 		LocalDate t = LocalDate.of(Year.MAX_VALUE, 12, 24).minusWeeks(-1);
 		LocalDate expected = LocalDate.of(Year.MAX_VALUE, 12, 31);
 		assertEquals(t, expected);
 	}
 
-	// @Test
+	@Test
 	public void test_minusWeeks_minimum() {
 		LocalDate t = LocalDate.of(Year.MIN_VALUE, 1, 8).minusWeeks(1);
 		LocalDate expected = LocalDate.of(Year.MIN_VALUE, 1, 1);
 		assertEquals(t, expected);
 	}
 
-	// @Test(expectedExceptions={DateTimeException.class})
+	@Test(expected = DateTimeException.class)
 	public void test_minusWeeks_invalidTooLarge() {
 		try {
 			LocalDate.of(Year.MAX_VALUE, 12, 25).minusWeeks(-1);
@@ -1790,7 +1837,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions={DateTimeException.class})
+	@Test(expected = DateTimeException.class)
 	public void test_minusWeeks_invalidTooSmall() {
 		try {
 			LocalDate.of(Year.MIN_VALUE, 1, 7).minusWeeks(1);
@@ -1799,7 +1846,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions={ArithmeticException.class})
+	@Test(expected = ArithmeticException.class)
 	public void test_minusWeeks_invalidMaxMinusMax() {
 		try {
 			LocalDate.of(Year.MAX_VALUE, 12, 25).minusWeeks(Long.MAX_VALUE);
@@ -1808,7 +1855,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions={ArithmeticException.class})
+	@Test(expected = ArithmeticException.class)
 	public void test_minusWeeks_invalidMaxMinusMin() {
 		try {
 			LocalDate.of(Year.MAX_VALUE, 12, 25).minusWeeks(Long.MIN_VALUE);
@@ -1817,63 +1864,63 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test
+	@Test
 	public void test_minusDays_normal() {
 		LocalDate t = TEST_2007_07_15.minusDays(1);
 		assertEquals(t, LocalDate.of(2007, 7, 14));
 	}
 
-	// @Test
+	@Test
 	public void test_minusDays_overMonths() {
 		LocalDate t = TEST_2007_07_15.minusDays(62);
 		assertEquals(t, LocalDate.of(2007, 5, 14));
 	}
 
-	// @Test
+	@Test
 	public void test_minusDays_overYears() {
 		LocalDate t = LocalDate.of(2008, 7, 16).minusDays(367);
 		assertEquals(t, TEST_2007_07_15);
 	}
 
-	// @Test
+	@Test
 	public void test_minusDays_overLeapYears() {
 		LocalDate t = TEST_2007_07_15.plusYears(2).minusDays(365 + 366);
 		assertEquals(t, TEST_2007_07_15);
 	}
 
-	// @Test
+	@Test
 	public void test_minusDays_negative() {
 		LocalDate t = TEST_2007_07_15.minusDays(-1);
 		assertEquals(t, LocalDate.of(2007, 7, 16));
 	}
 
-	// @Test
+	@Test
 	public void test_minusDays_negativeAcrossYear() {
 		LocalDate t = TEST_2007_07_15.minusDays(-169);
 		assertEquals(t, LocalDate.of(2007, 12, 31));
 	}
 
-	// @Test
+	@Test
 	public void test_minusDays_negativeOverYears() {
 		LocalDate t = TEST_2007_07_15.minusDays(-731);
 		assertEquals(t, LocalDate.of(2009, 7, 15));
 	}
 
-	// @Test
+	@Test
 	public void test_minusDays_maximum() {
 		LocalDate t = LocalDate.of(Year.MAX_VALUE, 12, 30).minusDays(-1);
 		LocalDate expected = LocalDate.of(Year.MAX_VALUE, 12, 31);
 		assertEquals(t, expected);
 	}
 
-	// @Test
+	@Test
 	public void test_minusDays_minimum() {
 		LocalDate t = LocalDate.of(Year.MIN_VALUE, 1, 2).minusDays(1);
 		LocalDate expected = LocalDate.of(Year.MIN_VALUE, 1, 1);
 		assertEquals(t, expected);
 	}
 
-	// @Test(expectedExceptions={DateTimeException.class})
+	@Test(expected = DateTimeException.class)
 	public void test_minusDays_invalidTooLarge() {
 		try {
 			LocalDate.of(Year.MAX_VALUE, 12, 31).minusDays(-1);
@@ -1882,7 +1929,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions={DateTimeException.class})
+	@Test(expected = DateTimeException.class)
 	public void test_minusDays_invalidTooSmall() {
 		try {
 			LocalDate.of(Year.MIN_VALUE, 1, 1).minusDays(1);
@@ -1891,7 +1938,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=ArithmeticException.class)
+	@Test(expected = ArithmeticException.class)
 	public void test_minusDays_overflowTooLarge() {
 		try {
 			LocalDate.of(Year.MAX_VALUE, 12, 31).minusDays(Long.MIN_VALUE);
@@ -1900,7 +1947,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=ArithmeticException.class)
+	@Test(expected = ArithmeticException.class)
 	public void test_minusDays_overflowTooSmall() {
 		try {
 			LocalDate.of(Year.MIN_VALUE, 1, 1).minusDays(Long.MAX_VALUE);
@@ -1912,7 +1959,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 	// -----------------------------------------------------------------------
 	// until()
 	// -----------------------------------------------------------------------
-	@DataProvider(name = "until")
+//	@DataProvider(name = "until")
 	Object[][] provider_until() {
 		return new Object[][] { { "2012-06-30", "2012-06-30", DAYS, 0 }, { "2012-06-30", "2012-06-30", WEEKS, 0 },
 				{ "2012-06-30", "2012-06-30", MONTHS, 0 }, { "2012-06-30", "2012-06-30", YEARS, 0 },
@@ -1933,7 +1980,15 @@ public class GwtTestLocalDate extends GWTTestCase {
 				{ "2012-06-30", "2012-07-31", MONTHS, 1 }, };
 	}
 
-	// @Test(dataProvider = "until")
+	@Test(/* dataProvider = "until" */)
+	public void test_until() {
+		Object[][] data = provider_until();
+		for (int i = 0; i < data.length; i++) {
+			Object[] objects = data[i];
+			test_until((String) objects[0], (String) objects[1], (TemporalUnit) objects[2], (Integer) objects[3]);
+		}
+	}
+
 	public void test_until(String startStr, String endStr, TemporalUnit unit, long expected) {
 		LocalDate start = LocalDate.parse(startStr);
 		LocalDate end = LocalDate.parse(endStr);
@@ -1944,13 +1999,13 @@ public class GwtTestLocalDate extends GWTTestCase {
 	// -----------------------------------------------------------------------
 	// atTime()
 	// -----------------------------------------------------------------------
-	// @Test
+	@Test
 	public void test_atTime_LocalTime() {
 		LocalDate t = LocalDate.of(2008, 6, 30);
 		assertEquals(t.atTime(LocalTime.of(11, 30)), LocalDateTime.of(2008, 6, 30, 11, 30));
 	}
 
-	// @Test(expectedExceptions=NullPointerException.class)
+	@Test(expected = NullPointerException.class)
 	public void test_atTime_LocalTime_null() {
 		try {
 			LocalDate t = LocalDate.of(2008, 6, 30);
@@ -1961,13 +2016,13 @@ public class GwtTestLocalDate extends GWTTestCase {
 	}
 
 	// -------------------------------------------------------------------------
-	// @Test
+	@Test
 	public void test_atTime_int_int() {
 		LocalDate t = LocalDate.of(2008, 6, 30);
 		assertEquals(t.atTime(11, 30), LocalDateTime.of(2008, 6, 30, 11, 30));
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_atTime_int_int_hourTooSmall() {
 		try {
 			LocalDate t = LocalDate.of(2008, 6, 30);
@@ -1977,7 +2032,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_atTime_int_int_hourTooBig() {
 		try {
 			LocalDate t = LocalDate.of(2008, 6, 30);
@@ -1987,7 +2042,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_atTime_int_int_minuteTooSmall() {
 		try {
 			LocalDate t = LocalDate.of(2008, 6, 30);
@@ -1997,7 +2052,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_atTime_int_int_minuteTooBig() {
 		try {
 			LocalDate t = LocalDate.of(2008, 6, 30);
@@ -2007,13 +2062,13 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test
+	@Test
 	public void test_atTime_int_int_int() {
 		LocalDate t = LocalDate.of(2008, 6, 30);
 		assertEquals(t.atTime(11, 30, 40), LocalDateTime.of(2008, 6, 30, 11, 30, 40));
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_atTime_int_int_int_hourTooSmall() {
 		try {
 			LocalDate t = LocalDate.of(2008, 6, 30);
@@ -2023,7 +2078,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_atTime_int_int_int_hourTooBig() {
 		try {
 			LocalDate t = LocalDate.of(2008, 6, 30);
@@ -2033,7 +2088,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_atTime_int_int_int_minuteTooSmall() {
 		try {
 			LocalDate t = LocalDate.of(2008, 6, 30);
@@ -2043,7 +2098,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_atTime_int_int_int_minuteTooBig() {
 		try {
 			LocalDate t = LocalDate.of(2008, 6, 30);
@@ -2053,7 +2108,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_atTime_int_int_int_secondTooSmall() {
 		try {
 			LocalDate t = LocalDate.of(2008, 6, 30);
@@ -2063,7 +2118,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_atTime_int_int_int_secondTooBig() {
 		try {
 			LocalDate t = LocalDate.of(2008, 6, 30);
@@ -2073,13 +2128,13 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test
+	@Test
 	public void test_atTime_int_int_int_int() {
 		LocalDate t = LocalDate.of(2008, 6, 30);
 		assertEquals(t.atTime(11, 30, 40, 50), LocalDateTime.of(2008, 6, 30, 11, 30, 40, 50));
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_atTime_int_int_int_int_hourTooSmall() {
 		try {
 			LocalDate t = LocalDate.of(2008, 6, 30);
@@ -2089,7 +2144,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_atTime_int_int_int_int_hourTooBig() {
 		try {
 			LocalDate t = LocalDate.of(2008, 6, 30);
@@ -2099,7 +2154,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_atTime_int_int_int_int_minuteTooSmall() {
 		try {
 			LocalDate t = LocalDate.of(2008, 6, 30);
@@ -2109,7 +2164,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_atTime_int_int_int_int_minuteTooBig() {
 		try {
 			LocalDate t = LocalDate.of(2008, 6, 30);
@@ -2119,7 +2174,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_atTime_int_int_int_int_secondTooSmall() {
 		try {
 			LocalDate t = LocalDate.of(2008, 6, 30);
@@ -2129,7 +2184,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_atTime_int_int_int_int_secondTooBig() {
 		try {
 			LocalDate t = LocalDate.of(2008, 6, 30);
@@ -2139,7 +2194,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_atTime_int_int_int_int_nanoTooSmall() {
 		try {
 			LocalDate t = LocalDate.of(2008, 6, 30);
@@ -2149,7 +2204,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=DateTimeException.class)
+	@Test(expected = DateTimeException.class)
 	public void test_atTime_int_int_int_int_nanoTooBig() {
 		try {
 			LocalDate t = LocalDate.of(2008, 6, 30);
@@ -2162,19 +2217,19 @@ public class GwtTestLocalDate extends GWTTestCase {
 	// -----------------------------------------------------------------------
 	// atStartOfDay()
 	// -----------------------------------------------------------------------
-	// @Test
+	@Test
 	public void test_atStartOfDay() {
-//		LocalDate t = LocalDate.of(2008, 6, 30);
-//		assertEquals(t.atStartOfDay(ZONE_PARIS), ZonedDateTime.of(LocalDateTime.of(2008, 6, 30, 0, 0), ZONE_PARIS));
+		LocalDate t = LocalDate.of(2008, 6, 30);
+		assertEquals(t.atStartOfDay(ZONE_PARIS), ZonedDateTime.of(LocalDateTime.of(2008, 6, 30, 0, 0), ZONE_PARIS));
 	}
 
-	// @Test
+	@Test
 	public void test_atStartOfDay_dstGap() {
-//		LocalDate t = LocalDate.of(2007, 4, 1);
-//		assertEquals(t.atStartOfDay(ZONE_GAZA), ZonedDateTime.of(LocalDateTime.of(2007, 4, 1, 1, 0), ZONE_GAZA));
+		LocalDate t = LocalDate.of(2007, 4, 1);
+		assertEquals(t.atStartOfDay(ZONE_GAZA), ZonedDateTime.of(LocalDateTime.of(2007, 4, 1, 1, 0), ZONE_GAZA));
 	}
 
-	// @Test(expectedExceptions=NullPointerException.class)
+	@Test(expected = NullPointerException.class)
 	public void test_atStartOfDay_nullTimeZone() {
 		try {
 			LocalDate t = LocalDate.of(2008, 6, 30);
@@ -2189,7 +2244,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 	// -----------------------------------------------------------------------
 	// toEpochDay()
 	// -----------------------------------------------------------------------
-	// @Test
+//	@Test
 //GWT specific - too long
 //	public void test_toEpochDay() {
 //		long date_0000_01_01 = -678941 - 40587;
@@ -2215,7 +2270,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 	// -----------------------------------------------------------------------
 	// compareTo()
 	// -----------------------------------------------------------------------
-	// @Test
+	@Test
 	public void test_comparisons() {
 		doTest_comparisons_LocalDate(LocalDate.of(Year.MIN_VALUE, 1, 1), LocalDate.of(Year.MIN_VALUE, 12, 31),
 				LocalDate.of(-1, 1, 1), LocalDate.of(-1, 12, 31), LocalDate.of(0, 1, 1), LocalDate.of(0, 12, 31),
@@ -2250,7 +2305,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=NullPointerException.class)
+	@Test(expected = NullPointerException.class)
 	public void test_compareTo_ObjectNull() {
 		try {
 			TEST_2007_07_15.compareTo(null);
@@ -2261,14 +2316,14 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test
+	@Test
 	public void test_isBefore() {
 		assertTrue(TEST_2007_07_15.isBefore(LocalDate.of(2007, 07, 16)));
 		assertFalse(TEST_2007_07_15.isBefore(LocalDate.of(2007, 07, 14)));
 		assertFalse(TEST_2007_07_15.isBefore(TEST_2007_07_15));
 	}
 
-	// @Test(expectedExceptions=NullPointerException.class)
+	@Test(expected = NullPointerException.class)
 	public void test_isBefore_ObjectNull() {
 		try {
 			TEST_2007_07_15.isBefore(null);
@@ -2279,7 +2334,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test(expectedExceptions=NullPointerException.class)
+	@Test(expected = NullPointerException.class)
 	public void test_isAfter_ObjectNull() {
 		try {
 			TEST_2007_07_15.isAfter(null);
@@ -2290,14 +2345,14 @@ public class GwtTestLocalDate extends GWTTestCase {
 		}
 	}
 
-	// @Test
+	@Test
 	public void test_isAfter() {
 		assertTrue(TEST_2007_07_15.isAfter(LocalDate.of(2007, 07, 14)));
 		assertFalse(TEST_2007_07_15.isAfter(LocalDate.of(2007, 07, 16)));
 		assertFalse(TEST_2007_07_15.isAfter(TEST_2007_07_15));
 	}
 
-	// @Test(expectedExceptions=ClassCastException.class)
+	@Test(expected = ClassCastException.class)
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void compareToNonLocalDate() {
 		Comparable c = TEST_2007_07_15;
@@ -2307,45 +2362,77 @@ public class GwtTestLocalDate extends GWTTestCase {
 	// -----------------------------------------------------------------------
 	// equals()
 	// -----------------------------------------------------------------------
-	// @Test(dataProvider="sampleDates" )
+	@Test(/* dataProvider="sampleDates" */)
+	public void test_equals_true() {
+		Object[][] data = provider_sampleDates();
+		for (int i = 0; i < data.length; i++) {
+			Object[] objects = data[i];
+			test_equals_true((Integer)objects[0], (Integer)objects[1], (Integer)objects[2]);
+		}
+	}
+
 	public void test_equals_true(int y, int m, int d) {
 		LocalDate a = LocalDate.of(y, m, d);
 		LocalDate b = LocalDate.of(y, m, d);
 		assertEquals(a.equals(b), true);
 	}
 
-	// @Test(dataProvider="sampleDates")
+	@Test(/* dataProvider="sampleDates" */)
+	public void test_equals_false_year_differs() {
+		Object[][] data = provider_sampleDates();
+		for (int i = 0; i < data.length; i++) {
+			Object[] objects =  data[i];
+			test_equals_false_year_differs((Integer)objects[0], (Integer)objects[1], (Integer)objects[2]);
+		}
+	}
+
 	public void test_equals_false_year_differs(int y, int m, int d) {
 		LocalDate a = LocalDate.of(y, m, d);
 		LocalDate b = LocalDate.of(y + 1, m, d);
 		assertEquals(a.equals(b), false);
 	}
 
-	// @Test(dataProvider="sampleDates")
+	@Test(/* dataProvider="sampleDates" */)
+	public void test_equals_false_month_differs() {
+		Object[][] data = provider_sampleDates();
+		for (int i = 0; i < data.length; i++) {
+			Object[] objects = data[i];
+			test_equals_false_month_differs((Integer)objects[0], (Integer)objects[1], (Integer)objects[2]);
+		}
+	}
+
 	public void test_equals_false_month_differs(int y, int m, int d) {
 		LocalDate a = LocalDate.of(y, m, d);
 		LocalDate b = LocalDate.of(y, m + 1, d);
 		assertEquals(a.equals(b), false);
 	}
 
-	// @Test(dataProvider="sampleDates")
+	@Test(/* dataProvider="sampleDates" */)
+	public void test_equals_false_day_differs() {
+		Object[][] data = provider_sampleDates();
+		for (int i = 0; i < data.length; i++) {
+			Object[] objects = data[i];
+			test_equals_false_day_differs((Integer)objects[0], (Integer)objects[1], (Integer)objects[2]);
+		}
+	}
+
 	public void test_equals_false_day_differs(int y, int m, int d) {
 		LocalDate a = LocalDate.of(y, m, d);
 		LocalDate b = LocalDate.of(y, m, d + 1);
 		assertEquals(a.equals(b), false);
 	}
 
-	// @Test
+	@Test
 	public void test_equals_itself_true() {
 		assertEquals(TEST_2007_07_15.equals(TEST_2007_07_15), true);
 	}
 
-	// @Test
+	@Test
 	public void test_equals_string_false() {
 		assertEquals(TEST_2007_07_15.equals("2007-07-15"), false);
 	}
 
-	// @Test
+	@Test
 	public void test_equals_null_false() {
 		assertEquals(TEST_2007_07_15.equals(null), false);
 	}
@@ -2353,7 +2440,15 @@ public class GwtTestLocalDate extends GWTTestCase {
 	// -----------------------------------------------------------------------
 	// hashCode()
 	// -----------------------------------------------------------------------
-	// @Test(dataProvider="sampleDates")
+	@Test(/* dataProvider="sampleDates" */)
+	public void test_hashCode() {
+		Object[][] data = provider_sampleDates();
+		for (int i = 0; i < data.length; i++) {
+			Object[] objects =  data[i];
+			test_hashCode((Integer)objects[0], (Integer)objects[1], (Integer)objects[2]);
+		}
+	}
+
 	public void test_hashCode(int y, int m, int d) {
 		LocalDate a = LocalDate.of(y, m, d);
 		assertEquals(a.hashCode(), a.hashCode());
@@ -2364,7 +2459,7 @@ public class GwtTestLocalDate extends GWTTestCase {
 	// -----------------------------------------------------------------------
 	// toString()
 	// -----------------------------------------------------------------------
-	@DataProvider(name = "sampleToString")
+//	@DataProvider(name = "sampleToString")
 	Object[][] provider_sampleToString() {
 		return new Object[][] { { 2008, 7, 5, "2008-07-05" }, { 2007, 12, 31, "2007-12-31" },
 				{ 999, 12, 31, "0999-12-31" }, { -1, 1, 2, "-0001-01-02" }, { 9999, 12, 31, "9999-12-31" },
@@ -2372,7 +2467,15 @@ public class GwtTestLocalDate extends GWTTestCase {
 				{ 12345678, 1, 1, "+12345678-01-01" }, { -12345678, 1, 1, "-12345678-01-01" }, };
 	}
 
-	// @Test(dataProvider="sampleToString")
+	@Test(/* dataProvider="sampleToString" */)
+	public void test_toString() {
+		Object[][] data = provider_sampleToString();
+		for (int i = 0; i < data.length; i++) {
+			Object[] objects = data[i];
+			test_toString((Integer) objects[0], (Integer) objects[1], (Integer) objects[2], (String) objects[3]);
+		}
+	}
+
 	public void test_toString(int y, int m, int d, String expected) {
 		LocalDate t = LocalDate.of(y, m, d);
 		String str = t.toString();
@@ -2382,14 +2485,14 @@ public class GwtTestLocalDate extends GWTTestCase {
 	// -----------------------------------------------------------------------
 	// format(DateTimeFormatter)
 	// -----------------------------------------------------------------------
-	// @Test
+	@Test
 	public void test_format_formatter() {
 		DateTimeFormatter f = DateTimeFormatter.ofPattern("y M d");
 		String t = LocalDate.of(2010, 12, 3).format(f);
 		assertEquals(t, "2010 12 3");
 	}
 
-	// @Test(expectedExceptions=NullPointerException.class)
+	@Test(expected = NullPointerException.class)
 	public void test_format_formatter_null() {
 		try {
 			LocalDate.of(2010, 12, 3).format(null);

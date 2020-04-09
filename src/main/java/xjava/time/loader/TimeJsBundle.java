@@ -13,6 +13,10 @@ public interface TimeJsBundle extends ClientBundle {
 	public TextResource support();
 
 	@Nonnull
+	@Source("base64-binary.js")
+	public TextResource base64binary();
+
+	@Nonnull
 	@Source("TZDB.dat")
 	public DataResource tzdb();
 }

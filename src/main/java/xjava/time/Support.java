@@ -4,9 +4,12 @@ import static jsinterop.annotations.JsPackage.GLOBAL;
 
 import javax.annotation.Nonnull;
 
+import org.gwtproject.typedarrays.shared.Uint8Array;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.ScriptInjector;
 
+import elemental2.core.ArrayBuffer;
 import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
@@ -24,7 +27,8 @@ public class Support {
 		if (!isInitialized()) {
 			final TimeJsBundle bundle = GWT.create(TimeJsBundle.class);
 			ScriptInjector.fromString(bundle.support().getText()).setWindow(ScriptInjector.TOP_WINDOW).inject();
-//			System.out.println(bundle.tzdb().getSafeUri().asString());
+			ScriptInjector.fromString(bundle.base64binary().getText()).setWindow(ScriptInjector.TOP_WINDOW).inject();
+//			System.out.println(bundle.77tzdb().getSafeUri().asString());
 //			XMLHttpRequest request = XMLHttpRequest.create();
 //	        request.open("GET", bundle.tzdb().getSafeUri().asString());
 //	        request.setResponseType(ResponseType.ArrayBuffer);
@@ -68,5 +72,13 @@ public class Support {
 	@Nonnull
 	@JsMethod(namespace = JsPackage.GLOBAL)
 	public static native String getTimezone();
+
+	@Nonnull
+	@JsMethod(namespace = "Base64Binary")
+	public static native ArrayBuffer decodeArrayBuffer(String base64);
+
+	@Nonnull
+	@JsMethod(namespace = "Base64Binary")
+	public static native Uint8Array decode(String base64);
 
 }
