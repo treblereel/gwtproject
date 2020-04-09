@@ -21,11 +21,44 @@ public class Support {
 
 	@JsOverlay
 	public static void init() {
-		if (!initialized) {
+		if (!isInitialized()) {
 			final TimeJsBundle bundle = GWT.create(TimeJsBundle.class);
 			ScriptInjector.fromString(bundle.support().getText()).setWindow(ScriptInjector.TOP_WINDOW).inject();
-			initialized = true;
+//			System.out.println(bundle.tzdb().getSafeUri().asString());
+//			XMLHttpRequest request = XMLHttpRequest.create();
+//	        request.open("GET", bundle.tzdb().getSafeUri().asString());
+//	        request.setResponseType(ResponseType.ArrayBuffer);
+//	        request.setOnReadyStateChange(new ReadyStateChangeHandler() {
+//
+//	            @Override
+//	            public void onReadyStateChange(XMLHttpRequest xhr) {
+//	                if (xhr.getReadyState() == XMLHttpRequest.DONE) {
+//	                    if (xhr.getStatus() == 200) {
+//
+//	                        ArrayBuffer buffer = xhr.getResponseArrayBuffer();
+//	                        ByteBuffer data = ByteBuffer.wrapArrayBuffer(Js.cast(buffer));
+//	                        TzdbZoneRulesProvider provider = new TzdbZoneRulesProvider(data);
+//	                        ZoneRulesProvider.registerProvider(provider);
+////							Int8Array array = TypedArrays.createInt8Array(buffer);
+////	                        System.out.println("got " + array.length() + " bytes: ");
+////	                        for (int i = 0; i < array.length(); i++) {
+////	                            System.out.println(array.get(i));
+////	                        }
+//	            			initialized = true;
+//	                    } else {
+//	                        System.out.println("response status: " + xhr.getStatus() + " " + xhr.getStatusText());
+//	                    }
+//	                }
+//	            }
+//	        });
+//	        request.send();
+
 		}
+	}
+
+	@JsOverlay
+	public static boolean isInitialized() {
+		return initialized;
 	}
 
 	@Nonnull

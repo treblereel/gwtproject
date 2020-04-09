@@ -11,6 +11,7 @@
 	<groupId>org.jresearch.gwt.time</groupId>
 	<artifactId>org.jresearch.gwt.time</artifactId>
 	<packaging>gwt-lib</packaging>
+
 	<name>JRS: GWT port of JSR-310 (java.time)</name>
 	<description>JRS: GWT port of JSR-310 (java.time) based on ThreeTen backport project (https://www.threeten.org/threetenbp)</description>
 	<version>1.4.2-SNAPSHOT</version>
@@ -94,6 +95,16 @@
 			<version>${gwt-cldr.ver}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.jresearch.gwtproject.nio</groupId>
+			<artifactId>gwt-nio</artifactId>
+			<version>0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jresearch.gwtproject.xhr</groupId>
+			<artifactId>gwt-xhr</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
 			<groupId>com.google.jsinterop</groupId>
 			<artifactId>jsinterop-annotations</artifactId>
 		</dependency>
@@ -107,11 +118,11 @@
 			<artifactId>gwt-dev</artifactId>
 			<scope>provided</scope>
 		</dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
