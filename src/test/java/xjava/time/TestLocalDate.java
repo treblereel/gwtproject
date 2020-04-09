@@ -51,7 +51,6 @@ import static xjava.time.temporal.ChronoUnit.MONTHS;
 import static xjava.time.temporal.ChronoUnit.WEEKS;
 import static xjava.time.temporal.ChronoUnit.YEARS;
 
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -60,7 +59,6 @@ import org.junit.Test;
 
 import com.google.gwt.core.client.JavaScriptException;
 
-import elemental2.core.ArrayBuffer;
 import xjava.time.chrono.IsoChronology;
 import xjava.time.format.DateTimeFormatter;
 import xjava.time.format.DateTimeParseException;
@@ -74,17 +72,13 @@ import xjava.time.temporal.TemporalAdjuster;
 import xjava.time.temporal.TemporalField;
 import xjava.time.temporal.TemporalQueries;
 import xjava.time.temporal.TemporalUnit;
-import xjava.time.zone.TzdbZoneRulesProvider;
-import xjava.time.zone.ZoneRulesProvider;
 
 /**
  * Test LocalDate.
  */
-public class GwtTestLocalDate extends AbstractDateTimeTest {
+public class TestLocalDate extends AbstractDateTimeTest {
 
-	private static boolean firstTest = true;;
-
-	private static ZoneOffset OFFSET_ZONE;
+//	private static ZoneOffset OFFSET_ZONE;
 	private static ZoneId ZONE_PARIS;
 	private static ZoneId ZONE_GAZA;
 
@@ -97,35 +91,22 @@ public class GwtTestLocalDate extends AbstractDateTimeTest {
 	private static Instant MIN_INSTANT;
 
 	@Override
-	public String getModuleName() {
-		return "xjava.module";
-	}
+	public void gwtSetUpOnce() throws Exception {
+		super.gwtSetUpOnce();
+		TEST_2007_07_15 = LocalDate.of(2007, 7, 15);
 
-	@Override
-	public void gwtSetUp() throws Exception {
-		if (firstTest) {
-			Support.init();
-			ArrayBuffer array = Support.decodeArrayBuffer(TzData.TZ_DATA);
-			ByteBuffer data = ByteBuffer.wrapArrayBuffer(array);
-			TzdbZoneRulesProvider provider = new TzdbZoneRulesProvider(data);
-			ZoneRulesProvider.registerProvider(provider);
-			TEST_2007_07_15 = LocalDate.of(2007, 7, 15);
+		LocalDate max = LocalDate.MAX;
+		LocalDate min = LocalDate.MIN;
+		MAX_VALID_EPOCHDAYS = max.toEpochDay();
+		MIN_VALID_EPOCHDAYS = min.toEpochDay();
+		MAX_DATE = max;
+		MIN_DATE = min;
+		MAX_INSTANT = max.atStartOfDay(ZoneOffset.UTC).toInstant();
+		MIN_INSTANT = min.atStartOfDay(ZoneOffset.UTC).toInstant();
 
-			LocalDate max = LocalDate.MAX;
-			LocalDate min = LocalDate.MIN;
-			MAX_VALID_EPOCHDAYS = max.toEpochDay();
-			MIN_VALID_EPOCHDAYS = min.toEpochDay();
-			MAX_DATE = max;
-			MIN_DATE = min;
-			MAX_INSTANT = max.atStartOfDay(ZoneOffset.UTC).toInstant();
-			MIN_INSTANT = min.atStartOfDay(ZoneOffset.UTC).toInstant();
-
-			OFFSET_ZONE = ZoneOffset.ofHours(1);
-			ZONE_PARIS = ZoneId.of("Europe/Paris");
-			ZONE_GAZA = ZoneId.of("Asia/Gaza");
-			firstTest = false;
-		}
-		super.gwtSetUp();
+//		OFFSET_ZONE = ZoneOffset.ofHours(1);
+		ZONE_PARIS = ZoneId.of("Europe/Paris");
+		ZONE_GAZA = ZoneId.of("Asia/Gaza");
 	}
 
 	// -----------------------------------------------------------------------
@@ -516,22 +497,22 @@ public class GwtTestLocalDate extends AbstractDateTimeTest {
 		return date.with(date.getMonth().plus(1));
 	}
 
-	private LocalDate previous(LocalDate date) {
-		int newDayOfMonth = date.getDayOfMonth() - 1;
-		if (newDayOfMonth > 0) {
-			return date.withDayOfMonth(newDayOfMonth);
-		}
-		date = date.with(date.getMonth().minus(1));
-		if (date.getMonth() == Month.DECEMBER) {
-			date = date.withYear(date.getYear() - 1);
-		}
-		return date.withDayOfMonth(date.getMonth().length(isIsoLeap(date.getYear())));
-	}
+//	private LocalDate previous(LocalDate date) {
+//		int newDayOfMonth = date.getDayOfMonth() - 1;
+//		if (newDayOfMonth > 0) {
+//			return date.withDayOfMonth(newDayOfMonth);
+//		}
+//		date = date.with(date.getMonth().minus(1));
+//		if (date.getMonth() == Month.DECEMBER) {
+//			date = date.withYear(date.getYear() - 1);
+//		}
+//		return date.withDayOfMonth(date.getMonth().length(isIsoLeap(date.getYear())));
+//	}
 
 	// -----------------------------------------------------------------------
 	// ofEpochDay()
 	// -----------------------------------------------------------------------
-	//GWT - too long
+	// GWT - too long
 //	@Test
 //	public void test_factory_ofEpochDay() {
 //		long date_0000_01_01 = -678941 - 40587;

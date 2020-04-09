@@ -31,6 +31,7 @@
  */
 package xjava.time;
 
+import java.nio.ByteBuffer;
 import java.util.List;
 
 import org.junit.Test;
@@ -38,64 +39,94 @@ import org.junit.Test;
 import com.google.gwt.core.client.JavaScriptException;
 import com.google.gwt.junit.client.GWTTestCase;
 
+import elemental2.core.ArrayBuffer;
 import xjava.time.temporal.TemporalAccessor;
 import xjava.time.temporal.TemporalField;
 import xjava.time.temporal.TemporalQuery;
+import xjava.time.zone.TzdbZoneRulesProvider;
+import xjava.time.zone.ZoneRulesProvider;
 
 /**
  * Base test class for {@code DateTime}.
  */
 public abstract class AbstractDateTimeTest extends GWTTestCase {
 
-    /**
-     * Sample {@code DateTime} objects.
-     * @return the objects, not null
-     */
-    protected abstract List<TemporalAccessor> samples();
+	private static boolean firstTest = true;;
 
-    /**
-     * List of valid supported fields.
-     * @return the fields, not null
-     */
-    protected abstract List<TemporalField> validFields();
+	@Override
+	public String getModuleName() {
+		return "xjava.module";
+	}
 
-    /**
-     * List of invalid unsupported fields.
-     * @return the fields, not null
-     */
-    protected abstract List<TemporalField> invalidFields();
+	@Override
+	public void gwtSetUp() throws Exception {
+		if (firstTest) {
+			gwtSetUpOnce();
+			firstTest = false;
+		}
+		super.gwtSetUp();
+	}
 
-    //-----------------------------------------------------------------------
-    // isSupported(DateTimeField)
-    //-----------------------------------------------------------------------
-    @Test
-    public void test_basicTest_isSupported_DateTimeField_supported() {
-        for (TemporalAccessor sample : samples()) {
-            for (TemporalField field : validFields()) {
-                assertEquals("Failed on " + sample + " " + field, sample.isSupported(field), true);
-            }
-        }
-    }
+	public void gwtSetUpOnce() throws Exception {
+		Support.init();
+		ArrayBuffer array = Support.decodeArrayBuffer(TzData.TZ_DATA);
+		ByteBuffer data = ByteBuffer.wrapArrayBuffer(array);
+		TzdbZoneRulesProvider provider = new TzdbZoneRulesProvider(data);
+		ZoneRulesProvider.registerProvider(provider);
+	}
 
-    @Test
-    public void test_basicTest_isSupported_DateTimeField_unsupported() {
-        for (TemporalAccessor sample : samples()) {
-            for (TemporalField field : invalidFields()) {
-                assertEquals("Failed on " + sample + " " + field, sample.isSupported(field), false);
-            }
-        }
-    }
+	/**
+	 * Sample {@code DateTime} objects.
+	 *
+	 * @return the objects, not null
+	 */
+	protected abstract List<TemporalAccessor> samples();
 
-    @Test
-    public void test_basicTest_isSupported_DateTimeField_null() {
-        for (TemporalAccessor sample : samples()) {
-            assertEquals("Failed on " + sample, sample.isSupported(null), false);
-        }
-    }
+	/**
+	 * List of valid supported fields.
+	 *
+	 * @return the fields, not null
+	 */
+	protected abstract List<TemporalField> validFields();
 
-    //-----------------------------------------------------------------------
-    // range(DateTimeField)
-    //-----------------------------------------------------------------------
+	/**
+	 * List of invalid unsupported fields.
+	 *
+	 * @return the fields, not null
+	 */
+	protected abstract List<TemporalField> invalidFields();
+
+	// -----------------------------------------------------------------------
+	// isSupported(DateTimeField)
+	// -----------------------------------------------------------------------
+	@Test
+	public void test_basicTest_isSupported_DateTimeField_supported() {
+		for (TemporalAccessor sample : samples()) {
+			for (TemporalField field : validFields()) {
+				assertEquals("Failed on " + sample + " " + field, sample.isSupported(field), true);
+			}
+		}
+	}
+
+	@Test
+	public void test_basicTest_isSupported_DateTimeField_unsupported() {
+		for (TemporalAccessor sample : samples()) {
+			for (TemporalField field : invalidFields()) {
+				assertEquals("Failed on " + sample + " " + field, sample.isSupported(field), false);
+			}
+		}
+	}
+
+	@Test
+	public void test_basicTest_isSupported_DateTimeField_null() {
+		for (TemporalAccessor sample : samples()) {
+			assertEquals("Failed on " + sample, sample.isSupported(null), false);
+		}
+	}
+
+	// -----------------------------------------------------------------------
+	// range(DateTimeField)
+	// -----------------------------------------------------------------------
 // TODO needs implementations of week fields
 //    @Test
 //    public void basicTest_range_DateTimeField_supported() {
@@ -106,37 +137,37 @@ public abstract class AbstractDateTimeTest extends GWTTestCase {
 //        }
 //    }
 
-    @Test
-    public void test_basicTest_range_DateTimeField_unsupported() {
-        for (TemporalAccessor sample : samples()) {
-            for (TemporalField field : invalidFields()) {
-                try {
-                    sample.range(field);
-                    fail("Failed on " + sample + " " + field);
-                } catch (DateTimeException ex) {
-                    // expected
-                }
-            }
-        }
-    }
+	@Test
+	public void test_basicTest_range_DateTimeField_unsupported() {
+		for (TemporalAccessor sample : samples()) {
+			for (TemporalField field : invalidFields()) {
+				try {
+					sample.range(field);
+					fail("Failed on " + sample + " " + field);
+				} catch (DateTimeException ex) {
+					// expected
+				}
+			}
+		}
+	}
 
-    @Test
-    public void test_basicTest_range_DateTimeField_null() {
-        for (TemporalAccessor sample : samples()) {
-            try {
-                sample.range(null);
-                fail("Failed on " + sample);
-            } catch (NullPointerException ex) {
-                // expected
-            } catch (JavaScriptException ex) {
-                // expected
-            }
-        }
-    }
+	@Test
+	public void test_basicTest_range_DateTimeField_null() {
+		for (TemporalAccessor sample : samples()) {
+			try {
+				sample.range(null);
+				fail("Failed on " + sample);
+			} catch (NullPointerException ex) {
+				// expected
+			} catch (JavaScriptException ex) {
+				// expected
+			}
+		}
+	}
 
-    //-----------------------------------------------------------------------
-    // get(DateTimeField)
-    //-----------------------------------------------------------------------
+	// -----------------------------------------------------------------------
+	// get(DateTimeField)
+	// -----------------------------------------------------------------------
 // TODO needs implementations of week fields
 //    @Test
 //    public void basicTest_get_DateTimeField_supported() {
@@ -156,37 +187,37 @@ public abstract class AbstractDateTimeTest extends GWTTestCase {
 //        }
 //    }
 
-    @Test
-    public void test_basicTest_get_DateTimeField_unsupported() {
-        for (TemporalAccessor sample : samples()) {
-            for (TemporalField field : invalidFields()) {
-                try {
-                    sample.get(field);
-                    fail("Failed on " + sample + " " + field);
-                } catch (DateTimeException ex) {
-                    // expected
-                }
-            }
-        }
-    }
+	@Test
+	public void test_basicTest_get_DateTimeField_unsupported() {
+		for (TemporalAccessor sample : samples()) {
+			for (TemporalField field : invalidFields()) {
+				try {
+					sample.get(field);
+					fail("Failed on " + sample + " " + field);
+				} catch (DateTimeException ex) {
+					// expected
+				}
+			}
+		}
+	}
 
-    @Test
-    public void test_basicTest_get_DateTimeField_null() {
-        for (TemporalAccessor sample : samples()) {
-            try {
-                sample.get(null);
-                fail("Failed on " + sample);
-            } catch (NullPointerException ex) {
-                // expected
-            } catch (JavaScriptException ex) {
-                // expected
-            }
-        }
-    }
+	@Test
+	public void test_basicTest_get_DateTimeField_null() {
+		for (TemporalAccessor sample : samples()) {
+			try {
+				sample.get(null);
+				fail("Failed on " + sample);
+			} catch (NullPointerException ex) {
+				// expected
+			} catch (JavaScriptException ex) {
+				// expected
+			}
+		}
+	}
 
-    //-----------------------------------------------------------------------
-    // getLong(DateTimeField)
-    //-----------------------------------------------------------------------
+	// -----------------------------------------------------------------------
+	// getLong(DateTimeField)
+	// -----------------------------------------------------------------------
 // TODO needs implementations of week fields
 //    @Test
 //    public void basicTest_getLong_DateTimeField_supported() {
@@ -197,46 +228,46 @@ public abstract class AbstractDateTimeTest extends GWTTestCase {
 //        }
 //    }
 
-    @Test
-    public void test_basicTest_getLong_DateTimeField_unsupported() {
-        for (TemporalAccessor sample : samples()) {
-            for (TemporalField field : invalidFields()) {
-                try {
-                    sample.getLong(field);
-                    fail("Failed on " + sample + " " + field);
-                } catch (DateTimeException ex) {
-                    // expected
-                }
-            }
-        }
-    }
+	@Test
+	public void test_basicTest_getLong_DateTimeField_unsupported() {
+		for (TemporalAccessor sample : samples()) {
+			for (TemporalField field : invalidFields()) {
+				try {
+					sample.getLong(field);
+					fail("Failed on " + sample + " " + field);
+				} catch (DateTimeException ex) {
+					// expected
+				}
+			}
+		}
+	}
 
-    @Test
-    public void test_basicTest_getLong_DateTimeField_null() {
-        for (TemporalAccessor sample : samples()) {
-            try {
-                sample.getLong(null);
-                fail("Failed on " + sample);
-            } catch (NullPointerException ex) {
-                // expected
-            } catch (JavaScriptException ex) {
-                // expected
-            }
-        }
-    }
+	@Test
+	public void test_basicTest_getLong_DateTimeField_null() {
+		for (TemporalAccessor sample : samples()) {
+			try {
+				sample.getLong(null);
+				fail("Failed on " + sample);
+			} catch (NullPointerException ex) {
+				// expected
+			} catch (JavaScriptException ex) {
+				// expected
+			}
+		}
+	}
 
-    //-----------------------------------------------------------------------
-    @Test
-    public void test_basicTest_query() {
-        for (TemporalAccessor sample : samples()) {
-            assertEquals(sample.query(new TemporalQuery<String>() {
-                @Override
-                public String queryFrom(TemporalAccessor dateTime) {
-                    return "foo";
-                }
-            }), "foo");
-        }
-    }
+	// -----------------------------------------------------------------------
+	@Test
+	public void test_basicTest_query() {
+		for (TemporalAccessor sample : samples()) {
+			assertEquals(sample.query(new TemporalQuery<String>() {
+				@Override
+				public String queryFrom(TemporalAccessor dateTime) {
+					return "foo";
+				}
+			}), "foo");
+		}
+	}
 
 	// from parent
 	protected static boolean isIsoLeap(long year) {
