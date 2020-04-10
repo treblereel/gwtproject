@@ -67,6 +67,7 @@ import xjava.time.temporal.TemporalField;
  * This class is immutable and thread-safe.
  */
 final class SimpleDateTimeTextProvider extends DateTimeTextProvider {
+
      // TODO: Better implementation based on CLDR
 
     /** Comparator. */
@@ -192,35 +193,35 @@ final class SimpleDateTimeTextProvider extends DateTimeTextProvider {
             //GWT specific
             String[] array = dateTimeFormatInfo.weekdaysFullStandalone();
             Map<Long, String> map = new HashMap<Long, String>();
-            map.put(f1, array[Calendar.MONDAY]);
-            map.put(f2, array[Calendar.TUESDAY]);
-            map.put(f3, array[Calendar.WEDNESDAY]);
-            map.put(f4, array[Calendar.THURSDAY]);
-            map.put(f5, array[Calendar.FRIDAY]);
-            map.put(f6, array[Calendar.SATURDAY]);
-            map.put(f7, array[Calendar.SUNDAY]);
+            map.put(f1, array[Calendar.MONDAY - 1]);
+            map.put(f2, array[Calendar.TUESDAY - 1]);
+            map.put(f3, array[Calendar.WEDNESDAY - 1]);
+            map.put(f4, array[Calendar.THURSDAY - 1]);
+            map.put(f5, array[Calendar.FRIDAY - 1]);
+            map.put(f6, array[Calendar.SATURDAY - 1]);
+            map.put(f7, array[Calendar.SUNDAY - 1]);
             styleMap.put(TextStyle.FULL, map);
 
             map = new HashMap<Long, String>();
-            map.put(f1, array[Calendar.MONDAY].substring(0, 1));
-            map.put(f2, array[Calendar.TUESDAY].substring(0, 1));
-            map.put(f3, array[Calendar.WEDNESDAY].substring(0, 1));
-            map.put(f4, array[Calendar.THURSDAY].substring(0, 1));
-            map.put(f5, array[Calendar.FRIDAY].substring(0, 1));
-            map.put(f6, array[Calendar.SATURDAY].substring(0, 1));
-            map.put(f7, array[Calendar.SUNDAY].substring(0, 1));
+            map.put(f1, array[Calendar.MONDAY - 1].substring(0, 1));
+            map.put(f2, array[Calendar.TUESDAY - 1].substring(0, 1));
+            map.put(f3, array[Calendar.WEDNESDAY - 1].substring(0, 1));
+            map.put(f4, array[Calendar.THURSDAY - 1].substring(0, 1));
+            map.put(f5, array[Calendar.FRIDAY - 1].substring(0, 1));
+            map.put(f6, array[Calendar.SATURDAY - 1].substring(0, 1));
+            map.put(f7, array[Calendar.SUNDAY - 1].substring(0, 1));
             styleMap.put(TextStyle.NARROW, map);
 
             //GWT specific
             array = dateTimeFormatInfo.weekdaysShortStandalone();
             map = new HashMap<Long, String>();
-            map.put(f1, array[Calendar.MONDAY]);
-            map.put(f2, array[Calendar.TUESDAY]);
-            map.put(f3, array[Calendar.WEDNESDAY]);
-            map.put(f4, array[Calendar.THURSDAY]);
-            map.put(f5, array[Calendar.FRIDAY]);
-            map.put(f6, array[Calendar.SATURDAY]);
-            map.put(f7, array[Calendar.SUNDAY]);
+            map.put(f1, array[Calendar.MONDAY - 1]);
+            map.put(f2, array[Calendar.TUESDAY - 1]);
+            map.put(f3, array[Calendar.WEDNESDAY - 1]);
+            map.put(f4, array[Calendar.THURSDAY - 1]);
+            map.put(f5, array[Calendar.FRIDAY - 1]);
+            map.put(f6, array[Calendar.SATURDAY - 1]);
+            map.put(f7, array[Calendar.SUNDAY - 1]);
             styleMap.put(TextStyle.SHORT, map);
             return createLocaleStore(styleMap);
         }

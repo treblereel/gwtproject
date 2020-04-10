@@ -46,4 +46,5 @@ public class GwtSupportTest extends GWTTestCase {
 		assertEquals(0x71, data.get(4));
 		assertEquals(0x75, data.get(5));
 	}
+
 }

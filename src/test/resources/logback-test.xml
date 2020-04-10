@@ -7,8 +7,6 @@
     </encoder>
   </appender>
 
-    <logger name="com.jresearchsoft.booking.gwt.server.service.ServiceDetailServiceImpl" level="TRACE" />
-
   <root level="WARN">
     <appender-ref ref="STDOUT" />
   </root>

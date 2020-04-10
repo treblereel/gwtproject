@@ -91,7 +91,7 @@ public class TestLocalDate extends AbstractDateTimeTest {
 	private static Instant MIN_INSTANT;
 
 	@Override
-	public void gwtSetUpOnce() throws Exception {
+	public void gwtSetUpOnce() {
 		super.gwtSetUpOnce();
 		TEST_2007_07_15 = LocalDate.of(2007, 7, 15);
 

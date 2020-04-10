@@ -27,7 +27,7 @@ public class Support {
 		if (!isInitialized()) {
 			final TimeJsBundle bundle = GWT.create(TimeJsBundle.class);
 			ScriptInjector.fromString(bundle.support().getText()).setWindow(ScriptInjector.TOP_WINDOW).inject();
-			ScriptInjector.fromString(bundle.base64binary().getText()).setWindow(ScriptInjector.TOP_WINDOW).inject();
+//			ScriptInjector.fromString(bundle.base64binary().getText()).setWindow(ScriptInjector.TOP_WINDOW).inject();
 //			System.out.println(bundle.77tzdb().getSafeUri().asString());
 //			XMLHttpRequest request = XMLHttpRequest.create();
 //	        request.open("GET", bundle.tzdb().getSafeUri().asString());

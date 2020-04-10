@@ -67,7 +67,7 @@ public abstract class AbstractDateTimeTest extends GWTTestCase {
 		super.gwtSetUp();
 	}
 
-	public void gwtSetUpOnce() throws Exception {
+	public void gwtSetUpOnce() {
 		Support.init();
 		ArrayBuffer array = Support.decodeArrayBuffer(TzData.TZ_DATA);
 		ByteBuffer data = ByteBuffer.wrapArrayBuffer(array);

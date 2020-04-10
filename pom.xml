@@ -90,6 +90,15 @@
 	<!-- ==================================================================== -->
 	<dependencies>
 		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<!-- <dependency>
+			<groupId>org.jresearch.dominokit</groupId>
+			<artifactId>domino-slf4j-logger</artifactId>
+			<version>1.0-rc.4-SNAPSHOT</version>
+		</dependency> -->
+		<dependency>
 			<groupId>org.jresearch.gwtproject.i18n</groupId>
 			<artifactId>gwt-cldr</artifactId>
 			<version>${gwt-cldr.ver}</version>
