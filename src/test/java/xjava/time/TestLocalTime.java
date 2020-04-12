@@ -66,7 +66,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.junit.Test;
-import org.testng.annotations.DataProvider;
 
 import com.google.gwt.core.client.JavaScriptException;
 
@@ -616,9 +615,11 @@ public class TestLocalTime extends AbstractDateTimeTest {
 		Object[][] data = provider_sampleToString();
 		for (int i = 0; i < data.length; i++) {
 			Object[] objects = data[i];
-			test_factory_parse_validText((Integer) objects[0], (Integer) objects[1], (Integer) objects[2], (Integer) objects[3], (String) objects[4]);
+			test_factory_parse_validText((Integer) objects[0], (Integer) objects[1], (Integer) objects[2],
+					(Integer) objects[3], (String) objects[4]);
 		}
 	}
+
 	public void test_factory_parse_validText(int h, int m, int s, int n, String parsable) {
 		LocalTime t = LocalTime.parse(parsable);
 		assertNotNull(parsable, t);
@@ -628,13 +629,13 @@ public class TestLocalTime extends AbstractDateTimeTest {
 		assertEquals(t.getNano(), n);
 	}
 
-	@DataProvider(name = "sampleBadParse")
+//	@DataProvider(name = "sampleBadParse")
 	Object[][] provider_sampleBadParse() {
 		return new Object[][] { { "00;00" }, { "12-00" }, { "-01:00" }, { "00:00:00-09" }, { "00:00:00,09" },
 				{ "00:00:abs" }, { "11" }, { "11:30+01:00" }, { "11:30+01:00[Europe/Paris]" }, };
 	}
 
-	@Test(/* dataProvider = "sampleBadParse", */ expected=DateTimeParseException.class)
+	@Test(/* dataProvider = "sampleBadParse", */ expected = DateTimeParseException.class)
 	public void test_factory_parse_invalidText() {
 		Object[][] data = provider_sampleBadParse();
 		for (int i = 0; i < data.length; i++) {
@@ -856,7 +857,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	// -----------------------------------------------------------------------
 	// get*()
 	// -----------------------------------------------------------------------
-	@DataProvider(name = "sampleTimes")
+//	@DataProvider(name = "sampleTimes")
 	Object[][] provider_sampleTimes() {
 		return new Object[][] { { 0, 0, 0, 0 }, { 0, 0, 0, 1 }, { 0, 0, 1, 0 }, { 0, 0, 1, 1 }, { 0, 1, 0, 0 },
 				{ 0, 1, 0, 1 }, { 0, 1, 1, 0 }, { 0, 1, 1, 1 }, { 1, 0, 0, 0 }, { 1, 0, 0, 1 }, { 1, 0, 1, 0 },
@@ -1195,7 +1196,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 		}
 	};
 
-	@DataProvider(name = "truncatedToValid")
+//	@DataProvider(name = "truncatedToValid")
 	Object[][] data_truncatedToValid() {
 		return new Object[][] { { LocalTime.of(1, 2, 3, 123456789), NANOS, LocalTime.of(1, 2, 3, 123456789) },
 				{ LocalTime.of(1, 2, 3, 123456789), MICROS, LocalTime.of(1, 2, 3, 123456000) },
@@ -1215,7 +1216,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 		assertEquals(input.truncatedTo(unit), expected);
 	}
 
-	@DataProvider(name = "truncatedToInvalid")
+//	@DataProvider(name = "truncatedToInvalid")
 	Object[][] data_truncatedToInvalid() {
 		return new Object[][] { { LocalTime.of(1, 2, 3, 123456789), NINETY_FIVE_MINS },
 				{ LocalTime.of(1, 2, 3, 123456789), WEEKS }, { LocalTime.of(1, 2, 3, 123456789), MONTHS },
@@ -1549,7 +1550,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 		}
 	}
 
-	@DataProvider(name = "plusSeconds_fromZero")
+//	@DataProvider(name = "plusSeconds_fromZero")
 	Iterator<Object[]> plusSeconds_fromZero() {
 		return new Iterator<Object[]>() {
 			int delta = 30;
@@ -1595,7 +1596,8 @@ public class TestLocalTime extends AbstractDateTimeTest {
 		Iterator<Object[]> data = plusSeconds_fromZero();
 		while (data.hasNext()) {
 			Object[] objects = (Object[]) data.next();
-			test_plusSeconds_fromZero((Integer) objects[0], (Integer) objects[1], (Integer) objects[2], (Integer) objects[3]);
+			test_plusSeconds_fromZero((Integer) objects[0], (Integer) objects[1], (Integer) objects[2],
+					(Integer) objects[3]);
 		}
 	}
 
@@ -1664,7 +1666,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 		}
 	}
 
-	@DataProvider(name = "plusNanos_fromZero")
+//	@DataProvider(name = "plusNanos_fromZero")
 	Iterator<Object[]> plusNanos_fromZero() {
 		return new Iterator<Object[]>() {
 			long delta = 7500000000L;
@@ -1716,9 +1718,11 @@ public class TestLocalTime extends AbstractDateTimeTest {
 		Iterator<Object[]> data = plusNanos_fromZero();
 		while (data.hasNext()) {
 			Object[] objects = (Object[]) data.next();
-			test_plusNanos_fromZero((Long) objects[0], (Integer) objects[1], (Integer) objects[2], (Integer) objects[3], (Integer) objects[4]);
+			test_plusNanos_fromZero((Long) objects[0], (Integer) objects[1], (Integer) objects[2], (Integer) objects[3],
+					(Integer) objects[4]);
 		}
 	}
+
 	public void test_plusNanos_fromZero(long nanoseconds, int hour, int min, int sec, int nanos) {
 		LocalTime base = LocalTime.MIDNIGHT;
 		LocalTime t = base.plusNanos(nanoseconds);
@@ -2038,7 +2042,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 		}
 	}
 
-	@DataProvider(name = "minusSeconds_fromZero")
+//	@DataProvider(name = "minusSeconds_fromZero")
 	Iterator<Object[]> minusSeconds_fromZero() {
 		return new Iterator<Object[]>() {
 			int delta = 30;
@@ -2084,9 +2088,11 @@ public class TestLocalTime extends AbstractDateTimeTest {
 		Iterator<Object[]> data = minusSeconds_fromZero();
 		while (data.hasNext()) {
 			Object[] objects = (Object[]) data.next();
-			test_minusSeconds_fromZero((Integer) objects[0], (Integer) objects[1], (Integer) objects[2], (Integer) objects[3]);
+			test_minusSeconds_fromZero((Integer) objects[0], (Integer) objects[1], (Integer) objects[2],
+					(Integer) objects[3]);
 		}
 	}
+
 	public void test_minusSeconds_fromZero(int seconds, int hour, int min, int sec) {
 		LocalTime base = LocalTime.MIDNIGHT;
 		LocalTime t = base.minusSeconds(seconds);
@@ -2167,7 +2173,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 		}
 	}
 
-	@DataProvider(name = "minusNanos_fromZero")
+//	@DataProvider(name = "minusNanos_fromZero")
 	Iterator<Object[]> minusNanos_fromZero() {
 		return new Iterator<Object[]>() {
 			long delta = 7500000000L;
@@ -2219,9 +2225,11 @@ public class TestLocalTime extends AbstractDateTimeTest {
 		Iterator<Object[]> data = minusNanos_fromZero();
 		while (data.hasNext()) {
 			Object[] objects = (Object[]) data.next();
-			test_minusNanos_fromZero((Long) objects[0], (Integer) objects[1], (Integer) objects[2], (Integer) objects[3], (Integer) objects[4]);
+			test_minusNanos_fromZero((Long) objects[0], (Integer) objects[1], (Integer) objects[2],
+					(Integer) objects[3], (Integer) objects[4]);
 		}
 	}
+
 	public void test_minusNanos_fromZero(long nanoseconds, int hour, int min, int sec, int nanos) {
 		LocalTime base = LocalTime.MIDNIGHT;
 		LocalTime t = base.minusNanos(nanoseconds);
@@ -2259,7 +2267,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	// -----------------------------------------------------------------------
 	// until()
 	// -----------------------------------------------------------------------
-	@DataProvider(name = "until")
+//	@DataProvider(name = "until")
 	Object[][] provider_until() {
 		return new Object[][] { { "00:00", "00:00", NANOS, 0l }, { "00:00", "00:00", MICROS, 0l },
 				{ "00:00", "00:00", MILLIS, 0l }, { "00:00", "00:00", SECONDS, 0l }, { "00:00", "00:00", MINUTES, 0l },
@@ -2272,7 +2280,8 @@ public class TestLocalTime extends AbstractDateTimeTest {
 
 				{ "00:00", "00:01", NANOS, 60000000000L }, { "00:00", "00:01", MICROS, 60000000l },
 				{ "00:00", "00:01", MILLIS, 60000l }, { "00:00", "00:01", SECONDS, 60l },
-				{ "00:00", "00:01", MINUTES, 1l }, { "00:00", "00:01", HOURS, 0l }, { "00:00", "00:01", HALF_DAYS, 0l }, };
+				{ "00:00", "00:01", MINUTES, 1l }, { "00:00", "00:01", HOURS, 0l },
+				{ "00:00", "00:01", HALF_DAYS, 0l }, };
 	}
 
 	@Test(/* dataProvider = "until" */)
@@ -2287,6 +2296,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 			test_until(startStr, endStr, unit, expected);
 		}
 	}
+
 	public void test_until(String startStr, String endStr, TemporalUnit unit, long expected) {
 		LocalTime start = LocalTime.parse(startStr);
 		LocalTime end = LocalTime.parse(endStr);
@@ -2464,6 +2474,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 			test_equals_true((Integer) objects[0], (Integer) objects[1], (Integer) objects[2], (Integer) objects[3]);
 		}
 	}
+
 	public void test_equals_true(int h, int m, int s, int n) {
 		LocalTime a = LocalTime.of(h, m, s, n);
 		LocalTime b = LocalTime.of(h, m, s, n);
@@ -2475,9 +2486,11 @@ public class TestLocalTime extends AbstractDateTimeTest {
 		Object[][] data = provider_sampleTimes();
 		for (int i = 0; i < data.length; i++) {
 			Object[] objects = data[i];
-			test_equals_false_hour_differs((Integer) objects[0], (Integer) objects[1], (Integer) objects[2], (Integer) objects[3]);
+			test_equals_false_hour_differs((Integer) objects[0], (Integer) objects[1], (Integer) objects[2],
+					(Integer) objects[3]);
 		}
 	}
+
 	public void test_equals_false_hour_differs(int h, int m, int s, int n) {
 		LocalTime a = LocalTime.of(h, m, s, n);
 		LocalTime b = LocalTime.of(h + 1, m, s, n);
@@ -2489,9 +2502,11 @@ public class TestLocalTime extends AbstractDateTimeTest {
 		Object[][] data = provider_sampleTimes();
 		for (int i = 0; i < data.length; i++) {
 			Object[] objects = data[i];
-			test_equals_false_minute_differs((Integer) objects[0], (Integer) objects[1], (Integer) objects[2], (Integer) objects[3]);
+			test_equals_false_minute_differs((Integer) objects[0], (Integer) objects[1], (Integer) objects[2],
+					(Integer) objects[3]);
 		}
 	}
+
 	public void test_equals_false_minute_differs(int h, int m, int s, int n) {
 		LocalTime a = LocalTime.of(h, m, s, n);
 		LocalTime b = LocalTime.of(h, m + 1, s, n);
@@ -2503,9 +2518,11 @@ public class TestLocalTime extends AbstractDateTimeTest {
 		Object[][] data = provider_sampleTimes();
 		for (int i = 0; i < data.length; i++) {
 			Object[] objects = data[i];
-			test_equals_false_second_differs((Integer) objects[0], (Integer) objects[1], (Integer) objects[2], (Integer) objects[3]);
+			test_equals_false_second_differs((Integer) objects[0], (Integer) objects[1], (Integer) objects[2],
+					(Integer) objects[3]);
 		}
 	}
+
 	public void test_equals_false_second_differs(int h, int m, int s, int n) {
 		LocalTime a = LocalTime.of(h, m, s, n);
 		LocalTime b = LocalTime.of(h, m, s + 1, n);
@@ -2517,9 +2534,11 @@ public class TestLocalTime extends AbstractDateTimeTest {
 		Object[][] data = provider_sampleTimes();
 		for (int i = 0; i < data.length; i++) {
 			Object[] objects = data[i];
-			test_equals_false_nano_differs((Integer) objects[0], (Integer) objects[1], (Integer) objects[2], (Integer) objects[3]);
+			test_equals_false_nano_differs((Integer) objects[0], (Integer) objects[1], (Integer) objects[2],
+					(Integer) objects[3]);
 		}
 	}
+
 	public void test_equals_false_nano_differs(int h, int m, int s, int n) {
 		LocalTime a = LocalTime.of(h, m, s, n);
 		LocalTime b = LocalTime.of(h, m, s, n + 1);
@@ -2552,6 +2571,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 			test_hashCode_same((Integer) objects[0], (Integer) objects[1], (Integer) objects[2], (Integer) objects[3]);
 		}
 	}
+
 	public void test_hashCode_same(int h, int m, int s, int n) {
 		LocalTime a = LocalTime.of(h, m, s, n);
 		LocalTime b = LocalTime.of(h, m, s, n);
@@ -2563,9 +2583,11 @@ public class TestLocalTime extends AbstractDateTimeTest {
 		Object[][] data = provider_sampleTimes();
 		for (int i = 0; i < data.length; i++) {
 			Object[] objects = data[i];
-			test_hashCode_hour_differs((Integer) objects[0], (Integer) objects[1], (Integer) objects[2], (Integer) objects[3]);
+			test_hashCode_hour_differs((Integer) objects[0], (Integer) objects[1], (Integer) objects[2],
+					(Integer) objects[3]);
 		}
 	}
+
 	public void test_hashCode_hour_differs(int h, int m, int s, int n) {
 		LocalTime a = LocalTime.of(h, m, s, n);
 		LocalTime b = LocalTime.of(h + 1, m, s, n);
@@ -2577,9 +2599,11 @@ public class TestLocalTime extends AbstractDateTimeTest {
 		Object[][] data = provider_sampleTimes();
 		for (int i = 0; i < data.length; i++) {
 			Object[] objects = data[i];
-			test_hashCode_minute_differs((Integer) objects[0], (Integer) objects[1], (Integer) objects[2], (Integer) objects[3]);
+			test_hashCode_minute_differs((Integer) objects[0], (Integer) objects[1], (Integer) objects[2],
+					(Integer) objects[3]);
 		}
 	}
+
 	public void test_hashCode_minute_differs(int h, int m, int s, int n) {
 		LocalTime a = LocalTime.of(h, m, s, n);
 		LocalTime b = LocalTime.of(h, m + 1, s, n);
@@ -2591,9 +2615,11 @@ public class TestLocalTime extends AbstractDateTimeTest {
 		Object[][] data = provider_sampleTimes();
 		for (int i = 0; i < data.length; i++) {
 			Object[] objects = data[i];
-			test_hashCode_second_differs((Integer) objects[0], (Integer) objects[1], (Integer) objects[2], (Integer) objects[3]);
+			test_hashCode_second_differs((Integer) objects[0], (Integer) objects[1], (Integer) objects[2],
+					(Integer) objects[3]);
 		}
 	}
+
 	public void test_hashCode_second_differs(int h, int m, int s, int n) {
 		LocalTime a = LocalTime.of(h, m, s, n);
 		LocalTime b = LocalTime.of(h, m, s + 1, n);
@@ -2605,9 +2631,11 @@ public class TestLocalTime extends AbstractDateTimeTest {
 		Object[][] data = provider_sampleTimes();
 		for (int i = 0; i < data.length; i++) {
 			Object[] objects = data[i];
-			test_hashCode_nano_differs((Integer) objects[0], (Integer) objects[1], (Integer) objects[2], (Integer) objects[3]);
+			test_hashCode_nano_differs((Integer) objects[0], (Integer) objects[1], (Integer) objects[2],
+					(Integer) objects[3]);
 		}
 	}
+
 	public void test_hashCode_nano_differs(int h, int m, int s, int n) {
 		LocalTime a = LocalTime.of(h, m, s, n);
 		LocalTime b = LocalTime.of(h, m, s, n + 1);
@@ -2617,7 +2645,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	// -----------------------------------------------------------------------
 	// toString()
 	// -----------------------------------------------------------------------
-	@DataProvider(name = "sampleToString")
+//	@DataProvider(name = "sampleToString")
 	Object[][] provider_sampleToString() {
 		return new Object[][] { { 0, 0, 0, 0, "00:00" }, { 1, 0, 0, 0, "01:00" }, { 23, 0, 0, 0, "23:00" },
 				{ 0, 1, 0, 0, "00:01" }, { 12, 30, 0, 0, "12:30" }, { 23, 59, 0, 0, "23:59" },
@@ -2638,9 +2666,11 @@ public class TestLocalTime extends AbstractDateTimeTest {
 		Object[][] data = provider_sampleToString();
 		for (int i = 0; i < data.length; i++) {
 			Object[] objects = data[i];
-			test_toString((Integer) objects[0], (Integer) objects[1], (Integer) objects[2], (Integer) objects[3], (String) objects[4]);
+			test_toString((Integer) objects[0], (Integer) objects[1], (Integer) objects[2], (Integer) objects[3],
+					(String) objects[4]);
 		}
 	}
+
 	public void test_toString(int h, int m, int s, int n, String expected) {
 		LocalTime t = LocalTime.of(h, m, s, n);
 		String str = t.toString();
