@@ -57,7 +57,7 @@
 				</configuration>
 			</plugin>
 			<!-- Setup testing -->
-			<plugin>
+			<!-- <plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
@@ -67,7 +67,7 @@
 					<argLine>-Xmx2G</argLine>
 					<parallel>classes</parallel>
 					<threadCount>1</threadCount>
-					<!-- remove slow SuiteHTMLReporter -->
+					remove slow SuiteHTMLReporter
 					<properties>
 						<property>
 							<name>usedefaultlisteners</name>
@@ -83,7 +83,7 @@
 						</property>
 					</properties>
 				</configuration>
-			</plugin>
+			</plugin> -->
 		</plugins>
 	</build>
 
@@ -148,10 +148,10 @@
 			<version>9.2.14.v20151106</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
-			<version>6.8.21</version><!-- Later versions need JDK 7 -->
+			<version>6.8.21</version>Later versions need JDK 7
 			<scope>test</scope>
 			<exclusions>
 				<exclusion>
@@ -163,7 +163,7 @@
 					<artifactId>snakeyaml</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency>
+		</dependency> -->
 	</dependencies>
 
 
