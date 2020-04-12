@@ -74,6 +74,10 @@ public class Support {
 	public static native String getTimezone();
 
 	@Nonnull
+	@JsMethod(namespace = JsPackage.GLOBAL)
+	public static native void sleep(int milliseconds);
+
+	@Nonnull
 	@JsMethod(namespace = "Base64Binary")
 	public static native ArrayBuffer decodeArrayBuffer(String base64);
 

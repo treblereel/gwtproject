@@ -10,3 +10,10 @@ if (typeof Intl == 'object' && typeof Intl.DateTimeFormat == 'function'  && type
 	getTimezone = function() { return new Date().toTimeString().slice(9, 17); };
 }
 
+function sleep(milliseconds) {
+	var start = getTimestamp();
+	var current = getTimestamp();
+	while(current - start < milliseconds) {
+		current = getTimestamp();
+	}
+}
