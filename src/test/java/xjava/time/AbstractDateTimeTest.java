@@ -31,49 +31,20 @@
  */
 package xjava.time;
 
-import java.nio.ByteBuffer;
 import java.util.List;
 
 import org.junit.Test;
 
 import com.google.gwt.core.client.JavaScriptException;
-import com.google.gwt.junit.client.GWTTestCase;
 
-import elemental2.core.ArrayBuffer;
 import xjava.time.temporal.TemporalAccessor;
 import xjava.time.temporal.TemporalField;
 import xjava.time.temporal.TemporalQuery;
-import xjava.time.zone.TzdbZoneRulesProvider;
-import xjava.time.zone.ZoneRulesProvider;
 
 /**
  * Base test class for {@code DateTime}.
  */
-public abstract class AbstractDateTimeTest extends GWTTestCase {
-
-	private static boolean firstTest = true;;
-
-	@Override
-	public String getModuleName() {
-		return "xjava.module";
-	}
-
-	@Override
-	public void gwtSetUp() throws Exception {
-		if (firstTest) {
-			gwtSetUpOnce();
-			firstTest = false;
-		}
-		super.gwtSetUp();
-	}
-
-	public void gwtSetUpOnce() {
-		Support.init();
-		ArrayBuffer array = Support.decodeArrayBuffer(TzData.TZ_DATA);
-		ByteBuffer data = ByteBuffer.wrapArrayBuffer(array);
-		TzdbZoneRulesProvider provider = new TzdbZoneRulesProvider(data);
-		ZoneRulesProvider.registerProvider(provider);
-	}
+public abstract class AbstractDateTimeTest extends AbstractTest {
 
 	/**
 	 * Sample {@code DateTime} objects.
@@ -267,17 +238,6 @@ public abstract class AbstractDateTimeTest extends GWTTestCase {
 				}
 			}), "foo");
 		}
-	}
-
-	// from parent
-	protected static boolean isIsoLeap(long year) {
-		if (year % 4 != 0) {
-			return false;
-		}
-		if (year % 100 == 0 && year % 400 != 0) {
-			return false;
-		}
-		return true;
 	}
 
 }
