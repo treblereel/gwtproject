@@ -3,5 +3,4 @@
 	<inherits name="com.google.gwt.regexp.RegExp" />
 	<inherits name="org.gwtproject.i18n.CLDR" />
 	<inherits name="org.gwtproject.nio.GwtNioSupport" />
-	<source path="" />
 </module>

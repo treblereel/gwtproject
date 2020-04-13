@@ -1,0 +1,27 @@
+package org.jresearch.threetenbp.gwt.client;
+
+import com.google.gwt.junit.tools.GWTTestSuite;
+
+import junit.framework.Test;
+
+public class GwtTreetenBpSuite {
+
+	public static Test suite() {
+		GWTTestSuite suite = new GWTTestSuite("Tests");
+
+		// $JUnit-BEGIN$
+		suite.addTestSuite(GwtTest.class);
+		suite.addTestSuite(GwtSupportTest.class);
+		suite.addTestSuite(TestClock.class);
+		suite.addTestSuite(TestClock_Fixed.class);
+		suite.addTestSuite(TestClock_Offset.class);
+		suite.addTestSuite(TestClock_System.class);
+		suite.addTestSuite(TestClock_Tick.class);
+		suite.addTestSuite(TestDayOfWeek.class);
+		suite.addTestSuite(TestLocalDate.class);
+		suite.addTestSuite(TestLocalTime.class);
+		// $JUnit-END$
+
+		return suite;
+	}
+}
