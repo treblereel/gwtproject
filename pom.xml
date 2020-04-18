@@ -26,9 +26,9 @@
 		</license>
 	</licenses>
 	<scm>
-		<connection>scm:hg:https://helixteamhub.cloud/JRS/projects/gwtTime/repositories/mercurial/gwttime</connection>
-		<developerConnection>scm:hg:ssh://hth@helixteamhub.cloud/JRS/projects/gwtTime/repositories/mercurial/gwttime</developerConnection>
-		<url>https://helixteamhub.cloud/JRS/projects/gwtTime/repositories/mercurial/gwttime</url>
+		<connection>scm:hg:https://helixteamhub.cloud/JRS/projects/gwtTime/repositories/mercurial/gwt-time</connection>
+		<developerConnection>scm:hg:ssh://hth@helixteamhub.cloud/JRS/projects/gwtTime/repositories/mercurial/gwt-time</developerConnection>
+		<url>https://helixteamhub.cloud/JRS/projects/gwtTime/repositories/mercurial/gwt-time</url>
 		<tag>HEAD</tag>
 	</scm>
 	<!-- ==================================================================== -->
@@ -115,7 +115,7 @@
 			<groupId>com.google.elemental2</groupId>
 			<artifactId>elemental2-core</artifactId>
 		</dependency>
-		<!-- <dependency>
+		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 		</dependency>
@@ -123,7 +123,7 @@
 			<groupId>org.jresearch.dominokit</groupId>
 			<artifactId>domino-slf4j-logger</artifactId>
 			<version>1.0-rc.4-SNAPSHOT</version>
-		</dependency> -->
+		</dependency>
 		<dependency>
 			<groupId>org.jresearch.gwtproject.i18n</groupId>
 			<artifactId>gwt-cldr</artifactId>
