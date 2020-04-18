@@ -15,7 +15,6 @@
 <!-- XML parsing support.                                                   -->
 <!--                                                                        -->
 <module>
-  <inherits name="com.google.gwt.core.Core"/>
-
+  <inherits name="elemental2.dom.Dom"/>
   <source path="client" />
 </module>

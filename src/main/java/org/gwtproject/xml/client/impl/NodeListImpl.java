@@ -51,7 +51,7 @@ class NodeListImpl extends DOMItem implements NodeList {
    * 
    * @param index - the index to be retrieved
    * @return the item at this index
-   * @see com.google.gwt.xml.client.NodeList#item(int)
+   * @see org.gwtproject.xml.client.NodeList#item(int)
    */
   @Override
   public Node item(int index) {

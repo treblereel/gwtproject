@@ -205,7 +205,7 @@ public abstract class XMLParserImpl {
      *
      * @param contents contents
      * @return parsed JavaScript object
-     * @see com.google.gwt.xml.client.impl.XMLParserImpl#parseImpl(java.lang.String)
+     * @see org.gwtproject.xml.client.impl.XMLParserImpl#parseImpl(java.lang.String)
      */
     @Override
     protected NativeDocumentImpl parseImpl(String contents) {
