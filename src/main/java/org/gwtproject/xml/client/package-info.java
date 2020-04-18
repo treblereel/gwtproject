@@ -20,4 +20,4 @@
  * The classes in this package support parsing XML documents and creating
  * new XML documents.  The implementation uses the underlying browser.
  */
-package com.google.gwt.xml.client;
+package org.gwtproject.xml.client;
