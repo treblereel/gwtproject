@@ -25,7 +25,6 @@ public class GwtTreetenBpSuite {
 		suite.addTestSuite(TestDuration.class);
 		suite.addTestSuite(TestInstant.class);
 		suite.addTestSuite(TestMonth.class);
-
 		// $JUnit-END$
 
 		return suite;
