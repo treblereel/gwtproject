@@ -32,7 +32,6 @@
 package org.jresearch.threetenbp.gwt.client;
 
 
-import java.time.DateTimeUtils;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
