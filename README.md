@@ -1,5 +1,5 @@
 # gwt-xml
-GWT XMLHttpRequest module
+GWT XML module
 
 
 ![GWT3/J2CL compatible](https://img.shields.io/badge/GWT3/J2CL-compatible-brightgreen.svg)
