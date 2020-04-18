@@ -36,7 +36,6 @@ import java.time.zone.Providers;
 import java.time.zone.ZoneRulesProvider;
 
 import org.gwtproject.nio.TypedArrayHelper;
-import org.jresearch.threetenbp.gwt.client.Support;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
@@ -232,5 +231,9 @@ public abstract class AbstractTest extends GWTTestCase {
 //            }
 //        }
 //    }
+
+	protected static long toLong(Object object) {
+		return ((Number)object).longValue();
+	}
 
 }

@@ -29,33 +29,24 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package xjava.time;
+package org.jresearch.threetenbp.gwt.client;
 
-import static org.testng.Assert.assertEquals;
 
-import java.util.Calendar;
+import java.time.DateTimeUtils;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
-
-import org.testng.annotations.Test;
-
-import xjava.time.DateTimeUtils;
-import xjava.time.Instant;
-import xjava.time.LocalDate;
-import xjava.time.LocalDateTime;
-import xjava.time.LocalTime;
-import xjava.time.ZoneId;
-import xjava.time.ZonedDateTime;
 
 /**
  * Test.
  */
-@Test
-public class TestDateTimeUtils {
+//@Test
+public class TestDateTimeUtils extends AbstractTest {
 
-    private static final ZoneId PARIS = ZoneId.of("Europe/Paris");
-    private static final TimeZone PARIS_TZ = TimeZone.getTimeZone("Europe/Paris");
+//    private static final ZoneId PARIS = ZoneId.of("Europe/Paris");
+//    private static final TimeZone PARIS_TZ = TimeZone.getTimeZone("Europe/Paris");
 
     //-----------------------------------------------------------------------
     public void test_toInstant_Date() {
@@ -69,43 +60,46 @@ public class TestDateTimeUtils {
     }
 
     //-----------------------------------------------------------------------
-    public void test_toInstant_Calendar() {
-        Calendar calendar = GregorianCalendar.getInstance();
-        calendar.setTimeInMillis(123456);
-        assertEquals(DateTimeUtils.toInstant(calendar), Instant.ofEpochMilli(123456));
-    }
+    //GWT
+//    public void test_toInstant_Calendar() {
+//        Calendar calendar = GregorianCalendar.getInstance();
+//        calendar.setTimeInMillis(123456);
+//        assertEquals(DateTimeUtils.toInstant(calendar), Instant.ofEpochMilli(123456));
+//    }
 
-    public void test_toZDT_Calendar() {
-        ZonedDateTime zdt = ZonedDateTime.of(2012, 6, 30, 11, 30, 40, 0, PARIS);
-        Calendar calendar = GregorianCalendar.getInstance(PARIS_TZ);
-        calendar.setFirstDayOfWeek(Calendar.MONDAY);
-        calendar.setMinimalDaysInFirstWeek(4);
-        calendar.clear();
-        calendar.set(2012, 6 - 1, 30, 11, 30, 40);
-        assertEquals(DateTimeUtils.toZonedDateTime(calendar), zdt);
-    }
+    //GWT
+//    public void test_toZDT_Calendar() {
+//        ZonedDateTime zdt = ZonedDateTime.of(2012, 6, 30, 11, 30, 40, 0, PARIS);
+//        Calendar calendar = GregorianCalendar.getInstance(PARIS_TZ);
+//        calendar.setFirstDayOfWeek(Calendar.MONDAY);
+//        calendar.setMinimalDaysInFirstWeek(4);
+//        calendar.clear();
+//        calendar.set(2012, 6 - 1, 30, 11, 30, 40);
+//        assertEquals(DateTimeUtils.toZonedDateTime(calendar), zdt);
+//    }
 
-    public void test_toCalendar_ZDT() {
-        ZonedDateTime zdt = ZonedDateTime.of(2012, 6, 30, 11, 30, 40, 0, PARIS);
-        GregorianCalendar calendar = new GregorianCalendar(PARIS_TZ);
-        calendar.setFirstDayOfWeek(Calendar.MONDAY);
-        calendar.setMinimalDaysInFirstWeek(4);
-        calendar.set(2012, 6 - 1, 30, 11, 30, 40);
-        calendar.set(Calendar.MILLISECOND, 0);
-        calendar.setTimeInMillis(calendar.getTimeInMillis());
-        calendar.setGregorianChange(new Date(Long.MIN_VALUE));
-        GregorianCalendar test = DateTimeUtils.toGregorianCalendar(zdt);
-        assertEquals(test, calendar);
-    }
+    //GWT
+//    public void test_toCalendar_ZDT() {
+//        ZonedDateTime zdt = ZonedDateTime.of(2012, 6, 30, 11, 30, 40, 0, PARIS);
+//        GregorianCalendar calendar = new GregorianCalendar(PARIS_TZ);
+//        calendar.setFirstDayOfWeek(Calendar.MONDAY);
+//        calendar.setMinimalDaysInFirstWeek(4);
+//        calendar.set(2012, 6 - 1, 30, 11, 30, 40);
+//        calendar.set(Calendar.MILLISECOND, 0);
+//        calendar.setTimeInMillis(calendar.getTimeInMillis());
+//        calendar.setGregorianChange(new Date(Long.MIN_VALUE));
+//        GregorianCalendar test = DateTimeUtils.toGregorianCalendar(zdt);
+//        assertEquals(test, calendar);
+//    }
 
     //-----------------------------------------------------------------------
-    public void test_toZoneId_TimeZone() {
-        assertEquals(DateTimeUtils.toZoneId(PARIS_TZ), PARIS);
-    }
+//    public void test_toZoneId_TimeZone() {
+//        assertEquals(DateTimeUtils.toZoneId(PARIS_TZ), PARIS);
+//    }
 
-    public void test_toTimeZone_ZoneId() {
-        assertEquals(DateTimeUtils.toTimeZone(PARIS), PARIS_TZ);
-    }
+//    public void test_toTimeZone_ZoneId() {
+//        assertEquals(DateTimeUtils.toTimeZone(PARIS), PARIS_TZ);
+//    }
 
     //-----------------------------------------------------------------------
     public void test_toLocalDate_SqlDate() {
