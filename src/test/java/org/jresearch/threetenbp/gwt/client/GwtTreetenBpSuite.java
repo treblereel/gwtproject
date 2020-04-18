@@ -20,6 +20,12 @@ public class GwtTreetenBpSuite {
 		suite.addTestSuite(TestDayOfWeek.class);
 		suite.addTestSuite(TestLocalDate.class);
 		suite.addTestSuite(TestLocalTime.class);
+		suite.addTestSuite(TestDateTimes_implementation.class);
+		suite.addTestSuite(TestDateTimeUtils.class);
+		suite.addTestSuite(TestDuration.class);
+		suite.addTestSuite(TestInstant.class);
+		suite.addTestSuite(TestMonth.class);
+
 		// $JUnit-END$
 
 		return suite;
