@@ -77,6 +77,31 @@
                     <moduleName>org.gwtproject.xhr.client.XMLHttpRequestTest</moduleName>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.6.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <phase>test-compile</phase>
+                    </execution>
+                </executions>
+                <configuration>
+                    <executable>java</executable>
+                    <classpathScope>test</classpathScope>
+                    <arguments>
+                        <argument>-classpath</argument>
+                        <classpath/>
+                        <argument>org.gwtproject.xhr.CorsServer</argument>
+                        <argument>-port</argument>
+                        <argument>9999</argument>
+                    </arguments>
+                    <async>true</async>
+                </configuration>
+            </plugin>
 
             <plugin>
                 <groupId>com.mycila</groupId>

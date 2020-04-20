@@ -29,6 +29,7 @@ public class CorsServer {
   private static final Logger LOGGER = Logger.getLogger(CorsServer.class.getCanonicalName());
 
   public static void main(String[] args) {
+    System.out.println("run server ...");
     try {
       Server server = new Server(Integer.parseInt(args[1]));
       Connector con = new LocalConnector(server);
