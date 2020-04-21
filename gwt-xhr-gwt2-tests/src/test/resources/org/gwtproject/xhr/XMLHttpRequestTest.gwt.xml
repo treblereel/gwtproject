@@ -20,6 +20,7 @@
 <module>
 
     <!-- Other module inherits                                      -->
+    <inherits name="org.gwtproject.timer.Timer"/>
     <inherits name="org.gwtproject.xhr.XMLHttpRequest"/>
 
     <!-- sources -->

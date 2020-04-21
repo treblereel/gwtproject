@@ -47,7 +47,18 @@
             <version>${gwt.version}</version>
             <scope>test</scope>
         </dependency>
-
+        <dependency>
+            <groupId>org.gwtproject.timer</groupId>
+            <artifactId>gwt-timer</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- dependency>
+            <groupId>org.gwtproject.timer</groupId>
+            <artifactId>gwt-timer</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <classifier>sources</classifier>
+        </dependency-->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
