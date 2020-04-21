@@ -20,13 +20,13 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.DoNotRunWith;
 import com.google.gwt.junit.Platform;
 import com.google.gwt.junit.client.GWTTestCase;
-import com.google.gwt.user.client.Timer;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import jsinterop.base.Js;
+import org.gwtproject.timer.client.Timer;
 import org.gwtproject.typedarrays.client.Int8ArrayNative;
 
 public class XMLHttpRequestGwt2Test extends GWTTestCase {
