@@ -138,7 +138,7 @@ public class TestMonth extends AbstractDateTimeTest {
 		try {
 			Month.from((TemporalAccessor) null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -193,7 +193,7 @@ public class TestMonth extends AbstractDateTimeTest {
 		try {
 			Month.JANUARY.getDisplayName(null, Locale.US);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -203,7 +203,7 @@ public class TestMonth extends AbstractDateTimeTest {
 		try {
 			Month.JANUARY.getDisplayName(TextStyle.FULL, null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}

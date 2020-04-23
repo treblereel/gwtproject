@@ -2415,7 +2415,7 @@ public class TestLocalDate extends AbstractDateTimeTest {
 			LocalDate t = LocalDate.of(2008, 6, 30);
 			t.atStartOfDay((ZoneId) null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}

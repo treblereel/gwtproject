@@ -258,7 +258,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	}
 
 	@Test
-	public void test_now_Clock_allSecsInDay() {
+	public void long_test_now_Clock_allSecsInDay() {
 		for (int i = 0; i < (2 * 24 * 60 * 60); i++) {
 			Instant instant = Instant.ofEpochSecond(i, 8);
 			Clock clock = Clock.fixed(instant, ZoneOffset.UTC);
@@ -271,7 +271,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	}
 
 	@Test
-	public void test_now_Clock_beforeEpoch() {
+	public void long_test_now_Clock_beforeEpoch() {
 		for (int i = -1; i >= -(24 * 60 * 60); i--) {
 			Instant instant = Instant.ofEpochSecond(i, 8);
 			Clock clock = Clock.fixed(instant, ZoneOffset.UTC);
@@ -749,7 +749,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 			DateTimeFormatter f = DateTimeFormatter.ofPattern("H m s");
 			LocalTime.parse((String) null, f);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -759,7 +759,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 		try {
 			LocalTime.parse("ANY", null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -2369,7 +2369,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 		try {
 			TEST_12_30_40_987654321.atDate((LocalDate) null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 
@@ -2399,35 +2399,33 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	// -----------------------------------------------------------------------
 	// toNanoOfDay()
 	// -----------------------------------------------------------------------
-//GWT - too long
-//    @Test
-//    public void test_toNanoOfDay() {
-//        LocalTime t = LocalTime.of(0, 0);
-//        for (int i = 0; i < 1000000; i++) {
-//            assertEquals(t.toNanoOfDay(), i);
-//            t = t.plusNanos(1);
-//        }
-//        t = LocalTime.of(0, 0);
-//        for (int i = 1; i <= 1000000; i++) {
-//            t = t.minusNanos(1);
-//            assertEquals(t.toNanoOfDay(), 24 * 60 * 60 * 1000000000L - i);
-//        }
-//    }
+	@Test
+	public void long_test_toNanoOfDay() {
+		LocalTime t = LocalTime.of(0, 0);
+		for (int i = 0; i < 1000000; i++) {
+			assertEquals(t.toNanoOfDay(), i);
+			t = t.plusNanos(1);
+		}
+		t = LocalTime.of(0, 0);
+		for (int i = 1; i <= 1000000; i++) {
+			t = t.minusNanos(1);
+			assertEquals(t.toNanoOfDay(), 24 * 60 * 60 * 1000000000L - i);
+		}
+	}
 
-	// GWT - too long
-//    @Test
-//    public void test_toNanoOfDay_fromNanoOfDay_symmetry() {
-//        LocalTime t = LocalTime.of(0, 0);
-//        for (int i = 0; i < 1000000; i++) {
-//            assertEquals(LocalTime.ofNanoOfDay(t.toNanoOfDay()), t);
-//            t = t.plusNanos(1);
-//        }
-//        t = LocalTime.of(0, 0);
-//        for (int i = 1; i <= 1000000; i++) {
-//            t = t.minusNanos(1);
-//            assertEquals(LocalTime.ofNanoOfDay(t.toNanoOfDay()), t);
-//        }
-//    }
+	@Test
+	public void long_test_toNanoOfDay_fromNanoOfDay_symmetry() {
+		LocalTime t = LocalTime.of(0, 0);
+		for (int i = 0; i < 1000000; i++) {
+			assertEquals(LocalTime.ofNanoOfDay(t.toNanoOfDay()), t);
+			t = t.plusNanos(1);
+		}
+		t = LocalTime.of(0, 0);
+		for (int i = 1; i <= 1000000; i++) {
+			t = t.minusNanos(1);
+			assertEquals(LocalTime.ofNanoOfDay(t.toNanoOfDay()), t);
+		}
+	}
 
 	// -----------------------------------------------------------------------
 	// compareTo()
@@ -2740,7 +2738,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 		try {
 			LocalTime.of(11, 30, 45).format(null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}

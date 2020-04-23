@@ -880,7 +880,7 @@ public class TestDuration extends AbstractTest {
 			Duration t = Duration.ofSeconds(1);
 			t.plus(1, (TemporalUnit) null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -1297,7 +1297,7 @@ public class TestDuration extends AbstractTest {
 			Duration t = Duration.ofSeconds(1);
 			t.minus(1, (TemporalUnit) null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}

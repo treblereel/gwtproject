@@ -86,7 +86,7 @@ public class TestClock_Offset extends AbstractTest {
 		try {
 			Clock.offset(null, Duration.ZERO);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -96,7 +96,7 @@ public class TestClock_Offset extends AbstractTest {
 		try {
 			Clock.offset(Clock.systemUTC(), null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}

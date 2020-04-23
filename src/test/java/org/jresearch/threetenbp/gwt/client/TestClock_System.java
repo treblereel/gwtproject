@@ -116,7 +116,7 @@ public class TestClock_System extends AbstractTest {
 		try {
 			Clock.system(null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}

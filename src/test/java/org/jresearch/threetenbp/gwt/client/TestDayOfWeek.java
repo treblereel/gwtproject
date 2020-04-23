@@ -197,7 +197,7 @@ public class TestDayOfWeek extends AbstractDateTimeTest {
 		try {
 			DayOfWeek.MONDAY.getDisplayName(null, Locale.US);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -207,7 +207,7 @@ public class TestDayOfWeek extends AbstractDateTimeTest {
 		try {
 			DayOfWeek.MONDAY.getDisplayName(TextStyle.FULL, null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}

@@ -241,7 +241,7 @@ public class TestLocalDateTime extends AbstractDateTimeTest {
 		ZoneId zone = ZoneId.of("UTC+01:02:03");
 		LocalDateTime expected = LocalDateTime.now(Clock.system(zone));
 		LocalDateTime test = LocalDateTime.now(zone);
-		for (int i = 0; i < 10000; i++) {
+		for (int i = 0; i < 100000; i++) {
 			if (expected.equals(test)) {
 				return;
 			}
@@ -1957,15 +1957,15 @@ public class TestLocalDateTime extends AbstractDateTimeTest {
 	}
 
 	@Test(/* dataProvider="samplePlusWeeksSymmetry" */)
-	public void test_plusWeeks_symmetry() {
+	public void long_test_plusWeeks_symmetry() {
 		Object[][] data = provider_samplePlusWeeksSymmetry();
 		for (int i = 0; i < data.length; i++) {
 			Object[] objects = data[i];
-			test_plusWeeks_symmetry((LocalDateTime) objects[0]);
+			long_test_plusWeeks_symmetry((LocalDateTime) objects[0]);
 		}
 	}
 
-	public void test_plusWeeks_symmetry(LocalDateTime reference) {
+	public void long_test_plusWeeks_symmetry(LocalDateTime reference) {
 		for (int weeks = 0; weeks < 365 * 8; weeks++) {
 			LocalDateTime t = reference.plusWeeks(weeks).plusWeeks(-weeks);
 			assertEquals(t, reference);
@@ -3426,11 +3426,10 @@ public class TestLocalDateTime extends AbstractDateTimeTest {
 	// toEpochSecond()
 	// -----------------------------------------------------------------------
 	@Test
-	public void test_toEpochSecond_afterEpoch() {
+	public void long_test_toEpochSecond_afterEpoch() {
 		for (int i = -5; i < 5; i++) {
 			ZoneOffset offset = ZoneOffset.ofHours(i);
-			// GWT - too long
-			for (int j = 0; j < 100000; j += 37) {
+			for (int j = 0; j < 100000; j++) {
 				LocalDateTime a = LocalDateTime.of(1970, 1, 1, 0, 0).plusSeconds(j);
 				assertEquals(a.toEpochSecond(offset), j - i * 3600);
 			}
@@ -3438,9 +3437,8 @@ public class TestLocalDateTime extends AbstractDateTimeTest {
 	}
 
 	@Test
-	public void test_toEpochSecond_beforeEpoch() {
-		// GWT - too long
-		for (int i = 0; i < 100000; i += 33) {
+	public void long_test_toEpochSecond_beforeEpoch() {
+		for (int i = 0; i < 100000; i++) {
 			LocalDateTime a = LocalDateTime.of(1970, 1, 1, 0, 0).minusSeconds(i);
 			assertEquals(a.toEpochSecond(ZoneOffset.UTC), -i);
 		}
