@@ -67,7 +67,8 @@
 					<relocateSuperSource>true</relocateSuperSource>
 					<relocateTestSuperSource>true</relocateTestSuperSource>
 					<testArgs>
-						<testArg>-testMethodTimeout 30</testArg>
+						<testArg>-testMethodTimeout</testArg>
+						<testArg>30</testArg>
 					</testArgs>
 				</configuration>
 			</plugin>
