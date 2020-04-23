@@ -114,6 +114,7 @@ public class TestClock_Tick extends AbstractTest {
 	public void test_tick_ClockDuration_maxDuration() {
 		try {
 			Clock.tick(Clock.systemUTC(), Duration.ofSeconds(Long.MAX_VALUE));
+			fail("Missing exception");
 		} catch (ArithmeticException e) {
 			// expected
 		}
@@ -123,6 +124,7 @@ public class TestClock_Tick extends AbstractTest {
 	public void test_tick_ClockDuration_subMilliNotDivisible_123ns() {
 		try {
 			Clock.tick(Clock.systemUTC(), Duration.ofSeconds(0, 123));
+			fail("Missing exception");
 		} catch (IllegalArgumentException e) {
 			// expected
 		}
@@ -132,6 +134,7 @@ public class TestClock_Tick extends AbstractTest {
 	public void test_tick_ClockDuration_subMilliNotDivisible_999ns() {
 		try {
 			Clock.tick(Clock.systemUTC(), Duration.ofSeconds(0, 999));
+			fail("Missing exception");
 		} catch (IllegalArgumentException e) {
 			// expected
 		}
@@ -141,6 +144,7 @@ public class TestClock_Tick extends AbstractTest {
 	public void test_tick_ClockDuration_subMilliNotDivisible_999999999ns() {
 		try {
 			Clock.tick(Clock.systemUTC(), Duration.ofSeconds(0, 999999999));
+			fail("Missing exception");
 		} catch (IllegalArgumentException e) {
 			// expected
 		}
@@ -150,6 +154,7 @@ public class TestClock_Tick extends AbstractTest {
 	public void test_tick_ClockDuration_negative1ns() {
 		try {
 			Clock.tick(Clock.systemUTC(), Duration.ofSeconds(0, -1));
+			fail("Missing exception");
 		} catch (IllegalArgumentException e) {
 			// expected
 		}
@@ -159,6 +164,7 @@ public class TestClock_Tick extends AbstractTest {
 	public void test_tick_ClockDuration_negative1s() {
 		try {
 			Clock.tick(Clock.systemUTC(), Duration.ofSeconds(-1));
+			fail("Missing exception");
 		} catch (IllegalArgumentException e) {
 			// expected
 		}
@@ -168,6 +174,7 @@ public class TestClock_Tick extends AbstractTest {
 	public void test_tick_ClockDuration_nullClock() {
 		try {
 			Clock.tick(null, Duration.ZERO);
+			fail("Missing exception");
 		} catch (NullPointerException e) {
 			// expected
 		}
@@ -177,6 +184,7 @@ public class TestClock_Tick extends AbstractTest {
 	public void test_tick_ClockDuration_nullDuration() {
 		try {
 			Clock.tick(Clock.systemUTC(), null);
+			fail("Missing exception");
 		} catch (NullPointerException e) {
 			// expected
 		}
@@ -195,6 +203,7 @@ public class TestClock_Tick extends AbstractTest {
 	public void test_tickSeconds_ZoneId_nullZoneId() {
 		try {
 			Clock.tickSeconds(null);
+			fail("Missing exception");
 		} catch (NullPointerException e) {
 			// expected
 		}
@@ -213,6 +222,7 @@ public class TestClock_Tick extends AbstractTest {
 	public void test_tickMinutes_ZoneId_nullZoneId() {
 		try {
 			Clock.tickMinutes(null);
+			fail("Missing exception");
 		} catch (NullPointerException e) {
 			// expected
 		}
@@ -236,8 +246,7 @@ public class TestClock_Tick extends AbstractTest {
 	public void test_withZone_null() {
 		try {
 			Clock.tick(Clock.system(PARIS), Duration.ofMillis(500)).withZone(null);
-		} catch (NullPointerException e) {
-			// expected
+			fail("Missing exception");
 		} catch (JavaScriptException e) {
 			// expected
 		}

@@ -104,6 +104,7 @@ public class TestDayOfWeek extends AbstractDateTimeTest {
 	public void test_factory_int_valueTooLow() {
 		try {
 			DayOfWeek.of(0);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -113,6 +114,7 @@ public class TestDayOfWeek extends AbstractDateTimeTest {
 	public void test_factory_int_valueTooHigh() {
 		try {
 			DayOfWeek.of(8);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -128,6 +130,7 @@ public class TestDayOfWeek extends AbstractDateTimeTest {
 	public void test_factory_CalendricalObject_invalid_noDerive() {
 		try {
 			DayOfWeek.from(LocalTime.of(12, 30));
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -138,8 +141,7 @@ public class TestDayOfWeek extends AbstractDateTimeTest {
 	public void test_factory_CalendricalObject_null() {
 		try {
 			DayOfWeek.from((TemporalAccessor) null);
-		} catch (NullPointerException e) {
-			// expected
+			fail("Missing exception");
 		} catch (JavaScriptException e) {
 			// expected
 		}
@@ -176,8 +178,7 @@ public class TestDayOfWeek extends AbstractDateTimeTest {
 	public void test_query_null() {
 		try {
 			DayOfWeek.FRIDAY.query(null);
-		} catch (NullPointerException e) {
-			// expected
+			fail("Missing exception");
 		} catch (JavaScriptException e) {
 			// expected
 		}
@@ -195,8 +196,7 @@ public class TestDayOfWeek extends AbstractDateTimeTest {
 	public void test_getDisplayName_nullStyle() {
 		try {
 			DayOfWeek.MONDAY.getDisplayName(null, Locale.US);
-		} catch (NullPointerException e) {
-			// expected
+			fail("Missing exception");
 		} catch (JavaScriptException e) {
 			// expected
 		}
@@ -206,8 +206,7 @@ public class TestDayOfWeek extends AbstractDateTimeTest {
 	public void test_getDisplayName_nullLocale() {
 		try {
 			DayOfWeek.MONDAY.getDisplayName(TextStyle.FULL, null);
-		} catch (NullPointerException e) {
-			// expected
+			fail("Missing exception");
 		} catch (JavaScriptException e) {
 			// expected
 		}
@@ -235,6 +234,7 @@ public class TestDayOfWeek extends AbstractDateTimeTest {
 			test_plus_long((Integer) objects[0], (Integer) objects[1], (Integer) objects[2]);
 		}
 	}
+
 	public void test_plus_long(int base, long amount, int expected) {
 		assertEquals(DayOfWeek.of(base).plus(amount), DayOfWeek.of(expected));
 	}
@@ -257,6 +257,7 @@ public class TestDayOfWeek extends AbstractDateTimeTest {
 			test_minus_long((Integer) objects[0], (Integer) objects[1], (Integer) objects[2]);
 		}
 	}
+
 	public void test_minus_long(int base, long amount, int expected) {
 		assertEquals(DayOfWeek.of(base).minus(amount), DayOfWeek.of(expected));
 	}
@@ -277,8 +278,7 @@ public class TestDayOfWeek extends AbstractDateTimeTest {
 	public void test_adjustInto_null() {
 		try {
 			DayOfWeek.MONDAY.adjustInto((Temporal) null);
-		} catch (NullPointerException e) {
-			// expected
+			fail("Missing exception");
 		} catch (JavaScriptException e) {
 			// expected
 		}

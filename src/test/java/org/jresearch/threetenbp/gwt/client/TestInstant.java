@@ -156,12 +156,13 @@ public class TestInstant extends AbstractDateTimeTest {
 	public void test_now_Clock_nullClock() {
 		try {
 			Instant.now(null);
+			fail("Missing exception");
 		} catch (NullPointerException e) {
 			// expected
 		}
 	}
 
-	//GWT - too long
+	// GWT - too long
 //	@Test
 //	public void test_now_Clock_allSecsInDay_utc() {
 //		for (int i = 0; i < (2 * 24 * 60 * 60); i++) {
@@ -172,7 +173,7 @@ public class TestInstant extends AbstractDateTimeTest {
 //		}
 //	}
 
-	//GWT - too long
+	// GWT - too long
 //	@Test
 //	public void test_now_Clock_allSecsInDay_beforeEpoch() {
 //		for (int i = -1; i >= -(24 * 60 * 60); i--) {
@@ -230,6 +231,7 @@ public class TestInstant extends AbstractDateTimeTest {
 	public void test_factory_seconds_long_long_tooBig() {
 		try {
 			Instant.ofEpochSecond(MAX_SECOND, 1000000000);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -239,6 +241,7 @@ public class TestInstant extends AbstractDateTimeTest {
 	public void test_factory_seconds_long_long_tooBigBig() {
 		try {
 			Instant.ofEpochSecond(Long.MAX_VALUE, Long.MAX_VALUE);
+			fail("Missing exception");
 		} catch (ArithmeticException e) {
 			// expected
 		}
@@ -270,8 +273,7 @@ public class TestInstant extends AbstractDateTimeTest {
 		Object[][] data = provider_factory_millis_long();
 		for (int i = 0; i < data.length; i++) {
 			Object[] objects = data[i];
-			test_factory_millis_long(toLong(objects[0]), (int) objects[1], toLong(objects[2]),
-					(int) objects[3]);
+			test_factory_millis_long(toLong(objects[0]), (int) objects[1], toLong(objects[2]), (int) objects[3]);
 		}
 	}
 
@@ -351,6 +353,7 @@ public class TestInstant extends AbstractDateTimeTest {
 			try {
 				Object[] objects = data[i];
 				test_factory_parseFailures((String) objects[0]);
+				fail("Missing exception");
 			} catch (DateTimeParseException e) {
 				// expected
 			}
@@ -368,6 +371,7 @@ public class TestInstant extends AbstractDateTimeTest {
 			try {
 				Object[] objects = data[i];
 				test_factory_parseFailures_comma((String) objects[0]);
+				fail("Missing exception");
 			} catch (DateTimeParseException e) {
 				// expected
 			}
@@ -383,6 +387,7 @@ public class TestInstant extends AbstractDateTimeTest {
 	public void test_factory_parse_nullText() {
 		try {
 			Instant.parse(null);
+			fail("Missing exception");
 		} catch (NullPointerException e) {
 			// expected
 		}
@@ -426,8 +431,7 @@ public class TestInstant extends AbstractDateTimeTest {
 	public void test_query_null() {
 		try {
 			TEST_12345_123456789.query(null);
-		} catch (NullPointerException e) {
-			// expected
+			fail("Missing exception");
 		} catch (JavaScriptException e) {
 			// expected
 		}
@@ -543,6 +547,7 @@ public class TestInstant extends AbstractDateTimeTest {
 					toLong(objects[4]), (int) objects[5]);
 		}
 	}
+
 	public void test_plus_Duration(long seconds, int nanos, long otherSeconds, int otherNanos, long expectedSeconds,
 			int expectedNanoOfSecond) {
 		Instant i = Instant.ofEpochSecond(seconds, nanos).plus(Duration.ofSeconds(otherSeconds, otherNanos));
@@ -555,6 +560,7 @@ public class TestInstant extends AbstractDateTimeTest {
 		try {
 			Instant i = Instant.ofEpochSecond(MAX_SECOND, 999999999);
 			i.plus(Duration.ofSeconds(0, 1));
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -565,6 +571,7 @@ public class TestInstant extends AbstractDateTimeTest {
 		try {
 			Instant i = Instant.ofEpochSecond(MIN_SECOND);
 			i.plus(Duration.ofSeconds(-1, 999999999));
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -581,8 +588,8 @@ public class TestInstant extends AbstractDateTimeTest {
 		}
 	}
 
-	public void test_plus_longTemporalUnit(long seconds, int nanos, long otherSeconds, int otherNanos, long expectedSeconds,
-			int expectedNanoOfSecond) {
+	public void test_plus_longTemporalUnit(long seconds, int nanos, long otherSeconds, int otherNanos,
+			long expectedSeconds, int expectedNanoOfSecond) {
 		Instant i = Instant.ofEpochSecond(seconds, nanos).plus(otherSeconds, SECONDS).plus(otherNanos, NANOS);
 		assertEquals(i.getEpochSecond(), expectedSeconds);
 		assertEquals(i.getNano(), expectedNanoOfSecond);
@@ -593,6 +600,7 @@ public class TestInstant extends AbstractDateTimeTest {
 		try {
 			Instant i = Instant.ofEpochSecond(MAX_SECOND, 999999999);
 			i.plus(1, NANOS);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -604,6 +612,7 @@ public class TestInstant extends AbstractDateTimeTest {
 			Instant i = Instant.ofEpochSecond(MIN_SECOND);
 			i.plus(999999999, NANOS);
 			i.plus(-1, SECONDS);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -633,7 +642,8 @@ public class TestInstant extends AbstractDateTimeTest {
 		}
 	}
 
-	public void test_plusSeconds_long(long seconds, int nanos, long amount, long expectedSeconds, int expectedNanoOfSecond) {
+	public void test_plusSeconds_long(long seconds, int nanos, long amount, long expectedSeconds,
+			int expectedNanoOfSecond) {
 		Instant t = Instant.ofEpochSecond(seconds, nanos);
 		t = t.plusSeconds(amount);
 		assertEquals(t.getEpochSecond(), expectedSeconds);
@@ -645,6 +655,7 @@ public class TestInstant extends AbstractDateTimeTest {
 		try {
 			Instant t = Instant.ofEpochSecond(1, 0);
 			t.plusSeconds(Long.MAX_VALUE);
+			fail("Missing exception");
 		} catch (ArithmeticException e) {
 			// expected
 		}
@@ -655,6 +666,7 @@ public class TestInstant extends AbstractDateTimeTest {
 		try {
 			Instant t = Instant.ofEpochSecond(-1, 0);
 			t.plusSeconds(Long.MIN_VALUE);
+			fail("Missing exception");
 		} catch (ArithmeticException e) {
 			// expected
 		}
@@ -699,7 +711,8 @@ public class TestInstant extends AbstractDateTimeTest {
 		}
 	}
 
-	public void test_plusMillis_long(long seconds, int nanos, long amount, long expectedSeconds, int expectedNanoOfSecond) {
+	public void test_plusMillis_long(long seconds, int nanos, long amount, long expectedSeconds,
+			int expectedNanoOfSecond) {
 		Instant t = Instant.ofEpochSecond(seconds, nanos);
 		t = t.plusMillis(amount);
 		assertEquals(t.getEpochSecond(), expectedSeconds);
@@ -729,8 +742,8 @@ public class TestInstant extends AbstractDateTimeTest {
 		Object[][] data = provider_plusMillis_long();
 		for (int i = 0; i < data.length; i++) {
 			Object[] objects = data[i];
-			test_plusMillis_long_minusOneLess(toLong(objects[0]), (int) objects[1], toLong(objects[2]), toLong(objects[3]),
-					(int) objects[4]);
+			test_plusMillis_long_minusOneLess(toLong(objects[0]), (int) objects[1], toLong(objects[2]),
+					toLong(objects[3]), (int) objects[4]);
 		}
 	}
 
@@ -755,6 +768,7 @@ public class TestInstant extends AbstractDateTimeTest {
 		try {
 			Instant t = Instant.ofEpochSecond(MAX_SECOND, 999000000);
 			t.plusMillis(1);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -773,6 +787,7 @@ public class TestInstant extends AbstractDateTimeTest {
 		try {
 			Instant t = Instant.ofEpochSecond(MIN_SECOND, 0);
 			t.plusMillis(-1);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -825,7 +840,8 @@ public class TestInstant extends AbstractDateTimeTest {
 		}
 	}
 
-	public void test_plusNanos_long(long seconds, int nanos, long amount, long expectedSeconds, int expectedNanoOfSecond) {
+	public void test_plusNanos_long(long seconds, int nanos, long amount, long expectedSeconds,
+			int expectedNanoOfSecond) {
 		Instant t = Instant.ofEpochSecond(seconds, nanos);
 		t = t.plusNanos(amount);
 		assertEquals(t.getEpochSecond(), expectedSeconds);
@@ -837,6 +853,7 @@ public class TestInstant extends AbstractDateTimeTest {
 		try {
 			Instant t = Instant.ofEpochSecond(MAX_SECOND, 999999999);
 			t.plusNanos(1);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -847,6 +864,7 @@ public class TestInstant extends AbstractDateTimeTest {
 		try {
 			Instant t = Instant.ofEpochSecond(MIN_SECOND, 0);
 			t.plusNanos(-1);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -975,6 +993,7 @@ public class TestInstant extends AbstractDateTimeTest {
 		try {
 			Instant i = Instant.ofEpochSecond(MIN_SECOND);
 			i.minus(Duration.ofSeconds(0, 1));
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -985,6 +1004,7 @@ public class TestInstant extends AbstractDateTimeTest {
 		try {
 			Instant i = Instant.ofEpochSecond(MAX_SECOND, 999999999);
 			i.minus(Duration.ofSeconds(-1, 999999999));
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -1001,8 +1021,8 @@ public class TestInstant extends AbstractDateTimeTest {
 		}
 	}
 
-	public void test_minus_longTemporalUnit(long seconds, int nanos, long otherSeconds, int otherNanos, long expectedSeconds,
-			int expectedNanoOfSecond) {
+	public void test_minus_longTemporalUnit(long seconds, int nanos, long otherSeconds, int otherNanos,
+			long expectedSeconds, int expectedNanoOfSecond) {
 		Instant i = Instant.ofEpochSecond(seconds, nanos).minus(otherSeconds, SECONDS).minus(otherNanos, NANOS);
 		assertEquals(i.getEpochSecond(), expectedSeconds);
 		assertEquals(i.getNano(), expectedNanoOfSecond);
@@ -1013,6 +1033,7 @@ public class TestInstant extends AbstractDateTimeTest {
 		try {
 			Instant i = Instant.ofEpochSecond(MIN_SECOND);
 			i.minus(1, NANOS);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -1024,6 +1045,7 @@ public class TestInstant extends AbstractDateTimeTest {
 			Instant i = Instant.ofEpochSecond(MAX_SECOND, 999999999);
 			i.minus(999999999, NANOS);
 			i.minus(-1, SECONDS);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -1066,6 +1088,7 @@ public class TestInstant extends AbstractDateTimeTest {
 		try {
 			Instant i = Instant.ofEpochSecond(1, 0);
 			i.minusSeconds(Long.MIN_VALUE + 1);
+			fail("Missing exception");
 		} catch (ArithmeticException e) {
 			// expected
 		}
@@ -1076,6 +1099,7 @@ public class TestInstant extends AbstractDateTimeTest {
 		try {
 			Instant i = Instant.ofEpochSecond(-2, 0);
 			i.minusSeconds(Long.MAX_VALUE);
+			fail("Missing exception");
 		} catch (ArithmeticException e) {
 			// expected
 		}
@@ -1119,7 +1143,8 @@ public class TestInstant extends AbstractDateTimeTest {
 		}
 	}
 
-	public void test_minusMillis_long(long seconds, int nanos, long amount, long expectedSeconds, int expectedNanoOfSecond) {
+	public void test_minusMillis_long(long seconds, int nanos, long amount, long expectedSeconds,
+			int expectedNanoOfSecond) {
 		Instant i = Instant.ofEpochSecond(seconds, nanos);
 		i = i.minusMillis(amount);
 		assertEquals(i.getEpochSecond(), expectedSeconds);
@@ -1149,8 +1174,8 @@ public class TestInstant extends AbstractDateTimeTest {
 		Object[][] data = provider_minusMillis_long();
 		for (int i = 0; i < data.length; i++) {
 			Object[] objects = data[i];
-			test_minusMillis_long_minusOneLess(toLong(objects[0]), (int) objects[1], toLong(objects[2]), toLong(objects[3]),
-					(int) objects[4]);
+			test_minusMillis_long_minusOneLess(toLong(objects[0]), (int) objects[1], toLong(objects[2]),
+					toLong(objects[3]), (int) objects[4]);
 		}
 	}
 
@@ -1175,6 +1200,7 @@ public class TestInstant extends AbstractDateTimeTest {
 		try {
 			Instant i = Instant.ofEpochSecond(MAX_SECOND, 999000000);
 			i.minusMillis(-1);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -1193,6 +1219,7 @@ public class TestInstant extends AbstractDateTimeTest {
 		try {
 			Instant i = Instant.ofEpochSecond(MIN_SECOND, 0);
 			i.minusMillis(1);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -1246,7 +1273,8 @@ public class TestInstant extends AbstractDateTimeTest {
 		}
 	}
 
-	public void test_minusNanos_long(long seconds, int nanos, long amount, long expectedSeconds, int expectedNanoOfSecond) {
+	public void test_minusNanos_long(long seconds, int nanos, long amount, long expectedSeconds,
+			int expectedNanoOfSecond) {
 		Instant i = Instant.ofEpochSecond(seconds, nanos);
 		i = i.minusNanos(amount);
 		assertEquals(i.getEpochSecond(), expectedSeconds);
@@ -1258,6 +1286,7 @@ public class TestInstant extends AbstractDateTimeTest {
 		try {
 			Instant i = Instant.ofEpochSecond(MAX_SECOND, 999999999);
 			i.minusNanos(-1);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -1268,6 +1297,7 @@ public class TestInstant extends AbstractDateTimeTest {
 		try {
 			Instant i = Instant.ofEpochSecond(MIN_SECOND, 0);
 			i.minusNanos(1);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -1311,6 +1341,7 @@ public class TestInstant extends AbstractDateTimeTest {
 	public void test_toEpochMilli_tooBig() {
 		try {
 			Instant.ofEpochSecond(Long.MAX_VALUE / 1000 + 1).toEpochMilli();
+			fail("Missing exception");
 		} catch (ArithmeticException e) {
 			// expected
 		}
@@ -1320,6 +1351,7 @@ public class TestInstant extends AbstractDateTimeTest {
 	public void test_toEpochMilli_tooBigDueToNanos() {
 		try {
 			Instant.ofEpochMilli(Long.MAX_VALUE).plusMillis(1).toEpochMilli();
+			fail("Missing exception");
 		} catch (ArithmeticException e) {
 			// expected
 		}
@@ -1329,6 +1361,7 @@ public class TestInstant extends AbstractDateTimeTest {
 	public void test_toEpochMilli_tooSmall() {
 		try {
 			Instant.ofEpochSecond(Long.MIN_VALUE / 1000 - 1).toEpochMilli();
+			fail("Missing exception");
 		} catch (ArithmeticException e) {
 			// expected
 		}
@@ -1338,6 +1371,7 @@ public class TestInstant extends AbstractDateTimeTest {
 	public void test_toEpochMilli_tooSmallDueToNanos() {
 		try {
 			Instant.ofEpochMilli(Long.MIN_VALUE).minusMillis(1).toEpochMilli();
+			fail("Missing exception");
 		} catch (ArithmeticException e) {
 			// expected
 		}
@@ -1385,8 +1419,7 @@ public class TestInstant extends AbstractDateTimeTest {
 		try {
 			Instant a = Instant.ofEpochSecond(0L, 0);
 			a.compareTo(null);
-		} catch (NullPointerException e) {
-			// expected
+			fail("Missing exception");
 		} catch (JavaScriptException e) {
 			// expected
 		}
@@ -1397,8 +1430,7 @@ public class TestInstant extends AbstractDateTimeTest {
 		try {
 			Instant a = Instant.ofEpochSecond(0L, 0);
 			a.isBefore(null);
-		} catch (NullPointerException e) {
-			// expected
+			fail("Missing exception");
 		} catch (JavaScriptException e) {
 			// expected
 		}
@@ -1409,8 +1441,7 @@ public class TestInstant extends AbstractDateTimeTest {
 		try {
 			Instant a = Instant.ofEpochSecond(0L, 0);
 			a.isAfter(null);
-		} catch (NullPointerException e) {
-			// expected
+			fail("Missing exception");
 		} catch (JavaScriptException e) {
 			// expected
 		}
@@ -1422,6 +1453,7 @@ public class TestInstant extends AbstractDateTimeTest {
 		try {
 			Comparable c = Instant.ofEpochSecond(0L);
 			c.compareTo(new Object());
+			fail("Missing exception");
 		} catch (ClassCastException e) {
 			// expected
 		}

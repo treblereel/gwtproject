@@ -136,6 +136,7 @@ public class TestDuration extends AbstractTest {
 	public void test_factory_seconds_long_long_tooBig() {
 		try {
 			Duration.ofSeconds(Long.MAX_VALUE, 1000000000);
+			fail("Missing exception");
 		} catch (ArithmeticException e) {
 			// expected
 		}
@@ -232,6 +233,7 @@ public class TestDuration extends AbstractTest {
 	public void test_factory_minutes_tooBig() {
 		try {
 			Duration.ofMinutes(Long.MAX_VALUE / 60 + 1);
+			fail("Missing exception");
 		} catch (ArithmeticException e) {
 			// expected
 		}
@@ -241,6 +243,7 @@ public class TestDuration extends AbstractTest {
 	public void test_factory_minutes_tooSmall() {
 		try {
 			Duration.ofMinutes(Long.MIN_VALUE / 60 - 1);
+			fail("Missing exception");
 		} catch (ArithmeticException e) {
 			// expected
 		}
@@ -274,6 +277,7 @@ public class TestDuration extends AbstractTest {
 	public void test_factory_hours_tooBig() {
 		try {
 			Duration.ofHours(Long.MAX_VALUE / 3600 + 1);
+			fail("Missing exception");
 		} catch (ArithmeticException e) {
 			// expected
 		}
@@ -283,6 +287,7 @@ public class TestDuration extends AbstractTest {
 	public void test_factory_hours_tooSmall() {
 		try {
 			Duration.ofHours(Long.MIN_VALUE / 3600 - 1);
+			fail("Missing exception");
 		} catch (ArithmeticException e) {
 			// expected
 		}
@@ -316,6 +321,7 @@ public class TestDuration extends AbstractTest {
 	public void test_factory_days_tooBig() {
 		try {
 			Duration.ofDays(Long.MAX_VALUE / 86400 + 1);
+			fail("Missing exception");
 		} catch (ArithmeticException e) {
 			// expected
 		}
@@ -325,6 +331,7 @@ public class TestDuration extends AbstractTest {
 	public void test_factory_days_tooSmall() {
 		try {
 			Duration.ofDays(Long.MIN_VALUE / 86400 - 1);
+			fail("Missing exception");
 		} catch (ArithmeticException e) {
 			// expected
 		}
@@ -368,7 +375,8 @@ public class TestDuration extends AbstractTest {
 		Object[][] data = provider_factory_of_longTemporalUnit();
 		for (int i = 0; i < data.length; i++) {
 			Object[] objects = data[i];
-			test_factory_of_longTemporalUnit(toLong(objects[0]), (TemporalUnit) objects[1], toLong(objects[2]), (int) objects[3]);
+			test_factory_of_longTemporalUnit(toLong(objects[0]), (TemporalUnit) objects[1], toLong(objects[2]),
+					(int) objects[3]);
 		}
 	}
 
@@ -393,6 +401,7 @@ public class TestDuration extends AbstractTest {
 			try {
 				Object[] objects = data[i];
 				test_factory_of_longTemporalUnit_outOfRange(toLong(objects[0]), (TemporalUnit) objects[1]);
+				fail("Missing exception");
 			} catch (ArithmeticException e) {
 				// expected
 			}
@@ -407,6 +416,7 @@ public class TestDuration extends AbstractTest {
 	public void test_factory_of_longTemporalUnit_estimatedUnit() {
 		try {
 			Duration.of(2, WEEKS);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -416,6 +426,7 @@ public class TestDuration extends AbstractTest {
 	public void test_factory_of_longTemporalUnit_null() {
 		try {
 			Duration.of(1, (TemporalUnit) null);
+			fail("Missing exception");
 		} catch (NullPointerException e) {
 			// expected
 		}
@@ -435,12 +446,13 @@ public class TestDuration extends AbstractTest {
 		Object[][] data = provider_factory_between_Instant_Instant();
 		for (int i = 0; i < data.length; i++) {
 			Object[] objects = data[i];
-			test_factory_between_Instant_Instant(toLong(objects[0]), (int) objects[1], toLong(objects[2]), (int) objects[3], toLong(objects[4]), (int) objects[5]);
+			test_factory_between_Instant_Instant(toLong(objects[0]), (int) objects[1], toLong(objects[2]),
+					(int) objects[3], toLong(objects[4]), (int) objects[5]);
 		}
 	}
 
-	public void test_factory_between_Instant_Instant(long secs1, int nanos1, long secs2, int nanos2, long expectedSeconds,
-			int expectedNanoOfSecond) {
+	public void test_factory_between_Instant_Instant(long secs1, int nanos1, long secs2, int nanos2,
+			long expectedSeconds, int expectedNanoOfSecond) {
 		Instant start = Instant.ofEpochSecond(secs1, nanos1);
 		Instant end = Instant.ofEpochSecond(secs2, nanos2);
 		Duration t = Duration.between(start, end);
@@ -453,8 +465,7 @@ public class TestDuration extends AbstractTest {
 		try {
 			Instant end = Instant.ofEpochSecond(1);
 			Duration.between(null, end);
-		} catch (NullPointerException e) {
-			// expected
+			fail("Missing exception");
 		} catch (JavaScriptException e) {
 			// expected
 		}
@@ -465,8 +476,7 @@ public class TestDuration extends AbstractTest {
 		try {
 			Instant start = Instant.ofEpochSecond(1);
 			Duration.between(start, null);
-		} catch (NullPointerException e) {
-			// expected
+			fail("Missing exception");
 		} catch (JavaScriptException e) {
 			// expected
 		}
@@ -521,6 +531,7 @@ public class TestDuration extends AbstractTest {
 			test_factory_parse((String) objects[0], toLong(objects[1]), (int) objects[2]);
 		}
 	}
+
 	public void test_factory_parse(String text, long expectedSeconds, int expectedNanoOfSecond) {
 		Duration t = Duration.parse(text);
 		assertEquals(t.getSeconds(), expectedSeconds);
@@ -580,6 +591,7 @@ public class TestDuration extends AbstractTest {
 			try {
 				Object[] objects = data[i];
 				test_factory_parseFailures((String) objects[0]);
+				fail("Missing exception");
 			} catch (DateTimeParseException e) {
 				// expected
 			}
@@ -597,6 +609,7 @@ public class TestDuration extends AbstractTest {
 			try {
 				Object[] objects = data[i];
 				test_factory_parseFailures_comma((String) objects[0]);
+				fail("Missing exception");
 			} catch (DateTimeParseException e) {
 				// expected
 			}
@@ -612,6 +625,7 @@ public class TestDuration extends AbstractTest {
 	public void test_factory_parse_tooBig() {
 		try {
 			Duration.parse("PT" + Long.MAX_VALUE + "1S");
+			fail("Missing exception");
 		} catch (DateTimeParseException e) {
 			// expected
 		}
@@ -621,6 +635,7 @@ public class TestDuration extends AbstractTest {
 	public void test_factory_parse_tooBig_decimal() {
 		try {
 			Duration.parse("PT" + Long.MAX_VALUE + "1.1S");
+			fail("Missing exception");
 		} catch (DateTimeParseException e) {
 			// expected
 		}
@@ -630,6 +645,7 @@ public class TestDuration extends AbstractTest {
 	public void test_factory_parse_tooSmall() {
 		try {
 			Duration.parse("PT" + Long.MIN_VALUE + "1S");
+			fail("Missing exception");
 		} catch (DateTimeParseException e) {
 			// expected
 		}
@@ -639,6 +655,7 @@ public class TestDuration extends AbstractTest {
 	public void test_factory_parse_tooSmall_decimal() {
 		try {
 			Duration.parse("PT" + Long.MIN_VALUE + ".1S");
+			fail("Missing exception");
 		} catch (DateTimeParseException e) {
 			// expected
 		}
@@ -648,6 +665,7 @@ public class TestDuration extends AbstractTest {
 	public void test_factory_parse_nullText() {
 		try {
 			Duration.parse((String) null);
+			fail("Missing exception");
 		} catch (NullPointerException e) {
 			// expected
 		}
@@ -789,7 +807,8 @@ public class TestDuration extends AbstractTest {
 		Object[][] data = provider_plus();
 		for (int i = 0; i < data.length; i++) {
 			Object[] objects = data[i];
-			test_plus(toLong(objects[0]), (int) objects[1], toLong(objects[2]), (int) objects[3], toLong(objects[4]), (int) objects[5]);
+			test_plus(toLong(objects[0]), (int) objects[1], toLong(objects[2]), (int) objects[3], toLong(objects[4]),
+					(int) objects[5]);
 		}
 	}
 
@@ -805,6 +824,7 @@ public class TestDuration extends AbstractTest {
 		try {
 			Duration t = Duration.ofSeconds(Long.MAX_VALUE, 999999999);
 			t.plus(Duration.ofSeconds(0, 1));
+			fail("Missing exception");
 		} catch (ArithmeticException e) {
 			// expected
 		}
@@ -815,6 +835,7 @@ public class TestDuration extends AbstractTest {
 		try {
 			Duration t = Duration.ofSeconds(Long.MIN_VALUE);
 			t.plus(Duration.ofSeconds(-1, 999999999));
+			fail("Missing exception");
 		} catch (ArithmeticException e) {
 			// expected
 		}
@@ -858,8 +879,7 @@ public class TestDuration extends AbstractTest {
 		try {
 			Duration t = Duration.ofSeconds(1);
 			t.plus(1, (TemporalUnit) null);
-		} catch (NullPointerException e) {
-			// expected
+			fail("Missing exception");
 		} catch (JavaScriptException e) {
 			// expected
 		}
@@ -883,11 +903,13 @@ public class TestDuration extends AbstractTest {
 		Object[][] data = provider_plusSeconds_long();
 		for (int i = 0; i < data.length; i++) {
 			Object[] objects = data[i];
-			test_plusSeconds_long(toLong(objects[0]), (int) objects[1], ((Number)objects[2]).longValue(), ((Number)objects[3]).longValue(), (int) objects[4]);
+			test_plusSeconds_long(toLong(objects[0]), (int) objects[1], ((Number) objects[2]).longValue(),
+					((Number) objects[3]).longValue(), (int) objects[4]);
 		}
 	}
 
-	public void test_plusSeconds_long(long seconds, int nanos, long amount, long expectedSeconds, int expectedNanoOfSecond) {
+	public void test_plusSeconds_long(long seconds, int nanos, long amount, long expectedSeconds,
+			int expectedNanoOfSecond) {
 		Duration t = Duration.ofSeconds(seconds, nanos);
 		t = t.plusSeconds(amount);
 		assertEquals(t.getSeconds(), expectedSeconds);
@@ -899,6 +921,7 @@ public class TestDuration extends AbstractTest {
 		try {
 			Duration t = Duration.ofSeconds(1, 0);
 			t.plusSeconds(Long.MAX_VALUE);
+			fail("Missing exception");
 		} catch (ArithmeticException e) {
 			// expected
 		}
@@ -909,6 +932,7 @@ public class TestDuration extends AbstractTest {
 		try {
 			Duration t = Duration.ofSeconds(-1, 0);
 			t.plusSeconds(Long.MIN_VALUE);
+			fail("Missing exception");
 		} catch (ArithmeticException e) {
 			// expected
 		}
@@ -944,11 +968,13 @@ public class TestDuration extends AbstractTest {
 		Object[][] data = provider_plusMillis_long();
 		for (int i = 0; i < data.length; i++) {
 			Object[] objects = data[i];
-			test_plusMillis_long(toLong(objects[0]), (int) objects[1], toLong(objects[2]), toLong(objects[3]), (int) objects[4]);
+			test_plusMillis_long(toLong(objects[0]), (int) objects[1], toLong(objects[2]), toLong(objects[3]),
+					(int) objects[4]);
 		}
 	}
 
-	public void test_plusMillis_long(long seconds, int nanos, long amount, long expectedSeconds, int expectedNanoOfSecond) {
+	public void test_plusMillis_long(long seconds, int nanos, long amount, long expectedSeconds,
+			int expectedNanoOfSecond) {
 		Duration t = Duration.ofSeconds(seconds, nanos);
 		t = t.plusMillis(amount);
 		assertEquals(t.getSeconds(), expectedSeconds);
@@ -960,7 +986,8 @@ public class TestDuration extends AbstractTest {
 		Object[][] data = provider_plusMillis_long();
 		for (int i = 0; i < data.length; i++) {
 			Object[] objects = data[i];
-			test_plusMillis_long_oneMore(toLong(objects[0]), (int) objects[1], toLong(objects[2]), toLong(objects[3]), (int) objects[4]);
+			test_plusMillis_long_oneMore(toLong(objects[0]), (int) objects[1], toLong(objects[2]), toLong(objects[3]),
+					(int) objects[4]);
 		}
 	}
 
@@ -977,7 +1004,8 @@ public class TestDuration extends AbstractTest {
 		Object[][] data = provider_plusMillis_long();
 		for (int i = 0; i < data.length; i++) {
 			Object[] objects = data[i];
-			test_plusMillis_long_minusOneLess(toLong(objects[0]), (int) objects[1], toLong(objects[2]), toLong(objects[3]), (int) objects[4]);
+			test_plusMillis_long_minusOneLess(toLong(objects[0]), (int) objects[1], toLong(objects[2]),
+					toLong(objects[3]), (int) objects[4]);
 		}
 	}
 
@@ -1002,6 +1030,7 @@ public class TestDuration extends AbstractTest {
 		try {
 			Duration t = Duration.ofSeconds(Long.MAX_VALUE, 999000000);
 			t.plusMillis(1);
+			fail("Missing exception");
 		} catch (ArithmeticException e) {
 			// expected
 		}
@@ -1020,6 +1049,7 @@ public class TestDuration extends AbstractTest {
 		try {
 			Duration t = Duration.ofSeconds(Long.MIN_VALUE, 0);
 			t.plusMillis(-1);
+			fail("Missing exception");
 		} catch (ArithmeticException e) {
 			// expected
 		}
@@ -1065,11 +1095,13 @@ public class TestDuration extends AbstractTest {
 		Object[][] data = provider_plusNanos_long();
 		for (int i = 0; i < data.length; i++) {
 			Object[] objects = data[i];
-			test_plusNanos_long(toLong(objects[0]), (int) objects[1], toLong(objects[2]), toLong(objects[3]), (int) objects[4]);
+			test_plusNanos_long(toLong(objects[0]), (int) objects[1], toLong(objects[2]), toLong(objects[3]),
+					(int) objects[4]);
 		}
 	}
 
-	public void test_plusNanos_long(long seconds, int nanos, long amount, long expectedSeconds, int expectedNanoOfSecond) {
+	public void test_plusNanos_long(long seconds, int nanos, long amount, long expectedSeconds,
+			int expectedNanoOfSecond) {
 		Duration t = Duration.ofSeconds(seconds, nanos);
 		t = t.plusNanos(amount);
 		assertEquals(t.getSeconds(), expectedSeconds);
@@ -1081,6 +1113,7 @@ public class TestDuration extends AbstractTest {
 		try {
 			Duration t = Duration.ofSeconds(Long.MAX_VALUE, 999999999);
 			t.plusNanos(1);
+			fail("Missing exception");
 		} catch (ArithmeticException e) {
 			// expected
 		}
@@ -1091,6 +1124,7 @@ public class TestDuration extends AbstractTest {
 		try {
 			Duration t = Duration.ofSeconds(Long.MIN_VALUE, 0);
 			t.plusNanos(-1);
+			fail("Missing exception");
 		} catch (ArithmeticException e) {
 			// expected
 		}
@@ -1190,7 +1224,8 @@ public class TestDuration extends AbstractTest {
 		Object[][] data = provider_minus();
 		for (int i = 0; i < data.length; i++) {
 			Object[] objects = data[i];
-			test_minus(toLong(objects[0]), (int) objects[1], toLong(objects[2]), (int) objects[3], toLong(objects[4]), (int) objects[5]);
+			test_minus(toLong(objects[0]), (int) objects[1], toLong(objects[2]), (int) objects[3], toLong(objects[4]),
+					(int) objects[5]);
 		}
 	}
 
@@ -1206,6 +1241,7 @@ public class TestDuration extends AbstractTest {
 		try {
 			Duration t = Duration.ofSeconds(Long.MIN_VALUE);
 			t.minus(Duration.ofSeconds(0, 1));
+			fail("Missing exception");
 		} catch (ArithmeticException e) {
 			// expected
 		}
@@ -1216,6 +1252,7 @@ public class TestDuration extends AbstractTest {
 		try {
 			Duration t = Duration.ofSeconds(Long.MAX_VALUE, 999999999);
 			t.minus(Duration.ofSeconds(-1, 999999999));
+			fail("Missing exception");
 		} catch (ArithmeticException e) {
 			// expected
 		}
@@ -1259,8 +1296,7 @@ public class TestDuration extends AbstractTest {
 		try {
 			Duration t = Duration.ofSeconds(1);
 			t.minus(1, (TemporalUnit) null);
-		} catch (NullPointerException e) {
-			// expected
+			fail("Missing exception");
 		} catch (JavaScriptException e) {
 			// expected
 		}
@@ -1284,7 +1320,8 @@ public class TestDuration extends AbstractTest {
 		Object[][] data = provider_minusSeconds_long();
 		for (int i = 0; i < data.length; i++) {
 			Object[] objects = data[i];
-			test_minusSeconds_long(toLong(objects[0]), (int) objects[1], toLong(objects[2]), toLong(objects[3]), (int) objects[4]);
+			test_minusSeconds_long(toLong(objects[0]), (int) objects[1], toLong(objects[2]), toLong(objects[3]),
+					(int) objects[4]);
 		}
 	}
 
@@ -1296,21 +1333,23 @@ public class TestDuration extends AbstractTest {
 		assertEquals(t.getNano(), expectedNanoOfSecond);
 	}
 
-	@Test(expected =  ArithmeticException.class )
+	@Test(expected = ArithmeticException.class)
 	public void test_minusSeconds_long_overflowTooBig() {
 		try {
 			Duration t = Duration.ofSeconds(1, 0);
 			t.minusSeconds(Long.MIN_VALUE + 1);
+			fail("Missing exception");
 		} catch (ArithmeticException e) {
 			// expected
 		}
 	}
 
-	@Test(expected =  ArithmeticException.class )
+	@Test(expected = ArithmeticException.class)
 	public void test_minusSeconds_long_overflowTooSmall() {
 		try {
 			Duration t = Duration.ofSeconds(-2, 0);
 			t.minusSeconds(Long.MAX_VALUE);
+			fail("Missing exception");
 		} catch (ArithmeticException e) {
 			// expected
 		}
@@ -1345,11 +1384,13 @@ public class TestDuration extends AbstractTest {
 		Object[][] data = provider_minusMillis_long();
 		for (int i = 0; i < data.length; i++) {
 			Object[] objects = data[i];
-			test_minusMillis_long(toLong(objects[0]), (int) objects[1], toLong(objects[2]), toLong(objects[3]), (int) objects[4]);
+			test_minusMillis_long(toLong(objects[0]), (int) objects[1], toLong(objects[2]), toLong(objects[3]),
+					(int) objects[4]);
 		}
 	}
 
-	public void test_minusMillis_long(long seconds, int nanos, long amount, long expectedSeconds, int expectedNanoOfSecond) {
+	public void test_minusMillis_long(long seconds, int nanos, long amount, long expectedSeconds,
+			int expectedNanoOfSecond) {
 		Duration t = Duration.ofSeconds(seconds, nanos);
 		t = t.minusMillis(amount);
 		assertEquals(t.getSeconds(), expectedSeconds);
@@ -1361,7 +1402,8 @@ public class TestDuration extends AbstractTest {
 		Object[][] data = provider_minusMillis_long();
 		for (int i = 0; i < data.length; i++) {
 			Object[] objects = data[i];
-			test_minusMillis_long_oneMore(toLong(objects[0]), (int) objects[1], toLong(objects[2]), toLong(objects[3]), (int) objects[4]);
+			test_minusMillis_long_oneMore(toLong(objects[0]), (int) objects[1], toLong(objects[2]), toLong(objects[3]),
+					(int) objects[4]);
 		}
 	}
 
@@ -1378,8 +1420,8 @@ public class TestDuration extends AbstractTest {
 		Object[][] data = provider_minusMillis_long();
 		for (int i = 0; i < data.length; i++) {
 			Object[] objects = data[i];
-			test_minusMillis_long_minusOneLess(toLong(objects[0]), (int) objects[1], toLong(objects[2]), toLong(objects[3]),
-					(int) objects[4]);
+			test_minusMillis_long_minusOneLess(toLong(objects[0]), (int) objects[1], toLong(objects[2]),
+					toLong(objects[3]), (int) objects[4]);
 		}
 	}
 
@@ -1404,6 +1446,7 @@ public class TestDuration extends AbstractTest {
 		try {
 			Duration t = Duration.ofSeconds(Long.MAX_VALUE, 999000000);
 			t.minusMillis(-1);
+			fail("Missing exception");
 		} catch (ArithmeticException e) {
 			// expected
 		}
@@ -1422,6 +1465,7 @@ public class TestDuration extends AbstractTest {
 		try {
 			Duration t = Duration.ofSeconds(Long.MIN_VALUE, 0);
 			t.minusMillis(1);
+			fail("Missing exception");
 		} catch (ArithmeticException e) {
 			// expected
 		}
@@ -1472,7 +1516,8 @@ public class TestDuration extends AbstractTest {
 		}
 	}
 
-	public void test_minusNanos_long(long seconds, int nanos, long amount, long expectedSeconds, int expectedNanoOfSecond) {
+	public void test_minusNanos_long(long seconds, int nanos, long amount, long expectedSeconds,
+			int expectedNanoOfSecond) {
 		Duration t = Duration.ofSeconds(seconds, nanos);
 		t = t.minusNanos(amount);
 		assertEquals(t.getSeconds(), expectedSeconds);
@@ -1484,6 +1529,7 @@ public class TestDuration extends AbstractTest {
 		try {
 			Duration t = Duration.ofSeconds(Long.MAX_VALUE, 999999999);
 			t.minusNanos(-1);
+			fail("Missing exception");
 		} catch (ArithmeticException e) {
 			// expected
 		}
@@ -1494,6 +1540,7 @@ public class TestDuration extends AbstractTest {
 		try {
 			Duration t = Duration.ofSeconds(Long.MIN_VALUE, 0);
 			t.minusNanos(1);
+			fail("Missing exception");
 		} catch (ArithmeticException e) {
 			// expected
 		}
@@ -1547,7 +1594,8 @@ public class TestDuration extends AbstractTest {
 		Object[][] data = provider_multipliedBy();
 		for (int i = 0; i < data.length; i++) {
 			Object[] objects = data[i];
-			test_multipliedBy(toLong(objects[0]), (int) objects[1], (int) objects[2], toLong(objects[3]), (int) objects[4]);
+			test_multipliedBy(toLong(objects[0]), (int) objects[1], (int) objects[2], toLong(objects[3]),
+					(int) objects[4]);
 		}
 	}
 
@@ -1575,6 +1623,7 @@ public class TestDuration extends AbstractTest {
 		try {
 			Duration test = Duration.ofSeconds(1, 1);
 			test.multipliedBy(Long.MAX_VALUE);
+			fail("Missing exception");
 		} catch (ArithmeticException e) {
 			// expected
 		}
@@ -1585,6 +1634,7 @@ public class TestDuration extends AbstractTest {
 		try {
 			Duration test = Duration.ofSeconds(1, 1);
 			test.multipliedBy(Long.MIN_VALUE);
+			fail("Missing exception");
 		} catch (ArithmeticException e) {
 			// expected
 		}
@@ -1638,7 +1688,8 @@ public class TestDuration extends AbstractTest {
 		Object[][] data = provider_dividedBy();
 		for (int i = 0; i < data.length; i++) {
 			Object[] objects = data[i];
-			test_dividedBy(toLong(objects[0]), (int) objects[1], (int) objects[2], toLong(objects[3]), (int) objects[4]);
+			test_dividedBy(toLong(objects[0]), (int) objects[1], (int) objects[2], toLong(objects[3]),
+					(int) objects[4]);
 		}
 	}
 
@@ -1657,6 +1708,7 @@ public class TestDuration extends AbstractTest {
 				Object[] objects = data[i];
 				test_dividedByZero(toLong(objects[0]), (int) objects[1], (int) objects[2], toLong(objects[3]),
 						(int) objects[4]);
+				fail("Missing exception");
 			} catch (ArithmeticException e) {
 				// expected
 			}
@@ -1694,6 +1746,7 @@ public class TestDuration extends AbstractTest {
 	public void test_negated_overflow() {
 		try {
 			Duration.ofSeconds(Long.MIN_VALUE).negated();
+			fail("Missing exception");
 		} catch (ArithmeticException e) {
 			// expected
 		}
@@ -1718,6 +1771,7 @@ public class TestDuration extends AbstractTest {
 	public void test_abs_overflow() {
 		try {
 			Duration.ofSeconds(Long.MIN_VALUE).abs();
+			fail("Missing exception");
 		} catch (ArithmeticException e) {
 			// expected
 		}
@@ -1743,6 +1797,7 @@ public class TestDuration extends AbstractTest {
 		try {
 			Duration test = Duration.ofSeconds(0, Long.MAX_VALUE).plusNanos(1);
 			test.toNanos();
+			fail("Missing exception");
 		} catch (ArithmeticException e) {
 			// expected
 		}
@@ -1768,6 +1823,7 @@ public class TestDuration extends AbstractTest {
 		try {
 			Duration test = Duration.ofSeconds(Long.MAX_VALUE / 1000, ((Long.MAX_VALUE % 1000) + 1) * 1000000);
 			test.toMillis();
+			fail("Missing exception");
 		} catch (ArithmeticException e) {
 			// expected
 		}
@@ -1809,8 +1865,7 @@ public class TestDuration extends AbstractTest {
 		try {
 			Duration a = Duration.ofSeconds(0L, 0);
 			a.compareTo(null);
-		} catch (NullPointerException e) {
-			// expected
+			fail("Missing exception");
 		} catch (JavaScriptException e) {
 			// expected
 		}
@@ -1822,6 +1877,7 @@ public class TestDuration extends AbstractTest {
 		try {
 			Comparable c = Duration.ofSeconds(0L);
 			c.compareTo(new Object());
+			fail("Missing exception");
 		} catch (ClassCastException e) {
 			// expected
 		}

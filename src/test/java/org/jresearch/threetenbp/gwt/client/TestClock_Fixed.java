@@ -77,6 +77,7 @@ public class TestClock_Fixed extends AbstractTest {
 	public void test_fixed_InstantZoneId_nullInstant() {
 		try {
 			Clock.fixed(null, PARIS);
+			fail("Missing exception");
 		} catch (NullPointerException e) {
 			// expected
 		}
@@ -86,6 +87,7 @@ public class TestClock_Fixed extends AbstractTest {
 	public void test_fixed_InstantZoneId_nullZoneId() {
 		try {
 			Clock.fixed(INSTANT, null);
+			fail("Missing exception");
 		} catch (NullPointerException e) {
 			// expected
 		}
@@ -109,8 +111,7 @@ public class TestClock_Fixed extends AbstractTest {
 	public void test_withZone_null() {
 		try {
 			Clock.fixed(INSTANT, PARIS).withZone(null);
-		} catch (NullPointerException e) {
-			// expected
+			fail("Missing exception");
 		} catch (JavaScriptException e) {
 			// expected
 		}

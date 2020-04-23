@@ -115,8 +115,7 @@ public class TestClock_System extends AbstractTest {
 	public void test_zoneId_nullZoneId() {
 		try {
 			Clock.system(null);
-		} catch (NullPointerException e) {
-			// expected
+			fail("Missing exception");
 		} catch (JavaScriptException e) {
 			// expected
 		}
@@ -146,8 +145,7 @@ public class TestClock_System extends AbstractTest {
 	public void test_withZone_null() {
 		try {
 			Clock.systemUTC().withZone(null);
-		} catch (NullPointerException e) {
-			// expected
+			fail("Missing exception");
 		} catch (JavaScriptException e) {
 			// expected
 		}

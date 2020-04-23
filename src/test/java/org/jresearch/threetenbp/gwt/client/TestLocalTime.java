@@ -223,6 +223,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_now_ZoneId_nullZoneId() {
 		try {
 			LocalTime.now((ZoneId) null);
+			fail("Missing exception");
 		} catch (NullPointerException e) {
 			// expected
 		}
@@ -250,6 +251,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_now_Clock_nullClock() {
 		try {
 			LocalTime.now((Clock) null);
+			fail("Missing exception");
 		} catch (NullPointerException e) {
 			// expected
 		}
@@ -315,6 +317,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_factory_time_2ints_hourTooLow() {
 		try {
 			LocalTime.of(-1, 0);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -324,6 +327,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_factory_time_2ints_hourTooHigh() {
 		try {
 			LocalTime.of(24, 0);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -333,6 +337,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_factory_time_2ints_minuteTooLow() {
 		try {
 			LocalTime.of(0, -1);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -342,6 +347,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_factory_time_2ints_minuteTooHigh() {
 		try {
 			LocalTime.of(0, 60);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -358,6 +364,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_factory_time_3ints_hourTooLow() {
 		try {
 			LocalTime.of(-1, 0, 0);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -367,6 +374,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_factory_time_3ints_hourTooHigh() {
 		try {
 			LocalTime.of(24, 0, 0);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -376,6 +384,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_factory_time_3ints_minuteTooLow() {
 		try {
 			LocalTime.of(0, -1, 0);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -385,6 +394,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_factory_time_3ints_minuteTooHigh() {
 		try {
 			LocalTime.of(0, 60, 0);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -394,6 +404,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_factory_time_3ints_secondTooLow() {
 		try {
 			LocalTime.of(0, 0, -1);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -403,6 +414,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_factory_time_3ints_secondTooHigh() {
 		try {
 			LocalTime.of(0, 0, 60);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -421,6 +433,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_factory_time_4ints_hourTooLow() {
 		try {
 			LocalTime.of(-1, 0, 0, 0);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -430,6 +443,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_factory_time_4ints_hourTooHigh() {
 		try {
 			LocalTime.of(24, 0, 0, 0);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -439,6 +453,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_factory_time_4ints_minuteTooLow() {
 		try {
 			LocalTime.of(0, -1, 0, 0);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -448,6 +463,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_factory_time_4ints_minuteTooHigh() {
 		try {
 			LocalTime.of(0, 60, 0, 0);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -457,6 +473,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_factory_time_4ints_secondTooLow() {
 		try {
 			LocalTime.of(0, 0, -1, 0);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -466,6 +483,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_factory_time_4ints_secondTooHigh() {
 		try {
 			LocalTime.of(0, 0, 60, 0);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -475,6 +493,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_factory_time_4ints_nanoTooLow() {
 		try {
 			LocalTime.of(0, 0, 0, -1);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -484,6 +503,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_factory_time_4ints_nanoTooHigh() {
 		try {
 			LocalTime.of(0, 0, 0, 1000000000);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -502,6 +522,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_factory_ofSecondOfDay_tooLow() {
 		try {
 			LocalTime.ofSecondOfDay(-1);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -511,6 +532,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_factory_ofSecondOfDay_tooHigh() {
 		try {
 			LocalTime.ofSecondOfDay(24 * 60 * 60);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -529,6 +551,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_factory_ofSecondOfDay_long_int_tooLowSecs() {
 		try {
 			LocalTimes.ofSecondOfDay(-1, 0);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -538,6 +561,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_factory_ofSecondOfDay_long_int_tooHighSecs() {
 		try {
 			LocalTimes.ofSecondOfDay(24 * 60 * 60, 0);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -547,6 +571,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_factory_ofSecondOfDay_long_int_tooLowNanos() {
 		try {
 			LocalTimes.ofSecondOfDay(0, -1);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -556,6 +581,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_factory_ofSecondOfDay_long_int_tooHighNanos() {
 		try {
 			LocalTimes.ofSecondOfDay(0, 1000000000);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -574,6 +600,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_factory_ofNanoOfDay_tooLow() {
 		try {
 			LocalTime.ofNanoOfDay(-1);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -583,6 +610,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_factory_ofNanoOfDay_tooHigh() {
 		try {
 			LocalTime.ofNanoOfDay(24 * 60 * 60 * 1000000000L);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -601,6 +629,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_factory_from_DateTimeAccessor_invalid_noDerive() {
 		try {
 			LocalTime.from(LocalDate.of(2007, 7, 15));
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -610,8 +639,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_factory_from_DateTimeAccessor_null() {
 		try {
 			LocalTime.from((TemporalAccessor) null);
-		} catch (NullPointerException e) {
-			// expected
+			fail("Missing exception");
 		} catch (JavaScriptException e) {
 			// expected
 		}
@@ -657,6 +685,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_factory_parse_invalidText(String unparsable) {
 		try {
 			LocalTime.parse(unparsable);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -667,6 +696,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_factory_parse_illegalHour() {
 		try {
 			LocalTime.parse("25:00");
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -676,6 +706,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_factory_parse_illegalMinute() {
 		try {
 			LocalTime.parse("12:60");
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -685,6 +716,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_factory_parse_illegalSecond() {
 		try {
 			LocalTime.parse("12:12:60");
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -695,6 +727,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_factory_parse_nullTest() {
 		try {
 			LocalTime.parse((String) null);
+			fail("Missing exception");
 		} catch (NullPointerException e) {
 			// expected
 		}
@@ -715,8 +748,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 		try {
 			DateTimeFormatter f = DateTimeFormatter.ofPattern("H m s");
 			LocalTime.parse((String) null, f);
-		} catch (NullPointerException e) {
-			// expected
+			fail("Missing exception");
 		} catch (JavaScriptException e) {
 			// expected
 		}
@@ -726,8 +758,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_factory_parse_formatter_nullFormatter() {
 		try {
 			LocalTime.parse("ANY", null);
-		} catch (NullPointerException e) {
-			// expected
+			fail("Missing exception");
 		} catch (JavaScriptException e) {
 			// expected
 		}
@@ -756,6 +787,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_get_TemporalField_tooBig() {
 		try {
 			TEST_12_30_40_987654321.get(NANO_OF_DAY);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -765,8 +797,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_get_TemporalField_null() {
 		try {
 			TEST_12_30_40_987654321.get((TemporalField) null);
-		} catch (NullPointerException e) {
-			// expected
+			fail("Missing exception");
 		} catch (JavaScriptException e) {
 			// expected
 		}
@@ -776,6 +807,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_get_TemporalField_invalidField() {
 		try {
 			TEST_12_30_40_987654321.get(MockFieldNoValue.INSTANCE);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -785,6 +817,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_get_TemporalField_dateField() {
 		try {
 			TEST_12_30_40_987654321.get(ChronoField.DAY_OF_MONTH);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -814,8 +847,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_getLong_TemporalField_null() {
 		try {
 			TEST_12_30_40_987654321.getLong((TemporalField) null);
-		} catch (NullPointerException e) {
-			// expected
+			fail("Missing exception");
 		} catch (JavaScriptException e) {
 			// expected
 		}
@@ -825,6 +857,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_getLong_TemporalField_invalidField() {
 		try {
 			TEST_12_30_40_987654321.getLong(MockFieldNoValue.INSTANCE);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -834,6 +867,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_getLong_TemporalField_dateField() {
 		try {
 			TEST_12_30_40_987654321.getLong(ChronoField.DAY_OF_MONTH);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -857,8 +891,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_query_null() {
 		try {
 			TEST_12_30_40_987654321.query(null);
-		} catch (NullPointerException e) {
-			// expected
+			fail("Missing exception");
 		} catch (JavaScriptException e) {
 			// expected
 		}
@@ -911,8 +944,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_with_adjustment_null() {
 		try {
 			TEST_12_30_40_987654321.with((TemporalAdjuster) null);
-		} catch (NullPointerException e) {
-			// expected
+			fail("Missing exception");
 		} catch (JavaScriptException e) {
 			// expected
 		}
@@ -953,6 +985,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_withHour_hourTooLow() {
 		try {
 			TEST_12_30_40_987654321.withHour(-1);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -962,6 +995,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_withHour_hourTooHigh() {
 		try {
 			TEST_12_30_40_987654321.withHour(24);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -1001,6 +1035,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_withMinute_minuteTooLow() {
 		try {
 			TEST_12_30_40_987654321.withMinute(-1);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -1011,6 +1046,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_withMinute_minuteTooHigh() {
 		try {
 			TEST_12_30_40_987654321.withMinute(60);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -1051,6 +1087,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_withSecond_secondTooLow() {
 		try {
 			TEST_12_30_40_987654321.withSecond(-1);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -1061,6 +1098,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_withSecond_secondTooHigh() {
 		try {
 			TEST_12_30_40_987654321.withSecond(60);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -1105,6 +1143,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_withNanoOfSecond_nanoTooLow() {
 		try {
 			TEST_12_30_40_987654321.withNano(-1);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -1114,6 +1153,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_withNanoOfSecond_nanoTooHigh() {
 		try {
 			TEST_12_30_40_987654321.withNano(1000000000);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -1237,6 +1277,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_truncatedTo_invalid(LocalTime input, TemporalUnit unit) {
 		try {
 			input.truncatedTo(unit);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -1247,8 +1288,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_truncatedTo_null() {
 		try {
 			TEST_12_30_40_987654321.truncatedTo(null);
-		} catch (NullPointerException e) {
-			// expected
+			fail("Missing exception");
 		} catch (JavaScriptException e) {
 			// expected
 		}
@@ -1291,6 +1331,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 		try {
 			TemporalAmount period = MockSimplePeriod.of(7, ChronoUnit.MONTHS);
 			TEST_12_30_40_987654321.plus(period);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -1301,8 +1342,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_plus_Adjuster_null() {
 		try {
 			TEST_12_30_40_987654321.plus((TemporalAmount) null);
-		} catch (NullPointerException e) {
-			// expected
+			fail("Missing exception");
 		} catch (JavaScriptException e) {
 			// expected
 		}
@@ -1336,6 +1376,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 			try {
 				TEST_12_30_40_987654321.plus(1, unit);
 				fail("Unit should not be allowed " + unit);
+				fail("Missing exception");
 			} catch (DateTimeException ex) {
 				// expected
 			}
@@ -1346,6 +1387,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_plus_long_multiples() {
 		try {
 			TEST_12_30_40_987654321.plus(0, DAYS);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -1355,8 +1397,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_plus_longPeriodUnit_null() {
 		try {
 			TEST_12_30_40_987654321.plus(1, (TemporalUnit) null);
-		} catch (NullPointerException e) {
-			// expected
+			fail("Missing exception");
 		} catch (JavaScriptException e) {
 			// expected
 		}
@@ -1396,8 +1437,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_plus_adjuster_null() {
 		try {
 			TEST_12_30_40_987654321.plus((TemporalAmount) null);
-		} catch (NullPointerException e) {
-			// expected
+			fail("Missing exception");
 		} catch (JavaScriptException e) {
 			// expected
 		}
@@ -1817,6 +1857,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 		try {
 			TemporalAmount period = MockSimplePeriod.of(7, ChronoUnit.MONTHS);
 			TEST_12_30_40_987654321.minus(period);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -1827,8 +1868,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_minus_Adjuster_null() {
 		try {
 			TEST_12_30_40_987654321.minus((TemporalAmount) null);
-		} catch (NullPointerException e) {
-			// expected
+			fail("Missing exception");
 		} catch (JavaScriptException e) {
 			// expected
 		}
@@ -1862,6 +1902,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 			try {
 				TEST_12_30_40_987654321.minus(1, unit);
 				fail("Unit should not be allowed " + unit);
+				fail("Missing exception");
 			} catch (DateTimeException ex) {
 				// expected
 			}
@@ -1872,6 +1913,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_minus_long_multiples() {
 		try {
 			TEST_12_30_40_987654321.minus(0, DAYS);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -1881,8 +1923,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_minus_longPeriodUnit_null() {
 		try {
 			TEST_12_30_40_987654321.minus(1, (TemporalUnit) null);
-		} catch (NullPointerException e) {
-			// expected
+			fail("Missing exception");
 		} catch (JavaScriptException e) {
 			// expected
 		}
@@ -2327,8 +2368,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_atDate_nullDate() {
 		try {
 			TEST_12_30_40_987654321.atDate((LocalDate) null);
-		} catch (NullPointerException e) {
-			// expected
+			fail("Missing exception");
 		} catch (JavaScriptException e) {
 			// expected
 		}
@@ -2433,8 +2473,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_compareTo_ObjectNull() {
 		try {
 			TEST_12_30_40_987654321.compareTo(null);
-		} catch (NullPointerException e) {
-			// expected
+			fail("Missing exception");
 		} catch (JavaScriptException e) {
 			// expected
 		}
@@ -2444,8 +2483,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_isBefore_ObjectNull() {
 		try {
 			TEST_12_30_40_987654321.isBefore(null);
-		} catch (NullPointerException e) {
-			// expected
+			fail("Missing exception");
 		} catch (JavaScriptException e) {
 			// expected
 		}
@@ -2455,8 +2493,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_isAfter_ObjectNull() {
 		try {
 			TEST_12_30_40_987654321.isAfter(null);
-		} catch (NullPointerException e) {
-			// expected
+			fail("Missing exception");
 		} catch (JavaScriptException e) {
 			// expected
 		}
@@ -2468,6 +2505,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 		try {
 			Comparable c = TEST_12_30_40_987654321;
 			c.compareTo(new Object());
+			fail("Missing exception");
 		} catch (ClassCastException e) {
 			// expected
 		}
@@ -2701,8 +2739,7 @@ public class TestLocalTime extends AbstractDateTimeTest {
 	public void test_format_formatter_null() {
 		try {
 			LocalTime.of(11, 30, 45).format(null);
-		} catch (NullPointerException e) {
-			// expected
+			fail("Missing exception");
 		} catch (JavaScriptException e) {
 			// expected
 		}

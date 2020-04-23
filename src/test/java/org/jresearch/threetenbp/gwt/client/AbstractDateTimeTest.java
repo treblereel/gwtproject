@@ -128,8 +128,6 @@ public abstract class AbstractDateTimeTest extends AbstractTest {
 			try {
 				sample.range(null);
 				fail("Failed on " + sample);
-			} catch (NullPointerException ex) {
-				// expected
 			} catch (JavaScriptException ex) {
 				// expected
 			}
@@ -165,6 +163,7 @@ public abstract class AbstractDateTimeTest extends AbstractTest {
 				try {
 					sample.get(field);
 					fail("Failed on " + sample + " " + field);
+					fail("Missing exception");
 				} catch (DateTimeException ex) {
 					// expected
 				}
@@ -178,8 +177,6 @@ public abstract class AbstractDateTimeTest extends AbstractTest {
 			try {
 				sample.get(null);
 				fail("Failed on " + sample);
-			} catch (NullPointerException ex) {
-				// expected
 			} catch (JavaScriptException ex) {
 				// expected
 			}
@@ -206,6 +203,7 @@ public abstract class AbstractDateTimeTest extends AbstractTest {
 				try {
 					sample.getLong(field);
 					fail("Failed on " + sample + " " + field);
+					fail("Missing exception");
 				} catch (DateTimeException ex) {
 					// expected
 				}
@@ -219,8 +217,6 @@ public abstract class AbstractDateTimeTest extends AbstractTest {
 			try {
 				sample.getLong(null);
 				fail("Failed on " + sample);
-			} catch (NullPointerException ex) {
-				// expected
 			} catch (JavaScriptException ex) {
 				// expected
 			}

@@ -101,6 +101,7 @@ public class TestMonth extends AbstractDateTimeTest {
 	public void test_factory_int_tooLow() {
 		try {
 			Month.of(0);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -110,6 +111,7 @@ public class TestMonth extends AbstractDateTimeTest {
 	public void test_factory_int_tooHigh() {
 		try {
 			Month.of(13);
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -125,6 +127,7 @@ public class TestMonth extends AbstractDateTimeTest {
 	public void test_factory_CalendricalObject_invalid_noDerive() {
 		try {
 			Month.from(LocalTime.of(12, 30));
+			fail("Missing exception");
 		} catch (DateTimeException e) {
 			// expected
 		}
@@ -134,8 +137,7 @@ public class TestMonth extends AbstractDateTimeTest {
 	public void test_factory_CalendricalObject_null() {
 		try {
 			Month.from((TemporalAccessor) null);
-		} catch (NullPointerException e) {
-			// expected
+			fail("Missing exception");
 		} catch (JavaScriptException e) {
 			// expected
 		}
@@ -172,8 +174,7 @@ public class TestMonth extends AbstractDateTimeTest {
 	public void test_query_null() {
 		try {
 			Month.JUNE.query(null);
-		} catch (NullPointerException e) {
-			// expected
+			fail("Missing exception");
 		} catch (JavaScriptException e) {
 			// expected
 		}
@@ -191,8 +192,7 @@ public class TestMonth extends AbstractDateTimeTest {
 	public void test_getDisplayName_nullStyle() {
 		try {
 			Month.JANUARY.getDisplayName(null, Locale.US);
-		} catch (NullPointerException e) {
-			// expected
+			fail("Missing exception");
 		} catch (JavaScriptException e) {
 			// expected
 		}
@@ -202,8 +202,7 @@ public class TestMonth extends AbstractDateTimeTest {
 	public void test_getDisplayName_nullLocale() {
 		try {
 			Month.JANUARY.getDisplayName(TextStyle.FULL, null);
-		} catch (NullPointerException e) {
-			// expected
+			fail("Missing exception");
 		} catch (JavaScriptException e) {
 			// expected
 		}
@@ -231,7 +230,7 @@ public class TestMonth extends AbstractDateTimeTest {
 		Object[][] data = data_plus();
 		for (int i = 0; i < data.length; i++) {
 			Object[] objects = data[i];
-			test_plus_long((int)objects[0], toLong(objects[1]), (int)objects[2]);
+			test_plus_long((int) objects[0], toLong(objects[1]), (int) objects[2]);
 		}
 	}
 
@@ -256,7 +255,7 @@ public class TestMonth extends AbstractDateTimeTest {
 		Object[][] data = data_minus();
 		for (int i = 0; i < data.length; i++) {
 			Object[] objects = data[i];
-			test_minus_long((int)objects[0], toLong(objects[1]), (int)objects[2]);
+			test_minus_long((int) objects[0], toLong(objects[1]), (int) objects[2]);
 		}
 	}
 
