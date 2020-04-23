@@ -508,17 +508,17 @@ public class TestLocalDate extends AbstractDateTimeTest {
 		return date.with(date.getMonth().plus(1));
 	}
 
-//	private LocalDate previous(LocalDate date) {
-//		int newDayOfMonth = date.getDayOfMonth() - 1;
-//		if (newDayOfMonth > 0) {
-//			return date.withDayOfMonth(newDayOfMonth);
-//		}
-//		date = date.with(date.getMonth().minus(1));
-//		if (date.getMonth() == Month.DECEMBER) {
-//			date = date.withYear(date.getYear() - 1);
-//		}
-//		return date.withDayOfMonth(date.getMonth().length(isIsoLeap(date.getYear())));
-//	}
+	private LocalDate previous(LocalDate date) {
+		int newDayOfMonth = date.getDayOfMonth() - 1;
+		if (newDayOfMonth > 0) {
+			return date.withDayOfMonth(newDayOfMonth);
+		}
+		date = date.with(date.getMonth().minus(1));
+		if (date.getMonth() == Month.DECEMBER) {
+			date = date.withYear(date.getYear() - 1);
+		}
+		return date.withDayOfMonth(date.getMonth().length(isIsoLeap(date.getYear())));
+	}
 
 	// -----------------------------------------------------------------------
 	// ofEpochDay()
@@ -2326,28 +2326,27 @@ public class TestLocalDate extends AbstractDateTimeTest {
 	// -----------------------------------------------------------------------
 	// toEpochDay()
 	// -----------------------------------------------------------------------
-//	@Test
-//GWT specific - too long
-//	public void test_toEpochDay() {
-//		long date_0000_01_01 = -678941 - 40587;
-//
-//		LocalDate test = LocalDate.of(0, 1, 1);
-//		for (long i = date_0000_01_01; i < 700000; i++) {
-//			assertEquals(test.toEpochDay(), i);
-//			test = next(test);
-//		}
-//		test = LocalDate.of(0, 1, 1);
-//		for (long i = date_0000_01_01; i > -2000000; i--) {
-//			assertEquals(test.toEpochDay(), i);
-//			test = previous(test);
-//		}
-//
-//		assertEquals(LocalDate.of(1858, 11, 17).toEpochDay(), -40587);
-//		assertEquals(LocalDate.of(1, 1, 1).toEpochDay(), -678575 - 40587);
-//		assertEquals(LocalDate.of(1995, 9, 27).toEpochDay(), 49987 - 40587);
-//		assertEquals(LocalDate.of(1970, 1, 1).toEpochDay(), 0);
-//		assertEquals(LocalDate.of(-1, 12, 31).toEpochDay(), -678942 - 40587);
-//	}
+	@Test
+	public void long_test_toEpochDay() {
+		long date_0000_01_01 = -678941 - 40587;
+
+		LocalDate test = LocalDate.of(0, 1, 1);
+		for (long i = date_0000_01_01; i < 700000; i++) {
+			assertEquals(test.toEpochDay(), i);
+			test = next(test);
+		}
+		test = LocalDate.of(0, 1, 1);
+		for (long i = date_0000_01_01; i > -2000000; i--) {
+			assertEquals(test.toEpochDay(), i);
+			test = previous(test);
+		}
+
+		assertEquals(LocalDate.of(1858, 11, 17).toEpochDay(), -40587);
+		assertEquals(LocalDate.of(1, 1, 1).toEpochDay(), -678575 - 40587);
+		assertEquals(LocalDate.of(1995, 9, 27).toEpochDay(), 49987 - 40587);
+		assertEquals(LocalDate.of(1970, 1, 1).toEpochDay(), 0);
+		assertEquals(LocalDate.of(-1, 12, 31).toEpochDay(), -678942 - 40587);
+	}
 
 	// -----------------------------------------------------------------------
 	// compareTo()

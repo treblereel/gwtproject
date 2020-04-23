@@ -66,6 +66,9 @@
 					<moduleShortName>threetenbpGwt</moduleShortName>
 					<relocateSuperSource>true</relocateSuperSource>
 					<relocateTestSuperSource>true</relocateTestSuperSource>
+					<testArgs>
+						<testArg>-testMethodTimeout 30</testArg>
+					</testArgs>
 				</configuration>
 			</plugin>
 			<!-- Setup testing -->

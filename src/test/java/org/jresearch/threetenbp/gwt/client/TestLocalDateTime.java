@@ -263,9 +263,8 @@ public class TestLocalDateTime extends AbstractDateTimeTest {
 	}
 
 	@Test
-	public void test_now_Clock_allSecsInDay_utc() {
-		//GWT - too long
-		for (int i = 0; i < (2 * 24 * 60 * 60); i+=3) {
+	public void long_test_now_Clock_allSecsInDay_utc() {
+		for (int i = 0; i < (2 * 24 * 60 * 60); i++) {
 			Instant instant = Instant.ofEpochSecond(i).plusNanos(123456789L);
 			Clock clock = Clock.fixed(instant, ZoneOffset.UTC);
 			LocalDateTime test = LocalDateTime.now(clock);
@@ -280,9 +279,8 @@ public class TestLocalDateTime extends AbstractDateTimeTest {
 	}
 
 	@Test
-	public void test_now_Clock_allSecsInDay_offset() {
-		//GWT - too long
-		for (int i = 0; i < (2 * 24 * 60 * 60); i+=6) {
+	public void long_test_now_Clock_allSecsInDay_offset() {
+		for (int i = 0; i < (2 * 24 * 60 * 60); i++) {
 			Instant instant = Instant.ofEpochSecond(i).plusNanos(123456789L);
 			Clock clock = Clock.fixed(instant.minusSeconds(OFFSET_PONE.getTotalSeconds()), OFFSET_PONE);
 			LocalDateTime test = LocalDateTime.now(clock);
@@ -297,9 +295,8 @@ public class TestLocalDateTime extends AbstractDateTimeTest {
 	}
 
 	@Test
-	public void test_now_Clock_allSecsInDay_beforeEpoch() {
+	public void long_test_now_Clock_allSecsInDay_beforeEpoch() {
 		LocalTime expected = LocalTime.MIDNIGHT.plusNanos(123456789L);
-		//GWT - too long
 		for (int i = -1; i >= -(24 * 60 * 60); i--) {
 			Instant instant = Instant.ofEpochSecond(i).plusNanos(123456789L);
 			Clock clock = Clock.fixed(instant, ZoneOffset.UTC);
@@ -1045,20 +1042,18 @@ public class TestLocalDateTime extends AbstractDateTimeTest {
 	// ofEpochSecond()
 	// -----------------------------------------------------------------------
 	@Test
-	public void test_factory_ofEpochSecond_longOffset_afterEpoch() {
+	public void long_test_factory_ofEpochSecond_longOffset_afterEpoch() {
 		LocalDateTime base = LocalDateTime.of(1970, 1, 1, 2, 0, 0, 500);
-		//GWT - too long
-		for (int i = 0; i < 100000; i += 7) {
+		for (int i = 0; i < 100000; i++) {
 			LocalDateTime test = LocalDateTime.ofEpochSecond(i, 500, OFFSET_PTWO);
 			assertEquals(test, base.plusSeconds(i));
 		}
 	}
 
 	@Test
-	public void test_factory_ofEpochSecond_longOffset_beforeEpoch() {
+	public void long_test_factory_ofEpochSecond_longOffset_beforeEpoch() {
 		LocalDateTime base = LocalDateTime.of(1970, 1, 1, 2, 0, 0, 500);
-		//GWT - too long
-		for (int i = 0; i < 100000; i += 7) {
+		for (int i = 0; i < 100000; i++) {
 			LocalDateTime test = LocalDateTime.ofEpochSecond(-i, 500, OFFSET_PTWO);
 			assertEquals(test, base.minusSeconds(i));
 		}
@@ -1972,17 +1967,16 @@ public class TestLocalDateTime extends AbstractDateTimeTest {
 	}
 
 	@Test(/* dataProvider="samplePlusDaysSymmetry" */)
-	public void test_plusDays_symmetry() {
+	public void long_test_plusDays_symmetry() {
 		Object[][] data = provider_samplePlusDaysSymmetry();
 		for (int i = 0; i < data.length; i++) {
 			Object[] objects = data[i];
-			test_plusDays_symmetry((LocalDateTime) objects[0]);
+			long_test_plusDays_symmetry((LocalDateTime) objects[0]);
 		}
 	}
 
-	public void test_plusDays_symmetry(LocalDateTime reference) {
-		//GWT - too long
-		for (int days = 0; days < 365 * 8; days+= 8) {
+	public void long_test_plusDays_symmetry(LocalDateTime reference) {
+		for (int days = 0; days < 365 * 8; days++) {
 			LocalDateTime t = reference.plusDays(days).plusDays(-days);
 			assertEquals(t, reference);
 
@@ -2642,17 +2636,16 @@ public class TestLocalDateTime extends AbstractDateTimeTest {
 	}
 
 	@Test(/* dataProvider = "sampleMinusWeeksSymmetry" */)
-	public void test_minusWeeks_symmetry() {
+	public void long_test_minusWeeks_symmetry() {
 		Object[][] data = provider_sampleMinusWeeksSymmetry();
 		for (int i = 0; i < data.length; i++) {
 			Object[] objects = data[i];
-			test_minusWeeks_symmetry((LocalDateTime) objects[0]);
+			long_test_minusWeeks_symmetry((LocalDateTime) objects[0]);
 		}
 	}
 
-	public void test_minusWeeks_symmetry(LocalDateTime reference) {
-		//GWT too long
-		for (int weeks = 0; weeks < 365 * 8; weeks += 13) {
+	public void long_test_minusWeeks_symmetry(LocalDateTime reference) {
+		for (int weeks = 0; weeks < 365 * 8; weeks++) {
 			LocalDateTime t = reference.minusWeeks(weeks).minusWeeks(-weeks);
 			assertEquals(t, reference);
 
@@ -2753,17 +2746,16 @@ public class TestLocalDateTime extends AbstractDateTimeTest {
 	}
 
 	@Test(/* dataProvider = "sampleMinusDaysSymmetry" */)
-	public void test_minusDays_symmetry() {
+	public void long_test_minusDays_symmetry() {
 		Object[][] data = provider_sampleMinusDaysSymmetry();
 		for (int i = 0; i < data.length; i++) {
 			Object[] objects = data[i];
-			test_minusDays_symmetry((LocalDateTime) objects[0]);
+			long_test_minusDays_symmetry((LocalDateTime) objects[0]);
 		}
 	}
 
-	public void test_minusDays_symmetry(LocalDateTime reference) {
-		//GWT - too long
-		for (int days = 0; days < 365 * 8; days+=5) {
+	public void long_test_minusDays_symmetry(LocalDateTime reference) {
+		for (int days = 0; days < 365 * 8; days++) {
 			LocalDateTime t = reference.minusDays(days).minusDays(-days);
 			assertEquals(t, reference);
 
