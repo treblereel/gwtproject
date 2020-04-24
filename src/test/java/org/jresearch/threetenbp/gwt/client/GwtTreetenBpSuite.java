@@ -32,7 +32,7 @@ public class GwtTreetenBpSuite {
 		suite.addTestSuite(TestPeriod.class);
 		suite.addTestSuite(TestZonedDateTime.class);
 		suite.addTestSuite(TestZoneId.class);
-//		suite.addTestSuite(Test.class);
+		suite.addTestSuite(TestZoneOffset.class);
 //		suite.addTestSuite(Test.class);
 //		suite.addTestSuite(Test.class);
 		// $JUnit-END$
