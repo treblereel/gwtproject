@@ -2,9 +2,16 @@ package org.jresearch.threetenbp.gwt.client;
 
 import static jsinterop.annotations.JsPackage.GLOBAL;
 
+import java.nio.ByteBuffer;
+import java.time.zone.TzdbZoneRulesProvider;
+import java.time.zone.ZoneRulesProvider;
+
 import javax.annotation.Nonnull;
 
 import org.gwtproject.typedarrays.shared.Uint8Array;
+import org.gwtproject.xhr.client.ReadyStateChangeHandler;
+import org.gwtproject.xhr.client.XMLHttpRequest;
+import org.gwtproject.xhr.client.XMLHttpRequest.ResponseType;
 import org.jresearch.threetenbp.gwt.client.loader.TimeJsBundle;
 
 import com.google.gwt.core.client.GWT;
@@ -15,6 +22,7 @@ import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
+import jsinterop.base.Js;
 
 @JsType(isNative = true, namespace = GLOBAL, name = "support")
 public class Support {
@@ -28,35 +36,26 @@ public class Support {
 			final TimeJsBundle bundle = GWT.create(TimeJsBundle.class);
 			ScriptInjector.fromString(bundle.support().getText()).setWindow(ScriptInjector.TOP_WINDOW).inject();
 			ScriptInjector.fromString(bundle.base64binary().getText()).setWindow(ScriptInjector.TOP_WINDOW).inject();
-//			System.out.println(bundle.77tzdb().getSafeUri().asString());
-//			XMLHttpRequest request = XMLHttpRequest.create();
-//	        request.open("GET", bundle.tzdb().getSafeUri().asString());
-//	        request.setResponseType(ResponseType.ArrayBuffer);
-//	        request.setOnReadyStateChange(new ReadyStateChangeHandler() {
-//
-//	            @Override
-//	            public void onReadyStateChange(XMLHttpRequest xhr) {
-//	                if (xhr.getReadyState() == XMLHttpRequest.DONE) {
-//	                    if (xhr.getStatus() == 200) {
-//
-//	                        ArrayBuffer buffer = xhr.getResponseArrayBuffer();
-//	                        ByteBuffer data = ByteBuffer.wrapArrayBuffer(Js.cast(buffer));
-//	                        TzdbZoneRulesProvider provider = new TzdbZoneRulesProvider(data);
-//	                        ZoneRulesProvider.registerProvider(provider);
-////							Int8Array array = TypedArrays.createInt8Array(buffer);
-////	                        System.out.println("got " + array.length() + " bytes: ");
-////	                        for (int i = 0; i < array.length(); i++) {
-////	                            System.out.println(array.get(i));
-////	                        }
-//	            			initialized = true;
-//	                    } else {
-//	                        System.out.println("response status: " + xhr.getStatus() + " " + xhr.getStatusText());
-//	                    }
-//	                }
-//	            }
-//	        });
-//	        request.send();
-
+			XMLHttpRequest request = XMLHttpRequest.create();
+	        request.open("GET", bundle.tzdb().getSafeUri().asString());
+	        request.setResponseType(ResponseType.ArrayBuffer);
+	        request.setOnReadyStateChange(new ReadyStateChangeHandler() {
+	            @Override
+	            public void onReadyStateChange(XMLHttpRequest xhr) {
+	                if (xhr.getReadyState() == XMLHttpRequest.DONE) {
+	                    if (xhr.getStatus() == 200) {
+	                        ArrayBuffer buffer = Js.cast(xhr.getResponseArrayBuffer());
+	                        ByteBuffer data = ByteBuffer.wrapArrayBuffer(buffer);
+	                        TzdbZoneRulesProvider provider = new TzdbZoneRulesProvider(data);
+	                        ZoneRulesProvider.registerProvider(provider);
+	                    } else {
+	                        System.out.println("response status: " + xhr.getStatus() + " " + xhr.getStatusText());
+	                    }
+	                }
+	            }
+	        });
+	        request.send();
+			initialized = true;
 		}
 	}
 

@@ -1,17 +1,18 @@
 package org.jresearch.threetenbp.gwt.client;
 
 import java.nio.ByteBuffer;
+import java.time.ZoneId;
 import java.time.zone.Providers;
+import java.time.zone.ZoneRulesException;
 import java.time.zone.ZoneRulesProvider;
 
 import org.gwtproject.nio.TypedArrayHelper;
-import org.jresearch.threetenbp.gwt.client.Support;
 import org.junit.Test;
 
 import com.google.gwt.junit.client.GWTTestCase;
+import com.google.gwt.user.client.Timer;
 
 import elemental2.core.ArrayBuffer;
-
 
 public class GwtTest extends GWTTestCase {
 
@@ -32,9 +33,30 @@ public class GwtTest extends GWTTestCase {
 	}
 
 	@Test
+	public void testTzdbProviderInit() {
+		try {
+			ZoneId.of("Europe/Paris");
+		} catch (ZoneRulesException e) {
+			// expected
+		}
+		Timer timer = new Timer() {
+			public void run() {
+				try {
+					ZoneId.of("Europe/Paris");
+				} catch (ZoneRulesException e) {
+					schedule(250);
+				}
+				finishTest();
+			}
+		};
+		delayTestFinish(30 * 1000);
+		timer.schedule(250);
+	}
+
+	@Test
 	public void testTzdbProvider() {
 		ArrayBuffer buffer = Support.decodeArrayBuffer(TzData.TZ_DATA);
-        ByteBuffer data = TypedArrayHelper.wrap(buffer);
+		ByteBuffer data = TypedArrayHelper.wrap(buffer);
 		ZoneRulesProvider provider = Providers.of(data);
 
 		assertNotNull(provider);
