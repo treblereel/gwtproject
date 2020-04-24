@@ -312,6 +312,10 @@ public final class LocalDate
      * @throws DateTimeException if unable to convert to a {@code LocalDate}
      */
     public static LocalDate from(TemporalAccessor temporal) {
+    	//GWT Specific
+    	if (temporal == null) {
+    		throw new NullPointerException();
+    	}
         LocalDate date = temporal.query(TemporalQueries.localDate());
         if (date == null) {
             throw new DateTimeException("Unable to obtain LocalDate from TemporalAccessor: " +

@@ -29,8 +29,12 @@ public class GwtTreetenBpSuite {
 		suite.addTestSuite(TestOffsetDateTime_instants.class);
 		suite.addTestSuite(TestOffsetDateTime.class);
 		suite.addTestSuite(TestOffsetTime.class);
-//		suite.addTestSuite(TestLocalDateTime.class);
-//		suite.addTestSuite(TestLocalDateTime.class);
+		suite.addTestSuite(TestPeriod.class);
+//		suite.addTestSuite(Test.class);
+//		suite.addTestSuite(Test.class);
+//		suite.addTestSuite(Test.class);
+//		suite.addTestSuite(Test.class);
+//		suite.addTestSuite(Test.class);
 		// $JUnit-END$
 
 		return suite;
