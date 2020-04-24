@@ -31,7 +31,7 @@ public class GwtTreetenBpSuite {
 		suite.addTestSuite(TestOffsetTime.class);
 		suite.addTestSuite(TestPeriod.class);
 		suite.addTestSuite(TestZonedDateTime.class);
-//		suite.addTestSuite(Test.class);
+		suite.addTestSuite(TestZoneId.class);
 //		suite.addTestSuite(Test.class);
 //		suite.addTestSuite(Test.class);
 //		suite.addTestSuite(Test.class);
