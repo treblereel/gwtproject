@@ -206,7 +206,7 @@ public abstract class Chronology implements Comparable<Chronology> {
     public static Chronology ofLocale(Locale locale) {
         init();
         Objects.requireNonNull(locale, "locale");
-        //GWT specific - use gwt-i18n-apt
+        //GWT TODO specific - use gwt-i18n-apt
         String type = "iso";
 //        if (locale.equals(JapaneseChronology.LOCALE)) {
 //            type = "japanese";
