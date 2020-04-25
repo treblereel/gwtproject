@@ -301,6 +301,8 @@ public final class ZoneOffset
      * @throws DateTimeException if unable to convert to an {@code ZoneOffset}
      */
     public static ZoneOffset from(TemporalAccessor temporal) {
+    	//GWT specific
+    	Objects.requireNonNull(temporal);
         ZoneOffset offset = temporal.query(TemporalQueries.offset());
         if (offset == null) {
             throw new DateTimeException("Unable to obtain ZoneOffset from TemporalAccessor: " +

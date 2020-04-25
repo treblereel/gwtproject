@@ -400,6 +400,8 @@ public abstract class ZoneId implements Serializable {
 	 * @throws DateTimeException if unable to convert to a {@code ZoneId}
 	 */
 	public static ZoneId from(TemporalAccessor temporal) {
+    	//GWT specific
+    	Objects.requireNonNull(temporal);
 		ZoneId obj = temporal.query(TemporalQueries.zone());
 		if (obj == null) {
 			throw new DateTimeException("Unable to obtain ZoneId from TemporalAccessor: " + temporal + ", type "

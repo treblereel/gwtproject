@@ -71,7 +71,7 @@ import java.util.Objects;
  * It must only be used from a single thread.
  * The created instances are immutable and thread-safe.
  */
-class ZoneRulesBuilder {
+public class ZoneRulesBuilder {
 
     /**
      * The list of windows.

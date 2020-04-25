@@ -1482,6 +1482,8 @@ public final class LocalDate
      */
     @Override
     public Period until(ChronoLocalDate endDate) {
+    	//GWT specific
+    	Objects.requireNonNull(endDate);
         LocalDate end = LocalDate.from(endDate);
         long totalMonths = end.getProlepticMonth() - this.getProlepticMonth();  // safe
         int days = end.day - this.day;

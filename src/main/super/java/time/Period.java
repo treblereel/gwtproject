@@ -258,6 +258,8 @@ public final class Period
      * @see ChronoLocalDate#until(ChronoLocalDate)
      */
     public static Period between(LocalDate startDate, LocalDate endDate) {
+    	//GWT specific
+    	Objects.requireNonNull(startDate);
         return startDate.until(endDate);
     }
 

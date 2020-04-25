@@ -880,6 +880,8 @@ public final class Instant
     @SuppressWarnings("unchecked")
     @Override
     public <R> R query(TemporalQuery<R> query) {
+    	//GWT specific
+    	Objects.requireNonNull(query);
         if (query == TemporalQueries.precision()) {
             return (R) NANOS;
         }
@@ -1080,6 +1082,8 @@ public final class Instant
      */
     @Override
     public int compareTo(Instant otherInstant) {
+    	//GWT specific
+    	Objects.requireNonNull(otherInstant);
         int cmp = Long.compare(seconds, otherInstant.seconds);
         if (cmp != 0) {
             return cmp;

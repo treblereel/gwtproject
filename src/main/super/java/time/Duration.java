@@ -318,6 +318,9 @@ public final class Duration
      * @throws ArithmeticException if the calculation exceeds the capacity of {@code Duration}
      */
     public static Duration between(Temporal startInclusive, Temporal endExclusive) {
+    	//GWT specific
+    	Objects.requireNonNull(startInclusive);
+    	Objects.requireNonNull(endExclusive);
         long secs = startInclusive.until(endExclusive, SECONDS);
         long nanos = 0;
         if (startInclusive.isSupported(NANO_OF_SECOND) && endExclusive.isSupported(NANO_OF_SECOND)) {
@@ -1128,6 +1131,8 @@ public final class Duration
      */
     @Override
     public int compareTo(Duration otherDuration) {
+    	//GWT specific
+    	Objects.requireNonNull(otherDuration);
         int cmp = Long.compare(seconds, otherDuration.seconds);
         if (cmp != 0) {
             return cmp;
