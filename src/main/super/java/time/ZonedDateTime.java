@@ -491,6 +491,8 @@ public final class ZonedDateTime
      * @throws DateTimeException if unable to convert to an {@code ZonedDateTime}
      */
     public static ZonedDateTime from(TemporalAccessor temporal) {
+    	//GWT specific
+    	Objects.requireNonNull(temporal);
         if (temporal instanceof ZonedDateTime) {
             return (ZonedDateTime) temporal;
         }
@@ -1100,6 +1102,8 @@ public final class ZonedDateTime
      */
     @Override
     public ZonedDateTime with(TemporalAdjuster adjuster) {
+    	//GWT specific
+    	Objects.requireNonNull(adjuster);
         // optimizations
         if (adjuster instanceof LocalDate) {
             return resolveLocal(LocalDateTime.of((LocalDate) adjuster, dateTime.toLocalTime()));
@@ -1416,6 +1420,8 @@ public final class ZonedDateTime
      */
     @Override
     public ZonedDateTime plus(TemporalAmount amount) {
+    	//GWT specific
+    	Objects.requireNonNull(amount);
         return (ZonedDateTime) amount.addTo(this);
     }
 
@@ -1450,6 +1456,8 @@ public final class ZonedDateTime
      */
     @Override
     public ZonedDateTime plus(long amountToAdd, TemporalUnit unit) {
+    	//GWT specific
+    	Objects.requireNonNull(unit);
         if (unit instanceof ChronoUnit) {
             if (unit.isDateBased()) {
                 return resolveLocal(dateTime.plus(amountToAdd, unit));
@@ -1651,6 +1659,8 @@ public final class ZonedDateTime
      */
     @Override
     public ZonedDateTime minus(TemporalAmount amount) {
+    	//GWT specific
+    	Objects.requireNonNull(amount);
         return (ZonedDateTime) amount.subtractFrom(this);
     }
 

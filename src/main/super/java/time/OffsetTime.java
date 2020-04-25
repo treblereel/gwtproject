@@ -512,6 +512,8 @@ public final class OffsetTime
      * @return an {@code OffsetTime} based on this time with the requested offset, not null
      */
     public OffsetTime withOffsetSameInstant(ZoneOffset offset) {
+    	//GWT specific
+    	Objects.requireNonNull(offset);
         if (offset.equals(this.offset)) {
             return this;
         }
@@ -588,6 +590,8 @@ public final class OffsetTime
      */
     @Override
     public OffsetTime with(TemporalAdjuster adjuster) {
+    	//GWT specific
+    	Objects.requireNonNull(adjuster);
         // optimizations
         if (adjuster instanceof LocalTime) {
             return with((LocalTime) adjuster, offset);
@@ -635,6 +639,8 @@ public final class OffsetTime
      */
     @Override
     public OffsetTime with(TemporalField field, long newValue) {
+    	//GWT specific
+    	Objects.requireNonNull(field);
         if (field instanceof ChronoField) {
             if (field == OFFSET_SECONDS) {
                 ChronoField f = (ChronoField) field;
@@ -752,6 +758,8 @@ public final class OffsetTime
      */
     @Override
     public OffsetTime plus(TemporalAmount amount) {
+    	//GWT specific
+    	Objects.requireNonNull(amount);
         return (OffsetTime) amount.addTo(this);
     }
 
@@ -860,6 +868,8 @@ public final class OffsetTime
      */
     @Override
     public OffsetTime minus(TemporalAmount amount) {
+    	//GWT specific
+    	Objects.requireNonNull(amount);
         return (OffsetTime) amount.subtractFrom(this);
     }
 
@@ -967,6 +977,8 @@ public final class OffsetTime
     @SuppressWarnings("unchecked")
     @Override
     public <R> R query(TemporalQuery<R> query) {
+    	//GWT specific
+    	Objects.requireNonNull(query);
         if (query == TemporalQueries.precision()) {
             return (R) NANOS;
         } else if (query == TemporalQueries.offset() || query == TemporalQueries.zone()) {
@@ -1146,6 +1158,8 @@ public final class OffsetTime
      */
     @Override
     public int compareTo(OffsetTime other) {
+    	//GWT specific
+    	Objects.requireNonNull(other);
         if (offset.equals(other.offset)) {
             return time.compareTo(other.time);
         }
@@ -1169,6 +1183,8 @@ public final class OffsetTime
      * @return true if this is after the instant of the specified time
      */
     public boolean isAfter(OffsetTime other) {
+    	//GWT specific
+    	Objects.requireNonNull(other);
         return toEpochNano() > other.toEpochNano();
     }
 
@@ -1184,6 +1200,8 @@ public final class OffsetTime
      * @return true if this is before the instant of the specified time
      */
     public boolean isBefore(OffsetTime other) {
+    	//GWT specific
+    	Objects.requireNonNull(other);
         return toEpochNano() < other.toEpochNano();
     }
 
@@ -1199,6 +1217,8 @@ public final class OffsetTime
      * @return true if this is equal to the instant of the specified time
      */
     public boolean isEqual(OffsetTime other) {
+    	//GWT specific
+    	Objects.requireNonNull(other);
         return toEpochNano() == other.toEpochNano();
     }
 

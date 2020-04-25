@@ -376,6 +376,8 @@ public interface ChronoZonedDateTime<D extends ChronoLocalDate>
     @SuppressWarnings("unchecked")
     @Override
     default <R> R query(TemporalQuery<R> query) {
+    	//GWT specific
+    	Objects.requireNonNull(query);
         if (query == TemporalQueries.zoneId() || query == TemporalQueries.zone()) {
             return (R) getZone();
         } else if (query == TemporalQueries.chronology()) {
@@ -453,6 +455,8 @@ public interface ChronoZonedDateTime<D extends ChronoLocalDate>
      */
     @Override
     default int compareTo(ChronoZonedDateTime<?> other) {
+    	//GWT specific
+    	Objects.requireNonNull(other);
         int cmp = Long.compare(toEpochSecond(), other.toEpochSecond());
         if (cmp == 0) {
             cmp = toLocalTime().getNano() - other.toLocalTime().getNano();
@@ -481,6 +485,8 @@ public interface ChronoZonedDateTime<D extends ChronoLocalDate>
      * @return true if this is after the specified date-time
      */
     default boolean isAfter(ChronoZonedDateTime<?> other) {
+    	//GWT specific
+    	Objects.requireNonNull(other);
         long thisEpochSec = toEpochSecond();
         long otherEpochSec = other.toEpochSecond();
         return thisEpochSec > otherEpochSec ||
@@ -498,6 +504,8 @@ public interface ChronoZonedDateTime<D extends ChronoLocalDate>
      * @return true if this point is before the specified date-time
      */
     default boolean isBefore(ChronoZonedDateTime<?> other) {
+    	//GWT specific
+    	Objects.requireNonNull(other);
         long thisEpochSec = toEpochSecond();
         long otherEpochSec = other.toEpochSecond();
         return thisEpochSec < otherEpochSec ||
