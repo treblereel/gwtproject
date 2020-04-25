@@ -524,7 +524,7 @@ public class TestZoneOffset extends AbstractDateTimeTest {
 		try {
 			ZoneOffset.from((TemporalAccessor) null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -610,7 +610,7 @@ public class TestZoneOffset extends AbstractDateTimeTest {
 		try {
 			ZoneOffset.UTC.query(null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}

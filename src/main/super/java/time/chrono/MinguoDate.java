@@ -214,6 +214,8 @@ public final class MinguoDate
 
     @Override
     public long getLong(TemporalField field) {
+    	//GWT Specific
+    	Objects.requireNonNull(field, "field");
         if (field instanceof ChronoField) {
             switch ((ChronoField) field) {
                 case PROLEPTIC_MONTH:

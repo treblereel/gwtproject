@@ -394,7 +394,7 @@ public class TestOffsetTime extends AbstractDateTimeTest {
 		try {
 			OffsetTime.from((TemporalAccessor) null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -610,7 +610,7 @@ public class TestOffsetTime extends AbstractDateTimeTest {
 		try {
 			TEST_11_30_59_500_PONE.query(null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -668,7 +668,7 @@ public class TestOffsetTime extends AbstractDateTimeTest {
 			OffsetTime base = OffsetTime.of(LocalTime.of(11, 30, 59), OFFSET_PONE);
 			base.withOffsetSameInstant(null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -722,7 +722,7 @@ public class TestOffsetTime extends AbstractDateTimeTest {
 		try {
 			TEST_11_30_59_500_PONE.with((TemporalAdjuster) null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -755,7 +755,7 @@ public class TestOffsetTime extends AbstractDateTimeTest {
 		try {
 			TEST_11_30_59_500_PONE.with((TemporalField) null, 0);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -853,7 +853,7 @@ public class TestOffsetTime extends AbstractDateTimeTest {
 		try {
 			TEST_11_30_59_500_PONE.truncatedTo(null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -885,7 +885,7 @@ public class TestOffsetTime extends AbstractDateTimeTest {
 		try {
 			TEST_11_30_59_500_PONE.plus(null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -985,7 +985,7 @@ public class TestOffsetTime extends AbstractDateTimeTest {
 		try {
 			TEST_11_30_59_500_PONE.minus(null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -1123,7 +1123,7 @@ public class TestOffsetTime extends AbstractDateTimeTest {
 			OffsetTime a = OffsetTime.of(LocalTime.of(11, 30, 59), OFFSET_PONE);
 			a.compareTo(null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -1264,7 +1264,7 @@ public class TestOffsetTime extends AbstractDateTimeTest {
 			OffsetTime a = OffsetTime.of(LocalTime.of(11, 30, 59), OFFSET_PONE);
 			a.isBefore(null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -1275,7 +1275,7 @@ public class TestOffsetTime extends AbstractDateTimeTest {
 			OffsetTime a = OffsetTime.of(LocalTime.of(11, 30, 59), OFFSET_PONE);
 			a.isAfter(null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -1286,7 +1286,7 @@ public class TestOffsetTime extends AbstractDateTimeTest {
 			OffsetTime a = OffsetTime.of(LocalTime.of(11, 30, 59), OFFSET_PONE);
 			a.isEqual(null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}

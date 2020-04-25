@@ -175,7 +175,7 @@ public class TestMonth extends AbstractDateTimeTest {
 		try {
 			Month.JUNE.query(null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}

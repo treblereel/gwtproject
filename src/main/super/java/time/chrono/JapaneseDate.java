@@ -397,6 +397,8 @@ public final class JapaneseDate
 
     @Override
     public long getLong(TemporalField field) {
+    	//GWT Specific
+    	Objects.requireNonNull(field, "field");
         if (field instanceof ChronoField) {
             switch ((ChronoField) field) {
                 case ALIGNED_DAY_OF_WEEK_IN_MONTH:

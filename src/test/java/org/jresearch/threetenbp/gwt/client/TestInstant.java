@@ -432,7 +432,7 @@ public class TestInstant extends AbstractDateTimeTest {
 		try {
 			TEST_12345_123456789.query(null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -1420,7 +1420,7 @@ public class TestInstant extends AbstractDateTimeTest {
 			Instant a = Instant.ofEpochSecond(0L, 0);
 			a.compareTo(null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -1431,7 +1431,7 @@ public class TestInstant extends AbstractDateTimeTest {
 			Instant a = Instant.ofEpochSecond(0L, 0);
 			a.isBefore(null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -1442,7 +1442,7 @@ public class TestInstant extends AbstractDateTimeTest {
 			Instant a = Instant.ofEpochSecond(0L, 0);
 			a.isAfter(null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}

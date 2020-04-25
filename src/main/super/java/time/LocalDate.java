@@ -548,6 +548,8 @@ public final class LocalDate
      */
     @Override
     public long getLong(TemporalField field) {
+    	//GWT Specific
+    	Objects.requireNonNull(field, "field");
         if (field instanceof ChronoField) {
             if (field == EPOCH_DAY) {
                 return toEpochDay();

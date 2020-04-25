@@ -466,7 +466,7 @@ public class TestDuration extends AbstractTest {
 			Instant end = Instant.ofEpochSecond(1);
 			Duration.between(null, end);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -477,7 +477,7 @@ public class TestDuration extends AbstractTest {
 			Instant start = Instant.ofEpochSecond(1);
 			Duration.between(start, null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -1866,7 +1866,7 @@ public class TestDuration extends AbstractTest {
 			Duration a = Duration.ofSeconds(0L, 0);
 			a.compareTo(null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}

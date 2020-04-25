@@ -120,7 +120,7 @@ public class TestClock_Offset extends AbstractTest {
 		try {
 			Clock.offset(Clock.system(PARIS), OFFSET).withZone(null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}

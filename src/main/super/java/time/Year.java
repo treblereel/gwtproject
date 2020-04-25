@@ -417,6 +417,8 @@ public final class Year
      */
     @Override
     public long getLong(TemporalField field) {
+    	//GWT Specific
+    	Objects.requireNonNull(field, "field");
         if (field instanceof ChronoField) {
             switch ((ChronoField) field) {
                 case YEAR_OF_ERA: return (year < 1 ? 1 - year : year);

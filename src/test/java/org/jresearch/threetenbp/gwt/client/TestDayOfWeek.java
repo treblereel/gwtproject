@@ -142,7 +142,7 @@ public class TestDayOfWeek extends AbstractDateTimeTest {
 		try {
 			DayOfWeek.from((TemporalAccessor) null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -179,7 +179,7 @@ public class TestDayOfWeek extends AbstractDateTimeTest {
 		try {
 			DayOfWeek.FRIDAY.query(null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -279,7 +279,7 @@ public class TestDayOfWeek extends AbstractDateTimeTest {
 		try {
 			DayOfWeek.MONDAY.adjustInto((Temporal) null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}

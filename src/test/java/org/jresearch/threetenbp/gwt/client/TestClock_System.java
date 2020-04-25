@@ -146,7 +146,7 @@ public class TestClock_System extends AbstractTest {
 		try {
 			Clock.systemUTC().withZone(null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}

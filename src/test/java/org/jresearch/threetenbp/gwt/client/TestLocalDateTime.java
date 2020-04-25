@@ -1323,7 +1323,7 @@ public class TestLocalDateTime extends AbstractDateTimeTest {
 			LocalDateTime test = LocalDateTime.of(2008, 6, 30, 12, 30, 40, 987654321);
 			test.getLong((TemporalField) null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -1359,7 +1359,7 @@ public class TestLocalDateTime extends AbstractDateTimeTest {
 		try {
 			TEST_2007_07_15_12_30_40_987654321.query(null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -1470,7 +1470,7 @@ public class TestLocalDateTime extends AbstractDateTimeTest {
 		try {
 			TEST_2007_07_15_12_30_40_987654321.with((TemporalAdjuster) null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -1732,7 +1732,7 @@ public class TestLocalDateTime extends AbstractDateTimeTest {
 		try {
 			TEST_2007_07_15_12_30_40_987654321.plus(null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -1759,7 +1759,7 @@ public class TestLocalDateTime extends AbstractDateTimeTest {
 		try {
 			TEST_2007_07_15_12_30_40_987654321.plus((MockSimplePeriod) null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -1806,7 +1806,7 @@ public class TestLocalDateTime extends AbstractDateTimeTest {
 		try {
 			TEST_2007_07_15_12_30_40_987654321.plus(1, (TemporalUnit) null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -2523,7 +2523,7 @@ public class TestLocalDateTime extends AbstractDateTimeTest {
 		try {
 			TEST_2007_07_15_12_30_40_987654321.minus(null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -2550,7 +2550,7 @@ public class TestLocalDateTime extends AbstractDateTimeTest {
 		try {
 			TEST_2007_07_15_12_30_40_987654321.minus((MockSimplePeriod) null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -2597,7 +2597,7 @@ public class TestLocalDateTime extends AbstractDateTimeTest {
 		try {
 			TEST_2007_07_15_12_30_40_987654321.minus(1, (TemporalUnit) null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -3508,7 +3508,7 @@ public class TestLocalDateTime extends AbstractDateTimeTest {
 		try {
 			TEST_2007_07_15_12_30_40_987654321.compareTo(null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -3518,7 +3518,7 @@ public class TestLocalDateTime extends AbstractDateTimeTest {
 		try {
 			TEST_2007_07_15_12_30_40_987654321.isBefore(null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -3528,7 +3528,7 @@ public class TestLocalDateTime extends AbstractDateTimeTest {
 		try {
 			TEST_2007_07_15_12_30_40_987654321.isAfter(null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -3789,7 +3789,7 @@ public class TestLocalDateTime extends AbstractDateTimeTest {
 		try {
 			LocalDateTime.of(2010, 12, 3, 11, 30, 45).format(null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}

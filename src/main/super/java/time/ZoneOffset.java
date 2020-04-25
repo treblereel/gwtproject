@@ -574,6 +574,8 @@ public final class ZoneOffset
      */
     @Override
     public long getLong(TemporalField field) {
+    	//GWT Specific
+    	Objects.requireNonNull(field, "field");
         if (field == OFFSET_SECONDS) {
             return totalSeconds;
         } else if (field instanceof ChronoField) {

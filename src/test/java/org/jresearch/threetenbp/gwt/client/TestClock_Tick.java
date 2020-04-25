@@ -247,7 +247,7 @@ public class TestClock_Tick extends AbstractTest {
 		try {
 			Clock.tick(Clock.system(PARIS), Duration.ofMillis(500)).withZone(null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}

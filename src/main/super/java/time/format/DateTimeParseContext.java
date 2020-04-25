@@ -461,6 +461,8 @@ final class DateTimeParseContext {
         }
         @Override
         public long getLong(TemporalField field) {
+        	//GWT Specific
+        	Objects.requireNonNull(field, "field");
             if (fieldValues.containsKey(field) == false) {
                 throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
             }

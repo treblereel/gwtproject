@@ -206,6 +206,8 @@ final class ChronoLocalDateTimeImpl<D extends ChronoLocalDate>
 
     @Override
     public long getLong(TemporalField field) {
+    	//GWT Specific
+    	Objects.requireNonNull(field, "field");
         if (field instanceof ChronoField) {
             return (field.isTimeBased() ? time.getLong(field) : date.getLong(field));
         }

@@ -128,7 +128,7 @@ public class TestMonthDay extends AbstractDateTimeTest {
 	// now()
 	// -----------------------------------------------------------------------
 	@Test
-	public void now() {
+	public void test_now() {
 		MonthDay expected = MonthDay.now(Clock.systemDefaultZone());
 		MonthDay test = MonthDay.now();
 		for (int i = 0; i < 100; i++) {
@@ -145,17 +145,17 @@ public class TestMonthDay extends AbstractDateTimeTest {
 	// now(ZoneId)
 	// -----------------------------------------------------------------------
 	@Test(expected = NullPointerException.class)
-	public void now_ZoneId_nullZoneId() {
+	public void test_now_ZoneId_nullZoneId() {
 		try {
 			MonthDay.now((ZoneId) null);
 			fail("Missing exception");
-		} catch (DateTimeException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
 
 	@Test
-	public void now_ZoneId() {
+	public void test_now_ZoneId() {
 		ZoneId zone = ZoneId.of("UTC+01:02:03");
 		MonthDay expected = MonthDay.now(Clock.system(zone));
 		MonthDay test = MonthDay.now(zone);
@@ -173,7 +173,7 @@ public class TestMonthDay extends AbstractDateTimeTest {
 	// now(Clock)
 	// -----------------------------------------------------------------------
 	@Test
-	public void now_Clock() {
+	public void test_now_Clock() {
 		Instant instant = LocalDateTime.of(2010, 12, 31, 0, 0).toInstant(ZoneOffset.UTC);
 		Clock clock = Clock.fixed(instant, ZoneOffset.UTC);
 		MonthDay test = MonthDay.now(clock);
@@ -182,18 +182,18 @@ public class TestMonthDay extends AbstractDateTimeTest {
 	}
 
 	@Test(expected = NullPointerException.class)
-	public void now_Clock_nullClock() {
+	public void test_now_Clock_nullClock() {
 		try {
 			MonthDay.now((Clock) null);
 			fail("Missing exception");
-		} catch (DateTimeException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
 
 	// -----------------------------------------------------------------------
 	@Test
-	public void factory_intMonth() {
+	public void test_factory_intMonth() {
 		assertEquals(TEST_07_15, MonthDay.of(Month.JULY, 15));
 	}
 
@@ -218,18 +218,18 @@ public class TestMonthDay extends AbstractDateTimeTest {
 	}
 
 	@Test(expected = NullPointerException.class)
-	public void factory_intMonth_nullMonth() {
+	public void test_factory_intMonth_nullMonth() {
 		try {
 			MonthDay.of(null, 15);
 			fail("Missing exception");
-		} catch (DateTimeException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
 
 	// -----------------------------------------------------------------------
 	@Test
-	public void factory_ints() {
+	public void test_factory_ints() {
 		check(TEST_07_15, 7, 15);
 	}
 
@@ -317,15 +317,15 @@ public class TestMonthDay extends AbstractDateTimeTest {
 	}
 
 	@Test(/* dataProvider = "goodParseData" */)
-	public void factory_parse_success() {
+	public void test_factory_parse_success() {
 		Object[][] data = provider_goodParseData();
 		for (int i = 0; i < data.length; i++) {
 			Object[] objects = data[i];
-			factory_parse_success((String) objects[0], (MonthDay) objects[1]);
+			test_factory_parse_success((String) objects[0], (MonthDay) objects[1]);
 		}
 	}
 
-	public void factory_parse_success(String text, MonthDay expected) {
+	public void test_factory_parse_success(String text, MonthDay expected) {
 		MonthDay monthDay = MonthDay.parse(text);
 		assertEquals(monthDay, expected);
 	}
@@ -337,15 +337,15 @@ public class TestMonthDay extends AbstractDateTimeTest {
 	}
 
 	@Test(/* dataProvider = "badParseData", */ expected = DateTimeParseException.class)
-	public void factory_parse_fail() {
+	public void test_factory_parse_fail() {
 		Object[][] data = provider_badParseData();
 		for (int i = 0; i < data.length; i++) {
 			Object[] objects = data[i];
-			factory_parse_fail((String) objects[0], (int) objects[1]);
+			test_factory_parse_fail((String) objects[0], (int) objects[1]);
 		}
 	}
 
-	public void factory_parse_fail(String text, int pos) {
+	public void test_factory_parse_fail(String text, int pos) {
 		try {
 			try {
 				MonthDay.parse(text);
@@ -364,7 +364,7 @@ public class TestMonthDay extends AbstractDateTimeTest {
 
 	// -----------------------------------------------------------------------
 	@Test(expected = DateTimeParseException.class)
-	public void factory_parse_illegalValue_Day() {
+	public void test_factory_parse_illegalValue_Day() {
 		try {
 			MonthDay.parse("--06-32");
 			fail("Missing exception");
@@ -374,7 +374,7 @@ public class TestMonthDay extends AbstractDateTimeTest {
 	}
 
 	@Test(expected = DateTimeParseException.class)
-	public void factory_parse_invalidValue_Day() {
+	public void test_factory_parse_invalidValue_Day() {
 		try {
 			MonthDay.parse("--06-31");
 			fail("Missing exception");
@@ -384,21 +384,21 @@ public class TestMonthDay extends AbstractDateTimeTest {
 	}
 
 	@Test(expected = DateTimeParseException.class)
-	public void factory_parse_illegalValue_Month() {
+	public void test_factory_parse_illegalValue_Month() {
 		try {
 			MonthDay.parse("--13-25");
 			fail("Missing exception");
-		} catch (DateTimeException e) {
+		} catch (DateTimeParseException e) {
 			// expected
 		}
 	}
 
 	@Test(expected = NullPointerException.class)
-	public void factory_parse_nullText() {
+	public void test_factory_parse_nullText() {
 		try {
 			MonthDay.parse(null);
 			fail("Missing exception");
-		} catch (DateTimeException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -407,29 +407,29 @@ public class TestMonthDay extends AbstractDateTimeTest {
 	// parse(DateTimeFormatter)
 	// -----------------------------------------------------------------------
 	@Test
-	public void factory_parse_formatter() {
+	public void test_factory_parse_formatter() {
 		DateTimeFormatter f = DateTimeFormatter.ofPattern("M d");
 		MonthDay test = MonthDay.parse("12 3", f);
 		assertEquals(test, MonthDay.of(12, 3));
 	}
 
 	@Test(expected = NullPointerException.class)
-	public void factory_parse_formatter_nullText() {
+	public void test_factory_parse_formatter_nullText() {
 		try {
 			DateTimeFormatter f = DateTimeFormatter.ofPattern("M d");
 			MonthDay.parse((String) null, f);
 			fail("Missing exception");
-		} catch (DateTimeException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
 
 	@Test(expected = NullPointerException.class)
-	public void factory_parse_formatter_nullFormatter() {
+	public void test_factory_parse_formatter_nullFormatter() {
 		try {
 			MonthDay.parse("ANY", null);
 			fail("Missing exception");
-		} catch (DateTimeException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}

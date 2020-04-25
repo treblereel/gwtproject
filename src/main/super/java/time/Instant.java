@@ -515,6 +515,8 @@ public final class Instant
      */
     @Override
     public long getLong(TemporalField field) {
+    	//GWT Specific
+    	Objects.requireNonNull(field, "field");
         if (field instanceof ChronoField) {
             switch ((ChronoField) field) {
                 case NANO_OF_SECOND: return nanos;

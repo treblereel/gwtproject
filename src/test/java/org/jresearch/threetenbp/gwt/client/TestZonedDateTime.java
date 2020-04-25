@@ -716,7 +716,7 @@ public class TestZonedDateTime extends AbstractDateTimeTest {
 		try {
 			ZonedDateTime.from((TemporalAccessor) null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -993,7 +993,7 @@ public class TestZonedDateTime extends AbstractDateTimeTest {
 		try {
 			TEST_DATE_TIME.get((TemporalField) null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -1036,7 +1036,7 @@ public class TestZonedDateTime extends AbstractDateTimeTest {
 		try {
 			TEST_DATE_TIME.getLong((TemporalField) null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -1060,7 +1060,7 @@ public class TestZonedDateTime extends AbstractDateTimeTest {
 		try {
 			TEST_DATE_TIME.query(null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -1290,7 +1290,7 @@ public class TestZonedDateTime extends AbstractDateTimeTest {
 			ZonedDateTime base = ZonedDateTime.of(TEST_LOCAL_2008_06_30_11_30_59_500, ZONE_0100);
 			base.with((TemporalAdjuster) null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -1328,7 +1328,7 @@ public class TestZonedDateTime extends AbstractDateTimeTest {
 			ZonedDateTime base = ZonedDateTime.of(TEST_LOCAL_2008_06_30_11_30_59_500, ZONE_0100);
 			base.with((Month) null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -1672,7 +1672,7 @@ public class TestZonedDateTime extends AbstractDateTimeTest {
 		try {
 			TEST_DATE_TIME.plus(null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -1737,7 +1737,7 @@ public class TestZonedDateTime extends AbstractDateTimeTest {
 		try {
 			TEST_DATE_TIME_PARIS.plus(0, null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -1978,7 +1978,7 @@ public class TestZonedDateTime extends AbstractDateTimeTest {
 		try {
 			TEST_DATE_TIME.minus(null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -2360,7 +2360,7 @@ public class TestZonedDateTime extends AbstractDateTimeTest {
 			ZonedDateTime a = ZonedDateTime.of(ldt, ZONE_0100);
 			a.compareTo(null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -2403,7 +2403,7 @@ public class TestZonedDateTime extends AbstractDateTimeTest {
 			ZonedDateTime a = ZonedDateTime.of(ldt, ZONE_0100);
 			a.isBefore(null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}
@@ -2446,7 +2446,7 @@ public class TestZonedDateTime extends AbstractDateTimeTest {
 			ZonedDateTime a = ZonedDateTime.of(ldt, ZONE_0100);
 			a.isAfter(null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}

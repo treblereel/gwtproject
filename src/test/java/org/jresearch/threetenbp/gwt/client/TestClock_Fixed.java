@@ -112,7 +112,7 @@ public class TestClock_Fixed extends AbstractTest {
 		try {
 			Clock.fixed(INSTANT, PARIS).withZone(null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}

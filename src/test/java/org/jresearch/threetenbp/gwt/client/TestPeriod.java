@@ -214,7 +214,7 @@ public class TestPeriod extends AbstractTest {
 		try {
 			Period.between((LocalDate) null, LocalDate.of(2010, 1, 1));
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}

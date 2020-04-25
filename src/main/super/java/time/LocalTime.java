@@ -589,6 +589,8 @@ public final class LocalTime
      */
     @Override
     public long getLong(TemporalField field) {
+    	//GWT Specific
+    	Objects.requireNonNull(field, "field");
         if (field instanceof ChronoField) {
             if (field == NANO_OF_DAY) {
                 return toNanoOfDay();

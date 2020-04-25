@@ -45,6 +45,7 @@ import java.time.temporal.TemporalQuery;
 import java.time.temporal.UnsupportedTemporalTypeException;
 import java.time.temporal.ValueRange;
 import java.util.Locale;
+import java.util.Objects;
 
 /**
  * An era in the Hijrah calendar system.
@@ -135,6 +136,8 @@ public enum HijrahEra implements Era {
 
     @Override
     public long getLong(TemporalField field) {
+    	//GWT Specific
+    	Objects.requireNonNull(field, "field");
         if (field == ERA) {
             return getValue();
         } else if (field instanceof ChronoField) {

@@ -447,6 +447,8 @@ public final class OffsetTime
      */
     @Override
     public long getLong(TemporalField field) {
+    	//GWT Specific
+    	Objects.requireNonNull(field, "field");
         if (field instanceof ChronoField) {
             if (field == OFFSET_SECONDS) {
                 return getOffset().getTotalSeconds();

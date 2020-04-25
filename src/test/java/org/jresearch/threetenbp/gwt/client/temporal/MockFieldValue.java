@@ -36,6 +36,7 @@ import java.time.temporal.ChronoField;
 import java.time.temporal.TemporalAccessor;
 import java.time.temporal.TemporalField;
 import java.time.temporal.ValueRange;
+import java.util.Objects;
 
 /**
  * Mock simple date-time with one field-value.
@@ -68,6 +69,8 @@ public final class MockFieldValue implements TemporalAccessor {
 
     @Override
     public long getLong(TemporalField field) {
+    	//GWT Specific
+    	Objects.requireNonNull(field, "field");
         if (this.field.equals(field)) {
             return value;
         }
