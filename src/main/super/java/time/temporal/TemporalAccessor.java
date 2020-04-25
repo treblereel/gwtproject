@@ -127,6 +127,8 @@ public interface TemporalAccessor {
      * @throws DateTimeException if the range for the field cannot be obtained
      */
     default ValueRange range(TemporalField field) {
+    	//GWT specific
+    	Objects.requireNonNull(field);
         if (field instanceof ChronoField) {
             if (isSupported(field)) {
                 return field.range();

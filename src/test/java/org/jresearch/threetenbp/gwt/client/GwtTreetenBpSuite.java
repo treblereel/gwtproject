@@ -16,6 +16,7 @@ import org.jresearch.threetenbp.gwt.client.temporal.TestMonthDay;
 import org.jresearch.threetenbp.gwt.client.temporal.TestTemporalAdjusters;
 import org.jresearch.threetenbp.gwt.client.temporal.TestValueRange;
 import org.jresearch.threetenbp.gwt.client.temporal.TestYear;
+import org.jresearch.threetenbp.gwt.client.temporal.TestYearMonth;
 
 import com.google.gwt.junit.tools.GWTTestSuite;
 
@@ -66,7 +67,7 @@ public class GwtTreetenBpSuite {
 		suite.addTestSuite(TestTemporalAdjusters.class);
 		suite.addTestSuite(TestValueRange.class);
 		suite.addTestSuite(TestYear.class);
-//		suite.addTestSuite(Test.class);
+		suite.addTestSuite(TestYearMonth.class);
 //		suite.addTestSuite(Test.class);
 //		suite.addTestSuite(Test.class);
 		// $JUnit-END$

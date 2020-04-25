@@ -381,6 +381,8 @@ public final class LocalTime
      * @throws DateTimeException if unable to convert to a {@code LocalTime}
      */
     public static LocalTime from(TemporalAccessor temporal) {
+    	//GWT specific
+    	Objects.requireNonNull(temporal);
         LocalTime time = temporal.query(TemporalQueries.localTime());
         if (time == null) {
             throw new DateTimeException("Unable to obtain LocalTime from TemporalAccessor: " +
@@ -604,6 +606,8 @@ public final class LocalTime
     }
 
     private int get0(TemporalField field) {
+    	//GWT specific
+    	Objects.requireNonNull(field);
         switch ((ChronoField) field) {
             case NANO_OF_SECOND: return nano;
             case NANO_OF_DAY: throw new DateTimeException("Field too large for an int: " + field);
@@ -685,6 +689,8 @@ public final class LocalTime
      */
     @Override
     public LocalTime with(TemporalAdjuster adjuster) {
+    	//GWT specific
+    	Objects.requireNonNull(adjuster);
         // optimizations
         if (adjuster instanceof LocalTime) {
             return (LocalTime) adjuster;
@@ -890,6 +896,8 @@ public final class LocalTime
      * @throws DateTimeException if unable to truncate
      */
     public LocalTime truncatedTo(TemporalUnit unit) {
+    	//GWT specific
+    	Objects.requireNonNull(unit);
         if (unit == ChronoUnit.NANOS) {
             return this;
         }
@@ -924,6 +932,8 @@ public final class LocalTime
      */
     @Override
     public LocalTime plus(TemporalAmount amount) {
+    	//GWT specific
+    	Objects.requireNonNull(amount);
         return (LocalTime) amount.addTo(this);
     }
 
@@ -944,6 +954,8 @@ public final class LocalTime
      */
     @Override
     public LocalTime plus(long amountToAdd, TemporalUnit unit) {
+    	//GWT specific
+    	Objects.requireNonNull(unit);
         if (unit instanceof ChronoUnit) {
             ChronoUnit f = (ChronoUnit) unit;
             switch (f) {
@@ -1078,6 +1090,8 @@ public final class LocalTime
      */
     @Override
     public LocalTime minus(TemporalAmount amount) {
+    	//GWT specific
+    	Objects.requireNonNull(amount);
         return (LocalTime) amount.subtractFrom(this);
     }
 
@@ -1098,6 +1112,8 @@ public final class LocalTime
      */
     @Override
     public LocalTime minus(long amountToSubtract, TemporalUnit unit) {
+    	//GWT specific
+    	Objects.requireNonNull(unit);
         return (amountToSubtract == Long.MIN_VALUE ? plus(Long.MAX_VALUE, unit).plus(1, unit) : plus(-amountToSubtract, unit));
     }
 
@@ -1184,6 +1200,8 @@ public final class LocalTime
     @SuppressWarnings("unchecked")
     @Override
     public <R> R query(TemporalQuery<R> query) {
+    	//GWT specific
+    	Objects.requireNonNull(query);
         if (query == TemporalQueries.precision()) {
             return (R) NANOS;
         } else if (query == TemporalQueries.localTime()) {
@@ -1357,6 +1375,8 @@ public final class LocalTime
      */
     @Override
     public int compareTo(LocalTime other) {
+    	//GWT specific
+    	Objects.requireNonNull(other);
         int cmp = Integer.compare(hour, other.hour);
         if (cmp == 0) {
             cmp = Integer.compare(minute, other.minute);

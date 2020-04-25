@@ -39,8 +39,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.google.gwt.core.client.JavaScriptException;
-
 /**
  * Base test class for {@code DateTime}.
  */
@@ -128,7 +126,7 @@ public abstract class AbstractDateTimeTest extends AbstractTest {
 			try {
 				sample.range(null);
 				fail("Failed on " + sample);
-			} catch (JavaScriptException ex) {
+			} catch (NullPointerException ex) {
 				// expected
 			}
 		}
@@ -177,7 +175,7 @@ public abstract class AbstractDateTimeTest extends AbstractTest {
 			try {
 				sample.get(null);
 				fail("Failed on " + sample);
-			} catch (JavaScriptException ex) {
+			} catch (NullPointerException ex) {
 				// expected
 			}
 		}

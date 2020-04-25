@@ -990,6 +990,8 @@ public final class Duration
      */
     @Override
     public Temporal addTo(Temporal temporal) {
+    	//GWT specific
+    	Objects.requireNonNull(temporal);
         if (seconds != 0) {
             temporal = temporal.plus(seconds, SECONDS);
         }
@@ -1025,6 +1027,8 @@ public final class Duration
      */
     @Override
     public Temporal subtractFrom(Temporal temporal) {
+    	//GWT specific
+    	Objects.requireNonNull(temporal);
         if (seconds != 0) {
             temporal = temporal.minus(seconds, SECONDS);
         }

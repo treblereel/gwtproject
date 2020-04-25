@@ -526,6 +526,8 @@ public final class OffsetDateTime
      */
     @Override
     public long getLong(TemporalField field) {
+    	//GWT specific
+    	Objects.requireNonNull(field);
         if (field instanceof ChronoField) {
             switch ((ChronoField) field) {
                 case INSTANT_SECONDS: return toEpochSecond();

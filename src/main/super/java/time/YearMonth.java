@@ -205,6 +205,8 @@ public final class YearMonth
      * @throws DateTimeException if unable to convert to a {@code YearMonth}
      */
     public static YearMonth from(TemporalAccessor temporal) {
+    	//GWT specific
+    	Objects.requireNonNull(temporal);
         if (temporal instanceof YearMonth) {
             return (YearMonth) temporal;
         }
@@ -347,6 +349,8 @@ public final class YearMonth
      */
     @Override
     public ValueRange range(TemporalField field) {
+    	//GWT specific
+    	Objects.requireNonNull(field);
         if (field == YEAR_OF_ERA) {
             return (getYear() <= 0 ? ValueRange.of(1, Year.MAX_VALUE + 1) : ValueRange.of(1, Year.MAX_VALUE));
         }
@@ -379,6 +383,8 @@ public final class YearMonth
      */
     @Override  // override for Javadoc
     public int get(TemporalField field) {
+    	//GWT specific
+    	Objects.requireNonNull(field);
         return range(field).checkValidIntValue(getLong(field), field);
     }
 
@@ -551,6 +557,8 @@ public final class YearMonth
      */
     @Override
     public YearMonth with(TemporalAdjuster adjuster) {
+    	//GWT specific
+    	Objects.requireNonNull(adjuster);
         return (YearMonth) adjuster.adjustInto(this);
     }
 
@@ -962,6 +970,8 @@ public final class YearMonth
      */
     @Override
     public int compareTo(YearMonth other) {
+    	//GWT specific
+    	Objects.requireNonNull(other);
         int cmp = (year - other.year);
         if (cmp == 0) {
             cmp = (month - other.month);
