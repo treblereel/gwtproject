@@ -3,6 +3,7 @@ package org.jresearch.threetenbp.gwt.client;
 import static jsinterop.annotations.JsPackage.GLOBAL;
 
 import java.nio.ByteBuffer;
+import java.time.zone.Providers;
 import java.time.zone.TzdbZoneRulesProvider;
 import java.time.zone.ZoneRulesProvider;
 
@@ -47,7 +48,7 @@ public class Support {
 	                    if (xhr.getStatus() == 200) {
 	                        ArrayBuffer buffer = Js.cast(xhr.getResponseArrayBuffer());
 	                        ByteBuffer data = TypedArrayHelper.wrap(buffer);
-	                        TzdbZoneRulesProvider provider = new TzdbZoneRulesProvider(data);
+	                        ZoneRulesProvider provider = Providers.of(data);
 	                        ZoneRulesProvider.registerProvider(provider);
 	                    } else {
 	                        System.out.println("response status: " + xhr.getStatus() + " " + xhr.getStatusText());
