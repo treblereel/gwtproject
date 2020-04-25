@@ -217,7 +217,7 @@ public abstract class AbstractDateTimeTest extends AbstractTest {
 			try {
 				sample.getLong(null);
 				fail("Failed on " + sample);
-			} catch (JavaScriptException ex) {
+			} catch (NullPointerException ex) {
 				// expected
 			}
 		}

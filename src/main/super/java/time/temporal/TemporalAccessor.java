@@ -39,6 +39,7 @@ import java.time.temporal.TemporalQueries;
 import java.time.temporal.TemporalQuery;
 import java.time.temporal.UnsupportedTemporalTypeException;
 import java.time.temporal.ValueRange;
+import java.util.Objects;
 
 /**
  * Framework-level interface defining read-only access to a temporal object,
@@ -228,6 +229,8 @@ public interface TemporalAccessor {
      * @throws ArithmeticException if numeric overflow occurs
      */
     default <R> R query(TemporalQuery<R> query) {
+    	//GWT specific
+    	Objects.requireNonNull(query);
         if (query == TemporalQueries.zoneId() || query == TemporalQueries.chronology() || query == TemporalQueries.precision()) {
             return null;
         }

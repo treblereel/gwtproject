@@ -393,6 +393,8 @@ public final class MonthDay
      */
     @Override
     public long getLong(TemporalField field) {
+    	//GWT specific
+    	Objects.requireNonNull(field);
         if (field instanceof ChronoField) {
             switch ((ChronoField) field) {
                 // alignedDOW and alignedWOM not supported because they cannot be set in with()
@@ -613,6 +615,8 @@ public final class MonthDay
      * @return the comparator value, negative if less, positive if greater
      */
     public int compareTo(MonthDay other) {
+    	//GWT specific
+    	Objects.requireNonNull(other);
         int cmp = (month - other.month);
         if (cmp == 0) {
             cmp = (day - other.day);

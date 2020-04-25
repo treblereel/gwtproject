@@ -12,6 +12,7 @@ import org.jresearch.threetenbp.gwt.client.temporal.TestChronoField;
 import org.jresearch.threetenbp.gwt.client.temporal.TestChronoUnit;
 import org.jresearch.threetenbp.gwt.client.temporal.TestIsoFields;
 import org.jresearch.threetenbp.gwt.client.temporal.TestJulianFields;
+import org.jresearch.threetenbp.gwt.client.temporal.TestMonthDay;
 
 import com.google.gwt.junit.tools.GWTTestSuite;
 
@@ -58,7 +59,7 @@ public class GwtTreetenBpSuite {
 		suite.addTestSuite(TestChronoUnit.class);
 		suite.addTestSuite(TestIsoFields.class);
 		suite.addTestSuite(TestJulianFields.class);
-//		suite.addTestSuite(Test.class);
+		suite.addTestSuite(TestMonthDay.class);
 //		suite.addTestSuite(Test.class);
 //		suite.addTestSuite(Test.class);
 //		suite.addTestSuite(Test.class);
