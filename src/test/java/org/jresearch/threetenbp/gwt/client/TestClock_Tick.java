@@ -41,8 +41,6 @@ import java.time.ZonedDateTime;
 
 import org.junit.Test;
 
-import com.google.gwt.core.client.JavaScriptException;
-
 /**
  * Test tick clock.
  */

@@ -518,6 +518,8 @@ public final class LocalDate
      */
     @Override  // override for Javadoc and performance
     public int get(TemporalField field) {
+    	//GWT specific
+    	Objects.requireNonNull(field);
         if (field instanceof ChronoField) {
             return get0(field);
         }
@@ -804,6 +806,8 @@ public final class LocalDate
      */
     @Override
     public LocalDate with(TemporalAdjuster adjuster) {
+    	//GWT specific
+    	Objects.requireNonNull(adjuster);
         // optimizations
         if (adjuster instanceof LocalDate) {
             return (LocalDate) adjuster;
@@ -916,6 +920,8 @@ public final class LocalDate
      */
     @Override
     public LocalDate with(TemporalField field, long newValue) {
+    	//GWT specific
+    	Objects.requireNonNull(field);
         if (field instanceof ChronoField) {
             ChronoField f = (ChronoField) field;
             f.checkValidValue(newValue);
@@ -1031,6 +1037,8 @@ public final class LocalDate
      */
     @Override
     public LocalDate plus(TemporalAmount amount) {
+    	//GWT specific
+    	Objects.requireNonNull(amount);
         return (LocalDate) amount.addTo(this);
     }
 
@@ -1051,6 +1059,8 @@ public final class LocalDate
      */
     @Override
     public LocalDate plus(long amountToAdd, TemporalUnit unit) {
+    	//GWT specific
+    	Objects.requireNonNull(unit);
         if (unit instanceof ChronoUnit) {
             ChronoUnit f = (ChronoUnit) unit;
             switch (f) {
@@ -1189,6 +1199,8 @@ public final class LocalDate
      */
     @Override
     public LocalDate minus(TemporalAmount amount) {
+    	//GWT specific
+    	Objects.requireNonNull(amount);
         return (LocalDate) amount.subtractFrom(this);
     }
 
@@ -1209,6 +1221,8 @@ public final class LocalDate
      */
     @Override
     public LocalDate minus(long amountToSubtract, TemporalUnit unit) {
+    	//GWT specific
+    	Objects.requireNonNull(unit);
         return (amountToSubtract == Long.MIN_VALUE ? plus(Long.MAX_VALUE, unit).plus(1, unit) : plus(-amountToSubtract, unit));
     }
 
@@ -1321,6 +1335,8 @@ public final class LocalDate
     @SuppressWarnings("unchecked")
     @Override
     public <R> R query(TemporalQuery<R> query) {
+    	//GWT specific
+    	Objects.requireNonNull(query);
         if (query == TemporalQueries.localDate()) {
             return (R) this;
         }
@@ -1656,6 +1672,8 @@ public final class LocalDate
      */
     @Override  // override for Javadoc and performance
     public int compareTo(ChronoLocalDate other) {
+    	//GWT specific
+    	Objects.requireNonNull(other);
         if (other instanceof LocalDate) {
             return compareTo0((LocalDate) other);
         }
@@ -1696,6 +1714,8 @@ public final class LocalDate
      */
     @Override  // override for Javadoc and performance
     public boolean isAfter(ChronoLocalDate other) {
+    	//GWT specific
+    	Objects.requireNonNull(other);
         if (other instanceof LocalDate) {
             return compareTo0((LocalDate) other) > 0;
         }
@@ -1725,6 +1745,8 @@ public final class LocalDate
      */
     @Override  // override for Javadoc and performance
     public boolean isBefore(ChronoLocalDate other) {
+    	//GWT specific
+    	Objects.requireNonNull(other);
         if (other instanceof LocalDate) {
             return compareTo0((LocalDate) other) < 0;
         }
@@ -1843,6 +1865,8 @@ public final class LocalDate
      */
     @Override  // override for Javadoc
     public String format(DateTimeFormatter formatter) {
+    	//GWT specific
+    	Objects.requireNonNull(formatter);
         return formatter.format(this);
     }
 

@@ -414,6 +414,8 @@ public abstract class Clock {
         }
         @Override
         public Clock withZone(ZoneId zone) {
+        	//GWT specific
+        	Objects.requireNonNull(zone);
             if (zone.equals(this.zone)) {  // intentional NPE
                 return this;
             }
@@ -464,6 +466,8 @@ public abstract class Clock {
         }
         @Override
         public Clock withZone(ZoneId zone) {
+        	//GWT specific
+        	Objects.requireNonNull(zone);
             if (zone.equals(this.zone)) {  // intentional NPE
                 return this;
             }
@@ -514,6 +518,8 @@ public abstract class Clock {
         }
         @Override
         public Clock withZone(ZoneId zone) {
+        	//GWT specific
+        	Objects.requireNonNull(zone);
             if (zone.equals(baseClock.getZone())) {  // intentional NPE
                 return this;
             }
@@ -564,6 +570,8 @@ public abstract class Clock {
         }
         @Override
         public Clock withZone(ZoneId zone) {
+        	//GWT specific
+        	Objects.requireNonNull(zone);
             if (zone.equals(baseClock.getZone())) {  // intentional NPE
                 return this;
             }

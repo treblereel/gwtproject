@@ -38,8 +38,6 @@ import java.time.ZoneOffset;
 
 import org.junit.Test;
 
-import com.google.gwt.core.client.JavaScriptException;
-
 /**
  * Test system clock.
  */

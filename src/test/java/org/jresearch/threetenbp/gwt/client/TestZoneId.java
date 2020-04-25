@@ -38,7 +38,6 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeParseException;
 import java.time.format.TextStyle;
 import java.time.temporal.TemporalAccessor;
 import java.time.zone.ZoneOffsetTransition;
@@ -48,12 +47,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.SimpleTimeZone;
-//import java.util.TimeZone;
 
 import org.junit.Test;
-
-import com.google.gwt.core.client.JavaScriptException;
 
 /**
  * Test ZoneId.

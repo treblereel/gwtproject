@@ -324,6 +324,8 @@ public final class TemporalAdjusters {
      * @return the next day-of-week adjuster, not null
      */
     public static TemporalAdjuster next(DayOfWeek dayOfWeek) {
+    	//GWT specific
+    	Objects.requireNonNull(dayOfWeek);
         int dowValue = dayOfWeek.getValue();
         return (temporal) -> {
             int calDow = temporal.get(DAY_OF_WEEK);
@@ -350,6 +352,8 @@ public final class TemporalAdjusters {
      * @return the next-or-same day-of-week adjuster, not null
      */
     public static TemporalAdjuster nextOrSame(DayOfWeek dayOfWeek) {
+    	//GWT specific
+    	Objects.requireNonNull(dayOfWeek);
         int dowValue = dayOfWeek.getValue();
         return (temporal) -> {
             int calDow = temporal.get(DAY_OF_WEEK);
@@ -378,6 +382,8 @@ public final class TemporalAdjusters {
      * @return the previous day-of-week adjuster, not null
      */
     public static TemporalAdjuster previous(DayOfWeek dayOfWeek) {
+    	//GWT specific
+    	Objects.requireNonNull(dayOfWeek);
         int dowValue = dayOfWeek.getValue();
         return (temporal) -> {
             int calDow = temporal.get(DAY_OF_WEEK);
@@ -404,6 +410,8 @@ public final class TemporalAdjusters {
      * @return the previous-or-same day-of-week adjuster, not null
      */
     public static TemporalAdjuster previousOrSame(DayOfWeek dayOfWeek) {
+    	//GWT specific
+    	Objects.requireNonNull(dayOfWeek);
         int dowValue = dayOfWeek.getValue();
         return (temporal) -> {
             int calDow = temporal.get(DAY_OF_WEEK);

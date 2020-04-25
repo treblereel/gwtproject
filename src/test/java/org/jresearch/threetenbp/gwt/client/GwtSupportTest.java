@@ -1,7 +1,6 @@
 package org.jresearch.threetenbp.gwt.client;
 
 import org.gwtproject.typedarrays.shared.Uint8Array;
-import org.jresearch.threetenbp.gwt.client.Support;
 import org.junit.Test;
 
 import com.google.gwt.junit.client.GWTTestCase;

@@ -34,6 +34,7 @@ package org.jresearch.threetenbp.gwt.client;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneId;
+import java.util.Objects;
 
 import org.junit.Test;
 
@@ -48,6 +49,8 @@ public class TestClock extends AbstractTest {
 		final ZoneId zone;
 
 		MockInstantClock(long millis, ZoneId zone) {
+        	//GWT specific
+        	Objects.requireNonNull(zone);
 			this.millis = millis;
 			this.zone = zone;
 		}

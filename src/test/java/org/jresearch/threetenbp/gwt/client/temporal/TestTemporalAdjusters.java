@@ -55,7 +55,7 @@ public class TestTemporalAdjusters extends AbstractTest {
 	// firstDayOfMonth()
 	// -----------------------------------------------------------------------
 	@Test
-	public void factory_firstDayOfMonth() {
+	public void test_factory_firstDayOfMonth() {
 		assertNotNull(TemporalAdjusters.firstDayOfMonth());
 	}
 
@@ -89,7 +89,7 @@ public class TestTemporalAdjusters extends AbstractTest {
 	// lastDayOfMonth()
 	// -----------------------------------------------------------------------
 	@Test
-	public void factory_lastDayOfMonth() {
+	public void test_factory_lastDayOfMonth() {
 		assertNotNull(TemporalAdjusters.lastDayOfMonth());
 	}
 
@@ -123,7 +123,7 @@ public class TestTemporalAdjusters extends AbstractTest {
 	// firstDayOfNextMonth()
 	// -----------------------------------------------------------------------
 	@Test
-	public void factory_firstDayOfNextMonth() {
+	public void test_factory_firstDayOfNextMonth() {
 		assertNotNull(TemporalAdjusters.firstDayOfNextMonth());
 	}
 
@@ -157,7 +157,7 @@ public class TestTemporalAdjusters extends AbstractTest {
 	// firstDayOfYear()
 	// -----------------------------------------------------------------------
 	@Test
-	public void factory_firstDayOfYear() {
+	public void test_factory_firstDayOfYear() {
 		assertNotNull(TemporalAdjusters.firstDayOfYear());
 	}
 
@@ -191,7 +191,7 @@ public class TestTemporalAdjusters extends AbstractTest {
 	// lastDayOfYear()
 	// -----------------------------------------------------------------------
 	@Test
-	public void factory_lastDayOfYear() {
+	public void test_factory_lastDayOfYear() {
 		assertNotNull(TemporalAdjusters.lastDayOfYear());
 	}
 
@@ -225,7 +225,7 @@ public class TestTemporalAdjusters extends AbstractTest {
 	// firstDayOfNextYear()
 	// -----------------------------------------------------------------------
 	@Test
-	public void factory_firstDayOfNextYear() {
+	public void test_factory_firstDayOfNextYear() {
 		assertNotNull(TemporalAdjusters.firstDayOfNextYear());
 	}
 
@@ -259,12 +259,12 @@ public class TestTemporalAdjusters extends AbstractTest {
 	// dayOfWeekInMonth()
 	// -----------------------------------------------------------------------
 	@Test
-	public void factory_dayOfWeekInMonth() {
+	public void test_factory_dayOfWeekInMonth() {
 		assertNotNull(TemporalAdjusters.dayOfWeekInMonth(1, MONDAY));
 	}
 
 	@Test(expected = NullPointerException.class)
-	public void factory_dayOfWeekInMonth_nullDayOfWeek() {
+	public void test_factory_dayOfWeekInMonth_nullDayOfWeek() {
 		try {
 			TemporalAdjusters.dayOfWeekInMonth(1, null);
 			fail("Missing exception");
@@ -365,12 +365,12 @@ public class TestTemporalAdjusters extends AbstractTest {
 	// firstInMonth()
 	// -----------------------------------------------------------------------
 	@Test
-	public void factory_firstInMonth() {
+	public void test_factory_firstInMonth() {
 		assertNotNull(TemporalAdjusters.firstInMonth(MONDAY));
 	}
 
 	@Test(expected = NullPointerException.class)
-	public void factory_firstInMonth_nullDayOfWeek() {
+	public void test_factory_firstInMonth_nullDayOfWeek() {
 		try {
 			TemporalAdjusters.firstInMonth(null);
 			fail("Missing exception");
@@ -400,12 +400,12 @@ public class TestTemporalAdjusters extends AbstractTest {
 	// lastInMonth()
 	// -----------------------------------------------------------------------
 	@Test
-	public void factory_lastInMonth() {
+	public void test_factory_lastInMonth() {
 		assertNotNull(TemporalAdjusters.lastInMonth(MONDAY));
 	}
 
 	@Test(expected = NullPointerException.class)
-	public void factory_lastInMonth_nullDayOfWeek() {
+	public void test_factory_lastInMonth_nullDayOfWeek() {
 		try {
 			TemporalAdjusters.lastInMonth(null);
 			fail("Missing exception");
@@ -435,12 +435,12 @@ public class TestTemporalAdjusters extends AbstractTest {
 	// next()
 	// -----------------------------------------------------------------------
 	@Test
-	public void factory_next() {
+	public void test_factory_next() {
 		assertNotNull(TemporalAdjusters.next(MONDAY));
 	}
 
 	@Test(expected = NullPointerException.class)
-	public void factory_next_nullDayOfWeek() {
+	public void test_factory_next_nullDayOfWeek() {
 		try {
 			TemporalAdjusters.next(null);
 			fail("Missing exception");
@@ -479,12 +479,12 @@ public class TestTemporalAdjusters extends AbstractTest {
 	// nextOrSame()
 	// -----------------------------------------------------------------------
 	@Test
-	public void factory_nextOrSame() {
+	public void test_factory_nextOrSame() {
 		assertNotNull(TemporalAdjusters.nextOrSame(MONDAY));
 	}
 
 	@Test(expected = NullPointerException.class)
-	public void factory_nextOrSame_nullDayOfWeek() {
+	public void test_factory_nextOrSame_nullDayOfWeek() {
 		try {
 			TemporalAdjusters.nextOrSame(null);
 			fail("Missing exception");
@@ -525,12 +525,12 @@ public class TestTemporalAdjusters extends AbstractTest {
 	// previous()
 	// -----------------------------------------------------------------------
 	@Test
-	public void factory_previous() {
+	public void test_factory_previous() {
 		assertNotNull(TemporalAdjusters.previous(MONDAY));
 	}
 
 	@Test(expected = NullPointerException.class)
-	public void factory_previous_nullDayOfWeek() {
+	public void test_factory_previous_nullDayOfWeek() {
 		try {
 			TemporalAdjusters.previous(null);
 			fail("Missing exception");
@@ -569,12 +569,12 @@ public class TestTemporalAdjusters extends AbstractTest {
 	// previousOrSame()
 	// -----------------------------------------------------------------------
 	@Test
-	public void factory_previousOrSame() {
+	public void test_factory_previousOrSame() {
 		assertNotNull(TemporalAdjusters.previousOrSame(MONDAY));
 	}
 
 	@Test(expected = NullPointerException.class)
-	public void factory_previousOrSame_nullDayOfWeek() {
+	public void test_factory_previousOrSame_nullDayOfWeek() {
 		try {
 			TemporalAdjusters.previousOrSame(null);
 			fail("Missing exception");

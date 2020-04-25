@@ -82,14 +82,12 @@ import java.util.List;
 import org.jresearch.threetenbp.gwt.client.temporal.MockFieldNoValue;
 import org.junit.Test;
 
-import com.google.gwt.core.client.JavaScriptException;
-
 /**
  * Test LocalDate.
  */
 public class TestLocalDate extends AbstractDateTimeTest {
 
-//	private static ZoneOffset OFFSET_ZONE;
+	private static ZoneOffset OFFSET_ZONE;
 	private static ZoneId ZONE_PARIS;
 	private static ZoneId ZONE_GAZA;
 
@@ -115,7 +113,7 @@ public class TestLocalDate extends AbstractDateTimeTest {
 		MAX_INSTANT = max.atStartOfDay(ZoneOffset.UTC).toInstant();
 		MIN_INSTANT = min.atStartOfDay(ZoneOffset.UTC).toInstant();
 
-//		OFFSET_ZONE = ZoneOffset.ofHours(1);
+		OFFSET_ZONE = ZoneOffset.ofHours(1);
 		ZONE_PARIS = ZoneId.of("Europe/Paris");
 		ZONE_GAZA = ZoneId.of("Asia/Gaza");
 	}
@@ -235,44 +233,41 @@ public class TestLocalDate extends AbstractDateTimeTest {
 		}
 	}
 
-	// GWT - too long
-//	@Test
-//	public void test_now_Clock_allSecsInDay_utc() {
-//		for (int i = 0; i < (2 * 24 * 60 * 60); i++) {
-//			Instant instant = Instant.ofEpochSecond(i);
-//			Clock clock = Clock.fixed(instant, ZoneOffset.UTC);
-//			LocalDate test = LocalDate.now(clock);
-//			assertEquals(test.getYear(), 1970);
-//			assertEquals(test.getMonth(), Month.JANUARY);
-//			assertEquals(test.getDayOfMonth(), (i < 24 * 60 * 60 ? 1 : 2));
-//		}
-//	}
+	@Test
+	public void long_test_now_Clock_allSecsInDay_utc() {
+		for (int i = 0; i < (2 * 24 * 60 * 60); i++) {
+			Instant instant = Instant.ofEpochSecond(i);
+			Clock clock = Clock.fixed(instant, ZoneOffset.UTC);
+			LocalDate test = LocalDate.now(clock);
+			assertEquals(test.getYear(), 1970);
+			assertEquals(test.getMonth(), Month.JANUARY);
+			assertEquals(test.getDayOfMonth(), (i < 24 * 60 * 60 ? 1 : 2));
+		}
+	}
 
-	// GWT - too long
-//	@Test
-//	public void test_now_Clock_allSecsInDay_offset() {
-//		for (int i = 0; i < (2 * 24 * 60 * 60); i++) {
-//			Instant instant = Instant.ofEpochSecond(i);
-//			Clock clock = Clock.fixed(instant.minusSeconds(OFFSET_ZONE.getTotalSeconds()), OFFSET_ZONE);
-//			LocalDate test = LocalDate.now(clock);
-//			assertEquals(test.getYear(), 1970);
-//			assertEquals(test.getMonth(), Month.JANUARY);
-//			assertEquals(test.getDayOfMonth(), (i < 24 * 60 * 60) ? 1 : 2);
-//		}
-//	}
+	@Test
+	public void long_test_now_Clock_allSecsInDay_offset() {
+		for (int i = 0; i < (2 * 24 * 60 * 60); i++) {
+			Instant instant = Instant.ofEpochSecond(i);
+			Clock clock = Clock.fixed(instant.minusSeconds(OFFSET_ZONE.getTotalSeconds()), OFFSET_ZONE);
+			LocalDate test = LocalDate.now(clock);
+			assertEquals(test.getYear(), 1970);
+			assertEquals(test.getMonth(), Month.JANUARY);
+			assertEquals(test.getDayOfMonth(), (i < 24 * 60 * 60) ? 1 : 2);
+		}
+	}
 
-	// GWT - too long
-//	@Test
-//	public void test_now_Clock_allSecsInDay_beforeEpoch() {
-//		for (int i = -1; i >= -(2 * 24 * 60 * 60); i--) {
-//			Instant instant = Instant.ofEpochSecond(i);
-//			Clock clock = Clock.fixed(instant, ZoneOffset.UTC);
-//			LocalDate test = LocalDate.now(clock);
-//			assertEquals(test.getYear(), 1969);
-//			assertEquals(test.getMonth(), Month.DECEMBER);
-//			assertEquals(test.getDayOfMonth(), (i >= -24 * 60 * 60 ? 31 : 30));
-//		}
-//	}
+	@Test
+	public void long_test_now_Clock_allSecsInDay_beforeEpoch() {
+		for (int i = -1; i >= -(2 * 24 * 60 * 60); i--) {
+			Instant instant = Instant.ofEpochSecond(i);
+			Clock clock = Clock.fixed(instant, ZoneOffset.UTC);
+			LocalDate test = LocalDate.now(clock);
+			assertEquals(test.getYear(), 1969);
+			assertEquals(test.getMonth(), Month.DECEMBER);
+			assertEquals(test.getDayOfMonth(), (i >= -24 * 60 * 60 ? 31 : 30));
+		}
+	}
 
 	// -----------------------------------------------------------------------
 	@Test

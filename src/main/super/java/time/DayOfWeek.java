@@ -156,6 +156,8 @@ public enum DayOfWeek implements TemporalAccessor, TemporalAdjuster {
      * @throws DateTimeException if unable to convert to a {@code DayOfWeek}
      */
     public static DayOfWeek from(TemporalAccessor temporal) {
+    	//GWT specific
+    	Objects.requireNonNull(temporal);
         if (temporal instanceof DayOfWeek) {
             return (DayOfWeek) temporal;
         }
@@ -420,6 +422,8 @@ public enum DayOfWeek implements TemporalAccessor, TemporalAdjuster {
      */
     @Override
     public Temporal adjustInto(Temporal temporal) {
+    	//GWT specific
+    	Objects.requireNonNull(temporal);
         return temporal.with(DAY_OF_WEEK, getValue());
     }
 

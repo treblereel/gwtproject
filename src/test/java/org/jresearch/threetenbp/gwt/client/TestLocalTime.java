@@ -92,8 +92,6 @@ import java.util.List;
 import org.jresearch.threetenbp.gwt.client.temporal.MockFieldNoValue;
 import org.junit.Test;
 
-import com.google.gwt.core.client.JavaScriptException;
-
 /**
  * Test LocalTime.
  */

@@ -42,7 +42,6 @@ import java.time.LocalTime;
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoField;
 import java.time.temporal.JulianFields;
 import java.time.temporal.TemporalAccessor;
@@ -53,8 +52,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
-
-import com.google.gwt.core.client.JavaScriptException;
 
 /**
  * Test ZoneOffset.
