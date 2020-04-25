@@ -313,9 +313,7 @@ public final class LocalDate
      */
     public static LocalDate from(TemporalAccessor temporal) {
     	//GWT Specific
-    	if (temporal == null) {
-    		throw new NullPointerException();
-    	}
+    	Objects.requireNonNull(temporal);
         LocalDate date = temporal.query(TemporalQueries.localDate());
         if (date == null) {
             throw new DateTimeException("Unable to obtain LocalDate from TemporalAccessor: " +

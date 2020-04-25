@@ -610,7 +610,7 @@ public class TestLocalDate extends AbstractDateTimeTest {
 		try {
 			LocalDate.from((TemporalAccessor) null);
 			fail("Missing exception");
-		} catch (JavaScriptException e) {
+		} catch (NullPointerException e) {
 			// expected
 		}
 	}

@@ -216,7 +216,7 @@ public class TestZonedDateTime extends AbstractDateTimeTest {
 		ZoneId zone = ZoneId.of("UTC+01:02:03");
 		ZonedDateTime expected = ZonedDateTime.now(Clock.system(zone));
 		ZonedDateTime test = ZonedDateTime.now(zone);
-		for (int i = 0; i < 100000; i++) {
+		for (int i = 0; i < 1000000; i++) {
 			if (expected.equals(test)) {
 				return;
 			}
