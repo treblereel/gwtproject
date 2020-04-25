@@ -237,17 +237,17 @@ public class TestJapaneseChronology extends AbstractTest {
 	public void test_Japanese_registerEra() {
 		try {
 			//GWT specific
-			JapaneseEra.registerEra(JapaneseEras.endDate(JapaneseEra.SHOWA), "TestAdditional");
+			JapaneseEras.registerEra(JapaneseEras.endDate(JapaneseEra.SHOWA), "TestAdditional");
 			fail("JapaneseEra.registerEra should have failed");
 		} catch (DateTimeException ex) {
 			// ignore expected exception
 		}
-		JapaneseEra additional = JapaneseEra.registerEra(LocalDate.of(2100, 1, 1), "TestAdditional");
+		JapaneseEra additional = JapaneseEras.registerEra(LocalDate.of(2100, 1, 1), "TestAdditional");
 		assertEquals(JapaneseEra.of(3), additional);
 		assertEquals(JapaneseEra.valueOf("TestAdditional"), additional);
 		assertEquals(JapaneseEra.values()[4], additional);
 		try {
-			JapaneseEra.registerEra(LocalDate.of(2200, 1, 1), "TestAdditional2");
+			JapaneseEras.registerEra(LocalDate.of(2200, 1, 1), "TestAdditional2");
 			fail("JapaneseEra.registerEra should have failed");
 		} catch (DateTimeException ex) {
 			// ignore expected exception

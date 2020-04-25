@@ -29,19 +29,19 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package xjava.time.temporal;
+package org.jresearch.threetenbp.gwt.client.temporal;
 
-import static org.testng.Assert.assertEquals;
 
-import org.testng.annotations.Test;
+import java.time.temporal.ChronoField;
 
-import xjava.time.temporal.ChronoField;
+import org.jresearch.threetenbp.gwt.client.AbstractTest;
+import org.junit.Test;
 
 /**
  * Test.
  */
-@Test
-public class TestChronoField {
+//@Test
+public class TestChronoField extends AbstractTest  {
 
     //-------------------------------------------------------------------------
     @Test

@@ -12,4 +12,7 @@ public class JapaneseEras {
 		return era.endDate();
 	}
 
+	public static JapaneseEra registerEra(LocalDate since, String name) {
+		return JapaneseEra.registerEra(since, name);
+	}
 }

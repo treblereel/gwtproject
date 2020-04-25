@@ -13,4 +13,9 @@ public class JapaneseEras {
 		return null;
 	}
 
+	public static JapaneseEra registerEra(LocalDate since, String name) {
+		//Just to JDK compilation, GWT uses super version
+		return null;
+	}
+
 }
