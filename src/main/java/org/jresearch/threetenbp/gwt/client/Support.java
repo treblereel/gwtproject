@@ -8,6 +8,7 @@ import java.time.zone.ZoneRulesProvider;
 
 import javax.annotation.Nonnull;
 
+import org.gwtproject.nio.TypedArrayHelper;
 import org.gwtproject.typedarrays.shared.Uint8Array;
 import org.gwtproject.xhr.client.ReadyStateChangeHandler;
 import org.gwtproject.xhr.client.XMLHttpRequest;
@@ -45,7 +46,7 @@ public class Support {
 	                if (xhr.getReadyState() == XMLHttpRequest.DONE) {
 	                    if (xhr.getStatus() == 200) {
 	                        ArrayBuffer buffer = Js.cast(xhr.getResponseArrayBuffer());
-	                        ByteBuffer data = ByteBuffer.wrapArrayBuffer(buffer);
+	                        ByteBuffer data = TypedArrayHelper.wrap(buffer);
 	                        TzdbZoneRulesProvider provider = new TzdbZoneRulesProvider(data);
 	                        ZoneRulesProvider.registerProvider(provider);
 	                    } else {
