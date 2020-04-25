@@ -3,6 +3,7 @@ package org.jresearch.threetenbp.gwt.client;
 import org.jresearch.threetenbp.gwt.client.chrono.TestChronoLocalDate;
 import org.jresearch.threetenbp.gwt.client.chrono.TestChronoLocalDateTime;
 import org.jresearch.threetenbp.gwt.client.chrono.TestChronoZonedDateTime;
+import org.jresearch.threetenbp.gwt.client.chrono.TestHijrahChronology;
 
 import com.google.gwt.junit.tools.GWTTestSuite;
 
@@ -40,7 +41,7 @@ public class GwtTreetenBpSuite {
 		suite.addTestSuite(TestChronoLocalDate.class);
 		suite.addTestSuite(TestChronoLocalDateTime.class);
 		suite.addTestSuite(TestChronoZonedDateTime.class);
-//		suite.addTestSuite(Test.class);
+		suite.addTestSuite(TestHijrahChronology.class);
 //		suite.addTestSuite(Test.class);
 //		suite.addTestSuite(Test.class);
 //		suite.addTestSuite(Test.class);

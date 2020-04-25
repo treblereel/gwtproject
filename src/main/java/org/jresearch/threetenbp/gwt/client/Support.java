@@ -4,7 +4,6 @@ import static jsinterop.annotations.JsPackage.GLOBAL;
 
 import java.nio.ByteBuffer;
 import java.time.zone.Providers;
-import java.time.zone.TzdbZoneRulesProvider;
 import java.time.zone.ZoneRulesProvider;
 
 import javax.annotation.Nonnull;
