@@ -18,6 +18,7 @@ import org.jresearch.threetenbp.gwt.client.temporal.TestValueRange;
 import org.jresearch.threetenbp.gwt.client.temporal.TestYear;
 import org.jresearch.threetenbp.gwt.client.temporal.TestYearMonth;
 import org.jresearch.threetenbp.gwt.client.zone.TestFixedZoneRules;
+import org.jresearch.threetenbp.gwt.client.zone.TestStandardZoneRules;
 
 import com.google.gwt.junit.tools.GWTTestSuite;
 
@@ -70,7 +71,7 @@ public class GwtTreetenBpSuite {
 		suite.addTestSuite(TestYear.class);
 		suite.addTestSuite(TestYearMonth.class);
 		suite.addTestSuite(TestFixedZoneRules.class);
-//		suite.addTestSuite(Test.class);
+		suite.addTestSuite(TestStandardZoneRules.class);
 //		suite.addTestSuite(Test.class);
 //		suite.addTestSuite(Test.class);
 //		suite.addTestSuite(Test.class);

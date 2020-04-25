@@ -543,6 +543,8 @@ public final class LocalDateTime
      */
     @Override
     public ValueRange range(TemporalField field) {
+    	//GWT specific
+    	Objects.requireNonNull(field);
         if (field instanceof ChronoField) {
             return (field.isTimeBased() ? time.range(field) : date.range(field));
         }
@@ -576,6 +578,8 @@ public final class LocalDateTime
      */
     @Override
     public int get(TemporalField field) {
+    	//GWT specific
+    	Objects.requireNonNull(field);
         if (field instanceof ChronoField) {
             return (field.isTimeBased() ? time.get(field) : date.get(field));
         }

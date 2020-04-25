@@ -333,6 +333,8 @@ public final class MonthDay
      */
     @Override
     public ValueRange range(TemporalField field) {
+    	//GWT specific
+    	Objects.requireNonNull(field);
         if (field == MONTH_OF_YEAR) {
             return field.range();
         } else if (field == DAY_OF_MONTH) {

@@ -561,6 +561,8 @@ public final class LocalTime
      */
     @Override  // override for Javadoc and performance
     public int get(TemporalField field) {
+    	//GWT specific
+    	Objects.requireNonNull(field);
         if (field instanceof ChronoField) {
             return get0(field);
         }

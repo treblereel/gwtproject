@@ -5,6 +5,7 @@ import static jsinterop.annotations.JsPackage.GLOBAL;
 import java.nio.ByteBuffer;
 import java.time.zone.Providers;
 import java.time.zone.ZoneRulesProvider;
+import java.util.Locale;
 
 import javax.annotation.Nonnull;
 
@@ -76,6 +77,10 @@ public class Support {
 	@Nonnull
 	@JsMethod(namespace = JsPackage.GLOBAL)
 	public static native void sleep(int milliseconds);
+
+	@Nonnull
+	@JsMethod(namespace = JsPackage.GLOBAL)
+	public static native String displayTimeZone(boolean daylight, String timeZone, String style, String locale);
 
 	@Nonnull
 	@JsMethod(namespace = "Base64Binary")

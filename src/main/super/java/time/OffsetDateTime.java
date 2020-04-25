@@ -117,6 +117,9 @@ public final class OffsetDateTime
         return OffsetDateTime::compareInstant;
     }
     private static int compareInstant(OffsetDateTime datetime1, OffsetDateTime datetime2) {
+    	//GWT specific
+    	Objects.requireNonNull(datetime1);
+    	Objects.requireNonNull(datetime2);
         if (datetime1.getOffset().equals(datetime2.getOffset())) {
             return datetime1.toLocalDateTime().compareTo(datetime2.toLocalDateTime());
         }
@@ -293,6 +296,8 @@ public final class OffsetDateTime
      * @throws DateTimeException if unable to convert to an {@code OffsetDateTime}
      */
     public static OffsetDateTime from(TemporalAccessor temporal) {
+    	//GWT specific
+    	Objects.requireNonNull(temporal);
         if (temporal instanceof OffsetDateTime) {
             return (OffsetDateTime) temporal;
         }
@@ -456,6 +461,8 @@ public final class OffsetDateTime
      */
     @Override
     public ValueRange range(TemporalField field) {
+    	//GWT specific
+    	Objects.requireNonNull(field);
         if (field instanceof ChronoField) {
             if (field == INSTANT_SECONDS || field == OFFSET_SECONDS) {
                 return field.range();
@@ -492,6 +499,8 @@ public final class OffsetDateTime
      */
     @Override
     public int get(TemporalField field) {
+    	//GWT specific
+    	Objects.requireNonNull(field);
         if (field instanceof ChronoField) {
             switch ((ChronoField) field) {
                 case INSTANT_SECONDS: throw new DateTimeException("Field too large for an int: " + field);
@@ -591,6 +600,8 @@ public final class OffsetDateTime
      * @throws DateTimeException if the result exceeds the supported date range
      */
     public OffsetDateTime withOffsetSameInstant(ZoneOffset offset) {
+    	//GWT specific
+    	Objects.requireNonNull(offset);
         if (offset.equals(this.offset)) {
             return this;
         }
@@ -765,6 +776,8 @@ public final class OffsetDateTime
      */
     @Override
     public OffsetDateTime with(TemporalAdjuster adjuster) {
+    	//GWT specific
+    	Objects.requireNonNull(adjuster);
         // optimizations
         if (adjuster instanceof LocalDate || adjuster instanceof LocalTime || adjuster instanceof LocalDateTime) {
             return with(dateTime.with(adjuster), offset);
@@ -1005,6 +1018,8 @@ public final class OffsetDateTime
      */
     @Override
     public OffsetDateTime plus(TemporalAmount amount) {
+    	//GWT specific
+    	Objects.requireNonNull(amount);
         return (OffsetDateTime) amount.addTo(this);
     }
 
@@ -1191,6 +1206,8 @@ public final class OffsetDateTime
      */
     @Override
     public OffsetDateTime minus(TemporalAmount amount) {
+    	//GWT specific
+    	Objects.requireNonNull(amount);
         return (OffsetDateTime) amount.subtractFrom(this);
     }
 
@@ -1375,6 +1392,8 @@ public final class OffsetDateTime
     @SuppressWarnings("unchecked")
     @Override
     public <R> R query(TemporalQuery<R> query) {
+    	//GWT specific
+    	Objects.requireNonNull(query);
         if (query == TemporalQueries.chronology()) {
             return (R) IsoChronology.INSTANCE;
         } else if (query == TemporalQueries.precision()) {
@@ -1662,6 +1681,8 @@ public final class OffsetDateTime
      * @return true if this is after the instant of the specified date-time
      */
     public boolean isAfter(OffsetDateTime other) {
+    	//GWT specific
+    	Objects.requireNonNull(other);
         long thisEpochSec = toEpochSecond();
         long otherEpochSec = other.toEpochSecond();
         return thisEpochSec > otherEpochSec ||
@@ -1679,6 +1700,8 @@ public final class OffsetDateTime
      * @return true if this is before the instant of the specified date-time
      */
     public boolean isBefore(OffsetDateTime other) {
+    	//GWT specific
+    	Objects.requireNonNull(other);
         long thisEpochSec = toEpochSecond();
         long otherEpochSec = other.toEpochSecond();
         return thisEpochSec < otherEpochSec ||
@@ -1696,6 +1719,8 @@ public final class OffsetDateTime
      * @return true if the instant equals the instant of the specified date-time
      */
     public boolean isEqual(OffsetDateTime other) {
+    	//GWT specific
+    	Objects.requireNonNull(other);
         return toEpochSecond() == other.toEpochSecond() &&
                 toLocalTime().getNano() == other.toLocalTime().getNano();
     }

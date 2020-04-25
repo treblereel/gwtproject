@@ -191,6 +191,8 @@ public final class MinguoDate
 
     @Override
     public ValueRange range(TemporalField field) {
+    	//GWT specific
+    	Objects.requireNonNull(field);
         if (field instanceof ChronoField) {
             if (isSupported(field)) {
                 ChronoField f = (ChronoField) field;

@@ -44,6 +44,7 @@ import static java.time.temporal.ChronoField.YEAR;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import java.text.DateFormat;
 import java.time.DateTimeException;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -73,9 +74,15 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import org.jresearch.threetenbp.gwt.client.Support;
+
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
+
+import com.google.gwt.i18n.client.TimeZone;
+
 /**
  * Builder to create date-time formatters.
  * <p>
@@ -3367,11 +3374,12 @@ public final class DateTimeFormatterBuilder {
                 Instant instant = Instant.ofEpochSecond(temporal.getLong(INSTANT_SECONDS));
                 daylight = zone.getRules().isDaylightSavings(instant);
             }
-//GWT Specific TODO!!!
+          //GWT Specific
+            String style = textStyle.asNormal() == TextStyle.FULL ? "long" :"short";
+			String text = Support.displayTimeZone(daylight, zone.getId(), style, context.getLocale().toString());
 //            TimeZone tz = TimeZone.getTimeZone(zone.getId());
 //            int tzstyle = (textStyle.asNormal() == TextStyle.FULL ? TimeZone.LONG : TimeZone.SHORT);
 //            String text = tz.getDisplayName(daylight, tzstyle, context.getLocale());
-            String text = "GWT FIX IT";
             buf.append(text);
             return true;
         }

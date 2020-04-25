@@ -118,6 +118,8 @@ public enum HijrahEra implements Era {
 
     @Override
     public ValueRange range(TemporalField field) {
+    	//GWT specific
+    	Objects.requireNonNull(field);
         if (field == ERA) {
             return ValueRange.of(1, 1);
         } else if (field instanceof ChronoField) {

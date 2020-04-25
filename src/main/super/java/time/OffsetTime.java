@@ -385,6 +385,8 @@ public final class OffsetTime
      */
     @Override
     public ValueRange range(TemporalField field) {
+    	//GWT specific
+    	Objects.requireNonNull(field);
         if (field instanceof ChronoField) {
             if (field == OFFSET_SECONDS) {
                 return field.range();

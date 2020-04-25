@@ -683,6 +683,8 @@ public final class ZonedDateTime
      */
     @Override
     public ValueRange range(TemporalField field) {
+    	//GWT specific
+    	Objects.requireNonNull(field);
         if (field instanceof ChronoField) {
             if (field == INSTANT_SECONDS || field == OFFSET_SECONDS) {
                 return field.range();
@@ -719,6 +721,8 @@ public final class ZonedDateTime
      */
     @Override  // override for Javadoc and performance
     public int get(TemporalField field) {
+    	//GWT specific
+    	Objects.requireNonNull(field);
         if (field instanceof ChronoField) {
             switch ((ChronoField) field) {
                 case INSTANT_SECONDS: throw new DateTimeException("Field too large for an int: " + field);

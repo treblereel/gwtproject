@@ -475,6 +475,8 @@ public final class LocalDate
      */
     @Override
     public ValueRange range(TemporalField field) {
+    	//GWT specific
+    	Objects.requireNonNull(field);
         if (field instanceof ChronoField) {
             ChronoField f = (ChronoField) field;
             if (f.isDateBased()) {

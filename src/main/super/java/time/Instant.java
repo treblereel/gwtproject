@@ -480,6 +480,8 @@ public final class Instant
      */
     @Override  // override for Javadoc and performance
     public int get(TemporalField field) {
+    	//GWT specific
+    	Objects.requireNonNull(field);
         if (field instanceof ChronoField) {
             switch ((ChronoField) field) {
                 case NANO_OF_SECOND: return nanos;

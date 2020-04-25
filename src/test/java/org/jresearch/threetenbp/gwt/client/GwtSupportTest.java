@@ -47,4 +47,15 @@ public class GwtSupportTest extends GWTTestCase {
 		assertEquals(0x75, data.get(5));
 	}
 
+	@Test
+	public void testDisplayTimeZone() {
+		boolean daylight = false;
+		String timeZone = "Europe/Prague";
+		String style = "short";
+		String locale = "de-DE";
+		final String result = Support.displayTimeZone(daylight, timeZone, style, locale);
+		assertNotNull(result);
+		assertTrue("MEZ".equals(result) || timeZone.equals(result));
+	}
+
 }

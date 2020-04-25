@@ -123,7 +123,7 @@ final class DateTimePrintContext {
         }
         final Chronology effectiveChrono = (overrideChrono != null ? overrideChrono : temporalChrono);
         final ZoneId effectiveZone = (overrideZone != null ? overrideZone : temporalZone);
-        
+
         // use overrides
         if (overrideZone != null) {
             // handle instant
@@ -168,7 +168,9 @@ final class DateTimePrintContext {
             }
             @Override
             public ValueRange range(TemporalField field) {
-                if (effectiveDate != null && field.isDateBased()) {
+           	  //GWT specific
+           	  Objects.requireNonNull(field);
+              if (effectiveDate != null && field.isDateBased()) {
                     return effectiveDate.range(field);
                 }
                 return temporal.range(field);

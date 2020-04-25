@@ -190,6 +190,8 @@ final class ChronoLocalDateTimeImpl<D extends ChronoLocalDate>
 
     @Override
     public ValueRange range(TemporalField field) {
+    	//GWT specific
+    	Objects.requireNonNull(field);
         if (field instanceof ChronoField) {
             return (field.isTimeBased() ? time.range(field) : date.range(field));
         }
