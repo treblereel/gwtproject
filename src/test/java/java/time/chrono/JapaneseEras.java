@@ -9,7 +9,8 @@ public class JapaneseEras {
 	}
 
 	public static LocalDate endDate(JapaneseEra era) {
-		return era.endDate();
+		//Just to JDK compilation, GWT uses super version
+		return null;
 	}
 
 }

@@ -6,6 +6,8 @@ import org.jresearch.threetenbp.gwt.client.chrono.TestChronoZonedDateTime;
 import org.jresearch.threetenbp.gwt.client.chrono.TestHijrahChronology;
 import org.jresearch.threetenbp.gwt.client.chrono.TestIsoChronology;
 import org.jresearch.threetenbp.gwt.client.chrono.TestJapaneseChronology;
+import org.jresearch.threetenbp.gwt.client.chrono.TestMinguoChronology;
+import org.jresearch.threetenbp.gwt.client.chrono.TestThaiBuddhistChronology;
 
 import com.google.gwt.junit.tools.GWTTestSuite;
 
@@ -46,6 +48,16 @@ public class GwtTreetenBpSuite {
 		suite.addTestSuite(TestHijrahChronology.class);
 		suite.addTestSuite(TestIsoChronology.class);
 		suite.addTestSuite(TestJapaneseChronology.class);
+		suite.addTestSuite(TestMinguoChronology.class);
+		suite.addTestSuite(TestThaiBuddhistChronology.class);
+//		suite.addTestSuite(Test.class);
+//		suite.addTestSuite(Test.class);
+//		suite.addTestSuite(Test.class);
+//		suite.addTestSuite(Test.class);
+//		suite.addTestSuite(Test.class);
+//		suite.addTestSuite(Test.class);
+//		suite.addTestSuite(Test.class);
+//		suite.addTestSuite(Test.class);
 //		suite.addTestSuite(Test.class);
 //		suite.addTestSuite(Test.class);
 //		suite.addTestSuite(Test.class);

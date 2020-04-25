@@ -29,40 +29,36 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package xjava.time.chrono;
+package org.jresearch.threetenbp.gwt.client.chrono;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-import static xjava.time.temporal.ChronoField.DAY_OF_MONTH;
-import static xjava.time.temporal.ChronoField.DAY_OF_YEAR;
-import static xjava.time.temporal.ChronoField.MONTH_OF_YEAR;
-import static xjava.time.temporal.ChronoField.YEAR;
-import static xjava.time.temporal.ChronoField.YEAR_OF_ERA;
+import static java.time.temporal.ChronoField.DAY_OF_MONTH;
+import static java.time.temporal.ChronoField.DAY_OF_YEAR;
+import static java.time.temporal.ChronoField.MONTH_OF_YEAR;
+import static java.time.temporal.ChronoField.YEAR;
+import static java.time.temporal.ChronoField.YEAR_OF_ERA;
 
-import xjava.time.DateTimeException;
-import xjava.time.chrono.IsoChronology;
-import xjava.time.chrono.ThaiBuddhistChronology;
-import xjava.time.chrono.ThaiBuddhistEra;
-import xjava.time.temporal.ValueRange;
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.chrono.ChronoLocalDate;
+import java.time.chrono.Chronology;
+import java.time.chrono.IsoChronology;
+import java.time.chrono.ThaiBuddhistChronology;
+import java.time.chrono.ThaiBuddhistEra;
+import java.time.temporal.ChronoField;
+import java.time.temporal.TemporalAdjusters;
+import java.time.temporal.ValueRange;
 
-import org.testng.Assert;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
-
-import xjava.time.LocalDate;
-import xjava.time.LocalDateTime;
-import xjava.time.Month;
-import xjava.time.chrono.ChronoLocalDate;
-import xjava.time.chrono.Chronology;
-import xjava.time.temporal.ChronoField;
-import xjava.time.temporal.TemporalAdjusters;
+import org.jresearch.threetenbp.gwt.client.AbstractTest;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Test.
  */
-@Test
-public class TestThaiBuddhistChronology {
+//@Test
+public class TestThaiBuddhistChronology extends AbstractTest {
 
     private static final int YDIFF = 543;
 
@@ -73,16 +69,16 @@ public class TestThaiBuddhistChronology {
     public void test_chrono_byName() {
         Chronology c = ThaiBuddhistChronology.INSTANCE;
         Chronology test = Chronology.of("ThaiBuddhist");
-        Assert.assertNotNull(test, "The ThaiBuddhist calendar could not be found byName");
-        Assert.assertEquals(test.getId(), "ThaiBuddhist", "ID mismatch");
-        Assert.assertEquals(test.getCalendarType(), "buddhist", "Type mismatch");
-        Assert.assertEquals(test, c);
+        assertNotNull("The ThaiBuddhist calendar could not be found byName",test);
+        assertEquals("ID mismatch","ThaiBuddhist",test.getId());
+        assertEquals("Type mismatch",test.getCalendarType(), "buddhist");
+        assertEquals(test, c);
     }
 
     //-----------------------------------------------------------------------
     // creation, toLocalDate()
     //-----------------------------------------------------------------------
-    @DataProvider(name="samples")
+    //@DataProvider(name="samples")
     Object[][] data_samples() {
         return new Object[][] {
             {ThaiBuddhistChronology.INSTANCE.date(1 + YDIFF, 1, 1), LocalDate.of(1, 1, 1)},
@@ -103,17 +99,31 @@ public class TestThaiBuddhistChronology {
         };
     }
 
-    @Test(dataProvider="samples")
+	@Test(/* dataProvider="samples" */)
+	public void test_toLocalDate() {
+		Object[][] data = data_samples();
+		for (int i = 0; i < data.length; i++) {
+			Object[] objects = data[i];
+			test_toLocalDate((ChronoLocalDate) objects[0], (LocalDate) objects[1]);
+		}
+	}
     public void test_toLocalDate(ChronoLocalDate jdate, LocalDate iso) {
         assertEquals(LocalDate.from(jdate), iso);
     }
 
-    @Test(dataProvider="samples")
+	@Test(/* dataProvider="samples" */)
+	public void test_fromCalendrical() {
+		Object[][] data = data_samples();
+		for (int i = 0; i < data.length; i++) {
+			Object[] objects = data[i];
+			test_fromCalendrical((ChronoLocalDate) objects[0], (LocalDate) objects[1]);
+		}
+	}
     public void test_fromCalendrical(ChronoLocalDate jdate, LocalDate iso) {
         assertEquals(ThaiBuddhistChronology.INSTANCE.date(iso), jdate);
     }
 
-    @DataProvider(name="badDates")
+    //@DataProvider(name="badDates")
     Object[][] data_badDates() {
         return new Object[][] {
             {1728, 0, 0},
@@ -133,9 +143,20 @@ public class TestThaiBuddhistChronology {
         };
     }
 
-    @Test(dataProvider="badDates", expectedExceptions=DateTimeException.class)
+	@Test(/* dataProvider="badDates", */ expected=DateTimeException.class)
+	public void test_badDates() {
+		Object[][] data = data_badDates();
+		for (int i = 0; i < data.length; i++) {
+			Object[] objects = data[i];
+			test_badDates((int) objects[0], (int) objects[1], (int) objects[2]);
+		}
+	}
     public void test_badDates(int year, int month, int dom) {
-        ThaiBuddhistChronology.INSTANCE.date(year, month, dom);
+        try{ThaiBuddhistChronology.INSTANCE.date(year, month, dom);
+		fail("Missing exception");
+	} catch (DateTimeException e) {
+		// expected
+	}
     }
 
     //-----------------------------------------------------------------------
@@ -206,10 +227,14 @@ public class TestThaiBuddhistChronology {
         assertEquals(test, ThaiBuddhistChronology.INSTANCE.date(2555, 7, 6));
     }
 
-    @Test(expectedExceptions=DateTimeException.class)
+    @Test(expected=DateTimeException.class)
     public void test_adjust_toMonth() {
-        ChronoLocalDate jdate = ThaiBuddhistChronology.INSTANCE.date(1726, 1, 4);
+        try{ChronoLocalDate jdate = ThaiBuddhistChronology.INSTANCE.date(1726, 1, 4);
         jdate.with(Month.APRIL);
+		fail("Missing exception");
+	} catch (DateTimeException e) {
+		// expected
+	}
     }
 
     //-----------------------------------------------------------------------
@@ -232,7 +257,7 @@ public class TestThaiBuddhistChronology {
     //-----------------------------------------------------------------------
     // toString()
     //-----------------------------------------------------------------------
-    @DataProvider(name="toString")
+    //@DataProvider(name="toString")
     Object[][] data_toString() {
         return new Object[][] {
             {ThaiBuddhistChronology.INSTANCE.date(544, 1, 1), "ThaiBuddhist BE 544-01-01"},
@@ -243,7 +268,14 @@ public class TestThaiBuddhistChronology {
         };
     }
 
-    @Test(dataProvider="toString")
+	@Test(/* dataProvider="toString" */)
+	public void test_toString() {
+		Object[][] data = data_toString();
+		for (int i = 0; i < data.length; i++) {
+			Object[] objects = data[i];
+			test_toString((ChronoLocalDate) objects[0], (String) objects[1]);
+		}
+	}
     public void test_toString(ChronoLocalDate jdate, String expected) {
         assertEquals(jdate.toString(), expected);
     }
