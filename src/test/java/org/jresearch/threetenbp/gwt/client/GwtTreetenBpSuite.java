@@ -1,5 +1,7 @@
 package org.jresearch.threetenbp.gwt.client;
 
+import org.jresearch.threetenbp.gwt.client.chrono.TestChronoLocalDate;
+
 import com.google.gwt.junit.tools.GWTTestSuite;
 
 import junit.framework.Test;
@@ -33,6 +35,13 @@ public class GwtTreetenBpSuite {
 		suite.addTestSuite(TestZonedDateTime.class);
 		suite.addTestSuite(TestZoneId.class);
 		suite.addTestSuite(TestZoneOffset.class);
+		suite.addTestSuite(TestChronoLocalDate.class);
+//		suite.addTestSuite(Test.class);
+//		suite.addTestSuite(Test.class);
+//		suite.addTestSuite(Test.class);
+//		suite.addTestSuite(Test.class);
+//		suite.addTestSuite(Test.class);
+//		suite.addTestSuite(Test.class);
 //		suite.addTestSuite(Test.class);
 //		suite.addTestSuite(Test.class);
 		// $JUnit-END$
