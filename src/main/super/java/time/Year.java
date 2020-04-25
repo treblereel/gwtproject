@@ -847,6 +847,8 @@ public final class Year
      * @return the local date formed from this year and the specified month-day, not null
      */
     public LocalDate atMonthDay(MonthDay monthDay) {
+    	//GWT specific
+    	Objects.requireNonNull(monthDay);
         return monthDay.atYear(year);
     }
 
@@ -861,6 +863,8 @@ public final class Year
      * @return the comparator value, negative if less, positive if greater
      */
     public int compareTo(Year other) {
+    	//GWT specific
+    	Objects.requireNonNull(other);
         return year - other.year;
     }
 
