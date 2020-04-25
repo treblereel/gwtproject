@@ -10,6 +10,7 @@ import org.jresearch.threetenbp.gwt.client.chrono.TestMinguoChronology;
 import org.jresearch.threetenbp.gwt.client.chrono.TestThaiBuddhistChronology;
 import org.jresearch.threetenbp.gwt.client.temporal.TestChronoField;
 import org.jresearch.threetenbp.gwt.client.temporal.TestChronoUnit;
+import org.jresearch.threetenbp.gwt.client.temporal.TestIsoFields;
 
 import com.google.gwt.junit.tools.GWTTestSuite;
 
@@ -54,7 +55,7 @@ public class GwtTreetenBpSuite {
 		suite.addTestSuite(TestThaiBuddhistChronology.class);
 		suite.addTestSuite(TestChronoField.class);
 		suite.addTestSuite(TestChronoUnit.class);
-//		suite.addTestSuite(Test.class);
+		suite.addTestSuite(TestIsoFields.class);
 //		suite.addTestSuite(Test.class);
 //		suite.addTestSuite(Test.class);
 //		suite.addTestSuite(Test.class);
