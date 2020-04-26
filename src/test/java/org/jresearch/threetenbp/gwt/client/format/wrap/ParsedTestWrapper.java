@@ -1,9 +1,12 @@
 package org.jresearch.threetenbp.gwt.client.format.wrap;
 
+import java.time.ZoneId;
 import java.time.format.Parseds;
 import java.time.temporal.TemporalField;
 import java.time.temporal.TemporalQuery;
 import java.time.temporal.ValueRange;
+import java.util.Map;
+import java.util.Set;
 
 public class ParsedTestWrapper {
 
@@ -31,6 +34,14 @@ public class ParsedTestWrapper {
 
 	public <R> R query(TemporalQuery<R> query) {
 		return Parseds.query(parsed, query);
+	}
+
+	public ZoneId zone() {
+		return Parseds.zone(parsed);
+	}
+
+	public Map<TemporalField, Long> fieldValues() {
+		return Parseds.fieldValues(parsed);
 	}
 
 }

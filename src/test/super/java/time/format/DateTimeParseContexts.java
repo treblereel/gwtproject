@@ -32,4 +32,12 @@ public class DateTimeParseContexts {
 		((DateTimeParseContext)context).setLocale(locale);
 	}
 
+	public static boolean isStrict(Object context) {
+		return (((DateTimeParseContext)context).isStrict());
+	}
+
+	public static boolean isCaseSensitive(Object context) {
+		return (((DateTimeParseContext)context).isCaseSensitive());
+	}
+
 }

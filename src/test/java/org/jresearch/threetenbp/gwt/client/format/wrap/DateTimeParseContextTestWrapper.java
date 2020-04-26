@@ -38,4 +38,12 @@ public class DateTimeParseContextTestWrapper {
 		DateTimeParseContexts.setLocale(context, locale);
 	}
 
+	public boolean isStrict() {
+		return DateTimeParseContexts.isStrict(context);
+	}
+
+	public boolean isCaseSensitive() {
+		return DateTimeParseContexts.isCaseSensitive(context);
+	}
+
 }

@@ -69,6 +69,7 @@ public class TestNumberParser extends AbstractTestPrinterParser {
 					(Class<?>) objects[3]);
 		}
 	}
+
     public void test_parse_error(NumberPrinterParserTestWrapper pp, String text, int pos, Class<?> expected) {
         try {
             pp.parse(parseContext, text, pos);

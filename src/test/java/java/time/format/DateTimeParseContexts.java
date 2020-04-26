@@ -30,4 +30,12 @@ public class DateTimeParseContexts {
 	public static void setLocale(Object context, Locale locale) {
 	}
 
+	public static boolean isStrict(Object context) {
+		return false;
+	}
+
+	public static boolean isCaseSensitive(Object context) {
+		return false;
+	}
+
 }
