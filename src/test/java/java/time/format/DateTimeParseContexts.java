@@ -5,18 +5,18 @@ import java.util.Locale;
 
 import org.jresearch.threetenbp.gwt.client.format.wrap.ParsedTestWrapper;
 
+//Do nothing in JDK version
 public class DateTimeParseContexts {
 
     public static Object create(Locale locale, DecimalStyle symbols, Chronology chronology) {
-		return new DateTimeParseContext(locale, symbols, chronology);
+		return null;
 	}
 
 	public static ParsedTestWrapper toParsed(Object context) {
-		return new ParsedTestWrapper(((DateTimeParseContext)context).toParsed());
+		return null;
 	}
 
 	public static void setCaseSensitive(Object context, boolean caseSensitive) {
-		((DateTimeParseContext)context).setCaseSensitive(caseSensitive);
     }
 
 }
