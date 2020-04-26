@@ -30,4 +30,8 @@ public class DateTimeParseContextTestWrapper {
 		return DateTimeParseContexts.getParsed(context, field);
 	}
 
+	public void setStrict(boolean strict) {
+		DateTimeParseContexts.setStrict(context, strict);
+	}
+
 }

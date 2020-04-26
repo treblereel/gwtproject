@@ -29,46 +29,47 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package xjava.time.format;
+package org.jresearch.threetenbp.gwt.client.format;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.fail;
-import static xjava.time.temporal.ChronoField.DAY_OF_MONTH;
-import static xjava.time.temporal.ChronoField.HOUR_OF_DAY;
+import static java.time.temporal.ChronoField.DAY_OF_MONTH;
+import static java.time.temporal.ChronoField.HOUR_OF_DAY;
 
-import xjava.time.DateTimeException;
-import xjava.time.format.SignStyle;
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.time.format.SignStyle;
 
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
-
-import xjava.time.LocalDate;
-import xjava.time.format.DateTimeFormatterBuilder.NumberPrinterParser;
-import xjava.time.temporal.MockFieldValue;
+import org.jresearch.threetenbp.gwt.client.format.wrap.NumberPrinterParserTestWrapper;
+import org.jresearch.threetenbp.gwt.client.format.wrap.OffsetIdPrinterParserTestWrapper;
+import org.jresearch.threetenbp.gwt.client.temporal.MockFieldValue;
+import org.junit.Test;
 
 /**
- * Test SimpleNumberPrinterParser.
+ * Test SimpleNumberPrinterParserTestWrapper.
  */
-@Test
+//@Test
 public class TestNumberPrinter extends AbstractTestPrinterParser {
 
     //-----------------------------------------------------------------------
-    @Test(expectedExceptions=DateTimeException.class)
+    @Test(expected=DateTimeException.class)
     public void test_print_emptyCalendrical() throws Exception {
-        NumberPrinterParser pp = new NumberPrinterParser(DAY_OF_MONTH, 1, 2, SignStyle.NEVER);
+        try{NumberPrinterParserTestWrapper pp = new NumberPrinterParserTestWrapper(DAY_OF_MONTH, 1, 2, SignStyle.NEVER);
         pp.print(printEmptyContext, buf);
+		fail("Missing exception");
+	} catch (DateTimeException e) {
+		// expected
+	}
     }
 
     public void test_print_append() throws Exception {
         printContext.setDateTime(LocalDate.of(2012, 1, 3));
-        NumberPrinterParser pp = new NumberPrinterParser(DAY_OF_MONTH, 1, 2, SignStyle.NEVER);
+        NumberPrinterParserTestWrapper pp = new NumberPrinterParserTestWrapper(DAY_OF_MONTH, 1, 2, SignStyle.NEVER);
         buf.append("EXISTING");
         pp.print(printContext, buf);
         assertEquals(buf.toString(), "EXISTING3");
     }
 
     //-----------------------------------------------------------------------
-    @DataProvider(name="Pad")
+//    @DataProvider(name="Pad")
     Object[][] provider_pad() {
         return new Object[][] {
             {1, 1, -10, null},
@@ -158,10 +159,18 @@ public class TestNumberPrinter extends AbstractTestPrinterParser {
        };
     }
 
-    @Test(dataProvider="Pad")
+	@Test(/* dataProvider="Pad" */)
+	public void test_pad_NOT_NEGATIVE() throws Exception {
+		Object[][] data = provider_pad();
+		for (int i = 0; i < data.length; i++) {
+			Object[] objects = data[i];
+			gwtSetUp();
+			test_pad_NOT_NEGATIVE((int) objects[0], (int) objects[1], toLong(objects[2]), (String) objects[3]);
+		}
+	}
     public void test_pad_NOT_NEGATIVE(int minPad, int maxPad, long value, String result) throws Exception {
         printContext.setDateTime(new MockFieldValue(DAY_OF_MONTH, value));
-        NumberPrinterParser pp = new NumberPrinterParser(DAY_OF_MONTH, minPad, maxPad, SignStyle.NOT_NEGATIVE);
+        NumberPrinterParserTestWrapper pp = new NumberPrinterParserTestWrapper(DAY_OF_MONTH, minPad, maxPad, SignStyle.NOT_NEGATIVE);
         try {
             pp.print(printContext, buf);
             if (result == null || value < 0) {
@@ -177,10 +186,18 @@ public class TestNumberPrinter extends AbstractTestPrinterParser {
         }
     }
 
-    @Test(dataProvider="Pad")
+	@Test(/* dataProvider="Pad" */)
+	public void test_pad_NEVER() throws Exception {
+		Object[][] data = provider_pad();
+		for (int i = 0; i < data.length; i++) {
+			Object[] objects = data[i];
+			gwtSetUp();
+			test_pad_NEVER((int) objects[0], (int) objects[1], toLong(objects[2]), (String) objects[3]);
+		}
+	}
     public void test_pad_NEVER(int minPad, int maxPad, long value, String result) throws Exception {
         printContext.setDateTime(new MockFieldValue(DAY_OF_MONTH, value));
-        NumberPrinterParser pp = new NumberPrinterParser(DAY_OF_MONTH, minPad, maxPad, SignStyle.NEVER);
+        NumberPrinterParserTestWrapper pp = new NumberPrinterParserTestWrapper(DAY_OF_MONTH, minPad, maxPad, SignStyle.NEVER);
         try {
             pp.print(printContext, buf);
             if (result == null) {
@@ -195,10 +212,18 @@ public class TestNumberPrinter extends AbstractTestPrinterParser {
         }
     }
 
-    @Test(dataProvider="Pad")
+	@Test(/* dataProvider="Pad" */)
+	public void test_parsetest_pad_NORMAL_error() throws Exception {
+		Object[][] data = provider_pad();
+		for (int i = 0; i < data.length; i++) {
+			Object[] objects = data[i];
+			gwtSetUp();
+			test_pad_NORMAL((int) objects[0], (int) objects[1], toLong(objects[2]), (String) objects[3]);
+		}
+	}
     public void test_pad_NORMAL(int minPad, int maxPad, long value, String result) throws Exception {
         printContext.setDateTime(new MockFieldValue(DAY_OF_MONTH, value));
-        NumberPrinterParser pp = new NumberPrinterParser(DAY_OF_MONTH, minPad, maxPad, SignStyle.NORMAL);
+        NumberPrinterParserTestWrapper pp = new NumberPrinterParserTestWrapper(DAY_OF_MONTH, minPad, maxPad, SignStyle.NORMAL);
         try {
             pp.print(printContext, buf);
             if (result == null) {
@@ -213,10 +238,18 @@ public class TestNumberPrinter extends AbstractTestPrinterParser {
         }
     }
 
-    @Test(dataProvider="Pad")
+	@Test(/* dataProvider="Pad" */)
+	public void test_pad_ALWAYS() throws Exception {
+		Object[][] data = provider_pad();
+		for (int i = 0; i < data.length; i++) {
+			Object[] objects = data[i];
+			gwtSetUp();
+			test_pad_ALWAYS((int) objects[0], (int) objects[1], toLong(objects[2]), (String) objects[3]);
+		}
+	}
     public void test_pad_ALWAYS(int minPad, int maxPad, long value, String result) throws Exception {
         printContext.setDateTime(new MockFieldValue(DAY_OF_MONTH, value));
-        NumberPrinterParser pp = new NumberPrinterParser(DAY_OF_MONTH, minPad, maxPad, SignStyle.ALWAYS);
+        NumberPrinterParserTestWrapper pp = new NumberPrinterParserTestWrapper(DAY_OF_MONTH, minPad, maxPad, SignStyle.ALWAYS);
         try {
             pp.print(printContext, buf);
             if (result == null) {
@@ -231,10 +264,18 @@ public class TestNumberPrinter extends AbstractTestPrinterParser {
         }
     }
 
-    @Test(dataProvider="Pad")
+	@Test(/* dataProvider="Pad" */)
+	public void test_pad_EXCEEDS_PAD() throws Exception {
+		Object[][] data = provider_pad();
+		for (int i = 0; i < data.length; i++) {
+			Object[] objects = data[i];
+			gwtSetUp();
+			test_pad_EXCEEDS_PAD((int) objects[0], (int) objects[1], toLong(objects[2]), (String) objects[3]);
+		}
+	}
     public void test_pad_EXCEEDS_PAD(int minPad, int maxPad, long value, String result) throws Exception {
         printContext.setDateTime(new MockFieldValue(DAY_OF_MONTH, value));
-        NumberPrinterParser pp = new NumberPrinterParser(DAY_OF_MONTH, minPad, maxPad, SignStyle.EXCEEDS_PAD);
+        NumberPrinterParserTestWrapper pp = new NumberPrinterParserTestWrapper(DAY_OF_MONTH, minPad, maxPad, SignStyle.EXCEEDS_PAD);
         try {
             pp.print(printContext, buf);
             if (result == null) {
@@ -255,17 +296,17 @@ public class TestNumberPrinter extends AbstractTestPrinterParser {
 
     //-----------------------------------------------------------------------
     public void test_toString1() throws Exception {
-        NumberPrinterParser pp = new NumberPrinterParser(HOUR_OF_DAY, 1, 19, SignStyle.NORMAL);
+        NumberPrinterParserTestWrapper pp = new NumberPrinterParserTestWrapper(HOUR_OF_DAY, 1, 19, SignStyle.NORMAL);
         assertEquals(pp.toString(), "Value(HourOfDay)");
     }
 
     public void test_toString2() throws Exception {
-        NumberPrinterParser pp = new NumberPrinterParser(HOUR_OF_DAY, 2, 2, SignStyle.NOT_NEGATIVE);
+        NumberPrinterParserTestWrapper pp = new NumberPrinterParserTestWrapper(HOUR_OF_DAY, 2, 2, SignStyle.NOT_NEGATIVE);
         assertEquals(pp.toString(), "Value(HourOfDay,2)");
     }
 
     public void test_toString3() throws Exception {
-        NumberPrinterParser pp = new NumberPrinterParser(HOUR_OF_DAY, 1, 2, SignStyle.NOT_NEGATIVE);
+        NumberPrinterParserTestWrapper pp = new NumberPrinterParserTestWrapper(HOUR_OF_DAY, 1, 2, SignStyle.NOT_NEGATIVE);
         assertEquals(pp.toString(), "Value(HourOfDay,1,2,NOT_NEGATIVE)");
     }
 

@@ -29,51 +29,59 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package xjava.time.format;
+package org.jresearch.threetenbp.gwt.client.format;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-import static xjava.time.temporal.ChronoField.DAY_OF_MONTH;
-import static xjava.time.temporal.ChronoField.DAY_OF_WEEK;
+import static java.time.temporal.ChronoField.DAY_OF_MONTH;
+import static java.time.temporal.ChronoField.DAY_OF_WEEK;
 
-import xjava.time.format.SignStyle;
-import xjava.time.temporal.TemporalField;
+import java.time.format.SignStyle;
+import java.time.temporal.TemporalField;
+import java.time.temporal.TemporalQueries;
 
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
-
-import xjava.time.format.DateTimeParseContext;
-import xjava.time.format.DateTimeFormatterBuilder.NumberPrinterParser;
-import xjava.time.temporal.TemporalQueries;
+import org.jresearch.threetenbp.gwt.client.format.wrap.DateTimeParseContextTestWrapper;
+import org.jresearch.threetenbp.gwt.client.format.wrap.NumberPrinterParserTestWrapper;
+import org.jresearch.threetenbp.gwt.client.format.wrap.OffsetIdPrinterParserTestWrapper;
+import org.junit.Test;
 
 /**
- * Test NumberPrinterParser.
+ * Test NumberPrinterParserTestWrapper.
  */
-@Test
+//@Test
 public class TestNumberParser extends AbstractTestPrinterParser {
 
     //-----------------------------------------------------------------------
-    @DataProvider(name="error")
+    ////@DataProvider(name="error")
     Object[][] data_error() {
         return new Object[][] {
-            {new NumberPrinterParser(DAY_OF_MONTH, 1, 2, SignStyle.NEVER), "12", -1, IndexOutOfBoundsException.class},
-            {new NumberPrinterParser(DAY_OF_MONTH, 1, 2, SignStyle.NEVER), "12", 3, IndexOutOfBoundsException.class},
+        	// GWT Specific
+            {new NumberPrinterParserTestWrapper(DAY_OF_MONTH, 1, 2, SignStyle.NEVER), "12", -1, StringIndexOutOfBoundsException.class},
+            {new NumberPrinterParserTestWrapper(DAY_OF_MONTH, 1, 2, SignStyle.NEVER), "12", 3, StringIndexOutOfBoundsException.class},
         };
     }
 
-    @Test(dataProvider="error")
-    public void test_parse_error(NumberPrinterParser pp, String text, int pos, Class<?> expected) {
+	@Test(/* dataProvider="error" */)
+	public void test_parse_error() throws Exception {
+		Object[][] data = data_error();
+		for (int i = 0; i < data.length; i++) {
+			Object[] objects = data[i];
+			gwtSetUp();
+			test_parse_error((NumberPrinterParserTestWrapper) objects[0], (String) objects[1], (int) objects[2],
+					(Class<?>) objects[3]);
+		}
+	}
+    public void test_parse_error(NumberPrinterParserTestWrapper pp, String text, int pos, Class<?> expected) {
         try {
             pp.parse(parseContext, text, pos);
         } catch (RuntimeException ex) {
-            assertTrue(expected.isInstance(ex));
+			// GWT Specific
+			assertEquals(expected.getName(), ex.getClass().getName());
             assertEquals(parseContext.toParsed().query(TemporalQueries.chronology()), null);
             assertEquals(parseContext.toParsed().query(TemporalQueries.zoneId()), null);
         }
     }
 
     //-----------------------------------------------------------------------
-    @DataProvider(name="parseData")
+    ////@DataProvider(name="parseData")
     Object[][] provider_parseData() {
         return new Object[][] {
             // normal
@@ -133,9 +141,17 @@ public class TestNumberParser extends AbstractTestPrinterParser {
     }
 
     //-----------------------------------------------------------------------
-    @Test(dataProvider="parseData")
+	@Test(/* dataProvider="parseData" */)
+	public void test_parse_fresh() throws Exception {
+		Object[][] data = provider_parseData();
+		for (int i = 0; i < data.length; i++) {
+			Object[] objects = data[i];
+			gwtSetUp();
+			test_parse_fresh((int) objects[0], (int) objects[1], (SignStyle) objects[2], (int) objects[3], (String) objects[4], (int) objects[5], (int) objects[6], toLong(objects[7]));
+		}
+	}
     public void test_parse_fresh(int minWidth, int maxWidth, SignStyle signStyle, int subsequentWidth, String text, int pos, int expectedPos, long expectedValue) {
-        NumberPrinterParser pp = new NumberPrinterParser(DAY_OF_MONTH, minWidth, maxWidth, signStyle);
+        NumberPrinterParserTestWrapper pp = new NumberPrinterParserTestWrapper(DAY_OF_MONTH, minWidth, maxWidth, signStyle);
         if (subsequentWidth > 0) {
             pp = pp.withSubsequentWidth(subsequentWidth);
         }
@@ -149,9 +165,17 @@ public class TestNumberParser extends AbstractTestPrinterParser {
         }
     }
 
-    @Test(dataProvider="parseData")
+	@Test(/* dataProvider="parseData" */)
+	public void test_parse_textField() throws Exception {
+		Object[][] data = provider_parseData();
+		for (int i = 0; i < data.length; i++) {
+			Object[] objects = data[i];
+			gwtSetUp();
+			test_parse_textField((int) objects[0], (int) objects[1], (SignStyle) objects[2], (int) objects[3], (String) objects[4], (int) objects[5], (int) objects[6], toLong(objects[7]));
+		}
+	}
     public void test_parse_textField(int minWidth, int maxWidth, SignStyle signStyle, int subsequentWidth, String text, int pos, int expectedPos, long expectedValue) {
-        NumberPrinterParser pp = new NumberPrinterParser(DAY_OF_WEEK, minWidth, maxWidth, signStyle);
+        NumberPrinterParserTestWrapper pp = new NumberPrinterParserTestWrapper(DAY_OF_WEEK, minWidth, maxWidth, signStyle);
         if (subsequentWidth > 0) {
             pp = pp.withSubsequentWidth(subsequentWidth);
         }
@@ -163,7 +187,7 @@ public class TestNumberParser extends AbstractTestPrinterParser {
     }
 
     //-----------------------------------------------------------------------
-    @DataProvider(name="parseSignsStrict")
+    ////@DataProvider(name="parseSignsStrict")
     Object[][] provider_parseSignsStrict() {
         return new Object[][] {
             // basics
@@ -263,16 +287,24 @@ public class TestNumberParser extends AbstractTestPrinterParser {
        };
     }
 
-    @Test(dataProvider="parseSignsStrict")
+	@Test(/* dataProvider="parseSignsStrict" */)
+	public void test_parseSignsStrict() throws Exception {
+		Object[][] data = provider_parseSignsStrict();
+		for (int i = 0; i < data.length; i++) {
+			Object[] objects = data[i];
+			gwtSetUp();
+			test_parseSignsStrict((String) objects[0], (int) objects[1], (int) objects[2], (SignStyle) objects[3], (int) objects[4], (Integer) objects[5]);
+		}
+	}
     public void test_parseSignsStrict(String input, int min, int max, SignStyle style, int parseLen, Integer parseVal) throws Exception {
-        NumberPrinterParser pp = new NumberPrinterParser(DAY_OF_MONTH, min, max, style);
+        NumberPrinterParserTestWrapper pp = new NumberPrinterParserTestWrapper(DAY_OF_MONTH, min, max, style);
         int newPos = pp.parse(parseContext, input, 0);
         assertEquals(newPos, parseLen);
         assertParsed(parseContext, DAY_OF_MONTH, (parseVal != null ? (long) parseVal : null));
     }
 
     //-----------------------------------------------------------------------
-    @DataProvider(name="parseSignsLenient")
+    ////@DataProvider(name="parseSignsLenient")
     Object[][] provider_parseSignsLenient() {
         return new Object[][] {
             // never
@@ -366,16 +398,24 @@ public class TestNumberParser extends AbstractTestPrinterParser {
        };
     }
 
-    @Test(dataProvider="parseSignsLenient")
+	@Test(/* dataProvider="parseSignsLenient" */)
+	public void test_parseSignsLenient() throws Exception {
+		Object[][] data = provider_parseSignsLenient();
+		for (int i = 0; i < data.length; i++) {
+			Object[] objects = data[i];
+			gwtSetUp();
+			test_parseSignsLenient((String) objects[0], (int) objects[1], (int) objects[2], (SignStyle) objects[3], (int) objects[4], (Integer) objects[5]);
+		}
+	}
     public void test_parseSignsLenient(String input, int min, int max, SignStyle style, int parseLen, Integer parseVal) throws Exception {
         parseContext.setStrict(false);
-        NumberPrinterParser pp = new NumberPrinterParser(DAY_OF_MONTH, min, max, style);
+        NumberPrinterParserTestWrapper pp = new NumberPrinterParserTestWrapper(DAY_OF_MONTH, min, max, style);
         int newPos = pp.parse(parseContext, input, 0);
         assertEquals(newPos, parseLen);
         assertParsed(parseContext, DAY_OF_MONTH, (parseVal != null ? (long) parseVal : null));
     }
 
-    private void assertParsed(DateTimeParseContext context, TemporalField field, Long value) {
+    private void assertParsed(DateTimeParseContextTestWrapper context, TemporalField field, Long value) {
         if (value == null) {
             assertEquals(context.getParsed(field), null);
         } else {

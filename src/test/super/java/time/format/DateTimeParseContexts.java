@@ -24,4 +24,8 @@ public class DateTimeParseContexts {
 		return (((DateTimeParseContext)context).getParsed(field));
 	}
 
+	public static void setStrict(Object context, boolean strict) {
+		((DateTimeParseContext)context).setStrict(strict);
+	}
+
 }

@@ -24,4 +24,7 @@ public class DateTimeParseContexts {
 		return null;
 	}
 
+	public static void setStrict(Object context, boolean strict) {
+	}
+
 }
