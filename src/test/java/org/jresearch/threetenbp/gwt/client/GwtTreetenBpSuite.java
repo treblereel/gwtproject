@@ -8,6 +8,7 @@ import org.jresearch.threetenbp.gwt.client.chrono.TestIsoChronology;
 import org.jresearch.threetenbp.gwt.client.chrono.TestJapaneseChronology;
 import org.jresearch.threetenbp.gwt.client.chrono.TestMinguoChronology;
 import org.jresearch.threetenbp.gwt.client.chrono.TestThaiBuddhistChronology;
+import org.jresearch.threetenbp.gwt.client.format.TestDateTimeFormatter;
 import org.jresearch.threetenbp.gwt.client.temporal.TestChronoField;
 import org.jresearch.threetenbp.gwt.client.temporal.TestChronoUnit;
 import org.jresearch.threetenbp.gwt.client.temporal.TestIsoFields;
@@ -21,7 +22,6 @@ import org.jresearch.threetenbp.gwt.client.zone.TestFixedZoneRules;
 import org.jresearch.threetenbp.gwt.client.zone.TestStandardZoneRules;
 import org.jresearch.threetenbp.gwt.client.zone.TestZoneOffsetTransition;
 import org.jresearch.threetenbp.gwt.client.zone.TestZoneOffsetTransitionRule;
-import org.jresearch.threetenbp.gwt.client.zone.TestZoneRulesBuilder;
 import org.jresearch.threetenbp.gwt.client.zone.TestZoneRulesProvider;
 
 import com.google.gwt.junit.tools.GWTTestSuite;
@@ -78,9 +78,9 @@ public class GwtTreetenBpSuite {
 		suite.addTestSuite(TestStandardZoneRules.class);
 		suite.addTestSuite(TestZoneOffsetTransition.class);
 		suite.addTestSuite(TestZoneOffsetTransitionRule.class);
-		suite.addTestSuite(TestZoneRulesBuilder.class);
+//		suite.addTestSuite(TestZoneRulesBuilder.class);
 		suite.addTestSuite(TestZoneRulesProvider.class);
-//		suite.addTestSuite(Test.class);
+		suite.addTestSuite(TestDateTimeFormatter.class);
 //		suite.addTestSuite(Test.class);
 //		suite.addTestSuite(Test.class);
 //		suite.addTestSuite(Test.class);
