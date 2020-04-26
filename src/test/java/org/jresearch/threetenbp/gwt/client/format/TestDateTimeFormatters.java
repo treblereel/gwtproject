@@ -63,6 +63,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 import org.jresearch.threetenbp.gwt.client.AbstractTest;
 import org.jresearch.threetenbp.gwt.client.format.wrap.ReducedPrinterParserTestWrapper;
@@ -1149,7 +1150,7 @@ public class TestDateTimeFormatters extends AbstractTest {
 			TemporalAccessor test = buildAccessor(LocalDateTime.of(123456, 6, 3, 11, 5, 30), "Z", null);
 			DateTimeFormatter.BASIC_ISO_DATE.format(test);
 			fail("Missing exception");
-		} catch (NullPointerException e) {
+		} catch (DateTimeException e) {
 			// expected
 		}
 	}
@@ -1515,7 +1516,10 @@ public class TestDateTimeFormatters extends AbstractTest {
 		@Override
 		public long getLong(TemporalField field) {
 			try {
-				return fields.get(field);
+				//GWT specific
+				Long value = fields.get(field);
+				Objects.requireNonNull(value);
+				return value.longValue();
 			} catch (NullPointerException ex) {
 				throw new DateTimeException("Field missing: " + field);
 			}
@@ -1527,7 +1531,7 @@ public class TestDateTimeFormatters extends AbstractTest {
 			if (query == TemporalQueries.zoneId()) {
 				return (R) zoneId;
 			}
-			return query.queryFrom(this);
+			return TemporalAccessor.super.query(query);
 		}
 
 		@Override
