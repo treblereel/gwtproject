@@ -3,6 +3,7 @@ package org.jresearch.threetenbp.gwt.client.format.wrap;
 import java.time.chrono.Chronology;
 import java.time.format.DateTimeParseContexts;
 import java.time.format.DecimalStyle;
+import java.time.temporal.TemporalField;
 import java.util.Locale;
 
 public class DateTimeParseContextTestWrapper {
@@ -24,5 +25,9 @@ public class DateTimeParseContextTestWrapper {
 	public void setCaseSensitive(boolean caseSensitive) {
 		DateTimeParseContexts.setCaseSensitive(context, caseSensitive);
     }
+
+	public Long getParsed(TemporalField field) {
+		return DateTimeParseContexts.getParsed(context, field);
+	}
 
 }

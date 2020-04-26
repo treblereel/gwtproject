@@ -17,4 +17,8 @@ public class DateTimePrintContextTestWrapper {
 		return context;
 	}
 
+	public void setDateTime(TemporalAccessor temporal) {
+		DateTimePrintContexts.setDateTime(context, temporal);
+	}
+
 }

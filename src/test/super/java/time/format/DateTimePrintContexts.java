@@ -9,4 +9,8 @@ public class DateTimePrintContexts {
 		return new DateTimePrintContext(temporal, locale, symbols);
 	}
 
+	public static void setDateTime(Object context, TemporalAccessor temporal) {
+		((DateTimePrintContext)context).setDateTime(temporal);
+	}
+
 }
