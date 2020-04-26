@@ -13,4 +13,8 @@ public class DateTimePrintContexts {
 		((DateTimePrintContext)context).setDateTime(temporal);
 	}
 
+	public static void setLocale(Object context, Locale locale) {
+		((DateTimePrintContext)context).setLocale(locale);
+	}
+
 }

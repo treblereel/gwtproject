@@ -28,4 +28,8 @@ public class DateTimeParseContexts {
 		((DateTimeParseContext)context).setStrict(strict);
 	}
 
+	public static void setLocale(Object context, Locale locale) {
+		((DateTimeParseContext)context).setLocale(locale);
+	}
+
 }

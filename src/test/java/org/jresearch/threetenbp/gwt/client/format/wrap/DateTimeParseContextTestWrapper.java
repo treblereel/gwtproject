@@ -34,4 +34,8 @@ public class DateTimeParseContextTestWrapper {
 		DateTimeParseContexts.setStrict(context, strict);
 	}
 
+	public void setLocale(Locale locale) {
+		DateTimeParseContexts.setLocale(context, locale);
+	}
+
 }

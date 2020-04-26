@@ -54,7 +54,7 @@ public class TestOffsetDateTime_instants extends AbstractTest {
 
 	// -----------------------------------------------------------------------
 	@Test(expected = NullPointerException.class)
-	public void factory_ofInstant_nullInstant() {
+	public void test_factory_ofInstant_nullInstant() {
 		try {
 			OffsetDateTime.ofInstant((Instant) null, OFFSET_PONE);
 			fail("Missing exception");
@@ -64,7 +64,7 @@ public class TestOffsetDateTime_instants extends AbstractTest {
 	}
 
 	@Test(expected = NullPointerException.class)
-	public void factory_ofInstant_nullOffset() {
+	public void test_factory_ofInstant_nullOffset() {
 		try {
 			Instant instant = Instant.ofEpochSecond(0L);
 			OffsetDateTime.ofInstant(instant, (ZoneOffset) null);
@@ -74,7 +74,7 @@ public class TestOffsetDateTime_instants extends AbstractTest {
 		}
 	}
 
-	public void factory_ofInstant_allSecsInDay() {
+	public void test_factory_ofInstant_allSecsInDay() {
 		for (int i = 0; i < (24 * 60 * 60); i++) {
 			Instant instant = Instant.ofEpochSecond(i);
 			OffsetDateTime test = OffsetDateTime.ofInstant(instant, OFFSET_PONE);
@@ -87,7 +87,7 @@ public class TestOffsetDateTime_instants extends AbstractTest {
 		}
 	}
 
-	public void factory_ofInstant_allDaysInCycle() {
+	public void test_factory_ofInstant_allDaysInCycle() {
 		// sanity check using different algorithm
 		OffsetDateTime expected = OffsetDateTime.of(LocalDate.of(1970, 1, 1), LocalTime.of(0, 0, 0, 0), ZoneOffset.UTC);
 		for (long i = 0; i < 146097; i++) {
@@ -98,17 +98,17 @@ public class TestOffsetDateTime_instants extends AbstractTest {
 		}
 	}
 
-	public void factory_ofInstant_history() {
+	public void test_factory_ofInstant_history() {
 		doTest_factory_ofInstant_all(-2820, 2820);
 	}
 
 	// -----------------------------------------------------------------------
-	public void factory_ofInstant_minYear() {
+	public void test_actory_ofInstant_minYear() {
 		doTest_factory_ofInstant_all(Year.MIN_VALUE, Year.MIN_VALUE + 420);
 	}
 
 	@Test(expected = DateTimeException.class)
-	public void factory_ofInstant_tooLow() {
+	public void test_factory_ofInstant_tooLow() {
 		try {
 			long days_0000_to_1970 = (146097 * 5) - (30 * 365 + 7);
 			int year = Year.MIN_VALUE - 1;
@@ -116,17 +116,17 @@ public class TestOffsetDateTime_instants extends AbstractTest {
 			Instant instant = Instant.ofEpochSecond(days * 24L * 60L * 60L);
 			OffsetDateTime.ofInstant(instant, ZoneOffset.UTC);
 			fail("Missing exception");
-		} catch (NullPointerException e) {
+		} catch (DateTimeException e) {
 			// expected
 		}
 	}
 
-	public void factory_ofInstant_maxYear() {
+	public void test_factory_ofInstant_maxYear() {
 		doTest_factory_ofInstant_all(Year.MAX_VALUE - 420, Year.MAX_VALUE);
 	}
 
 	@Test(expected = DateTimeException.class)
-	public void factory_ofInstant_tooBig() {
+	public void test_factory_ofInstant_tooBig() {
 		try {
 			long days_0000_to_1970 = (146097 * 5) - (30 * 365 + 7);
 			long year = Year.MAX_VALUE + 1L;
@@ -134,13 +134,13 @@ public class TestOffsetDateTime_instants extends AbstractTest {
 			Instant instant = Instant.ofEpochSecond(days * 24L * 60L * 60L);
 			OffsetDateTime.ofInstant(instant, ZoneOffset.UTC);
 			fail("Missing exception");
-		} catch (NullPointerException e) {
+		} catch (DateTimeException e) {
 			// expected
 		}
 	}
 
 	// -----------------------------------------------------------------------
-	public void factory_ofInstant_minWithMinOffset() {
+	public void test_factory_ofInstant_minWithMinOffset() {
 		long days_0000_to_1970 = (146097 * 5) - (30 * 365 + 7);
 		int year = Year.MIN_VALUE;
 		long days = (year * 365L + (year / 4 - year / 100 + year / 400)) - days_0000_to_1970;
@@ -156,7 +156,7 @@ public class TestOffsetDateTime_instants extends AbstractTest {
 		assertEquals(test.getNano(), 0);
 	}
 
-	public void factory_ofInstant_minWithMaxOffset() {
+	public void test_factory_ofInstant_minWithMaxOffset() {
 		long days_0000_to_1970 = (146097 * 5) - (30 * 365 + 7);
 		int year = Year.MIN_VALUE;
 		long days = (year * 365L + (year / 4 - year / 100 + year / 400)) - days_0000_to_1970;
@@ -172,7 +172,7 @@ public class TestOffsetDateTime_instants extends AbstractTest {
 		assertEquals(test.getNano(), 0);
 	}
 
-	public void factory_ofInstant_maxWithMinOffset() {
+	public void test_factory_ofInstant_maxWithMinOffset() {
 		long days_0000_to_1970 = (146097 * 5) - (30 * 365 + 7);
 		int year = Year.MAX_VALUE;
 		long days = (year * 365L + (year / 4 - year / 100 + year / 400)) + 365 - days_0000_to_1970;
@@ -188,7 +188,7 @@ public class TestOffsetDateTime_instants extends AbstractTest {
 		assertEquals(test.getNano(), 0);
 	}
 
-	public void factory_ofInstant_maxWithMaxOffset() {
+	public void test_factory_ofInstant_maxWithMaxOffset() {
 		long days_0000_to_1970 = (146097 * 5) - (30 * 365 + 7);
 		int year = Year.MAX_VALUE;
 		long days = (year * 365L + (year / 4 - year / 100 + year / 400)) + 365 - days_0000_to_1970;
@@ -206,23 +206,23 @@ public class TestOffsetDateTime_instants extends AbstractTest {
 
 	// -----------------------------------------------------------------------
 	@Test(expected = DateTimeException.class)
-	public void factory_ofInstant_maxInstantWithMaxOffset() {
+	public void test_factory_ofInstant_maxInstantWithMaxOffset() {
 		try {
 			Instant instant = Instant.ofEpochSecond(Long.MAX_VALUE);
 			OffsetDateTime.ofInstant(instant, OFFSET_MAX);
 			fail("Missing exception");
-		} catch (NullPointerException e) {
+		} catch (DateTimeException e) {
 			// expected
 		}
 	}
 
 	@Test(expected = DateTimeException.class)
-	public void factory_ofInstant_maxInstantWithMinOffset() {
+	public void test_factory_ofInstant_maxInstantWithMinOffset() {
 		try {
 			Instant instant = Instant.ofEpochSecond(Long.MAX_VALUE);
 			OffsetDateTime.ofInstant(instant, OFFSET_MIN);
 			fail("Missing exception");
-		} catch (NullPointerException e) {
+		} catch (DateTimeException e) {
 			// expected
 		}
 	}

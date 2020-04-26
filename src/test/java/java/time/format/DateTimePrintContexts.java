@@ -14,4 +14,7 @@ public class DateTimePrintContexts {
 	public static void setDateTime(Object context, TemporalAccessor temporal) {
 	}
 
+	public static void setLocale(Object context, Locale locale) {
+	}
+
 }

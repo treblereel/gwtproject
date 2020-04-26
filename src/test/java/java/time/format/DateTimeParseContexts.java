@@ -27,4 +27,7 @@ public class DateTimeParseContexts {
 	public static void setStrict(Object context, boolean strict) {
 	}
 
+	public static void setLocale(Object context, Locale locale) {
+	}
+
 }

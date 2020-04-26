@@ -115,7 +115,7 @@ final class SimpleDateTimeTextProvider extends DateTimeTextProvider {
 
     private Object createStore(TemporalField field, Locale locale) {
         if (field == MONTH_OF_YEAR) {
-            //GWT specific
+            //GWT specific (TODO)
         	DateTimeFormatInfo dateTimeFormatInfo = LocaleInfo.getCurrentLocale().getDateTimeFormatInfo();
             Map<TextStyle, Map<Long, String>> styleMap = new HashMap<TextStyle, Map<Long,String>>();
             Long f1 = 1L;
@@ -130,7 +130,7 @@ final class SimpleDateTimeTextProvider extends DateTimeTextProvider {
             Long f10 = 10L;
             Long f11 = 11L;
             Long f12 = 12L;
-            //GWT specific
+            //GWT specific (TODO)
             String[] array = dateTimeFormatInfo.monthsFullStandalone();
             Map<Long, String> map = new HashMap<Long, String>();
             map.put(f1, array[Calendar.JANUARY]);
@@ -180,7 +180,7 @@ final class SimpleDateTimeTextProvider extends DateTimeTextProvider {
             return createLocaleStore(styleMap);
         }
         if (field == DAY_OF_WEEK) {
-            //GWT specific
+            //GWT specific (TODO)
         	DateTimeFormatInfo dateTimeFormatInfo = LocaleInfo.getCurrentLocale().getDateTimeFormatInfo();
             Map<TextStyle, Map<Long, String>> styleMap = new HashMap<TextStyle, Map<Long,String>>();
             Long f1 = 1L;
@@ -190,7 +190,7 @@ final class SimpleDateTimeTextProvider extends DateTimeTextProvider {
             Long f5 = 5L;
             Long f6 = 6L;
             Long f7 = 7L;
-            //GWT specific
+            //GWT specific (TODO)
             String[] array = dateTimeFormatInfo.weekdaysFullStandalone();
             Map<Long, String> map = new HashMap<Long, String>();
             map.put(f1, array[Calendar.MONDAY - 1]);
@@ -212,7 +212,7 @@ final class SimpleDateTimeTextProvider extends DateTimeTextProvider {
             map.put(f7, array[Calendar.SUNDAY - 1].substring(0, 1));
             styleMap.put(TextStyle.NARROW, map);
 
-            //GWT specific
+            //GWT specific (TODO)
             array = dateTimeFormatInfo.weekdaysShortStandalone();
             map = new HashMap<Long, String>();
             map.put(f1, array[Calendar.MONDAY - 1]);
@@ -226,7 +226,7 @@ final class SimpleDateTimeTextProvider extends DateTimeTextProvider {
             return createLocaleStore(styleMap);
         }
         if (field == AMPM_OF_DAY) {
-            //GWT specific
+            //GWT specific (TODO)
         	DateTimeFormatInfo dateTimeFormatInfo = LocaleInfo.getCurrentLocale().getDateTimeFormatInfo();
             Map<TextStyle, Map<Long, String>> styleMap = new HashMap<TextStyle, Map<Long,String>>();
             String[] array = dateTimeFormatInfo.ampms();
@@ -238,7 +238,7 @@ final class SimpleDateTimeTextProvider extends DateTimeTextProvider {
             return createLocaleStore(styleMap);
         }
         if (field == ERA) {
-            //GWT specific
+            //GWT specific (TODO)
         	DateTimeFormatInfo dateTimeFormatInfo = LocaleInfo.getCurrentLocale().getDateTimeFormatInfo();
             Map<TextStyle, Map<Long, String>> styleMap = new HashMap<TextStyle, Map<Long,String>>();
             String[] array = dateTimeFormatInfo.erasFull();

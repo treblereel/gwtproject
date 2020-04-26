@@ -21,4 +21,8 @@ public class DateTimePrintContextTestWrapper {
 		DateTimePrintContexts.setDateTime(context, temporal);
 	}
 
+	public void setLocale(Locale locale) {
+		DateTimePrintContexts.setLocale(context, locale);
+	}
+
 }
