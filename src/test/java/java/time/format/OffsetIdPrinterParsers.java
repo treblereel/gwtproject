@@ -1,12 +1,16 @@
 package java.time.format;
 
+import java.time.format.DateTimeFormatterBuilder.FractionPrinterParser;
+import java.time.format.DateTimeFormatterBuilder.OffsetIdPrinterParser;
+import java.time.temporal.TemporalField;
+
 import org.jresearch.threetenbp.gwt.client.format.wrap.DateTimeParseContextTestWrapper;
 import org.jresearch.threetenbp.gwt.client.format.wrap.DateTimePrintContextTestWrapper;
 
 //JDK version, see for real code in /src/test/super
-public class CharLiteralPrinterParsers {
+public class OffsetIdPrinterParsers {
 
-	public static Object create(char literal) {
+	public static Object create(String noOffsetText, String pattern) {
 		return null;
 	}
 

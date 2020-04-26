@@ -6,7 +6,7 @@ import java.util.Locale;
 
 import org.jresearch.threetenbp.gwt.client.format.wrap.ParsedTestWrapper;
 
-//Do nothing in JDK version
+//JDK version, see for real code in /src/test/super
 public class DateTimeParseContexts {
 
     public static Object create(Locale locale, DecimalStyle symbols, Chronology chronology) {

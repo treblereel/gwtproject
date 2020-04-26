@@ -4,7 +4,7 @@ import java.time.temporal.TemporalField;
 import java.time.temporal.TemporalQuery;
 import java.time.temporal.ValueRange;
 
-//Do nothing in JDK version
+//JDK version, see for real code in /src/test/super
 public class Parseds {
 
 	public static ValueRange range(Object parsed, TemporalField field) {
