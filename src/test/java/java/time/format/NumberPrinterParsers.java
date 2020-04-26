@@ -8,22 +8,23 @@ import org.jresearch.threetenbp.gwt.client.format.wrap.DateTimeParseContextTestW
 import org.jresearch.threetenbp.gwt.client.format.wrap.DateTimePrintContextTestWrapper;
 import org.jresearch.threetenbp.gwt.client.format.wrap.NumberPrinterParserTestWrapper;
 
+//JDK version, see for real code in /src/test/super
 public class NumberPrinterParsers {
 
 	public static Object create(TemporalField field, int minWidth, int maxWidth, SignStyle signStyle) {
-		return new NumberPrinterParser(field, minWidth, maxWidth, signStyle);
+		return null;
 	}
 
 	public static boolean print(Object parser, DateTimePrintContextTestWrapper context, StringBuilder buf) {
-		return ((DateTimePrinterParser) parser).print((DateTimePrintContext) context.getContext(), buf);
+		return false;
 	}
 
 	public static int parse(Object parser, DateTimeParseContextTestWrapper context, CharSequence text, int position) {
-		return ((DateTimePrinterParser) parser).parse((DateTimeParseContext) context.getContext(), text, position);
+		return 0;
 	}
 
 	public static NumberPrinterParserTestWrapper withSubsequentWidth(Object parser, int subsequentWidth) {
-		return new NumberPrinterParserTestWrapper(((NumberPrinterParser) parser).withSubsequentWidth(subsequentWidth));
+		return null;
 	}
 
 }

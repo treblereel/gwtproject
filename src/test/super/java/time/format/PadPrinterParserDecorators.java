@@ -1,15 +1,18 @@
 package java.time.format;
 
 import java.time.format.DateTimeFormatterBuilder.DateTimePrinterParser;
-import java.time.format.DateTimeFormatterBuilder.StringLiteralPrinterParser;
+import java.time.format.DateTimeFormatterBuilder.NumberPrinterParser;
+import java.time.format.DateTimeFormatterBuilder.PadPrinterParserDecorator;
+import java.time.temporal.TemporalField;
 
 import org.jresearch.threetenbp.gwt.client.format.wrap.DateTimeParseContextTestWrapper;
 import org.jresearch.threetenbp.gwt.client.format.wrap.DateTimePrintContextTestWrapper;
+import org.jresearch.threetenbp.gwt.client.format.wrap.NumberPrinterParserTestWrapper;
 
-public class StringLiteralPrinterParsers {
+public class PadPrinterParserDecorators {
 
-	public static Object create(String literal) {
-		return new StringLiteralPrinterParser(literal);
+	public static Object create(Object printerParser, int padWidth, char padChar) {
+		return new PadPrinterParserDecorator((DateTimePrinterParser) printerParser, padWidth, padChar);
 	}
 
 	public static boolean print(Object parser, DateTimePrintContextTestWrapper context, StringBuilder buf) {
