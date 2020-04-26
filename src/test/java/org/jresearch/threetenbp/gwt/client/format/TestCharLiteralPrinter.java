@@ -29,50 +29,46 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package xjava.time.format;
+package org.jresearch.threetenbp.gwt.client.format;
 
-import static org.testng.Assert.assertEquals;
-
-import org.testng.annotations.Test;
-
-import xjava.time.format.DateTimeFormatterBuilder.CharLiteralPrinterParser;
+import org.jresearch.threetenbp.gwt.client.format.wrap.CharLiteralPrinterParserTestWrapper;
 
 /**
  * Test CharLiteralPrinterParser.
  */
-@Test
+//@Test
 public class TestCharLiteralPrinter extends AbstractTestPrinterParser {
 
     //-----------------------------------------------------------------------
     public void test_print_emptyCalendrical() throws Exception {
         buf.append("EXISTING");
-        CharLiteralPrinterParser pp = new CharLiteralPrinterParser('a');
+        CharLiteralPrinterParserTestWrapper pp = new CharLiteralPrinterParserTestWrapper('a');
         pp.print(printEmptyContext, buf);
         assertEquals(buf.toString(), "EXISTINGa");
     }
 
     public void test_print_dateTime() throws Exception {
         buf.append("EXISTING");
-        CharLiteralPrinterParser pp = new CharLiteralPrinterParser('a');
+        CharLiteralPrinterParserTestWrapper pp = new CharLiteralPrinterParserTestWrapper('a');
         pp.print(printContext, buf);
         assertEquals(buf.toString(), "EXISTINGa");
     }
 
     public void test_print_emptyAppendable() throws Exception {
-        CharLiteralPrinterParser pp = new CharLiteralPrinterParser('a');
+    	CharLiteralPrinterParserTestWrapper pp = new CharLiteralPrinterParserTestWrapper('a');
         pp.print(printContext, buf);
         assertEquals(buf.toString(), "a");
     }
 
     //-----------------------------------------------------------------------
     public void test_toString() throws Exception {
-        CharLiteralPrinterParser pp = new CharLiteralPrinterParser('a');
+    	CharLiteralPrinterParserTestWrapper pp = new CharLiteralPrinterParserTestWrapper('a');
         assertEquals(pp.toString(), "'a'");
     }
 
     //-----------------------------------------------------------------------
     public void test_toString_apos() throws Exception {
-        CharLiteralPrinterParser pp = new CharLiteralPrinterParser('\'');
+    	CharLiteralPrinterParserTestWrapper pp = new CharLiteralPrinterParserTestWrapper('\'');
         assertEquals(pp.toString(), "''");
     }
 

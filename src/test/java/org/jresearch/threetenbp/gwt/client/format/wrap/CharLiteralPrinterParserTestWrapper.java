@@ -17,5 +17,10 @@ public class CharLiteralPrinterParserTestWrapper {
 	public int parse(DateTimeParseContextTestWrapper context, CharSequence text, int position) {
 		return CharLiteralPrinterParsers.parse(parser, context, text, position);
 	}
+	
+	@Override
+	public String toString() {
+		return parser.toString();
+	}
 
 }

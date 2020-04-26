@@ -8,6 +8,8 @@ import org.jresearch.threetenbp.gwt.client.chrono.TestIsoChronology;
 import org.jresearch.threetenbp.gwt.client.chrono.TestJapaneseChronology;
 import org.jresearch.threetenbp.gwt.client.chrono.TestMinguoChronology;
 import org.jresearch.threetenbp.gwt.client.chrono.TestThaiBuddhistChronology;
+import org.jresearch.threetenbp.gwt.client.format.TestCharLiteralParser;
+import org.jresearch.threetenbp.gwt.client.format.TestCharLiteralPrinter;
 import org.jresearch.threetenbp.gwt.client.format.TestDateTimeFormatter;
 import org.jresearch.threetenbp.gwt.client.temporal.TestChronoField;
 import org.jresearch.threetenbp.gwt.client.temporal.TestChronoUnit;
@@ -81,7 +83,8 @@ public class GwtTreetenBpSuite {
 //		suite.addTestSuite(TestZoneRulesBuilder.class);
 		suite.addTestSuite(TestZoneRulesProvider.class);
 		suite.addTestSuite(TestDateTimeFormatter.class);
-//		suite.addTestSuite(Test.class);
+		suite.addTestSuite(TestCharLiteralParser.class);
+		suite.addTestSuite(TestCharLiteralPrinter.class);
 //		suite.addTestSuite(Test.class);
 //		suite.addTestSuite(Test.class);
 //		suite.addTestSuite(Test.class);
