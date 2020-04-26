@@ -71,6 +71,7 @@ public class TestZoneOffsetParser extends AbstractTestPrinterParser {
 		try {
 			pp.parse(parseContext, text, pos);
 		} catch (RuntimeException ex) {
+			// GWT Specific
 			assertTrue(ex.getClass().getName().equals(expected.getName()));
 			assertEquals(parseContext.toParsed().query(TemporalQueries.chronology()), null);
 			assertEquals(parseContext.toParsed().query(TemporalQueries.zoneId()), null);

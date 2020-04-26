@@ -29,49 +29,46 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package xjava.time.format;
+package org.jresearch.threetenbp.gwt.client.format;
 
-import static org.testng.Assert.assertEquals;
-
-import org.testng.annotations.Test;
-
-import xjava.time.format.DateTimeFormatterBuilder.StringLiteralPrinterParser;
+import org.jresearch.threetenbp.gwt.client.format.wrap.StringLiteralPrinterParserTestWrapper;
+import org.junit.Test;
 
 /**
- * Test StringLiteralPrinterParser.
+ * Test StringLiteralPrinterParserTestWrapper.
  */
-@Test
+//@Test
 public class TestStringLiteralPrinter extends AbstractTestPrinterParser {
 
     //-----------------------------------------------------------------------
     public void test_print_emptyCalendrical() throws Exception {
         buf.append("EXISTING");
-        StringLiteralPrinterParser pp = new StringLiteralPrinterParser("hello");
+        StringLiteralPrinterParserTestWrapper pp = new StringLiteralPrinterParserTestWrapper("hello");
         pp.print(printEmptyContext, buf);
         assertEquals(buf.toString(), "EXISTINGhello");
     }
 
     public void test_print_dateTime() throws Exception {
         buf.append("EXISTING");
-        StringLiteralPrinterParser pp = new StringLiteralPrinterParser("hello");
+        StringLiteralPrinterParserTestWrapper pp = new StringLiteralPrinterParserTestWrapper("hello");
         pp.print(printContext, buf);
         assertEquals(buf.toString(), "EXISTINGhello");
     }
 
     public void test_print_emptyAppendable() throws Exception {
-        StringLiteralPrinterParser pp = new StringLiteralPrinterParser("hello");
+        StringLiteralPrinterParserTestWrapper pp = new StringLiteralPrinterParserTestWrapper("hello");
         pp.print(printContext, buf);
         assertEquals(buf.toString(), "hello");
     }
 
     //-----------------------------------------------------------------------
     public void test_toString() throws Exception {
-        StringLiteralPrinterParser pp = new StringLiteralPrinterParser("hello");
+        StringLiteralPrinterParserTestWrapper pp = new StringLiteralPrinterParserTestWrapper("hello");
         assertEquals(pp.toString(), "'hello'");
     }
 
     public void test_toString_apos() throws Exception {
-        StringLiteralPrinterParser pp = new StringLiteralPrinterParser("o'clock");
+        StringLiteralPrinterParserTestWrapper pp = new StringLiteralPrinterParserTestWrapper("o'clock");
         assertEquals(pp.toString(), "'o''clock'");
     }
 
