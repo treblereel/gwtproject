@@ -35,14 +35,13 @@ import static java.time.temporal.ChronoField.DAY_OF_MONTH;
 import static java.time.temporal.ChronoField.DAY_OF_WEEK;
 import static java.time.temporal.ChronoField.MONTH_OF_YEAR;
 
-import java.time.format.DateTimeTextProvider;
-import java.time.format.DateTimeTextProviders;
 import java.time.format.TextStyle;
 import java.time.temporal.TemporalField;
 import java.time.temporal.TemporalQueries;
 import java.util.Locale;
 
 import org.jresearch.threetenbp.gwt.client.format.wrap.DateTimeParseContextTestWrapper;
+import org.jresearch.threetenbp.gwt.client.format.wrap.DateTimeTextProviderTestWrapper;
 import org.jresearch.threetenbp.gwt.client.format.wrap.TextPrinterParserTestWrapper;
 import org.junit.Test;
 
@@ -53,12 +52,12 @@ import org.junit.Test;
 public class TestTextParser extends AbstractTestPrinterParser {
 
 	// GWT specific
-	private static DateTimeTextProvider PROVIDER;
+	private static DateTimeTextProviderTestWrapper PROVIDER;
 
 	@Override
 	public void gwtSetUp() throws Exception {
 		super.gwtSetUp();
-		PROVIDER = DateTimeTextProviders.create();
+		PROVIDER = new DateTimeTextProviderTestWrapper();
 	}
 
 	// -----------------------------------------------------------------------

@@ -47,7 +47,7 @@ import java.util.Map.Entry;
  * <p>
  * This class has been made pubilc primarily for the benefit of Android.
  */
-public abstract class DateTimeTextProvider {
+abstract class DateTimeTextProvider {
 
     //GWT specific
     private static DateTimeTextProvider MUTABLE_PROVIDER;

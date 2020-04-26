@@ -67,6 +67,7 @@ public class TestReducedParser extends AbstractTestPrinterParser {
 					(Class<?>) objects[3]);
 		}
 	}
+
     public void test_parse_error(ReducedPrinterParserTestWrapper pp, String text, int pos, Class<?> expected) {
         try {
             pp.parse(parseContext, text, pos);

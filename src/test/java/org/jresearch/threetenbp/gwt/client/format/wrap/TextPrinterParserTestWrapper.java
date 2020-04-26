@@ -1,6 +1,5 @@
 package org.jresearch.threetenbp.gwt.client.format.wrap;
 
-import java.time.format.DateTimeTextProvider;
 import java.time.format.TextPrinterParsers;
 import java.time.format.TextStyle;
 import java.time.temporal.TemporalField;
@@ -9,8 +8,8 @@ public class TextPrinterParserTestWrapper implements PrinterParserTestWrapper {
 
     private final Object parser;
 
-	public TextPrinterParserTestWrapper(TemporalField field, TextStyle textStyle, DateTimeTextProvider provider) {
-		parser = TextPrinterParsers.create(field, textStyle, provider);
+	public TextPrinterParserTestWrapper(TemporalField field, TextStyle textStyle, DateTimeTextProviderTestWrapper provider) {
+		parser = TextPrinterParsers.create(field, textStyle, provider.getProvider());
 	}
 
 	@Override

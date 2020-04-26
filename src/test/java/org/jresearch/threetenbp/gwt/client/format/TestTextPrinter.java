@@ -37,12 +37,11 @@ import static java.time.temporal.ChronoField.MONTH_OF_YEAR;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
-import java.time.format.DateTimeTextProvider;
-import java.time.format.DateTimeTextProviders;
 import java.time.format.TextStyle;
 import java.time.temporal.TemporalField;
 import java.util.Locale;
 
+import org.jresearch.threetenbp.gwt.client.format.wrap.DateTimeTextProviderTestWrapper;
 import org.jresearch.threetenbp.gwt.client.format.wrap.TextPrinterParserTestWrapper;
 import org.jresearch.threetenbp.gwt.client.temporal.MockFieldValue;
 import org.junit.Test;
@@ -54,12 +53,12 @@ import org.junit.Test;
 public class TestTextPrinter extends AbstractTestPrinterParser {
 
 	// GWT specific
-	private static DateTimeTextProvider PROVIDER;
+	private static DateTimeTextProviderTestWrapper PROVIDER;
 
 	@Override
 	public void gwtSetUp() throws Exception {
 		super.gwtSetUp();
-		PROVIDER = DateTimeTextProviders.create();
+		PROVIDER = new DateTimeTextProviderTestWrapper();
 	}
 
 	// -----------------------------------------------------------------------

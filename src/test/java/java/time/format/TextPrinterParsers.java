@@ -10,7 +10,7 @@ import org.jresearch.threetenbp.gwt.client.format.wrap.DateTimePrintContextTestW
 //JDK version, see for real code in /src/test/super
 public class TextPrinterParsers {
 
-	public static Object create(TemporalField field, TextStyle textStyle, DateTimeTextProvider provider) {
+	public static Object create(TemporalField field, TextStyle textStyle, Object provider) {
 		return null;
 	}
 

@@ -9,8 +9,8 @@ import org.jresearch.threetenbp.gwt.client.format.wrap.DateTimePrintContextTestW
 
 public class TextPrinterParsers {
 
-	public static Object create(TemporalField field, TextStyle textStyle, DateTimeTextProvider provider) {
-		return new TextPrinterParser(field, textStyle, provider);
+	public static Object create(TemporalField field, TextStyle textStyle, Object provider) {
+		return new TextPrinterParser(field, textStyle, (DateTimeTextProvider) provider);
 	}
 
 	public static boolean print(Object parser, DateTimePrintContextTestWrapper context, StringBuilder buf) {
