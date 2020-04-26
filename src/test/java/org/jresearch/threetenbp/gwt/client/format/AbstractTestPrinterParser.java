@@ -29,41 +29,40 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package xjava.time.format;
+package org.jresearch.threetenbp.gwt.client.format;
 
-import xjava.time.DateTimeException;
-import xjava.time.chrono.IsoChronology;
-import xjava.time.format.DateTimePrintContext;
-import xjava.time.format.DecimalStyle;
-import xjava.time.temporal.TemporalAccessor;
-import xjava.time.temporal.TemporalField;
+import java.time.DateTimeException;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.chrono.IsoChronology;
+import java.time.format.DecimalStyle;
+import java.time.temporal.TemporalAccessor;
+import java.time.temporal.TemporalField;
 import java.util.Locale;
 
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import xjava.time.LocalDateTime;
-import xjava.time.ZoneId;
-import xjava.time.ZonedDateTime;
-import xjava.time.format.DateTimeParseContext;
+import org.jresearch.threetenbp.gwt.client.AbstractTest;
+import org.jresearch.threetenbp.gwt.client.format.wrap.DateTimeParseContextTestWrapper;
+import org.jresearch.threetenbp.gwt.client.format.wrap.DateTimePrintContextTestWrapper;
 
 /**
  * Abstract PrinterParser test.
  */
-@Test
-public class AbstractTestPrinterParser {
+//@Test
+public class AbstractTestPrinterParser extends AbstractTest {
 
-    protected DateTimePrintContext printEmptyContext;
-    protected DateTimePrintContext printContext;
-    protected DateTimeParseContext parseContext;
+    protected DateTimePrintContextTestWrapper printEmptyContext;
+    protected DateTimePrintContextTestWrapper printContext;
+    protected DateTimeParseContextTestWrapper parseContext;
     protected StringBuilder buf;
 
-    @BeforeMethod
-    public void setUp() {
-        printEmptyContext = new DateTimePrintContext(EMPTY, Locale.ENGLISH, DecimalStyle.STANDARD);
+//    @BeforeMethod
+    public void gwtSetUp() throws Exception {
+    	super.gwtSetUp();
+        printEmptyContext = new DateTimePrintContextTestWrapper(EMPTY, Locale.ENGLISH, DecimalStyle.STANDARD);
         ZonedDateTime zdt = LocalDateTime.of(2011, 6, 30, 12, 30, 40, 0).atZone(ZoneId.of("Europe/Paris"));
-        printContext = new DateTimePrintContext(zdt, Locale.ENGLISH, DecimalStyle.STANDARD);
-        parseContext = new DateTimeParseContext(Locale.ENGLISH, DecimalStyle.STANDARD, IsoChronology.INSTANCE);
+        printContext = new DateTimePrintContextTestWrapper(zdt, Locale.ENGLISH, DecimalStyle.STANDARD);
+        parseContext = new DateTimeParseContextTestWrapper(Locale.ENGLISH, DecimalStyle.STANDARD, IsoChronology.INSTANCE);
         buf = new StringBuilder();
     }
 

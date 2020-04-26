@@ -29,48 +29,51 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package xjava.time.format;
+package org.jresearch.threetenbp.gwt.client.format;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import java.time.temporal.TemporalQueries;
 
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
-
-import xjava.time.format.DateTimeFormatterBuilder.CharLiteralPrinterParser;
-import xjava.time.temporal.TemporalQueries;
+import org.jresearch.threetenbp.gwt.client.format.wrap.CharLiteralPrinterParserTestWrapper;
+import org.junit.Test;
 
 /**
  * Test CharLiteralPrinterParser.
  */
-@Test
+//@Test
 public class TestCharLiteralParser extends AbstractTestPrinterParser {
 
-    @DataProvider(name="success")
+    //@DataProvider(name="success")
     Object[][] data_success() {
         return new Object[][] {
             // match
-            {new CharLiteralPrinterParser('a'), true, "a", 0, 1},
-            {new CharLiteralPrinterParser('a'), true, "aOTHER", 0, 1},
-            {new CharLiteralPrinterParser('a'), true, "OTHERaOTHER", 5, 6},
-            {new CharLiteralPrinterParser('a'), true, "OTHERa", 5, 6},
+            {new CharLiteralPrinterParserTestWrapper('a'), true, "a", 0, 1},
+            {new CharLiteralPrinterParserTestWrapper('a'), true, "aOTHER", 0, 1},
+            {new CharLiteralPrinterParserTestWrapper('a'), true, "OTHERaOTHER", 5, 6},
+            {new CharLiteralPrinterParserTestWrapper('a'), true, "OTHERa", 5, 6},
 
             // no match
-            {new CharLiteralPrinterParser('a'), true, "", 0, ~0},
-            {new CharLiteralPrinterParser('a'), true, "a", 1, ~1},
-            {new CharLiteralPrinterParser('a'), true, "A", 0, ~0},
-            {new CharLiteralPrinterParser('a'), true, "b", 0, ~0},
-            {new CharLiteralPrinterParser('a'), true, "OTHERbOTHER", 5, ~5},
-            {new CharLiteralPrinterParser('a'), true, "OTHERb", 5, ~5},
+            {new CharLiteralPrinterParserTestWrapper('a'), true, "", 0, ~0},
+            {new CharLiteralPrinterParserTestWrapper('a'), true, "a", 1, ~1},
+            {new CharLiteralPrinterParserTestWrapper('a'), true, "A", 0, ~0},
+            {new CharLiteralPrinterParserTestWrapper('a'), true, "b", 0, ~0},
+            {new CharLiteralPrinterParserTestWrapper('a'), true, "OTHERbOTHER", 5, ~5},
+            {new CharLiteralPrinterParserTestWrapper('a'), true, "OTHERb", 5, ~5},
 
             // case insensitive
-            {new CharLiteralPrinterParser('a'), false, "a", 0, 1},
-            {new CharLiteralPrinterParser('a'), false, "A", 0, 1},
+            {new CharLiteralPrinterParserTestWrapper('a'), false, "a", 0, 1},
+            {new CharLiteralPrinterParserTestWrapper('a'), false, "A", 0, 1},
         };
     }
 
-    @Test(dataProvider="success")
-    public void test_parse_success(CharLiteralPrinterParser pp, boolean caseSensitive, String text, int pos, int expectedPos) {
+	@Test(/* dataProvider="success" */)
+	public void test_parse_success() {
+		Object[][] data = data_success();
+		for (int i = 0; i < data.length; i++) {
+			Object[] objects = data[i];
+			test_parse_success((CharLiteralPrinterParserTestWrapper) objects[0], (boolean) objects[1], (String) objects[2], (int) objects[3], (int) objects[4]);
+		}
+	}
+    public void test_parse_success(CharLiteralPrinterParserTestWrapper pp, boolean caseSensitive, String text, int pos, int expectedPos) {
         parseContext.setCaseSensitive(caseSensitive);
         int result = pp.parse(parseContext, text, pos);
         assertEquals(result, expectedPos);
@@ -79,20 +82,30 @@ public class TestCharLiteralParser extends AbstractTestPrinterParser {
     }
 
     //-----------------------------------------------------------------------
-    @DataProvider(name="error")
+    //@DataProvider(name="error")
     Object[][] data_error() {
         return new Object[][] {
-            {new CharLiteralPrinterParser('a'), "a", -1, IndexOutOfBoundsException.class},
-            {new CharLiteralPrinterParser('a'), "a", 2, IndexOutOfBoundsException.class},
+        	//GWT specific
+            {new CharLiteralPrinterParserTestWrapper('a'), "a", -1, StringIndexOutOfBoundsException.class},
+            {new CharLiteralPrinterParserTestWrapper('a'), "a", 2, StringIndexOutOfBoundsException.class},
         };
     }
 
-    @Test(dataProvider="error")
-    public void test_parse_error(CharLiteralPrinterParser pp, String text, int pos, Class<?> expected) {
+	@Test(/* dataProvider="error" */)
+	public void test_parse_error() {
+		Object[][] data = data_error();
+		for (int i = 0; i < data.length; i++) {
+			Object[] objects = data[i];
+			test_parse_error((CharLiteralPrinterParserTestWrapper) objects[0], (String) objects[1], (int) objects[2], (Class<?>) objects[3]);
+		}
+	}
+    public void test_parse_error(CharLiteralPrinterParserTestWrapper pp, String text, int pos, Class<?> expected) {
         try {
             pp.parse(parseContext, text, pos);
+            fail("Expect exception");
         } catch (RuntimeException ex) {
-            assertTrue(expected.isInstance(ex));
+        	//GWT specific
+        	assertEquals(expected.getName(), ex.getClass().getName());
             assertEquals(parseContext.toParsed().query(TemporalQueries.chronology()), null);
             assertEquals(parseContext.toParsed().query(TemporalQueries.zoneId()), null);
         }

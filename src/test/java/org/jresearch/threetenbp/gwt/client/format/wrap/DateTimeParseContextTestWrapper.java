@@ -1,0 +1,28 @@
+package org.jresearch.threetenbp.gwt.client.format.wrap;
+
+import java.time.chrono.Chronology;
+import java.time.format.DateTimeParseContexts;
+import java.time.format.DecimalStyle;
+import java.util.Locale;
+
+public class DateTimeParseContextTestWrapper {
+
+    private final Object context;
+
+    public DateTimeParseContextTestWrapper(Locale locale, DecimalStyle symbols, Chronology chronology) {
+		context = DateTimeParseContexts.create(locale, symbols, chronology);
+	}
+
+	public Object getContext() {
+		return context;
+	}
+
+	public ParsedTestWrapper toParsed() {
+		return DateTimeParseContexts.toParsed(context);
+	}
+
+	public void setCaseSensitive(boolean caseSensitive) {
+		DateTimeParseContexts.setCaseSensitive(context, caseSensitive);
+    }
+
+}
