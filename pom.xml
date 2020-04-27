@@ -12,7 +12,7 @@
 
 	<name>JRS: GWT port of JSR-310 (java.time)</name>
 	<description>JRS: GWT port of JSR-310 (java.time) based on ThreeTen backport project (https://www.threeten.org/threetenbp)</description>
-	<version>1.4.2</version>
+	<version>1.4.3-SNAPSHOT</version>
 	<url>https://www.threeten.org/threetenbp</url>
 
 	<!-- ==================================================================== -->
@@ -111,7 +111,7 @@
 		<dependency>
 			<groupId>org.jresearch.gwtproject</groupId>
 			<artifactId>typedarrays</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>${gwt-typedarrays.ver}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.elemental2</groupId>
@@ -124,7 +124,7 @@
 		<dependency>
 			<groupId>org.jresearch.dominokit</groupId>
 			<artifactId>domino-slf4j-logger</artifactId>
-			<version>1.0-rc.4-SNAPSHOT</version>
+			<version>${gwt-slf4j.ver}</version>
 		</dependency> -->
 		<dependency>
 			<groupId>org.jresearch.gwtproject.i18n</groupId>
@@ -134,12 +134,12 @@
 		<dependency>
 			<groupId>org.jresearch.gwtproject.nio</groupId>
 			<artifactId>gwt-nio</artifactId>
-			<version>0.1-SNAPSHOT</version>
+			<version>${gwt-nio.ver}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jresearch.gwtproject.xhr</groupId>
 			<artifactId>gwt-xhr</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>${gwt-xhr.ver}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.jsinterop</groupId>
@@ -282,5 +282,9 @@
 	<properties>
 		<gwt-cldr.ver>1.0.10</gwt-cldr.ver>
 		<!-- Other properties -->
+		<gwt-typedarrays.ver>1.1-SNAPSHOT</gwt-typedarrays.ver>
+		<gwt-nio.ver>0.2-SNAPSHOT</gwt-nio.ver>
+		<gwt-xhr.ver>1.1-SNAPSHOT</gwt-xhr.ver>
+		<gwt-slf4j.ver>1.0-rc.4-SNAPSHOT</gwt-slf4j.ver>
 	</properties>
 </project>
