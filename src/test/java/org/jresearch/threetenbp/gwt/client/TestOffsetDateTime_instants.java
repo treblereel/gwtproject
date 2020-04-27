@@ -74,7 +74,7 @@ public class TestOffsetDateTime_instants extends AbstractTest {
 		}
 	}
 
-	public void test_factory_ofInstant_allSecsInDay() {
+	public void long_test_factory_ofInstant_allSecsInDay() {
 		for (int i = 0; i < (24 * 60 * 60); i++) {
 			Instant instant = Instant.ofEpochSecond(i);
 			OffsetDateTime test = OffsetDateTime.ofInstant(instant, OFFSET_PONE);
@@ -87,7 +87,7 @@ public class TestOffsetDateTime_instants extends AbstractTest {
 		}
 	}
 
-	public void test_factory_ofInstant_allDaysInCycle() {
+	public void long_test_factory_ofInstant_allDaysInCycle() {
 		// sanity check using different algorithm
 		OffsetDateTime expected = OffsetDateTime.of(LocalDate.of(1970, 1, 1), LocalTime.of(0, 0, 0, 0), ZoneOffset.UTC);
 		for (long i = 0; i < 146097; i++) {
@@ -98,12 +98,12 @@ public class TestOffsetDateTime_instants extends AbstractTest {
 		}
 	}
 
-	public void test_factory_ofInstant_history() {
+	public void long_test_factory_ofInstant_history() {
 		doTest_factory_ofInstant_all(-2820, 2820);
 	}
 
 	// -----------------------------------------------------------------------
-	public void test_actory_ofInstant_minYear() {
+	public void long_test_actory_ofInstant_minYear() {
 		doTest_factory_ofInstant_all(Year.MIN_VALUE, Year.MIN_VALUE + 420);
 	}
 
@@ -121,7 +121,7 @@ public class TestOffsetDateTime_instants extends AbstractTest {
 		}
 	}
 
-	public void test_factory_ofInstant_maxYear() {
+	public void long_test_factory_ofInstant_maxYear() {
 		doTest_factory_ofInstant_all(Year.MAX_VALUE - 420, Year.MAX_VALUE);
 	}
 
