@@ -64,7 +64,7 @@ public class TestZoneIdParser extends AbstractTestPrinterParser {
 				{ new ZoneIdPrinterParserTestWrapper(TemporalQueries.zoneId(), null), "hello", -1,
 						StringIndexOutOfBoundsException.class },
 				{ new ZoneIdPrinterParserTestWrapper(TemporalQueries.zoneId(), null), "hello", 6,
-							StringIndexOutOfBoundsException.class }, };
+							IndexOutOfBoundsException.class }, };
 	}
 
 	@Test(/* dataProvider="error" */)
