@@ -29,12 +29,12 @@ public class SettingsParserTestWrapper implements PrinterParserTestWrapper {
 
 	@Override
 	public boolean print(DateTimePrintContextTestWrapper context, StringBuilder buf) {
-		return CharLiteralPrinterParsers.print(parser, context, buf);
+		return SettingsParsers.print(parser, context, buf);
 	}
 
 	@Override
 	public int parse(DateTimeParseContextTestWrapper context, CharSequence text, int position) {
-		return CharLiteralPrinterParsers.parse(parser, context, text, position);
+		return SettingsParsers.parse(parser, context, text, position);
 	}
 
 	@Override

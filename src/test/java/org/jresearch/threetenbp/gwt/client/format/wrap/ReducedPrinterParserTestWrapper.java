@@ -15,12 +15,12 @@ public class ReducedPrinterParserTestWrapper implements PrinterParserTestWrapper
 
 	@Override
 	public boolean print(DateTimePrintContextTestWrapper context, StringBuilder buf) {
-		return CharLiteralPrinterParsers.print(parser, context, buf);
+		return ReducedPrinterParsers.print(parser, context, buf);
 	}
 
 	@Override
 	public int parse(DateTimeParseContextTestWrapper context, CharSequence text, int position) {
-		return CharLiteralPrinterParsers.parse(parser, context, text, position);
+		return ReducedPrinterParsers.parse(parser, context, text, position);
 	}
 
 	@Override

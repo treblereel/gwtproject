@@ -12,11 +12,11 @@ public class PadPrinterParserDecoratorTestWrapper {
 	}
 
 	public boolean print(DateTimePrintContextTestWrapper context, StringBuilder buf) {
-		return CharLiteralPrinterParsers.print(parser, context, buf);
+		return PadPrinterParserDecorators.print(parser, context, buf);
 	}
 
 	public int parse(DateTimeParseContextTestWrapper context, CharSequence text, int position) {
-		return CharLiteralPrinterParsers.parse(parser, context, text, position);
+		return PadPrinterParserDecorators.parse(parser, context, text, position);
 	}
 
 	@Override
