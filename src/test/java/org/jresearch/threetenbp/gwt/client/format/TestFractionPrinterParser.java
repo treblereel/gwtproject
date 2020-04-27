@@ -109,6 +109,7 @@ public class TestFractionPrinterParser extends AbstractTestPrinterParser {
 			test_print_nanos((int) objects[0], (int) objects[1], (int) objects[2], (String) objects[3]);
 		}
 	}
+
 	public void test_print_nanos(int minWidth, int maxWidth, int value, String result) throws Exception {
 		printContext.setDateTime(new MockFieldValue(NANO_OF_SECOND, value));
 		FractionPrinterParserTestWrapper pp = new FractionPrinterParserTestWrapper(NANO_OF_SECOND, minWidth, maxWidth,

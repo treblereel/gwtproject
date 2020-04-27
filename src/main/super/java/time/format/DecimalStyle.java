@@ -90,7 +90,7 @@ public final class DecimalStyle {
 	 *
 	 * @return an array of locales for which localization is supported
 	 */
-	//GWT Specific
+	// GWT Specific TODO (take it from browser somehow)
 	public static Set<Locale> getAvailableLocales() {
 		HashSet<Locale> result = new HashSet<Locale>();
 		result.add(Locale.getDefault());
@@ -129,7 +129,7 @@ public final class DecimalStyle {
 		return info;
 	}
 
-	//GWT Specific
+	// GWT Specific TODO
 	private static DecimalStyle create(Locale locale) {
 //		DecimalFormatSymbols oldSymbols = DecimalFormatSymbols.getInstance(locale);
 		NumberConstants numberConstants = LocaleInfo.getCurrentLocale().getNumberConstants();

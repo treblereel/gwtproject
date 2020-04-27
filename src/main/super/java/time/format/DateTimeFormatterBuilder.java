@@ -74,14 +74,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import org.jresearch.threetenbp.gwt.client.Support;
-
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
 
-import com.google.gwt.i18n.client.TimeZone;
+import org.jresearch.threetenbp.gwt.client.Support;
 
 /**
  * Builder to create date-time formatters.
@@ -117,7 +114,8 @@ public final class DateTimeFormatterBuilder {
      * Query for a time-zone that is region-only.
      */
     private static final TemporalQuery<ZoneId> QUERY_REGION_ONLY = new TemporalQuery<ZoneId>() {
-        public ZoneId queryFrom(TemporalAccessor temporal) {
+        @Override
+		public ZoneId queryFrom(TemporalAccessor temporal) {
             ZoneId zone = temporal.query(TemporalQueries.zoneId());
             return (zone != null && zone instanceof ZoneOffset == false ? zone : null);
         }
@@ -2176,11 +2174,13 @@ public final class DateTimeFormatterBuilder {
             this.value = value;
         }
 
-        public boolean print(DateTimePrintContext context, StringBuilder buf) {
+        @Override
+		public boolean print(DateTimePrintContext context, StringBuilder buf) {
             return true;
         }
 
-        public int parse(DateTimeParseContext context, CharSequence text, int position) {
+        @Override
+		public int parse(DateTimeParseContext context, CharSequence text, int position) {
             if (context.getParsed(field) == null) {
                 context.setParsedField(field, value, position, position);
             }
@@ -3389,19 +3389,20 @@ public final class DateTimeFormatterBuilder {
             // this is a poor implementation that handles some but not all of the spec
             // JDK8 has a lot of extra information here
             Map<String, String> ids = new TreeMap<String, String>(LENGTH_COMPARATOR);
+			String style = textStyle.asNormal() == TextStyle.FULL ? "long" : "short";
             for (String id : ZoneId.getAvailableZoneIds()) {
                 ids.put(id, id);
-              //GWT Specific TODO!!!
+				// GWT Specific
+				String textWinter = Support.displayTimeZone(false, id, style, context.getLocale().toString());
 //                TimeZone tz = TimeZone.getTimeZone(id);
 //                int tzstyle = (textStyle.asNormal() == TextStyle.FULL ? TimeZone.LONG : TimeZone.SHORT);
 //                String textWinter = tz.getDisplayName(false, tzstyle, context.getLocale());
-                String textWinter = "GWT textWinter";
                 if (id.startsWith("Etc/") || (!textWinter.startsWith("GMT+") && !textWinter.startsWith("GMT+"))) {
                     ids.put(textWinter, id);
                 }
-              //GWT Specific TODO!!!
-//                String textSummer = tz.getDisplayName(true, tzstyle, context.getLocale());
-                String textSummer = "GWT textSummer";
+				// GWT Specific
+//              String textSummer = tz.getDisplayName(true, tzstyle, context.getLocale());
+				String textSummer = Support.displayTimeZone(true, id, style, context.getLocale().toString());
                 if (id.startsWith("Etc/") || (!textSummer.startsWith("GMT+") && !textSummer.startsWith("GMT+"))) {
                     ids.put(textSummer, id);
                 }

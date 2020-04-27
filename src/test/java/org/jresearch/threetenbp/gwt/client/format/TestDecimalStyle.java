@@ -29,24 +29,25 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package xjava.time.format;
+package org.jresearch.threetenbp.gwt.client.format;
 
-import static org.testng.Assert.assertEquals;
-
-import xjava.time.format.DecimalStyle;
+import java.time.format.DecimalStyle;
+import java.time.format.DecimalStyles;
 import java.util.Locale;
 import java.util.Set;
 
-import org.testng.annotations.Test;
+import org.jresearch.threetenbp.gwt.client.AbstractTest;
+import org.junit.Test;
 
 /**
  * Test DecimalStyle.
  */
-@Test
-public class TestDecimalStyle {
+//@Test
+public class TestDecimalStyle extends AbstractTest {
 
     @Test
-    public void test_getAvailableLocales() {
+	// GWT TODO - no available locale in browser.
+	public void disables_test_getAvailableLocales() {
         Set<Locale> locales = DecimalStyle.getAvailableLocales();
         assertEquals(locales.size() > 0, true);
         assertEquals(locales.contains(Locale.US), true);
@@ -101,34 +102,34 @@ public class TestDecimalStyle {
     @Test
     public void test_convertToDigit_base() {
         DecimalStyle base = DecimalStyle.STANDARD;
-        assertEquals(base.convertToDigit('0'), 0);
-        assertEquals(base.convertToDigit('1'), 1);
-        assertEquals(base.convertToDigit('9'), 9);
-        assertEquals(base.convertToDigit(' '), -1);
-        assertEquals(base.convertToDigit('A'), -1);
+		assertEquals(DecimalStyles.convertToDigit(base, '0'), 0);
+		assertEquals(DecimalStyles.convertToDigit(base, '1'), 1);
+		assertEquals(DecimalStyles.convertToDigit(base, '9'), 9);
+		assertEquals(DecimalStyles.convertToDigit(base, ' '), -1);
+		assertEquals(DecimalStyles.convertToDigit(base, 'A'), -1);
     }
 
     @Test
     public void test_convertToDigit_altered() {
         DecimalStyle base = DecimalStyle.STANDARD.withZeroDigit('A');
-        assertEquals(base.convertToDigit('A'), 0);
-        assertEquals(base.convertToDigit('B'), 1);
-        assertEquals(base.convertToDigit('J'), 9);
-        assertEquals(base.convertToDigit(' '), -1);
-        assertEquals(base.convertToDigit('0'), -1);
+		assertEquals(DecimalStyles.convertToDigit(base, 'A'), 0);
+		assertEquals(DecimalStyles.convertToDigit(base, 'B'), 1);
+		assertEquals(DecimalStyles.convertToDigit(base, 'J'), 9);
+		assertEquals(DecimalStyles.convertToDigit(base, ' '), -1);
+		assertEquals(DecimalStyles.convertToDigit(base, '0'), -1);
     }
 
     //-----------------------------------------------------------------------
     @Test
     public void test_convertNumberToI18N_base() {
         DecimalStyle base = DecimalStyle.STANDARD;
-        assertEquals(base.convertNumberToI18N("134"), "134");
+		assertEquals(DecimalStyles.convertNumberToI18N(base, "134"), "134");
     }
 
     @Test
     public void test_convertNumberToI18N_altered() {
         DecimalStyle base = DecimalStyle.STANDARD.withZeroDigit('A');
-        assertEquals(base.convertNumberToI18N("134"), "BDE");
+		assertEquals(DecimalStyles.convertNumberToI18N(base, "134"), "BDE");
     }
 
     //-----------------------------------------------------------------------

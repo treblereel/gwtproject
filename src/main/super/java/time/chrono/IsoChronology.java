@@ -57,10 +57,6 @@ import java.time.Month;
 import java.time.Year;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.time.chrono.Chronology;
-import java.time.chrono.Era;
-import java.time.chrono.IsoChronology;
-import java.time.chrono.IsoEra;
 import java.time.format.ResolverStyle;
 import java.time.temporal.ChronoField;
 import java.time.temporal.TemporalAccessor;
@@ -397,7 +393,7 @@ public final class IsoChronology extends Chronology implements Serializable {
                 PROLEPTIC_MONTH.checkValidValue(prolepticMonth);
             }
             updateResolveMap(fieldValues, MONTH_OF_YEAR, Math.floorMod(prolepticMonth, 12) + 1);
-            updateResolveMap(fieldValues, YEAR, Math.floorMod(prolepticMonth, 12));
+			updateResolveMap(fieldValues, YEAR, Math.floorDiv(prolepticMonth, 12));
         }
 
         // eras

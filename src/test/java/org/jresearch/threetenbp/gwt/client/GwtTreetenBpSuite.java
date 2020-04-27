@@ -10,8 +10,13 @@ import org.jresearch.threetenbp.gwt.client.chrono.TestMinguoChronology;
 import org.jresearch.threetenbp.gwt.client.chrono.TestThaiBuddhistChronology;
 import org.jresearch.threetenbp.gwt.client.format.TestCharLiteralParser;
 import org.jresearch.threetenbp.gwt.client.format.TestCharLiteralPrinter;
+import org.jresearch.threetenbp.gwt.client.format.TestDateTimeBuilderCombinations;
 import org.jresearch.threetenbp.gwt.client.format.TestDateTimeFormatter;
+import org.jresearch.threetenbp.gwt.client.format.TestDateTimeFormatterBuilder;
 import org.jresearch.threetenbp.gwt.client.format.TestDateTimeFormatters;
+import org.jresearch.threetenbp.gwt.client.format.TestDateTimeParsing;
+import org.jresearch.threetenbp.gwt.client.format.TestDateTimeTextPrinting;
+import org.jresearch.threetenbp.gwt.client.format.TestDecimalStyle;
 import org.jresearch.threetenbp.gwt.client.format.TestFractionPrinterParser;
 import org.jresearch.threetenbp.gwt.client.format.TestNumberParser;
 import org.jresearch.threetenbp.gwt.client.format.TestNumberPrinter;
@@ -119,17 +124,11 @@ public class GwtTreetenBpSuite {
 		suite.addTestSuite(TestZoneIdParser.class);
 		suite.addTestSuite(TestSimpleDateTimeTextProvider.class);
 		suite.addTestSuite(TestDateTimeFormatters.class);
-//		suite.addTestSuite(Test.class);
-//		suite.addTestSuite(Test.class);
-//		suite.addTestSuite(Test.class);
-//		suite.addTestSuite(Test.class);
-//		suite.addTestSuite(Test.class);
-//		suite.addTestSuite(Test.class);
-//		suite.addTestSuite(Test.class);
-//		suite.addTestSuite(Test.class);
-//		suite.addTestSuite(Test.class);
-//		suite.addTestSuite(Test.class);
-//		suite.addTestSuite(Test.class);
+		suite.addTestSuite(TestDateTimeBuilderCombinations.class);
+		suite.addTestSuite(TestDateTimeFormatterBuilder.class);
+		suite.addTestSuite(TestDateTimeParsing.class);
+		suite.addTestSuite(TestDateTimeTextPrinting.class);
+		suite.addTestSuite(TestDecimalStyle.class);
 		// $JUnit-END$
 
 		return suite;
