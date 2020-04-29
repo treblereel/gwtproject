@@ -12,7 +12,7 @@
 
 	<name>JRS: GWT port of JSR-310 (java.time)</name>
 	<description>JRS: GWT port of JSR-310 (java.time) based on ThreeTen backport project (https://www.threeten.org/threetenbp)</description>
-	<version>1.4.4</version>
+	<version>1.4.5-SNAPSHOT</version>
 	<url>https://www.threeten.org/threetenbp</url>
 
 	<!-- ==================================================================== -->
@@ -27,7 +27,7 @@
 		<connection>scm:hg:https://helixteamhub.cloud/JRS/projects/gwtTime/repositories/mercurial/gwt-time</connection>
 		<developerConnection>scm:hg:ssh://hth@helixteamhub.cloud/JRS/projects/gwtTime/repositories/mercurial/gwt-time</developerConnection>
 		<url>https://helixteamhub.cloud/JRS/projects/gwtTime/repositories/mercurial/gwt-time</url>
-		<tag>1.4.4</tag>
+		<tag>1.4.2</tag>
 	</scm>
 	<!-- ==================================================================== -->
 	<build>
@@ -280,11 +280,11 @@
 
 	<!-- ==================================================================== -->
 	<properties>
-		<gwt-cldr.ver>1.0.10</gwt-cldr.ver>
+		<gwt-cldr.ver>1.0.11-SNAPSHOT</gwt-cldr.ver>
 		<!-- Other properties -->
-		<gwt-typedarrays.ver>1.0</gwt-typedarrays.ver>
-		<gwt-nio.ver>0.1</gwt-nio.ver>
-		<gwt-xhr.ver>1.0</gwt-xhr.ver>
+		<gwt-typedarrays.ver>1.2-SNAPSHOT</gwt-typedarrays.ver>
+		<gwt-nio.ver>0.2-SNAPSHOT</gwt-nio.ver>
+		<gwt-xhr.ver>1.1-SNAPSHOT</gwt-xhr.ver>
 		<gwt-slf4j.ver>1.0-rc.4</gwt-slf4j.ver>
 	</properties>
 </project>
