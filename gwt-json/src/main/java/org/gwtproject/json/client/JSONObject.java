@@ -15,6 +15,7 @@
  */
 package org.gwtproject.json.client;
 
+import elemental2.core.Global;
 import elemental2.core.JsObject;
 import java.util.AbstractSet;
 import java.util.Arrays;
@@ -23,7 +24,6 @@ import java.util.Set;
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 import org.gwtproject.core.client.JavaScriptObject;
-import org.gwtproject.core.client.JsonUtils;
 
 /** Represents a JSON object. A JSON object consists of a set of properties. */
 public class JSONObject extends JSONValue {
@@ -168,7 +168,7 @@ public class JSONObject extends JSONValue {
       } else {
         sb.append(", ");
       }
-      sb.append(JsonUtils.escapeValue(key));
+      sb.append(Global.JSON.stringify(key));
       sb.append(":");
       sb.append(get(key));
     }
