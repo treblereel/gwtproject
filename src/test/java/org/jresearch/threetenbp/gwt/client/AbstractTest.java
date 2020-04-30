@@ -33,6 +33,7 @@ package org.jresearch.threetenbp.gwt.client;
 
 import java.nio.ByteBuffer;
 import java.time.zone.Providers;
+import java.time.zone.ZoneRulesException;
 import java.time.zone.ZoneRulesProvider;
 
 import org.gwtproject.nio.TypedArrayHelper;
@@ -67,7 +68,11 @@ public abstract class AbstractTest extends GWTTestCase {
 		ArrayBuffer array = Support.decodeArrayBuffer(TzData.TZ_DATA);
 		ByteBuffer data = TypedArrayHelper.wrap(array);
 		ZoneRulesProvider provider = Providers.of(data);
-		ZoneRulesProvider.registerProvider(provider);
+		try {
+			ZoneRulesProvider.registerProvider(provider);
+		} catch (ZoneRulesException e) {
+			// ignore it if already registered
+		}
 	}
 
 //    private static final String SERIALISATION_DATA_FOLDER = "src/test/resources/";

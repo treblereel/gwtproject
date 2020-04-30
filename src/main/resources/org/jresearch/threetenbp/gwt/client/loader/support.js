@@ -39,7 +39,7 @@ function displayTimeZoneModern(daylight, timeZone, style, locale) {
 }
 
 function checkType(part) {
-	  return el.type === "timeZoneName";
+	  return part.type === "timeZoneName";
 }
 
 function displayTimeZoneLegacy(daylight, timeZone, style, locale) {
