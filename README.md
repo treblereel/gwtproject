@@ -17,11 +17,21 @@ That repository used the BSD 3-clause license as the base project.
 Issues about the adaptation should be reported here at GitHub.
 Pull requests and issues will only be considered so far as matching the behaviour of the real Java SE. Additional requested features will be rejected.
 
-#### Building
-This project builds using maven.
-
 #### Time-zone data
 The time-zone database is stored as a pre-compiled dat file that is included in the built jar. The actulal time-zone data is located in the base project and updated manually.
+
+### Using
+
+* Add project dependency to pom.xml 
+```
+<dependency>
+    <groupId>org.jresearch.gwt.time</groupId>
+    <artifactId>org.jresearch.gwt.time</artifactId>
+    <version>1.4.4</version>
+</dependency>
+```
+* Add `<inherits name="org.jresearch.threetenbp.gwt.threetenbpGwt"/>` to your module.gwt.xml, tf you use gwt-maven-plugin form Thomas Broyer (https://github.com/tbroyer/gwt-maven-plugin) it will be done automaticaly
+* Call `org.jresearch.threetenbp.gwt.client.Support.init()` on application start
 
 #### FAQs
 
@@ -50,15 +60,13 @@ Additional requested features will be rejected.
 Pull requests must _not_ be copied from the JDK, because the GPL license is incompatible with the BSD license used here.
 
 
-### Release process
+### Building from sources
 
-* Update version (index.md, changes.xml - checking tzdb version)
-* Commit and push
-* `mvn clean release:clean release:prepare release:perform`
-* The project use the parent pom from Sonatype snapshot repository. 
+* check out
+* `mvn clean install`
+* The project use the parent pom and dependensies located on Sonatype snapshot repository. 
 ```
 <repositories>
-    <!-- Added to get the Atmosphere 1.1.0-SNAPSHOT, can be removed when 1.1.0 is released -->
     <repository>
         <id>oss.sonatype.org-snapshot</id>
         <url>http://oss.sonatype.org/content/repositories/snapshots</url>
