@@ -197,10 +197,10 @@ public class TestJapaneseChronology extends AbstractTest {
             { JapaneseEra.TAISHO, 0, "Taisho"},
             { JapaneseEra.SHOWA, 1, "Showa"},
             { JapaneseEra.HEISEI, 2, "Heisei"},
-            { JapaneseEra.REIWA, 3, "Reiwa"},
+//GWT TODO            { JapaneseEra.REIWA, 3, "Reiwa"},
         };
     }
-	
+
 	@Test(/* dataProvider = "japaneseEras" */)
 	public void test_Japanese_Eras() {
 		Object[][] data = data_japaneseEras();
@@ -277,7 +277,7 @@ public class TestJapaneseChronology extends AbstractTest {
             {JapaneseChronology.INSTANCE.date(2012, 12,  6), "Japanese Heisei 24-12-06"},
         };
 	}
-	
+
 	@Test(/* dataProvider = "toString" */)
 	public void test_toString() {
 		Object[][] data = data_toString();
