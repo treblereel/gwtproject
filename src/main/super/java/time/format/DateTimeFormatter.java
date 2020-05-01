@@ -928,7 +928,8 @@ public final class DateTimeFormatter {
         return PARSED_EXCESS_DAYS;
     }
     private static final TemporalQuery<Period> PARSED_EXCESS_DAYS = new TemporalQuery<Period>() {
-        public Period queryFrom(TemporalAccessor temporal) {
+        @Override
+		public Period queryFrom(TemporalAccessor temporal) {
             if (temporal instanceof DateTimeBuilder) {
                 return ((DateTimeBuilder) temporal).excessDays;
             } else {
@@ -971,7 +972,8 @@ public final class DateTimeFormatter {
         return PARSED_LEAP_SECOND;
     }
     private static final TemporalQuery<Boolean> PARSED_LEAP_SECOND = new TemporalQuery<Boolean>() {
-        public Boolean queryFrom(TemporalAccessor temporal) {
+        @Override
+		public Boolean queryFrom(TemporalAccessor temporal) {
             if (temporal instanceof DateTimeBuilder) {
                 return ((DateTimeBuilder) temporal).leapSecond;
             } else {
@@ -1482,8 +1484,10 @@ public final class DateTimeFormatter {
         Objects.requireNonNull(text, "text");
         Objects.requireNonNull(type, "query");
         try {
-            DateTimeBuilder builder = parseToBuilder(text, null).resolve(resolverStyle, resolverFields);
-            return builder.build(type);
+//            DateTimeBuilder builder = parseToBuilder(text, null).resolve(resolverStyle, resolverFields);
+//            return builder.build(type);
+			DateTimeBuilder builder = parseToBuilder(text, null);
+			return null;
         } catch (DateTimeParseException ex) {
             throw ex;
         } catch (RuntimeException ex) {

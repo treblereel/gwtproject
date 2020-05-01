@@ -79,6 +79,8 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import org.jresearch.threetenbp.gwt.client.Support;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Builder to create date-time formatters.
@@ -169,7 +171,7 @@ public final class DateTimeFormatterBuilder {
         if (dateStyle == null && timeStyle == null) {
             throw new IllegalArgumentException("Either dateStyle or timeStyle must be non-null");
         }
-//GWT Specific
+//GWT Specific TODO
 //        DateFormat dateFormat;
 //        if (dateStyle != null) {
 //            if (timeStyle != null) {
@@ -3339,6 +3341,10 @@ public final class DateTimeFormatterBuilder {
      * Prints or parses a zone ID.
      */
     static final class ZoneTextPrinterParser implements DateTimePrinterParser {
+
+		private static final Logger LOGGER = LoggerFactory
+				.getLogger(DateTimeFormatterBuilder.ZoneTextPrinterParser.class);
+
         /** The text style to output. */
         private static final Comparator<String> LENGTH_COMPARATOR = new Comparator<String>() {
             @Override
@@ -3374,9 +3380,9 @@ public final class DateTimeFormatterBuilder {
                 Instant instant = Instant.ofEpochSecond(temporal.getLong(INSTANT_SECONDS));
                 daylight = zone.getRules().isDaylightSavings(instant);
             }
-          //GWT Specific
+			// GWT Specific
             String style = textStyle.asNormal() == TextStyle.FULL ? "long" :"short";
-			String text = Support.displayTimeZone(daylight, zone.getId(), style, context.getLocale().toString());
+			String text = Support.displayTimeZone(daylight, zone.getId(), style, context.getLocale().toLanguageTag());
 //            TimeZone tz = TimeZone.getTimeZone(zone.getId());
 //            int tzstyle = (textStyle.asNormal() == TextStyle.FULL ? TimeZone.LONG : TimeZone.SHORT);
 //            String text = tz.getDisplayName(daylight, tzstyle, context.getLocale());
@@ -3386,25 +3392,29 @@ public final class DateTimeFormatterBuilder {
 
         @Override
         public int parse(DateTimeParseContext context, CharSequence text, int position) {
+			LOGGER.debug("parse {} from position {} in context {}", text, position, context);
             // this is a poor implementation that handles some but not all of the spec
             // JDK8 has a lot of extra information here
             Map<String, String> ids = new TreeMap<String, String>(LENGTH_COMPARATOR);
 			String style = textStyle.asNormal() == TextStyle.FULL ? "long" : "short";
             for (String id : ZoneId.getAvailableZoneIds()) {
                 ids.put(id, id);
+				LOGGER.trace("put key {} for ZoneId {}", id, id);
 				// GWT Specific
-				String textWinter = Support.displayTimeZone(false, id, style, context.getLocale().toString());
+				String textWinter = Support.displayTimeZone(false, id, style, context.getLocale().toLanguageTag());
 //                TimeZone tz = TimeZone.getTimeZone(id);
 //                int tzstyle = (textStyle.asNormal() == TextStyle.FULL ? TimeZone.LONG : TimeZone.SHORT);
 //                String textWinter = tz.getDisplayName(false, tzstyle, context.getLocale());
-                if (id.startsWith("Etc/") || (!textWinter.startsWith("GMT+") && !textWinter.startsWith("GMT+"))) {
+				if (id.startsWith("Etc/") || (!textWinter.startsWith("GMT+") && !textWinter.startsWith("GMT-"))) {
                     ids.put(textWinter, id);
+					LOGGER.trace("put key {} for ZoneId {}", textWinter, id);
                 }
 				// GWT Specific
 //              String textSummer = tz.getDisplayName(true, tzstyle, context.getLocale());
-				String textSummer = Support.displayTimeZone(true, id, style, context.getLocale().toString());
-                if (id.startsWith("Etc/") || (!textSummer.startsWith("GMT+") && !textSummer.startsWith("GMT+"))) {
+				String textSummer = Support.displayTimeZone(true, id, style, context.getLocale().toLanguageTag());
+				if (id.startsWith("Etc/") || (!textSummer.startsWith("GMT+") && !textSummer.startsWith("GMT-"))) {
                     ids.put(textSummer, id);
+					LOGGER.trace("put key {} for ZoneId {}", textSummer, id);
                 }
             }
             for (Entry<String, String> entry : ids.entrySet()) {
@@ -3695,7 +3705,7 @@ public final class DateTimeFormatterBuilder {
         }
 
         @Override
-//        GWT Specific TODO use i18n to load org.threeten.bp.format.ChronologyText
+//GWT Specific TODO use i18n to load org.threeten.bp.format.ChronologyText
         public boolean print(DateTimePrintContext context, StringBuilder buf) {
             Chronology chrono = context.getValue(TemporalQueries.chronology());
             if (chrono == null) {

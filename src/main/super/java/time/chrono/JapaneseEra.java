@@ -92,7 +92,7 @@ public final class JapaneseEra
     private static final long serialVersionUID = 1466499369062886794L;
 
     // array for the singleton JapaneseEra instances
-    //GWT Specific
+	// GWT Specific TODO review
     private static JapaneseEra[] KNOWN_ERAS;
 
     static {
@@ -136,7 +136,7 @@ public final class JapaneseEra
      * @return the singleton {@code JapaneseEra} for this object
      * @throws ObjectStreamException if the deserialized object has any unknown numeric era value.
      */
-    //GWT Specific
+	// GWT Specific TODO review
 //    private Object readResolve() throws ObjectStreamException {
 //        try {
 //            return of(eraValue);

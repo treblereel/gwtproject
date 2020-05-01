@@ -99,8 +99,7 @@ import java.util.Objects;
 public final class JapaneseChronology extends Chronology implements Serializable {
 
     // Locale for creating a JapaneseImpericalCalendar.
-    //GWT Specific
-//    static final Locale LOCALE = new Locale("ja", "JP", "JP");
+	static final Locale LOCALE = new Locale("ja", "JP", "JP");
 
     /**
      * Singleton instance for Japanese chronology.
@@ -357,7 +356,7 @@ public final class JapaneseChronology extends Chronology implements Serializable
     }
 
     //-----------------------------------------------------------------------
-    //GWT Specific
+	// GWT Specific TODO
     @Override
     public ValueRange range(ChronoField field) {
         switch (field) {

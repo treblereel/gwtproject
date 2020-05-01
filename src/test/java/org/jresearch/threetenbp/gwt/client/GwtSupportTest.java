@@ -16,12 +16,6 @@ public class GwtSupportTest extends GWTTestCase {
 		return "org.jresearch.threetenbp.gwt.module";
 	}
 
-	@Override
-	protected void gwtSetUp() throws Exception {
-		Support.init();
-		super.gwtSetUp();
-	}
-
 	@Test
 	public void testGetTimestamp() {
 		final float timestamp = Support.getTimestamp();

@@ -117,7 +117,7 @@
 			<groupId>com.google.elemental2</groupId>
 			<artifactId>elemental2-core</artifactId>
 		</dependency>
-		<!-- <dependency>
+		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 		</dependency>
@@ -125,7 +125,7 @@
 			<groupId>org.jresearch.dominokit</groupId>
 			<artifactId>domino-slf4j-logger</artifactId>
 			<version>${gwt-slf4j.ver}</version>
-		</dependency> -->
+		</dependency>
 		<dependency>
 			<groupId>org.jresearch.gwtproject.i18n</groupId>
 			<artifactId>gwt-cldr</artifactId>
@@ -136,11 +136,11 @@
 			<artifactId>gwt-nio</artifactId>
 			<version>${gwt-nio.ver}</version>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.jresearch.gwtproject.xhr</groupId>
 			<artifactId>gwt-xhr</artifactId>
 			<version>${gwt-xhr.ver}</version>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>com.google.jsinterop</groupId>
 			<artifactId>jsinterop-annotations</artifactId>
@@ -284,7 +284,7 @@
 		<!-- Other properties -->
 		<gwt-typedarrays.ver>1.2-SNAPSHOT</gwt-typedarrays.ver>
 		<gwt-nio.ver>0.2-SNAPSHOT</gwt-nio.ver>
-		<gwt-xhr.ver>1.1-SNAPSHOT</gwt-xhr.ver>
+		<!-- <gwt-xhr.ver>1.1-SNAPSHOT</gwt-xhr.ver> -->
 		<gwt-slf4j.ver>1.0-rc.4</gwt-slf4j.ver>
 	</properties>
 </project>

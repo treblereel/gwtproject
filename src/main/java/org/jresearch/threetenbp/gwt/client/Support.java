@@ -5,16 +5,14 @@ import static jsinterop.annotations.JsPackage.GLOBAL;
 import java.nio.ByteBuffer;
 import java.time.zone.Providers;
 import java.time.zone.ZoneRulesProvider;
-import java.util.Locale;
 
 import javax.annotation.Nonnull;
 
 import org.gwtproject.nio.TypedArrayHelper;
 import org.gwtproject.typedarrays.shared.Uint8Array;
-import org.gwtproject.xhr.client.ReadyStateChangeHandler;
-import org.gwtproject.xhr.client.XMLHttpRequest;
-import org.gwtproject.xhr.client.XMLHttpRequest.ResponseType;
 import org.jresearch.threetenbp.gwt.client.loader.TimeJsBundle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.ScriptInjector;
@@ -24,46 +22,55 @@ import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
-import jsinterop.base.Js;
 
 @JsType(isNative = true, namespace = GLOBAL, name = "support")
 public class Support {
 
 	@JsOverlay
-	private static boolean initialized = false;
+	private static final Logger LOGGER = LoggerFactory.getLogger(Support.class);
+	@JsOverlay
+	private static final TimeJsBundle bundle = GWT.create(TimeJsBundle.class);
+
+	@JsOverlay
+	private static boolean commonInitialized = false;
+	@JsOverlay
+	private static boolean tzTnitialized = false;
+
+	static {
+		init();
+	}
 
 	@JsOverlay
 	public static void init() {
-		if (!isInitialized()) {
-			final TimeJsBundle bundle = GWT.create(TimeJsBundle.class);
+		if (!isCommonInitialized()) {
+			LOGGER.trace("common initialization");
 			ScriptInjector.fromString(bundle.support().getText()).setWindow(ScriptInjector.TOP_WINDOW).inject();
 			ScriptInjector.fromString(bundle.base64binary().getText()).setWindow(ScriptInjector.TOP_WINDOW).inject();
-			XMLHttpRequest request = XMLHttpRequest.create();
-	        request.open("GET", bundle.tzdb().getSafeUri().asString());
-	        request.setResponseType(ResponseType.ArrayBuffer);
-	        request.setOnReadyStateChange(new ReadyStateChangeHandler() {
-	            @Override
-	            public void onReadyStateChange(XMLHttpRequest xhr) {
-	                if (xhr.getReadyState() == XMLHttpRequest.DONE) {
-	                    if (xhr.getStatus() == 200) {
-	                        ArrayBuffer buffer = Js.cast(xhr.getResponseArrayBuffer());
-	                        ByteBuffer data = TypedArrayHelper.wrap(buffer);
-	                        ZoneRulesProvider provider = Providers.of(data);
-	                        ZoneRulesProvider.registerProvider(provider);
-	                    } else {
-	                        System.out.println("response status: " + xhr.getStatus() + " " + xhr.getStatusText());
-	                    }
-	                }
-	            }
-	        });
-	        request.send();
-			initialized = true;
+			commonInitialized = true;
 		}
 	}
 
 	@JsOverlay
-	public static boolean isInitialized() {
-		return initialized;
+	public static void initTzData() {
+		if (!isTzInitialized()) {
+			LOGGER.trace("tz initialization");
+			String tzData = bundle.tzdbEncoded().getText();
+			ArrayBuffer buffer = Support.decodeArrayBuffer(tzData);
+			ByteBuffer data = TypedArrayHelper.wrap(buffer);
+			ZoneRulesProvider provider = Providers.of(data);
+			ZoneRulesProvider.registerProvider(provider);
+			tzTnitialized = true;
+		}
+	}
+
+	@JsOverlay
+	public static boolean isCommonInitialized() {
+		return commonInitialized;
+	}
+
+	@JsOverlay
+	public static boolean isTzInitialized() {
+		return tzTnitialized;
 	}
 
 	@Nonnull

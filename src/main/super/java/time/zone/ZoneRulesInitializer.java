@@ -33,6 +33,8 @@ package java.time.zone;
 
 import java.util.ServiceLoader;
 
+import org.jresearch.threetenbp.gwt.client.Support;
+
 /**
  * Controls how the time-zone rules are initialized.
  * <p>
@@ -121,7 +123,8 @@ public abstract class ZoneRulesInitializer {
 
         @Override
         protected void initializeProviders() {
-//GWT Specific TODO!!!
+			// GWT Specific
+			Support.initTzData();
 //            ServiceLoader<ZoneRulesProvider> loader = ServiceLoader.load(ZoneRulesProvider.class, ZoneRulesProvider.class.getClassLoader());
 //            for (ZoneRulesProvider provider : loader) {
 //                try {

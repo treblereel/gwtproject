@@ -31,6 +31,7 @@ public final class Locale {
 	private final String language;
 	private final String region;
 	private final String variant;
+	private String languageTag;
 
 	public Locale(String language, String region, String variant) {
 		if (language == null || region == null || variant == null) {
@@ -120,6 +121,28 @@ public final class Locale {
 			result.append('_').append(variant);
 		}
 		return result.toString();
+	}
+
+	public String toLanguageTag() {
+		if (languageTag == null) {
+			StringBuilder result = new StringBuilder();
+
+			if (!language.isEmpty()) {
+				result.append(language);
+			}
+
+			if (!region.isEmpty()) {
+				result.append('-');
+				result.append(region);
+			}
+
+			if (!variant.isEmpty()) {
+				result.append('-');
+				result.append(variant);
+			}
+			languageTag = result.toString();
+		}
+		return languageTag;
 	}
 
 	public final String getDisplayLanguage() {

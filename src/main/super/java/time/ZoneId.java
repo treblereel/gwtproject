@@ -212,8 +212,6 @@ public abstract class ZoneId implements Serializable {
 		base.put("MST", "-07:00");
 		base.put("HST", "-10:00");
 		SHORT_IDS = Collections.unmodifiableMap(base);
-		//GWT specific
-		Support.init();
 	}
 	/**
 	 * Serialization version.

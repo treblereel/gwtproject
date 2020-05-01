@@ -75,7 +75,7 @@ public class TestIsoChronology extends AbstractTest {
 	// Lookup by Singleton
 	// -----------------------------------------------------------------------
 	@Test
-	public void instanceNotNull() {
+	public void test_instanceNotNull() {
 		assertNotNull(IsoChronology.INSTANCE);
 	}
 

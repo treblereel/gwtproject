@@ -31,10 +31,6 @@
  */
 package org.jresearch.threetenbp.gwt.client.chrono;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.time.chrono.ChronoLocalDate;
 import java.time.chrono.Chronology;
 import java.time.chrono.HijrahChronology;
@@ -56,6 +52,7 @@ import org.junit.Test;
 public class TestChronology extends AbstractTest {
 
 //    @BeforeMethod
+	@Override
 	public void gwtSetUp() throws Exception {
 		super.gwtSetUp();
 		// Ensure each of the classes are initialized (until initialization is fixed)
@@ -175,21 +172,19 @@ public class TestChronology extends AbstractTest {
 //        assertEquals(Chronology.ofLocale(locale), chrono);
 //    }
 
-	//GWT - TODO Locale
-//	@Test
-//	public void test_lookupLocale_jp_JP() {
-//		Chronology test = Chronology.ofLocale(new Locale("ja", "JP"));
-//		assertEquals(test.getId(), "ISO");
-//		assertEquals(test, IsoChronology.INSTANCE);
-//	}
+	@Test
+	public void test_lookupLocale_jp_JP() {
+		Chronology test = Chronology.ofLocale(new Locale("ja", "JP"));
+		assertEquals(test.getId(), "ISO");
+		assertEquals(test, IsoChronology.INSTANCE);
+	}
 
-	//GWT - TODO Locale
-//	@Test
-//	public void test_lookupLocale_jp_JP_JP() {
-//		Chronology test = Chronology.ofLocale(new Locale("ja", "JP", "JP"));
-//		assertEquals(test.getId(), "Japanese");
-//		assertEquals(test, JapaneseChronology.INSTANCE);
-//	}
+	@Test
+	public void test_lookupLocale_jp_JP_JP() {
+		Chronology test = Chronology.ofLocale(new Locale("ja", "JP", "JP"));
+		assertEquals(test.getId(), "Japanese");
+		assertEquals(test, JapaneseChronology.INSTANCE);
+	}
 
 	// -----------------------------------------------------------------------
 	// serialization; serialize and check each calendar system

@@ -12,10 +12,17 @@ if (typeof Intl == 'object' && typeof Intl.DateTimeFormat == 'function'  && type
 
 if (typeof Intl == 'object' && typeof Intl.DateTimeFormat == 'function'  && typeof Intl.DateTimeFormat().formatToParts == 'function') {
 	displayTimeZone = function(daylight, timeZone, style, locale) {
-		const region = new Intl.DateTimeFormat(locale, { timeZone: timeZone, timeZoneName: style });
-		const month = daylight ? 6 : 12;
-		const date = new Date(Date.UTC(2012, month, 20, 6, 0, 0));
-		return region.formatToParts(date).find(checkType).value;
+		try {
+			const region = new Intl.DateTimeFormat(locale, { timeZone: timeZone, timeZoneName: style });
+			const month = daylight ? 6 : 12;
+			const date = new Date(Date.UTC(2012, month, 20, 6, 0, 0));
+			const res = region.formatToParts(date).find(checkType).value;
+			console.log("Return %s from call displayTimeZone with daylight %s, timeZone %s, style %s, locale %s: %s", res, daylight, timeZone, style, locale);
+			return region.formatToParts(date).find(checkType).value;
+		} catch (e) {
+			console.error("Error while call displayTimeZone with daylight %s, timeZone %s, style %s, locale %s: %s", daylight, timeZone, style, locale, e);
+			return timeZone;
+		}
 	};
 } else {
 	displayTimeZone = function(daylight, timeZone, style, locale) {

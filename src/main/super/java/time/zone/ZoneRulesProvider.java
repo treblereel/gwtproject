@@ -73,15 +73,15 @@ public abstract class ZoneRulesProvider {
      * The set of loaded providers.
      */
 	//GWT specific
-    private static final ArrayList<ZoneRulesProvider> PROVIDERS = new ArrayList<>();
+	private static final ArrayList<ZoneRulesProvider> PROVIDERS = new ArrayList<>();
     /**
      * The lookup from zone region ID to provider.
      */
-    private static final ConcurrentMap<String, ZoneRulesProvider> ZONES = new ConcurrentHashMap<>(512, 0.75f);
+	private static final ConcurrentMap<String, ZoneRulesProvider> ZONES = new ConcurrentHashMap<>(512, 0.75f);
 
-    static {
-        ZoneRulesInitializer.initialize();
-    }
+	static {
+		ZoneRulesInitializer.initialize();
+	}
 
     //-------------------------------------------------------------------------
     /**

@@ -22,7 +22,7 @@ The time-zone database is stored as a pre-compiled dat file that is included in 
 
 ### Using
 
-* Add project dependency to pom.xml 
+* Add project dependency to pom.xml
 ```
 <dependency>
     <groupId>org.jresearch.gwt.time</groupId>
@@ -30,8 +30,7 @@ The time-zone database is stored as a pre-compiled dat file that is included in 
     <version>1.4.4</version>
 </dependency>
 ```
-* Add `<inherits name="org.jresearch.threetenbp.gwt.threetenbpGwt"/>` to your module.gwt.xml, tf you use gwt-maven-plugin form Thomas Broyer (https://github.com/tbroyer/gwt-maven-plugin) it will be done automaticaly
-* Call `org.jresearch.threetenbp.gwt.client.Support.init()` on application start
+* Add `<inherits name="org.jresearch.threetenbp.gwt.threetenbpGwt"/>` to your module.gwt.xml, if you use gwt-maven-plugin form Thomas Broyer (https://github.com/tbroyer/gwt-maven-plugin) it will be done automaticaly
 
 #### FAQs
 
@@ -64,7 +63,7 @@ Pull requests must _not_ be copied from the JDK, because the GPL license is inco
 
 * check out
 * `mvn clean install`
-* The project use the parent pom and dependensies located on Sonatype snapshot repository. 
+* The project use the parent pom and dependensies located on Sonatype snapshot repository.
 ```
 <repositories>
     <repository>
@@ -74,4 +73,4 @@ Pull requests must _not_ be copied from the JDK, because the GPL license is inco
         <snapshots><enabled>true</enabled></snapshots>
     </repository>
 </repositories>
-```  
+```
