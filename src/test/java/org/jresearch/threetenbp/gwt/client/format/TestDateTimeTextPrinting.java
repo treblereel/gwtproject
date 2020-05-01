@@ -108,7 +108,7 @@ public class TestDateTimeTextPrinting extends AbstractTest {
 		LocalDateTime dt = LocalDateTime.of(2010, 1, 1, 0, 0);
 		dt = dt.with(field, value);
 		String text = f.format(dt);
-		assertEquals(text, expected);
+		assertEquals(expected, text);
 	}
 
 	@Test(/* dataProvider="printText" */)
