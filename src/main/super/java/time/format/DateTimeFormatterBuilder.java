@@ -3345,6 +3345,8 @@ public final class DateTimeFormatterBuilder {
 		private static final Logger LOGGER = LoggerFactory
 				.getLogger(DateTimeFormatterBuilder.ZoneTextPrinterParser.class);
 
+		private static final String CUSTOM_ID_PREFIX = "GMT";
+
         /** The text style to output. */
         private static final Comparator<String> LENGTH_COMPARATOR = new Comparator<String>() {
             @Override
@@ -3406,15 +3408,15 @@ public final class DateTimeFormatterBuilder {
 //                int tzstyle = (textStyle.asNormal() == TextStyle.FULL ? TimeZone.LONG : TimeZone.SHORT);
 //                String textWinter = tz.getDisplayName(false, tzstyle, context.getLocale());
 				if (id.startsWith("Etc/") || (!textWinter.startsWith("GMT+") && !textWinter.startsWith("GMT-"))) {
-                    ids.put(textWinter, id);
-					LOGGER.trace("put key {} for ZoneId {}", textWinter, id);
+					ids.put(normalizedZoneCustomId(textWinter), id);
+					LOGGER.trace("put key {} for ZoneId {}", normalizedZoneCustomId(textWinter), id);
                 }
 				// GWT Specific
 //              String textSummer = tz.getDisplayName(true, tzstyle, context.getLocale());
 				String textSummer = Support.displayTimeZone(true, id, style, context.getLocale().toLanguageTag());
 				if (id.startsWith("Etc/") || (!textSummer.startsWith("GMT+") && !textSummer.startsWith("GMT-"))) {
-                    ids.put(textSummer, id);
-					LOGGER.trace("put key {} for ZoneId {}", textSummer, id);
+					ids.put(normalizedZoneCustomId(textSummer), id);
+					LOGGER.trace("put key {} for ZoneId {}", normalizedZoneCustomId(textSummer), id);
                 }
             }
             for (Entry<String, String> entry : ids.entrySet()) {
@@ -3426,6 +3428,76 @@ public final class DateTimeFormatterBuilder {
             }
             return ~position;
         }
+
+		private String normalizedZoneCustomId(String zoneCustomId) {
+			String result = zoneCustomId;
+			int length = zoneCustomId.length();
+			if (zoneCustomId != null && zoneCustomId.startsWith(CUSTOM_ID_PREFIX)
+					&& length >= CUSTOM_ID_PREFIX.length() + 2) {
+				StringBuilder normalizedZoneCustomId = new StringBuilder(CUSTOM_ID_PREFIX);
+				int i = CUSTOM_ID_PREFIX.length();
+				char c = zoneCustomId.charAt(i++);
+				if (c == '-' || c == '+') {
+					normalizedZoneCustomId.append(c);
+					int rest = length - i;
+					if (rest == 1) {
+						c = zoneCustomId.charAt(i++);
+						if (c >= '0' && c <= '9') {
+							result = normalizedZoneCustomId.append('0').append(c).append(":00").toString();
+						}
+					} else if (rest == 2) {
+						c = zoneCustomId.charAt(i++);
+						if (c >= '0' && c <= '9') {
+							normalizedZoneCustomId.append(c);
+							c = zoneCustomId.charAt(i++);
+							if (c >= '0' && c <= '9') {
+								result = normalizedZoneCustomId.append(c).append(":00").toString();
+							}
+						}
+					} else if (rest == 3) {
+						c = zoneCustomId.charAt(i++);
+						if (c >= '0' && c <= '9') {
+							normalizedZoneCustomId.append('0').append(c).append(':');
+							c = zoneCustomId.charAt(i++);
+							if (c >= '0' && c <= '9') {
+								normalizedZoneCustomId.append(c);
+								c = zoneCustomId.charAt(i++);
+								if (c >= '0' && c <= '9') {
+									result = normalizedZoneCustomId.append(c).toString();
+								}
+							}
+						}
+					} else if (rest == 4) {
+						c = zoneCustomId.charAt(i++);
+						if (c >= '0' && c <= '9') {
+							char next = zoneCustomId.charAt(i++);
+							if (next == ':') {
+								normalizedZoneCustomId.append('0').append(c).append(':');
+								c = zoneCustomId.charAt(i++);
+								if (c >= '0' && c <= '9') {
+									normalizedZoneCustomId.append(c);
+									c = zoneCustomId.charAt(i++);
+									if (c >= '0' && c <= '9') {
+										result = normalizedZoneCustomId.append(c).toString();
+									}
+								}
+							} else if (next >= '0' && next <= '9') {
+								normalizedZoneCustomId.append(c).append(next).append(':');
+								c = zoneCustomId.charAt(i++);
+								if (c >= '0' && c <= '9') {
+									normalizedZoneCustomId.append(c);
+									c = zoneCustomId.charAt(i++);
+									if (c >= '0' && c <= '9') {
+										result = normalizedZoneCustomId.append(c).toString();
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			return result;
+		}
 
         @Override
         public String toString() {

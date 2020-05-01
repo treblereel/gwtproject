@@ -1484,10 +1484,8 @@ public final class DateTimeFormatter {
         Objects.requireNonNull(text, "text");
         Objects.requireNonNull(type, "query");
         try {
-//            DateTimeBuilder builder = parseToBuilder(text, null).resolve(resolverStyle, resolverFields);
-//            return builder.build(type);
-			DateTimeBuilder builder = parseToBuilder(text, null);
-			return null;
+			DateTimeBuilder builder = parseToBuilder(text, null).resolve(resolverStyle, resolverFields);
+			return builder.build(type);
         } catch (DateTimeParseException ex) {
             throw ex;
         } catch (RuntimeException ex) {

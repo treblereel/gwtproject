@@ -392,7 +392,7 @@ public class TestDateTimeParsing extends AbstractTest {
 		String dateString = "2015,7,21,0,0,0,GMT+02:00";
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy,M,d,H,m,s,z", Locale.US);
 		ZonedDateTime parsed = ZonedDateTime.parse(dateString, formatter);
-		assertEquals(parsed, ZonedDateTime.of(2015, 7, 21, 0, 0, 0, 0, ZoneId.of("Etc/GMT-2")));
+		assertEquals(ZonedDateTime.of(2015, 7, 21, 0, 0, 0, 0, ZoneId.of("Etc/GMT-2")), parsed);
 	}
 
 }
