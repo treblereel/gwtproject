@@ -16,6 +16,78 @@
 	<url>https://www.threeten.org/threetenbp</url>
 
 	<!-- ==================================================================== -->
+  <developers>
+    <developer>
+      <id>jodastephen</id>
+      <name>Stephen Colebourne</name>
+      <roles>
+        <role>Project Lead</role>
+      </roles>
+      <timezone>0</timezone>
+      <url>https://github.com/jodastephen</url>
+    </developer>
+  </developers>
+  <contributors>
+    <contributor>
+      <name>Martin Baker</name>
+      <url>https://github.com/kemokid</url>
+    </contributor>
+    <contributor>
+      <name>Graham Borland</name>
+      <url>https://github.com/GrahamBorland</url>
+    </contributor>
+    <contributor>
+      <name>Keith Harris</name>
+      <url>https://github.com/keithharris</url>
+    </contributor>
+    <contributor>
+      <name>Ludovic Hochet</name>
+      <url>https://github.com/lhochet</url>
+    </contributor>
+    <contributor>
+      <name>Matias Irland</name>
+      <url>https://github.com/matir91</url>
+    </contributor>
+    <contributor>
+      <name>David van Leusen</name>
+      <url>https://github.com/Kiskae</url>
+    </contributor>
+    <contributor>
+      <name>Eric Li</name>
+      <url>https://github.com/ericksli</url>
+    </contributor>
+    <contributor>
+      <name>Pap Lorinc</name>
+      <url>https://github.com/paplorinc</url>
+    </contributor>
+    <contributor>
+      <name>Philippe Marschall</name>
+      <url>https://github.com/marschall</url>
+    </contributor>
+    <contributor>
+      <name>Michael Nascimento Santos</name>
+      <url>https://github.com/sjmisterm</url>
+    </contributor>
+    <contributor>
+      <name>Roger Riggs</name>
+      <url>https://github.com/RogerRiggs</url>
+    </contributor>
+    <contributor>
+      <name>Siebe Schaap</name>
+      <url>https://github.com/sschaap</url>
+    </contributor>
+    <contributor>
+      <name>Sherman Shen</name>
+    </contributor>
+    <contributor>
+      <name>Philipp Thuerwaechter</name>
+      <url>https://github.com/pithu</url>
+    </contributor>
+    <contributor>
+      <name> Jake Wharton</name>
+      <url>https://github.com/JakeWharton</url>
+    </contributor>
+  </contributors>
 	<licenses>
 		<license>
 			<name>BSD 3-clause</name>

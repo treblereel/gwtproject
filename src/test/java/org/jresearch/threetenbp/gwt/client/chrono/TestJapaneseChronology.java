@@ -191,11 +191,16 @@ public class TestJapaneseChronology extends AbstractTest {
 	// Check Japanese Eras
 	// -----------------------------------------------------------------------
 	// @DataProvider(name="japaneseEras")
-	Object[][] data_japaneseEras() {
-		return new Object[][] { { JapaneseEra.MEIJI, -1, "Meiji" }, { JapaneseEra.TAISHO, 0, "Taisho" },
-				{ JapaneseEra.SHOWA, 1, "Showa" }, { JapaneseEra.HEISEI, 2, "Heisei" }, };
-	}
-
+    Object[][] data_japaneseEras() {
+        return new Object[][] {
+            { JapaneseEra.MEIJI, -1, "Meiji"},
+            { JapaneseEra.TAISHO, 0, "Taisho"},
+            { JapaneseEra.SHOWA, 1, "Showa"},
+            { JapaneseEra.HEISEI, 2, "Heisei"},
+            { JapaneseEra.REIWA, 3, "Reiwa"},
+        };
+    }
+	
 	@Test(/* dataProvider = "japaneseEras" */)
 	public void test_Japanese_Eras() {
 		Object[][] data = data_japaneseEras();
@@ -243,9 +248,9 @@ public class TestJapaneseChronology extends AbstractTest {
 			// ignore expected exception
 		}
 		JapaneseEra additional = JapaneseEras.registerEra(LocalDate.of(2100, 1, 1), "TestAdditional");
-		assertEquals(JapaneseEra.of(3), additional);
+        assertEquals(JapaneseEra.of(4), additional);
 		assertEquals(JapaneseEra.valueOf("TestAdditional"), additional);
-		assertEquals(JapaneseEra.values()[4], additional);
+        assertEquals(JapaneseEra.values()[5], additional);
 		try {
 			JapaneseEras.registerEra(LocalDate.of(2200, 1, 1), "TestAdditional2");
 			fail("JapaneseEra.registerEra should have failed");
@@ -259,16 +264,20 @@ public class TestJapaneseChronology extends AbstractTest {
 	// -----------------------------------------------------------------------
 	// @DataProvider(name="toString")
 	Object[][] data_toString() {
-		return new Object[][] { { JapaneseChronology.INSTANCE.date(1873, 9, 8), "Japanese Meiji 6-09-08" },
-				{ JapaneseChronology.INSTANCE.date(1912, 7, 29), "Japanese Meiji 45-07-29" },
-				{ JapaneseChronology.INSTANCE.date(1912, 7, 30), "Japanese Taisho 1-07-30" },
-				{ JapaneseChronology.INSTANCE.date(1926, 12, 24), "Japanese Taisho 15-12-24" },
-				{ JapaneseChronology.INSTANCE.date(1926, 12, 25), "Japanese Showa 1-12-25" },
-				{ JapaneseChronology.INSTANCE.date(1989, 1, 7), "Japanese Showa 64-01-07" },
-				{ JapaneseChronology.INSTANCE.date(1989, 1, 8), "Japanese Heisei 1-01-08" },
-				{ JapaneseChronology.INSTANCE.date(2012, 12, 6), "Japanese Heisei 24-12-06" }, };
+        return new Object[][] {
+            {JapaneseChronology.INSTANCE.date(1873,  9,  8), "Japanese Meiji 6-09-08"},
+            {JapaneseChronology.INSTANCE.date(1912,  7, 29), "Japanese Meiji 45-07-29"},
+            {JapaneseChronology.INSTANCE.date(1912,  7, 30), "Japanese Taisho 1-07-30"},
+            {JapaneseChronology.INSTANCE.date(1926, 12, 24), "Japanese Taisho 15-12-24"},
+            {JapaneseChronology.INSTANCE.date(1926, 12, 25), "Japanese Showa 1-12-25"},
+            {JapaneseChronology.INSTANCE.date(1989,  1,  7), "Japanese Showa 64-01-07"},
+            {JapaneseChronology.INSTANCE.date(1989,  1,  8), "Japanese Heisei 1-01-08"},
+            {JapaneseChronology.INSTANCE.date(2019, 4,  30), "Japanese Heisei 31-04-30"},
+            {JapaneseChronology.INSTANCE.date(2019, 5,  1), "Japanese Reiwa 1-05-01"},
+            {JapaneseChronology.INSTANCE.date(2012, 12,  6), "Japanese Heisei 24-12-06"},
+        };
 	}
-
+	
 	@Test(/* dataProvider = "toString" */)
 	public void test_toString() {
 		Object[][] data = data_toString();
