@@ -19,7 +19,3 @@ To build gwt-callback:
 * run `mvn clean install`
 
 on the parent directory.
-
-## System Requirements
-
-**GWT Timer requires GWT 2.9.0 or greater!**
