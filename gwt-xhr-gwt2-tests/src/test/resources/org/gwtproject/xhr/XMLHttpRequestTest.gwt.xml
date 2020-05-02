@@ -27,6 +27,6 @@
     <source path="client"/>
 
     <!-- servlets -->
-    <servlet path='/testRequest'
-             class='org.gwtproject.xhr.server.TestServlet'/>
+    <!-- servlet path='/testRequest'
+             class='org.gwtproject.xhr.server.TestServlet'/-->
 </module>

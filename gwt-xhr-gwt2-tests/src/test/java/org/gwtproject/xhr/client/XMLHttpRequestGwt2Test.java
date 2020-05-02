@@ -1,5 +1,5 @@
 /*
- * Copyright © 2019 The GWT Authors
+ * Copyright © 2020 The GWT Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@
 
 package org.gwtproject.xhr.client;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.DoNotRunWith;
 import com.google.gwt.junit.Platform;
 import com.google.gwt.junit.client.GWTTestCase;
@@ -61,11 +60,7 @@ public class XMLHttpRequestGwt2Test extends GWTTestCase {
   }
 
   private String getTestPath() {
-    return GWT.getModuleBaseURL() + "testRequest";
-  }
-
-  private String getTestPathCORS() {
-    return "http://localhost:9999/testCors";
+    return "http://localhost:9999/TestServlet?";
   }
 
   private Map<String, String> responseHeaders() {
@@ -187,7 +182,7 @@ public class XMLHttpRequestGwt2Test extends GWTTestCase {
             finishTest();
           }
         });
-    xmlHttpRequest.open("GET", getTestPathCORS() + "?credentials=false");
+    xmlHttpRequest.open("GET", getTestPath() + "?credentials=false");
     xmlHttpRequest.setWithCredentials(true);
     runAsyncTask(xmlHttpRequest::send);
   }
@@ -202,7 +197,7 @@ public class XMLHttpRequestGwt2Test extends GWTTestCase {
             finishTest();
           }
         });
-    xmlHttpRequest.open("GET", getTestPathCORS() + "?credentials=true");
+    xmlHttpRequest.open("GET", getTestPath() + "?credentials=true");
     xmlHttpRequest.setWithCredentials(true);
     runAsyncTask(xmlHttpRequest::send);
   }
@@ -217,7 +212,7 @@ public class XMLHttpRequestGwt2Test extends GWTTestCase {
             finishTest();
           }
         });
-    xmlHttpRequest.open("GET", getTestPathCORS() + "?credentials=false");
+    xmlHttpRequest.open("GET", getTestPath() + "?credentials=false");
     xmlHttpRequest.setWithCredentials(false);
     runAsyncTask(xmlHttpRequest::send);
   }
@@ -232,7 +227,7 @@ public class XMLHttpRequestGwt2Test extends GWTTestCase {
             finishTest();
           }
         });
-    xmlHttpRequest.open("GET", getTestPathCORS() + "?credentials=true");
+    xmlHttpRequest.open("GET", getTestPath() + "?credentials=true");
     xmlHttpRequest.setWithCredentials(false);
     runAsyncTask(xmlHttpRequest::send);
   }
@@ -248,7 +243,7 @@ public class XMLHttpRequestGwt2Test extends GWTTestCase {
             finishTest();
           }
         });
-    xmlHttpRequest.open("GET", getTestPathCORS());
+    xmlHttpRequest.open("GET", getTestPath());
     xmlHttpRequest.setResponseType(XMLHttpRequest.ResponseType.ArrayBuffer);
     runAsyncTask(xmlHttpRequest::send);
   }
@@ -264,7 +259,7 @@ public class XMLHttpRequestGwt2Test extends GWTTestCase {
             finishTest();
           }
         });
-    xmlHttpRequest.open("GET", getTestPathCORS());
+    xmlHttpRequest.open("GET", getTestPath());
     xmlHttpRequest.setResponseType("arraybuffer");
     runAsyncTask(xmlHttpRequest::send);
   }

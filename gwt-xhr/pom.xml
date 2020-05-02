@@ -7,8 +7,8 @@
   <version>1.0-SNAPSHOT</version>
   <packaging>gwt-lib</packaging>
 
-  <name>GWT XML Header Request</name>
-  <description>GWT XHR</description>
+  <name>GWT XHR</name>
+  <description>GWT XML HTTP Request Module</description>
   <url>https://github.com/gwtproject/gwt-xhr</url>
   <organization>
     <name>The GWT Authors</name>

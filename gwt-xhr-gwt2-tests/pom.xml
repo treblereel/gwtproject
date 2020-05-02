@@ -11,7 +11,7 @@
     <artifactId>gwt-xhr-gwt2-tests</artifactId>
     <packaging>gwt-lib</packaging>
 
-    <name>GWT XML Header Request - GWT 2 Tests</name>
+    <name>GWT XHR - GWT 2 Tests</name>
     <description>Test cases for the GWT 2</description>
 
     <properties>
@@ -59,6 +59,13 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.gwtproject.xhr</groupId>
+            <artifactId>gwt-xhr-test-service</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -81,31 +88,42 @@
                 <configuration>
                     <moduleName>org.gwtproject.xhr.client.XMLHttpRequestTest</moduleName>
                 </configuration>
+
+                <executions>
+                  <execution>
+                    <id>j2cl-test</id>
+                    <phase>integration-test</phase>
+                    <goals>
+                      <goal>test</goal>
+                    </goals>
+                  </execution>
+                </executions>
             </plugin>
+
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>1.6.0</version>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <configuration>
+                    <supportedPackagings>
+                        <supportedPackaging>gwt-lib</supportedPackaging>
+                    </supportedPackagings>
+                </configuration>
                 <executions>
                     <execution>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
+                        <id>start-jetty</id>
                         <phase>test-compile</phase>
+                        <goals>
+                            <goal>start</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>stop-jetty</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
                     </execution>
                 </executions>
-                <configuration>
-                    <executable>java</executable>
-                    <classpathScope>test</classpathScope>
-                    <arguments>
-                        <argument>-classpath</argument>
-                        <classpath/>
-                        <argument>org.gwtproject.xhr.CorsServer</argument>
-                        <argument>-port</argument>
-                        <argument>9999</argument>
-                    </arguments>
-                    <async>true</async>
-                </configuration>
             </plugin>
 
             <plugin>
