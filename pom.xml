@@ -218,11 +218,11 @@
 			<artifactId>gwt-nio</artifactId>
 			<version>${gwt-nio.ver}</version>
 		</dependency>
-		<!-- <dependency>
+		<dependency>
 			<groupId>org.jresearch.gwtproject.xhr</groupId>
 			<artifactId>gwt-xhr</artifactId>
 			<version>${gwt-xhr.ver}</version>
-		</dependency> -->
+		</dependency>
 		<dependency>
 			<groupId>com.google.jsinterop</groupId>
 			<artifactId>jsinterop-annotations</artifactId>
@@ -348,7 +348,7 @@
 		<!-- Other properties -->
 		<gwt-typedarrays.ver>1.1</gwt-typedarrays.ver>
 		<gwt-nio.ver>0.1</gwt-nio.ver>
-		<!-- <gwt-xhr.ver>1.1-SNAPSHOT</gwt-xhr.ver> -->
+		<gwt-xhr.ver>1.0</gwt-xhr.ver>
 		<gwt-slf4j.ver>1.0-rc.4</gwt-slf4j.ver>
 	</properties>
 </project>

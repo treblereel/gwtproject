@@ -25,7 +25,6 @@ import org.jresearch.threetenbp.gwt.client.format.TestPadPrinterDecorator;
 import org.jresearch.threetenbp.gwt.client.format.TestReducedParser;
 import org.jresearch.threetenbp.gwt.client.format.TestReducedPrinter;
 import org.jresearch.threetenbp.gwt.client.format.TestSettingsParser;
-import org.jresearch.threetenbp.gwt.client.format.TestSimpleDateTimeTextProvider;
 import org.jresearch.threetenbp.gwt.client.format.TestStringLiteralParser;
 import org.jresearch.threetenbp.gwt.client.format.TestStringLiteralPrinter;
 import org.jresearch.threetenbp.gwt.client.format.TestTextParser;
@@ -122,7 +121,7 @@ public class GwtTreetenBpSuite {
 		suite.addTestSuite(TestTextPrinter.class);
 		suite.addTestSuite(TestSettingsParser.class);
 		suite.addTestSuite(TestZoneIdParser.class);
-		suite.addTestSuite(TestSimpleDateTimeTextProvider.class);
+//		suite.addTestSuite(TestSimpleDateTimeTextProvider.class);
 		suite.addTestSuite(TestDateTimeFormatters.class);
 		suite.addTestSuite(TestDateTimeBuilderCombinations.class);
 		suite.addTestSuite(TestDateTimeFormatterBuilder.class);

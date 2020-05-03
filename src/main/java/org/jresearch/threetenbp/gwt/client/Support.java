@@ -8,6 +8,9 @@ import javax.annotation.Nonnull;
 
 import org.gwtproject.nio.TypedArrayHelper;
 import org.gwtproject.typedarrays.shared.Uint8Array;
+import org.gwtproject.xhr.client.ReadyStateChangeHandler;
+import org.gwtproject.xhr.client.XMLHttpRequest;
+import org.gwtproject.xhr.client.XMLHttpRequest.ResponseType;
 import org.jresearch.threetenbp.gwt.client.loader.TimeJsBundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +19,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.ScriptInjector;
 
 import elemental2.core.ArrayBuffer;
+import jsinterop.base.Js;
 
 public class Support {
 
@@ -24,6 +28,7 @@ public class Support {
 	private static final TimeJsBundle bundle = GWT.create(TimeJsBundle.class);
 
 	private static boolean commonInitialized = false;
+	private static boolean tzTnitializing = false;
 	private static boolean tzTnitialized = false;
 
 	static {
@@ -31,17 +36,43 @@ public class Support {
 	}
 
 	public static void init() {
-		if (!isCommonInitialized()) {
+		if (!commonInitialized) {
 			LOGGER.trace("common initialization");
 			ScriptInjector.fromString(bundle.support().getText()).setWindow(ScriptInjector.TOP_WINDOW).inject();
 			ScriptInjector.fromString(bundle.base64binary().getText()).setWindow(ScriptInjector.TOP_WINDOW).inject();
 			commonInitialized = true;
+			XMLHttpRequest request = XMLHttpRequest.create();
+			request.open("GET", bundle.tzdb().getSafeUri().asString());
+			request.setResponseType(ResponseType.ArrayBuffer);
+			request.setOnReadyStateChange(new ReadyStateChangeHandler() {
+				@Override
+				public void onReadyStateChange(XMLHttpRequest xhr) {
+					if (xhr.getReadyState() == XMLHttpRequest.DONE) {
+						if (xhr.getStatus() == 200) {
+							if (!tzTnitialized && !tzTnitializing) {
+								tzTnitializing = true;
+								LOGGER.trace("tz asynch initialization");
+								ArrayBuffer buffer = Js.cast(xhr.getResponseArrayBuffer());
+								ByteBuffer data = TypedArrayHelper.wrap(buffer);
+								ZoneRulesProvider provider = Providers.of(data);
+								ZoneRulesProvider.registerProvider(provider);
+								tzTnitialized = true;
+							}
+						} else {
+							LOGGER.error("Can't load TZDB asynch. Response status: {} {}", xhr.getStatus(),
+									xhr.getStatusText());
+						}
+					}
+				}
+			});
+			request.send();
 		}
 	}
 
 	public static void initTzData() {
-		if (!isTzInitialized()) {
-			LOGGER.trace("tz initialization");
+		if (!tzTnitialized && !tzTnitializing) {
+			tzTnitializing = true;
+			LOGGER.trace("tz synch initialization");
 			String tzData = bundle.tzdbEncoded().getText();
 			ArrayBuffer buffer = Support.decodeArrayBuffer(tzData);
 			ByteBuffer data = TypedArrayHelper.wrap(buffer);
@@ -49,14 +80,6 @@ public class Support {
 			ZoneRulesProvider.registerProvider(provider);
 			tzTnitialized = true;
 		}
-	}
-
-	public static boolean isCommonInitialized() {
-		return commonInitialized;
-	}
-
-	public static boolean isTzInitialized() {
-		return tzTnitialized;
 	}
 
 	public static float getTimestamp() {
