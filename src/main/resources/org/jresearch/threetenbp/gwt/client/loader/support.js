@@ -57,10 +57,10 @@ if (typeof Intl == 'object' && typeof Intl.DateTimeFormat == 'function'  && type
 }
 
 if (typeof Intl == 'object' && typeof Intl.DateTimeFormat == 'function'  && typeof Intl.DateTimeFormat().formatToParts == 'function') {
-	displayWeekdays = function(style, locale) {
+	displayWeekdays = function(style, standalone, locale) {
 		try {
 			var result = [];
-			const region = new Intl.DateTimeFormat(locale, { weekday: style });
+			const region = standalone ? new Intl.DateTimeFormat(locale, { weekday: style }) : new Intl.DateTimeFormat(locale, { weekday: style, day: 'numeric' });
 			for (i = 1; i <= 7; i++) {
 				const date = new Date(Date.UTC(2020, 5, i, 6, 0, 0));
 				result.push(region.formatToParts(date).find(checkWeekday).value);
@@ -138,9 +138,10 @@ if (typeof Intl == 'object' && typeof Intl.NumberFormat == 'function'  && typeof
 		var result = new Object();
 		try {
 			const numFormat = new Intl.NumberFormat(locale, { signDisplay:'always' });
-			numFormat.formatToParts(0);
 			result.zeroDigit = numFormat.formatToParts(0).find(checkZero).value;
-			result.positiveSign = numFormat.formatToParts(1).find(checkPlus).value;
+			//FF does not support signDisplay return +
+			var res = numFormat.formatToParts(1).find(checkPlus)
+			result.positiveSign = res === undefined ? '+' : res.value ;
 			result.negativeSign = numFormat.formatToParts(-1).find(checkMinus).value;
 			result.decimalSeparator = numFormat.formatToParts(1.5).find(checkPoint).value;
 		} catch (e) {

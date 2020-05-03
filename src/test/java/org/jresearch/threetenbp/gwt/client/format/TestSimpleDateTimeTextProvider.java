@@ -52,6 +52,7 @@ public class TestSimpleDateTimeTextProvider extends AbstractTest {
     Locale enUS = new Locale("en", "US");
     Locale ptBR = new Locale("pt", "BR");
     Locale frFR = new Locale("fr", "FR");
+    Locale yo = new Locale("yo");
 
 //    @BeforeMethod
 //    public void setUp() {
@@ -69,11 +70,13 @@ public class TestSimpleDateTimeTextProvider extends AbstractTest {
             {DAY_OF_WEEK, 6, TextStyle.SHORT, enUS, "Sat"},
             {DAY_OF_WEEK, 7, TextStyle.SHORT, enUS, "Sun"},
 
-				{ DAY_OF_WEEK, 1, TextStyle.SHORT, ptBR, "Seg." }, { DAY_OF_WEEK, 2, TextStyle.SHORT, ptBR, "Ter." },
-				{ DAY_OF_WEEK, 3, TextStyle.SHORT, ptBR, "Qua." }, { DAY_OF_WEEK, 4, TextStyle.SHORT, ptBR, "Qui." },
-				{ DAY_OF_WEEK, 5, TextStyle.SHORT, ptBR, "Sex." },
-				{ DAY_OF_WEEK, 6, TextStyle.SHORT, ptBR, "S\u00E1b." },
-				{ DAY_OF_WEEK, 7, TextStyle.SHORT, ptBR, "Dom." },
+				{ DAY_OF_WEEK, 1, TextStyle.SHORT, ptBR, "seg." },
+				{ DAY_OF_WEEK, 2, TextStyle.SHORT, ptBR, "ter." },
+				{ DAY_OF_WEEK, 3, TextStyle.SHORT, ptBR, "qua." },
+				{ DAY_OF_WEEK, 4, TextStyle.SHORT, ptBR, "qui." },
+				{ DAY_OF_WEEK, 5, TextStyle.SHORT, ptBR, "sex." },
+				{ DAY_OF_WEEK, 6, TextStyle.SHORT, ptBR, "s\u00E1b." },
+				{ DAY_OF_WEEK, 7, TextStyle.SHORT, ptBR, "dom." },
 
             {DAY_OF_WEEK, 1, TextStyle.FULL, enUS, "Monday"},
             {DAY_OF_WEEK, 2, TextStyle.FULL, enUS, "Tuesday"},
@@ -83,13 +86,29 @@ public class TestSimpleDateTimeTextProvider extends AbstractTest {
             {DAY_OF_WEEK, 6, TextStyle.FULL, enUS, "Saturday"},
             {DAY_OF_WEEK, 7, TextStyle.FULL, enUS, "Sunday"},
 
-            {DAY_OF_WEEK, 1, TextStyle.FULL, ptBR, "Segunda-feira"},
-            {DAY_OF_WEEK, 2, TextStyle.FULL, ptBR, "Ter\u00E7a-feira"},
-            {DAY_OF_WEEK, 3, TextStyle.FULL, ptBR, "Quarta-feira"},
-            {DAY_OF_WEEK, 4, TextStyle.FULL, ptBR, "Quinta-feira"},
-            {DAY_OF_WEEK, 5, TextStyle.FULL, ptBR, "Sexta-feira"},
-            {DAY_OF_WEEK, 6, TextStyle.FULL, ptBR, "S\u00E1bado"},
-            {DAY_OF_WEEK, 7, TextStyle.FULL, ptBR, "Domingo"},
+				{ DAY_OF_WEEK, 1, TextStyle.FULL, ptBR, "segunda-feira" },
+				{ DAY_OF_WEEK, 2, TextStyle.FULL, ptBR, "ter\u00E7a-feira" },
+				{ DAY_OF_WEEK, 3, TextStyle.FULL, ptBR, "quarta-feira" },
+				{ DAY_OF_WEEK, 4, TextStyle.FULL, ptBR, "quinta-feira" },
+				{ DAY_OF_WEEK, 5, TextStyle.FULL, ptBR, "sexta-feira" },
+				{ DAY_OF_WEEK, 6, TextStyle.FULL, ptBR, "s\u00E1bado" },
+				{ DAY_OF_WEEK, 7, TextStyle.FULL, ptBR, "domingo" },
+
+            {DAY_OF_WEEK, 1, TextStyle.FULL, yo, "Ọjọ́ Ajé"},
+            {DAY_OF_WEEK, 2, TextStyle.FULL, yo, "Ọjọ́ Ìsẹ́gun"},
+            {DAY_OF_WEEK, 3, TextStyle.FULL, yo, "Ọjọ́rú"},
+            {DAY_OF_WEEK, 4, TextStyle.FULL, yo, "Ọjọ́bọ"},
+            {DAY_OF_WEEK, 5, TextStyle.FULL, yo, "Ọjọ́ Ẹtì"},
+            {DAY_OF_WEEK, 6, TextStyle.FULL, yo, "Ọjọ́ Àbámẹ́ta"},
+            {DAY_OF_WEEK, 7, TextStyle.FULL, yo, "Ọjọ́ Àìkú"},
+
+            {DAY_OF_WEEK, 1, TextStyle.FULL_STANDALONE, yo, "Ajé"},
+            {DAY_OF_WEEK, 2, TextStyle.FULL_STANDALONE, yo, "Ìsẹ́gun"},
+            {DAY_OF_WEEK, 3, TextStyle.FULL_STANDALONE, yo, "Ọjọ́rú"},
+            {DAY_OF_WEEK, 4, TextStyle.FULL_STANDALONE, yo, "Ọjọ́bọ"},
+            {DAY_OF_WEEK, 5, TextStyle.FULL_STANDALONE, yo, "Ẹtì"},
+            {DAY_OF_WEEK, 6, TextStyle.FULL_STANDALONE, yo, "Àbámẹ́ta"},
+            {DAY_OF_WEEK, 7, TextStyle.FULL_STANDALONE, yo, "Àìkú"},
 
             {MONTH_OF_YEAR, 1, TextStyle.SHORT, enUS, "Jan"},
             {MONTH_OF_YEAR, 2, TextStyle.SHORT, enUS, "Feb"},
@@ -130,18 +149,18 @@ public class TestSimpleDateTimeTextProvider extends AbstractTest {
             {MONTH_OF_YEAR, 11, TextStyle.FULL, enUS, "November"},
             {MONTH_OF_YEAR, 12, TextStyle.FULL, enUS, "December"},
 
-            {MONTH_OF_YEAR, 1, TextStyle.FULL, ptBR, "Janeiro"},
-            {MONTH_OF_YEAR, 2, TextStyle.FULL, ptBR, "Fevereiro"},
-            {MONTH_OF_YEAR, 3, TextStyle.FULL, ptBR, "Mar\u00E7o"},
-            {MONTH_OF_YEAR, 4, TextStyle.FULL, ptBR, "Abril"},
-            {MONTH_OF_YEAR, 5, TextStyle.FULL, ptBR, "Maio"},
-            {MONTH_OF_YEAR, 6, TextStyle.FULL, ptBR, "Junho"},
-            {MONTH_OF_YEAR, 7, TextStyle.FULL, ptBR, "Julho"},
-            {MONTH_OF_YEAR, 8, TextStyle.FULL, ptBR, "Agosto"},
-            {MONTH_OF_YEAR, 9, TextStyle.FULL, ptBR, "Setembro"},
-            {MONTH_OF_YEAR, 10, TextStyle.FULL, ptBR, "Outubro"},
-            {MONTH_OF_YEAR, 11, TextStyle.FULL, ptBR, "Novembro"},
-            {MONTH_OF_YEAR, 12, TextStyle.FULL, ptBR, "Dezembro"},
+            {MONTH_OF_YEAR, 1, TextStyle.FULL, ptBR, "janeiro"},
+            {MONTH_OF_YEAR, 2, TextStyle.FULL, ptBR, "fevereiro"},
+            {MONTH_OF_YEAR, 3, TextStyle.FULL, ptBR, "mar\u00E7o"},
+            {MONTH_OF_YEAR, 4, TextStyle.FULL, ptBR, "abril"},
+            {MONTH_OF_YEAR, 5, TextStyle.FULL, ptBR, "maio"},
+            {MONTH_OF_YEAR, 6, TextStyle.FULL, ptBR, "junho"},
+            {MONTH_OF_YEAR, 7, TextStyle.FULL, ptBR, "julho"},
+            {MONTH_OF_YEAR, 8, TextStyle.FULL, ptBR, "agosto"},
+            {MONTH_OF_YEAR, 9, TextStyle.FULL, ptBR, "setembro"},
+            {MONTH_OF_YEAR, 10, TextStyle.FULL, ptBR, "outubro"},
+            {MONTH_OF_YEAR, 11, TextStyle.FULL, ptBR, "novembro"},
+            {MONTH_OF_YEAR, 12, TextStyle.FULL, ptBR, "dezembro"},
 
             {AMPM_OF_DAY, 0, TextStyle.SHORT, enUS, "AM"},
             {AMPM_OF_DAY, 1, TextStyle.SHORT, enUS, "PM"},
@@ -161,7 +180,7 @@ public class TestSimpleDateTimeTextProvider extends AbstractTest {
 	}
     public void test_getText(TemporalField field, Number value, TextStyle style, Locale locale, String expected) {
         DateTimeTextProviderTestWrapper tp = new DateTimeTextProviderTestWrapper();
-        assertTrue(expected, tp.getText(field, value.longValue(), style, locale).equalsIgnoreCase(expected));
+		assertEquals(expected, tp.getText(field, value.longValue(), style, locale));
     }
 
 }

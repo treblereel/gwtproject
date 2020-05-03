@@ -55,6 +55,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import org.jresearch.threetenbp.gwt.client.Support;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The Service Provider Implementation to obtain date-time text for a field.
@@ -65,6 +67,8 @@ import org.jresearch.threetenbp.gwt.client.Support;
  * This class is immutable and thread-safe.
  */
 final class SimpleDateTimeTextProvider extends DateTimeTextProvider {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(SimpleDateTimeTextProvider.class);
 
      // TODO: Better implementation based on CLDR
 
@@ -83,6 +87,7 @@ final class SimpleDateTimeTextProvider extends DateTimeTextProvider {
     //-----------------------------------------------------------------------
     @Override
     public String getText(TemporalField field, long value, TextStyle style, Locale locale) {
+		LOGGER.trace("Return text for field {}, value {}, style {}, locale {}", field, value, style, locale);
         Object store = findStore(field, locale);
         if (store instanceof LocaleStore) {
             return ((LocaleStore) store).getText(value, style);
@@ -233,8 +238,9 @@ final class SimpleDateTimeTextProvider extends DateTimeTextProvider {
             Long f5 = 5L;
             Long f6 = 6L;
             Long f7 = 7L;
-			// GWT specific
-			String[] array = Support.displayWeekdays("long", locale.toLanguageTag());
+
+			String[] array = Support.displayWeekdays("long", false, locale.toLanguageTag());
+			LOGGER.trace("weekdays, long, locale {}, formated {}", locale, array);
             Map<Long, String> map = new HashMap<Long, String>();
 			map.put(f1, array[0]);
 			map.put(f2, array[1]);
@@ -245,7 +251,19 @@ final class SimpleDateTimeTextProvider extends DateTimeTextProvider {
 			map.put(f7, array[6]);
             styleMap.put(TextStyle.FULL, map);
 
-			array = Support.displayWeekdays("short", locale.toLanguageTag());
+			array = Support.displayWeekdays("long", true, locale.toLanguageTag());
+			LOGGER.trace("weekdays, long, locale {}, standalone {}", locale, array);
+			map = new HashMap<Long, String>();
+			map.put(f1, array[0]);
+			map.put(f2, array[1]);
+			map.put(f3, array[2]);
+			map.put(f4, array[3]);
+			map.put(f5, array[4]);
+			map.put(f6, array[5]);
+			map.put(f7, array[6]);
+			styleMap.put(TextStyle.FULL_STANDALONE, map);
+
+			array = Support.displayWeekdays("short", false, locale.toLanguageTag());
             map = new HashMap<Long, String>();
 			map.put(f1, array[0]);
 			map.put(f2, array[1]);
@@ -256,8 +274,18 @@ final class SimpleDateTimeTextProvider extends DateTimeTextProvider {
 			map.put(f7, array[6]);
 			styleMap.put(TextStyle.SHORT, map);
 
-			// GWT specific
-			array = Support.displayWeekdays("narrow", locale.toLanguageTag());
+			array = Support.displayWeekdays("short", true, locale.toLanguageTag());
+			map = new HashMap<Long, String>();
+			map.put(f1, array[0]);
+			map.put(f2, array[1]);
+			map.put(f3, array[2]);
+			map.put(f4, array[3]);
+			map.put(f5, array[4]);
+			map.put(f6, array[5]);
+			map.put(f7, array[6]);
+			styleMap.put(TextStyle.SHORT_STANDALONE, map);
+
+			array = Support.displayWeekdays("narrow", false, locale.toLanguageTag());
             map = new HashMap<Long, String>();
 			map.put(f1, array[0]);
 			map.put(f2, array[1]);
@@ -267,6 +295,17 @@ final class SimpleDateTimeTextProvider extends DateTimeTextProvider {
 			map.put(f6, array[5]);
 			map.put(f7, array[6]);
 			styleMap.put(TextStyle.NARROW, map);
+
+			array = Support.displayWeekdays("narrow", true, locale.toLanguageTag());
+			map = new HashMap<Long, String>();
+			map.put(f1, array[0]);
+			map.put(f2, array[1]);
+			map.put(f3, array[2]);
+			map.put(f4, array[3]);
+			map.put(f5, array[4]);
+			map.put(f6, array[5]);
+			map.put(f7, array[6]);
+			styleMap.put(TextStyle.NARROW_STANDALONE, map);
             return createLocaleStore(styleMap);
         }
         if (field == AMPM_OF_DAY) {
@@ -348,8 +387,13 @@ final class SimpleDateTimeTextProvider extends DateTimeTextProvider {
 
     //-----------------------------------------------------------------------
     private static LocaleStore createLocaleStore(Map<TextStyle, Map<Long, String>> valueTextMap) {
-        valueTextMap.put(TextStyle.FULL_STANDALONE, valueTextMap.get(TextStyle.FULL));
-        valueTextMap.put(TextStyle.SHORT_STANDALONE, valueTextMap.get(TextStyle.SHORT));
+		if (valueTextMap.containsKey(TextStyle.FULL) && valueTextMap.containsKey(TextStyle.FULL_STANDALONE) == false) {
+			valueTextMap.put(TextStyle.FULL_STANDALONE, valueTextMap.get(TextStyle.FULL));
+		}
+		if (valueTextMap.containsKey(TextStyle.SHORT)
+				&& valueTextMap.containsKey(TextStyle.SHORT_STANDALONE) == false) {
+			valueTextMap.put(TextStyle.SHORT_STANDALONE, valueTextMap.get(TextStyle.SHORT));
+		}
         if (valueTextMap.containsKey(TextStyle.NARROW) && valueTextMap.containsKey(TextStyle.NARROW_STANDALONE) == false) {
             valueTextMap.put(TextStyle.NARROW_STANDALONE, valueTextMap.get(TextStyle.NARROW));
         }

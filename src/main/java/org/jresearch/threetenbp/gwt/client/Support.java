@@ -118,8 +118,8 @@ public class Support {
 	 * @param locale - language tag
 	 */
 	@Nonnull
-	public static String[] displayWeekdays(String style, String locale) {
-		return SupportJs.displayWeekdays(style, locale);
+	public static String[] displayWeekdays(String style, boolean standalone, String locale) {
+		return SupportJs.displayWeekdays(style, standalone, locale);
 	}
 
 	/**

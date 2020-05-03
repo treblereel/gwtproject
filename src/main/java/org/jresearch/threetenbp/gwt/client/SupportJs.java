@@ -48,7 +48,7 @@ public class SupportJs {
 	 */
 	@Nonnull
 	@JsMethod(namespace = JsPackage.GLOBAL)
-	public static native String[] displayWeekdays(String style, String locale);
+	public static native String[] displayWeekdays(String style, boolean standalone, String locale);
 
 	/**
 	 * @param style  - "narrow", "short", "long"
