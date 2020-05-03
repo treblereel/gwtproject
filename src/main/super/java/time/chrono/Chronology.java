@@ -206,12 +206,12 @@ public abstract class Chronology implements Comparable<Chronology> {
     public static Chronology ofLocale(Locale locale) {
         init();
         Objects.requireNonNull(locale, "locale");
-        //GWT TODO specific - use gwt-i18n-apt
+		// GWT TODO specific - use browser?
         String type = "iso";
-//        if (locale.equals(JapaneseChronology.LOCALE)) {
-//            type = "japanese";
-//        }
-//        String type = locale.getUnicodeLocaleType("ca");
+		if (locale.equals(JapaneseChronology.LOCALE)) {
+			type = "japanese";
+		}
+//  GWT TODO      String type = locale.getUnicodeLocaleType("ca");
         if (type == null || "iso".equals(type) || "iso8601".equals(type)) {
             return IsoChronology.INSTANCE;
         } else {

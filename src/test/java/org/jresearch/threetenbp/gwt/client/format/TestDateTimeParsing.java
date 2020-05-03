@@ -387,7 +387,6 @@ public class TestDateTimeParsing extends AbstractTest {
 	}
 
 	@Test
-	// GWT - TODO no locale aware works in GWT tests check in the real browser
 	public void disable_test_parse_tzdbGmtZone() {
 		String dateString = "2015,7,21,0,0,0,GMT+02:00";
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy,M,d,H,m,s,z", Locale.US);

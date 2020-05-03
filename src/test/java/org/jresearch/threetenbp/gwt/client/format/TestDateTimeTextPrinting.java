@@ -135,7 +135,6 @@ public class TestDateTimeTextPrinting extends AbstractTest {
 
 	// -----------------------------------------------------------------------
 	@Test
-	// GWT - no localization in HtmlUnit TODO
 	public void disable_test_print_appendText2arg_french_long() throws Exception {
 		DateTimeFormatter f = builder.appendText(MONTH_OF_YEAR, TextStyle.FULL).toFormatter(Locale.FRENCH);
 		LocalDateTime dt = LocalDateTime.of(2010, 1, 1, 0, 0);
@@ -144,7 +143,6 @@ public class TestDateTimeTextPrinting extends AbstractTest {
 	}
 
 	@Test
-	// GWT - no localization in HtmlUnit TODO
 	public void disable_test_print_appendText2arg_french_short() throws Exception {
 		DateTimeFormatter f = builder.appendText(MONTH_OF_YEAR, TextStyle.SHORT).toFormatter(Locale.FRENCH);
 		LocalDateTime dt = LocalDateTime.of(2010, 1, 1, 0, 0);

@@ -52,9 +52,9 @@ final class SimpleDateTimeFormatStyleProvider extends DateTimeFormatStyleProvide
                         new ConcurrentHashMap<String, Object>(16, 0.75f);
 
     @Override
-    //GWT Specific
+	// GWT TODO Specific
     public Locale[] getAvailableLocales() {
-    	return new Locale[] {Locale.getDefault()};
+		return new Locale[] { Locale.getDefault(), Locale.US };
 //        return DateFormat.getAvailableLocales();
     }
 
