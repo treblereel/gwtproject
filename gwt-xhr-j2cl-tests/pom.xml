@@ -10,7 +10,7 @@
   </parent>
   <artifactId>gwt-xhr-j2cl-tests</artifactId>
 
-  <name>GWT XML Header Request - J2CL Tests</name>
+  <name>GWT XHR - J2CL Tests</name>
   <description>Test cases for the J2Cl tests</description>
   <url>https://github.com/gwtproject/gwt-xhr</url>
 
@@ -90,6 +90,13 @@
       <version>1.0-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.gwtproject.xhr</groupId>
+      <artifactId>gwt-xhr-test-service</artifactId>
+      <version>${project.version}</version>
+      <type>war</type>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
@@ -106,10 +113,13 @@
           <!-- TODO: as long as ADVANCED compilationLevel will remove Assertions, we stay with BUNDLE -->
           <compilationLevel>ADVANCED</compilationLevel>
           <!--                <compilationLevel>BUNDLE</compilationLevel>-->
+          <webdriver>htmlunit</webdriver>
+          <!-- webdriver>chrome</webdriver-->
         </configuration>
         <executions>
           <execution>
             <id>j2cl-test</id>
+            <phase>integration-test</phase>
             <goals>
               <goal>test</goal>
             </goals>
@@ -123,6 +133,31 @@
         <configuration>
           <skipTests>true</skipTests>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-maven-plugin</artifactId>
+        <configuration>
+          <supportedPackagings>
+            <supportedPackaging>jar</supportedPackaging>
+          </supportedPackagings>
+        </configuration>
+        <executions>
+          <execution>
+            <id>start-jetty</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>start</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>stop-jetty</id>
+            <phase>post-integration-test</phase>
+            <goals>
+              <goal>stop</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
