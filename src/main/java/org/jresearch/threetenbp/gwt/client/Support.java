@@ -1,7 +1,5 @@
 package org.jresearch.threetenbp.gwt.client;
 
-import static jsinterop.annotations.JsPackage.GLOBAL;
-
 import java.nio.ByteBuffer;
 import java.time.zone.Providers;
 import java.time.zone.ZoneRulesProvider;
@@ -18,29 +16,20 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.ScriptInjector;
 
 import elemental2.core.ArrayBuffer;
-import jsinterop.annotations.JsMethod;
-import jsinterop.annotations.JsOverlay;
-import jsinterop.annotations.JsPackage;
-import jsinterop.annotations.JsType;
 
-@JsType(isNative = true, namespace = GLOBAL, name = "support")
 public class Support {
 
-	@JsOverlay
 	private static final Logger LOGGER = LoggerFactory.getLogger(Support.class);
-	@JsOverlay
+
 	private static final TimeJsBundle bundle = GWT.create(TimeJsBundle.class);
 
-	@JsOverlay
 	private static boolean commonInitialized = false;
-	@JsOverlay
 	private static boolean tzTnitialized = false;
 
 	static {
 		init();
 	}
 
-	@JsOverlay
 	public static void init() {
 		if (!isCommonInitialized()) {
 			LOGGER.trace("common initialization");
@@ -50,7 +39,6 @@ public class Support {
 		}
 	}
 
-	@JsOverlay
 	public static void initTzData() {
 		if (!isTzInitialized()) {
 			LOGGER.trace("tz initialization");
@@ -63,74 +51,85 @@ public class Support {
 		}
 	}
 
-	@JsOverlay
 	public static boolean isCommonInitialized() {
 		return commonInitialized;
 	}
 
-	@JsOverlay
 	public static boolean isTzInitialized() {
 		return tzTnitialized;
 	}
 
-	@Nonnull
-	@JsMethod(namespace = JsPackage.GLOBAL)
-	public static native float getTimestamp();
+	public static float getTimestamp() {
+		return SupportJs.getTimestamp();
+	}
 
 	@Nonnull
-	@JsMethod(namespace = JsPackage.GLOBAL)
-	public static native String getTimezone();
+	public static String getTimezone() {
+		return SupportJs.getTimezone();
+	}
 
-	@Nonnull
-	@JsMethod(namespace = JsPackage.GLOBAL)
-	public static native void sleep(int milliseconds);
+	public static void sleep(int milliseconds) {
+		SupportJs.sleep(milliseconds);
+	}
 
 	/**
 	 * @param style  - "short", "long"
 	 * @param locale - language tag
 	 */
 	@Nonnull
-	@JsMethod(namespace = JsPackage.GLOBAL)
-	public static native String displayTimeZone(boolean daylight, String timeZone, String style, String locale);
+	public static String displayTimeZone(boolean daylight, String timeZone, String style, String locale) {
+		return SupportJs.displayTimeZone(daylight, timeZone, style, locale);
+	}
 
 	/**
 	 * @param style  - "2-digit", "numeric", "narrow", "short", "long"
 	 * @param locale - language tag
 	 */
 	@Nonnull
-	@JsMethod(namespace = JsPackage.GLOBAL)
-	public static native String[] displayMonths(String style, boolean standalone, String locale);
+	public static String[] displayMonths(String style, boolean standalone, String locale) {
+		return SupportJs.displayMonths(style, standalone, locale);
+	}
 
 	/**
 	 * @param style  - "narrow", "short", "long"
 	 * @param locale - language tag
 	 */
 	@Nonnull
-	@JsMethod(namespace = JsPackage.GLOBAL)
-	public static native String[] displayWeekdays(String style, String locale);
+	public static String[] displayWeekdays(String style, String locale) {
+		return SupportJs.displayWeekdays(style, locale);
+	}
 
 	/**
 	 * @param style  - "narrow", "short", "long"
 	 * @param locale - language tag
 	 */
 	@Nonnull
-	@JsMethod(namespace = JsPackage.GLOBAL)
-	public static native String[] displayEras(String style, String locale);
+	public static String[] displayEras(String style, String locale) {
+		return SupportJs.displayEras(style, locale);
+	}
 
 	/**
 	 * @param style  - "narrow", "short", "long"
 	 * @param locale - language tag
 	 */
 	@Nonnull
-	@JsMethod(namespace = JsPackage.GLOBAL)
-	public static native String[] displayAmpm(String style, String locale);
+	public static String[] displayAmpm(String style, String locale) {
+		return SupportJs.displayAmpm(style, locale);
+	}
 
 	@Nonnull
-	@JsMethod(namespace = "Base64Binary")
-	public static native ArrayBuffer decodeArrayBuffer(String base64);
+	public static DecimalProperty displayNumber(String locale) {
+		return SupportJs.displayNumber(locale);
+	}
 
 	@Nonnull
-	@JsMethod(namespace = "Base64Binary")
-	public static native Uint8Array decode(String base64);
+	public static ArrayBuffer decodeArrayBuffer(String base64) {
+		return SupportJs.decodeArrayBuffer(base64);
+	}
+
+	@Nonnull
+	public static Uint8Array decode(String base64) {
+		return SupportJs.decode(base64);
+	}
 
 }

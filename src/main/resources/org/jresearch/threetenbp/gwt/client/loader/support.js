@@ -133,6 +133,36 @@ if (typeof Intl == 'object' && typeof Intl.DateTimeFormat == 'function'  && type
 	};
 }
 
+if (typeof Intl == 'object' && typeof Intl.NumberFormat == 'function'  && typeof Intl.NumberFormat().formatToParts == 'function') {
+	displayNumber = function(locale) {
+		var result = new Object();
+		try {
+			const numFormat = new Intl.NumberFormat(locale, { signDisplay:'always' });
+			numFormat.formatToParts(0);
+			result.zeroDigit = numFormat.formatToParts(0).find(checkZero).value;
+			result.positiveSign = numFormat.formatToParts(1).find(checkPlus).value;
+			result.negativeSign = numFormat.formatToParts(-1).find(checkMinus).value;
+			result.decimalSeparator = numFormat.formatToParts(1.5).find(checkPoint).value;
+		} catch (e) {
+			console.error("Error while call displayNumber, locale %s: %s", locale, e);
+			result.zeroDigit = '0';
+			result.positiveSign = '+';
+			result.negativeSign = '-';
+			result.decimalSeparator = '.';
+		}
+		return result;
+	};
+} else {
+	displayNumber = function(locale) {
+		var result = new Object();
+		result.zeroDigit = '0';
+		result.positiveSign = '+';
+		result.negativeSign = '-';
+		result.decimalSeparator = '.';
+		return result;
+	};
+}
+
 function sleep(milliseconds) {
 	var start = getTimestamp();
 	var current = getTimestamp();
@@ -146,6 +176,22 @@ function displayTimeZoneModern(daylight, timeZone, style, locale) {
 	const month = daylight ? 6 : 12;
 	const date = new Date(Date.UTC(2012, month, 20, 6, 0, 0));
 	return region.formatToParts(date).find(checkType).value;
+}
+
+function checkZero(part) {
+	  return part.type === "integer";
+}
+
+function checkPlus(part) {
+	  return part.type === "plusSign";
+}
+
+function checkMinus(part) {
+	  return part.type === "minusSign";
+}
+
+function checkPoint(part) {
+	  return part.type === "decimal";
 }
 
 function checkTimeZone(part) {

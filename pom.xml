@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.jresearch</groupId>
@@ -13,81 +15,81 @@
 	<name>JRS: GWT port of JSR-310 (java.time)</name>
 	<description>JRS: GWT port of JSR-310 (java.time) based on ThreeTen backport project (https://www.threeten.org/threetenbp)</description>
 	<version>1.4.6-SNAPSHOT</version>
-	<url>https://www.threeten.org/threetenbp</url>
+	<url>https://github.com/foal/gwt-time</url>
 
 	<!-- ==================================================================== -->
-  <developers>
-    <developer>
-      <id>jodastephen</id>
-      <name>Stephen Colebourne</name>
-      <roles>
-        <role>Project Lead</role>
-      </roles>
-      <timezone>0</timezone>
-      <url>https://github.com/jodastephen</url>
-    </developer>
-  </developers>
-  <contributors>
-    <contributor>
-      <name>Martin Baker</name>
-      <url>https://github.com/kemokid</url>
-    </contributor>
-    <contributor>
-      <name>Graham Borland</name>
-      <url>https://github.com/GrahamBorland</url>
-    </contributor>
-    <contributor>
-      <name>Keith Harris</name>
-      <url>https://github.com/keithharris</url>
-    </contributor>
-    <contributor>
-      <name>Ludovic Hochet</name>
-      <url>https://github.com/lhochet</url>
-    </contributor>
-    <contributor>
-      <name>Matias Irland</name>
-      <url>https://github.com/matir91</url>
-    </contributor>
-    <contributor>
-      <name>David van Leusen</name>
-      <url>https://github.com/Kiskae</url>
-    </contributor>
-    <contributor>
-      <name>Eric Li</name>
-      <url>https://github.com/ericksli</url>
-    </contributor>
-    <contributor>
-      <name>Pap Lorinc</name>
-      <url>https://github.com/paplorinc</url>
-    </contributor>
-    <contributor>
-      <name>Philippe Marschall</name>
-      <url>https://github.com/marschall</url>
-    </contributor>
-    <contributor>
-      <name>Michael Nascimento Santos</name>
-      <url>https://github.com/sjmisterm</url>
-    </contributor>
-    <contributor>
-      <name>Roger Riggs</name>
-      <url>https://github.com/RogerRiggs</url>
-    </contributor>
-    <contributor>
-      <name>Siebe Schaap</name>
-      <url>https://github.com/sschaap</url>
-    </contributor>
-    <contributor>
-      <name>Sherman Shen</name>
-    </contributor>
-    <contributor>
-      <name>Philipp Thuerwaechter</name>
-      <url>https://github.com/pithu</url>
-    </contributor>
-    <contributor>
-      <name> Jake Wharton</name>
-      <url>https://github.com/JakeWharton</url>
-    </contributor>
-  </contributors>
+	<developers>
+		<developer>
+			<id>jodastephen</id>
+			<name>Stephen Colebourne</name>
+			<roles>
+				<role>Project Lead</role>
+			</roles>
+			<timezone>0</timezone>
+			<url>https://github.com/jodastephen</url>
+		</developer>
+	</developers>
+	<contributors>
+		<contributor>
+			<name>Martin Baker</name>
+			<url>https://github.com/kemokid</url>
+		</contributor>
+		<contributor>
+			<name>Graham Borland</name>
+			<url>https://github.com/GrahamBorland</url>
+		</contributor>
+		<contributor>
+			<name>Keith Harris</name>
+			<url>https://github.com/keithharris</url>
+		</contributor>
+		<contributor>
+			<name>Ludovic Hochet</name>
+			<url>https://github.com/lhochet</url>
+		</contributor>
+		<contributor>
+			<name>Matias Irland</name>
+			<url>https://github.com/matir91</url>
+		</contributor>
+		<contributor>
+			<name>David van Leusen</name>
+			<url>https://github.com/Kiskae</url>
+		</contributor>
+		<contributor>
+			<name>Eric Li</name>
+			<url>https://github.com/ericksli</url>
+		</contributor>
+		<contributor>
+			<name>Pap Lorinc</name>
+			<url>https://github.com/paplorinc</url>
+		</contributor>
+		<contributor>
+			<name>Philippe Marschall</name>
+			<url>https://github.com/marschall</url>
+		</contributor>
+		<contributor>
+			<name>Michael Nascimento Santos</name>
+			<url>https://github.com/sjmisterm</url>
+		</contributor>
+		<contributor>
+			<name>Roger Riggs</name>
+			<url>https://github.com/RogerRiggs</url>
+		</contributor>
+		<contributor>
+			<name>Siebe Schaap</name>
+			<url>https://github.com/sschaap</url>
+		</contributor>
+		<contributor>
+			<name>Sherman Shen</name>
+		</contributor>
+		<contributor>
+			<name>Philipp Thuerwaechter</name>
+			<url>https://github.com/pithu</url>
+		</contributor>
+		<contributor>
+			<name> Jake Wharton</name>
+			<url>https://github.com/JakeWharton</url>
+		</contributor>
+	</contributors>
 	<licenses>
 		<license>
 			<name>BSD 3-clause</name>
@@ -98,9 +100,21 @@
 	<scm>
 		<connection>scm:hg:https://helixteamhub.cloud/JRS/projects/gwtTime/repositories/mercurial/gwt-time</connection>
 		<developerConnection>scm:hg:ssh://hth@helixteamhub.cloud/JRS/projects/gwtTime/repositories/mercurial/gwt-time</developerConnection>
-		<url>https://helixteamhub.cloud/JRS/projects/gwtTime/repositories/mercurial/gwt-time</url>
-		<tag>1.4.2</tag>
+		<url>https://github.com/foal/gwt-time</url>
+		<tag>HEAD</tag>
 	</scm>
+	<repositories>
+		<repository>
+			<id>oss.sonatype.org-snapshot</id>
+			<url>http://oss.sonatype.org/content/repositories/snapshots</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
 	<!-- ==================================================================== -->
 	<build>
 		<resources>
@@ -200,11 +214,6 @@
 			<version>${gwt-slf4j.ver}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.jresearch.gwtproject.i18n</groupId>
-			<artifactId>gwt-cldr</artifactId>
-			<version>${gwt-cldr.ver}</version>
-		</dependency>
-		<dependency>
 			<groupId>org.jresearch.gwtproject.nio</groupId>
 			<artifactId>gwt-nio</artifactId>
 			<version>${gwt-nio.ver}</version>
@@ -249,23 +258,6 @@
 			<version>9.2.14.v20151106</version>
 			<scope>test</scope>
 		</dependency>
-		<!-- <dependency>
-			<groupId>org.testng</groupId>
-			<artifactId>testng</artifactId>
-			<version>6.8.21</version>
-			Later versions need JDK 7
-			<scope>test</scope>
-			<exclusions>
-				<exclusion>
-					<groupId>org.beanshell</groupId>
-					<artifactId>bsh</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.yaml</groupId>
-					<artifactId>snakeyaml</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency> -->
 		<dependency>
 			<groupId>com.google.jsinterop</groupId>
 			<artifactId>base</artifactId>
@@ -276,7 +268,7 @@
 	<!-- ==================================================================== -->
 	<profiles>
 		<!-- Deployment profile, activated by -Doss.repo -->
-		<profile>
+		<!-- <profile>
 			<id>tzdb-update</id>
 			<activation>
 				<property>
@@ -312,8 +304,8 @@
 					</plugin>
 				</plugins>
 			</build>
-		</profile>
-		<profile>
+		</profile> -->
+		<!-- <profile>
 			<id>tzdb-jar</id>
 			<activation>
 				<property>
@@ -348,15 +340,14 @@
 					</plugin>
 				</plugins>
 			</build>
-		</profile>
+		</profile> -->
 	</profiles>
 
 	<!-- ==================================================================== -->
 	<properties>
-		<gwt-cldr.ver>1.0.11-SNAPSHOT</gwt-cldr.ver>
 		<!-- Other properties -->
-		<gwt-typedarrays.ver>1.2-SNAPSHOT</gwt-typedarrays.ver>
-		<gwt-nio.ver>0.2-SNAPSHOT</gwt-nio.ver>
+		<gwt-typedarrays.ver>1.1</gwt-typedarrays.ver>
+		<gwt-nio.ver>0.1</gwt-nio.ver>
 		<!-- <gwt-xhr.ver>1.1-SNAPSHOT</gwt-xhr.ver> -->
 		<gwt-slf4j.ver>1.0-rc.4</gwt-slf4j.ver>
 	</properties>

@@ -55,13 +55,21 @@ public class TestDecimalStyle extends AbstractTest {
 
     //-----------------------------------------------------------------------
     @Test
-    public void test_of_Locale() {
+	public void test_of_Locale_CA() {
         DecimalStyle loc1 = DecimalStyle.of(Locale.CANADA);
         assertEquals(loc1.getZeroDigit(), '0');
         assertEquals(loc1.getPositiveSign(), '+');
         assertEquals(loc1.getNegativeSign(), '-');
         assertEquals(loc1.getDecimalSeparator(), '.');
     }
+
+	public void disable_test_of_Locale_Fr() {
+		DecimalStyle loc1 = DecimalStyle.of(Locale.FRANCE);
+		assertEquals(loc1.getZeroDigit(), '0');
+		assertEquals(loc1.getPositiveSign(), '+');
+		assertEquals(loc1.getNegativeSign(), '-');
+		assertEquals(loc1.getDecimalSeparator(), ',');
+	}
 
     //-----------------------------------------------------------------------
     @Test

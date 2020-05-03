@@ -126,7 +126,6 @@ public class TestTextPrinter extends AbstractTestPrinterParser {
 	}
 
 	// -----------------------------------------------------------------------
-	//GWT TODO - see SimpleDateTimeTextProvider
 	public void disable_test_print_french_long() throws Exception {
 		printContext.setLocale(Locale.FRENCH);
 		printContext.setDateTime(LocalDate.of(2012, 1, 1));
@@ -135,7 +134,6 @@ public class TestTextPrinter extends AbstractTestPrinterParser {
 		assertEquals("janvier", buf.toString());
 	}
 
-	//GWT TODO - see SimpleDateTimeTextProvider
 	public void disable_test_print_french_short() throws Exception {
 		printContext.setLocale(Locale.FRENCH);
 		printContext.setDateTime(LocalDate.of(2012, 1, 1));

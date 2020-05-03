@@ -27,7 +27,7 @@ The time-zone database is stored as a pre-compiled dat file that is included in 
 <dependency>
     <groupId>org.jresearch.gwt.time</groupId>
     <artifactId>org.jresearch.gwt.time</artifactId>
-    <version>1.4.4</version>
+    <version>1.4.5</version>
 </dependency>
 ```
 * Add `<inherits name="org.jresearch.threetenbp.gwt.threetenbpGwt"/>` to your module.gwt.xml, if you use gwt-maven-plugin form Thomas Broyer (https://github.com/tbroyer/gwt-maven-plugin) it will be done automaticaly
@@ -63,7 +63,7 @@ Pull requests must _not_ be copied from the JDK, because the GPL license is inco
 
 * check out
 * `mvn clean install`
-* The project use the parent pom and dependensies located on Sonatype snapshot repository.
+* The project use the parent pom located on Sonatype snapshot repository.
 ```
 <repositories>
     <repository>
@@ -74,3 +74,4 @@ Pull requests must _not_ be copied from the JDK, because the GPL license is inco
     </repository>
 </repositories>
 ```
+or download directly https://oss.sonatype.org/content/repositories/snapshots/org/jresearch/org.jresearch.pom/29-SNAPSHOT/

@@ -12,6 +12,7 @@ public class BrowserTestSet {
 		// $JUnit-BEGIN$
 		suite.addTestSuite(BrowserTestDateTimeParsing.class);
 		suite.addTestSuite(BrowserTestDateTimeTextPrinting.class);
+		suite.addTestSuite(BrowserTestDecimalStyle.class);
 		suite.addTestSuite(BrowserTestIsoFields.class);
 		suite.addTestSuite(BrowserTestLocalDate.class);
 		suite.addTestSuite(BrowserTestLocalDateTime.class);
@@ -19,6 +20,7 @@ public class BrowserTestSet {
 		suite.addTestSuite(BrowserTestOffsetDateTime.class);
 		suite.addTestSuite(BrowserTestOffsetDateTime_instants.class);
 		suite.addTestSuite(BrowserTestOffsetTime.class);
+		suite.addTestSuite(BrowserTestSimpleDateTimeTextProvider.class);
 		suite.addTestSuite(BrowserTestTextParser.class);
 		suite.addTestSuite(BrowserTestTextPrinter.class);
 		suite.addTestSuite(BrowserTestYear.class);

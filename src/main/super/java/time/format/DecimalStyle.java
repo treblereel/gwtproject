@@ -38,8 +38,8 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import org.gwtproject.i18n.shared.cldr.LocaleInfo;
-import org.gwtproject.i18n.shared.cldr.NumberConstants;
+import org.jresearch.threetenbp.gwt.client.DecimalProperty;
+import org.jresearch.threetenbp.gwt.client.Support;
 
 /**
  * Localized symbols used in date and time formatting.
@@ -94,6 +94,7 @@ public final class DecimalStyle {
 	public static Set<Locale> getAvailableLocales() {
 		HashSet<Locale> result = new HashSet<Locale>();
 		result.add(Locale.getDefault());
+		result.add(Locale.US);
 		return result;
 //        Locale[] l = DecimalFormatSymbols.getAvailableLocales();
 //        return new HashSet<Locale>(Arrays.asList(l));
@@ -129,14 +130,14 @@ public final class DecimalStyle {
 		return info;
 	}
 
-	// GWT Specific TODO
+	// GWT Specific
 	private static DecimalStyle create(Locale locale) {
 //		DecimalFormatSymbols oldSymbols = DecimalFormatSymbols.getInstance(locale);
-		NumberConstants numberConstants = LocaleInfo.getCurrentLocale().getNumberConstants();
-		char zeroDigit = numberConstants.zeroDigit().charAt(0);
-		char positiveSign = '+';
-		char negativeSign = numberConstants.minusSign().charAt(0);
-		char decimalSeparator = numberConstants.decimalSeparator().charAt(0);
+		DecimalProperty property = Support.displayNumber(locale.toLanguageTag());
+		char zeroDigit = property.zeroDigit.charAt(0);
+		char positiveSign = property.positiveSign.charAt(0);
+		char negativeSign = property.negativeSign.charAt(0);
+		char decimalSeparator = property.decimalSeparator.charAt(0);
 		if (zeroDigit == '0' && negativeSign == '-' && decimalSeparator == '.') {
 			return STANDARD;
 		}

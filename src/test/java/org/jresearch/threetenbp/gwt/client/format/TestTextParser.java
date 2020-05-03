@@ -343,7 +343,6 @@ public class TestTextParser extends AbstractTestPrinterParser {
 		assertEquals(parseContext.toParsed().query(TemporalQueries.zoneId()), null);
 	}
 
-	//GWT TODO - see SimpleDateTimeTextProvider
 	public void disable_test_parse_french_short_strict_short_match() throws Exception {
 		parseContext.setLocale(Locale.FRENCH);
 		parseContext.setStrict(true);
