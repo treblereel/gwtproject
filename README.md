@@ -27,7 +27,7 @@ The time-zone database is stored as a pre-compiled dat file that is included in 
 <dependency>
     <groupId>org.jresearch.gwt.time</groupId>
     <artifactId>org.jresearch.gwt.time</artifactId>
-    <version>1.4.5</version>
+    <version>1.4.6</version>
 </dependency>
 ```
 * Add `<inherits name="org.jresearch.threetenbp.gwt.threetenbpGwt"/>` to your module.gwt.xml, if you use gwt-maven-plugin form Thomas Broyer (https://github.com/tbroyer/gwt-maven-plugin) it will be done automaticaly
