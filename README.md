@@ -32,7 +32,7 @@ The time-zone database is stored as a pre-compiled dat file that is included in 
 ```
 * Add `<inherits name="org.jresearch.threetenbp.gwt.threetenbpGwt"/>` to your module.gwt.xml, if you use gwt-maven-plugin form Thomas Broyer (https://github.com/tbroyer/gwt-maven-plugin) it will be done automaticaly
 
-### Unimplementet or partial implemented features
+### Unimplemented or partial implemented features
 * Convert to/from `java.util.Calendar`, to/from `java.util.TimeZone`, to/from `java.text.Format` (is out of scope this project)
 * Localization for IsoFields.QUARTER_OF_YEAR (hard code English quarter text)
 * DecimalStyle.getAvailableLocales() returns ROOT + US, (investigating way to retrive available locales from the browser)
