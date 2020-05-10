@@ -30,7 +30,7 @@ The time-zone database is stored as a pre-compiled dat file that is included in 
     <version>1.4.6</version>
 </dependency>
 ```
-* Add `<inherits name="org.jresearch.threetenbp.gwt.threetenbpGwt"/>` to your module.gwt.xml, if you use gwt-maven-plugin form Thomas Broyer (https://github.com/tbroyer/gwt-maven-plugin) it will be done automaticaly
+* Add `<inherits name="org.jresearch.threetenbp.gwt.module"/>` to your module.gwt.xml, if you use gwt-maven-plugin form Thomas Broyer (https://github.com/tbroyer/gwt-maven-plugin) it will be done automaticaly
 
 ### Unimplemented or partial implemented features
 * Convert to/from `java.util.Calendar`, to/from `java.util.TimeZone`, to/from `java.text.Format` (is out of scope this project)
@@ -38,9 +38,9 @@ The time-zone database is stored as a pre-compiled dat file that is included in 
 * DecimalStyle.getAvailableLocales() returns ROOT + US, (investigating way to retrive available locales from the browser)
 * DateTimeFormatStyleProvider.getAvailableLocales() returns ROOT + US, (investigating way to retrive available locales from the browser)
 * Chronology prints as ID (take it from browser)
-* WeekFields.of(Locale) returns `null` 
-* Implementation of `JapaneseChronology`/`JapaneseEra`/`JapaneseDate` in the original project based on `java.util.Calendar` and doesnot works right now. 
-* new `JapaneseEra.REIWA` required Java 13 to build (current is Java 8) 
+* WeekFields.of(Locale) returns `null`
+* Implementation of `JapaneseChronology`/`JapaneseEra`/`JapaneseDate` in the original project based on `java.util.Calendar` and doesnot works right now.
+* new `JapaneseEra.REIWA` required Java 13 to build (current is Java 8)
 * Default Locale is default ROOT, should be taken from the browser
 
 #### FAQs
