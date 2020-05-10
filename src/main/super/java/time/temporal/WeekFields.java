@@ -48,11 +48,17 @@ import java.time.Year;
 import java.time.chrono.ChronoLocalDate;
 import java.time.chrono.Chronology;
 import java.time.format.ResolverStyle;
+import java.util.EnumSet;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
+import org.jresearch.threetenbp.gwt.client.cldr.Cldrs;
+import org.jresearch.threetenbp.gwt.client.cldr.Region;
+import org.jresearch.threetenbp.gwt.client.cldr.WeekInfo;
 
 /**
  * Localized definitions of the day-of-week, week-of-month and week-of-year fields.
@@ -192,20 +198,27 @@ public final class WeekFields implements Serializable {
      * @param locale  the locale to use, not null
      * @return the week-definition, not null
      */
-    //GWT Specific TODO!!!
+	// GWT Specific
     public static WeekFields of(Locale locale) {
         Objects.requireNonNull(locale, "locale");
-//        locale = new Locale(locale.getLanguage(), locale.getCountry());  // elminate variants
+		Region region = Cldrs.regionOf(locale);
+		DayOfWeek dow = filter(WeekInfo.FIRST_DAY, region, WeekInfo.DEFAULT_FIRST_DAY);
+		int minDays = filter(WeekInfo.MIN_DAYS, region, WeekInfo.DEFAULT_MIN_DAYS).intValue();
+		return WeekFields.of(dow, minDays);
+	}
 
-        // obtain these from GregorianCalendar for now
-//
-//        GregorianCalendar gcal = new GregorianCalendar(locale);
-//        int calDow = gcal.getFirstDayOfWeek();
-//        DayOfWeek dow = DayOfWeek.SUNDAY.plus(calDow - 1);
-//        int minDays = gcal.getMinimalDaysInFirstWeek();
-//        return WeekFields.of(dow, minDays);
-        return null;
-    }
+	private static <R> R filter(Map<R, EnumSet<Region>> map, Region region, R defaultValue) {
+		return map.entrySet()
+				.stream()
+				.filter(e -> isFor(region, e))
+				.findAny()
+				.map(Entry::getKey)
+				.orElse(defaultValue);
+	}
+
+	private static <K> boolean isFor(Region region, Entry<K, EnumSet<Region>> entry) {
+		return entry.getValue().contains(region);
+	}
 
     /**
      * Obtains an instance of {@code WeekFields} from the first day-of-week and minimal days.

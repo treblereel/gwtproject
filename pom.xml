@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.jresearch</groupId>
@@ -130,6 +132,24 @@
 		<!-- define build -->
 		<plugins>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<!-- <source>13</source>
+					<target>13</target> -->
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.jresearch.gwt.time</groupId>
+							<artifactId>org.jresearch.gwt.time.apt.processor</artifactId>
+							<version>${time.apt.ver}</version>
+						</path>
+					</annotationProcessorPaths>
+					<!-- <compilerArgs>
+						<arg>-/-patch-module</arg><arg>java.base=${project.basedir}/src/main/java</arg>
+					</compilerArgs> -->
+				</configuration>
+			</plugin>
+			<plugin>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<!-- To correct work of GWT Super source -->
 				<configuration>
@@ -138,6 +158,7 @@
 						<ignoredUnusedDeclaredDependency>org.jresearch.gwtproject.nio:gwt-nio</ignoredUnusedDeclaredDependency>
 						<ignoredUnusedDeclaredDependency>org.jresearch.dominokit:domino-slf4j-logger</ignoredUnusedDeclaredDependency>
 						<ignoredUnusedDeclaredDependency>com.google.jsinterop:base</ignoredUnusedDeclaredDependency>
+						<ignoredUnusedDeclaredDependency>org.jresearch.gwt.time:org.jresearch.gwt.time.apt.annotation</ignoredUnusedDeclaredDependency>
 					</ignoredUnusedDeclaredDependencies>
 				</configuration>
 			</plugin>
@@ -188,6 +209,11 @@
 
 	<!-- ==================================================================== -->
 	<dependencies>
+		<dependency>
+			<groupId>org.jresearch.gwt.time</groupId>
+			<artifactId>org.jresearch.gwt.time.apt.annotation</artifactId>
+			<version>${time.apt.ver}</version>
+		</dependency>
 		<dependency>
 			<groupId>com.google.code.findbugs</groupId>
 			<artifactId>jsr305</artifactId>
@@ -348,5 +374,6 @@
 		<gwt-nio.ver>0.1</gwt-nio.ver>
 		<gwt-xhr.ver>1.0</gwt-xhr.ver>
 		<gwt-slf4j.ver>1.0-rc.4</gwt-slf4j.ver>
+		<time.apt.ver>1.0.0</time.apt.ver>
 	</properties>
 </project>
