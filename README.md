@@ -8,17 +8,17 @@ For more information of the base project see the [main home page](https://www.th
 This project is NOT an implementation of JSR-310, as that would require
 jumping through lots of unnecessary hoops.
 Instead, this is a simple adaptation of "ThreeTen" backport intended to allow users to quickly use the JSR-310 API on GWT client side.
-This progect should be referred to using the "gwt-time" name and the base backport should be referred to using the "ThreeTen" name.
+This project should be referred to using the "gwt-time" name and the base backport should be referred to using the "ThreeTen" name.
 
 Active development on JSR-310 is at [OpenJDK](http://openjdk.java.net/):
 
 That repository used the BSD 3-clause license as the base project.
 
 Issues about the adaptation should be reported here at GitHub.
-Pull requests and issues will only be considered so far as matching the behaviour of the real Java SE. Additional requested features will be rejected.
+Pull requests and issues will only be considered so far as matching the behavior of the real Java SE. Additional requested features will be rejected.
 
 #### Time-zone data
-The time-zone database is stored as a pre-compiled dat file that is included in the built jar. The actulal time-zone data is located in the base project and updated manually.
+The time-zone database is stored as a pre-compiled dat file that is included in the built jar. The actual time-zone data is located in the base project and updated manually.
 
 ### Using
 
@@ -27,21 +27,19 @@ The time-zone database is stored as a pre-compiled dat file that is included in 
 <dependency>
     <groupId>org.jresearch.gwt.time</groupId>
     <artifactId>org.jresearch.gwt.time</artifactId>
-    <version>1.4.6</version>
+    <version>1.4.8</version>
 </dependency>
 ```
-* Add `<inherits name="org.jresearch.threetenbp.gwt.module"/>` to your module.gwt.xml, if you use gwt-maven-plugin form Thomas Broyer (https://github.com/tbroyer/gwt-maven-plugin) it will be done automaticaly
+* Add `<inherits name="org.jresearch.threetenbp.gwt.module"/>` to your module.gwt.xml, if you use gwt-maven-plugin form Thomas Broyer (https://github.com/tbroyer/gwt-maven-plugin) it will be done automatically
 
 ### Unimplemented or partial implemented features
 * Convert to/from `java.util.Calendar`, to/from `java.util.TimeZone`, to/from `java.text.Format` (is out of scope this project)
 * Localization for IsoFields.QUARTER_OF_YEAR (hard code English quarter text)
-* DecimalStyle.getAvailableLocales() returns ROOT + US, (investigating way to retrive available locales from the browser)
-* DateTimeFormatStyleProvider.getAvailableLocales() returns ROOT + US, (investigating way to retrive available locales from the browser)
+* DecimalStyle.getAvailableLocales() returns ROOT + US, (investigating way to retrieve available locales from the browser)
+* DateTimeFormatStyleProvider.getAvailableLocales() returns ROOT + US, (investigating way to retrieve available locales from the browser)
 * Chronology prints as ID (take it from browser)
-* WeekFields.of(Locale) returns `null`
-* Implementation of `JapaneseChronology`/`JapaneseEra`/`JapaneseDate` in the original project based on `java.util.Calendar` and doesnot works right now.
+* Implementation of `JapaneseChronology`/`JapaneseEra`/`JapaneseDate` in the original project based on `java.util.Calendar` and doesn't works right now.
 * new `JapaneseEra.REIWA` required Java 13 to build (current is Java 8)
-* Default Locale is default ROOT, should be taken from the browser
 
 #### FAQs
 
@@ -64,7 +62,7 @@ Available in the [Maven Central repository](https://search.maven.org/search?q=a:
 GitHub [issues](https://github.com/foal/gwt-time/issues) and [pull requests](https://github.com/foal/gwt-time/pulls)
 should be used when you want to help advance the project.
 
-Note that pull requests and issues will only be considered so far as matching the behaviour of Java SE releases.
+Note that pull requests and issues will only be considered so far as matching the behavior of Java SE releases.
 Additional requested features will be rejected.
 
 Pull requests must _not_ be copied from the JDK, because the GPL license is incompatible with the BSD license used here.
