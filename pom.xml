@@ -117,7 +117,7 @@
 	</repositories>
 	<!-- ==================================================================== -->
 	<build>
-		<resources>
+		<!-- <resources>
 			<resource>
 				<directory>src/main/resources</directory>
 			</resource>
@@ -128,7 +128,7 @@
 					<include>LICENSE.txt</include>
 				</includes>
 			</resource>
-		</resources>
+		</resources> -->
 		<!-- define build -->
 		<plugins>
 			<plugin>
