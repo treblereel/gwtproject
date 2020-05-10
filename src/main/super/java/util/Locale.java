@@ -1,5 +1,8 @@
 package java.util;
 
+import com.google.gwt.i18n.client.LocaleInfo;
+
+@SuppressWarnings("nls")
 public final class Locale {
 
 	/** Constant from JDK */
@@ -33,6 +36,20 @@ public final class Locale {
 	private final String variant;
 	private String languageTag;
 
+	static {
+		String localeName = LocaleInfo.getCurrentLocale().getLocaleName();
+		if (!"default".equalsIgnoreCase(localeName)) {
+			String[] split = localeName.split("_", 3);
+			if (split.length == 1) {
+				defaultLocale = new Locale(localeName);
+			} else if (split.length == 2) {
+				defaultLocale = new Locale(split[0], split[1]);
+			} else if (split.length == 3) {
+				defaultLocale = new Locale(split[0], split[1], split[2]);
+			}
+		}
+	}
+
 	public Locale(String language, String region, String variant) {
 		if (language == null || region == null || variant == null) {
 			throw new NullPointerException();
@@ -51,7 +68,6 @@ public final class Locale {
 	}
 
 	public static Locale getDefault() {
-		// GWT TODO init from browser
 		return defaultLocale;
 	}
 
@@ -60,7 +76,8 @@ public final class Locale {
 	}
 
 	public static Locale[] getAvailableLocales() {
-		return new Locale[0];
+		List<Locale> available = org.jresearch.threetenbp.gwt.client.cldr.LocaleInfo.getAvailable();
+		return available.toArray(new Locale[available.size()]);
 	}
 
 	public String getLanguage() {

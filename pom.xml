@@ -374,6 +374,6 @@
 		<gwt-nio.ver>0.1</gwt-nio.ver>
 		<gwt-xhr.ver>1.0</gwt-xhr.ver>
 		<gwt-slf4j.ver>1.0-rc.4</gwt-slf4j.ver>
-		<time.apt.ver>1.0.0</time.apt.ver>
+		<time.apt.ver>1.0.1</time.apt.ver>
 	</properties>
 </project>
