@@ -72,7 +72,7 @@ final class SimpleDateTimeFormatStyleProvider extends DateTimeFormatStyleProvide
             }
             return (DateTimeFormatter) cached;
         }
-//GWT Specific TODO!!!
+//GWT Specific TODO!!! Localized patterns
 //        DateFormat dateFormat;
 //        if (dateStyle != null) {
 //            if (timeStyle != null) {
