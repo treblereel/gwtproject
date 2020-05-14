@@ -370,7 +370,7 @@
 		<!-- Other properties -->
 		<gwt-typedarrays.ver>1.3-SNAPSHOT</gwt-typedarrays.ver>
 		<gwt-nio.ver>0.2-SNAPSHOT</gwt-nio.ver>
-		<gwt-xhr.ver>1.1-SNAPSHOT</gwt-xhr.ver>
+		<gwt-xhr.ver>1.2-SNAPSHOT</gwt-xhr.ver>
 		<gwt-slf4j.ver>1.0-rc.4</gwt-slf4j.ver>
 		<time.apt.ver>1.0.2-SNAPSHOT</time.apt.ver>
 	</properties>
