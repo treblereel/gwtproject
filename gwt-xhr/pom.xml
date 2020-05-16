@@ -53,14 +53,14 @@
     <maven.deploy.plugin>3.0.0-M1</maven.deploy.plugin>
 
     <jsinterop.annotations.version>1.0.2</jsinterop.annotations.version>
-    <typed.array.verrsion>1.0-SNAPSHOT</typed.array.verrsion>
+    <typed.array.version>1.0-SNAPSHOT</typed.array.version>
   </properties>
 
   <dependencies>
     <dependency>
       <groupId>org.gwtproject</groupId>
       <artifactId>typedarrays</artifactId>
-      <version>${typed.array.verrsion}</version>
+      <version>${typed.array.version}</version>
     </dependency>
     <dependency>
       <groupId>com.google.jsinterop</groupId>
