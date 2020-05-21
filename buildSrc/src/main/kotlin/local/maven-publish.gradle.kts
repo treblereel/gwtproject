@@ -1,19 +1,14 @@
 package local
 
 plugins {
+    `java-base`
     `maven-publish`
     signing
 }
 
-val javadoc by tasks
-val javadocJar by tasks.creating(Jar::class) {
-    archiveClassifier.set("javadoc")
-    from(javadoc)
-}
-
-val sourcesJar by tasks.creating(Jar::class) {
-    archiveClassifier.set("sources")
-    from(sourceSets["main"].allSource)
+java {
+    withJavadocJar()
+    withSourcesJar()
 }
 
 val sonatypeRepository = publishing.repositories.maven {
@@ -35,9 +30,6 @@ val sonatypeRepository = publishing.repositories.maven {
 
 val mavenPublication = publishing.publications.create<MavenPublication>("maven") {
     from(components["java"])
-
-    artifact(javadocJar)
-    artifact(sourcesJar)
 
     pom {
         name.set(provider { "$groupId:$artifactId" })
@@ -71,11 +63,3 @@ signing {
 
 inline val Project.isSnapshot
     get() = version.toString().endsWith("-SNAPSHOT")
-
-inline val Project.sourceSets: SourceSetContainer
-    get() = the()
-inline val Project.publishing: PublishingExtension
-    get() = the()
-
-fun Project.signing(configuration: SigningExtension.() -> Unit) =
-    configure(configuration)
