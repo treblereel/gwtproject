@@ -37,7 +37,7 @@ import org.gwtproject.user.window.client.Window;
  * implement the {@link ValueChangeHandler} interface and attach it via {@link
  * #addValueChangeHandler(ValueChangeHandler)}.
  *
- * <h3>URL Encoding</h3>
+ * <h2>URL Encoding</h2>
  *
  * Any valid characters may be used in the history token and will survive round-trips through {@link
  * #newItem(String)} to {@link #getToken()}/ {@link
