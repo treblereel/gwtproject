@@ -160,7 +160,7 @@ public class Window {
      * @return the string to the right of the URL's hash.
      */
     public static String getHash() {
-      return window.location.getHash();
+      return window.location.hash;
     }
 
     /**
@@ -169,7 +169,7 @@ public class Window {
      * @return the host and port name
      */
     public static String getHost() {
-      return window.location.getHost();
+      return window.location.host;
     }
 
     /**
@@ -178,7 +178,7 @@ public class Window {
      * @return the host name
      */
     public static String getHostName() {
-      return window.location.getHostname();
+      return window.location.hostname;
     }
 
     /**
@@ -187,7 +187,7 @@ public class Window {
      * @return the URL
      */
     public static String getHref() {
-      return window.location.getHref();
+      return window.location.href;
     }
 
     /**
@@ -225,7 +225,7 @@ public class Window {
      * @return the path to the URL.
      */
     public static String getPath() {
-      return window.location.getPathname();
+      return window.location.pathname;
     }
 
     /**
@@ -234,7 +234,7 @@ public class Window {
      * @return the URL's port
      */
     public static String getPort() {
-      return window.location.getPort();
+      return window.location.port;
     }
 
     /**
@@ -243,7 +243,7 @@ public class Window {
      * @return the URL's protocol.
      */
     public static String getProtocol() {
-      return window.location.getProtocol();
+      return window.location.protocol;
     }
 
     /**
@@ -252,7 +252,7 @@ public class Window {
      * @return the URL's query string
      */
     public static String getQueryString() {
-      return window.location.getSearch();
+      return window.location.search;
     }
 
     /** Reloads the current browser window. All GWT state will be lost. */
