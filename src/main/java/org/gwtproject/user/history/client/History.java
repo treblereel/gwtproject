@@ -206,7 +206,7 @@ public class History {
   }
 
   private static void newToken(String historyToken) {
-    window.location.setHash(historyToken);
+    window.location.hash = historyToken;
   }
 
   /**
