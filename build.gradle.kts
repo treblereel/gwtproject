@@ -10,6 +10,17 @@ plugins {
     id("local.maven-publish")
 }
 
+buildscript {
+    dependencyLocking {
+        lockAllConfigurations()
+        lockMode.set(LockMode.STRICT)
+    }
+}
+dependencyLocking {
+    lockAllConfigurations()
+    lockMode.set(LockMode.STRICT)
+}
+
 group = "org.gwtproject.user.history"
 version = "HEAD-SNAPSHOT"
 
