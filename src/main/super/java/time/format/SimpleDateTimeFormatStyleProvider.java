@@ -33,8 +33,17 @@ package java.time.format;
 
 import java.time.chrono.Chronology;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.stream.Stream;
+
+import org.jresearch.gwt.time.apt.base.Bases;
+import org.jresearch.gwt.time.apt.base.Chrono;
+import org.jresearch.threetenbp.gwt.client.cldr.LocaleInfo;
+import org.jresearch.threetenbp.gwt.client.cldr.PatternCoordinates;
+import org.jresearch.threetenbp.gwt.client.cldr.PatternInfo;
 
 /**
  * The Service Provider Implementation to obtain date-time formatters for a style.
@@ -44,6 +53,7 @@ import java.util.concurrent.ConcurrentMap;
  * <h3>Specification for implementors</h3>
  * This class is immutable and thread-safe.
  */
+@SuppressWarnings("nls")
 final class SimpleDateTimeFormatStyleProvider extends DateTimeFormatStyleProvider {
     // TODO: Better implementation based on CLDR
 
@@ -59,8 +69,7 @@ final class SimpleDateTimeFormatStyleProvider extends DateTimeFormatStyleProvide
     }
 
     @Override
-    public DateTimeFormatter getFormatter(
-            FormatStyle dateStyle, FormatStyle timeStyle, Chronology chrono, Locale locale) {
+	public DateTimeFormatter getFormatter(FormatStyle dateStyle, FormatStyle timeStyle, Chronology chrono, Locale locale) {
         if (dateStyle == null && timeStyle == null) {
             throw new IllegalArgumentException("Date and Time style must not both be null");
         }
@@ -72,26 +81,110 @@ final class SimpleDateTimeFormatStyleProvider extends DateTimeFormatStyleProvide
             }
             return (DateTimeFormatter) cached;
         }
-//GWT Specific TODO!!! Localized patterns
-//        DateFormat dateFormat;
-//        if (dateStyle != null) {
-//            if (timeStyle != null) {
-//                dateFormat = DateFormat.getDateTimeInstance(convertStyle(dateStyle), convertStyle(timeStyle), locale);
-//            } else {
-//                dateFormat = DateFormat.getDateInstance(convertStyle(dateStyle), locale);
-//            }
-//        } else {
-//            dateFormat = DateFormat.getTimeInstance(convertStyle(timeStyle), locale);
-//        }
-//        if (dateFormat instanceof SimpleDateFormat) {
-//            String pattern = ((SimpleDateFormat) dateFormat).toPattern();
-//            DateTimeFormatter formatter = new DateTimeFormatterBuilder().appendPattern(pattern).toFormatter(locale);
-//            FORMATTER_CACHE.putIfAbsent(key, formatter);
-//            return formatter;
-//        }
+
+//GWT Specific Localized patterns
+		String pattern = null;
+		Chrono c = Bases.ofJavaTine(chrono).orElse(Chrono.ISO);
+		if (dateStyle != null) {
+			Map<String, PatternCoordinates[]> dateMap = getDateMap(dateStyle);
+			String datePattern = getPattern(dateMap, c, locale);
+			if (timeStyle != null) {
+				Map<String, PatternCoordinates[]> timeMap = getTimeMap(timeStyle);
+				String timePattern = getPattern(timeMap, c, locale);
+
+				FormatStyle dateTimeStyle = FormatStyle.values()[Math.min(dateStyle.ordinal(), timeStyle.ordinal())];
+				Map<String, PatternCoordinates[]> dateTimeMap = getDateTimeMap(dateTimeStyle);
+				String dateTimePattern = getPattern(dateTimeMap, c, locale);
+
+				pattern = substitute(dateTimePattern, datePattern, timePattern);
+			} else {
+				pattern = datePattern;
+			}
+		} else {
+			Map<String, PatternCoordinates[]> timeMap = getTimeMap(timeStyle);
+			pattern = getPattern(timeMap, c, locale);
+		}
+		if (pattern != null) {
+			DateTimeFormatter formatter = new DateTimeFormatterBuilder().appendPattern(pattern).toFormatter(locale);
+			FORMATTER_CACHE.putIfAbsent(key, formatter);
+			return formatter;
+		}
         FORMATTER_CACHE.putIfAbsent(key, "");
         throw new IllegalArgumentException("Unable to convert DateFormat to DateTimeFormatter");
     }
+
+	private static String substitute(String dateTimePattern, String datePattern, String timePattern) {
+		return dateTimePattern.replace("{1}", datePattern).replace("{0}", timePattern).replace("'", "");
+	}
+
+	private static String getPattern(Map<String, PatternCoordinates[]> patterns, Chrono chrono, Locale locale) {
+		return patterns.entrySet().stream().filter(e -> isFor(e, chrono, locale)).findAny().map(Entry::getKey).orElseGet(() -> getPattern(patterns, chrono, up(locale)));
+	}
+
+	private static boolean isFor(Entry<String, PatternCoordinates[]> e, Chrono chrono, Locale locale) {
+		return Stream.of(e.getValue()).anyMatch(pc -> isFor(pc, chrono, locale));
+	}
+
+	private static boolean isFor(PatternCoordinates pc, Chrono chrono, Locale locale) {
+		return chrono.equals(pc.chrono()) && locale.equals(pc.locale());
+	}
+
+	private static Locale up(Locale locale) {
+		String variant = locale.getVariant();
+		if (variant.isEmpty()) {
+			String country = locale.getCountry();
+			if (country.isEmpty()) {
+				return LocaleInfo.ROOT;
+			}
+			return new Locale(locale.getLanguage());
+		}
+		return new Locale(locale.getLanguage(), locale.getCountry());
+	}
+
+	private static Map<String, PatternCoordinates[]> getTimeMap(FormatStyle style) {
+		switch (style) {
+		case FULL:
+			return PatternInfo.TIME_FULL_PATTERNS;
+		case LONG:
+			return PatternInfo.TIME_LONG_PATTERNS;
+		case MEDIUM:
+			return PatternInfo.TIME_MEDIUM_PATTERNS;
+		case SHORT:
+			return PatternInfo.TIME_SHORT_PATTERNS;
+		default:
+			throw new IllegalArgumentException(String.format("Unsuproted FormatStyle: %s", style));
+		}
+	}
+
+	private static Map<String, PatternCoordinates[]> getDateMap(FormatStyle style) {
+		switch (style) {
+		case FULL:
+			return PatternInfo.DATE_FULL_PATTERNS;
+		case LONG:
+			return PatternInfo.DATE_LONG_PATTERNS;
+		case MEDIUM:
+			return PatternInfo.DATE_MEDIUM_PATTERNS;
+		case SHORT:
+			return PatternInfo.DATE_SHORT_PATTERNS;
+		default:
+			throw new IllegalArgumentException(String.format("Unsuproted FormatStyle: %s", style));
+		}
+	}
+
+	private static Map<String, PatternCoordinates[]> getDateTimeMap(FormatStyle style) {
+		switch (style) {
+		case FULL:
+			return PatternInfo.DATE_TIME_FULL_PATTERNS;
+		case LONG:
+			return PatternInfo.DATE_TIME_LONG_PATTERNS;
+		case MEDIUM:
+			return PatternInfo.DATE_TIME_MEDIUM_PATTERNS;
+		case SHORT:
+			return PatternInfo.DATE_TIME_SHORT_PATTERNS;
+		default:
+			throw new IllegalArgumentException(String.format("Unsuproted FormatStyle: %s", style));
+		}
+	}
 
     /**
      * Converts the enum style to the old format style.

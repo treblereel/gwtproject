@@ -4,22 +4,24 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Stream;
 
-public class Cldrs {
+import org.jresearch.gwt.time.apt.base.Bases;
 
-	private static final Map<String, Region> INDEX = new HashMap<>(Region.values().length);
+public class Cldrs extends Bases {
+
+	private static final Map<String, Region> TERRITORY_INDEX = new HashMap<>(Region.values().length);
 
 	static {
-		for (Region region : Region.values()) {
-			INDEX.put(region.name().toUpperCase(), region);
-		}
+		Stream.of(Region.values())
+				.forEach(r -> TERRITORY_INDEX.put(r.name().toUpperCase(), r));
 	}
 
 	public static Region regionOf(Locale locale) {
 		return Optional.of(locale)
 				.map(Locale::getCountry)
 				.map(String::toUpperCase)
-				.map(INDEX::get)
+				.map(TERRITORY_INDEX::get)
 				.orElse(Region._001);
 	}
 
