@@ -23,7 +23,6 @@ dependencyLocking {
 }
 
 group = "org.gwtproject.user.window"
-version = "HEAD-SNAPSHOT"
 
 repositories {
     mavenCentral()
