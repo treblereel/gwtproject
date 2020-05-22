@@ -26,15 +26,14 @@ group = "org.gwtproject.user.window"
 
 repositories {
     mavenCentral()
-    maven(url = "https://oss.sonatype.org/content/repositories/snapshots/")
 }
 
 dependencies {
     errorprone("com.google.errorprone:error_prone_core:2.3.4")
     errorproneJavac("com.google.errorprone:javac:9+181-r4173-1")
 
-    api("org.gwtproject.event:gwt-logical-event:HEAD-SNAPSHOT")
-    api("org.gwtproject.http:gwt-http:HEAD-SNAPSHOT")
+    api("org.gwtproject.event:gwt-logical-event:1.0.0-RC1")
+    api("org.gwtproject.http:gwt-http:1.0.0-RC1")
     api("com.google.jsinterop:jsinterop-annotations:2.0.0")
     implementation("com.google.elemental2:elemental2-dom:1.0.0")
     implementation("com.google.elemental2:elemental2-core:1.0.0")
