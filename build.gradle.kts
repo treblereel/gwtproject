@@ -22,7 +22,6 @@ dependencyLocking {
 }
 
 group = "org.gwtproject.user.history"
-version = "HEAD-SNAPSHOT"
 
 repositories {
     mavenCentral()
