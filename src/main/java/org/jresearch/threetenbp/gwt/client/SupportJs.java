@@ -71,6 +71,14 @@ public class SupportJs {
 	public static native DecimalProperty displayNumber(String locale);
 
 	@Nonnull
+	@JsMethod(namespace = JsPackage.GLOBAL)
+	public static native String[] supportedLocalesOfDateTimeFormat(String[] locales);
+
+	@Nonnull
+	@JsMethod(namespace = JsPackage.GLOBAL)
+	public static native String[] supportedLocalesOfNumberFormat(String[] locales);
+
+	@Nonnull
 	@JsMethod(namespace = "Base64Binary")
 	public static native ArrayBuffer decodeArrayBuffer(String base64);
 

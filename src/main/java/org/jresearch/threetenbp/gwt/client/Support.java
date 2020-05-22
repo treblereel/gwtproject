@@ -3,6 +3,8 @@ package org.jresearch.threetenbp.gwt.client;
 import java.nio.ByteBuffer;
 import java.time.zone.Providers;
 import java.time.zone.ZoneRulesProvider;
+import java.util.Locale;
+import java.util.stream.Stream;
 
 import javax.annotation.Nonnull;
 
@@ -11,6 +13,7 @@ import org.gwtproject.typedarrays.shared.Uint8Array;
 import org.gwtproject.xhr.client.ReadyStateChangeHandler;
 import org.gwtproject.xhr.client.XMLHttpRequest;
 import org.gwtproject.xhr.client.XMLHttpRequest.ResponseType;
+import org.jresearch.threetenbp.gwt.client.cldr.LocaleInfo;
 import org.jresearch.threetenbp.gwt.client.loader.TimeJsBundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +24,7 @@ import com.google.gwt.core.client.ScriptInjector;
 import elemental2.core.ArrayBuffer;
 import jsinterop.base.Js;
 
+@SuppressWarnings("nls")
 public class Support {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(Support.class);
@@ -45,6 +49,7 @@ public class Support {
 			request.open("GET", bundle.tzdb().getSafeUri().asString());
 			request.setResponseType(ResponseType.ArrayBuffer);
 			request.setOnReadyStateChange(new ReadyStateChangeHandler() {
+				@SuppressWarnings({ "synthetic-access", "boxing" })
 				@Override
 				public void onReadyStateChange(XMLHttpRequest xhr) {
 					if (xhr.getReadyState() == XMLHttpRequest.DONE) {
@@ -155,4 +160,26 @@ public class Support {
 		return SupportJs.decode(base64);
 	}
 
+	@Nonnull
+	public static Locale[] supportedLocalesOfDateTimeFormat(Locale[] locales) {
+		String[] a = Stream.of(locales).map(Locale::toLanguageTag).toArray(String[]::new);
+		String[] supportedLocales = SupportJs.supportedLocalesOfDateTimeFormat(a);
+		return Stream.of(supportedLocales).map(Support::toLocale).toArray(Locale[]::new);
+	}
+
+	@Nonnull
+	public static Locale[] supportedLocalesOfNumberFormat(Locale[] locales) {
+		String[] a = Stream.of(locales).map(Locale::toLanguageTag).toArray(String[]::new);
+		String[] supportedLocales = SupportJs.supportedLocalesOfNumberFormat(a);
+		return Stream.of(supportedLocales).map(Support::toLocale).toArray(Locale[]::new);
+	}
+
+	public static Locale toLocale(String langTag) {
+		return LocaleInfo.getAvailable().stream().filter(l -> langTag.equals(l.toLanguageTag())).findAny().orElseGet(() -> createLocale(langTag));
+	}
+
+	public static Locale createLocale(String langTag) {
+		String[] parts = langTag.split("-", 3);
+		return parts.length == 1 ? new Locale(parts[0]) : parts.length == 2 ? new Locale(parts[0], parts[1]) : new Locale(parts[0], parts[1], parts[2]);
+	}
 }
