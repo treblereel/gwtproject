@@ -30,8 +30,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import jsinterop.annotations.JsMethod;
-import jsinterop.annotations.JsPackage;
 import jsinterop.base.Js;
 import org.gwtproject.event.logical.shared.CloseEvent;
 import org.gwtproject.event.logical.shared.CloseHandler;
@@ -609,8 +607,9 @@ public class Window {
    * @param dy A positive or a negative number that specifies how many pixels to move the top edge
    *     by
    */
-  @JsMethod(namespace = JsPackage.GLOBAL)
-  public static native void moveBy(int dx, int dy);
+  public static void moveBy(int dx, int dy) {
+    window.moveBy(dx, dy);
+  }
 
   /**
    * Moves a window's left and top edge to the specified coordinates.
@@ -620,8 +619,9 @@ public class Window {
    * @param x The left coordinate
    * @param y The top coordinate
    */
-  @JsMethod(namespace = JsPackage.GLOBAL)
-  public static native void moveTo(int x, int y);
+  public static void moveTo(int x, int y) {
+    window.moveTo(x, y);
+  }
 
   /**
    * Opens a new browser window. The "name" and "features" arguments are specified <a href=
@@ -666,8 +666,9 @@ public class Window {
    * @param height A positive or a negative number that specifies how many pixels to resize the
    *     height by
    */
-  @JsMethod(namespace = JsPackage.GLOBAL)
-  public static native void resizeBy(int width, int height);
+  public static void resizeBy(int width, int height) {
+    window.resizeBy(width, height);
+  }
 
   /**
    * Resizes the window to the specified width and height.
@@ -678,8 +679,9 @@ public class Window {
    * @param width The width of the window, in pixels
    * @param height The height of the window, in pixels
    */
-  @JsMethod(namespace = JsPackage.GLOBAL)
-  public static native void resizeTo(int width, int height);
+  public static void resizeTo(int width, int height) {
+    window.resizeTo(width, height);
+  }
 
   /**
    * Scroll the window to the specified position.
