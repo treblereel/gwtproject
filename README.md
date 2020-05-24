@@ -1,10 +1,7 @@
 # gwt-xhr
-GWT XMLHttpRequest module
-
-
 ![GWT3/J2CL compatible](https://img.shields.io/badge/GWT3/J2CL-compatible-brightgreen.svg)
 
-# GWT XHR
+GWT XMLHttpRequest module
 
 ### Dependency
 
