@@ -367,6 +367,19 @@ public class XMLHttpRequest {
   @JsProperty(name = "withCredentials")
   public final native void setWithCredentials(boolean withCredentials);
 
+  /**
+   * A String specifying the MIME type to use instead of the one specified by the server.
+   * If the server doesn't specify a type, XMLHttpRequest assumes "text/xml"
+   *
+   * <p>See <a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/overrideMimeType"
+   * >https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/overrideMimeType</a>.
+   *
+   *
+   * @param mimeType A DOMString specifying the MIME type to use instead of the one specified by the server.
+   * @return
+   */
+  public final native String overrideMimeType(String mimeType);
+
   /** The type of response expected from the XHR. */
   public enum ResponseType {
     /**
