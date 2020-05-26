@@ -31,6 +31,7 @@
  */
 package java.time.format;
 
+import java.text.SimpleDateFormat;
 import java.time.chrono.Chronology;
 import java.util.Locale;
 import java.util.Map;
@@ -41,6 +42,7 @@ import java.util.stream.Stream;
 
 import org.jresearch.gwt.time.apt.base.Bases;
 import org.jresearch.gwt.time.apt.base.Chrono;
+import org.jresearch.threetenbp.gwt.client.Support;
 import org.jresearch.threetenbp.gwt.client.cldr.LocaleInfo;
 import org.jresearch.threetenbp.gwt.client.cldr.PatternCoordinates;
 import org.jresearch.threetenbp.gwt.client.cldr.PatternInfo;
@@ -62,10 +64,9 @@ final class SimpleDateTimeFormatStyleProvider extends DateTimeFormatStyleProvide
                         new ConcurrentHashMap<String, Object>(16, 0.75f);
 
     @Override
-	// GWT TODO Specific
+	// GWT Specific
     public Locale[] getAvailableLocales() {
-		return new Locale[] { Locale.getDefault(), Locale.US };
-//        return DateFormat.getAvailableLocales();
+		return Support.supportedLocalesOfDateTimeFormat(LocaleInfo.LOCALES);
     }
 
     @Override

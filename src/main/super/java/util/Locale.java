@@ -34,6 +34,7 @@ public final class Locale {
 	private final String language;
 	private final String region;
 	private final String variant;
+	private final String script;
 	private String languageTag;
 
 	static {
@@ -50,21 +51,26 @@ public final class Locale {
 		}
 	}
 
-	public Locale(String language, String region, String variant) {
-		if (language == null || region == null || variant == null) {
+	public Locale(String language, String region, String script, String variant) {
+		if (language == null || script == null || region == null || variant == null) {
 			throw new NullPointerException();
 		}
 		this.language = language;
 		this.region = region;
 		this.variant = variant;
+		this.script = script;
+	}
+
+	public Locale(String language, String region, String script) {
+		this(language, region, script, "");
 	}
 
 	public Locale(String language, String region) {
-		this(language, region, "");
+		this(language, region, "", "");
 	}
 
 	public Locale(String language) {
-		this(language, "", "");
+		this(language, "", "", "");
 	}
 
 	public static Locale getDefault() {
@@ -76,8 +82,7 @@ public final class Locale {
 	}
 
 	public static Locale[] getAvailableLocales() {
-		List<Locale> available = org.jresearch.threetenbp.gwt.client.cldr.LocaleInfo.getAvailable();
-		return available.toArray(new Locale[available.size()]);
+		return org.jresearch.threetenbp.gwt.client.cldr.LocaleInfo.LOCALES;
 	}
 
 	public String getLanguage() {
@@ -85,7 +90,7 @@ public final class Locale {
 	}
 
 	public String getScript() {
-		return "";
+		return script;
 	}
 
 	public String getCountry() {
@@ -126,40 +131,38 @@ public final class Locale {
 
 	@Override
 	public final String toString() {
-		boolean lang = !language.isEmpty();
-		boolean reg = !region.isEmpty();
-		boolean var = !variant.isEmpty();
-
-		StringBuilder result = new StringBuilder(language);
-		if (reg || (lang && var)) {
-			result.append('_').append(region);
-		}
-		if (var && (lang || reg)) {
-			result.append('_').append(variant);
-		}
-		return result.toString();
+		return to('_');
 	}
 
 	public String toLanguageTag() {
 		if (languageTag == null) {
-			StringBuilder result = new StringBuilder();
-
-			if (!language.isEmpty()) {
-				result.append(language);
-			}
-
-			if (!region.isEmpty()) {
-				result.append('-');
-				result.append(region);
-			}
-
-			if (!variant.isEmpty()) {
-				result.append('-');
-				result.append(variant);
-			}
-			languageTag = result.toString();
+			languageTag = to('-');
 		}
 		return languageTag;
+	}
+
+	public String to(char delimeter) {
+		StringBuilder result = new StringBuilder();
+
+		if (!language.isEmpty()) {
+			result.append(language);
+		}
+
+		if (!script.isEmpty()) {
+			result.append(delimeter);
+			result.append(script);
+		}
+
+		if (!region.isEmpty()) {
+			result.append(delimeter);
+			result.append(region);
+		}
+
+		if (!variant.isEmpty()) {
+			result.append(delimeter);
+			result.append(variant);
+		}
+		return result.toString();
 	}
 
 	public final String getDisplayLanguage() {
@@ -175,7 +178,7 @@ public final class Locale {
 	}
 
 	public String getDisplayScript(Locale inLocale) {
-		return "";
+		return script;
 	}
 
 	public final String getDisplayCountry() {
@@ -200,6 +203,49 @@ public final class Locale {
 
 	public String getDisplayName(Locale inLocale) {
 		return toString();
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((language == null) ? 0 : language.toLowerCase().hashCode());
+		result = prime * result + ((region == null) ? 0 : region.toLowerCase().hashCode());
+		result = prime * result + ((script == null) ? 0 : script.toLowerCase().hashCode());
+		result = prime * result + ((variant == null) ? 0 : variant.toLowerCase().hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Locale other = (Locale) obj;
+		if (language == null) {
+			if (other.language != null)
+				return false;
+		} else if (!language.equalsIgnoreCase(other.language))
+			return false;
+		if (region == null) {
+			if (other.region != null)
+				return false;
+		} else if (!region.equalsIgnoreCase(other.region))
+			return false;
+		if (script == null) {
+			if (other.script != null)
+				return false;
+		} else if (!script.equalsIgnoreCase(other.script))
+			return false;
+		if (variant == null) {
+			if (other.variant != null)
+				return false;
+		} else if (!variant.equalsIgnoreCase(other.variant))
+			return false;
+		return true;
 	}
 
 }

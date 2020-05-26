@@ -31,6 +31,7 @@
  */
 package java.time.format;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Objects;
@@ -40,6 +41,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import org.jresearch.threetenbp.gwt.client.DecimalProperty;
 import org.jresearch.threetenbp.gwt.client.Support;
+import org.jresearch.threetenbp.gwt.client.cldr.LocaleInfo;
 
 /**
  * Localized symbols used in date and time formatting.
@@ -90,14 +92,12 @@ public final class DecimalStyle {
 	 *
 	 * @return an array of locales for which localization is supported
 	 */
-	// GWT Specific TODO (take it from browser somehow)
+	// GWT Specific
 	public static Set<Locale> getAvailableLocales() {
-		HashSet<Locale> result = new HashSet<Locale>();
-		result.add(Locale.getDefault());
-		result.add(Locale.US);
+		Locale[] locales = Support.supportedLocalesOfNumberFormat(LocaleInfo.LOCALES);
+		HashSet<Locale> result = new HashSet<>();
+		Collections.addAll(result, locales);
 		return result;
-//        Locale[] l = DecimalFormatSymbols.getAvailableLocales();
-//        return new HashSet<Locale>(Arrays.asList(l));
 	}
 
 	/**

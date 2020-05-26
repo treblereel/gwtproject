@@ -15,6 +15,7 @@ import org.gwtproject.xhr.client.XMLHttpRequest;
 import org.gwtproject.xhr.client.XMLHttpRequest.ResponseType;
 import org.jresearch.threetenbp.gwt.client.cldr.LocaleInfo;
 import org.jresearch.threetenbp.gwt.client.loader.TimeJsBundle;
+import org.jresearch.threetenbp.gwt.client.locale.Locales;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -162,24 +163,37 @@ public class Support {
 
 	@Nonnull
 	public static Locale[] supportedLocalesOfDateTimeFormat(Locale[] locales) {
-		String[] a = Stream.of(locales).map(Locale::toLanguageTag).toArray(String[]::new);
+		String[] a = Stream.of(locales).map(Locale::toLanguageTag).filter(l -> !"root".equalsIgnoreCase(l)).toArray(String[]::new);
 		String[] supportedLocales = SupportJs.supportedLocalesOfDateTimeFormat(a);
 		return Stream.of(supportedLocales).map(Support::toLocale).toArray(Locale[]::new);
 	}
 
 	@Nonnull
 	public static Locale[] supportedLocalesOfNumberFormat(Locale[] locales) {
-		String[] a = Stream.of(locales).map(Locale::toLanguageTag).toArray(String[]::new);
+		String[] a = Stream.of(locales).map(Locale::toLanguageTag).filter(l -> !"root".equalsIgnoreCase(l)).toArray(String[]::new);
 		String[] supportedLocales = SupportJs.supportedLocalesOfNumberFormat(a);
 		return Stream.of(supportedLocales).map(Support::toLocale).toArray(Locale[]::new);
 	}
 
 	public static Locale toLocale(String langTag) {
-		return LocaleInfo.getAvailable().stream().filter(l -> langTag.equals(l.toLanguageTag())).findAny().orElseGet(() -> createLocale(langTag));
+		return Stream.of(LocaleInfo.LOCALES).filter(l -> langTag.equalsIgnoreCase(l.toLanguageTag())).findAny().orElseGet(() -> createLocale(langTag));
 	}
 
 	public static Locale createLocale(String langTag) {
 		String[] parts = langTag.split("-", 3);
-		return parts.length == 1 ? new Locale(parts[0]) : parts.length == 2 ? new Locale(parts[0], parts[1]) : new Locale(parts[0], parts[1], parts[2]);
+		return parts.length == 1 ? new Locale(parts[0]) : parts.length == 2 ? createLocale(parts[0], parts[1]) : createLocale(parts[0], parts[1], parts[2]);
 	}
+
+	public static Locale createLocale(String lang, String something) {
+		return isScript(something) ? Locales.create(lang, "", something, "") : Locales.create(lang, something, "", "");
+	}
+
+	public static Locale createLocale(String lang, String something01, String something02) {
+		return isScript(something01) ? Locales.create(lang, something02, something01, "") : Locales.create(lang, something01, "", something02);
+	}
+
+	private static boolean isScript(String something) {
+		return something.length() == 4;
+	}
+
 }

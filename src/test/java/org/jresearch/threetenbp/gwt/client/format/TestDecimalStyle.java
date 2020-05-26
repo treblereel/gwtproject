@@ -46,11 +46,11 @@ import org.junit.Test;
 public class TestDecimalStyle extends AbstractTest {
 
     @Test
-	// GWT TODO - no available locale in browser.
 	public void disables_test_getAvailableLocales() {
         Set<Locale> locales = DecimalStyle.getAvailableLocales();
-        assertEquals(locales.size() > 0, true);
-        assertEquals(locales.contains(Locale.US), true);
+		assertTrue(locales.size() > 100);
+		assertTrue(locales.contains(Locale.US));
+		assertTrue(locales.contains(Locale.GERMAN));
     }
 
     //-----------------------------------------------------------------------
