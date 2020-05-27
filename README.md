@@ -1,3 +1,4 @@
+![Maven Central](https://img.shields.io/maven-central/v/org.jresearch.gwt.time/org.jresearch.gwt.time?style=plastic)
 
 ## GWT java.util.time emulation based on ThreeTen backport project
 JSR-310 provides a new date and time library for Java SE 8.
