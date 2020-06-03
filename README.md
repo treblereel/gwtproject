@@ -38,12 +38,13 @@ The impementation contains all actual data from CLDR
 <dependency>
     <groupId>org.jresearch.gwt.time</groupId>
     <artifactId>org.jresearch.gwt.time</artifactId>
-    <version>1.4.10</version>
+    <version>1.4.11</version>
 </dependency>
 ```
 * Add `<inherits name="org.jresearch.threetenbp.gwt.module"/>` to your module.gwt.xml, if you use gwt-maven-plugin form Thomas Broyer (https://github.com/tbroyer/gwt-maven-plugin) it will be done automatically
 
 ### Unimplemented or partial implemented features
+* Compatibility with GWT 2.9.0 (#3) and J2CL
 * Updates from Java 9-14
 * Localization for IsoFields.QUARTER_OF_YEAR (hard code English quarter text)
 * Chronology prints as ID (take it from browser)
