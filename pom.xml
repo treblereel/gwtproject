@@ -12,7 +12,7 @@
 
 	<name>JRS: GWT port of JSR-310 (java.time)</name>
 	<description>JRS: GWT port of JSR-310 (java.time) based on ThreeTen backport project (https://www.threeten.org/threetenbp)</description>
-	<version>1.4.11-SNAPSHOT</version>
+	<version>1.4.11</version>
 	<url>https://github.com/foal/gwt-time</url>
 
 	<!-- ==================================================================== -->
@@ -99,7 +99,7 @@
 		<connection>scm:hg:https://helixteamhub.cloud/JRS/projects/gwtTime/repositories/mercurial/gwt-time</connection>
 		<developerConnection>scm:hg:ssh://hth@helixteamhub.cloud/JRS/projects/gwtTime/repositories/mercurial/gwt-time</developerConnection>
 		<url>https://github.com/foal/gwt-time</url>
-		<tag>HEAD</tag>
+		<tag>1.4.11</tag>
 	</scm>
 	<repositories>
 		<repository>
@@ -385,6 +385,6 @@
 		<gwt-nio.ver>0.1</gwt-nio.ver>
 		<gwt-xhr.ver>1.1</gwt-xhr.ver>
 		<gwt-slf4j.ver>1.0-rc.4</gwt-slf4j.ver>
-		<time.apt.ver>1.0.7-SNAPSHOT</time.apt.ver>
+		<time.apt.ver>1.0.6</time.apt.ver>
 	</properties>
 </project>
