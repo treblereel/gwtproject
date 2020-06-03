@@ -153,7 +153,7 @@ final class SimpleDateTimeFormatStyleProvider extends DateTimeFormatStyleProvide
 		case SHORT:
 			return PatternInfo.TIME_SHORT_PATTERNS;
 		default:
-			throw new IllegalArgumentException("Unsuproted FormatStyle: " + style);
+			throw new IllegalArgumentException("Unsupported FormatStyle: " + style);
 		}
 	}
 
@@ -168,7 +168,7 @@ final class SimpleDateTimeFormatStyleProvider extends DateTimeFormatStyleProvide
 		case SHORT:
 			return PatternInfo.DATE_SHORT_PATTERNS;
 		default:
-			throw new IllegalArgumentException("Unsuproted FormatStyle: " + style);
+			throw new IllegalArgumentException("Unsupported FormatStyle: " + style);
 		}
 	}
 
@@ -183,7 +183,7 @@ final class SimpleDateTimeFormatStyleProvider extends DateTimeFormatStyleProvide
 		case SHORT:
 			return PatternInfo.DATE_TIME_SHORT_PATTERNS;
 		default:
-			throw new IllegalArgumentException("Unsuproted FormatStyle: " + style);
+			throw new IllegalArgumentException("Unsupported FormatStyle: " + style);
 		}
 	}
 
