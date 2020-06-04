@@ -15,9 +15,7 @@
  */
 package org.gwtproject.dom.style.shared;
 
-/**
- * Enum for the text-align property.
- */
+/** Enum for the text-align property. */
 public enum TextAlign implements HasCssName {
   CENTER {
     @Override

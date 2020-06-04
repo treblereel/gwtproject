@@ -15,9 +15,7 @@
  */
 package org.gwtproject.dom.style.shared;
 
-/**
- * Enum for the font-style property.
- */
+/** Enum for the font-style property. */
 public enum FontStyle implements HasCssName {
   NORMAL {
     @Override

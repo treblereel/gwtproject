@@ -15,9 +15,7 @@
  */
 package org.gwtproject.dom.style.shared;
 
-/**
- * Enum for the 'text-decoration' CSS property.
- */
+/** Enum for the 'text-decoration' CSS property. */
 public enum TextDecoration implements HasCssName {
   BLINK {
     @Override

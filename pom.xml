@@ -5,11 +5,11 @@
 
   <groupId>org.gwtproject.dom</groupId>
   <artifactId>gwt-dom-style-definitions-parent</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>${revision}</version>
   <packaging>pom</packaging>
 
   <name>GWT DOM Style Definitions Parent</name>
-  <description>Parent POM containing the gwt-dom-style-definitions module and the test modules (gwt2-tests and j2cl-tests)</description>
+  <description>Parent POM containing the gwt-dom-style-definitions module</description>
   <url>https://github.com/gwtproject/gwt-dom-style-definitions</url>
 
   <organization>
@@ -42,26 +42,24 @@
 
   <modules>
     <module>gwt-dom-style-definitions</module>
-    <!-- at the moment, we have no tests! -->
-<!--    <module>gwt2-tests</module>-->
-<!--    <module>j2cl-tests</module>-->
   </modules>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
 
     <maven.deploy.plugin>3.0.0-M1</maven.deploy.plugin>
-    <maven.fmt.plugin>2.5.1</maven.fmt.plugin>
-    <maven.licence.plugin>3.0</maven.licence.plugin>
+    <maven.fmt.plugin>2.9</maven.fmt.plugin>
+    <maven.license.plugin>3.0</maven.license.plugin>
   </properties>
 
   <dependencies>
     <dependency>
       <groupId>org.gwtproject.dom</groupId>
       <artifactId>gwt-dom-style-definitions</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -94,7 +92,7 @@
         <plugin>
           <groupId>com.mycila</groupId>
           <artifactId>license-maven-plugin</artifactId>
-          <version>${maven.licence.plugin}</version>
+          <version>${maven.license.plugin}</version>
           <configuration>
             <header>LICENSE.header</header>
             <encoding>${project.build.sourceEncoding}</encoding>

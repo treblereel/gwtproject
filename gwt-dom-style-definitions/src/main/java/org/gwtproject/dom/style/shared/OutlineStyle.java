@@ -15,9 +15,7 @@
  */
 package org.gwtproject.dom.style.shared;
 
-/**
- * Enum for the outline-style property.
- */
+/** Enum for the outline-style property. */
 public enum OutlineStyle implements HasCssName {
   NONE {
     @Override

@@ -15,9 +15,7 @@
  */
 package org.gwtproject.dom.style.shared;
 
-/**
- * Enum for the font-weight property.
- */
+/** Enum for the font-weight property. */
 public enum FontWeight implements HasCssName {
   NORMAL {
     @Override

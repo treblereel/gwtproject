@@ -15,9 +15,7 @@
  */
 package org.gwtproject.dom.style.shared;
 
-/**
- * CSS length units.
- */
+/** CSS length units. */
 public enum Unit {
   PX {
     @Override

@@ -15,9 +15,7 @@
  */
 package org.gwtproject.dom.style.shared;
 
-/**
- * Enum for the table-layout property.
- */
+/** Enum for the table-layout property. */
 public enum TableLayout implements HasCssName {
   AUTO {
     @Override

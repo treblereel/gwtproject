@@ -15,9 +15,7 @@
  */
 package org.gwtproject.dom.style.shared;
 
-/**
- * Enum for the border-style property.
- */
+/** Enum for the border-style property. */
 public enum BorderStyle implements HasCssName {
   NONE {
     @Override
@@ -53,4 +51,3 @@ public enum BorderStyle implements HasCssName {
   @Override
   public abstract String getCssName();
 }
-

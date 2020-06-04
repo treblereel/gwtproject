@@ -15,9 +15,7 @@
  */
 package org.gwtproject.dom.style.shared;
 
-/**
- * Enum for the list-style-type property.
- */
+/** Enum for the list-style-type property. */
 public enum ListStyleType implements HasCssName {
   NONE {
     @Override

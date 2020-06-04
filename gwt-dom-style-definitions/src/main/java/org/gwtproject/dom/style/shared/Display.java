@@ -15,9 +15,7 @@
  */
 package org.gwtproject.dom.style.shared;
 
-/**
- * Enum for the display property.
- */
+/** Enum for the display property. */
 public enum Display implements HasCssName {
   NONE {
     @Override

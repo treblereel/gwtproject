@@ -15,9 +15,7 @@
  */
 package org.gwtproject.dom.style.shared;
 
-/**
- * Enum for the visibility property.
- */
+/** Enum for the visibility property. */
 public enum Visibility implements HasCssName {
   VISIBLE {
     @Override

@@ -15,9 +15,7 @@
  */
 package org.gwtproject.dom.style.shared;
 
-/**
- * Enum for the 'text-justify' CSS3 property.
- */
+/** Enum for the 'text-justify' CSS3 property. */
 public enum TextJustify implements HasCssName {
   AUTO {
     @Override
@@ -25,9 +23,7 @@ public enum TextJustify implements HasCssName {
       return "auto";
     }
   },
-  /**
-   * @deprecated Use {@link #INTER_CHARACTER} instead
-   */
+  /** @deprecated Use {@link #INTER_CHARACTER} instead */
   DISTRIBUTE {
     @Override
     public String getCssName() {

@@ -15,9 +15,7 @@
  */
 package org.gwtproject.dom.style.shared;
 
-/**
- * Enum for the cursor property.
- */
+/** Enum for the cursor property. */
 public enum Cursor implements HasCssName {
   DEFAULT {
     @Override

@@ -15,9 +15,7 @@
  */
 package org.gwtproject.dom.style.shared;
 
-/**
- * Enum for the overflow property.
- */
+/** Enum for the overflow property. */
 public enum Overflow implements HasCssName {
   VISIBLE {
     @Override

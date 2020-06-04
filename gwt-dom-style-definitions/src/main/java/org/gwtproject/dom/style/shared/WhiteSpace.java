@@ -15,9 +15,7 @@
  */
 package org.gwtproject.dom.style.shared;
 
-/**
- * Enum for the 'white-space' CSS property.
- */
+/** Enum for the 'white-space' CSS property. */
 public enum WhiteSpace implements HasCssName {
   NORMAL {
     @Override

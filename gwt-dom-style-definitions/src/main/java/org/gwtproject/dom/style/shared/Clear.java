@@ -15,9 +15,7 @@
  */
 package org.gwtproject.dom.style.shared;
 
-/**
- * Enum for the 'clear' CSS property.
- */
+/** Enum for the 'clear' CSS property. */
 public enum Clear implements HasCssName {
   BOTH {
     @Override

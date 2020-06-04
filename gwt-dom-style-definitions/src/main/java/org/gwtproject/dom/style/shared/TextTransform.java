@@ -15,9 +15,7 @@
  */
 package org.gwtproject.dom.style.shared;
 
-/**
- * Enum for the 'text-transform' CSS property.
- */
+/** Enum for the 'text-transform' CSS property. */
 public enum TextTransform implements HasCssName {
   CAPITALIZE {
     @Override

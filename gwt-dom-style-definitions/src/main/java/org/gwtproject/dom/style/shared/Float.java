@@ -15,9 +15,7 @@
  */
 package org.gwtproject.dom.style.shared;
 
-/**
- * Enum for the float property.
- */
+/** Enum for the float property. */
 public enum Float implements HasCssName {
   LEFT {
     @Override

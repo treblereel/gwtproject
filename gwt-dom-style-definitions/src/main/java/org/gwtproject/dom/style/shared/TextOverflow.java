@@ -15,9 +15,7 @@
  */
 package org.gwtproject.dom.style.shared;
 
-/**
- * Enum for the 'text-overflow' CSS3 property.
- */
+/** Enum for the 'text-overflow' CSS3 property. */
 public enum TextOverflow implements HasCssName {
   CLIP {
     @Override

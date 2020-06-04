@@ -15,9 +15,7 @@
  */
 package org.gwtproject.dom.style.shared;
 
-/**
- * Enum for the vertical-align property.
- */
+/** Enum for the vertical-align property. */
 public enum VerticalAlign implements HasCssName {
   BASELINE {
     @Override

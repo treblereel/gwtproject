@@ -15,9 +15,7 @@
  */
 package org.gwtproject.dom.style.shared;
 
-/**
- * Enum for the position property.
- */
+/** Enum for the position property. */
 public enum Position implements HasCssName {
   STATIC {
     @Override
