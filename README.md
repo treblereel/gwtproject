@@ -44,7 +44,7 @@ To build the module:
 
 on the parent directory.
 
-**Note: To build the module you need Maven 3.6.2 or newer**
+**Note: To build the module you need Maven 3.6.3 or newer**
 
 ## System Requirements
 
