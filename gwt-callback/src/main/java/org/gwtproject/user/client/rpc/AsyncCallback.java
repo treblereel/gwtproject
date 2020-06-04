@@ -78,12 +78,12 @@ package org.gwtproject.user.client.rpc;
 public interface AsyncCallback<T> {
 
   /**
-   * Called when an asynchronous call fails to complete normally. {@link
-   * IncompatibleRemoteServiceException}s, {@link InvocationException}s, or checked exceptions
+   * Called when an asynchronous call fails to complete normally.
+   * IncompatibleRemoteServiceExceptions, InvocationExceptions, or checked exceptions
    * thrown by the service method are examples of the type of failures that can be passed to this
    * method.
    *
-   * <p>If <code>caught</code> is an instance of an {@link IncompatibleRemoteServiceException} the
+   * <p>If <code>caught</code> is an instance of an IncompatibleRemoteServiceException the
    * application should try to get into a state where a browser refresh can be safely done.
    *
    * @param caught failure encountered while executing a remote procedure call
