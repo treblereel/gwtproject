@@ -228,3 +228,5 @@ war/
 
 # target folder
 */target/*
+/gwt-callback/.flattened-pom.xml
+/.flattened-pom.xml
