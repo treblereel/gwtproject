@@ -228,3 +228,5 @@ war/
 
 # target folder
 */target/*
+/gwt-dom-style-definitions/.flattened-pom.xml
+/.flattened-pom.xml
