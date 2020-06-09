@@ -16,17 +16,13 @@
 package org.gwtproject.user.window.client;
 
 import com.google.gwt.core.client.JavaScriptException;
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.RepeatingCommand;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.junit.DoNotRunWith;
-import com.google.gwt.junit.Platform;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.Widget;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -46,7 +42,7 @@ public class WindowTest extends GWTTestCase {
   }-*/;
 
   /** Removes all elements in the body, except scripts and iframes. */
-  private static void clearBodyContent() {
+  static void clearBodyContent() {
     Element bodyElem = RootPanel.getBodyElement();
 
     List<Element> toRemove = new ArrayList<Element>();
@@ -195,55 +191,65 @@ public class WindowTest extends GWTTestCase {
     }
   }
 
+  static final int TEST_GET_CLIENT_SIZE_TIMEOUT = 1000;
+
+  static final class GetClientSizeTestData {
+    private int oldClientHeight;
+    private int oldClientWidth;
+    private Widget largeDom;
+  }
+
   /**
    * Tests the ability of the Window to get the client size correctly with and without visible
-   * scroll bars. Failed in all modes due to HtmlUnit bug:
+   * scroll bars.
+   *
+   * <p>Caller must ensure this is not running in HtmlUnit, as it failed in all modes due to
+   * HtmlUnit bug:
    * https://sourceforge.net/tracker/?func=detail&aid=2944261&group_id=47038&atid=448266
+   *
+   * @return null if the test should stop.
    */
-  @DoNotRunWith(Platform.HtmlUnitBug)
-  public void testGetClientSize() {
+  static GetClientSizeTestData setup_testGetClientSize() {
 
     // NOTE: We must clear the DOM here so that previous tests do not pollute
     // our results.
     clearBodyContent();
 
+    GetClientSizeTestData testData = new GetClientSizeTestData();
+
     // Get the dimensions without any scroll bars
     Window.enableScrolling(false);
-    final int oldClientHeight = Window.getClientHeight();
-    final int oldClientWidth = Window.getClientWidth();
+    testData.oldClientHeight = Window.getClientHeight();
+    testData.oldClientWidth = Window.getClientWidth();
     assertTrue(
         "Expect positive oldClientHeight. " + "This will fail in WebKit if run headless",
-        oldClientHeight > 0);
-    assertTrue(oldClientWidth > 0);
+        testData.oldClientHeight > 0);
+    assertTrue(testData.oldClientWidth > 0);
 
     // Firefox hides scrollbar if clientHeight < 49 even when it should show.
     // If we are in this case, simply return.
-    if (oldClientHeight < 49 && Navigator.getUserAgent().contains("Firefox")) {
-      return;
+    if (testData.oldClientHeight < 49 && Window.Navigator.getUserAgent().contains("Firefox")) {
+      return null;
     }
 
     // Compare to the dimensions with scroll bars
     Window.enableScrolling(true);
-    final Label largeDOM = new Label();
-    largeDOM.setPixelSize(oldClientWidth + 100, oldClientHeight + 100);
-    RootPanel.get().add(largeDOM);
-    delayTestFinish(1000);
-    Scheduler.get()
-        .scheduleDeferred(
-            new ScheduledCommand() {
-              @Override
-              public void execute() {
-                int newClientHeight = Window.getClientHeight();
-                int newClientWidth = Window.getClientWidth();
-                assertTrue(newClientHeight < oldClientHeight);
-                assertTrue(newClientWidth < oldClientWidth);
-                RootPanel.get().remove(largeDOM);
-                finishTest();
-              }
-            });
+    testData.largeDom = new Label();
+    testData.largeDom.setPixelSize(testData.oldClientWidth + 100, testData.oldClientHeight + 100);
+    RootPanel.get().add(testData.largeDom);
+
+    return testData;
   }
 
-  private static final class TestResizeHandler implements ResizeHandler {
+  static void verify_testGetClientSize(GetClientSizeTestData testData) {
+    int newClientHeight = Window.getClientHeight();
+    int newClientWidth = Window.getClientWidth();
+    assertTrue(newClientHeight < testData.oldClientHeight);
+    assertTrue(newClientWidth < testData.oldClientWidth);
+    RootPanel.get().remove(testData.largeDom);
+  }
+
+  static final class TestResizeHandler implements ResizeHandler {
     private int height;
     private int width;
     private boolean called;
@@ -268,11 +274,18 @@ public class WindowTest extends GWTTestCase {
     }
   }
 
-  /** Tests the ability of resize the Window and catch resize events. */
-  public void testResizing() {
+  static final int TEST_RESIZING_TIMEOUT = 1000;
+  static final int TEST_RESIZING_DELAY = 10;
+
+  /**
+   * Tests the ability of resize the Window and catch resize events.
+   *
+   * @return null if the test should stop.
+   */
+  static HandlerRegistration setup_testResizing(TestResizeHandler handler) {
     // There is nothing to test if the browser doesn't support resize
     if (!ResizeHelper.isResizeSupported()) {
-      return;
+      return null;
     }
 
     clearBodyContent();
@@ -280,7 +293,6 @@ public class WindowTest extends GWTTestCase {
     final int width = 600;
     final int height = 500;
 
-    final TestResizeHandler handler = new TestResizeHandler();
     final HandlerRegistration handlerRegistration = Window.addResizeHandler(handler);
 
     ResizeHelper.resizeTo(width, height);
@@ -288,34 +300,30 @@ public class WindowTest extends GWTTestCase {
     ResizeHelper.resizeBy(10, 20);
     ResizeHelper.assertSize(width + 10, height + 20);
 
-    delayTestFinish(1000);
-    Scheduler.get()
-        .scheduleFixedDelay(
-            new RepeatingCommand() {
-              @Override
-              public boolean execute() {
-                if (!handler.isCalled()) {
-                  return true; // we still didn't receive the callback, let's wait more
-                }
-                assertEquals(Window.getClientWidth(), handler.getWidth());
-                assertEquals(Window.getClientHeight(), handler.getHeight());
-                handlerRegistration.removeHandler();
-                finishTest();
-                return false;
-              }
-            },
-            10);
+    return handlerRegistration;
+  }
+
+  static boolean verify_testResizing(
+      TestResizeHandler handler, HandlerRegistration handlerRegistration) {
+    if (!handler.isCalled()) {
+      return true; // we still didn't receive the callback, let's wait more
+    }
+    assertEquals(Window.getClientWidth(), handler.getWidth());
+    assertEquals(Window.getClientHeight(), handler.getHeight());
+    handlerRegistration.removeHandler();
+    return false;
   }
 
   /**
-   * Tests the ability of scroll the Window and catch scroll events. Failed in all modes due to
+   * Tests the ability of scroll the Window and catch scroll events. * *
+   *
+   * <p>Caller must ensure this is not running in HtmlUnit, as it failed in all modes due to
    * HtmlUnit bug:
    * https://sourceforge.net/tracker/?func=detail&aid=2897457&group_id=47038&atid=448266
    *
    * <p>TODO(flin): it is marked fixed, but is still not fixed.
    */
-  @DoNotRunWith(Platform.HtmlUnitBug)
-  public void testScrolling() {
+  protected static void doTestScrolling() {
     // Force scroll bars to appear
     Window.enableScrolling(true);
     int clientHeight = Window.getClientHeight();

@@ -16,11 +16,8 @@
 package org.gwtproject.user.window.client;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.junit.DoNotRunWith;
-import com.google.gwt.junit.Platform;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.Random;
-import com.google.gwt.user.client.Timer;
 import java.util.Collection;
 import java.util.Date;
 
@@ -64,33 +61,14 @@ public class CookieTest extends GWTTestCase {
     assertEquals(Cookies.getCookie("notpresent"), null);
   }
 
-  // HTMLUnit doesn't match browsers in terms of the order of cookies.
-  @DoNotRunWith(Platform.HtmlUnitUnknown)
-  public void testCookiesWithTheSameName() {
-    // Make the cookie expire in one minute, so that they don't hang around
-    // past the end of this test.
-    Date expires = new Date(getClientTime() + (60 * 1000));
-
-    // Given multiple cookies with the same name, we should pick the cookie with the longest
-    // path.
-    Cookies.setCookie("token", "root", expires, null, "/", false);
-    Cookies.setCookie(
-        "token",
-        "longest",
-        expires,
-        null,
-        "/org.gwtproject.user.window.Window.JUnit/junit.html",
-        false);
-    Cookies.setCookie(
-        "token", "middle", expires, null, "/org.gwtproject.user.window.Window.JUnit/", false);
-    assertEquals("longest", Cookies.getCookie("token"));
-  }
+  static final int TEST_EXPIRES_TIMEOUT = 7000;
+  static final int TEST_EXPIRES_DELAY = 6000;
 
   /*
    * Test that the cookie will expire correctly after a set amount of time,
    * but does not expire before that time.
    */
-  public void testExpires() {
+  static int setup_testExpires() {
     // Generate a random ID for the cookies. Since cookies are shared across
     // browser instances, its possible for multiple instances of this test to
     // run concurrently (eg. hosted and Production Mode tests). If that happens,
@@ -107,28 +85,24 @@ public class CookieTest extends GWTTestCase {
     Cookies.setCookie(lateCookie, "late", expiresLate);
     Cookies.setCookie(sessionCookie, "forever", null);
 
-    delayTestFinish(7000);
-    // Wait until the cookie expires before checking it
-    Timer timer =
-        new Timer() {
-          @Override
-          public void run() {
-            // Verify that the early expiring cookie does NOT exist
-            assertNull(Cookies.getCookie(earlyCookie));
+    return uniqueId;
+  }
 
-            // Verify that the late expiring cookie does exist
-            assertEquals("late", Cookies.getCookie(lateCookie));
+  static void verify_testExpires(int uniqueId) {
+    final String earlyCookie = "shouldExpireEarly" + uniqueId;
+    final String lateCookie = "shouldExpireLate" + uniqueId;
+    final String sessionCookie = "shouldNotExpire" + uniqueId;
 
-            // Verify the session cookie doesn't expire
-            assertEquals("forever", Cookies.getCookie(sessionCookie));
-            Cookies.removeCookie(sessionCookie);
-            assertNull(Cookies.getCookie(sessionCookie));
+    // Verify that the early expiring cookie does NOT exist
+    assertNull(Cookies.getCookie(earlyCookie));
 
-            // Finish the test
-            finishTest();
-          }
-        };
-    timer.schedule(6000);
+    // Verify that the late expiring cookie does exist
+    assertEquals("late", Cookies.getCookie(lateCookie));
+
+    // Verify the session cookie doesn't expire
+    assertEquals("forever", Cookies.getCookie(sessionCookie));
+    Cookies.removeCookie(sessionCookie);
+    assertNull(Cookies.getCookie(sessionCookie));
   }
 
   public void testIsCookieEnabled() {
@@ -244,7 +218,7 @@ public class CookieTest extends GWTTestCase {
     }
   }
 
-  /** Clear out all existing cookies, except the ones used in {@link #testExpires()}. */
+  /** Clear out all existing cookies, except the ones used in {@link #setup_testExpires()}. */
   private void clearCookies() {
     Collection<String> cookies = Cookies.getCookieNames();
     for (String cookie : cookies) {
@@ -336,14 +310,14 @@ public class CookieTest extends GWTTestCase {
    *
    * @return the time on the client
    */
-  private long getClientTime() {
+  static long getClientTime() {
     if (GWT.isScript()) {
       return new Date().getTime();
     }
     return (long) getClientTimeImpl();
   }
 
-  private native double getClientTimeImpl() /*-{
+  private static native double getClientTimeImpl() /*-{
     return (new Date()).getTime();
   }-*/;
 }

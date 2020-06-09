@@ -53,6 +53,14 @@ tasks.withType<JavaCompile>().configureEach {
     options.errorprone.check("StringSplitter", CheckSeverity.OFF)
 }
 
+sourceSets {
+    test {
+        java {
+            srcDir("src/test/gwt2")
+        }
+    }
+}
+
 tasks {
     jar {
         from(sourceSets["main"].allJava)

@@ -15,16 +15,15 @@
  */
 package org.gwtproject.user.window;
 
-import org.gwtproject.user.window.client.CookieTest;
-import org.gwtproject.user.window.client.WindowTest;
+import org.gwtproject.user.window.client.CookieGWTTest;
+import org.gwtproject.user.window.client.WindowGWTTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-/** Tests of shared Event code. */
 @RunWith(Suite.class)
 @SuiteClasses({
-  CookieTest.class,
-  WindowTest.class,
+  CookieGWTTest.class,
+  WindowGWTTest.class,
 })
 public class WindowSuite {}
