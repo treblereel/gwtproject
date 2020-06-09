@@ -1,17 +1,17 @@
 /*
- * Copyright 2006 Google Inc.
+ * Copyright © 2019 The GWT Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.gwtproject.user.client.rpc;
 
@@ -79,9 +79,8 @@ public interface AsyncCallback<T> {
 
   /**
    * Called when an asynchronous call fails to complete normally.
-   * IncompatibleRemoteServiceExceptions, InvocationExceptions, or checked exceptions
-   * thrown by the service method are examples of the type of failures that can be passed to this
-   * method.
+   * IncompatibleRemoteServiceExceptions, InvocationExceptions, or checked exceptions thrown by the
+   * service method are examples of the type of failures that can be passed to this method.
    *
    * <p>If <code>caught</code> is an instance of an IncompatibleRemoteServiceException the
    * application should try to get into a state where a browser refresh can be safely done.

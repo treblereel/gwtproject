@@ -40,11 +40,9 @@ A future-proof port of the `com.google.gwt.user.client.rpc` GWT module, with no 
 ### Instructions
 To build the module:
 
-* run `mvn clean install`
+* run `mvn clean verify`
 
 on the parent directory.
-
-**Note: To build the module you need Maven 3.6.3 or newer**
 
 ## System Requirements
 
