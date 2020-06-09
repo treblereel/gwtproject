@@ -33,11 +33,9 @@ A collection of CSS styles to use with GWT 2 and J2CL, with no dependency on `gw
 ### Instructions
 To build the module:
 
-* run `mvn clean install`
+* run `mvn clean verify`
 
-on the parent directory.
-
-**Note: To build the module you need Maven 3.6.3 or newer**
+on the parent directory. This will build the artifact and run tests against the JVM, J2CL, and GWT2.
 
 ## System Requirements
 
