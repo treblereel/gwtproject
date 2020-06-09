@@ -15,8 +15,6 @@
  */
 package org.gwtproject.user.window.client;
 
-import com.google.gwt.regexp.shared.MatchResult;
-import com.google.gwt.regexp.shared.RegExp;
 import org.gwtproject.user.window.client.Window.Navigator;
 
 /**
@@ -58,14 +56,9 @@ public final class ResizeHelper {
     if (userAgent.contains("Chrome")) {
       return false; // All versions of Chrome are upsupported
     }
-
     if (userAgent.contains("Firefox")) {
-      RegExp versionRegExp = RegExp.compile("Firefox[\\/\\s](\\d+)\\.\\d+", "ig");
-      MatchResult result = versionRegExp.exec(userAgent);
-      if (result != null) {
-        int version = Integer.parseInt(result.getGroup(1));
-        return version < 7; // Resize is unsupported for Firefox 7 and newer.
-      }
+      // Resize is unsupported for Firefox (actually only 7 and newer, but 7 is very old now).
+      return false;
     }
     return true;
   }

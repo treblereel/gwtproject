@@ -15,9 +15,9 @@
  */
 package org.gwtproject.user.window.client;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
-import com.google.gwt.user.client.Random;
+import elemental2.core.JsDate;
+import elemental2.core.JsMath;
 import java.util.Collection;
 import java.util.Date;
 
@@ -73,7 +73,7 @@ public class CookieTest extends GWTTestCase {
     // browser instances, its possible for multiple instances of this test to
     // run concurrently (eg. hosted and Production Mode tests). If that happens,
     // the cookies will be cleared while we wait for the timer to fire.
-    int uniqueId = Random.nextInt(9000000) + 1000000;
+    int uniqueId = JsMath.floor(JsMath.random() * 9000000) + 1000000;
     final String earlyCookie = "shouldExpireEarly" + uniqueId;
     final String lateCookie = "shouldExpireLate" + uniqueId;
     final String sessionCookie = "shouldNotExpire" + uniqueId;
@@ -311,13 +311,6 @@ public class CookieTest extends GWTTestCase {
    * @return the time on the client
    */
   static long getClientTime() {
-    if (GWT.isScript()) {
-      return new Date().getTime();
-    }
-    return (long) getClientTimeImpl();
+    return (long) new JsDate().getTime();
   }
-
-  private static native double getClientTimeImpl() /*-{
-    return (new Date()).getTime();
-  }-*/;
 }

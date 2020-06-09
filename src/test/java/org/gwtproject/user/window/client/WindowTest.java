@@ -15,15 +15,15 @@
  */
 package org.gwtproject.user.window.client;
 
-import com.google.gwt.core.client.JavaScriptException;
-import com.google.gwt.dom.client.Element;
+import static elemental2.dom.DomGlobal.document;
+import static elemental2.dom.DomGlobal.window;
+
 import com.google.gwt.junit.client.GWTTestCase;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.Widget;
-import java.util.ArrayList;
+import elemental2.dom.CSSProperties.HeightUnionType;
+import elemental2.dom.CSSProperties.WidthUnionType;
+import elemental2.dom.Element;
+import elemental2.dom.HTMLBodyElement;
+import elemental2.dom.HTMLElement;
 import java.util.List;
 import java.util.Map;
 import org.gwtproject.event.logical.shared.ResizeEvent;
@@ -37,25 +37,18 @@ import org.gwtproject.user.window.client.Window.Navigator;
 /** Test Case for {@link Window}. */
 public class WindowTest extends GWTTestCase {
 
-  private static native String getNodeName(Element elem) /*-{
-    return (elem.nodeName || "").toLowerCase();
-  }-*/;
-
   /** Removes all elements in the body, except scripts and iframes. */
   static void clearBodyContent() {
-    Element bodyElem = RootPanel.getBodyElement();
+    final HTMLBodyElement bodyElem = document.body;
 
-    List<Element> toRemove = new ArrayList<Element>();
-    for (int i = 0, n = DOM.getChildCount(bodyElem); i < n; ++i) {
-      Element elem = DOM.getChild(bodyElem, i);
-      String nodeName = getNodeName(elem);
+    Element elem = bodyElem.firstElementChild;
+    while (elem != null) {
+      Element next = elem.nextElementSibling;
+      String nodeName = elem.tagName.toLowerCase();
       if (!"script".equals(nodeName) && !"iframe".equals(nodeName)) {
-        toRemove.add(elem);
+        bodyElem.removeChild(elem);
       }
-    }
-
-    for (int i = 0, n = toRemove.size(); i < n; ++i) {
-      bodyElem.removeChild(toRemove.get(i));
+      elem = next;
     }
   }
 
@@ -68,10 +61,10 @@ public class WindowTest extends GWTTestCase {
     // testing reload, replace, and assign seemed to hang our junit harness.
     // Therefore only testing subset of Location that is testable.
 
-    // Use History to get the #hash part of the url into a known state (if the
+    // Use Elemental to get the #hash part of the url into a known state (if the
     // url has somehow been set to http://host/#, location.hash returns the
     // empty string, but location.href includes the trailing hash).
-    History.newItem("foo bar");
+    window.location.hash = "foo bar";
 
     // As we have no control over these values we cannot assert much about them.
     String hash = Window.Location.getHash();
@@ -90,7 +83,7 @@ public class WindowTest extends GWTTestCase {
   }
 
   public void testLocationCreateUrlBuilder() {
-    History.newItem("theHash");
+    window.location.hash = "theHash";
     String expected = Location.getHref();
 
     // Build the string with the builder.
@@ -186,7 +179,7 @@ public class WindowTest extends GWTTestCase {
     // optimized away.
     try {
       Navigator.isJavaEnabled();
-    } catch (JavaScriptException e) {
+    } catch (RuntimeException e) {
       throw e;
     }
   }
@@ -196,7 +189,7 @@ public class WindowTest extends GWTTestCase {
   static final class GetClientSizeTestData {
     private int oldClientHeight;
     private int oldClientWidth;
-    private Widget largeDom;
+    private HTMLElement largeDom;
   }
 
   /**
@@ -234,9 +227,10 @@ public class WindowTest extends GWTTestCase {
 
     // Compare to the dimensions with scroll bars
     Window.enableScrolling(true);
-    testData.largeDom = new Label();
-    testData.largeDom.setPixelSize(testData.oldClientWidth + 100, testData.oldClientHeight + 100);
-    RootPanel.get().add(testData.largeDom);
+    testData.largeDom = (HTMLElement) document.createElement("div");
+    testData.largeDom.style.width = WidthUnionType.of(testData.oldClientWidth + 100);
+    testData.largeDom.style.height = HeightUnionType.of(testData.oldClientHeight + 100);
+    document.body.appendChild(testData.largeDom);
 
     return testData;
   }
@@ -246,7 +240,7 @@ public class WindowTest extends GWTTestCase {
     int newClientWidth = Window.getClientWidth();
     assertTrue(newClientHeight < testData.oldClientHeight);
     assertTrue(newClientWidth < testData.oldClientWidth);
-    RootPanel.get().remove(testData.largeDom);
+    document.body.removeChild(testData.largeDom);
   }
 
   static final class TestResizeHandler implements ResizeHandler {
@@ -328,9 +322,10 @@ public class WindowTest extends GWTTestCase {
     Window.enableScrolling(true);
     int clientHeight = Window.getClientHeight();
     int clientWidth = Window.getClientWidth();
-    final Label largeDOM = new Label();
-    largeDOM.setPixelSize(clientWidth + 500, clientHeight + 500);
-    RootPanel.get().add(largeDOM);
+    final HTMLElement largeDOM = (HTMLElement) document.createElement("div");
+    largeDOM.style.width = WidthUnionType.of(clientWidth + 500);
+    largeDOM.style.height = HeightUnionType.of(clientHeight + 500);
+    document.body.appendChild(largeDOM);
 
     // Listener for scroll events
     Window.scrollTo(100, 200);
@@ -341,6 +336,6 @@ public class WindowTest extends GWTTestCase {
     assertEquals(0, Window.getScrollTop());
 
     // Cleanup the window
-    RootPanel.get().remove(largeDOM);
+    document.body.removeChild(largeDOM);
   }
 }
