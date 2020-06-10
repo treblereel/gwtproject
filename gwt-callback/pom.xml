@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright © 2019 The GWT Authors
+    Copyright © 2019 The GWT Project Authors
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -34,7 +34,7 @@
   <url>https://github.com/gwtproject/gwt-callback</url>
 
   <organization>
-    <name>The GWT Authors</name>
+    <name>The GWT Project Authors</name>
     <url>https://github.com/gwtproject</url>
   </organization>
 
@@ -81,17 +81,6 @@
       </plugin>
     </plugins>
   </build>
-
-  <distributionManagement>
-    <snapshotRepository>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </snapshotRepository>
-    <repository>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-    </repository>
-  </distributionManagement>
 
   <profiles>
     <!-- release profile to create sources, javadoc, and sign all artifacts before uploading -->
