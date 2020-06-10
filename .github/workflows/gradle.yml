@@ -18,19 +18,35 @@ jobs:
         java-version: ${{ matrix.java_version }}
 
     - name: Cache Gradle wrapper
-      uses: actions/cache@v1
+      uses: actions/cache@v2
       with:
         path: ~/.gradle/wrapper/dists/gradle-6.4.1-bin/
         key: wrapper-6.4.1
 
     - name: Cache dependencies
-      uses: actions/cache@v1
+      id: cache-dependencies
+      uses: actions/cache@v2
       with:
         path: ~/.gradle/caches/modules-2/
         key: deps-${{ hashFiles('**/*gradle.lockfile') }}
+
+    - name: Get Maven version
+      run: mvn --version |head -1 > mvn-version
+
+    - name: Cache Maven dependencies (for J2Cl tests)
+      id: cache-maven-dependencies
+      uses: actions/cache@v2
+      with:
+        path: ~/.m2/repository/
+        key: mvn-deps=${{ hashFiles('mvn-version') }}-${{ hashFiles('pom-j2cl-test.xml') }}
 
     - name: Build with Gradle
       run: ./gradlew build -Pj2clTest.webdriver=chrome
 
     - name: Before cache
+      if: steps.cache-dependencies.outputs.cache-hit != 'true'
       run: rm -f ~/.gradle/caches/modules-2/*.lock ~/.gradle/caches/modules-2/gc.properties
+
+    - name: Before Maven cache
+      if: steps.cache-maven-dependencies.outputs.cache-hit != 'true'
+      run: shopt -s globstar && rm -rf ~/.m2/repository/**/*-SNAPSHOT/ ~/.m2/repository/org/gwtproject/**/LOCAL/
