@@ -33,7 +33,7 @@ dependencies {
     errorproneJavac("com.google.errorprone:javac:9+181-r4173-1")
 
     api("org.gwtproject.event:gwt-logical-event:1.0.0-RC1")
-    api("org.gwtproject.http:gwt-http:1.0.0-RC1")
+    api("org.gwtproject.http:gwt-http:1.0.0-RC2")
     implementation("com.google.elemental2:elemental2-dom:1.0.0")
     implementation("com.google.elemental2:elemental2-core:1.0.0")
     implementation("com.google.jsinterop:base:1.0.0")
