@@ -34,7 +34,7 @@
   <url>https://github.com/gwtproject/gwt-dom-style-definitions</url>
 
   <organization>
-    <name>The GWT Authors</name>
+    <name>The GWT Project Authors</name>
     <url>https://github.com/gwtproject</url>
   </organization>
 
@@ -47,7 +47,7 @@
 
   <developers>
     <developer>
-      <name>The GWT Authors</name>
+      <name>The GWT Project Authors</name>
       <organization>The GWT Project Authors</organization>
       <url>https://github.com/gwtproject</url>
     </developer>
@@ -81,17 +81,6 @@
       </plugin>
     </plugins>
   </build>
-
-  <distributionManagement>
-    <snapshotRepository>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </snapshotRepository>
-    <repository>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-    </repository>
-  </distributionManagement>
 
   <profiles>
     <!-- release profile to create sources, javadoc, and sign all artifacts before uploading -->
