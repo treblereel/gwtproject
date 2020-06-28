@@ -4,7 +4,7 @@
 
 A future-proof port of the `com.google.gwt.xhr.XHR` GWT module, with no dependency on `gwt-user` (besides the Java Runtime Emulation), to prepare for GWT 3 / J2Cl.
 
-##  Migrating from `com.google.gwt.user.client.Timer`
+##  Migrating from `com.google.gwt.xhr.XHR`
 
 1. Add the dependency to your build.
 
@@ -52,3 +52,4 @@ on the parent directory. This will build the artifact and run tests against the 
 ## Dependencies
 
 GWT XHR does not depend on any other module.
+
