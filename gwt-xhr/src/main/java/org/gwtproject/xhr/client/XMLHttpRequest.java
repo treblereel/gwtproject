@@ -1,5 +1,5 @@
 /*
- * Copyright © 2019 The GWT Authors
+ * Copyright © 2019 The GWT Project Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -368,14 +368,15 @@ public class XMLHttpRequest {
   public final native void setWithCredentials(boolean withCredentials);
 
   /**
-   * A String specifying the MIME type to use instead of the one specified by the server.
-   * If the server doesn't specify a type, XMLHttpRequest assumes "text/xml"
+   * A String specifying the MIME type to use instead of the one specified by the server. If the
+   * server doesn't specify a type, XMLHttpRequest assumes "text/xml"
    *
-   * <p>See <a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/overrideMimeType"
+   * <p>See <a
+   * href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/overrideMimeType"
    * >https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/overrideMimeType</a>.
    *
-   *
-   * @param mimeType A DOMString specifying the MIME type to use instead of the one specified by the server.
+   * @param mimeType A DOMString specifying the MIME type to use instead of the one specified by the
+   *     server.
    * @return
    */
   public final native String overrideMimeType(String mimeType);
