@@ -102,8 +102,9 @@
                         <exclude>**/src/main/resources/**</exclude>
                         <exclude>**/pom.xml</exclude>
                         <exclude>**/.flattened-pom.xml</exclude>
-                        <exclude>**/war</exclude>
-                        <exclude>**/gwt-unitcache</exclude>
+                        <exclude>**/war/**</exclude>
+                        <exclude>**/deploy/**</exclude>
+                        <exclude>**/gwt-unitcache/**</exclude>
                     </excludes>
                     <properties>
                         <year>${project.inceptionYear}</year>
