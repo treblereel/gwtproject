@@ -1,33 +1,29 @@
 /*
- * Copyright 2008 Google Inc.
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- * 
- * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * Copyright © 2020 The GWT Project Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.gwtproject.xml.client.impl;
 
+import jsinterop.annotations.JsPackage;
+import jsinterop.annotations.JsType;
 import org.gwtproject.xml.client.Document;
 import org.gwtproject.xml.client.impl.DocumentImpl.NativeDocumentImpl;
 import org.gwtproject.xml.client.impl.ElementImpl.NativeElementImpl;
 import org.gwtproject.xml.client.impl.NodeImpl.NativeNodeImpl;
 import org.gwtproject.xml.client.impl.NodeListImpl.NativeNodeListImpl;
 
-import jsinterop.annotations.JsPackage;
-import jsinterop.annotations.JsType;
-
-/**
- * Native implementation associated with
- * {@link org.gwtproject.xml.client.XMLParser}.
- */
+/** Native implementation associated with {@link org.gwtproject.xml.client.XMLParser}. */
 public abstract class XMLParserImpl {
 
   static class XMLParserImplIE8And9 extends XMLParserImpl {
@@ -35,8 +31,11 @@ public abstract class XMLParserImpl {
     @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
     static class NativeInternalDocumentImpl extends NativeDocumentImpl {
       boolean preserveWhiteSpace;
-      native void setProperty(String name , String value);
+
+      native void setProperty(String name, String value);
+
       native boolean loadXML(String content);
+
       ParseError parseError;
     }
 
@@ -65,8 +64,7 @@ public abstract class XMLParserImpl {
     }
 
     @Override
-    protected NativeNodeListImpl getElementsByTagNameImpl(NativeNodeImpl o,
-        String tagName) {
+    protected NativeNodeListImpl getElementsByTagNameImpl(NativeNodeImpl o, String tagName) {
       return o.selectNodes(".//*[local-name()='" + tagName + "']");
     }
 
@@ -107,8 +105,8 @@ public abstract class XMLParserImpl {
   }
 
   /**
-   * This class implements the methods for standard browsers that use the
-   * DOMParser model of XML parsing.
+   * This class implements the methods for standard browsers that use the DOMParser model of XML
+   * parsing.
    */
   private static class XMLParserImplStandard extends XMLParserImpl {
 
@@ -179,9 +177,7 @@ public abstract class XMLParserImpl {
     }
   }
 
-  /**
-   * This class is Safari implementation of the XMLParser interface.
-   */
+  /** This class is Safari implementation of the XMLParser interface. */
   private static class XMLParserImplSafari extends XMLParserImplStandard {
 
     @Override
@@ -190,8 +186,8 @@ public abstract class XMLParserImpl {
     }
 
     /**
-     * <html><body><parsererror style="white-space: pre; border: 2px solid #c77;
-     * padding: 0 1em 0 1em; margin: 1em; background-color: #fdd; color: black" >
+     * <html><body><parsererror style="white-space: pre; border: 2px solid #c77; padding: 0 1em 0
+     * 1em; margin: 1em; background-color: #fdd; color: black" >
      *
      * <h3>This page contains the following errors:</h3>
      *
@@ -257,16 +253,13 @@ public abstract class XMLParserImpl {
     return impl.getPrefixImpl(node);
   }
 
-  static NativeNodeImpl importNode(NativeDocumentImpl document,
-      NativeNodeImpl importedNode, boolean deep) {
+  static NativeNodeImpl importNode(
+      NativeDocumentImpl document, NativeNodeImpl importedNode, boolean deep) {
     return impl.importNodeImpl(document, importedNode, deep);
   }
 
-  /**
-   * Not globally instantable.
-   */
-  XMLParserImpl() {
-  }
+  /** Not globally instantable. */
+  XMLParserImpl() {}
 
   public final Document createDocument() {
     return (Document) NodeImpl.build(createDocumentImpl());

@@ -1,20 +1,22 @@
 /*
- * Copyright 2008 Google Inc.
+ * Copyright © 2020 The GWT Project Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.gwtproject.xml.client.impl;
 
+import jsinterop.annotations.JsPackage;
+import jsinterop.annotations.JsType;
 import org.gwtproject.xml.client.CDATASection;
 import org.gwtproject.xml.client.Comment;
 import org.gwtproject.xml.client.DOMException;
@@ -31,12 +33,7 @@ import org.gwtproject.xml.client.impl.ElementImpl.NativeElementImpl;
 import org.gwtproject.xml.client.impl.ProcessingInstructionImpl.NativeProcessingInstructionImpl;
 import org.gwtproject.xml.client.impl.TextImpl.NativeTextImpl;
 
-import jsinterop.annotations.JsPackage;
-import jsinterop.annotations.JsType;
-
-/**
- * This class wraps the native Document object.
- */
+/** This class wraps the native Document object. */
 class DocumentImpl extends NodeImpl implements Document {
 
   @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
@@ -45,14 +42,21 @@ class DocumentImpl extends NodeImpl implements Document {
     NativeElementImpl documentElement;
 
     native NativeCommentImpl createComment(String data);
+
     native NativeCDATASectionImpl createCDATASection(String data);
+
     native NativeDocumentImpl createDocumentFragment();
+
     native NativeElementImpl createElement(String tag);
+
     native NativeProcessingInstructionImpl createProcessingInstruction(String target, String data);
+
     native NativeTextImpl createTextNode(String data);
 
     native NativeElementImpl getElementById(String id);
+
     native NativeElementImpl nodeFromID(String id);
+
     native NativeNodeImpl importNode(NativeNodeImpl importedNode, boolean deep);
   }
 
@@ -75,9 +79,7 @@ class DocumentImpl extends NodeImpl implements Document {
     }
   }
 
-  /**
-   * This function delegates to the native method <code>createComment</code> in XMLParserImpl.
-   */
+  /** This function delegates to the native method <code>createComment</code> in XMLParserImpl. */
   @Override
   public Comment createComment(String data) {
     try {
@@ -100,9 +102,7 @@ class DocumentImpl extends NodeImpl implements Document {
     }
   }
 
-  /**
-   * This function delegates to the native method <code>createElement</code> in XMLParserImpl.
-   */
+  /** This function delegates to the native method <code>createElement</code> in XMLParserImpl. */
   @Override
   public Element createElement(String tagName) {
     try {
@@ -126,9 +126,7 @@ class DocumentImpl extends NodeImpl implements Document {
     }
   }
 
-  /**
-   * This function delegates to the native method <code>createTextNode</code> in XMLParserImpl.
-   */
+  /** This function delegates to the native method <code>createTextNode</code> in XMLParserImpl. */
   @Override
   public Text createTextNode(String data) {
     try {
@@ -146,9 +144,7 @@ class DocumentImpl extends NodeImpl implements Document {
     return (Element) NodeImpl.build(document.documentElement);
   }
 
-  /**
-   * This function delegates to the native method <code>getElementById</code> in XMLParserImpl.
-   */
+  /** This function delegates to the native method <code>getElementById</code> in XMLParserImpl. */
   @Override
   public Element getElementById(String elementId) {
     return (Element) NodeImpl.build(XMLParserImpl.getElementById(document, elementId));
@@ -163,9 +159,7 @@ class DocumentImpl extends NodeImpl implements Document {
     return new NodeListImpl(XMLParserImpl.getElementsByTagName(node, tagName));
   }
 
-  /**
-   * This function delegates to the native method <code>importNode</code> in XMLParserImpl.
-   */
+  /** This function delegates to the native method <code>importNode</code> in XMLParserImpl. */
   @Override
   public Node importNode(Node importedNode, boolean deep) {
     NodeImpl actualNode = (NodeImpl) importedNode;

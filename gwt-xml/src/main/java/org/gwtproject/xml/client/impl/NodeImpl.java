@@ -1,20 +1,24 @@
 /*
- * Copyright 2008 Google Inc.
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- * 
- * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * Copyright © 2020 The GWT Project Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.gwtproject.xml.client.impl;
 
+import jsinterop.annotations.JsOverlay;
+import jsinterop.annotations.JsPackage;
+import jsinterop.annotations.JsProperty;
+import jsinterop.annotations.JsType;
 import org.gwtproject.xml.client.DOMException;
 import org.gwtproject.xml.client.Document;
 import org.gwtproject.xml.client.NamedNodeMap;
@@ -31,17 +35,10 @@ import org.gwtproject.xml.client.impl.NodeListImpl.NativeNodeListImpl;
 import org.gwtproject.xml.client.impl.ProcessingInstructionImpl.NativeProcessingInstructionImpl;
 import org.gwtproject.xml.client.impl.TextImpl.NativeTextImpl;
 
-import jsinterop.annotations.JsOverlay;
-import jsinterop.annotations.JsPackage;
-import jsinterop.annotations.JsProperty;
-import jsinterop.annotations.JsType;
-
-/**
- * This class wraps the native Node object.
- */
+/** This class wraps the native Node object. */
 class NodeImpl extends DOMItem implements Node {
 
-  @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
+  @JsType(isNative = true, name = "Node", namespace = JsPackage.GLOBAL)
   static class NativeNodeImpl extends NativeDomItem {
     NativeNamedNodeMapImpl attributes;
     String nodeName;
@@ -69,20 +66,29 @@ class NodeImpl extends DOMItem implements Node {
     native short nodeTypeAsShort();
 
     native NativeNodeListImpl selectNodes(String selector);
+
     native NativeNodeListImpl getElementsByTagName(String selector);
-    native NativeNodeListImpl getElementsByTagNameNS(String ns ,String tagName);
+
+    native NativeNodeListImpl getElementsByTagNameNS(String ns, String tagName);
+
     native NativeNodeImpl appendChild(NativeNodeImpl child);
+
     native NativeNodeImpl cloneNode(boolean deep);
+
     native boolean hasChildNodes();
+
     native NativeNodeImpl insertBefore(NativeNodeImpl newChildJs, NativeNodeImpl refChildJs);
+
     native void normalize();
+
     native NativeNodeImpl removeChild(NativeNodeImpl child);
+
     native NativeNodeImpl replaceChild(NativeNodeImpl newChild, NativeNodeImpl oldChild);
   }
-  
+
   /**
    * This method creates a new node of the correct type.
-   * 
+   *
    * @param node - the supplied DOM JavaScript object
    * @return a Node object that corresponds to the DOM object
    */
@@ -117,7 +123,7 @@ class NodeImpl extends DOMItem implements Node {
 
   /**
    * creates a new NodeImpl from the supplied JavaScriptObject.
-   * 
+   *
    * @param jso - the DOM node JavaScriptObject
    */
   protected NodeImpl(NativeNodeImpl jso) {
@@ -125,10 +131,7 @@ class NodeImpl extends DOMItem implements Node {
     this.node = jso;
   }
 
-  /**
-   * This function delegates to the native method <code>appendChild</code> in
-   * XMLParserImpl.
-   */
+  /** This function delegates to the native method <code>appendChild</code> in XMLParserImpl. */
   @Override
   public Node appendChild(Node newChild) {
     NodeImpl c = (NodeImpl) newChild;
@@ -140,10 +143,7 @@ class NodeImpl extends DOMItem implements Node {
     }
   }
 
-  /**
-   * This function delegates to the native method <code>cloneNode</code> in
-   * XMLParserImpl.
-   */
+  /** This function delegates to the native method <code>cloneNode</code> in XMLParserImpl. */
   @Override
   public Node cloneNode(boolean deep) {
     return NodeImpl.build(node.cloneNode(deep));
@@ -169,10 +169,7 @@ class NodeImpl extends DOMItem implements Node {
     return getChildNodes().item(getChildNodes().getLength() - 1);
   }
 
-  /**
-   * This function delegates to the native method <code>getNamespaceURI</code>
-   * in XMLParserImpl.
-   */
+  /** This function delegates to the native method <code>getNamespaceURI</code> in XMLParserImpl. */
   @Override
   public String getNamespaceURI() {
     return node.namespaceURI;
@@ -208,10 +205,7 @@ class NodeImpl extends DOMItem implements Node {
     return NodeImpl.build(node.parentNode);
   }
 
-  /**
-   * This function delegates to the native method <code>getPrefix</code> in
-   * XMLParserImpl.
-   */
+  /** This function delegates to the native method <code>getPrefix</code> in XMLParserImpl. */
   @Override
   public String getPrefix() {
     return XMLParserImpl.getPrefix(node);
@@ -222,28 +216,19 @@ class NodeImpl extends DOMItem implements Node {
     return NodeImpl.build(node.previousSibling);
   }
 
-  /**
-   * This function delegates to the native method <code>hasAttributes</code>
-   * in XMLParserImpl.
-   */
+  /** This function delegates to the native method <code>hasAttributes</code> in XMLParserImpl. */
   @Override
   public boolean hasAttributes() {
     return node.attributes.length > 0;
   }
 
-  /**
-   * This function delegates to the native method <code>hasChildNodes</code>
-   * in XMLParserImpl.
-   */
+  /** This function delegates to the native method <code>hasChildNodes</code> in XMLParserImpl. */
   @Override
   public boolean hasChildNodes() {
     return node.hasChildNodes();
   }
 
-  /**
-   * This function delegates to the native method <code>insertBefore</code> in
-   * XMLParserImpl.
-   */
+  /** This function delegates to the native method <code>insertBefore</code> in XMLParserImpl. */
   @Override
   public Node insertBefore(Node newChild, Node refChild) {
     try {
@@ -261,19 +246,13 @@ class NodeImpl extends DOMItem implements Node {
     }
   }
 
-  /**
-   * This function delegates to the native method <code>normalize</code> in
-   * XMLParserImpl.
-   */
+  /** This function delegates to the native method <code>normalize</code> in XMLParserImpl. */
   @Override
   public void normalize() {
     node.normalize();
   }
 
-  /**
-   * This function delegates to the native method <code>removeChild</code> in
-   * XMLParserImpl.
-   */
+  /** This function delegates to the native method <code>removeChild</code> in XMLParserImpl. */
   @Override
   public Node removeChild(Node oldChild) {
     try {
@@ -285,9 +264,7 @@ class NodeImpl extends DOMItem implements Node {
     }
   }
 
-  /**
-   * This function delegates to the native method <code>replaceChild</code> in XMLParserImpl.
-   */
+  /** This function delegates to the native method <code>replaceChild</code> in XMLParserImpl. */
   @Override
   public Node replaceChild(Node newChild, Node oldChild) {
     try {
@@ -300,10 +277,7 @@ class NodeImpl extends DOMItem implements Node {
     }
   }
 
-  /**
-   * This function delegates to the native method <code>setNodeValue</code> in
-   * XMLParserImpl.
-   */
+  /** This function delegates to the native method <code>setNodeValue</code> in XMLParserImpl. */
   @Override
   public void setNodeValue(String nodeValue) {
     try {
