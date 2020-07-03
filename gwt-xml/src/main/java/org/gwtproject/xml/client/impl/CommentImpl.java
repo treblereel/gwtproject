@@ -22,7 +22,7 @@ import org.gwtproject.xml.client.Comment;
 /** This class implements the Comment interface. */
 class CommentImpl extends CharacterDataImpl implements Comment {
 
-  @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
+  @JsType(isNative = true, name = "Node", namespace = JsPackage.GLOBAL)
   static class NativeCommentImpl extends NativeCharacterDataImpl {}
 
   CommentImpl(NativeCommentImpl o) {

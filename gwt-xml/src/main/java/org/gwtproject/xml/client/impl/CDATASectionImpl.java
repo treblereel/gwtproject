@@ -22,7 +22,7 @@ import org.gwtproject.xml.client.CDATASection;
 /** This class implements the CDATASectionImpl interface. */
 class CDATASectionImpl extends TextImpl implements CDATASection {
 
-  @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
+  @JsType(isNative = true, name = "Node", namespace = JsPackage.GLOBAL)
   static class NativeCDATASectionImpl extends NativeTextImpl {}
 
   protected CDATASectionImpl(NativeCDATASectionImpl o) {

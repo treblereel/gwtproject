@@ -22,7 +22,7 @@ import org.gwtproject.xml.client.DocumentFragment;
 /** This class implements the XML DOM interface. */
 class DocumentFragmentImpl extends NodeImpl implements DocumentFragment {
 
-  @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
+  @JsType(isNative = true, name = "Node", namespace = JsPackage.GLOBAL)
   static class NativeDocumentFragmentImpl extends NativeNodeImpl {}
 
   protected DocumentFragmentImpl(NativeDocumentFragmentImpl o) {

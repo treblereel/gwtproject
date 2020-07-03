@@ -22,7 +22,7 @@ import org.gwtproject.xml.client.DOMException;
 
 /** This class implements the CharacterData interface. */
 abstract class CharacterDataImpl extends NodeImpl implements CharacterData {
-  @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
+  @JsType(isNative = true, name = "Node", namespace = JsPackage.GLOBAL)
   static class NativeCharacterDataImpl extends NativeNodeImpl {
     String data;
     int length;

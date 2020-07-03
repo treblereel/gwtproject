@@ -367,8 +367,8 @@ public class XMLJ2clTest {
                 + "</bk:book>");
     assertEquals(d.getDocumentElement().getNodeName(), "bk:book");
     assertEquals(d.getDocumentElement().getPrefix(), "bk");
-    assertEquals(1, d.getElementsByTagName("bk:book").getLength());
-    assertEquals(d.getDocumentElement(), d.getElementsByTagName("bk:book").item(0));
+    assertEquals(1, d.getElementsByTagName("book").getLength());
+    assertEquals(d.getDocumentElement(), d.getElementsByTagName("book").item(0));
   }
 
   @Test

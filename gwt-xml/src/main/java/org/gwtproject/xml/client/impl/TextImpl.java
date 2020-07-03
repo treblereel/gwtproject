@@ -23,7 +23,7 @@ import org.gwtproject.xml.client.Text;
 /** This class is the implementation of the XML DOM Text interface. */
 class TextImpl extends CharacterDataImpl implements Text {
 
-  @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
+  @JsType(isNative = true, name = "Node", namespace = JsPackage.GLOBAL)
   static class NativeTextImpl extends NativeCharacterDataImpl {
     native NativeTextImpl splitText(int offset);
   }

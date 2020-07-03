@@ -15,6 +15,7 @@
  */
 package org.gwtproject.xml.client.impl;
 
+import elemental2.dom.DomGlobal;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
 import org.gwtproject.xml.client.Document;
@@ -28,7 +29,7 @@ public abstract class XMLParserImpl {
 
   static class XMLParserImplIE8And9 extends XMLParserImpl {
 
-    @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
+    @JsType(isNative = true, name = "Node", namespace = JsPackage.GLOBAL)
     static class NativeInternalDocumentImpl extends NativeDocumentImpl {
       boolean preserveWhiteSpace;
 
@@ -149,6 +150,7 @@ public abstract class XMLParserImpl {
 
     @Override
     protected NativeDocumentImpl parseImpl(String contents) {
+      DomGlobal.console.log("Standard: parseImpl");
       NativeDocumentImpl result = domParser.parseFromString(contents, "text/xml");
 
       NativeElementImpl rootTag = result.documentElement;
@@ -205,6 +207,7 @@ public abstract class XMLParserImpl {
      */
     @Override
     protected NativeDocumentImpl parseImpl(String contents) {
+      DomGlobal.console.log("Safari: parseImpl");
       NativeDocumentImpl result = domParser.parseFromString(contents, "text/xml");
 
       NativeNodeListImpl parseErrors = result.getElementsByTagName("parsererror");
@@ -230,7 +233,8 @@ public abstract class XMLParserImpl {
   }
 
   private static XMLParserImpl createImpl() {
-    String userAgent = System.getProperty("user.agent", "safari");
+    //    String userAgent = System.getProperty("user.agent", "safari");
+    String userAgent = System.getProperty("user.agent");
 
     if ("ie".equals(userAgent) || "ie9".equals(userAgent)) {
       return new XMLParserImplIE8And9();

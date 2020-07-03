@@ -23,7 +23,7 @@ import org.gwtproject.xml.client.ProcessingInstruction;
 /** This class implements the XML DOM ProcessingInstruction interface. */
 class ProcessingInstructionImpl extends NodeImpl implements ProcessingInstruction {
 
-  @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
+  @JsType(isNative = true, name = "Node", namespace = JsPackage.GLOBAL)
   static class NativeProcessingInstructionImpl extends NativeNodeImpl {
     String data;
     String target;

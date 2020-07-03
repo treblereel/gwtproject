@@ -25,7 +25,7 @@ import org.gwtproject.xml.client.NodeList;
 /** This method implements the Element interface. */
 class ElementImpl extends NodeImpl implements Element {
 
-  @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
+  @JsType(isNative = true, name = "Node", namespace = JsPackage.GLOBAL)
   static class NativeElementImpl extends NativeNodeImpl {
     String data;
     NativeElementImpl firstChild;

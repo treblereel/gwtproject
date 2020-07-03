@@ -22,7 +22,7 @@ import org.gwtproject.xml.client.EntityReference;
 /** This class implements the XML DOM interface EntityReference. */
 class EntityReferenceImpl extends NodeImpl implements EntityReference {
 
-  @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
+  @JsType(isNative = true, name = "Node", namespace = JsPackage.GLOBAL)
   static class NativeEntityReferenceImpl extends NativeNodeImpl {}
 
   protected EntityReferenceImpl(NativeEntityReferenceImpl o) {

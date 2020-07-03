@@ -22,7 +22,7 @@ import org.gwtproject.xml.client.Attr;
 /** This class implements the XML Attr interface. */
 class AttrImpl extends NodeImpl implements Attr {
 
-  @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
+  @JsType(isNative = true, name = "Node", namespace = JsPackage.GLOBAL)
   static class NativeAttrImpl extends NativeNodeImpl {
     String name;
     boolean specified;

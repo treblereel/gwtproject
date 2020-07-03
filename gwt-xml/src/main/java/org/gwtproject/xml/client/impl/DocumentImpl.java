@@ -36,7 +36,7 @@ import org.gwtproject.xml.client.impl.TextImpl.NativeTextImpl;
 /** This class wraps the native Document object. */
 class DocumentImpl extends NodeImpl implements Document {
 
-  @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
+  @JsType(isNative = true, name = "Node", namespace = JsPackage.GLOBAL)
   static class NativeDocumentImpl extends NativeNodeImpl {
 
     NativeElementImpl documentElement;
