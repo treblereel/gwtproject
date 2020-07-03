@@ -60,7 +60,7 @@
                 <extensions>true</extensions>
                 <configuration>
                     <failOnError>true</failOnError>
-                    <moduleName>org.gwtproject.xml.client.XMLJ2clTest</moduleName>
+                    <moduleName>org.gwtproject.xml.XMLGwtTestSuite</moduleName>
                     <sourceLevel>1.8</sourceLevel>
                 </configuration>
             </plugin>

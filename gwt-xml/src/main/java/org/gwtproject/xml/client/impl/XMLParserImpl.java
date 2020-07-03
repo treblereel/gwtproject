@@ -15,9 +15,9 @@
  */
 package org.gwtproject.xml.client.impl;
 
-import elemental2.dom.DomGlobal;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
+import jsinterop.base.Js;
 import org.gwtproject.xml.client.Document;
 import org.gwtproject.xml.client.impl.DocumentImpl.NativeDocumentImpl;
 import org.gwtproject.xml.client.impl.ElementImpl.NativeElementImpl;
@@ -72,8 +72,7 @@ public abstract class XMLParserImpl {
 
     @Override
     protected NativeDocumentImpl parseImpl(String contents) {
-      DomGlobal.console.log("Standard: parseImpl");
-      NativeDocumentImpl result = domParser.parseFromString(contents, "text/xml");
+      NativeDocumentImpl result = Js.cast(domParser.parseFromString(contents, "text/xml"));
 
       NativeElementImpl rootTag = result.documentElement;
 
@@ -101,48 +100,50 @@ public abstract class XMLParserImpl {
     }
   }
 
-  /** This class is Safari implementation of the XMLParser interface. */
-  private static class XMLParserImplSafari extends XMLParserImplStandard {
-
-    @Override
-    protected NativeNodeListImpl getElementsByTagNameImpl(NativeNodeImpl o, String tagName) {
-      return o.getElementsByTagName(tagName);
-    }
-
-    /**
-     * <html><body><parsererror style="white-space: pre; border: 2px solid #c77; padding: 0 1em 0
-     * 1em; margin: 1em; background-color: #fdd; color: black" >
-     *
-     * <h3>This page contains the following errors:</h3>
-     *
-     * <div style="font-family:monospace;font-size:12px" >error on line 1 at column 2:
-     * xmlParseStartTag: invalid element name </div>
-     *
-     * <h3>Below is a rendering of the page up to the first error.</h3>
-     *
-     * </parsererror></body></html> is all you get from Safari. Hope that nobody wants to send one
-     * of those error reports over the wire to be parsed by safari...
-     *
-     * @param contents contents
-     * @return parsed JavaScript object
-     * @see org.gwtproject.xml.client.impl.XMLParserImpl#parseImpl(java.lang.String)
-     */
-    @Override
-    protected NativeDocumentImpl parseImpl(String contents) {
-      DomGlobal.console.log("Safari: parseImpl");
-      NativeDocumentImpl result = domParser.parseFromString(contents, "text/xml");
-
-      NativeNodeListImpl parseErrors = result.getElementsByTagName("parsererror");
-      if (parseErrors.length > 0) {
-        NativeNodeImpl error = parseErrors.item(0);
-        if ("body".equals(error.parentNode.tagName)) {
-          throw new RuntimeException(error.childNodes.item(1).innerHTML);
-        }
-      }
-
-      return result;
-    }
-  }
+  //  /** This class is Safari implementation of the XMLParser interface. */
+  //  private static class XMLParserImplSafari extends XMLParserImplStandard {
+  //
+  //    @Override
+  //    protected NativeNodeListImpl getElementsByTagNameImpl(NativeNodeImpl o, String tagName) {
+  //      return o.getElementsByTagName(tagName);
+  //    }
+  //
+  //    /**
+  //     * <html><body><parsererror style="white-space: pre; border: 2px solid #c77; padding: 0 1em
+  // 0
+  //     * 1em; margin: 1em; background-color: #fdd; color: black" >
+  //     *
+  //     * <h3>This page contains the following errors:</h3>
+  //     *
+  //     * <div style="font-family:monospace;font-size:12px" >error on line 1 at column 2:
+  //     * xmlParseStartTag: invalid element name </div>
+  //     *
+  //     * <h3>Below is a rendering of the page up to the first error.</h3>
+  //     *
+  //     * </parsererror></body></html> is all you get from Safari. Hope that nobody wants to send
+  // one
+  //     * of those error reports over the wire to be parsed by safari...
+  //     *
+  //     * @param contents contents
+  //     * @return parsed JavaScript object
+  //     * @see org.gwtproject.xml.client.impl.XMLParserImpl#parseImpl(java.lang.String)
+  //     */
+  //    @Override
+  //    protected NativeDocumentImpl parseImpl(String contents) {
+  //      DomGlobal.console.log("Safari: parseImpl");
+  //      NativeDocumentImpl result = domParser.parseFromString(contents, "text/xml");
+  //
+  //      NativeNodeListImpl parseErrors = result.getElementsByTagName("parsererror");
+  //      if (parseErrors.length > 0) {
+  //        NativeNodeImpl error = parseErrors.item(0);
+  //        if ("body".equals(error.parentNode.tagName)) {
+  //          throw new RuntimeException(error.childNodes.item(1).innerHTML);
+  //        }
+  //      }
+  //
+  //      return result;
+  //    }
+  //  }
 
   private static XMLParserImpl impl;
 
@@ -155,14 +156,7 @@ public abstract class XMLParserImpl {
   }
 
   private static XMLParserImpl createImpl() {
-    //    String userAgent = System.getProperty("user.agent", "safari");
-    String userAgent = System.getProperty("user.agent");
-
-    if ("safari".equals(userAgent)) {
-      return new XMLParserImplSafari();
-    } else {
-      return new XMLParserImplStandard();
-    }
+    return new XMLParserImplStandard();
   }
 
   static NativeElementImpl getElementById(NativeDocumentImpl document, String id) {
