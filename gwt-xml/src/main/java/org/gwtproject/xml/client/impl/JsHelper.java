@@ -16,54 +16,12 @@
 package org.gwtproject.xml.client.impl;
 
 import elemental2.dom.DomGlobal;
-import jsinterop.annotations.JsConstructor;
-import jsinterop.annotations.JsPackage;
-import jsinterop.annotations.JsType;
 import jsinterop.base.Js;
 import org.gwtproject.xml.client.impl.DocumentImpl.NativeDocumentImpl;
-import org.gwtproject.xml.client.impl.XMLParserImpl.XMLParserImplIE8And9.NativeInternalDocumentImpl;
 
 class JsHelper {
 
-  /**
-   * Called from JSNI to select a DOM document; this is necessary due to different versions of IE
-   * and Windows having different available DOM implementations.
-   */
-  public static NativeInternalDocumentImpl selectDOMDocumentVersion() {
-    try {
-      return new ActiveXObject("Msxml2.DOMDocument");
-    } catch (Exception e) {
-    }
-    try {
-      return new ActiveXObject("MSXML.DOMDocument");
-    } catch (Exception e) {
-    }
-    try {
-      return new ActiveXObject("MSXML3.DOMDocument");
-    } catch (Exception e) {
-    }
-    try {
-      return new ActiveXObject("Microsoft.XmlDom");
-    } catch (Exception e) {
-    }
-    try {
-      return new ActiveXObject("Microsoft.DOMDocument");
-    } catch (Exception e) {
-    }
-
-    throw new Error(
-        "XMLParserImplIE6.createDocumentImpl: "
-            + "Could not find appropriate version of DOMDocument.");
-  }
-
   public static NativeDocumentImpl createDocumentImpl() {
     return Js.uncheckedCast(DomGlobal.document.implementation.createDocument("", "", null));
-  }
-
-  @JsType(isNative = true, namespace = JsPackage.GLOBAL)
-  private static class ActiveXObject extends NativeInternalDocumentImpl {
-
-    @JsConstructor
-    public ActiveXObject(String value) {}
   }
 }

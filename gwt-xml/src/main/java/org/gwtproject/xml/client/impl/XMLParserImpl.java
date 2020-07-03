@@ -27,84 +27,6 @@ import org.gwtproject.xml.client.impl.NodeListImpl.NativeNodeListImpl;
 /** Native implementation associated with {@link org.gwtproject.xml.client.XMLParser}. */
 public abstract class XMLParserImpl {
 
-  static class XMLParserImplIE8And9 extends XMLParserImpl {
-
-    @JsType(isNative = true, name = "Node", namespace = JsPackage.GLOBAL)
-    static class NativeInternalDocumentImpl extends NativeDocumentImpl {
-      boolean preserveWhiteSpace;
-
-      native void setProperty(String name, String value);
-
-      native boolean loadXML(String content);
-
-      ParseError parseError;
-    }
-
-    @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
-    static class ParseError {
-      int line;
-      int linepos;
-      String reason;
-    }
-
-    @Override
-    protected NativeInternalDocumentImpl createDocumentImpl() {
-      NativeInternalDocumentImpl doc = JsHelper.selectDOMDocumentVersion();
-      // preserveWhiteSpace is set to true here to prevent IE from throwing away
-      // text nodes that consist of only whitespace characters. This makes it
-      // act more like other browsers.
-      doc.preserveWhiteSpace = true;
-      doc.setProperty("SelectionNamespaces", "xmlns:xsl='http://www.w3.org/1999/XSL/Transform'");
-      doc.setProperty("SelectionLanguage", "XPath");
-      return doc;
-    }
-
-    @Override
-    protected NativeElementImpl getElementByIdImpl(NativeDocumentImpl o, String elementId) {
-      return o.nodeFromID(elementId);
-    }
-
-    @Override
-    protected NativeNodeListImpl getElementsByTagNameImpl(NativeNodeImpl o, String tagName) {
-      return o.selectNodes(".//*[local-name()='" + tagName + "']");
-    }
-
-    @Override
-    protected String getPrefixImpl(NativeNodeImpl node) {
-      return node.prefix;
-    }
-
-    @Override
-    protected NativeNodeImpl importNodeImpl(
-        NativeDocumentImpl o, NativeNodeImpl importedNode, boolean deep) {
-      // IE6 does not seem to need or want nodes to be imported
-      // as appends from different docs work perfectly
-      // and this method is not supplied until MSXML5.0
-      return importedNode;
-    }
-
-    @Override
-    protected NativeDocumentImpl parseImpl(String contents) {
-      NativeInternalDocumentImpl doc = createDocumentImpl();
-
-      if (!doc.loadXML(contents)) {
-        ParseError err = doc.parseError;
-        throw new RuntimeException("line " + err.line + ", char " + err.linepos + ":" + err.reason);
-      }
-      return doc;
-    }
-
-    @Override
-    protected String toStringImpl(ProcessingInstructionImpl node) {
-      return toStringImpl((NodeImpl) node);
-    }
-
-    @Override
-    protected String toStringImpl(NodeImpl node) {
-      return node.node.xml;
-    }
-  }
-
   /**
    * This class implements the methods for standard browsers that use the DOMParser model of XML
    * parsing.
@@ -236,9 +158,7 @@ public abstract class XMLParserImpl {
     //    String userAgent = System.getProperty("user.agent", "safari");
     String userAgent = System.getProperty("user.agent");
 
-    if ("ie".equals(userAgent) || "ie9".equals(userAgent)) {
-      return new XMLParserImplIE8And9();
-    } else if ("safari".equals(userAgent)) {
+    if ("safari".equals(userAgent)) {
       return new XMLParserImplSafari();
     } else {
       return new XMLParserImplStandard();
