@@ -56,11 +56,6 @@
       <artifactId>elemental2-dom</artifactId>
       <version>${elemental2.version}</version>
     </dependency>
-<!--    <dependency>-->
-<!--      <groupId>com.google.jsinterop</groupId>-->
-<!--      <artifactId>jsinterop-annotations</artifactId>-->
-<!--      <version>${jsinterop.annotations.version}</version>-->
-<!--    </dependency>-->
   </dependencies>
 
   <build>
