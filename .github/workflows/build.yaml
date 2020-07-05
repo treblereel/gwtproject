@@ -28,5 +28,5 @@ jobs:
       # TODO: cache dependencies (taking into accounts: Maven plugins, snapshots, etc.)
 
       - name: Build with Maven
-        run: JAVA_HOME=$JAVA_HOME_8_X64 mvn -V -B -ntp -U -e verify
+        run: JAVA_HOME=$JAVA_HOME_8_X64 mvn -V -B -ntp -U -e verify -Ddisable.j2cl.tests=true
 
