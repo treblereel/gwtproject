@@ -15,7 +15,6 @@
  */
 package org.gwtproject.xml.client.impl;
 
-import elemental2.dom.DomGlobal;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
 import org.gwtproject.xml.client.Document;
@@ -73,21 +72,16 @@ public abstract class XMLParserImpl {
     @Override
     protected NativeDocumentImpl parseImpl(String contents) {
       NativeDocumentImpl result = domParser.parseFromString(contents, "text/xml");
-      String userAgent = DomGlobal.navigator.userAgent;
-      if (!userAgent.toLowerCase().contains("safari")) {
-        NativeElementImpl rootTag = result.documentElement;
-        if ("parsererror".equals(rootTag.tagName)
-            && "http://www.mozilla.org/newlayout/xml/parsererror.xml"
-                .equals(rootTag.namespaceURI)) {
-          throw new RuntimeException(rootTag.firstChild.data);
-        }
-      } else {
-        NativeNodeListImpl parseErrors = result.getElementsByTagName("parsererror");
-        if (parseErrors.length > 0) {
-          NativeNodeImpl error = parseErrors.item(0);
-          if ("body".equals(error.parentNode.tagName)) {
-            throw new RuntimeException(error.childNodes.item(1).innerHTML);
-          }
+      NativeElementImpl rootTag = result.documentElement;
+      if ("parsererror".equals(rootTag.tagName)
+          && "http://www.mozilla.org/newlayout/xml/parsererror.xml".equals(rootTag.namespaceURI)) {
+        throw new RuntimeException(rootTag.firstChild.data);
+      }
+      NativeNodeListImpl parseErrors = result.getElementsByTagName("parsererror");
+      if (parseErrors.length > 0) {
+        NativeNodeImpl error = parseErrors.item(0);
+        if ("body".equals(error.parentNode.tagName)) {
+          throw new RuntimeException(error.childNodes.item(1).innerHTML);
         }
       }
       return result;
