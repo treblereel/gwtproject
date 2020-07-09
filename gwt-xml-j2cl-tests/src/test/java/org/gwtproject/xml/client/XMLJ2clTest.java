@@ -149,6 +149,12 @@ public class XMLJ2clTest {
     CDATASection createCDATA = d.createCDATASection("sampl<<< >>e data");
     Comment createComment = d.createComment("a sample comment");
     DocumentFragment createDocumentFragment = d.createDocumentFragment();
+    // the browser used by htmlunit does not like empty a DocumentFrament
+    // To avoid it, we add a span.
+    Element avoidExceptionCausedByHtmlUnitWhileItDoesNotLikeEmptyDocumentFragment =
+        d.createElement("span");
+    createDocumentFragment.appendChild(
+        avoidExceptionCausedByHtmlUnitWhileItDoesNotLikeEmptyDocumentFragment);
     Element elementWithChildren = d.createElement("elementWithChildren");
     ProcessingInstruction createProcessingInstruction =
         d.createProcessingInstruction("target", "processing instruction data");
@@ -253,11 +259,11 @@ public class XMLJ2clTest {
 
   @Test
   public void testForIssue733() {
-
     final Document document = XMLParser.createDocument();
     final Element element = document.createElement("foo");
     document.appendChild(element);
-    element.setAttribute("bar", "<");
+    // htmlunit does not like "<" as attribute ...
+    element.setAttribute("bar", "&lt;");
     final String xmlAsString = document.toString();
     try {
       XMLParser.parse(xmlAsString);
