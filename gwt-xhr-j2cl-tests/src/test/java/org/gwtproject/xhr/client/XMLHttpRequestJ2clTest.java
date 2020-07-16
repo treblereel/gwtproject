@@ -72,12 +72,6 @@ public class XMLHttpRequestJ2clTest {
         .collect(Collectors.toMap(header -> header[0], header -> header[1].trim()));
   }
 
-  //  private String arrayBufferToString(XMLHttpRequest xhr) {
-  //    return new String(
-  //        Js.uncheckedCast(new Int8ArrayNative(xhr.getResponseArrayBuffer())),
-  //        StandardCharsets.UTF_8);
-  //  }
-
   @Before
   public void setUp() {
     xmlHttpRequest = XMLHttpRequest.create();
@@ -259,113 +253,6 @@ public class XMLHttpRequestJ2clTest {
           timer.scheduleRepeating(500);
         });
   }
-
-  //  @DoNotRunWith(Platform.HtmlUnitBug)
-  //  public void
-  //      testSetWithCredentialsToTrue_withCredentialsResponseHeader_responseShouldNotBeEmpty() {
-  //    xmlHttpRequest.setOnReadyStateChange(
-  //        xhr -> {
-  //          if (xhr.getReadyState() == DONE) {
-  //            assertEquals("test content", xhr.getResponseText());
-  //            finishTest();
-  //          }
-  //        });
-  //    xmlHttpRequest.open("GET", getTestPathCORS() + "?credentials=true");
-  //    xmlHttpRequest.setWithCredentials(true);
-  //    runAsyncTask(xmlHttpRequest::send);
-  //  }
-  //
-  //  @DoNotRunWith(Platform.HtmlUnitBug)
-  //  public void
-  //      testSetWithCredentialsToFalse_withNoCredentialsResponseHeader_responseShouldNotBeEmpty() {
-  //    xmlHttpRequest.setOnReadyStateChange(
-  //        xhr -> {
-  //          if (xhr.getReadyState() == DONE) {
-  //            assertEquals("test content", xhr.getResponseText());
-  //            finishTest();
-  //          }
-  //        });
-  //    xmlHttpRequest.open("GET", getTestPathCORS() + "?credentials=false");
-  //    xmlHttpRequest.setWithCredentials(false);
-  //    runAsyncTask(xmlHttpRequest::send);
-  //  }
-  //
-  //  @DoNotRunWith(Platform.HtmlUnitBug)
-  //  public void
-  //      testSetWithCredentialsToFalse_withCredentialsResponseHeader_responseShouldNotBeEmpty() {
-  //    xmlHttpRequest.setOnReadyStateChange(
-  //        xhr -> {
-  //          if (xhr.getReadyState() == DONE) {
-  //            assertEquals("test content", xhr.getResponseText());
-  //            finishTest();
-  //          }
-  //        });
-  //    xmlHttpRequest.open("GET", getTestPathCORS() + "?credentials=true");
-  //    xmlHttpRequest.setWithCredentials(false);
-  //    runAsyncTask(xmlHttpRequest::send);
-  //  }
-  //
-  //  @DoNotRunWith(Platform.HtmlUnitBug)
-  //  public void testSetResponseTypeAsResponseType() {
-  //    xmlHttpRequest.setOnReadyStateChange(
-  //        xhr -> {
-  //          if (xhr.getReadyState() == DONE) {
-  //            assertEquals("arraybuffer", xhr.getResponseType());
-  //            assertEquals(12, xhr.getResponseArrayBuffer().byteLength());
-  //            assertEquals("test content", arrayBufferToString(xhr));
-  //            finishTest();
-  //          }
-  //        });
-  //    xmlHttpRequest.open("GET", getTestPathCORS());
-  //    xmlHttpRequest.setResponseType(XMLHttpRequest.ResponseType.ArrayBuffer);
-  //    runAsyncTask(xmlHttpRequest::send);
-  //  }
-  //
-  //  @DoNotRunWith(Platform.HtmlUnitBug)
-  //  public void testSetResponseTypeAsString() {
-  //    xmlHttpRequest.setOnReadyStateChange(
-  //        xhr -> {
-  //          if (xhr.getReadyState() == DONE) {
-  //            assertEquals("arraybuffer", xhr.getResponseType());
-  //            assertEquals(12, xhr.getResponseArrayBuffer().byteLength());
-  //            assertEquals("test content", arrayBufferToString(xhr));
-  //            finishTest();
-  //          }
-  //        });
-  //    xmlHttpRequest.open("GET", getTestPathCORS());
-  //    xmlHttpRequest.setResponseType("arraybuffer");
-  //    runAsyncTask(xmlHttpRequest::send);
-  //  }
-
-  // @DoNotRunWith(Platform.HtmlUnitBug)
-  /*@Test(timeout = 5000)
-  public Promise<Object> testAbortRequest() {
-
-    return new Promise<>(
-            (resolve, reject) -> {
-
-    xmlHttpRequest.setOnReadyStateChange(
-        xhr -> {
-          if (xhr.getReadyState() == DONE) {
-            assertEquals(0, xhr.getStatus());
-            resolve.onInvoke((Void)null);
-          }
-
-          if (xhr.getReadyState() == UNSENT) {
-              assertEquals(0, xhr.getStatus());
-              resolve.onInvoke((Void)null);
-            }
-
-        });
-    xmlHttpRequest.open("GET", getTestPath());
-    runAsyncTask(
-        () -> {
-          xmlHttpRequest.send();
-          xmlHttpRequest.abort();
-        });
-
-            });
-  }*/
 
   @Test(timeout = 5000)
   public Promise<Object> testClearOnReadyStateChange() {
