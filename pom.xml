@@ -1,102 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.gwtproject.jsonp</groupId>
-  <artifactId>gwt-jsonp</artifactId>
-  <version>HEAD-SNAPSHOT</version>
-  <packaging>jar</packaging>
+  <artifactId>gwt-jsonp-parent</artifactId>
 
-  <name>GWT JSON-P</name>
-  <description>GWT JSON with Padding request builder</description>
+  <version>dev</version>
+
+  <packaging>pom</packaging>
+
+  <name>GWT JSONP Parent</name>
+  <description>Parent POM containing the gwt-jsonp module and the test modules (gwt2- and j2cl-tests)</description>
+  <url>https://github.com/gwtproject/gwt-jsonp</url>
 
   <organization>
-    <name>GWT Project</name>
-    <url>https://www.gwtproject.org/</url>
+    <name>The GWT Project Authors</name>
+    <url>https://github.com/gwtproject</url>
   </organization>
 
   <licenses>
     <license>
-      <name>Apache License 2.0</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0</url>
-      <distribution>repo</distribution>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
     </license>
   </licenses>
 
   <developers>
     <developer>
-      <id>metteo</id>
-      <name>Grzegorz Nowak</name>
+      <name>The GWT Authors</name>
+      <organization>The GWT Project Authors</organization>
+      <url>https://github.com/gwtproject</url>
     </developer>
   </developers>
 
-  <ciManagement>
-    <system>Travis CI</system>
-    <url>https://travis-ci.org/gwtplus/gwt-activity</url>
-  </ciManagement>
-
   <scm>
-    <connection>scm:git:https://github.com/gwtplus/gwt-jsonp.git</connection>
-    <developerConnection>scm:git:https://github.com/gwtplus/gwt-jsonp.git</developerConnection>
-    <url>https://github.com/gwtplus/gwt-jsonp</url>
-    <tag>HEAD</tag>
+    <connection>scm:git:git://github.com/gwtproject/gwt-jsonp.git</connection>
+    <developerConnection>scm:git:ssh://github.com/gwtproject/gwt-jsonp.git</developerConnection>
+    <url>https://github.com/gwtproject/gwt-jsonp/tree/master</url>
   </scm>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.build.outputEncoding>UTF-8</project.build.outputEncoding>
+  <inceptionYear>2019</inceptionYear>
 
-    <java.release>1.8</java.release>
-    <gwt.version>2.8.2</gwt.version>
+  <modules>
+    <module>gwt-jsonp</module>
+    <module>gwt-jsonp-gwt2-tests</module>
+    <module>gwt-jsonp-j2cl-tests</module>
+    <module>gwt-jsonp-test-service</module>
+  </modules>
+
+  <properties>
+    <revision>HEAD-SNAPSHOT</revision>
+
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+
+    <maven.compiler.plugin>3.8.1</maven.compiler.plugin>
+    <maven.deploy.plugin>3.0.0-M1</maven.deploy.plugin>
+    <maven.flatten.plugin>1.2.2</maven.flatten.plugin>
+    <maven.fmt.plugin>2.9</maven.fmt.plugin>
+    <maven.install.plugin>3.0.0-M1</maven.install.plugin>
+    <maven.license.plugin>3.0</maven.license.plugin>
+    <maven.surfire.plugin>3.0.0-M1</maven.surfire.plugin>
+
+    <elemental2.version>1.1.0</elemental2.version>
   </properties>
 
-  <dependencies>
-    <!-- GWT, should be removed before initial release -->
-    <dependency>
-      <groupId>com.google.gwt</groupId>
-      <artifactId>gwt-user</artifactId>
-      <version>${gwt.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.google.gwt</groupId>
-      <artifactId>gwt-dev</artifactId>
-      <version>${gwt.version}</version>
-      <scope>provided</scope>
-    </dependency>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>com.coveo</groupId>
+        <artifactId>fmt-maven-plugin</artifactId>
+        <version>${maven.fmt.plugin}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>com.mycila</groupId>
+        <artifactId>license-maven-plugin</artifactId>
+        <version>${maven.license.plugin}</version>
+        <configuration>
+          <header>LICENSE.header</header>
+          <encoding>${project.build.sourceEncoding}</encoding>
+          <skipExistingHeaders>true</skipExistingHeaders>
+          <mapping>
+            <java>SLASHSTAR_STYLE</java>
+          </mapping>
+          <excludes>
+            <exclude>**/README.md</exclude>
+            <exclude>**/LICENSE</exclude>
+            <exclude>**/LICENSE.header</exclude>
+            <exclude>**/AUTHORS</exclude>
+            <exclude>**/src/test/resources/**</exclude>
+            <exclude>**/src/main/resources/**</exclude>
+            <exclude>**/pom.xml</exclude>
+            <exclude>**/.flattened-pom.xml</exclude>
+            <exclude>**/war/**</exclude>
+            <exclude>**/deploy/**</exclude>
+            <exclude>**/gwt-unitcache/**</exclude>
+          </excludes>
+          <properties>
+            <year>${project.inceptionYear}</year>
+            <name>${project.organization.name}</name>
+          </properties>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>flatten-maven-plugin</artifactId>
+        <version>${maven.flatten.plugin}</version>
+        <configuration>
+          <flattenMode>oss</flattenMode>
+        </configuration>
+        <executions>
+          <execution>
+            <id>flatten</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>flatten</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>flatten.clean</id>
+            <phase>clean</phase>
+            <goals>
+              <goal>clean</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>${maven.compiler.plugin}</version>
+          <configuration>
+            <source>${maven.compiler.source}</source>
+            <target>${maven.compiler.target}</target>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.eclipse.jetty</groupId>
+          <artifactId>jetty-maven-plugin</artifactId>
+          <version>9.4.28.v20200408</version>
+          <configuration>
+            <stopPort>9998</stopPort>
+            <stopKey>STOP</stopKey>
+            <httpConnector>
+              <port>9999</port>
+            </httpConnector>
+            <webApp>
+              <contextPath>/</contextPath>
+            </webApp>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
 
-    <dependency>
-      <groupId>org.gwtproject.timer</groupId>
-      <artifactId>timer</artifactId>
-      <version>1.0-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>org.gwtproject.callback</groupId>
-      <artifactId>gwt-callback</artifactId>
-      <version>HEAD-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-        <groupId>org.gwtproject.safehtml</groupId>
-        <artifactId>gwt-safehtml</artifactId>
-        <version>1.0-SNAPSHOT</version>
-        <type>jar</type>
-    </dependency>
-
-    <!-- Testing -->
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.12</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
+  <dependencyManagement>
+    <dependencies>
+      <!-- Internal dependencies -->
+      <dependency>
+        <groupId>org.gwtproject.jsonp</groupId>
+        <artifactId>gwt-jsonp</artifactId>
+        <version>${revision}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
   <repositories>
     <repository>
-      <id>vertispan-gwt-snapshots</id>
-      <name>Vertispan GWT Snapshots</name>
-      <url>https://repo.vertispan.com/gwt-snapshot/</url>
+      <id>oss-sonatype</id>
+      <name>oss-sonatype</name>
+      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
       <releases>
         <enabled>false</enabled>
       </releases>
@@ -108,252 +201,12 @@
 
   <distributionManagement>
     <snapshotRepository>
-      <id>vertispan-gwt-snapshots</id>
-      <name>Vertispan GWT Snapshots</name>
-      <url>https://repo.vertispan.com/gwt-snapshot/</url>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </snapshotRepository>
     <repository>
-      <id>sonatype-nexus-staging</id>
-      <name>Nexus Release Repository</name>
+      <id>ossrh</id>
       <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
   </distributionManagement>
-
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>2.17</version>
-        <executions>
-          <execution>
-            <id>validate</id>
-            <phase>validate</phase>
-            <configuration>
-              <encoding>UTF-8</encoding>
-              <consoleOutput>true</consoleOutput>
-              <failsOnError>true</failsOnError>
-              <configLocation>src/config/gwt-checkstyle.xml</configLocation>
-            </configuration>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
-        <dependencies>
-          <dependency>
-            <groupId>com.puppycrawl.tools</groupId>
-            <artifactId>checkstyle</artifactId>
-            <version>8.8</version>
-          </dependency>
-        </dependencies>
-      </plugin>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.7.0</version>
-        <configuration>
-          <source>${java.release}</source>
-          <target>${java.release}</target>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-resources-plugin</artifactId>
-        <version>3.0.2</version>
-        <executions>
-          <execution>
-            <id>client-sources</id>
-            <phase>process-resources</phase>
-            <goals>
-              <goal>copy-resources</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>${project.build.outputDirectory}</outputDirectory>
-              <resources>
-                <resource>
-                  <directory>${project.build.sourceDirectory}</directory>
-                  <include>org/gwtproject/jsonp/client/**/*.java</include>
-                  <filtering>false</filtering>
-                </resource>
-              </resources>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.21.0</version>
-        <configuration>
-          <!-- test-jvm -->
-          <includes>
-            <include>org/gwtproject/jsonp/client/JsonpRequestBuilderTest.java</include>
-          </includes>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-failsafe-plugin</artifactId>
-        <version>2.21.0</version>
-        <configuration>
-          <includes>
-            <include>org/gwtproject/jsonp/JsonpRequestSuite.java</include>
-          </includes>
-
-          <additionalClasspathElements>
-            <additionalClasspathElement>${project.build.testSourceDirectory}</additionalClasspathElement>
-          </additionalClasspathElements>
-
-          <useManifestOnlyJar>false</useManifestOnlyJar>
-
-          <forkCount>1C</forkCount>
-          <reuseForks>false</reuseForks>
-        </configuration>
-        <executions>
-          <execution>
-            <id>test-web</id>
-            <goals>
-              <goal>integration-test</goal>
-              <goal>verify</goal>
-            </goals>
-            <configuration>
-              <systemPropertyVariables>
-                <!-- Add -logLevel TRACE to get more debug output -->
-                <!-- Add -runStyle Manual:1 to run the tests in the real browser -->
-                <gwt.args>
-                  -prod -style PRETTY
-                  -gen target/generated-test-sources/test-web
-                  -war target/war/test-web
-                </gwt.args>
-              </systemPropertyVariables>
-              <reportsDirectory>${project.build.directory}/failsafe-reports/test-web</reportsDirectory>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>3.1.0</version>
-        <configuration>
-          <archive>
-            <manifest>
-              <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-            </manifest>
-            <manifestEntries>
-              <!-- Java 9 compatibility -->
-              <Automatic-Module-Name>${project.groupId}</Automatic-Module-Name>
-            </manifestEntries>
-          </archive>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-source-plugin</artifactId>
-        <version>3.0.1</version>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>jar-no-fork</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <artifactId>maven-site-plugin</artifactId>
-        <version>3.7</version>
-        <dependencies>
-          <dependency>
-            <groupId>org.apache.maven.doxia</groupId>
-            <artifactId>doxia-module-markdown</artifactId>
-            <version>1.8</version>
-          </dependency>
-        </dependencies>
-      </plugin>
-    </plugins>
-  </build>
-
-  <reporting>
-    <plugins>
-      <plugin>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>2.9</version>
-      </plugin>
-    </plugins>
-  </reporting>
-
-  <profiles>
-    <profile>
-      <id>release</id>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <version>3.0.0</version>
-            <executions>
-              <execution>
-                <phase>package</phase>
-                <goals>
-                  <goal>jar</goal>
-                </goals>
-              </execution>
-            </executions>
-            <configuration>
-              <links>
-                <link>http://www.gwtproject.org/javadoc/latest/</link>
-              </links>
-              <detectJavaApiLink>true</detectJavaApiLink>
-              <quite>true</quite>
-              <doclint>none</doclint>
-            </configuration>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-release-plugin</artifactId>
-            <version>2.5.3</version>
-            <configuration>
-              <tagNameFormat>v@{project.version}</tagNameFormat>
-              <developmentVersion>HEAD-SNAPSHOT</developmentVersion>
-              <pushChanges>false</pushChanges>
-            </configuration>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-gpg-plugin</artifactId>
-            <version>1.6</version>
-            <executions>
-              <execution>
-                <id>sign-artifacts</id>
-                <phase>verify</phase>
-                <goals>
-                  <goal>sign</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
-      <id>ci</id>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>maven-invoker-plugin</artifactId>
-            <version>3.0.1</version>
-            <configuration>
-              <streamLogs>true</streamLogs>
-              <localRepositoryPath>${project.build.directory}/it-repo</localRepositoryPath>
-            </configuration>
-            <executions>
-              <execution>
-                <id>integration-test</id>
-                <goals>
-                  <goal>install</goal>
-                  <goal>run</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
 </project>
