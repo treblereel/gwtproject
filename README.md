@@ -1,7 +1,7 @@
 # GWT JSONP
 
 
-**Needs to be rewriten**
+**Needs to be rewritten**
 
 ![GWT3/J2CL compatible](https://img.shields.io/badge/GWT3/J2CL-compatible-brightgreen.svg)  [![License](https://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html) [![Chat on Gitter](https://badges.gitter.im/hal/elemento.svg)](https://gitter.im/gwtproject/gwt-modules) ![CI](https://github.com/gwtproject/gwt-jsonp/workflows/CI/badge.svg)
 
@@ -53,4 +53,7 @@ on the parent directory. This will build the artifact and run tests against the 
 
 ## Dependencies
 
-GWT JSONP does not depend on any other module.
+* [Elemental 2](https://github.com/google/elemental2)
+* [GWT Callback](https://github.com/gwtproject/gwt-callback)
+* [GWT Safe-HTML](https://github.com/gwtproject/gwt-safehtml)
+* [GWT Timer](https://github.com/gwtproject/gwt-timer)
