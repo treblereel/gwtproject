@@ -15,16 +15,20 @@
  */
 package org.gwtproject.user.history.client;
 
-import com.google.gwt.dom.client.AnchorElement;
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.NativeEvent;
+import static elemental2.dom.DomGlobal.document;
+import static elemental2.dom.DomGlobal.setTimeout;
+import static elemental2.dom.DomGlobal.window;
+
 import com.google.gwt.junit.DoNotRunWith;
 import com.google.gwt.junit.Platform;
 import com.google.gwt.junit.client.GWTTestCase;
-import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Window;
+import elemental2.dom.DomGlobal;
+import elemental2.dom.DomGlobal.SetTimeoutCallbackFn;
+import elemental2.dom.Element;
+import elemental2.dom.HTMLAnchorElement;
+import elemental2.dom.HTMLInputElement;
 import java.util.ArrayList;
+import jsinterop.base.Js;
 import org.gwtproject.event.logical.shared.ValueChangeEvent;
 import org.gwtproject.event.logical.shared.ValueChangeHandler;
 import org.gwtproject.event.shared.HandlerRegistration;
@@ -37,7 +41,7 @@ import org.gwtproject.event.shared.HandlerRegistration;
 public class HistoryTest extends GWTTestCase {
 
   private static String getCurrentLocationHash() {
-    String hash = Window.Location.getHash();
+    String hash = window.location.hash;
     if (hash.isEmpty()) {
       fail("can not read history token");
     }
@@ -45,7 +49,7 @@ public class HistoryTest extends GWTTestCase {
   }
 
   private HandlerRegistration handlerRegistration;
-  private Timer timer;
+  private Double timer;
 
   @Override
   public String getModuleName() {
@@ -55,9 +59,9 @@ public class HistoryTest extends GWTTestCase {
   // TODO(dankurka): Fix up HTML unit hash change handling
   @DoNotRunWith(Platform.HtmlUnitUnknown)
   public void testClickLink() {
-    AnchorElement anchorElement = Document.get().createAnchorElement();
-    anchorElement.setHref("#href1");
-    Document.get().getBody().appendChild(anchorElement);
+    HTMLAnchorElement anchorElement = (HTMLAnchorElement) document.createElement("a");
+    anchorElement.href = "#href1";
+    document.body.appendChild(anchorElement);
 
     try {
       History.newItem("something_as_base");
@@ -70,13 +74,12 @@ public class HistoryTest extends GWTTestCase {
 
       delayTestFinish(5000);
 
-      NativeEvent clickEvent =
-          Document.get().createClickEvent(0, 0, 0, 0, 0, false, false, false, false);
-
-      anchorElement.dispatchEvent(clickEvent);
+      // Element is missing click, so unchecked-casting to HTMLInputElement which has it
+      // https://github.com/google/elemental2/issues/86
+      Js.<HTMLInputElement>uncheckedCast(anchorElement).click();
 
     } finally {
-      Document.get().getBody().removeChild(anchorElement);
+      document.body.removeChild(anchorElement);
     }
   }
 
@@ -129,14 +132,7 @@ public class HistoryTest extends GWTTestCase {
 
     History.newItem("testNoEvents", false);
 
-    timer =
-        new Timer() {
-          @Override
-          public void run() {
-            finishTest();
-          }
-        };
-    timer.schedule(500);
+    timer = setTimeout((Object... p0) -> finishTest(), 500);
   }
 
   /*
@@ -208,21 +204,22 @@ public class HistoryTest extends GWTTestCase {
    */
   public void testHistoryChangedCount() {
     delayTestFinish(5000);
-    timer =
-        new Timer() {
+    final SetTimeoutCallbackFn callback =
+        new SetTimeoutCallbackFn() {
           private int count = 0;
 
           @Override
-          public void run() {
+          public void onInvoke(Object... p0) {
             if (count++ == 0) {
               // verify that duplicates don't issue another event
               History.newItem("testHistoryChangedCount");
-              timer.schedule(500);
+              timer = setTimeout(this, 500);
             } else {
               finishTest();
             }
           }
         };
+    timer = setTimeout(callback);
     addHistoryListenerImpl(
         new ValueChangeHandler<String>() {
           private int count = 0;
@@ -233,7 +230,7 @@ public class HistoryTest extends GWTTestCase {
               fail("onHistoryChanged called multiple times");
             }
             // wait 500ms to see if we get called multiple times
-            timer.schedule(500);
+            timer = setTimeout(callback, 500);
           }
         });
 
@@ -338,16 +335,13 @@ public class HistoryTest extends GWTTestCase {
     delayTestFinish(500);
 
     timer =
-        new Timer() {
-          @Override
-          public void run() {
-            // Make sure that we have updated the URL properly.
-            assertEquals(historyToken2_encoded, getCurrentLocationHash());
-            finishTest();
-          }
-        };
-
-    timer.schedule(200);
+        setTimeout(
+            (Object... p0) -> {
+              // Make sure that we have updated the URL properly.
+              assertEquals(historyToken2_encoded, getCurrentLocationHash());
+              finishTest();
+            },
+            200);
   }
 
   public void testTokenEscaping() {
@@ -379,15 +373,13 @@ public class HistoryTest extends GWTTestCase {
     History.back();
     // allow browser to update the url
     timer =
-        new Timer() {
-          @Override
-          public void run() {
-            // make sure that value in url actually matches the original token
-            assertEquals(shouldBeEncoded, History.getToken());
-            finishTest();
-          }
-        };
-    timer.schedule(200);
+        setTimeout(
+            (Object... p0) -> {
+              // make sure that value in url actually matches the original token
+              assertEquals(shouldBeEncoded, History.getToken());
+              finishTest();
+            },
+            200);
   }
 
   /*
@@ -455,9 +447,9 @@ public class HistoryTest extends GWTTestCase {
 
   // Used by testEmptyHistoryToken() to catch a bizarre failure mode on Safari.
   private static boolean isBorked() {
-    Element e = Document.get().createDivElement();
-    e.setInnerHTML("string");
-    return e.getInnerHTML().length() == 0;
+    Element e = document.createElement("div");
+    e.innerHTML = "string";
+    return e.innerHTML.length() == 0;
   }
 
   @Override
@@ -467,7 +459,7 @@ public class HistoryTest extends GWTTestCase {
       handlerRegistration = null;
     }
     if (timer != null) {
-      timer.cancel();
+      DomGlobal.clearTimeout(timer);
       timer = null;
     }
   }
