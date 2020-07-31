@@ -125,6 +125,7 @@ tasks {
 
 googleJavaFormat {
     toolVersion = "1.7"
+    exclude("target/")
 }
 ktlint {
     version.set("0.36.0")
@@ -139,4 +140,40 @@ license {
 
     (this as ExtensionAware).extra["year"] = Year.now()
     (this as ExtensionAware).extra["name"] = "The GWT Project Authors"
+}
+
+//
+// J2Cl tests
+//
+// Because there's only Maven tooling for J2Cl (and specifically tests), we publish
+// the JAR to the local Maven repository under a fixed (non-snapshot) version, and
+// then fork a Maven build.
+//
+val j2clTestPublication = publishing.publications.create<MavenPublication>("j2clTest") {
+    from(components["java"])
+    version = "LOCAL"
+}
+tasks {
+    val j2clTest by registering(Exec::class) {
+        shouldRunAfter(test)
+        dependsOn("publishJ2clTestPublicationToMavenLocal")
+        inputs.files(sourceSets.main.map { it.runtimeClasspath }).withNormalizer(ClasspathNormalizer::class)
+        inputs.file("pom-j2cl-test.xml")
+        inputs.dir("src/test/java")
+        inputs.dir("src/test/j2cl")
+        outputs.dir("target")
+
+        val webdriver = findProperty("j2clTest.webdriver") ?: "htmlunit"
+        inputs.property("webdriver", webdriver)
+
+        commandLine("mvn", "-V", "-B", "-ntp", "-U", "-e", "-f", "pom-j2cl-test.xml", "verify", "-Dwebdriver=$webdriver")
+    }
+
+    check {
+        dependsOn(j2clTest)
+    }
+
+    withType<PublishToMavenRepository>().configureEach {
+        onlyIf { publication != j2clTestPublication }
+    }
 }
