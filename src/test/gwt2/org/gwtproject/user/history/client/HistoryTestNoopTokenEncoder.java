@@ -19,7 +19,7 @@ import com.google.gwt.junit.DoNotRunWith;
 import com.google.gwt.junit.Platform;
 
 /** Tests for the history system without encoding of history tokens. */
-public class HistoryTestNoopTokenEncoder extends HistoryTest {
+public class HistoryTestNoopTokenEncoder extends HistoryGWTTest {
 
   @Override
   public String getModuleName() {
