@@ -76,7 +76,7 @@ public class HistoryJ2clTest {
   }
 
   private static boolean isNoopTokenEncoder() {
-    return "true".equals(System.getProperty("history.noDoubleEncoding", null));
+    return "true".equals(System.getProperty("gwt.history.noDoubleEncoding", null));
   }
 
   private HandlerRegistration handlerRegistration;

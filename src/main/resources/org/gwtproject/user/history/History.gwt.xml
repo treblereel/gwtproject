@@ -22,10 +22,6 @@
   <!-- browsers (especially Firefox).                                         -->
   <!-- If applications choose to disable double encoding they are responsible -->
   <!-- for ensuring that only tokens are used that work across browsers.      -->
-  <!-- Property is already defined in com.google.gwt.user.History, and code   -->
-  <!-- won't fail if the property is not defined.                             -->
-  <!--
-  <define-property name="history.noDoubleEncoding" values="true,false" />
-  <set-property name="history.noDoubleEncoding" value="false" />
-  -->
+  <define-property name="gwt.history.noDoubleEncoding" values="true,false" />
+  <set-property name="gwt.history.noDoubleEncoding" value="false" />
 </module>

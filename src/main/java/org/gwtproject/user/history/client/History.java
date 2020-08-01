@@ -111,7 +111,7 @@ public class History {
   @SuppressWarnings(
       "ReferenceEquality") // '==' makes it compile out faster (we're in client-only code)
   private static final HistoryTokenEncoder tokenEncoder =
-      System.getProperty("history.noDoubleEncoding", null) == "true"
+      System.getProperty("gwt.history.noDoubleEncoding", null) == "true"
           ? new NoopHistoryTokenEncoder()
           : new HistoryTokenEncoder();
 

@@ -106,7 +106,7 @@
             </goals>
             <configuration>
               <defines>
-                <history.noDoubleEncoding>false</history.noDoubleEncoding>
+                <gwt.history.noDoubleEncoding>false</gwt.history.noDoubleEncoding>
               </defines>
             </configuration>
           </execution>
@@ -118,7 +118,7 @@
             </goals>
             <configuration>
               <defines>
-                <history.noDoubleEncoding>true</history.noDoubleEncoding>
+                <gwt.history.noDoubleEncoding>true</gwt.history.noDoubleEncoding>
               </defines>
             </configuration>
           </execution>
