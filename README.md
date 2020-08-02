@@ -39,7 +39,7 @@ on the parent directory. This will build the artifact and run tests against the 
 
 ## System Requirements
 
-**GWT DOM Style Definitions requires GWT 2.9.0 or greater!**
+**GWT DOM Style Definitions requires GWT 2.8.2 or greater!**
 
 
 ## Dependencies
