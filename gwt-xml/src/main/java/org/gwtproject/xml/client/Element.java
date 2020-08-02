@@ -27,9 +27,9 @@ package org.gwtproject.xml.client;
  * follows:
  *
  * <pre>
- *   <sample my_attribute="one">
- *      Some text<child/> more text
- *   </sample>
+ *   &lt;sample my_attribute="one"&gt;
+ *      Some text&lt;child/&gt; more text
+ *   &lt;/sample&gt;
  * </pre>
  */
 public interface Element extends Node {

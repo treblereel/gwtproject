@@ -88,6 +88,7 @@ public interface Document extends Node {
    * Note the attribute which is used as an ID must be supplied in the DTD of the document. It is
    * not sufficient to give the <code>Element</code> to be retrieved an attribute named 'id'.
    *
+   * @param elementId id of element
    * @return the <code>Element</code> which has an id of <code>elementId</code> and belongs to this
    *     <code>Document</code>
    */
@@ -96,6 +97,7 @@ public interface Document extends Node {
   /**
    * This method retrieves any descendent elements which have a tag name of <code>tagname</code>.
    *
+   * @param tagname name of tag
    * @return the <code>NodeList</code> of elements which has a tag name of <code>tagname</code> and
    *     belong to this <code>Document</code>
    */
@@ -104,6 +106,7 @@ public interface Document extends Node {
   /**
    * This method imports a node into the current <code>Document</code>.
    *
+   * @param importedNode node to import
    * @param deep whether to recurse to children
    * @return the node <code>Node</code> imported
    */
