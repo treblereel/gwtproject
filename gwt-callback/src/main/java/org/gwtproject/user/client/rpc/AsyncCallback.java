@@ -40,8 +40,7 @@ package org.gwtproject.user.client.rpc;
  *
  * Note that <code>throws</code> declaration is not repeated in the async version.
  *
- * <p>A call with a typical use of <code>AsyncCallback</code> might look like this:
- * <code>
+ * <p>A call with a typical use of <code>AsyncCallback</code> might look like this: <code>
  * service.getShapes(dbName, new AsyncCallback&lt;Shape[]&gt;() {
  *   public void onSuccess(Shape[] result) {
  *     // It's always safe to downcast to the known return type.
@@ -67,7 +66,6 @@ package org.gwtproject.user.client.rpc;
  *   }
  * });
  * </code>
- * </p>
  *
  * @param <T> The type of the return value that was declared in the synchronous version of the
  *     method. If the return type is a primitive, use the boxed version of that primitive (for
