@@ -46,7 +46,7 @@ on the parent directory.
 
 ## System Requirements
 
-**GWT Callback requires GWT 2.9.0 or greater!**
+**GWT Callback requires GWT 2.8.2 or greater!**
 
 
 ## Dependencies
