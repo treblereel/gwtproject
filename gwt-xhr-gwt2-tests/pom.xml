@@ -18,10 +18,10 @@
     <properties>
         <maven.gwt.plugin>1.0.0</maven.gwt.plugin>
 
-        <gwt.timer.version>HEAD-SNAPSHOT</gwt.timer.version>
+        <gwt.timer.version>1.0.0-RC1</gwt.timer.version>
         <gwt.version>2.9.0</gwt.version>
         <junit.version>4.12</junit.version>
-        <typed.array.version>HEAD-SNAPSHOT</typed.array.version>
+        <typed.array.version>1.0.0-RC1</typed.array.version>
     </properties>
 
     <dependencies>
