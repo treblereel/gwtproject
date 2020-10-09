@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.gwtproject.geolocation</groupId>
+    <parent>
+        <groupId>org.gwtproject.geolocation</groupId>
+        <artifactId>gwt-geolocation-parent</artifactId>
+        <version>dev</version>
+    </parent>
     <artifactId>gwt-geolocation</artifactId>
-    <version>1.0-SNAPSHOT</version>
     <packaging>gwt-lib</packaging>
+    <version>${revision}</version>
 
-    <name>GWT Geo-Location</name>
-    <description>GWT Geo-Location</description>
+    <name>GWT Geolocation</name>
+    <description>Support for the HTML5 Geolocation API</description>
     <url>https://github.com/gwtproject/gwt-geolocation</url>
 
     <organization>
-        <name>The GWT Authors</name>
+        <name>The GWT Project Authors</name>
         <url>https://github.com/gwtproject</url>
     </organization>
 
@@ -26,7 +29,7 @@
 
     <developers>
         <developer>
-            <name>The GWT Authors</name>
+            <name>The GWT Project Authors</name>
             <organization>The GWT Project Authors</organization>
             <url>https://github.com/gwtproject</url>
         </developer>
@@ -41,20 +44,12 @@
     <inceptionYear>2019</inceptionYear>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-
-        <maven.gpg.plugin>1.6</maven.gpg.plugin>
         <maven.gwt.plugin>1.0.0</maven.gwt.plugin>
-        <maven.javadoc.plugin>3.1.1</maven.javadoc.plugin>
-        <maven.licence.plugin>3.0</maven.licence.plugin>
+        <maven.gpg.plugin>1.6</maven.gpg.plugin>
+        <maven.javadoc.plugin>3.2.0</maven.javadoc.plugin>
         <maven.source.plugin>3.2.1</maven.source.plugin>
-        <maven.deploy.plugin>3.0.0-M1</maven.deploy.plugin>
 
-        <elemental2.version>1.0.0-RC1</elemental2.version>
-        <junit.version>4.12</junit.version>
+        <elemental2.version>1.1.0</elemental2.version>
     </properties>
 
     <dependencies>
@@ -79,60 +74,11 @@
                 <version>${maven.gwt.plugin}</version>
                 <extensions>true</extensions>
                 <configuration>
-                    <moduleName>org.gwtproject.geolocation.GeoLocation</moduleName>
+                    <moduleName>org.gwtproject.geolocation.Geolocation</moduleName>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>com.mycila</groupId>
-                <artifactId>license-maven-plugin</artifactId>
-                <version>${maven.licence.plugin}</version>
-                <configuration>
-                    <header>LICENSE.header</header>
-                    <encoding>UTF-8</encoding>
-                    <skipExistingHeaders>true</skipExistingHeaders>
-                    <mapping>
-                        <java>SLASHSTAR_STYLE</java>
-                    </mapping>
-                    <excludes>
-                        <exclude>**/README.md</exclude>
-                        <exclude>**/LICENSE</exclude>
-                        <exclude>**/LICENSE.header</exclude>
-                        <exclude>**/AUTHORS</exclude>
-                        <exclude>**/*.xml</exclude>
-                        <exclude>src/test/resources/**</exclude>
-                        <exclude>src/main/resources/**</exclude>
-                    </excludes>
-                    <properties>
-                        <year>${project.inceptionYear}</year>
-                        <name>${project.organization.name}</name>
-                    </properties>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <version>${maven.deploy.plugin}</version>
             </plugin>
         </plugins>
     </build>
-
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
 
     <profiles>
         <!-- release profile to create sources, javadoc, and sign all artifacts before uploading -->
@@ -180,6 +126,14 @@
                                 </goals>
                             </execution>
                         </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-deploy-plugin</artifactId>
+                        <version>${maven.deploy.plugin}</version>
+                        <configuration>
+                            <skip>false</skip>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>

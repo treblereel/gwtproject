@@ -180,12 +180,8 @@ public class Geolocation {
           p0 -> {
             Position result = Js.uncheckedCast(p0);
             handleSuccess(callback, result);
-            return null;
           },
-          p0 -> {
-            handleFailure(callback, (int) p0.getCode(), p0.getMessage());
-            return null;
-          },
+          p0 -> handleFailure(callback, (int) p0.getCode(), p0.getMessage()),
           geolocationPositionOptions);
     }
   }
@@ -226,12 +222,8 @@ public class Geolocation {
         p0 -> {
           Position result = Js.uncheckedCast(p0);
           handleSuccess(callback, result);
-          return null;
         },
-        e -> {
-          handleFailure(callback, (int) e.getCode(), e.getMessage());
-          return null;
-        },
+        e -> handleFailure(callback, (int) e.getCode(), e.getMessage()),
         opt);
   }
 }

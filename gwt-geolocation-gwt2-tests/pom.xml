@@ -6,9 +6,10 @@
     <parent>
         <groupId>org.gwtproject.geolocation</groupId>
         <artifactId>gwt-geolocation-parent</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>dev</version>
     </parent>
     <artifactId>gwt-geolocation-gwt2-tests</artifactId>
+    <version>${revision}</version>
     <packaging>gwt-lib</packaging>
 
     <name>GWT Geo-Location GWT 2 Tests</name>
@@ -16,7 +17,8 @@
 
     <properties>
         <maven.gwt.plugin>1.0.0</maven.gwt.plugin>
-        <gwt.version>2.8.2</gwt.version>
+
+        <gwt.version>2.9.0</gwt.version>
         <junit.version>4.12</junit.version>
     </properties>
 
@@ -33,10 +35,18 @@
             <version>${gwt.version}</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.gwtproject.geolocation</groupId>
+            <artifactId>gwt-geolocation</artifactId>
+            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -51,11 +61,8 @@
                 <configuration>
                     <failOnError>true</failOnError>
                     <moduleName>org.gwtproject.geolocation.GeolocationSuite</moduleName>
+                    <sourceLevel>1.8</sourceLevel>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>com.mycila</groupId>
-                <artifactId>license-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
