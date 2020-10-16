@@ -33,11 +33,12 @@ package org.jresearch.threetenbp.gwt.client.format;
 
 import java.time.ZoneId;
 import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 import java.time.temporal.TemporalQueries;
 import java.time.zone.ZoneRulesProvider;
 import java.util.Set;
 
-import org.jresearch.threetenbp.gwt.client.format.wrap.NumberPrinterParserTestWrapper;
 import org.jresearch.threetenbp.gwt.client.format.wrap.ZoneIdPrinterParserTestWrapper;
 import org.junit.Test;
 
@@ -193,7 +194,7 @@ public class TestZoneIdParser extends AbstractTestPrinterParser {
 	}
 
 	// -----------------------------------------------------------------------
-    @DataProvider(name = "fixedZones")
+//    @DataProvider(name = "fixedZones")
     Object[][] data_fixedZones() {
         return new Object[][] {
                 { "+01:00", "+01:00" },
@@ -208,33 +209,69 @@ public class TestZoneIdParser extends AbstractTestPrinterParser {
                 { "UT+01:00", "UT+01:00" }, };
     }
 
-    @Test(dataProvider = "fixedZones")
+	@Test(/* dataProvider = "fixedZones" */)
+	public void test_parse_fixed() throws Exception {
+		Object[][] data = data_fixedZones();
+		for (int i = 0; i < data.length; i++) {
+			Object[] objects = data[i];
+			gwtSetUp();
+			test_parse_fixed((String) objects[0], (String) objects[1]);
+		}
+	}
+
     public void test_parse_fixed(String input, String expectedZone) throws Exception {
-        ZoneIdPrinterParser pp = new ZoneIdPrinterParser(TemporalQueries.zoneId(), null);
+		ZoneIdPrinterParserTestWrapper pp = new ZoneIdPrinterParserTestWrapper(TemporalQueries.zoneId(), null);
         int result = pp.parse(parseContext, input, 0);
         assertEquals(result, input.length());
-        assertEquals(parseContext.toParsed().query(ZoneId.FROM), ZoneId.of(expectedZone));
+		assertEquals(parseContext.toParsed().query(ZoneId::from), ZoneId.of(expectedZone));
     }
 
-    @Test(dataProvider = "fixedZones")
+	@Test(/* dataProvider = "fixedZones" */)
+	public void test_parse_fixed_byFormatterWithPrefix() throws Exception {
+		Object[][] data = data_fixedZones();
+		for (int i = 0; i < data.length; i++) {
+			Object[] objects = data[i];
+			gwtSetUp();
+			test_parse_fixed_byFormatterWithPrefix((String) objects[0], (String) objects[1]);
+		}
+	}
+
     public void test_parse_fixed_byFormatterWithPrefix(String input, String expectedZone) throws Exception {
         DateTimeFormatter f = DateTimeFormatter.ofPattern("MMzzz");
         TemporalAccessor parsed = f.parse("12" + input);
-        assertEquals(parsed.query(ZoneId.FROM), ZoneId.of(expectedZone));
+		assertEquals(parsed.query(ZoneId::from), ZoneId.of(expectedZone));
     }
 
-    @Test(dataProvider = "fixedZones")
+	@Test(/* dataProvider = "fixedZones" */)
+	public void test_parse_fixed_byFormatterWithSuffixZ() throws Exception {
+		Object[][] data = data_fixedZones();
+		for (int i = 0; i < data.length; i++) {
+			Object[] objects = data[i];
+			gwtSetUp();
+			test_parse_fixed_byFormatterWithSuffixZ((String) objects[0], (String) objects[1]);
+		}
+	}
+
     public void test_parse_fixed_byFormatterWithSuffixZ(String input, String expectedZone) throws Exception {
         DateTimeFormatter f = DateTimeFormatter.ofPattern("MMzzz'Z'");
         TemporalAccessor parsed = f.parse("12" + input + "Z");
-        assertEquals(parsed.query(ZoneId.FROM), ZoneId.of(expectedZone));
+		assertEquals(parsed.query(ZoneId::from), ZoneId.of(expectedZone));
     }
 
-    @Test(dataProvider = "fixedZones")
+	@Test(/* dataProvider = "fixedZones" */)
+	public void test_parse_fixed_byFormatterWithSuffix0() throws Exception {
+		Object[][] data = data_fixedZones();
+		for (int i = 0; i < data.length; i++) {
+			Object[] objects = data[i];
+			gwtSetUp();
+			test_parse_fixed_byFormatterWithSuffix0((String) objects[0], (String) objects[1]);
+		}
+	}
+
     public void test_parse_fixed_byFormatterWithSuffix0(String input, String expectedZone) throws Exception {
         DateTimeFormatter f = DateTimeFormatter.ofPattern("MMzzz'0'");
         TemporalAccessor parsed = f.parse("12" + input + "0");
-        assertEquals(parsed.query(ZoneId.FROM), ZoneId.of(expectedZone));
+		assertEquals(parsed.query(ZoneId::from), ZoneId.of(expectedZone));
     }
 
     //-------------------------------------------------------------------------
