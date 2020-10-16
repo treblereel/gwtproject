@@ -387,11 +387,19 @@ public class TestDateTimeParsing extends AbstractTest {
 	}
 
 	@Test
-	public void disable_test_parse_tzdbGmtZone() {
+    public void disable_test_parse_tzdbGmtZoneEtc() {
+        String dateString = "2015,7,21,0,0,0,Etc/GMT-2";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy,M,d,H,m,s,z", Locale.US);
+        ZonedDateTime parsed = ZonedDateTime.parse(dateString, formatter);
+        assertEquals(ZonedDateTime.of(2015, 7, 21, 0, 0, 0, 0, ZoneId.of("Etc/GMT-2")), parsed);
+    }
+
+    @Test
+    public void disable_test_parse_tzdbGmtZone() {
 		String dateString = "2015,7,21,0,0,0,GMT+02:00";
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy,M,d,H,m,s,z", Locale.US);
 		ZonedDateTime parsed = ZonedDateTime.parse(dateString, formatter);
-		assertEquals(ZonedDateTime.of(2015, 7, 21, 0, 0, 0, 0, ZoneId.of("Etc/GMT-2")), parsed);
+        assertEquals(ZonedDateTime.of(2015, 7, 21, 0, 0, 0, 0, ZoneId.of("GMT+02:00")), parsed);
 	}
 
 }
