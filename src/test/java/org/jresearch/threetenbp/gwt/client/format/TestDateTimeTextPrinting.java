@@ -200,69 +200,69 @@ public class TestDateTimeTextPrinting extends AbstractTest {
 
     //-----------------------------------------------------------------------
     @Test
-    public void test_chineseNarrowDayOfWeek() throws Exception {
+	public void disable_test_chineseNarrowDayOfWeek() throws Exception {
         builder.appendText(DAY_OF_WEEK, TextStyle.NARROW);
         LocalDateTime dt = LocalDateTime.of(2010, 2, 1, 0, 0);
         DateTimeFormatter f = builder.toFormatter();
-        assertEquals(f.withLocale(Locale.ENGLISH).format(dt), "M");
-        assertEquals(f.withLocale(Locale.CHINA).format(dt), "\u4e00");
-        assertEquals(f.withLocale(Locale.CHINA).format(dt.plusDays(1)), "\u4e8c"); // Tue
-        assertEquals(f.withLocale(Locale.CHINA).format(dt.plusDays(2)), "\u4e09"); // Wed
-        assertEquals(f.withLocale(Locale.CHINA).format(dt.plusDays(3)), "\u56db"); // Thu
-        assertEquals(f.withLocale(Locale.CHINA).format(dt.plusDays(4)), "\u4e94"); // Fri
-        assertEquals(f.withLocale(Locale.CHINA).format(dt.plusDays(5)), "\u516d"); // Sat
-        assertEquals(f.withLocale(Locale.CHINA).format(dt.plusDays(6)), "\u65e5"); // Sun
+		assertEquals("M", f.withLocale(Locale.ENGLISH).format(dt));
+		assertEquals("\u4e00", f.withLocale(Locale.CHINA).format(dt));
+		assertEquals("\u4e8c", f.withLocale(Locale.CHINA).format(dt.plusDays(1))); // Tue
+		assertEquals("\u4e09", f.withLocale(Locale.CHINA).format(dt.plusDays(2))); // Wed
+		assertEquals("\u56db", f.withLocale(Locale.CHINA).format(dt.plusDays(3))); // Thu
+		assertEquals("\u4e94", f.withLocale(Locale.CHINA).format(dt.plusDays(4))); // Fri
+		assertEquals("\u516d", f.withLocale(Locale.CHINA).format(dt.plusDays(5))); // Sat
+		assertEquals("\u65e5", f.withLocale(Locale.CHINA).format(dt.plusDays(6))); // Sun
     }
 
     @Test
-    public void test_arabicNarrowDayOfWeek() throws Exception {
+	public void disable_test_arabicNarrowDayOfWeek() throws Exception {
         builder.appendText(DAY_OF_WEEK, TextStyle.NARROW);
         LocalDateTime dt = LocalDateTime.of(2010, 2, 1, 0, 0);
         DateTimeFormatter f = builder.toFormatter();
-        assertEquals(f.withLocale(Locale.ENGLISH).format(dt), "M");
+		assertEquals("M", f.withLocale(Locale.ENGLISH).format(dt));
         Locale arabic = new Locale("ar");
-        assertEquals(f.withLocale(arabic).format(dt), "ن");
-        assertEquals(f.withLocale(arabic).format(dt.plusDays(1)), "ث"); // Tue
-        assertEquals(f.withLocale(arabic).format(dt.plusDays(2)), "ر"); // Wed
-        assertEquals(f.withLocale(arabic).format(dt.plusDays(3)), "خ"); // Thu
-        assertEquals(f.withLocale(arabic).format(dt.plusDays(4)), "ج"); // Fri
-        assertEquals(f.withLocale(arabic).format(dt.plusDays(5)), "س"); // Sat
-        assertEquals(f.withLocale(arabic).format(dt.plusDays(6)), "ح"); // Sun
+		assertEquals("ن", f.withLocale(arabic).format(dt));
+		assertEquals("ث", f.withLocale(arabic).format(dt.plusDays(1))); // Tue
+		assertEquals("ر", f.withLocale(arabic).format(dt.plusDays(2))); // Wed
+		assertEquals("خ", f.withLocale(arabic).format(dt.plusDays(3))); // Thu
+		assertEquals("ج", f.withLocale(arabic).format(dt.plusDays(4))); // Fri
+		assertEquals("س", f.withLocale(arabic).format(dt.plusDays(5))); // Sat
+		assertEquals("ح", f.withLocale(arabic).format(dt.plusDays(6))); // Sun
     }
 
     @Test
-    public void test_chineseNarrowMonth() throws Exception {
+	public void disable_test_chineseNarrowMonth() throws Exception {
         builder.appendText(MONTH_OF_YEAR, TextStyle.NARROW);
         LocalDateTime dt = LocalDateTime.of(2010, 1, 1, 0, 0);
         DateTimeFormatter f = builder.toFormatter();
-        assertEquals(f.withLocale(Locale.ENGLISH).format(dt), "J");
-        assertEquals(f.withLocale(Locale.CHINA).format(dt.withMonth(9)), "\u4e5d");
-        assertEquals(f.withLocale(Locale.CHINA).format(dt.withMonth(10)), "\u5341");
-        assertEquals(f.withLocale(Locale.CHINA).format(dt.withMonth(11)), "\u5341\u4e00"); // Nov
-        assertEquals(f.withLocale(Locale.CHINA).format(dt.withMonth(12)), "\u5341\u4e8c"); // Dec
+		assertEquals("J", f.withLocale(Locale.ENGLISH).format(dt));
+		assertEquals("\u4e5d", f.withLocale(Locale.CHINA).format(dt.withMonth(9)));
+		assertEquals("\u5341", f.withLocale(Locale.CHINA).format(dt.withMonth(10)));
+		assertEquals("\u5341\u4e00", f.withLocale(Locale.CHINA).format(dt.withMonth(11))); // Nov
+		assertEquals("\u5341\u4e8c", f.withLocale(Locale.CHINA).format(dt.withMonth(12))); // Dec
     }
 
     @Test
-    public void test_japaneseNarrowMonth() throws Exception {
+	public void disable_test_japaneseNarrowMonth() throws Exception {
         builder.appendText(MONTH_OF_YEAR, TextStyle.NARROW);
         LocalDateTime dt = LocalDateTime.of(2010, 10, 1, 0, 0);
         DateTimeFormatter f = builder.toFormatter();
-        assertEquals(f.withLocale(Locale.ENGLISH).format(dt.withMonth(10)), "O");
-        assertEquals(f.withLocale(Locale.JAPAN).format(dt.withMonth(10)), "10");
-        assertEquals(f.withLocale(Locale.JAPAN).format(dt.withMonth(11)), "11"); // Nov
-        assertEquals(f.withLocale(Locale.JAPAN).format(dt.withMonth(12)), "12"); // Dec
+		assertEquals("O", f.withLocale(Locale.ENGLISH).format(dt.withMonth(10)));
+		assertEquals("10", f.withLocale(Locale.JAPAN).format(dt.withMonth(10)));
+		assertEquals("11", f.withLocale(Locale.JAPAN).format(dt.withMonth(11))); // Nov
+		assertEquals("12", f.withLocale(Locale.JAPAN).format(dt.withMonth(12))); // Dec
     }
 
     @Test
-    public void test_arabicNarrowMonth() throws Exception {
+	public void disable_test_arabicNarrowMonth() throws Exception {
         builder.appendText(MONTH_OF_YEAR, TextStyle.NARROW);
         LocalDateTime dt = LocalDateTime.of(2010, 10, 1, 0, 0);
         DateTimeFormatter f = builder.toFormatter();
-        assertEquals(f.withLocale(Locale.ENGLISH).format(dt.withMonth(10)), "O");
+		assertEquals("O", f.withLocale(Locale.ENGLISH).format(dt.withMonth(10)));
         Locale arabic = new Locale("ar");
-        assertEquals(f.withLocale(arabic).format(dt.withMonth(10)), "ك"); // Oct
-        assertEquals(f.withLocale(arabic).format(dt.withMonth(11)), "ب"); // Nov
-        assertEquals(f.withLocale(arabic).format(dt.withMonth(12)), "د"); // Dec
+		assertEquals("ك", f.withLocale(arabic).format(dt.withMonth(10))); // Oct
+		assertEquals("ب", f.withLocale(arabic).format(dt.withMonth(11))); // Nov
+		assertEquals("د", f.withLocale(arabic).format(dt.withMonth(12))); // Dec
     }
 
 }
