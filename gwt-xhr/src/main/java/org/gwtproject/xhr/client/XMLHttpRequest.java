@@ -24,7 +24,7 @@ import jsinterop.base.Js;
 import org.gwtproject.typedarrays.shared.ArrayBuffer;
 
 /**
- * The native XMLHttpRequest object. Most applications should use the higher- level {@link
+ * The native XMLHttpRequest object. Most applications should use the higher- level {@code
  * org.gwtproject.http.client.RequestBuilder} class unless they need specific functionality provided
  * by the XMLHttpRequest object.
  *
@@ -331,8 +331,6 @@ public class XMLHttpRequest {
    * <p>See <a href="http://www.w3.org/TR/XMLHttpRequest/#handler-xhr-onreadystatechange"
    * >http://www.w3.org/TR/XMLHttpRequest/#handler-xhr-onreadystatechange</a>.
    *
-   * <p>
-   *
    * <p>Note: Applications <em>must</em> call {@link #clearOnReadyStateChange()} when they no longer
    * need this object, to ensure that it is cleaned up properly. Failure to do so will result in
    * memory leaks on some browsers.
@@ -377,7 +375,6 @@ public class XMLHttpRequest {
    *
    * @param mimeType A DOMString specifying the MIME type to use instead of the one specified by the
    *     server.
-   * @return
    */
   public final native String overrideMimeType(String mimeType);
 
