@@ -19,7 +19,6 @@ package org.gwtproject.geolocation.client;
 import static elemental2.dom.DomGlobal.window;
 
 import elemental2.dom.GeolocationPositionOptions;
-import java.util.logging.Logger;
 import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
@@ -49,7 +48,6 @@ import jsinterop.base.Js;
  * @see <a href="http://diveintohtml5.info/geolocation.html">Dive Into HTML5 - Geolocation</a>
  */
 public class Geolocation {
-  private static final Logger LOGGER = Logger.getLogger(Geolocation.class.getName());
   private static GeolocationSupportDetector detector;
   private static Geolocation impl;
 
@@ -128,7 +126,6 @@ public class Geolocation {
     if (!isSupported()) {
       return null;
     } else {
-      LOGGER.fine("geolocation supported");
       if (impl == null) {
         impl = new Geolocation();
       }
