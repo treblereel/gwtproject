@@ -18,10 +18,8 @@
     <properties>
         <maven.gwt.plugin>1.0.0</maven.gwt.plugin>
 
-        <gwt.timer.version>1.0.0-RC1</gwt.timer.version>
         <gwt.version>2.9.0</gwt.version>
         <junit.version>4.13.1</junit.version>
-        <typed.array.version>1.0.0-RC1</typed.array.version>
     </properties>
 
     <dependencies>
@@ -43,11 +41,6 @@
             <artifactId>gwt-timer</artifactId>
             <version>${gwt.timer.version}</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.gwtproject.typedarrays</groupId>
-            <artifactId>gwt-typedarrays</artifactId>
-            <version>${typed.array.version}</version>
         </dependency>
 
         <dependency>
