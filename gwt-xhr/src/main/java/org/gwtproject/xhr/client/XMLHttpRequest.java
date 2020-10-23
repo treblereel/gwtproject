@@ -376,7 +376,7 @@ public class XMLHttpRequest {
    * @param mimeType A DOMString specifying the MIME type to use instead of the one specified by the
    *     server.
    */
-  public final native String overrideMimeType(String mimeType);
+  public final native void overrideMimeType(String mimeType);
 
   /** The type of response expected from the XHR. */
   public enum ResponseType {
