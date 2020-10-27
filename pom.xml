@@ -244,12 +244,12 @@
 			<artifactId>slf4j-api</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.jresearch.dominokit</groupId>
+			<groupId>org.dominokit</groupId>
 			<artifactId>domino-slf4j-logger</artifactId>
 			<version>${gwt-slf4j.ver}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.jresearch.gwtproject.nio</groupId>
+			<groupId>org.treblereel.gwt.nio</groupId>
 			<artifactId>gwt-nio</artifactId>
 			<version>${gwt-nio.ver}</version>
 		</dependency>
@@ -429,9 +429,9 @@
 		<linkXRef>false</linkXRef>
 		<tz.database.version>2020b</tz.database.version> -->
 		<gwt-typedarrays.ver>1.2</gwt-typedarrays.ver>
-		<gwt-nio.ver>0.1</gwt-nio.ver>
+		<gwt-nio.ver>0.9</gwt-nio.ver>
 		<gwt-xhr.ver>1.1</gwt-xhr.ver>
-		<gwt-slf4j.ver>1.0-rc.4</gwt-slf4j.ver>
+		<gwt-slf4j.ver>1.0.0</gwt-slf4j.ver>
 		<time.apt.ver>2.0.3-SNAPSHOT</time.apt.ver>
 	</properties>
 </project>
