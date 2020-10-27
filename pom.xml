@@ -163,7 +163,7 @@
 					<ignoredUnusedDeclaredDependencies>
 						<ignoredUnusedDeclaredDependency>org.jresearch.gwtproject.i18n:gwt-cldr</ignoredUnusedDeclaredDependency>
 						<ignoredUnusedDeclaredDependency>org.jresearch.gwtproject.nio:gwt-nio</ignoredUnusedDeclaredDependency>
-						<ignoredUnusedDeclaredDependency>org.jresearch.dominokit:domino-slf4j-logger</ignoredUnusedDeclaredDependency>
+						<ignoredUnusedDeclaredDependency>org.dominokit:domino-slf4j-logger</ignoredUnusedDeclaredDependency>
 						<ignoredUnusedDeclaredDependency>com.google.jsinterop:base</ignoredUnusedDeclaredDependency>
 						<ignoredUnusedDeclaredDependency>org.jresearch.gwt.time:org.jresearch.gwt.time.apt.annotation</ignoredUnusedDeclaredDependency>
 					</ignoredUnusedDeclaredDependencies>
