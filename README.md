@@ -53,7 +53,4 @@ on the parent directory. This will build the artifact and run tests against the 
 
 ## Dependencies
 
-* [Elemental 2](https://github.com/google/elemental2)
-* [GWT Callback](https://github.com/gwtproject/gwt-callback)
-* [GWT Safe-HTML](https://github.com/gwtproject/gwt-safehtml)
-* [GWT Timer](https://github.com/gwtproject/gwt-timer)
+GWT JSONP depends on gwt-callbackm gwt-safehtml and gwt-timer.
