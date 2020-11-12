@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.jresearch</groupId>
@@ -166,6 +168,7 @@
 						<ignoredUnusedDeclaredDependency>org.dominokit:domino-slf4j-logger</ignoredUnusedDeclaredDependency>
 						<ignoredUnusedDeclaredDependency>com.google.jsinterop:base</ignoredUnusedDeclaredDependency>
 						<ignoredUnusedDeclaredDependency>org.jresearch.gwt.time:org.jresearch.gwt.time.apt.annotation</ignoredUnusedDeclaredDependency>
+						<ignoredUnusedDeclaredDependency>org.jresearch.gwt.locale:org.jresearch.gwt.locale</ignoredUnusedDeclaredDependency>
 					</ignoredUnusedDeclaredDependencies>
 				</configuration>
 			</plugin>
@@ -216,6 +219,11 @@
 
 	<!-- ==================================================================== -->
 	<dependencies>
+		<dependency>
+			<groupId>org.jresearch.gwt.locale</groupId>
+			<artifactId>org.jresearch.gwt.locale</artifactId>
+			<version>${gwt-locale.ver}</version>
+		</dependency>
 		<dependency>
 			<groupId>com.google.errorprone</groupId>
 			<artifactId>error_prone_annotations</artifactId>
@@ -434,5 +442,6 @@
 		<gwt-xhr.ver>1.1</gwt-xhr.ver>
 		<gwt-slf4j.ver>1.0.0</gwt-slf4j.ver>
 		<time.apt.ver>2.0.4-SNAPSHOT</time.apt.ver>
+		<gwt-locale.ver>1.0.0-SNAPSHOT</gwt-locale.ver>
 	</properties>
 </project>
