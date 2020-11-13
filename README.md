@@ -9,7 +9,7 @@ GWT Layout module for GWT 2 and J2CL.
 <dependency>
     <groupId>org.gwtproject.layout</groupId>
     <artifactId>gwt-layout</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>HEAD-SNAPSHOT</version>
 </dependency>
 ```
 

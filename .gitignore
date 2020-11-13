@@ -228,3 +228,6 @@ war/
 
 # target folder
 */target/*
+
+# maven flattened pom output
+.flattened-pom.xml
