@@ -49,7 +49,39 @@ import org.gwtproject.dom.style.shared.Unit;
  *
  * <h3>Example</h3>
  *
- * {@example com.google.gwt.examples.LayoutExample}
+ * <pre><code>
+ * // The following is a very simple example, which constructs a layout around
+ * // a parent element, and attaches two child elements that split their
+ * // parent's space vertically. It then goes on to animate from the first
+ * // state to a horizontal stacking that uses EM units rather than
+ * // percentages.
+ * Document doc = Document.get();
+ * Element parent = doc.createDivElement();
+ * doc.getBody().appendChild(parent);
+ *
+ * Layout layout = new Layout(parent);
+ * layout.onAttach();
+ *
+ * Element topChild = doc.createDivElement(), bottomChild = doc
+ * .createDivElement();
+ * Layer topLayer = layout.attachChild(topChild);
+ * Layer bottomLayer = layout.attachChild(bottomChild);
+ *
+ * // Stack the two children vertically, meeting at 50%.
+ * topLayer.setLeftRight(0, PX, 0, PX);
+ * bottomLayer.setLeftRight(0, PX, 0, PX);
+ * topLayer.setTopHeight(0, PCT, 50, PCT);
+ * bottomLayer.setBottomHeight(0, PCT, 50, PCT);
+ * layout.layout();
+ *
+ * // Update the two children to stack horizontally, meeting at 10em.
+ * // Also have them animate for 500ms.
+ * topLayer.setTopBottom(0, PX, 0, PX);
+ * bottomLayer.setTopBottom(0, PX, 0, PX);
+ * topLayer.setLeftWidth(0, EM, 10, EM);
+ * bottomLayer.setLeftRight(10, EM, 0, EM);
+ * layout.layout(500);
+ * </code></pre>
  *
  * <p>NOTE: This class will <em>only</em> work in standards mode, which requires that the HTML page
  * in which it is run have an explicit &lt;!DOCTYPE&gt; declaration.
