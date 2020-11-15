@@ -19,14 +19,12 @@ import static java.util.Objects.nonNull;
 
 import elemental2.core.JsArray;
 import elemental2.core.JsObject;
-import elemental2.dom.DomGlobal;
 import jsinterop.base.Js;
 
 class JSONValueFactory {
 
   static JSONValue create(Object value) {
     String type = Js.typeof(value);
-    DomGlobal.console.log("type: >>" + type + "<<");
     switch (type) {
       case "boolean":
         return JSONBoolean.getInstance((Boolean) value);
