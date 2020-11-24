@@ -14,6 +14,7 @@ import org.gwtproject.xhr.client.ReadyStateChangeHandler;
 import org.gwtproject.xhr.client.XMLHttpRequest;
 import org.gwtproject.xhr.client.XMLHttpRequest.ResponseType;
 import org.jresearch.threetenbp.gwt.client.loader.TimeJsBundle;
+import org.jresearch.threetenbp.gwt.client.zone.GwtZoneRuleProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,14 +30,12 @@ public class Support {
 	private static final Logger LOGGER = LoggerFactory.getLogger(Support.class);
 
 	private static final TimeJsBundle bundle = GWT.create(TimeJsBundle.class);
+//	private static final TimeJsBundle bundle = GWT.create(TimeJsBundle.class);
 
 	private static boolean commonInitialized = false;
 	private static boolean tzTnitializing = false;
 	private static boolean tzTnitialized = false;
-
-	static {
-		init();
-	}
+	private static boolean loadAsync = true;
 
 	public static void init() {
 		if (!commonInitialized) {
@@ -44,36 +43,43 @@ public class Support {
 			ScriptInjector.fromString(bundle.support().getText()).setWindow(ScriptInjector.TOP_WINDOW).inject();
 			ScriptInjector.fromString(bundle.base64binary().getText()).setWindow(ScriptInjector.TOP_WINDOW).inject();
 			commonInitialized = true;
-			XMLHttpRequest request = XMLHttpRequest.create();
-			request.open("GET", bundle.tzdb().getSafeUri().asString());
-			request.setResponseType(ResponseType.ArrayBuffer);
-			request.setOnReadyStateChange(new ReadyStateChangeHandler() {
-				@SuppressWarnings({ "synthetic-access", "boxing" })
-				@Override
-				public void onReadyStateChange(XMLHttpRequest xhr) {
-					if (xhr.getReadyState() == XMLHttpRequest.DONE) {
-						if (xhr.getStatus() == 200) {
-							if (!tzTnitialized && !tzTnitializing) {
-								tzTnitializing = true;
-								LOGGER.trace("tz asynch initialization");
-								ArrayBuffer buffer = Js.cast(xhr.getResponseArrayBuffer());
-								ByteBuffer data = TypedArrayHelper.wrap(buffer);
-								ZoneRulesProvider provider = Providers.of(data);
-								ZoneRulesProvider.registerProvider(provider);
-								tzTnitialized = true;
+			if (loadAsync) {
+				XMLHttpRequest request = XMLHttpRequest.create();
+				request.open("GET", bundle.tzdb().getSafeUri().asString());
+				request.setResponseType(ResponseType.ArrayBuffer);
+				request.setOnReadyStateChange(new ReadyStateChangeHandler() {
+					@SuppressWarnings({ "synthetic-access", "boxing" })
+					@Override
+					public void onReadyStateChange(XMLHttpRequest xhr) {
+						if (xhr.getReadyState() == XMLHttpRequest.DONE) {
+							if (xhr.getStatus() == 200) {
+								if (!tzTnitialized && !tzTnitializing) {
+									tzTnitializing = true;
+									LOGGER.trace("tz async initialization");
+									ArrayBuffer buffer = Js.cast(xhr.getResponseArrayBuffer());
+									ByteBuffer data = TypedArrayHelper.wrap(buffer);
+									ZoneRulesProvider provider = Providers.of(data);
+									ZoneRulesProvider.registerProvider(provider);
+									tzTnitialized = true;
+								}
+							} else {
+								LOGGER.error("Can't load TZDB asynch. Response status: {} {}", xhr.getStatus(),
+										xhr.getStatusText());
 							}
-						} else {
-							LOGGER.error("Can't load TZDB asynch. Response status: {} {}", xhr.getStatus(),
-									xhr.getStatusText());
 						}
 					}
-				}
-			});
-			request.send();
+				});
+				request.send();
+			}
 		}
 	}
 
 	public static void initTzData() {
+		if (!commonInitialized) {
+			// prevent from asynch load
+			loadAsync = false;
+			init();
+		}
 		if (!tzTnitialized && !tzTnitializing) {
 			tzTnitializing = true;
 			LOGGER.trace("tz synch initialization");
@@ -84,6 +90,10 @@ public class Support {
 			ZoneRulesProvider.registerProvider(provider);
 			tzTnitialized = true;
 		}
+	}
+
+	public static void registerGwtZoneRuleProvider(GwtZoneRuleProvider gwtZoneRuleProvider) {
+
 	}
 
 	public static float getTimestamp() {
