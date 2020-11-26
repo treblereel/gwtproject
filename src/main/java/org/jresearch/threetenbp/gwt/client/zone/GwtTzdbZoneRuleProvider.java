@@ -2,7 +2,6 @@ package org.jresearch.threetenbp.gwt.client.zone;
 
 import java.nio.ByteBuffer;
 import java.time.zone.Providers;
-import java.time.zone.TzdbZoneRulesProvider;
 import java.time.zone.ZoneRulesProvider;
 
 import org.gwtproject.nio.TypedArrayHelper;
