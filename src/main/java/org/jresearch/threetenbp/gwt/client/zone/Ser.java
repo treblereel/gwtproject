@@ -29,11 +29,14 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.zone;
+package org.jresearch.threetenbp.gwt.client.zone;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.time.ZoneOffset;
+import java.time.zone.StandardZoneRules;
+import java.time.zone.ZoneOffsetTransition;
+import java.time.zone.ZoneOffsetTransitionRule;
 
 /**
  * The shared serialization delegate for this package.
