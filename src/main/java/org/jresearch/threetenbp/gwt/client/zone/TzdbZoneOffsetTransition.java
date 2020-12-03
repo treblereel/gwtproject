@@ -34,47 +34,29 @@ package org.jresearch.threetenbp.gwt.client.zone;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.time.ZoneOffset;
-import java.time.zone.StandardZoneRules;
-import java.time.zone.ZoneOffsetTransitionRule;
+import java.time.zone.ZoneOffsetTransition;
 
-public final class TzdbStandardZoneRules {
+public final class TzdbZoneOffsetTransition {
 
-	private TzdbStandardZoneRules() {
+	private TzdbZoneOffsetTransition() {
 		// prevent instantiation
 	}
 
-    /**
-     * Reads the state from the stream.
-     *
-     * @param in  the input stream, not null
-     * @return the created object, not null
-     * @throws IOException if an error occurs
-     */
-    static StandardZoneRules readExternal(ByteBuffer in) throws IOException {
-        int stdSize = in.getInt();
-        long[] stdTrans = new long[stdSize];
-        for (int i = 0; i < stdSize; i++) {
-            stdTrans[i] = Ser.readEpochSec(in);
+	/**
+	 * Reads the state from the stream.
+	 *
+	 * @param in the input stream, not null
+	 * @return the created object, not null
+	 * @throws IOException if an error occurs
+	 */
+	static ZoneOffsetTransition readExternal(ByteBuffer in) throws IOException {
+        long epochSecond = Ser.readEpochSec(in);
+        ZoneOffset before = Ser.readOffset(in);
+        ZoneOffset after = Ser.readOffset(in);
+        if (before.equals(after)) {
+            throw new IllegalArgumentException("Offsets must not be equal");
         }
-        ZoneOffset[] stdOffsets = new ZoneOffset[stdSize + 1];
-        for (int i = 0; i < stdOffsets.length; i++) {
-            stdOffsets[i] = Ser.readOffset(in);
-        }
-        int savSize = in.getInt();
-        long[] savTrans = new long[savSize];
-        for (int i = 0; i < savSize; i++) {
-            savTrans[i] = Ser.readEpochSec(in);
-        }
-        ZoneOffset[] savOffsets = new ZoneOffset[savSize + 1];
-        for (int i = 0; i < savOffsets.length; i++) {
-            savOffsets[i] = Ser.readOffset(in);
-        }
-        byte ruleSize = in.get();
-        ZoneOffsetTransitionRule[] rules = new ZoneOffsetTransitionRule[ruleSize];
-        for (int i = 0; i < ruleSize; i++) {
-			rules[i] = TzdbZoneOffsetTransitionRule.readExternal(in);
-        }
-		return new StandardZoneRules(stdTrans, stdOffsets, savTrans, savOffsets, rules);
+        return new ZoneOffsetTransition(epochSecond, before, after);
     }
 
 }

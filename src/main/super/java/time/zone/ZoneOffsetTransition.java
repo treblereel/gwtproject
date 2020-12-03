@@ -31,9 +31,7 @@
  */
 package java.time.zone;
 
-import java.io.IOException;
 import java.io.Serializable;
-import java.nio.ByteBuffer;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -42,8 +40,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-
-import org.jresearch.threetenbp.gwt.client.zone.Ser;
 
 /**
  * A transition between two offsets caused by a discontinuity in the local time-line.
@@ -166,15 +162,16 @@ public final class ZoneOffsetTransition
      * @return the created object, not null
      * @throws IOException if an error occurs
      */
-    static ZoneOffsetTransition readExternal(ByteBuffer in) throws IOException {
-        long epochSecond = Ser.readEpochSec(in);
-        ZoneOffset before = Ser.readOffset(in);
-        ZoneOffset after = Ser.readOffset(in);
-        if (before.equals(after)) {
-            throw new IllegalArgumentException("Offsets must not be equal");
-        }
-        return new ZoneOffsetTransition(epochSecond, before, after);
-    }
+// GWT Specific
+//    static ZoneOffsetTransition readExternal(ByteBuffer in) throws IOException {
+//        long epochSecond = Ser.readEpochSec(in);
+//        ZoneOffset before = Ser.readOffset(in);
+//        ZoneOffset after = Ser.readOffset(in);
+//        if (before.equals(after)) {
+//            throw new IllegalArgumentException("Offsets must not be equal");
+//        }
+//        return new ZoneOffsetTransition(epochSecond, before, after);
+//    }
 
     //-----------------------------------------------------------------------
     /**
