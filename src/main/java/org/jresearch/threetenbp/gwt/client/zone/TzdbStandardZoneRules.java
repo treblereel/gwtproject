@@ -58,7 +58,7 @@ import org.jresearch.threetenbp.gwt.client.zone.Ser;
  * This class is immutable and thread-safe.
  */
 //GWT Specific
-public final class StandardZoneRules extends ZoneRules implements Serializable {
+public final class TzdbStandardZoneRules extends ZoneRules implements Serializable {
 
     /**
      * Serialization version.
@@ -110,7 +110,7 @@ public final class StandardZoneRules extends ZoneRules implements Serializable {
      * @param transitionList  the list of transitions, not null
      * @param lastRules  the recurring last rules, size 15 or less, not null
      */
-    StandardZoneRules(
+    StandardZoneRules create(
             ZoneOffset baseStandardOffset,
             ZoneOffset baseWallOffset,
             List<ZoneOffsetTransition> standardOffsetTransitionList,
