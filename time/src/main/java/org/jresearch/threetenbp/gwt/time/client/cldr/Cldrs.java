@@ -1,4 +1,4 @@
-package org.jresearch.threetenbp.gwt.client.cldr;
+package org.jresearch.threetenbp.gwt.time.client.cldr;
 
 import java.util.HashMap;
 import java.util.Locale;

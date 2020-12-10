@@ -1,4 +1,4 @@
-package org.jresearch.threetenbp.gwt.client.loader;
+package org.jresearch.threetenbp.gwt.time.client.loader;
 
 import javax.annotation.Nonnull;
 

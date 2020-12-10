@@ -2,6 +2,7 @@ package org.jresearch.threetenbp.gwt.client;
 
 import java.util.Locale;
 
+import org.jresearch.threetenbp.gwt.time.client.Support;
 import org.junit.Test;
 
 

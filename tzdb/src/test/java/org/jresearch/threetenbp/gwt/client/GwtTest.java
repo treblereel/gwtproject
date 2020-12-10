@@ -2,6 +2,7 @@ package org.jresearch.threetenbp.gwt.client;
 
 import java.time.ZoneId;
 
+import org.jresearch.threetenbp.gwt.time.client.Support;
 import org.jresearch.threetenbp.gwt.tzdb.client.zone.GwtTzdbZoneRuleProvider;
 import org.junit.Test;
 

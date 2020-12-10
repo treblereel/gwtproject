@@ -1,4 +1,4 @@
-package org.jresearch.threetenbp.gwt.client.zone;
+package org.jresearch.threetenbp.gwt.time.client.zone;
 
 public interface GwtZoneRuleProvider {
 

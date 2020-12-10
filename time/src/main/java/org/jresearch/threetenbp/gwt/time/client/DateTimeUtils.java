@@ -29,7 +29,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.jresearch.threetenbp.gwt.client;
+package org.jresearch.threetenbp.gwt.time.client;
 
 import java.sql.Timestamp;
 import java.time.Instant;

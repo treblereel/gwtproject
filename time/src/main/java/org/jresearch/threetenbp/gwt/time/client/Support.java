@@ -1,4 +1,4 @@
-package org.jresearch.threetenbp.gwt.client;
+package org.jresearch.threetenbp.gwt.time.client;
 
 import java.time.zone.ZoneRulesProvider;
 import java.util.HashMap;
@@ -8,8 +8,8 @@ import java.util.stream.Stream;
 
 import javax.annotation.Nonnull;
 
-import org.jresearch.threetenbp.gwt.client.loader.TimeJsBundle;
-import org.jresearch.threetenbp.gwt.client.zone.GwtZoneRuleProvider;
+import org.jresearch.threetenbp.gwt.time.client.loader.TimeJsBundle;
+import org.jresearch.threetenbp.gwt.time.client.zone.GwtZoneRuleProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

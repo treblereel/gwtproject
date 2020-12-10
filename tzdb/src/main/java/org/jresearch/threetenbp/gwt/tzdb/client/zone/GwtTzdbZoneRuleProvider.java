@@ -7,7 +7,7 @@ import org.gwtproject.nio.TypedArrayHelper;
 import org.gwtproject.xhr.client.ReadyStateChangeHandler;
 import org.gwtproject.xhr.client.XMLHttpRequest;
 import org.gwtproject.xhr.client.XMLHttpRequest.ResponseType;
-import org.jresearch.threetenbp.gwt.client.zone.GwtZoneRuleProvider;
+import org.jresearch.threetenbp.gwt.time.client.zone.GwtZoneRuleProvider;
 import org.jresearch.threetenbp.gwt.tzdb.client.TzdbJs;
 import org.jresearch.threetenbp.gwt.tzdb.client.loader.TzdbJsBundle;
 import org.slf4j.Logger;

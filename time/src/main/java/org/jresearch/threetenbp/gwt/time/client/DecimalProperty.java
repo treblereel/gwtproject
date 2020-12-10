@@ -1,4 +1,4 @@
-package org.jresearch.threetenbp.gwt.client;
+package org.jresearch.threetenbp.gwt.time.client;
 
 import static jsinterop.annotations.JsPackage.GLOBAL;
 

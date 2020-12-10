@@ -44,7 +44,6 @@
 				<configuration>
 					<ignoredUnusedDeclaredDependencies>
 						<ignoredUnusedDeclaredDependency>org.dominokit:domino-slf4j-logger</ignoredUnusedDeclaredDependency>
-						<!-- <ignoredUnusedDeclaredDependency>com.google.jsinterop:base</ignoredUnusedDeclaredDependency> -->
 					</ignoredUnusedDeclaredDependencies>
 				</configuration>
 			</plugin>
@@ -79,10 +78,6 @@
 			<groupId>com.google.code.findbugs</groupId>
 			<artifactId>jsr305</artifactId>
 			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.jresearch.gwtproject</groupId>
-			<artifactId>typedarrays</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -123,9 +118,5 @@
 			<artifactId>websocket-client</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!-- <dependency>
-			<groupId>com.google.jsinterop</groupId>
-			<artifactId>base</artifactId>
-		</dependency> -->
 	</dependencies>
 </project>
