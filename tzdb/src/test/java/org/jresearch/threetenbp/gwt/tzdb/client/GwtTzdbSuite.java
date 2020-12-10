@@ -1,7 +1,5 @@
 package org.jresearch.threetenbp.gwt.tzdb.client;
 
-import org.jresearch.threetenbp.gwt.time.client.GwtTest;
-
 import com.google.gwt.junit.tools.GWTTestSuite;
 
 import junit.framework.Test;

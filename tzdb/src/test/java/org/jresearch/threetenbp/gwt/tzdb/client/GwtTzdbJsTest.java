@@ -1,8 +1,6 @@
 package org.jresearch.threetenbp.gwt.tzdb.client;
 
 import org.gwtproject.typedarrays.shared.Uint8Array;
-import org.jresearch.threetenbp.gwt.time.client.AbstractTest;
-import org.jresearch.threetenbp.gwt.tzdb.client.TzdbJs;
 import org.junit.Test;
 
 
