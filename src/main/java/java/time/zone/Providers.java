@@ -1,7 +1,6 @@
 package java.time.zone;
 
-import java.nio.ByteBuffer;
-import java.time.zone.ZoneRulesProvider;
+import java.time.ZoneOffset;
 
 //JDK implementation/ real in /src/main/super
 public class Providers {
@@ -10,8 +9,7 @@ public class Providers {
 		// prevent instantiation
 	}
 
-	public static ZoneRulesProvider of(ByteBuffer data) {
+	public static ZoneRules of(long[] standardTransitions, ZoneOffset[] standardOffsets, long[] savingsInstantTransitions, ZoneOffset[] wallOffsets, ZoneOffsetTransitionRule[] lastRules) {
 		return null;
 	}
-
 }
