@@ -22,6 +22,7 @@
 		<module>../tzdb</module>
 		<module>../bom</module>
 		<module>../test</module>
+		<module>../demo/time01.core</module>
 	</modules>
 
 	<!-- ==================================================================== -->
