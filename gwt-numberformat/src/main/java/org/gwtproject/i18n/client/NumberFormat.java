@@ -323,12 +323,15 @@ public class NumberFormat {
 
   private static final char QUOTE = '\'';
 
+  private static boolean forcedLatinDigits = false;
+
   /**
    * Returns true if all new NumberFormat instances will use latin digits and related characters
    * rather than the localized ones.
    */
   public static boolean forcedLatinDigits() {
-    return defaultNumberConstants != localizedNumberConstants;
+    // return defaultNumberConstants != localizedNumberConstants;
+    return forcedLatinDigits;
   }
 
   /**

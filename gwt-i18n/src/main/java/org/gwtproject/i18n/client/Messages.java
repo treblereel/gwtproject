@@ -15,7 +15,11 @@
  */
 package org.gwtproject.i18n.client;
 
-import java.lang.annotation.*;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * A tag interface that facilitates locale-sensitive, compile-time binding of messages supplied from
@@ -311,7 +315,7 @@ public interface Messages extends LocalizableResource {
      * code generation with the default implementation.
      */
     // http://bugs.sun.com/view_bug.do?bug_id=6512707
-    Class<? extends PluralRule> value() default org.gwtproject.i18n.client.PluralRule.class;
+    Class<? extends PluralRule> value() default PluralRule.class;
   }
 
   /**

@@ -40,6 +40,10 @@
     </scm>
 
     <properties>
+        <auto.common.version>0.11</auto.common.version>
+        <auto.service.version>1.0-rc7</auto.service.version>
+        <javaparser.core.version>3.18.0</javaparser.core.version>
+
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.build.outputEncoding>UTF-8</project.build.outputEncoding>
 
@@ -49,6 +53,7 @@
         <gwt.version>2.8.2</gwt.version>
         <elemental.version>1.0.0-RC1</elemental.version>
         <plugin.source.version>2.4</plugin.source.version>
+        <plugin.surfire.version>3.0.0-M1</plugin.surfire.version>
     </properties>
 
     <dependencyManagement>
@@ -180,10 +185,13 @@
                             <exclude>**/LICENSE.header</exclude>
                             <exclude>**/AUTHORS</exclude>
                             <exclude>**/*.xml</exclude>
+                            <exclude>**/*.bak</exclude>
+                            <exclude>**/*.property</exclude>
                             <exclude>**/gwt-unitCache/**</exclude>
                             <exclude>**/war/**</exclude>
                             <exclude>**/src/test/resources/**</exclude>
                             <exclude>**/src/main/resources/**</exclude>
+                            <exclude>**/gwt-i18n-j2cl-tests/**</exclude>
                         </excludes>
                         <properties>
                             <year>${project.inceptionYear}</year>
@@ -295,9 +303,11 @@
         <module>gwt-datetimeformat-processor</module>
         <module>gwt-i18n-processor-util</module>
         <module>gwt-i18n</module>
+        <module>gwt-i18n-processor</module>
         <module>gwt-datetimeformat</module>
         <module>gwt-localizable-processor</module>
         <module>gwt-numberformat</module>
+        <module>gwt-i18n-gwt2-tests</module>
     </modules>
 
 </project>

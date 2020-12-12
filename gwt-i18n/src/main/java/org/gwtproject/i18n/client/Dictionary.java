@@ -17,7 +17,13 @@ package org.gwtproject.i18n.client;
 
 import elemental2.core.JsObject;
 import elemental2.dom.DomGlobal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.MissingResourceException;
+import java.util.Set;
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
