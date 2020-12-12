@@ -9,10 +9,10 @@
 		<version>1.4.15-SNAPSHOT</version>
 		<relativePath>../../pom/pom.xml</relativePath>
 	</parent>
-	<artifactId>org.jresearch.gwt.time.demo.time01</artifactId>
+	<artifactId>org.jresearch.gwt.time.demo.time02</artifactId>
 	<packaging>gwt-app</packaging>
 
-	<name>JRS: GWT port of JSR-310 (java.time). Demo. Only time + base locales</name>
+	<name>JRS: GWT port of JSR-310 (java.time). Demo. Time + CLDR locales </name>
 
 
 	<!-- ==================================================================== -->
@@ -20,6 +20,11 @@
 		<dependency>
 			<groupId>org.jresearch.gwt.locale</groupId>
 			<artifactId>org.jresearch.gwt.locale</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jresearch.gwt.locale</groupId>
+			<artifactId>org.jresearch.gwt.locale.cldr</artifactId>
+			<version>1.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jresearch.gwt.time</groupId>

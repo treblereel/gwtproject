@@ -23,6 +23,9 @@
 		<module>../bom</module>
 		<module>../test</module>
 		<module>../demo/time01.core</module>
+		<module>../demo/time02.core</module>
+		<module>../demo/time03.core</module>
+		<module>../demo/time04.core</module>
 	</modules>
 
 	<!-- ==================================================================== -->

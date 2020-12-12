@@ -9,10 +9,10 @@
 		<version>1.4.15-SNAPSHOT</version>
 		<relativePath>../../pom/pom.xml</relativePath>
 	</parent>
-	<artifactId>org.jresearch.gwt.time.demo.time01</artifactId>
+	<artifactId>org.jresearch.gwt.time.demo.time04</artifactId>
 	<packaging>gwt-app</packaging>
 
-	<name>JRS: GWT port of JSR-310 (java.time). Demo. Only time + base locales</name>
+	<name>JRS: GWT port of JSR-310 (java.time). Demo. Only time + locale</name>
 
 
 	<!-- ==================================================================== -->
@@ -24,6 +24,15 @@
 		<dependency>
 			<groupId>org.jresearch.gwt.time</groupId>
 			<artifactId>org.jresearch.gwt.time</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jresearch.gwt.time</groupId>
+			<artifactId>org.jresearch.gwt.time.tzdb</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jresearch.gwt.locale</groupId>
+			<artifactId>org.jresearch.gwt.locale.cldr</artifactId>
+			<version>1.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.elemental2</groupId>
