@@ -196,6 +196,11 @@
 				<version>${gwt-locale.ver}</version>
 			</dependency>
 			<dependency>
+				<groupId>org.jresearch.gwt.locale</groupId>
+				<artifactId>org.jresearch.gwt.locale.cldr</artifactId>
+				<version>${gwt-locale-cldr.ver}</version>
+			</dependency>
+			<dependency>
 				<groupId>org.jresearch.gwt.time</groupId>
 				<artifactId>org.jresearch.gwt.time.apt.annotation</artifactId>
 				<version>${time.apt.ver}</version>
@@ -354,5 +359,6 @@
 		<gwt-slf4j.ver>1.0.1</gwt-slf4j.ver>
 		<time.apt.ver>2.0.5-SNAPSHOT</time.apt.ver>
 		<gwt-locale.ver>1.0.2-SNAPSHOT</gwt-locale.ver>
+		<gwt-locale-cldr.ver>1.0.1-SNAPSHOT</gwt-locale-cldr.ver>
 	</properties>
 </project>
