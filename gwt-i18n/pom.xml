@@ -32,15 +32,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.gwtproject.i18n</groupId>
-            <artifactId>gwt-cldr</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.gwtproject.i18n</groupId>
-            <artifactId>gwt-cldr</artifactId>
-            <classifier>sources</classifier>
-        </dependency>
-        <dependency>
             <groupId>com.google.elemental2</groupId>
             <artifactId>elemental2-core</artifactId>
         </dependency>

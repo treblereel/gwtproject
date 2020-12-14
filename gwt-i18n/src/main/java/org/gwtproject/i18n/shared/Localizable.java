@@ -15,7 +15,11 @@
  */
 package org.gwtproject.i18n.shared;
 
-import java.lang.annotation.*;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * A tag interface that serves as the root of a family of types used in static internationalization.

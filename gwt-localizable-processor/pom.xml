@@ -13,8 +13,6 @@
 
     <properties>
         <javapoet.version>1.4.0</javapoet.version>
-        <auto.common.version>0.8</auto.common.version>
-        <auto.service.version>1.0-rc2</auto.service.version>
     </properties>
 
     <dependencies>

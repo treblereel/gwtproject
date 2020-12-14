@@ -33,20 +33,18 @@
         </dependency>
         <dependency>
             <groupId>org.gwtproject.i18n</groupId>
-            <artifactId>gwt-cldr</artifactId>
+            <artifactId>gwt-i18n</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.gwtproject.i18n</groupId>
-            <artifactId>gwt-cldr</artifactId>
-            <classifier>sources</classifier>
+            <artifactId>gwt-i18n-processor</artifactId>
+            <scope>provided</scope>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.google.elemental2</groupId>
             <artifactId>elemental2-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.gwtproject.i18n</groupId>
-            <artifactId>gwt-i18n</artifactId>
         </dependency>
         <dependency>
             <groupId>org.gwtproject.i18n</groupId>

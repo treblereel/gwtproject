@@ -19,8 +19,8 @@ import java.util.HashMap;
 import java.util.Map;
 import org.gwtproject.i18n.shared.CustomDateTimeFormat;
 import org.gwtproject.i18n.shared.cldr.DateTimeFormatInfo;
-import org.gwtproject.i18n.shared.cldr.impl.DateTimeFormatInfoImpl_en;
-import org.gwtproject.i18n.shared.cldr.impl.DateTimeFormatInfo_factory;
+import org.gwtproject.i18n.shared.cldr.DateTimeFormatInfoImpl;
+import org.gwtproject.i18n.shared.cldr.LocaleInfo;
 
 /**
  * Formats and parses dates and times using locale-sensitive patterns.
@@ -459,7 +459,7 @@ public class DateTimeFormat extends org.gwtproject.i18n.shared.DateTimeFormat {
         default:
           throw new IllegalStateException("Unexpected predef type " + predef);
       }
-      return getFormat(pattern, new DateTimeFormatInfoImpl_en());
+      return getFormat(pattern, new DateTimeFormatInfoImpl());
     }
     DateTimeFormatInfo dtfi = getDefaultDateTimeFormatInfo();
     String pattern;
@@ -770,7 +770,7 @@ public class DateTimeFormat extends org.gwtproject.i18n.shared.DateTimeFormat {
   }
 
   private static DateTimeFormatInfo getDefaultDateTimeFormatInfo() {
-    return DateTimeFormatInfo_factory.create();
+    return LocaleInfo.getCurrentLocale().getDateTimeFormatInfo();
   }
 
   /**
