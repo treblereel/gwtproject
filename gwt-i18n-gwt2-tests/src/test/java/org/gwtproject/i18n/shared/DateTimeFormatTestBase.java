@@ -15,16 +15,14 @@
  */
 package org.gwtproject.i18n.shared;
 
+import com.google.gwt.junit.client.GWTTestCase;
+
 import java.util.Date;
-
-import org.gwtproject.i18n.client.Messages;
-
-import static org.junit.Assert.*;
 
 /**
  * Base class for date/time format tests.
  */
-public abstract class DateTimeFormatTestBase {
+public abstract class DateTimeFormatTestBase extends GWTTestCase {
 
   /**
    * The timezone used by any tests which use a fixed timezone.
@@ -65,11 +63,11 @@ public abstract class DateTimeFormatTestBase {
 
   /**
    * Test date/time formats in messages.
-   */
-/*  public interface MyMessages extends Messages {
+  public interface MyMessages extends Messages {
     @DefaultMessage("It is {0,localdatetime,dMMMy}")
     String getCustomizedDate(Date date);
-  }*/
+  }
+  */
 
   @SuppressWarnings("deprecation")
   public void testIso8601() {

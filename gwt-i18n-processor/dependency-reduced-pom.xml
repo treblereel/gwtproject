@@ -25,6 +25,9 @@
     <resources>
       <resource>
         <directory>src/main/resources</directory>
+        <includes>
+          <include>**/*.bak</include>
+        </includes>
       </resource>
     </resources>
     <plugins>

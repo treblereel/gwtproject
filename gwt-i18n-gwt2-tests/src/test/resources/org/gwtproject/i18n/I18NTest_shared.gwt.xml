@@ -13,5 +13,9 @@
 <!-- limitations under the License.                                         -->
 
 <module>
-  <source path="client" />
+  <inherits name='com.google.gwt.junit.JUnit'/>
+  <inherits name="org.gwtproject.i18n.I18N" />
+  <inherits name="elemental2.core.Core"/>
+
+  <source path="shared" />
 </module>

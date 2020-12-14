@@ -66,6 +66,14 @@ public class LocaleInfo {
     this.infoImpl = impl;
   }
 
+  public static boolean hasAnyRTL() {
+    return false;
+  }
+
+  public static String[] getAvailableLocaleNames() {
+    return null;
+  }
+
   /** Returns a DateTimeConstants instance for this locale. */
   public final DateTimeFormatInfo getDateTimeFormatInfo() {
     ensureDateTimeFormatInfo();
@@ -103,5 +111,13 @@ public class LocaleInfo {
     if (numberConstants == null) {
       numberConstants = infoImpl.getNumberConstants();
     }
+  }
+
+  public String getLocaleCookieName() {
+    return null;
+  }
+
+  public String getLocaleQueryParam() {
+    return null;
   }
 }

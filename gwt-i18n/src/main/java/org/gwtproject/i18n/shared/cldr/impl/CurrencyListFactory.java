@@ -17,28 +17,23 @@
 package org.gwtproject.i18n.shared.cldr.impl;
 
 import javax.annotation.Generated;
+
 import jsinterop.annotations.JsMethod;
-import jsinterop.base.Js;
-import jsinterop.base.JsPropertyMap;
 
 @Generated(
-    "gwt-cldr-importer : org.gwtproject.tools.cldr.CurrencyListProcessor, CLDR version : release-34")
+        "gwt-cldr-importer : org.gwtproject.tools.cldr.CurrencyListProcessor, CLDR version : release-34")
 public class CurrencyListFactory {
 
-  public static String locale = System.getProperty("locale");
-  private static JsPropertyMap cache = JsPropertyMap.of();
+    public static String locale = System.getProperty("locale");
 
-  public static org.gwtproject.i18n.shared.cldr.CurrencyList create() {
-    if (cache.has(locale)) {
-      return Js.uncheckedCast(cache.get(locale));
+    public static org.gwtproject.i18n.shared.cldr.CurrencyList create() {
+        return get(locale);
     }
-    CurrencyList_ list = get(locale);
-    list.loadCurrencyMap();
-    cache.set(locale, list);
-    return list;
-  }
 
-  @JsMethod
-  @SuppressWarnings("unusable-by-js")
-  public static native org.gwtproject.i18n.shared.cldr.impl.CurrencyList_ get(String locale);
+    @JsMethod
+    @SuppressWarnings("unusable-by-js")
+    public static native org.gwtproject.i18n.shared.cldr.impl.CurrencyList_ get(String locale)/*-{
+    var result =  @org.gwtproject.i18n.shared.cldr.impl._CurrencyListFactory::get(Ljava/lang/String;)(locale);
+    return result;
+  }-*/;
 }

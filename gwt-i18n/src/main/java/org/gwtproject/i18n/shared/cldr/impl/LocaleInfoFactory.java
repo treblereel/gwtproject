@@ -31,5 +31,8 @@ public class LocaleInfoFactory {
 
   @JsMethod
   @SuppressWarnings("unusable-by-js")
-  public static native org.gwtproject.i18n.shared.cldr.LocaleInfoImpl get(String locale);
+  public static native org.gwtproject.i18n.shared.cldr.LocaleInfoImpl get(String locale)/*-{
+    var rez = @org.gwtproject.i18n.shared.cldr.impl._LocaleInfoImplFactory::get(Ljava/lang/String;)(locale);
+    return rez;
+  }-*/;
 }

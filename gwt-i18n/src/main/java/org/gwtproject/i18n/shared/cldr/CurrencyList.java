@@ -28,18 +28,6 @@ import org.gwtproject.i18n.shared.cldr.impl.CurrencyListFactory;
  */
 public class CurrencyList implements Iterable<CurrencyData> {
 
-  /**
-   * Inner class to avoid CurrencyList.clinit calls and allow this to be completely removed from the
-   * generated code if instance isn't referenced (such as when all you call is
-   * CurrencyList.get().getDefault() ).
-   */
-  private static class CurrencyListInstance {
-    // TODO Create the instance using the APT generated factory
-    //        private static CurrencyList instance = GWT.create(CurrencyList.class);
-
-    private static CurrencyList instance = CurrencyListFactory.create();
-  }
-
   /** Return the singleton instance of CurrencyList. */
   public static CurrencyList get() {
     return CurrencyListFactory.create();
@@ -60,7 +48,7 @@ public class CurrencyList implements Iterable<CurrencyData> {
    * <p>Deprecated currencies will not be included.
    */
   @Override
-  public final Iterator<CurrencyData> iterator() {
+  public Iterator<CurrencyData> iterator() {
     return iterator(false);
   }
 
@@ -69,7 +57,7 @@ public class CurrencyList implements Iterable<CurrencyData> {
    *
    * @param includeDeprecated true if deprecated currencies should be included
    */
-  public final Iterator<CurrencyData> iterator(boolean includeDeprecated) {
+  public Iterator<CurrencyData> iterator(boolean includeDeprecated) {
     ensureCurrencyMap();
     ArrayList<CurrencyData> collection = new ArrayList<CurrencyData>();
 
@@ -94,7 +82,7 @@ public class CurrencyList implements Iterable<CurrencyData> {
    * @param currencyCode ISO4217 currency code
    * @return currency data, or null if code not found
    */
-  public final CurrencyData lookup(String currencyCode) {
+  public CurrencyData lookup(String currencyCode) {
     ensureCurrencyMap();
     return dataMap.get(currencyCode);
   }
@@ -105,7 +93,7 @@ public class CurrencyList implements Iterable<CurrencyData> {
    * @param currencyCode ISO4217 currency code
    * @return name of the currency, or null if code not found
    */
-  public final String lookupName(String currencyCode) {
+  public String lookupName(String currencyCode) {
     ensureNamesMap();
     String result = namesMap.get(currencyCode);
     return (result == null) ? currencyCode : result;
@@ -117,7 +105,7 @@ public class CurrencyList implements Iterable<CurrencyData> {
    * <p>Generated implementations override this method.
    */
   public CurrencyData getDefault() {
-    return new CurrencyDataImpl("USD", "$", 2, "US$", "$");
+    return CurrencyListFactory.create().getDefault();
   }
 
   /**
