@@ -22,7 +22,7 @@ import org.gwtproject.i18n.shared.cldr.I18N;
  * @author Dmitrii Tikhomirov
  * Created by treblereel 12/6/20
  */
-@I18N({"en", "es", "de", "fr", "it", "ru", "fil", "pl", "es_AR", "es_MX", "nb", "pa_Arab", "es_419", "pa"})
+@I18N({"ar","en", "es", "de", "fr", "it", "ru", "fil", "pl", "es_AR", "es_MX", "nb", "pa_Arab", "es_419", "pa"})
 public class I18nApp {
 
 }

@@ -51,7 +51,6 @@ public class LocaleInfo_ar_Test {
     assertTrue(localeList.contains("ar"));
     assertTrue(localeList.contains("default"));
   }*/
-  //TODO
 /*  public void testNativeDisplayNames() {
     // verify ar is known
     String displayName = LocaleInfo.getLocaleNativeDisplayName("ar");
@@ -59,6 +58,7 @@ public class LocaleInfo_ar_Test {
         displayName.contains("العربية"));
   }*/
 
+  @Test
   public void testRTL() {
     boolean isRTL = LocaleInfo.getCurrentLocale().isRTL();
     assertTrue(isRTL);

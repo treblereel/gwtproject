@@ -26,7 +26,7 @@ public class LocaleInfo {
   //   * is a static.  In the future, we would need a hash map from locale names
   //   * to LocaleInfo instances.
   //   */
-  //  private static LocaleInfo instance  = new LocaleInfo(
+    private static LocaleInfo instance  = new LocaleInfo(LocaleInfoFactory.create());
   //      (LocaleInfoImpl) GWT.create(LocaleInfoImpl.class),
   //      (CldrImpl) GWT.create(CldrImpl.class));
   /**
@@ -40,7 +40,7 @@ public class LocaleInfo {
      * was compiled with), accessed via a method like:
      *    public static LocaleInfo getLocale(String localeName)
      */
-    return new LocaleInfo(LocaleInfoFactory.create());
+    return instance;
   }
 
   private final LocaleInfoImpl infoImpl;
