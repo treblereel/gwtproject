@@ -1,0 +1,5 @@
+<module>
+  <inherits name="org.gwtproject.animation.Animation"/>
+
+  <source path="client"/>
+</module>
