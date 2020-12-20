@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.gwtproject.safehtml</groupId>
+    <artifactId>gwt-safehtml-parent</artifactId>
+    <version>dev</version>
+  </parent>
+  <groupId>org.gwtproject.safehtml</groupId>
+  <artifactId>gwt-safecss</artifactId>
+  <packaging>gwt-lib</packaging>
+  <version>${revision}</version>
+
+  <name>GWT Safe CSS</name>
+  <description>Tools to safely escape text for use in CSS</description>
+  <url>https://github.com/gwtproject/gwt-safecss</url>
+
+  <organization>
+    <name>The GWT Project Authors</name>
+    <url>https://github.com/gwtproject</url>
+  </organization>
+
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <name>The GWT Project Authors</name>
+      <organization>The GWT Project Authors</organization>
+      <url>https://github.com/gwtproject</url>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:git://github.com/gwtproject/gwt-safecss.git</connection>
+    <developerConnection>scm:git:ssh://github.com/gwtproject/gwt-safecss.git</developerConnection>
+    <url>https://github.com/gwtproject/gwt-safecss/tree/master</url>
+  </scm>
+
+  <inceptionYear>2019</inceptionYear>
+
+  <properties>
+    <maven.gwt.plugin>1.0.0</maven.gwt.plugin>
+
+    <dom.version>1.0.0-RC1</dom.version>
+
+    <deploy.skip>false</deploy.skip>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.gwtproject.dom</groupId>
+      <artifactId>gwt-dom-style-definitions</artifactId>
+      <version>${dom.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.gwtproject.safehtml</groupId>
+      <artifactId>gwt-safehtml</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>net.ltgt.gwt.maven</groupId>
+        <artifactId>gwt-maven-plugin</artifactId>
+        <version>${maven.gwt.plugin}</version>
+        <extensions>true</extensions>
+        <configuration>
+          <moduleName>org.gwtproject.safecss.SafeCss</moduleName>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
