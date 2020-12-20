@@ -65,12 +65,20 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.eclipse.jetty.toolchain:jetty-schemas:3.1.M0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.mortbay.jasper:apache-jsp:8.0.9.M3" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.mortbay.jasper:apache-el:8.0.9.M3" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.12" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.13.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-core:1.3" level="project" />
-    <orderEntry type="module" module-name="gwt-core" scope="TEST" />
+    <orderEntry type="module" module-name="gwt-event-dom" scope="TEST" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.gwtproject.dom:gwt-dom:1.0.0-RC1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.gwtproject.core:gwt-core:1.0.0-RC1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.gwtproject.dom:gwt-dom-style-definitions:1.0.0-RC1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.gwtproject.regexp:gwt-regexp:1.0.0-RC1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.gwtproject.safehtml:gwt-safecss:1.0.0-RC1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.gwtproject.safehtml:gwt-safehtml:1.0.0-RC1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: com.google.elemental2:elemental2-core:1.1.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: com.google.elemental2:elemental2-dom:1.1.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: com.google.jsinterop:base:1.0.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: com.google.elemental2:elemental2-promise:1.1.0" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: com.google.elemental2:elemental2-dom:1.1.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.gwtproject.event:gwt-event:1.0.0-RC1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.gwtproject.event:gwt-event-legacy:1.0.0-RC1" level="project" />
   </component>
 </module>
