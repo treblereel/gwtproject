@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.gwtproject.xhr</groupId>
+        <artifactId>gwt-xhr-parent</artifactId>
+        <version>dev</version>
+    </parent>
+    <artifactId>gwt-xhr-gwt2-tests</artifactId>
+    <version>${revision}</version>
+    <packaging>gwt-lib</packaging>
+
+    <name>GWT XHR - GWT 2 Tests</name>
+    <description>Test cases for the GWT 2</description>
+
+    <properties>
+        <maven.gwt.plugin>1.0.0</maven.gwt.plugin>
+
+        <gwt.version>2.9.0</gwt.version>
+        <junit.version>4.13.1</junit.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-user</artifactId>
+            <version>${gwt.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-dev</artifactId>
+            <version>${gwt.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.gwtproject.timer</groupId>
+            <artifactId>gwt-timer</artifactId>
+            <version>${gwt.timer.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.gwtproject.xhr</groupId>
+            <artifactId>gwt-xhr</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.gwtproject.xhr</groupId>
+            <artifactId>gwt-xhr-test-service</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>net.ltgt.gwt.maven</groupId>
+                <artifactId>gwt-maven-plugin</artifactId>
+                <version>${maven.gwt.plugin}</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <failOnError>true</failOnError>
+                    <moduleName>org.gwtproject.xhr.client.XMLHttpRequestTest</moduleName>
+                    <sourceLevel>1.8</sourceLevel>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>${maven.deploy.plugin}</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <configuration>
+                    <supportedPackagings>
+                        <supportedPackaging>gwt-lib</supportedPackaging>
+                    </supportedPackagings>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>start-jetty</id>
+                        <phase>test-compile</phase>
+                        <goals>
+                            <goal>start</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>stop-jetty</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
