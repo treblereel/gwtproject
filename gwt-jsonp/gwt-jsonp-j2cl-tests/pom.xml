@@ -15,43 +15,29 @@
   <description>Test cases for the J2Cl tests</description>
   <url>https://github.com/gwtproject/gwt-jsonp</url>
 
-  <properties>
-    <maven.j2cl.plugin>0.16-SNAPSHOT</maven.j2cl.plugin>
-
-    <!-- CI -->
-    <vertispan.j2cl.repo.url>https://repo.vertispan.com/j2cl/</vertispan.j2cl.repo.url>
-
-    <gwt.timer.version>HEAD-SNAPSHOT</gwt.timer.version>
-    <j2cl.version>0.8-SNAPSHOT</j2cl.version>
-  </properties>
-
   <dependencies>
 
     <!-- test dependencies -->
     <dependency>
       <groupId>com.vertispan.j2cl</groupId>
       <artifactId>junit-annotations</artifactId>
-      <version>${j2cl.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.vertispan.j2cl</groupId>
       <artifactId>gwttestcase-emul</artifactId>
-      <version>${j2cl.version}</version>
       <classifier>sources</classifier>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.vertispan.j2cl</groupId>
       <artifactId>junit-emul</artifactId>
-      <version>${j2cl.version}</version>
       <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>org.gwtproject.jsonp</groupId>
       <artifactId>gwt-jsonp</artifactId>
-      <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -128,19 +114,4 @@
     </plugins>
   </build>
 
-  <repositories>
-    <repository>
-      <id>vertispan-snapshots</id>
-      <name>Vertispan hosted artifacts-releases</name>
-      <url>${vertispan.j2cl.repo.url}</url>
-    </repository>
-  </repositories>
-
-  <pluginRepositories>
-    <pluginRepository>
-      <id>vertispan-releases</id>
-      <name>Vertispan hosted artifacts-releases</name>
-      <url>${vertispan.j2cl.repo.url}</url>
-    </pluginRepository>
-  </pluginRepositories>
 </project>

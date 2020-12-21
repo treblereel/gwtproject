@@ -3,6 +3,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
+  <parent>
+    <groupId>org.gwtproject</groupId>
+    <artifactId>gwt-parent</artifactId>
+    <version>dev</version>
+  </parent>
+
   <groupId>org.gwtproject.layout</groupId>
   <artifactId>gwt-layout-parent</artifactId>
 
@@ -47,41 +53,6 @@
     <module>gwt-layout-gwt2-tests</module>
     <module>gwt-layout-j2cl-tests</module>
   </modules>
-
-  <properties>
-    <revision>HEAD-SNAPSHOT</revision>
-
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
-
-    <maven.compiler.plugin>3.8.1</maven.compiler.plugin>
-    <maven.deploy.plugin>3.0.0-M1</maven.deploy.plugin>
-    <maven.flatten.plugin>1.2.2</maven.flatten.plugin>
-    <maven.fmt.plugin>2.9</maven.fmt.plugin>
-    <maven.license.plugin>3.0</maven.license.plugin>
-    <maven.surfire.plugin>3.0.0-M1</maven.surfire.plugin>
-
-    <gwt.aria.version>1.0.0-RC1</gwt.aria.version>
-    <gwt.animation.version>1.0.0-RC1</gwt.animation.version>
-    <gwt.regexp.version>1.0.0-RC1</gwt.regexp.version>
-    <gwt.dom.version>1.0.0-RC1</gwt.dom.version>
-    <gwt.dom.style.definitions.version>1.0.0-RC1</gwt.dom.style.definitions.version>
-
-    <elemental2.version>1.1.0</elemental2.version>
-  </properties>
-
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>org.gwtproject.layout</groupId>
-        <artifactId>gwt-layout</artifactId>
-        <version>${revision}</version>
-        <scope>test</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
 
   <build>
     <plugins>
@@ -181,14 +152,4 @@
     </pluginManagement>
   </build>
 
-  <distributionManagement>
-    <snapshotRepository>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </snapshotRepository>
-    <repository>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-    </repository>
-  </distributionManagement>
 </project>

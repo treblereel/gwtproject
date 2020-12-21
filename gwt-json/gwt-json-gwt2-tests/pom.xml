@@ -14,37 +14,26 @@
     <name>GWT Json GWT 2 Tests</name>
     <description>Test cases for the GWT 2 tests</description>
 
-    <properties>
-        <maven.gwt.plugin>1.0.0</maven.gwt.plugin>
-
-        <gwt.version>2.9.0</gwt.version>
-        <junit.version>4.13.1</junit.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-user</artifactId>
-            <version>${gwt.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-dev</artifactId>
-            <version>${gwt.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.gwtproject.json</groupId>
             <artifactId>gwt-json</artifactId>
-            <version>${revision}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

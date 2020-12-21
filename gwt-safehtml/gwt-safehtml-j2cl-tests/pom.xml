@@ -15,22 +15,10 @@
   <description>Test cases for the J2Cl tests</description>
   <url>https://github.com/gwtproject/gwt-timer</url>
 
-  <properties>
-    <maven.j2cl.plugin>0.16-SNAPSHOT</maven.j2cl.plugin>
-
-    <!-- CI -->
-    <vertispan.j2cl.repo.url>https://repo.vertispan.com/j2cl/</vertispan.j2cl.repo.url>
-
-    <j2cl.version>0.8-SNAPSHOT</j2cl.version>
-
-    <gwt.dom.style.definitions.version>1.0.0-RC1</gwt.dom.style.definitions.version>
-  </properties>
-
   <dependencies>
     <dependency>
       <groupId>org.gwtproject.safehtml</groupId>
       <artifactId>gwt-safehtml</artifactId>
-      <version>${revision}</version>
       <scope>test</scope>
     </dependency>
 
@@ -38,20 +26,17 @@
     <dependency>
       <groupId>com.vertispan.j2cl</groupId>
       <artifactId>junit-annotations</artifactId>
-      <version>${j2cl.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.vertispan.j2cl</groupId>
       <artifactId>gwttestcase-emul</artifactId>
-      <version>${j2cl.version}</version>
       <classifier>sources</classifier>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.vertispan.j2cl</groupId>
       <artifactId>junit-emul</artifactId>
-      <version>${j2cl.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -94,19 +79,4 @@
     </plugins>
   </build>
 
-  <repositories>
-    <repository>
-      <id>${vertispan.j2cl.repo.id}</id>
-      <name>${vertispan.j2cl.repo.name}</name>
-      <url>${vertispan.j2cl.repo.url}</url>
-    </repository>
-  </repositories>
-
-  <pluginRepositories>
-    <pluginRepository>
-      <id>vertispan-releases</id>
-      <name>Vertispan hosted artifacts-releases</name>
-      <url>${vertispan.j2cl.repo.url}</url>
-    </pluginRepository>
-  </pluginRepositories>
 </project>

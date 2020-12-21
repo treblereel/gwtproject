@@ -43,43 +43,30 @@
 
     <inceptionYear>2019</inceptionYear>
 
-    <properties>
-        <maven.gwt.plugin>1.0.0</maven.gwt.plugin>
-        <maven.gpg.plugin>1.6</maven.gpg.plugin>
-        <maven.javadoc.plugin>3.2.0</maven.javadoc.plugin>
-        <maven.source.plugin>3.2.1</maven.source.plugin>
-    </properties>
-
     <dependencies>
-         <dependency>
+        <dependency>
             <groupId>org.gwtproject.core</groupId>
             <artifactId>gwt-core</artifactId>
-            <version>${gwt-core.version}</version>
         </dependency>
         <dependency>
             <groupId>org.gwtproject.dom</groupId>
             <artifactId>gwt-dom-style-definitions</artifactId>
-            <version>${gwt-dom-style-definitions.version}</version>
         </dependency>
-       <dependency>
+        <dependency>
             <groupId>org.gwtproject.regexp</groupId>
             <artifactId>gwt-regexp</artifactId>
-            <version>${gwt-regexp.version}</version>
         </dependency>
         <dependency>
             <groupId>org.gwtproject.safehtml</groupId>
             <artifactId>gwt-safecss</artifactId>
-            <version>${gwt-safecss.version}</version>
         </dependency>
-       <dependency>
+        <dependency>
             <groupId>org.gwtproject.safehtml</groupId>
             <artifactId>gwt-safehtml</artifactId>
-            <version>${gwt-safehtml.version}</version>
         </dependency>
         <dependency>
             <groupId>com.google.elemental2</groupId>
             <artifactId>elemental2-core</artifactId>
-            <version>${elemental2.version}</version>
         </dependency>
     </dependencies>
 

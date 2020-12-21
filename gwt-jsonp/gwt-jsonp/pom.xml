@@ -43,45 +43,27 @@
 
   <inceptionYear>2019</inceptionYear>
 
-  <properties>
-    <maven.gwt.plugin>1.0.0</maven.gwt.plugin>
-    <maven.gpg.plugin>1.6</maven.gpg.plugin>
-    <maven.javadoc.plugin>3.2.0</maven.javadoc.plugin>
-    <maven.source.plugin>3.2.1</maven.source.plugin>
-
-    <gwt.callback.version>HEAD-SNAPSHOT</gwt.callback.version>
-    <gwt.safehtml.version>HEAD-SNAPSHOT</gwt.safehtml.version>
-    <gwt.timer.version>HEAD-SNAPSHOT</gwt.timer.version>
-  </properties>
-
   <dependencies>
     <dependency>
       <groupId>com.google.elemental2</groupId>
       <artifactId>elemental2-core</artifactId>
-      <version>${elemental2.version}</version>
-      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>com.google.elemental2</groupId>
       <artifactId>elemental2-dom</artifactId>
-      <version>${elemental2.version}</version>
-      <scope>compile</scope>
     </dependency>
 
     <dependency>
       <groupId>org.gwtproject.callback</groupId>
       <artifactId>gwt-callback</artifactId>
-      <version>${gwt.callback.version}</version>
     </dependency>
     <dependency>
       <groupId>org.gwtproject.safehtml</groupId>
       <artifactId>gwt-safehtml</artifactId>
-      <version>${gwt.safehtml.version}</version>
     </dependency>
     <dependency>
       <groupId>org.gwtproject.timer</groupId>
       <artifactId>gwt-timer</artifactId>
-      <version>${gwt.timer.version}</version>
     </dependency>
   </dependencies>
 

@@ -43,32 +43,23 @@
 
   <inceptionYear>2020</inceptionYear>
 
-  <properties>
-    <maven.gwt.plugin>1.0.0</maven.gwt.plugin>
-    <maven.gpg.plugin>1.6</maven.gpg.plugin>
-  </properties>
-
   <dependencies>
     <dependency>
       <groupId>org.gwtproject.timer</groupId>
       <artifactId>gwt-timer</artifactId>
-      <version>${gwt.timer.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.gwtproject.core</groupId>
       <artifactId>gwt-core</artifactId>
-      <version>${gwt.core.version}</version>
     </dependency>
     <dependency>
       <groupId>org.gwtproject.dom</groupId>
       <artifactId>gwt-dom</artifactId>
-      <version>${gwt.dom.version}</version>
     </dependency>
     <dependency>
       <groupId>com.google.elemental2</groupId>
       <artifactId>elemental2-dom</artifactId>
-      <version>${elemental2.version}</version>
     </dependency>
   </dependencies>
 

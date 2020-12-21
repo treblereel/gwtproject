@@ -14,39 +14,22 @@
   <name>GWT Layout</name>
   <description>TBD</description>
 
-  <properties>
-    <maven.gpg.plugin>1.6</maven.gpg.plugin>
-    <maven.gwt.plugin>1.0.0</maven.gwt.plugin>
-    <maven.javadoc.plugin>3.2.0</maven.javadoc.plugin>
-    <maven.source.plugin>3.2.1</maven.source.plugin>
-
-    <aria.version>1.0-SNAPSHOT</aria.version>
-    <animation.version>1.0-SNAPSHOT</animation.version>
-    <core.version>1.0-SNAPSHOT</core.version>
-    <dom.version>1.0-SNAPSHOT</dom.version>
-    <dom.style.definitions.version>1.0-SNAPSHOT</dom.style.definitions.version>
-  </properties>
-
   <dependencies>
     <dependency>
       <groupId>org.gwtproject.animation</groupId>
       <artifactId>gwt-animation</artifactId>
-      <version>${gwt.animation.version}</version>
     </dependency>
     <dependency>
       <groupId>org.gwtproject.aria</groupId>
       <artifactId>gwt-aria</artifactId>
-      <version>${gwt.aria.version}</version>
     </dependency>
     <dependency>
       <groupId>org.gwtproject.dom</groupId>
       <artifactId>gwt-dom-style-definitions</artifactId>
-      <version>${gwt.dom.style.definitions.version}</version>
     </dependency>
     <dependency>
       <groupId>org.gwtproject.dom</groupId>
       <artifactId>gwt-dom</artifactId>
-      <version>${gwt.dom.version}</version>
     </dependency>
   </dependencies>
 

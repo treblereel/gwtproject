@@ -14,18 +14,10 @@
     <name>GWT JSON</name>
     <description>Classes for parsing and creating JSON encoded values. These classes parse strings of JSON encoded values into Java accessible objects. They also support programmatically building JSON strings.</description>
 
-    <properties>
-        <maven.gpg.plugin>1.6</maven.gpg.plugin>
-        <maven.gwt.plugin>1.0.0</maven.gwt.plugin>
-        <maven.javadoc.plugin>3.1.1</maven.javadoc.plugin>
-        <maven.source.plugin>3.2.1</maven.source.plugin>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.gwtproject.core</groupId>
             <artifactId>gwt-core</artifactId>
-            <version>${gwt.core.version}</version>
         </dependency>
     </dependencies>
 

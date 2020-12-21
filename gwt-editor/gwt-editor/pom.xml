@@ -46,28 +46,19 @@
 
   <inceptionYear>2018</inceptionYear>
 
-  <properties>
-    <maven.gwt.plugin>1.0.0</maven.gwt.plugin>
-
-    <gwt-event.version>1.0.0-RC1</gwt-event.version>
-  </properties>
-
   <dependencies>
     <dependency>
       <groupId>org.gwtproject.event</groupId>
       <artifactId>gwt-event</artifactId>
-      <version>${gwt-event.version}</version>
     </dependency>
 
     <dependency>
       <groupId>javax.validation</groupId>
       <artifactId>validation-api</artifactId>
-      <version>1.0.0.GA</version>
     </dependency>
     <dependency>
       <groupId>javax.validation</groupId>
       <artifactId>validation-api</artifactId>
-      <version>1.0.0.GA</version>
       <classifier>sources</classifier>
     </dependency>
   </dependencies>

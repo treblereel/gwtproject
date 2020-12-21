@@ -15,38 +15,27 @@
     <name>GWT Geo-Location GWT 2 Tests</name>
     <description>Test cases for the GWT 2 tests</description>
 
-    <properties>
-        <maven.gwt.plugin>1.0.0</maven.gwt.plugin>
-
-        <gwt.version>2.9.0</gwt.version>
-        <junit.version>4.13.1</junit.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-user</artifactId>
-            <version>${gwt.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-dev</artifactId>
-            <version>${gwt.version}</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.gwtproject.geolocation</groupId>
             <artifactId>gwt-geolocation</artifactId>
-            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -61,7 +50,7 @@
                 <configuration>
                     <failOnError>true</failOnError>
                     <moduleName>org.gwtproject.geolocation.GeolocationSuite</moduleName>
-                    <sourceLevel>1.8</sourceLevel>
+                    <sourceLevel>${maven.compiler.source}</sourceLevel>
                 </configuration>
             </plugin>
         </plugins>

@@ -3,6 +3,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
+  <parent>
+    <groupId>org.gwtproject</groupId>
+    <artifactId>gwt-parent</artifactId>
+    <version>dev</version>
+  </parent>
+
   <groupId>org.gwtproject.jsonp</groupId>
   <artifactId>gwt-jsonp-parent</artifactId>
 
@@ -48,25 +54,6 @@
     <module>gwt-jsonp-j2cl-tests</module>
     <module>gwt-jsonp-test-service</module>
   </modules>
-
-  <properties>
-    <revision>HEAD-SNAPSHOT</revision>
-
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
-
-    <maven.compiler.plugin>3.8.1</maven.compiler.plugin>
-    <maven.deploy.plugin>3.0.0-M1</maven.deploy.plugin>
-    <maven.flatten.plugin>1.2.2</maven.flatten.plugin>
-    <maven.fmt.plugin>2.9</maven.fmt.plugin>
-    <maven.install.plugin>3.0.0-M1</maven.install.plugin>
-    <maven.license.plugin>3.0</maven.license.plugin>
-    <maven.surfire.plugin>3.0.0-M1</maven.surfire.plugin>
-
-    <elemental2.version>1.1.0</elemental2.version>
-  </properties>
 
   <build>
     <plugins>
@@ -158,7 +145,7 @@
         <plugin>
           <groupId>org.eclipse.jetty</groupId>
           <artifactId>jetty-maven-plugin</artifactId>
-          <version>9.4.28.v20200408</version>
+          <version>${maven.jetty.plugin}</version>
           <configuration>
             <stopPort>9998</stopPort>
             <stopKey>STOP</stopKey>
@@ -174,39 +161,4 @@
     </pluginManagement>
   </build>
 
-  <dependencyManagement>
-    <dependencies>
-      <!-- Internal dependencies -->
-      <dependency>
-        <groupId>org.gwtproject.jsonp</groupId>
-        <artifactId>gwt-jsonp</artifactId>
-        <version>${revision}</version>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
-
-  <repositories>
-    <repository>
-      <id>oss-sonatype</id>
-      <name>oss-sonatype</name>
-      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
-
-  <distributionManagement>
-    <snapshotRepository>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </snapshotRepository>
-    <repository>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-    </repository>
-  </distributionManagement>
 </project>

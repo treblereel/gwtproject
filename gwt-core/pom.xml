@@ -3,6 +3,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>org.gwtproject</groupId>
+        <artifactId>gwt-parent</artifactId>
+        <version>dev</version>
+    </parent>
     <groupId>org.gwtproject.core</groupId>
     <artifactId>gwt-core-parent</artifactId>
 
@@ -47,26 +52,6 @@
         <module>gwt-core-gwt2-tests</module>
         <module>gwt-core-j2cl-tests</module>
     </modules>
-
-    <properties>
-        <revision>HEAD-SNAPSHOT</revision>
-
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-
-        <maven.compiler.plugin>3.8.1</maven.compiler.plugin>
-        <maven.deploy.plugin>3.0.0-M1</maven.deploy.plugin>
-        <maven.flatten.plugin>1.2.2</maven.flatten.plugin>
-        <maven.fmt.plugin>2.9</maven.fmt.plugin>
-        <maven.install.plugin>3.0.0-M1</maven.install.plugin>
-        <maven.license.plugin>3.0</maven.license.plugin>
-        <maven.surfire.plugin>3.0.0-M1</maven.surfire.plugin>
-
-        <elemental2.version>1.1.0</elemental2.version>
-        <junit.version>4.12</junit.version>
-    </properties>
 
     <build>
         <plugins>
@@ -165,27 +150,4 @@
             </plugins>
         </pluginManagement>
     </build>
-
-    <dependencyManagement>
-        <dependencies>
-            <!-- Internal dependencies -->
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>gwt-core</artifactId>
-                <version>${project.version}</version>
-                <scope>test</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
 </project>

@@ -17,33 +17,22 @@
   <description>GWT Event DOM</description>
   <url>https://github.com/gwtproject/gwt-event-dom</url>
 
-  <properties>
-    <maven.gwt.plugin>1.0.0</maven.gwt.plugin>
-    <maven.gpg.plugin>1.6</maven.gpg.plugin>
-    <maven.javadoc.plugin>3.2.0</maven.javadoc.plugin>
-    <maven.source.plugin>3.2.1</maven.source.plugin>
-  </properties>
-
   <dependencies>
     <dependency>
       <groupId>org.gwtproject.dom</groupId>
       <artifactId>gwt-dom</artifactId>
-      <version>${gwt-dom.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.google.elemental2</groupId>
-      <artifactId>elemental2-dom</artifactId>
-      <version>${elemental2.version}</version>
     </dependency>
     <dependency>
       <groupId>org.gwtproject.event</groupId>
       <artifactId>gwt-event</artifactId>
-      <version>${gwt-event.version}</version>
     </dependency>
     <dependency>
       <groupId>org.gwtproject.event</groupId>
       <artifactId>gwt-event-legacy</artifactId>
-      <version>${gwt-event.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.elemental2</groupId>
+      <artifactId>elemental2-dom</artifactId>
     </dependency>
   </dependencies>
 

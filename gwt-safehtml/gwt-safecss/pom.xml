@@ -9,7 +9,6 @@
     <artifactId>gwt-safehtml-parent</artifactId>
     <version>dev</version>
   </parent>
-  <groupId>org.gwtproject.safehtml</groupId>
   <artifactId>gwt-safecss</artifactId>
   <packaging>gwt-lib</packaging>
   <version>${revision}</version>
@@ -47,10 +46,6 @@
   <inceptionYear>2019</inceptionYear>
 
   <properties>
-    <maven.gwt.plugin>1.0.0</maven.gwt.plugin>
-
-    <dom.version>1.0.0-RC1</dom.version>
-
     <deploy.skip>false</deploy.skip>
   </properties>
 
@@ -58,12 +53,10 @@
     <dependency>
       <groupId>org.gwtproject.dom</groupId>
       <artifactId>gwt-dom-style-definitions</artifactId>
-      <version>${dom.version}</version>
     </dependency>
     <dependency>
       <groupId>org.gwtproject.safehtml</groupId>
       <artifactId>gwt-safehtml</artifactId>
-      <version>${project.version}</version>
     </dependency>
   </dependencies>
 
