@@ -46,7 +46,6 @@
       <plugin>
         <groupId>com.vertispan.j2cl</groupId>
         <artifactId>j2cl-maven-plugin</artifactId>
-        <version>${maven.j2cl.plugin}</version>
         <configuration>
           <compilationLevel>ADVANCED</compilationLevel>
           <testJsZip>com.vertispan.j2cl:closure-test:zip:jszip:0.7-20200424.004055-5</testJsZip>
@@ -65,7 +64,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>${maven.surfire.plugin}</version>
         <configuration>
           <skipTests>true</skipTests>
         </configuration>
@@ -73,7 +71,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-deploy-plugin</artifactId>
-        <version>${maven.deploy.plugin}</version>
         <configuration>
           <skip>true</skip>
         </configuration>

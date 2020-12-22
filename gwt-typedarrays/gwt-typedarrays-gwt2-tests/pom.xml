@@ -47,7 +47,6 @@
     <plugins>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>${maven.surfire.plugin}</version>
         <configuration>
           <excludes>
             <exclude>**/client/*.java</exclude>
@@ -73,7 +72,6 @@
          -->
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-failsafe-plugin</artifactId>
-        <version>${maven.failsafe.plugin}</version>
         <configuration>
           <includes>
             <include>**/*.class</include>
@@ -87,7 +85,6 @@
       <plugin>
         <groupId>net.ltgt.gwt.maven</groupId>
         <artifactId>gwt-maven-plugin</artifactId>
-        <version>${maven.gwt.plugin}</version>
         <executions>
           <execution>
             <goals>
@@ -118,7 +115,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-deploy-plugin</artifactId>
-        <version>${maven.deploy.plugin}</version>
         <configuration>
           <skip>true</skip>
         </configuration>

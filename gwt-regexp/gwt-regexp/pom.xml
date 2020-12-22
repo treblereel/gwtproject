@@ -62,7 +62,6 @@
       <plugin>
         <groupId>net.ltgt.gwt.maven</groupId>
         <artifactId>gwt-maven-plugin</artifactId>
-        <version>${maven.gwt.plugin}</version>
         <extensions>true</extensions>
         <configuration>
           <moduleName>org.gwtproject.regexp.RegExp</moduleName>
@@ -87,7 +86,6 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-source-plugin</artifactId>
-            <version>${maven.source.plugin}</version>
             <executions>
               <execution>
                 <id>attach-sources</id>
@@ -100,7 +98,6 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
-            <version>${maven.javadoc.plugin}</version>
             <executions>
               <execution>
                 <id>attach-javadocs</id>
@@ -114,7 +111,6 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
-            <version>${maven.gpg.plugin}</version>
             <executions>
               <execution>
                 <id>sign-artifacts</id>

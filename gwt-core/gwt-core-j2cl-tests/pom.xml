@@ -72,7 +72,6 @@
         <plugins>
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>${maven.resource.plugin}</version>
                 <executions>
                     <!-- Copy static test resources to web test folder. -->
                     <execution>
@@ -97,7 +96,6 @@
             <plugin>
                 <groupId>com.vertispan.j2cl</groupId>
                 <artifactId>j2cl-maven-plugin</artifactId>
-                <version>${maven.j2cl.plugin}</version>
                 <configuration>
                     <!-- support htmlunit, which can't handle es2016 classes -->
                     <compilationLevel>ADVANCED</compilationLevel>
@@ -115,7 +113,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>${maven.surfire.plugin}</version>
                 <configuration>
                     <skipTests>true</skipTests>
                 </configuration>
@@ -123,7 +120,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-deploy-plugin</artifactId>
-                <version>${maven.deploy.plugin}</version>
                 <configuration>
                     <skip>true</skip>
                 </configuration>

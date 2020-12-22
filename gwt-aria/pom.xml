@@ -57,21 +57,8 @@
   <build>
     <plugins>
       <plugin>
-        <groupId>com.coveo</groupId>
-        <artifactId>fmt-maven-plugin</artifactId>
-        <version>${maven.fmt.plugin}</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>flatten-maven-plugin</artifactId>
-        <version>${maven.flatten.plugin}</version>
         <configuration>
           <flattenMode>oss</flattenMode>
         </configuration>
@@ -105,16 +92,14 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>${maven.compiler.plugin}</version>
           <configuration>
             <source>${maven.compiler.source}</source>
             <target>${maven.compiler.target}</target>
           </configuration>
         </plugin>
-        <plugin>
+<!--        <plugin>
           <groupId>org.eclipse.jetty</groupId>
           <artifactId>jetty-maven-plugin</artifactId>
-          <version>${maven.jetty.plugin}</version>
           <configuration>
             <stopPort>9998</stopPort>
             <stopKey>STOP</stopKey>
@@ -125,7 +110,7 @@
               <contextPath>/</contextPath>
             </webApp>
           </configuration>
-        </plugin>
+        </plugin>-->
       </plugins>
     </pluginManagement>
   </build>

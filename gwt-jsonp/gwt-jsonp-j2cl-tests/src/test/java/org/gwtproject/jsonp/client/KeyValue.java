@@ -19,12 +19,12 @@ import jsinterop.annotations.*;
 
 @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
 public class KeyValue {
-  
+
   private String key;
   private int value;
-  
+
   private KeyValue() {}
-  
+
   @JsOverlay
   public static KeyValue createKeyValue(String key, int value) {
     KeyValue keyValue = new KeyValue();
@@ -32,10 +32,10 @@ public class KeyValue {
     keyValue.value = value;
     return keyValue;
   }
-  
+
   @JsProperty(name = "key")
   public native String getKey();
-  
+
   @JsProperty(name = "value")
   public native int getValue();
 }

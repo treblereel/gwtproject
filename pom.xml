@@ -34,11 +34,11 @@
     </developer>
   </developers>
 
-<!--  <scm>
-    <connection>scm:git:git://github.com/gwtproject/gwt-event-dom.git</connection>
-    <developerConnection>scm:git:ssh://github.com/gwtproject/gwt-event-dom.git</developerConnection>
-    <url>https://github.com/gwtproject/gwt-event-dom/tree/master</url>
-  </scm>-->
+  <!--  <scm>
+      <connection>scm:git:git://github.com/gwtproject/gwt-event-dom.git</connection>
+      <developerConnection>scm:git:ssh://github.com/gwtproject/gwt-event-dom.git</developerConnection>
+      <url>https://github.com/gwtproject/gwt-event-dom/tree/master</url>
+    </scm>-->
 
   <inceptionYear>2019</inceptionYear>
 
@@ -59,9 +59,9 @@
     <module>gwt-safehtml</module>
     <module>gwt-storage</module>
     <module>gwt-timer</module>
-    <module>gwt-typedarrays</module>
     <module>gwt-xhr</module>
     <module>gwt-xml</module>
+    <module>gwt-typedarrays</module>
   </modules>
 
   <properties>
@@ -82,10 +82,13 @@
     <maven.javadoc.plugin>3.2.0</maven.javadoc.plugin>
     <maven.jetty.plugin>9.4.28.v20200408</maven.jetty.plugin>
     <maven.gwt.plugin>1.0.0</maven.gwt.plugin>
+    <maven.gpg.plugin>1.6</maven.gpg.plugin>
     <maven.shade.plugin>3.2.4</maven.shade.plugin>
     <maven.resource.plugin>3.2.0</maven.resource.plugin>
     <maven.failsafe.plugin>3.0.0-M5</maven.failsafe.plugin>
+    <maven.j2cl.plugin>0.16-SNAPSHOT</maven.j2cl.plugin>
 
+    <revision>HEAD-SNAPSHOT</revision>
     <auto.common.version>0.10</auto.common.version>
     <auto.service.version>1.0-rc6</auto.service.version>
     <compile-testing.version>0.18</compile-testing.version>
@@ -103,112 +106,11 @@
     <elemental2.version>1.1.0</elemental2.version>
     <com.google.jsinterop.base>1.0.0</com.google.jsinterop.base>
     <com.google.jsinterop.annotations>2.0.0</com.google.jsinterop.annotations>
-    <maven.j2cl.plugin>0.16-SNAPSHOT</maven.j2cl.plugin>
-    <vertispan.j2cl.repo.url>https://repo.vertispan.com/j2cl/</vertispan.j2cl.repo.url>
     <j2cl.version>0.8-SNAPSHOT</j2cl.version>
 
     <junit.version>4.13.1</junit.version>
+    <vertispan.j2cl.repo.url>https://repo.vertispan.com/j2cl/</vertispan.j2cl.repo.url>
   </properties>
-
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>com.coveo</groupId>
-        <artifactId>fmt-maven-plugin</artifactId>
-        <version>${maven.fmt.plugin}</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-<!--
-      <plugin>
-        <groupId>com.mycila</groupId>
-        <artifactId>license-maven-plugin</artifactId>
-        <version>${maven.license.plugin}</version>
-        <configuration>
-          <header>LICENSE.header</header>
-          <encoding>${project.build.sourceEncoding}</encoding>
-          <skipExistingHeaders>true</skipExistingHeaders>
-          <mapping>
-            <java>SLASHSTAR_STYLE</java>
-          </mapping>
-          <excludes>
-            <exclude>**/README.md</exclude>
-            <exclude>**/LICENSE</exclude>
-            <exclude>**/LICENSE.header</exclude>
-            <exclude>**/AUTHORS</exclude>
-            <exclude>**/src/test/resources/**</exclude>
-            <exclude>**/src/main/resources/**</exclude>
-            <exclude>**/pom.xml</exclude>
-            <exclude>**/.flattened-pom.xml</exclude>
-            <exclude>**/war</exclude>
-            <exclude>**/gwt-unitcache</exclude>
-          </excludes>
-          <properties>
-            <year>${project.inceptionYear}</year>
-            <name>${project.organization.name}</name>
-          </properties>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
--->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>flatten-maven-plugin</artifactId>
-        <version>${maven.flatten.plugin}</version>
-        <configuration>
-          <flattenMode>oss</flattenMode>
-        </configuration>
-        <executions>
-          <execution>
-            <id>flatten</id>
-            <phase>process-resources</phase>
-            <goals>
-              <goal>flatten</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>flatten.clean</id>
-            <phase>clean</phase>
-            <goals>
-              <goal>clean</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-deploy-plugin</artifactId>
-        <version>${maven.deploy.plugin}</version>
-        <configuration>
-          <skip>true</skip>
-        </configuration>
-      </plugin>
-    </plugins>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>${maven.compiler.plugin}</version>
-          <configuration>
-            <source>${maven.compiler.source}</source>
-            <target>${maven.compiler.target}</target>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-  </build>
 
   <dependencyManagement>
     <dependencies>
@@ -409,6 +311,17 @@
         <version>${auto.service.version}</version>
       </dependency>
       <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>javax.servlet-api</artifactId>
+        <scope>provided</scope>
+        <version>${javax.servlet.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-io</groupId>
+        <artifactId>commons-io</artifactId>
+        <version>${commons.io.version}</version>
+      </dependency>
+      <dependency>
         <groupId>com.vertispan.j2cl</groupId>
         <artifactId>junit-annotations</artifactId>
         <version>${j2cl.version}</version>
@@ -443,6 +356,214 @@
     </dependencies>
   </dependencyManagement>
 
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>com.coveo</groupId>
+          <artifactId>fmt-maven-plugin</artifactId>
+          <version>${maven.fmt.plugin}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
+        </plugin>
+        <plugin>
+          <groupId>com.mycila</groupId>
+          <artifactId>license-maven-plugin</artifactId>
+          <version>${maven.license.plugin}</version>
+          <configuration>
+            <header>LICENSE.header</header>
+            <encoding>${project.build.sourceEncoding}</encoding>
+            <skipExistingHeaders>true</skipExistingHeaders>
+            <mapping>
+              <java>SLASHSTAR_STYLE</java>
+            </mapping>
+            <excludes>
+              <exclude>**/README.md</exclude>
+              <exclude>**/LICENSE</exclude>
+              <exclude>**/LICENSE.header</exclude>
+              <exclude>**/AUTHORS</exclude>
+              <exclude>**/src/test/resources/**</exclude>
+              <exclude>**/src/main/resources/**</exclude>
+              <exclude>**/pom.xml</exclude>
+              <exclude>**/.flattened-pom.xml</exclude>
+              <exclude>**/war</exclude>
+              <exclude>**/gwt-unitcache</exclude>
+              <exclude>gwt-event/</exclude>
+              <exclude>gwt-places/</exclude>
+              <exclude>gwt-http/</exclude>
+              <exclude>gwt-history/</exclude>
+              <exclude>gwt-window/</exclude>
+            </excludes>
+            <properties>
+              <year>${project.inceptionYear}</year>
+              <name>${project.organization.name}</name>
+            </properties>
+          </configuration>
+          <executions>
+            <execution>
+              <goals>
+                <goal>check</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>${maven.javadoc.plugin}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>${maven.surfire.plugin}</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-shade-plugin</artifactId>
+          <version>${maven.shade.plugin}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>flatten-maven-plugin</artifactId>
+          <version>${maven.flatten.plugin}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-gpg-plugin</artifactId>
+          <version>${maven.gp}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>${maven.deploy.plugin}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>${maven.compiler.plugin}</version>
+        </plugin>
+        <plugin>
+          <groupId>net.ltgt.gwt.maven</groupId>
+          <artifactId>gwt-maven-plugin</artifactId>
+          <version>${maven.gwt.plugin}</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>${maven.resource.plugin}</version>
+        </plugin>
+        <plugin>
+          <groupId>com.vertispan.j2cl</groupId>
+          <artifactId>j2cl-maven-plugin</artifactId>
+          <version>${maven.j2cl.plugin}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-failsafe-plugin</artifactId>
+          <version>${maven.failsafe.plugin}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.eclipse.jetty</groupId>
+          <artifactId>jetty-maven-plugin</artifactId>
+          <version>${maven.jetty.plugin}</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
+    <plugins>
+      <plugin>
+        <groupId>com.coveo</groupId>
+        <artifactId>fmt-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>com.mycila</groupId>
+        <artifactId>license-maven-plugin</artifactId>
+        <configuration>
+          <header>LICENSE.header</header>
+          <encoding>${project.build.sourceEncoding}</encoding>
+          <skipExistingHeaders>true</skipExistingHeaders>
+          <mapping>
+            <java>SLASHSTAR_STYLE</java>
+          </mapping>
+          <excludes>
+            <exclude>**/README.md</exclude>
+            <exclude>**/LICENSE</exclude>
+            <exclude>**/LICENSE.header</exclude>
+            <exclude>**/AUTHORS</exclude>
+            <exclude>**/src/test/resources/**</exclude>
+            <exclude>**/src/main/resources/**</exclude>
+            <exclude>**/pom.xml</exclude>
+            <exclude>**/.flattened-pom.xml</exclude>
+            <exclude>**/war</exclude>
+            <exclude>**/gwt-unitcache</exclude>
+            <exclude>gwt-event/</exclude>
+            <exclude>gwt-places/</exclude>
+            <exclude>gwt-http/</exclude>
+            <exclude>gwt-history/</exclude>
+            <exclude>gwt-window/</exclude>
+          </excludes>
+          <properties>
+            <year>${project.inceptionYear}</year>
+            <name>${project.organization.name}</name>
+          </properties>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>flatten-maven-plugin</artifactId>
+        <configuration>
+          <flattenMode>oss</flattenMode>
+        </configuration>
+        <executions>
+          <execution>
+            <id>flatten</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>flatten</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>flatten.clean</id>
+            <phase>clean</phase>
+            <goals>
+              <goal>clean</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <pluginRepositories>
+    <pluginRepository>
+      <id>vertispan-releases</id>
+      <name>Vertispan hosted artifacts-releases</name>
+      <url>${vertispan.j2cl.repo.url}</url>
+    </pluginRepository>
+  </pluginRepositories>
+
   <distributionManagement>
     <snapshotRepository>
       <id>ossrh</id>
@@ -465,13 +586,5 @@
       <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </repository>
   </repositories>
-
-  <pluginRepositories>
-    <pluginRepository>
-      <id>vertispan-releases</id>
-      <name>Vertispan hosted artifacts-releases</name>
-      <url>${vertispan.j2cl.repo.url}</url>
-    </pluginRepository>
-  </pluginRepositories>
 
 </project>

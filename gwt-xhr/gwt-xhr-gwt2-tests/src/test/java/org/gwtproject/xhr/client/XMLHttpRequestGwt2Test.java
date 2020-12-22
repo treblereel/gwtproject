@@ -59,7 +59,7 @@ public class XMLHttpRequestGwt2Test extends GWTTestCase {
   }
 
   private String getTestPath() {
-    return "http://localhost:9999/TestServlet?";
+    return "http://localhost:9997/TestServlet?";
   }
 
   private Map<String, String> responseHeaders() {

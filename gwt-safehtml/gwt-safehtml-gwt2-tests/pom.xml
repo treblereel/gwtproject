@@ -45,18 +45,16 @@
       <plugin>
         <groupId>net.ltgt.gwt.maven</groupId>
         <artifactId>gwt-maven-plugin</artifactId>
-        <version>${maven.gwt.plugin}</version>
         <extensions>true</extensions>
         <configuration>
           <failOnError>true</failOnError>
           <moduleName>org.gwtproject.safehtml.SafeHtmlTestModule</moduleName>
-          <sourceLevel>1.8</sourceLevel>
+          <sourceLevel>${maven.compiler.source}</sourceLevel>
         </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-deploy-plugin</artifactId>
-        <version>${maven.deploy.plugin}</version>
         <configuration>
           <skip>true</skip>
         </configuration>

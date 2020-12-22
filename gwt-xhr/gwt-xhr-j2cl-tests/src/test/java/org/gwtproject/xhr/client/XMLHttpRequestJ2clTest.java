@@ -58,7 +58,7 @@ public class XMLHttpRequestJ2clTest {
   }
 
   private String getTestPath() {
-    return "http://localhost:9999/TestServlet?";
+    return "http://localhost:9996/TestServlet?";
   }
 
   private Map<String, String> responseHeaders() {

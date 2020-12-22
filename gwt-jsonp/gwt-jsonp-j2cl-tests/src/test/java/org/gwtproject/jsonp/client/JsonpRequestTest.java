@@ -15,7 +15,9 @@
  */
 package org.gwtproject.jsonp.client;
 
-import com.google.j2cl.junit.apt.J2clTestInput;
+// import com.google.j2cl.junit.apt.J2clTestInput;
+import static junit.framework.TestCase.*;
+
 import elemental2.promise.Promise;
 import org.gwtproject.timer.client.Timer;
 import org.gwtproject.user.client.rpc.AsyncCallback;
@@ -23,42 +25,32 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static junit.framework.TestCase.*;
-
 // import static org.gwtproject.jsonp.client.KeyValue.newKeyValue;
 
-
-
-/**
- * Tests for {@link JsonpRequest}.
- */
-@J2clTestInput(JsonpRequestTest.class)
+/** Tests for {@link JsonpRequest}. */
+// @J2clTestInput(JsonpRequestTest.class) //TODO
 public class JsonpRequestTest {
-  
-  /**
-   * The maximum amount of time to wait for a response in milliseconds.
-   */
+
+  /** The maximum amount of time to wait for a response in milliseconds. */
   private static final int RESPONSE_DELAY = 2500;
-  /**
-   * The ID of the current test.
-   */
-  protected static     int currentTestId;
-  
+  /** The ID of the current test. */
+  protected static int currentTestId;
+
   private JsonpRequestBuilder jsonp;
-  private AsyncCallback<?>    asyncCallback;
-  private Timer               timer;
-  
+  private AsyncCallback<?> asyncCallback;
+  private Timer timer;
+
   @Before
   public void setUp() {
     jsonp = new JsonpRequestBuilder();
     jsonp.setTimeout(RESPONSE_DELAY + 500);
   }
-  
+
   @After
   public void gwtTearDown() {
     ++currentTestId;
   }
-  
+
   @Test(timeout = 5000)
   public Promise<Boolean> testBooleanFalse() {
     return new Promise<>(
@@ -67,16 +59,14 @@ public class JsonpRequestTest {
               () ->
                   jsonp.requestBoolean(
                       echo("false"),
-                      new AssertSuccessCallback<Boolean>(Boolean.FALSE,
-                                                         resolve,
-                                                         reject)));
+                      new AssertSuccessCallback<Boolean>(Boolean.FALSE, resolve, reject)));
         });
   }
-  
+
   private void runAsyncTask(Task task) {
     timer =
         new Timer() {
-          
+
           @Override
           public void run() {
             task.run();
@@ -84,7 +74,7 @@ public class JsonpRequestTest {
         };
     timer.schedule(500);
   }
-  
+
   //  @Test(timeout = 5000)
   //  public Promise<Void> testVoid() {
   //    return new Promise<>((resolve, reject) -> {
@@ -121,7 +111,7 @@ public class JsonpRequestTest {
   //    delayTestFinish(RESPONSE_DELAY);
   //    jsonp.send(echo(null), );
   //  }
-  
+
   //  /** Checks that an error is received. */
   //  private class AssertFailureCallback<T> implements AsyncCallback<T> {
   //    private String expectedMessage;
@@ -181,35 +171,36 @@ public class JsonpRequestTest {
   //      assertEquals(expected.getValue(), actual.getValue());
   //    }
   //  }
-  
+
   private String echo(String value) {
     return getPathToServer() + "echoServlet?action=SUCCESS&value=" + value;
   }
-  
+
   private String getPathToServer() {
     return "http://localhost:9999/";
   }
-  
+
   //  @Test
   //  public void testTimeout() {
   //    delayTestFinish(jsonp.getTimeout() + 1000);
   //    jsonp.requestString(echoTimeout(), new AssertTimeoutExceptionCallback<String>());
   //  }
-  @Test(timeout = 11000)
+  // @Test(timeout = 11000)
   public Promise<Void> testTimeout() {
-    return new Promise<>(((resolve, reject) -> {
-      Timer timer = new Timer() {
-        
-        @Override
-        public void run() {
-          jsonp.requestString(echoTimeout(),
-                              new AssertTimeoutExceptionCallback<>(this));
-        }
-      };
-      timer.schedule(jsonp.getTimeout());
-    }));
+    return new Promise<>(
+        ((resolve, reject) -> {
+          Timer timer =
+              new Timer() {
+
+                @Override
+                public void run() {
+                  jsonp.requestString(echoTimeout(), new AssertTimeoutExceptionCallback<>(this));
+                }
+              };
+          timer.schedule(jsonp.getTimeout());
+        }));
   }
-  
+
   //  private String echoDelayed(String value) {
   //    return echoDelayed(value, 500);
   //  }
@@ -222,11 +213,11 @@ public class JsonpRequestTest {
   //  private String echoFailure(String error) {
   //    return getPathToServer() + "echoServlet?action=FAILURE&error=" + error;
   //  }
-  
+
   private String echoTimeout() {
     return getPathToServer() + "echoServlet?action=TIMEOUT";
   }
-  
+
   //  @Override
   //  public String getModuleName() {
   //    return "org.gwtproject.jsonp.JsonpTest";
@@ -386,54 +377,43 @@ public class JsonpRequestTest {
   //        //        new AssertObjectSuccessCallback(Js.uncheckedCast(newKeyValue(key, value))));
   //        new AssertObjectSuccessCallback(new KeyValue(key, value)));
   //  }
-  
+
   @FunctionalInterface
   private interface Task {
-    
+
     void run();
-    
   }
-  
 
+  /** Checks that a timeout happens. */
+  private class AssertTimeoutExceptionCallback<T> implements AsyncCallback<T> {
 
-  /**
-   * Checks that a timeout happens.
-   */
-  private class AssertTimeoutExceptionCallback<T>
-      implements AsyncCallback<T> {
-    
     private Timer timer;
-    
+
     public AssertTimeoutExceptionCallback(Timer timer) {
       this.timer = timer;
     }
-    
+
     @Override
     public void onFailure(Throwable throwable) {
       assertTrue(throwable instanceof TimeoutException);
       timer.cancel();
     }
-    
+
     @Override
     public void onSuccess(T value) {
       fail();
     }
-    
   }
-  
-  
-  
-  /**
-   * A class that counts results and calls finishTest when the right number have been received.
-   */
+
+  /** A class that counts results and calls finishTest when the right number have been received. */
   private class Counter {
-    
+
     private int count;
-    
+
     public Counter(int count) {
       this.count = count;
     }
-    
+
     public void count() {
       if (--count < 0) {
         fail("Too many results");
@@ -442,45 +422,36 @@ public class JsonpRequestTest {
         timer.cancel();
       }
     }
-    
   }
-  
-  
-  
-  /**
-   * Checks that the received value is as expected.
-   */
-  private class AssertSuccessCallback<T>
-      implements AsyncCallback<T> {
-    
-    private final T                                                      expectedValue;
-    private final int                                                    id;
-    private final Counter                                                counter;
-    private       Promise.PromiseExecutorCallbackFn.ResolveCallbackFn<T> resolve;
-    private       Promise.PromiseExecutorCallbackFn.RejectCallbackFn     reject;
-    
+
+  /** Checks that the received value is as expected. */
+  private class AssertSuccessCallback<T> implements AsyncCallback<T> {
+
+    private final T expectedValue;
+    private final int id;
+    private final Counter counter;
+    private Promise.PromiseExecutorCallbackFn.ResolveCallbackFn<T> resolve;
+    private Promise.PromiseExecutorCallbackFn.RejectCallbackFn reject;
+
     protected AssertSuccessCallback(
         T expectedValue,
         Promise.PromiseExecutorCallbackFn.ResolveCallbackFn<T> resolve,
         Promise.PromiseExecutorCallbackFn.RejectCallbackFn reject) {
-      this(expectedValue,
-           null,
-           resolve,
-           reject);
+      this(expectedValue, null, resolve, reject);
     }
-    
+
     private AssertSuccessCallback(
         T expectedValue,
         Counter counter,
         Promise.PromiseExecutorCallbackFn.ResolveCallbackFn<T> resolve,
         Promise.PromiseExecutorCallbackFn.RejectCallbackFn reject) {
-      this.id            = currentTestId;
-      this.counter       = counter;
+      this.id = currentTestId;
+      this.counter = counter;
       this.expectedValue = expectedValue;
-      this.reject        = reject;
-      this.resolve       = resolve;
+      this.reject = reject;
+      this.resolve = resolve;
     }
-    
+
     @Override
     public void onFailure(Throwable throwable) {
       if (id == currentTestId) {
@@ -488,12 +459,11 @@ public class JsonpRequestTest {
       }
       resolve.onInvoke((T) null);
     }
-    
+
     @Override
     public void onSuccess(T value) {
       if (id == currentTestId) {
-        assertEqualObjects(expectedValue,
-                           value);
+        assertEqualObjects(expectedValue, value);
         if (counter != null) {
           counter.count();
           ;
@@ -502,13 +472,9 @@ public class JsonpRequestTest {
         }
       }
     }
-    
-    protected void assertEqualObjects(T expected,
-                                      T actual) {
-      assertEquals(expectedValue,
-                   actual);
+
+    protected void assertEqualObjects(T expected, T actual) {
+      assertEquals(expectedValue, actual);
     }
-    
   }
-  
 }

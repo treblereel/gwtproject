@@ -45,7 +45,6 @@
     <plugin>
       <groupId>com.vertispan.j2cl</groupId>
       <artifactId>j2cl-maven-plugin</artifactId>
-      <version>${maven.j2cl.plugin}</version>
       <configuration>
         <compilationLevel>ADVANCED</compilationLevel>
       </configuration>
@@ -62,7 +61,6 @@
     <plugin>
       <groupId>org.apache.maven.plugins</groupId>
       <artifactId>maven-surefire-plugin</artifactId>
-      <version>${maven.surfire.plugin}</version>
       <configuration>
         <skipTests>true</skipTests>
       </configuration>

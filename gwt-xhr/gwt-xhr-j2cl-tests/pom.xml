@@ -60,7 +60,6 @@
       <plugin>
         <groupId>com.vertispan.j2cl</groupId>
         <artifactId>j2cl-maven-plugin</artifactId>
-        <version>${maven.j2cl.plugin}</version>
         <configuration>
           <compilationLevel>ADVANCED</compilationLevel>
 <!--          <webdriver>htmlunit</webdriver>-->
@@ -79,7 +78,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>${maven.surfire.plugin}</version>
         <configuration>
           <skipTests>true</skipTests>
         </configuration>
@@ -88,6 +86,14 @@
         <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-maven-plugin</artifactId>
         <configuration>
+          <stopPort>9998</stopPort>
+          <stopKey>STOP</stopKey>
+          <httpConnector>
+            <port>9996</port>
+          </httpConnector>
+          <webApp>
+            <contextPath>/</contextPath>
+          </webApp>
           <supportedPackagings>
             <supportedPackaging>jar</supportedPackaging>
           </supportedPackagings>
@@ -112,7 +118,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-deploy-plugin</artifactId>
-        <version>${maven.deploy.plugin}</version>
         <configuration>
           <skip>true</skip>
         </configuration>

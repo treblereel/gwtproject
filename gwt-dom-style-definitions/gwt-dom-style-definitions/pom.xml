@@ -44,19 +44,11 @@
 
   <inceptionYear>2019</inceptionYear>
 
-  <properties>
-    <maven.gwt.plugin>1.0.0</maven.gwt.plugin>
-    <maven.gpg.plugin>1.6</maven.gpg.plugin>
-    <maven.javadoc.plugin>3.2.0</maven.javadoc.plugin>
-    <maven.source.plugin>3.2.1</maven.source.plugin>
-  </properties>
-
   <build>
     <plugins>
       <plugin>
         <groupId>net.ltgt.gwt.maven</groupId>
         <artifactId>gwt-maven-plugin</artifactId>
-        <version>${maven.gwt.plugin}</version>
         <extensions>true</extensions>
         <configuration>
           <moduleName>org.gwtproject.dom.style.Style</moduleName>
@@ -81,7 +73,6 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-source-plugin</artifactId>
-            <version>${maven.source.plugin}</version>
             <executions>
               <execution>
                 <id>attach-sources</id>
@@ -94,7 +85,6 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
-            <version>${maven.javadoc.plugin}</version>
             <executions>
               <execution>
                 <id>attach-javadocs</id>
@@ -108,7 +98,6 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
-            <version>${maven.gpg.plugin}</version>
             <executions>
               <execution>
                 <id>sign-artifacts</id>

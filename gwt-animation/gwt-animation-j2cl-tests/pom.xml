@@ -72,7 +72,6 @@
       <plugin>
         <groupId>com.vertispan.j2cl</groupId>
         <artifactId>j2cl-maven-plugin</artifactId>
-        <version>${maven.j2cl.plugin}</version>
         <configuration>
           <compilationLevel>ADVANCED</compilationLevel>
         </configuration>
@@ -89,7 +88,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>${maven.surfire.plugin}</version>
         <configuration>
           <skipTests>true</skipTests>
         </configuration>
@@ -97,24 +95,4 @@
     </plugins>
   </build>
 
-
-  <repositories>
-    <repository>
-      <id>vertispan-snapshots</id>
-      <name>Vertispan hosted artifacts-releases</name>
-      <url>${vertispan.j2cl.repo.url}</url>
-    </repository>
-    <repository>
-      <id>ossrh-snpshot</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </repository>
-  </repositories>
-
-  <pluginRepositories>
-    <pluginRepository>
-      <id>vertispan-releases</id>
-      <name>Vertispan hosted artifacts-releases</name>
-      <url>${vertispan.j2cl.repo.url}</url>
-    </pluginRepository>
-  </pluginRepositories>
 </project>

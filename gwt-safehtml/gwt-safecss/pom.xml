@@ -65,7 +65,6 @@
       <plugin>
         <groupId>net.ltgt.gwt.maven</groupId>
         <artifactId>gwt-maven-plugin</artifactId>
-        <version>${maven.gwt.plugin}</version>
         <extensions>true</extensions>
         <configuration>
           <moduleName>org.gwtproject.safecss.SafeCss</moduleName>

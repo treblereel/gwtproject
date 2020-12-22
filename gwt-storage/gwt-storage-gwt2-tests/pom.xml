@@ -45,12 +45,11 @@
             <plugin>
                 <groupId>net.ltgt.gwt.maven</groupId>
                 <artifactId>gwt-maven-plugin</artifactId>
-                <version>${maven.gwt.plugin}</version>
                 <extensions>true</extensions>
                 <configuration>
                     <failOnError>true</failOnError>
                     <moduleName>org.gwtproject.storage.client.StorageTest</moduleName>
-                    <sourceLevel>1.8</sourceLevel>
+                    <sourceLevel>${maven.compiler.source}</sourceLevel>
                 </configuration>
             </plugin>
         </plugins>

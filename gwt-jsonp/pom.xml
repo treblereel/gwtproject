@@ -56,96 +56,19 @@
   </modules>
 
   <build>
-    <plugins>
-      <plugin>
-        <groupId>com.coveo</groupId>
-        <artifactId>fmt-maven-plugin</artifactId>
-        <version>${maven.fmt.plugin}</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>com.mycila</groupId>
-        <artifactId>license-maven-plugin</artifactId>
-        <version>${maven.license.plugin}</version>
-        <configuration>
-          <header>LICENSE.header</header>
-          <encoding>${project.build.sourceEncoding}</encoding>
-          <skipExistingHeaders>true</skipExistingHeaders>
-          <mapping>
-            <java>SLASHSTAR_STYLE</java>
-          </mapping>
-          <excludes>
-            <exclude>**/README.md</exclude>
-            <exclude>**/LICENSE</exclude>
-            <exclude>**/LICENSE.header</exclude>
-            <exclude>**/AUTHORS</exclude>
-            <exclude>**/src/test/resources/**</exclude>
-            <exclude>**/src/main/resources/**</exclude>
-            <exclude>**/pom.xml</exclude>
-            <exclude>**/.flattened-pom.xml</exclude>
-            <exclude>**/war/**</exclude>
-            <exclude>**/deploy/**</exclude>
-            <exclude>**/gwt-unitcache/**</exclude>
-          </excludes>
-          <properties>
-            <year>${project.inceptionYear}</year>
-            <name>${project.organization.name}</name>
-          </properties>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>flatten-maven-plugin</artifactId>
-        <version>${maven.flatten.plugin}</version>
-        <configuration>
-          <flattenMode>oss</flattenMode>
-        </configuration>
-        <executions>
-          <execution>
-            <id>flatten</id>
-            <phase>process-resources</phase>
-            <goals>
-              <goal>flatten</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>flatten.clean</id>
-            <phase>clean</phase>
-            <goals>
-              <goal>clean</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
     <pluginManagement>
       <plugins>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>${maven.compiler.plugin}</version>
           <configuration>
             <source>${maven.compiler.source}</source>
             <target>${maven.compiler.target}</target>
           </configuration>
         </plugin>
-        <plugin>
+<!--        <plugin>
           <groupId>org.eclipse.jetty</groupId>
           <artifactId>jetty-maven-plugin</artifactId>
-          <version>${maven.jetty.plugin}</version>
           <configuration>
             <stopPort>9998</stopPort>
             <stopKey>STOP</stopKey>
@@ -156,7 +79,7 @@
               <contextPath>/</contextPath>
             </webApp>
           </configuration>
-        </plugin>
+        </plugin>-->
       </plugins>
     </pluginManagement>
   </build>

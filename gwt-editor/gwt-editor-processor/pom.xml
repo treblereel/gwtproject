@@ -108,7 +108,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven.compiler.plugin}</version>
                 <configuration>
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
@@ -152,7 +151,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>${maven.surfire.plugin}</version>
                 <executions>
                     <execution>
                         <id>unit-tests</id>
@@ -173,7 +171,6 @@
             </plugin>
             <plugin>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>${maven.shade.plugin}</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -254,7 +251,6 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
-                        <version>${maven.source.plugin}</version>
                         <executions>
                             <execution>
                                 <id>attach-sources</id>
@@ -267,7 +263,6 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>${maven.javadoc.plugin}</version>
                         <executions>
                             <execution>
                                 <id>attach-javadocs</id>
@@ -281,7 +276,6 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>${maven.gpg.plugin}</version>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>
