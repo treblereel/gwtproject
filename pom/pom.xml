@@ -210,7 +210,7 @@
 			<dependency>
 				<groupId>org.jresearch.gwtproject</groupId>
 				<artifactId>typedarrays</artifactId>
-				<version>${gwt-typedarrays.ver}</version>
+				<version>${gwt28-typedarrays.ver}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.dominokit</groupId>
@@ -220,12 +220,12 @@
 			<dependency>
 				<groupId>org.treblereel.gwt.nio</groupId>
 				<artifactId>gwt-nio</artifactId>
-				<version>${gwt-nio.ver}</version>
+				<version>${gwt28-nio.ver}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.jresearch.gwtproject.xhr</groupId>
 				<artifactId>gwt-xhr</artifactId>
-				<version>${gwt-xhr.ver}</version>
+				<version>${gwt28-xhr.ver}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -355,9 +355,9 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<linkXRef>false</linkXRef>
 		<tz.database.version>2020d</tz.database.version> -->
-		<gwt-typedarrays.ver>1.3-SNAPSHOT</gwt-typedarrays.ver>
-		<gwt-nio.ver>1.1</gwt-nio.ver>
-		<gwt-xhr.ver>1.2-SNAPSHOT</gwt-xhr.ver>
+		<gwt28-typedarrays.ver>1.3-SNAPSHOT</gwt28-typedarrays.ver>
+		<gwt28-nio.ver>0.9</gwt28-nio.ver>
+		<gwt28-xhr.ver>1.2-SNAPSHOT</gwt28-xhr.ver>
 		<gwt-slf4j.ver>1.0.1</gwt-slf4j.ver>
 		<time.apt.ver>2.0.5-SNAPSHOT</time.apt.ver>
 		<gwt-locale.ver>1.0.2-SNAPSHOT</gwt-locale.ver>
