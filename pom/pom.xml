@@ -84,6 +84,10 @@
 			<url>https://github.com/sjmisterm</url>
 		</contributor>
 		<contributor>
+			<name>Björn Raupach</name>
+			<url>https://github.com/raupachz</url>
+		</contributor>
+		<contributor>
 			<name>Roger Riggs</name>
 			<url>https://github.com/RogerRiggs</url>
 		</contributor>
@@ -350,7 +354,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<linkXRef>false</linkXRef>
-		<tz.database.version>2020b</tz.database.version> -->
+		<tz.database.version>2020d</tz.database.version> -->
 		<gwt-typedarrays.ver>1.2</gwt-typedarrays.ver>
 		<gwt-nio.ver>1.1</gwt-nio.ver>
 		<gwt-xhr.ver>1.1</gwt-xhr.ver>
