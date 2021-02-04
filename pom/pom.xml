@@ -357,7 +357,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<linkXRef>false</linkXRef>
-		<tz.database.version>2020d</tz.database.version> -->
+    <tz.database.version>2021a</tz.database.version>        
+    -->
 		<gwt28-typedarrays.ver>1.3-SNAPSHOT</gwt28-typedarrays.ver>
 		<gwt28-nio.ver>0.9</gwt28-nio.ver>
 		<gwt-slf4j.ver>1.0.1</gwt-slf4j.ver>
