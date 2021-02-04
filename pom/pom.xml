@@ -12,7 +12,7 @@
 
 	<name>JRS: GWT port of JSR-310 (java.time), POM</name>
 	<description>JRS: GWT port of JSR-310 (java.time) based on ThreeTen backport project (https://www.threeten.org/threetenbp)</description>
-	<version>1.4.17-SNAPSHOT</version>
+	<version>1.4.16-SNAPSHOT</version>
 	<url>https://github.com/foal/gwt-time</url>
 
 	<modules>
