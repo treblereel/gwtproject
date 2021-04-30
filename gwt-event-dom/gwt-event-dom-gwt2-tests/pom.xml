@@ -15,21 +15,30 @@
   <name>GWT Event DOM - GWT 2 Tests</name>
   <description>Test cases for the GWT 2 tests</description>
 
+  <properties>
+    <maven.gwt.plugin>1.0.0</maven.gwt.plugin>
+
+    <gwt.version>2.9.0</gwt.version>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>com.google.gwt</groupId>
       <artifactId>gwt-user</artifactId>
+      <version>${gwt.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.google.gwt</groupId>
       <artifactId>gwt-dev</artifactId>
+      <version>${gwt.version}</version>
       <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
+      <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
 
@@ -45,6 +54,7 @@
       <plugin>
         <groupId>net.ltgt.gwt.maven</groupId>
         <artifactId>gwt-maven-plugin</artifactId>
+        <version>${maven.gwt.plugin}</version>
         <extensions>true</extensions>
         <configuration>
           <failOnError>true</failOnError>

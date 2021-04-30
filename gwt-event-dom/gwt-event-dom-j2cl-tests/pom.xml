@@ -15,21 +15,33 @@
   <description>Test cases for the J2Cl tests</description>
   <url>https://github.com/gwtproject/gwt-event-dom</url>
 
+  <properties>
+    <maven.j2cl.plugin>0.16-SNAPSHOT</maven.j2cl.plugin>
+
+    <!-- CI -->
+    <vertispan.j2cl.repo.url>https://repo.vertispan.com/j2cl/</vertispan.j2cl.repo.url>
+
+    <j2cl.version>0.8-SNAPSHOT</j2cl.version>
+  </properties>
+
   <dependencies>
     <!-- test dependencies -->
     <dependency>
       <groupId>com.vertispan.j2cl</groupId>
       <artifactId>junit-annotations</artifactId>
+      <version>${j2cl.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.vertispan.j2cl</groupId>
       <artifactId>gwttestcase-emul</artifactId>
+      <version>${j2cl.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.vertispan.j2cl</groupId>
       <artifactId>junit-emul</artifactId>
+      <version>${j2cl.version}</version>
       <scope>test</scope>
     </dependency>
 
@@ -45,6 +57,7 @@
       <plugin>
         <groupId>com.vertispan.j2cl</groupId>
         <artifactId>j2cl-maven-plugin</artifactId>
+        <version>${maven.j2cl.plugin}</version>
         <configuration>
           <!-- support htmlunit, which can't handle es2016 classes -->
           <compilationLevel>ADVANCED</compilationLevel>
@@ -62,6 +75,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
+        <version>${maven.surfire.plugin}</version>
         <configuration>
           <skipTests>true</skipTests>
         </configuration>
@@ -69,4 +83,23 @@
     </plugins>
   </build>
 
+  <repositories>
+    <repository>
+      <id>vertispan-snapshots</id>
+      <name>Vertispan hosted artifacts-releases</name>
+      <url>${vertispan.j2cl.repo.url}</url>
+    </repository>
+    <repository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </repository>
+  </repositories>
+
+  <pluginRepositories>
+    <pluginRepository>
+      <id>vertispan-releases</id>
+      <name>Vertispan hosted artifacts-releases</name>
+      <url>${vertispan.j2cl.repo.url}</url>
+    </pluginRepository>
+  </pluginRepositories>
 </project>

@@ -17,22 +17,33 @@
   <description>GWT Event DOM</description>
   <url>https://github.com/gwtproject/gwt-event-dom</url>
 
+  <properties>
+    <maven.gwt.plugin>1.0.0</maven.gwt.plugin>
+    <maven.gpg.plugin>1.6</maven.gpg.plugin>
+    <maven.javadoc.plugin>3.2.0</maven.javadoc.plugin>
+    <maven.source.plugin>3.2.1</maven.source.plugin>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>org.gwtproject.dom</groupId>
       <artifactId>gwt-dom</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.gwtproject.event</groupId>
-      <artifactId>gwt-event</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.gwtproject.event</groupId>
-      <artifactId>gwt-event-legacy</artifactId>
+      <version>${gwt-dom.version}</version>
     </dependency>
     <dependency>
       <groupId>com.google.elemental2</groupId>
       <artifactId>elemental2-dom</artifactId>
+      <version>${elemental2.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.gwtproject.event</groupId>
+      <artifactId>gwt-event</artifactId>
+      <version>${gwt-event.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.gwtproject.event</groupId>
+      <artifactId>gwt-event-legacy</artifactId>
+      <version>${gwt-event.version}</version>
     </dependency>
   </dependencies>
 
@@ -41,6 +52,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
+        <version>${maven.surfire.plugin}</version>
         <executions>
           <execution>
             <id>test</id>
@@ -53,9 +65,10 @@
       <plugin>
         <groupId>net.ltgt.gwt.maven</groupId>
         <artifactId>gwt-maven-plugin</artifactId>
+        <version>${maven.gwt.plugin}</version>
         <extensions>true</extensions>
         <configuration>
-          <moduleName>org.gwtproject.event.EventDOM</moduleName>
+          <moduleName>org.gwtproject.event.dom.DomEvent</moduleName>
         </configuration>
       </plugin>
     </plugins>
@@ -70,6 +83,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-source-plugin</artifactId>
+            <version>${maven.source.plugin}</version>
             <executions>
               <execution>
                 <id>attach-sources</id>
@@ -82,6 +96,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
+            <version>${maven.javadoc.plugin}</version>
             <executions>
               <execution>
                 <id>attach-javadocs</id>
@@ -95,6 +110,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
+            <version>${maven.gpg.plugin}</version>
             <executions>
               <execution>
                 <id>sign-artifacts</id>
@@ -108,6 +124,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-deploy-plugin</artifactId>
+            <version>${maven.deploy.plugin}</version>
             <configuration>
               <skip>false</skip>
             </configuration>
