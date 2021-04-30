@@ -1,3 +1,18 @@
+/*
+ * Copyright 2017 The GWT Project Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.gwtproject.place.processor;
 
 import static com.google.common.truth.Truth.*;
@@ -56,11 +71,11 @@ public class MostToLeastDerivedPlaceTypeComparatorTest {
   @Test
   public void testPlaceComparesGreaterThanAnyDerivedClass() {
     for (TypeElement p : new TypeElement[] {place1, place2, place3, place4, place5}) {
-      assertThat(comparator.compare(place, p))
-          .named(String.format("compare(place, %s)", p))
+      assertWithMessage(String.format("compare(place, %s)", p))
+          .that(comparator.compare(place, p))
           .isGreaterThan(0);
-      assertThat(comparator.compare(p, place))
-          .named(String.format("compare(%s, place)", p))
+      assertWithMessage(String.format("compare(%s, place)", p))
+          .that(comparator.compare(p, place))
           .isLessThan(0);
     }
   }
@@ -91,11 +106,11 @@ public class MostToLeastDerivedPlaceTypeComparatorTest {
       {place1, place2}, // place1 and place2 both extend directly from place
     };
     for (TypeElement[] pair : places) {
-      assertThat(comparator.compare(pair[0], pair[1]))
-          .named(String.format("compare(%s, %s)", pair[0], pair[1]))
+      assertWithMessage(String.format("compare(%s, %s)", pair[0], pair[1]))
+          .that(comparator.compare(pair[0], pair[1]))
           .isLessThan(0);
-      assertThat(comparator.compare(pair[1], pair[0]))
-          .named(String.format("compare(%s, %s)", pair[1], pair[0]))
+      assertWithMessage(String.format("compare(%s, %s)", pair[1], pair[0]))
+          .that(comparator.compare(pair[1], pair[0]))
           .isGreaterThan(0);
     }
   }

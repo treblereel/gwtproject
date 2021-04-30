@@ -1,12 +1,8 @@
-import java.time.Year
-
 plugins {
     id("local.java-library")
     id("local.maven-publish")
-    id("net.ltgt.errorprone") version "1.1.1"
-    id("com.github.sherter.google-java-format") version "0.8"
-    id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
-    id("com.github.hierynomus.license") version "0.15.0"
+    id("net.ltgt.errorprone") version "1.3.0"
+    id("com.diffplug.spotless") version "5.10.2"
 }
 buildscript {
     dependencyLocking {
@@ -38,33 +34,26 @@ dependencies {
     api("org.gwtproject.event:gwt-event:1.0.0-RC1")
     api("org.gwtproject.event:gwt-logical-event:1.0.0-RC1")
     implementation("org.gwtproject.user.history:gwt-history:1.0.0-RC1")
-    implementation("org.gwtproject.user.window:gwt-window:1.0.0-RC1")
+    implementation("org.gwtproject.user.window:gwt-window:1.0.0-RC2")
 
-    testImplementation("junit:junit:4.13")
+    testImplementation("junit:junit:4.13.2")
 }
 
 val jar by tasks.getting(Jar::class) {
     from(sourceSets.main.map { it.allJava })
 }
 
-googleJavaFormat {
-    toolVersion = "1.7"
-}
 allprojects {
-    apply(plugin = "org.jlleitschuh.gradle.ktlint")
+    apply(plugin = "com.diffplug.spotless")
 
-    ktlint {
-        version.set("0.36.0")
-        enableExperimentalRules.set(true)
+    spotless {
+        java {
+            targetExclude(fileTree(buildDir))
+            googleJavaFormat("1.7")
+            licenseHeaderFile(rootProject.file("LICENSE.header"))
+        }
+        kotlinGradle {
+            ktlint("0.40.0")
+        }
     }
-}
-
-license {
-    header = rootProject.file("LICENSE.header")
-    encoding = "UTF-8"
-    skipExistingHeaders = true
-    mapping("java", "SLASHSTAR_STYLE")
-
-    (this as ExtensionAware).extra["year"] = Year.now()
-    (this as ExtensionAware).extra["name"] = "The GWT Project Authors"
 }
