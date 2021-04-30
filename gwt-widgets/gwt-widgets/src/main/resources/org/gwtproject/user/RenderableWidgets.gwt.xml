@@ -1,0 +1,25 @@
+<module>
+
+    <inherits name="org.gwtproject.user.DOM" />
+    <inherits name="org.gwtproject.canvas.Canvas" />
+    <inherits name="org.gwtproject.media.Media" />
+    <inherits name="org.gwtproject.user.datepicker.DatePicker" />
+    <inherits name="org.gwtproject.user.CaptionPanel" />
+    <inherits name="org.gwtproject.user.ClippedImage" />
+    <inherits name="org.gwtproject.user.Focus" />
+    <inherits name="org.gwtproject.user.Form" />
+    <inherits name="org.gwtproject.user.HTMLTable" />
+    <inherits name="org.gwtproject.user.Hyperlink" />
+    <inherits name="org.gwtproject.user.ImageBundle" />
+    <inherits name="org.gwtproject.user.Popup" />
+    <inherits name="org.gwtproject.user.ResizeLayoutPanel" />
+    <inherits name="org.gwtproject.user.RichText" />
+    <inherits name="org.gwtproject.user.Scroll" />
+    <inherits name="org.gwtproject.user.SplitPanel" />
+    <inherits name="org.gwtproject.user.TextBox" />
+    <inherits name="org.gwtproject.user.Tree" />
+
+    <source path="client/ui">
+        <skip name="ValuePicker" />
+    </source>
+</module>

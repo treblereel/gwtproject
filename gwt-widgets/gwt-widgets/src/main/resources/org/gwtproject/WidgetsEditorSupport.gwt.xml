@@ -1,0 +1,7 @@
+<module>
+
+    <inherits name="org.gwtproject.user.Widgets" />
+
+    <source path="editor/client/adapters" />
+    <source path="editor/ui/client" />
+</module>

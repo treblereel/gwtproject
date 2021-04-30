@@ -1,0 +1,10 @@
+<module>
+  <inherits name="org.gwtproject.core.Core"/>
+  <inherits name="com.google.gwt.user.UserAgent"/>
+
+  <replace-with class="org.gwtproject.user.client.ui.impl.HyperlinkImplSafari">
+    <when-type-is class="org.gwtproject.user.client.ui.impl.HyperlinkImpl"/>
+    <when-property-is name="user.agent" value="safari"/>
+  </replace-with>
+
+</module>

@@ -1,0 +1,50 @@
+<module>
+
+    <inherits name="org.gwtproject.uibinder.UiBinder" />
+
+    <inherits name="org.gwtproject.user.DOM" />
+    <inherits name="org.gwtproject.canvas.Canvas" />
+    <inherits name="org.gwtproject.media.Media" />
+    <inherits name="org.gwtproject.touch.Touch" />
+    <inherits name="org.gwtproject.user.datepicker.DatePicker" />
+    <inherits name="org.gwtproject.user.CaptionPanel" />
+    <inherits name="org.gwtproject.user.ClippedImage" />
+    <inherits name="org.gwtproject.user.Focus" />
+    <inherits name="org.gwtproject.user.Form" />
+    <inherits name="org.gwtproject.user.HTMLTable" />
+    <inherits name="org.gwtproject.user.Hyperlink" />
+    <inherits name="org.gwtproject.user.ImageBundle" />
+    <inherits name="org.gwtproject.user.Popup" />
+    <inherits name="org.gwtproject.user.ResizeLayoutPanel" />
+    <inherits name="org.gwtproject.user.RichText" />
+    <inherits name="org.gwtproject.user.Scroll" />
+    <inherits name="org.gwtproject.user.SplitPanel" />
+    <inherits name="org.gwtproject.user.TextBox" />
+    <inherits name="org.gwtproject.user.Tree" />
+
+    <!-- ValueListBox uses ProvidesKey, SimpleKeyProvider -->
+    <inherits name="org.gwtproject.view.View" />
+    <inherits name="org.gwtproject.debug.DebugBase" />
+    <inherits name="org.gwtproject.editor.Editor" />
+    <inherits name="org.gwtproject.WidgetsEditorSupport" />
+
+    <inherits name="org.gwtproject.safehtml.SafeHtml" />
+    <inherits name="org.gwtproject.safecss.SafeCss" />
+    <inherits name="org.gwtproject.event.dom.EventDOM" />
+    <inherits name="org.gwtproject.event.logical.LogicalEvent" />
+    <inherits name="org.gwtproject.event.legacy.EventLegacy" />
+    <inherits name="org.gwtproject.layout.Layout" />
+    <inherits name="org.gwtproject.user.window.Window" />
+    <inherits name="org.gwtproject.user.history.History" />
+    <inherits name="org.gwtproject.timer.Timer" />
+    <inherits name="org.gwtproject.animation.Animation" />
+    <inherits name="org.gwtproject.aria.Aria" />
+    <inherits name="org.gwtproject.dom.builder.DomBuilder"/>
+    <inherits name="org.gwtproject.user.cellview.CellView" />
+
+    <inherits name="org.gwtproject.i18n.I18N" />
+    <inherits name="org.gwtproject.text.Text" />
+    <inherits name="org.gwtproject.resources.Resources" />
+
+    <source path="client/ui"/>
+</module>
