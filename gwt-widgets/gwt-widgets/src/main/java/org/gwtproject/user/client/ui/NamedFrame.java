@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -24,13 +24,13 @@ import org.gwtproject.uibinder.client.UiConstructor;
 import org.gwtproject.user.client.DOM;
 
 /**
- * A {@link Frame} that has a 'name' associated
- * with it. This allows the frame to be the target of a
+ * A {@link Frame} that has a 'name' associated with it. This allows the frame to be the target of a
  * {@link FormPanel}
- * 
+ *
  * <h3>CSS Style Rules</h3>
+ *
  * <ul class='css'>
- * <li>.gwt-Frame { }</li>
+ *   <li>.gwt-Frame { }
  * </ul>
  */
 public class NamedFrame extends Frame {
@@ -50,13 +50,12 @@ public class NamedFrame extends Frame {
 
   /**
    * Creates an HTML IFRAME element with a name.
-   * 
-   * @param name the name of the frame, which must contain at least one
-   *          non-whitespace character and must not contain reserved HTML markup
-   *          characters such as '<code>&lt;</code>', '<code>&gt;</code>',
-   *          or '<code>&amp;</code>'
+   *
+   * @param name the name of the frame, which must contain at least one non-whitespace character and
+   *     must not contain reserved HTML markup characters such as '<code>&lt;</code>', '<code>&gt;
+   *     </code>', or '<code>&amp;</code>'
    * @return the newly-created element
-   * @throws IllegalArgumentException if the supplied name is not allowed 
+   * @throws IllegalArgumentException if the supplied name is not allowed
    */
   private static IFrameElement createIFrame(String name) {
     if (name == null || !isValidName(name.trim())) {
@@ -71,30 +70,25 @@ public class NamedFrame extends Frame {
     return div.getFirstChild().cast();
   }
 
-  private static void initStatics()  {
+  private static void initStatics() {
     PATTERN_NAME = RegExp.compile("^[^<>&\\'\\\"]+$");
   }
 
-
   /**
    * @param name the specified frame name to be checked
-   * @return <code>true</code> if the name is valid, <code>false</code> if
-   *         not
+   * @return <code>true</code> if the name is valid, <code>false</code> if not
    */
-  private static boolean isValidName(String name)  {
+  private static boolean isValidName(String name) {
     return PATTERN_NAME.test(name);
   }
 
-
   /**
    * Constructs a frame with the given name.
-   * 
-   * @param name the name of the frame, which must contain at least one
-   *          non-whitespace character and must not contain reserved HTML markup
-   *          characters such as '<code>&lt;</code>', '<code>&gt;</code>',
-   *          or '<code>&amp;</code>'
-   *          
-   * @throws IllegalArgumentException if the supplied name is not allowed 
+   *
+   * @param name the name of the frame, which must contain at least one non-whitespace character and
+   *     must not contain reserved HTML markup characters such as '<code>&lt;</code>', '<code>&gt;
+   *     </code>', or '<code>&amp;</code>'
+   * @throws IllegalArgumentException if the supplied name is not allowed
    */
   @UiConstructor
   public NamedFrame(String name) {
@@ -104,7 +98,7 @@ public class NamedFrame extends Frame {
 
   /**
    * Gets the name associated with this frame.
-   * 
+   *
    * @return the frame's name
    */
   public String getName() {

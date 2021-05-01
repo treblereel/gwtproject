@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -24,38 +24,34 @@ import org.gwtproject.event.dom.client.HasChangeHandlers;
 import org.gwtproject.event.shared.HandlerRegistration;
 
 /**
- * A widget that wraps the HTML &lt;input type='file'&gt; element. This widget
- * must be used with {@link FormPanel} if it is to
- * be submitted to a server.
- * 
+ * A widget that wraps the HTML &lt;input type='file'&gt; element. This widget must be used with
+ * {@link FormPanel} if it is to be submitted to a server.
+ *
  * <p>
+ *
  * <h3>Example</h3>
+ *
  * {@example com.google.gwt.examples.FormPanelExample}
- * </p>
  *
  * <h3>CSS Style Rules</h3>
- * <dl>
- * <dt>.gwt-FileUpload {} </dt>
  *
- * <h3>NOTICE about styling</h3>
- * <p>
- * The developer should be aware that most browsers do not allow styling
- * many properties of the rendered input-file element because of security restrictions.<br/>
- * You can style certain properties like position, visibility, opacity, etc. But size,
- * color, backgrounds etc. will not work either using css or calling widget methods like setSize().
- * </p>
+ * <dl>
+ *   <dt>.gwt-FileUpload {}
+ *       <h3>NOTICE about styling</h3>
+ *       <p>The developer should be aware that most browsers do not allow styling many properties of
+ *       the rendered input-file element because of security restrictions.<br>
+ *       You can style certain properties like position, visibility, opacity, etc. But size, color,
+ *       backgrounds etc. will not work either using css or calling widget methods like setSize().
  * </dl>
  */
 public class FileUpload extends FocusWidget implements HasName, HasChangeHandlers, HasEnabled {
 
   /**
-   * Creates a FileUpload widget that wraps an existing &lt;input
-   * type='file'&gt; element.
-   * 
-   * This element must already be attached to the document. If the element is
-   * removed from the document, you must call
-   * {@link RootPanel#detachNow(Widget)}.
-   * 
+   * Creates a FileUpload widget that wraps an existing &lt;input type='file'&gt; element.
+   *
+   * <p>This element must already be attached to the document. If the element is removed from the
+   * document, you must call {@link RootPanel#detachNow(Widget)}.
+   *
    * @param element the element to be wrapped
    */
   public static FileUpload wrap(Element element) {
@@ -71,19 +67,16 @@ public class FileUpload extends FocusWidget implements HasName, HasChangeHandler
     return fileUpload;
   }
 
-  /**
-   * Constructs a new file upload widget.
-   */
+  /** Constructs a new file upload widget. */
   public FileUpload() {
     this(Document.get().createFileInputElement());
     setStyleName("gwt-FileUpload");
   }
 
   /**
-   * This constructor may be used by subclasses to explicitly use an existing
-   * element. This element must be an &lt;input&gt; element whose type is
-   * 'file'.
-   * 
+   * This constructor may be used by subclasses to explicitly use an existing element. This element
+   * must be an &lt;input&gt; element whose type is 'file'.
+   *
    * @param element the element to be used
    */
   protected FileUpload(Element element) {
@@ -96,9 +89,9 @@ public class FileUpload extends FocusWidget implements HasName, HasChangeHandler
   }
 
   /**
-   * Gets the filename selected by the user. This property has no mutator, as
-   * browser security restrictions preclude setting it.
-   * 
+   * Gets the filename selected by the user. This property has no mutator, as browser security
+   * restrictions preclude setting it.
+   *
    * @return the widget's filename
    */
   public String getFilename() {
@@ -111,7 +104,7 @@ public class FileUpload extends FocusWidget implements HasName, HasChangeHandler
 
   /**
    * Gets whether this widget is enabled.
-   * 
+   *
    * @return <code>true</code> if the widget is enabled
    */
   public boolean isEnabled() {
@@ -120,9 +113,8 @@ public class FileUpload extends FocusWidget implements HasName, HasChangeHandler
 
   /**
    * Sets whether this widget is enabled.
-   * 
-   * @param enabled <code>true</code> to enable the widget, <code>false</code>
-   *          to disable it
+   *
+   * @param enabled <code>true</code> to enable the widget, <code>false</code> to disable it
    */
   public void setEnabled(boolean enabled) {
     getElement().setPropertyBoolean("disabled", !enabled);
@@ -137,15 +129,10 @@ public class FileUpload extends FocusWidget implements HasName, HasChangeHandler
   }
 
   /**
-   * Programmatic equivalent of the user clicking the button, opening
-   * the file selection browser.
+   * Programmatic equivalent of the user clicking the button, opening the file selection browser.
    *
-   * <p>
-   * NOTE: in certain browsers programmatic click is disabled if the
-   * element display is none, for instance in webkit you have to move
-   * the element off screen.
-   * </p>
-   *
+   * <p>NOTE: in certain browsers programmatic click is disabled if the element display is none, for
+   * instance in webkit you have to move the element off screen.
    */
   public void click() {
     getInputElement().click();

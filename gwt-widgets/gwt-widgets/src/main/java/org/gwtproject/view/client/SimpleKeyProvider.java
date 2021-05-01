@@ -17,14 +17,12 @@ package org.gwtproject.view.client;
 
 /**
  * Simple passthrough implementation of {@link org.gwtproject.view.client.ProvidesKey}.
- * 
- * @param <T> the data type of records 
+ *
+ * @param <T> the data type of records
  */
 public class SimpleKeyProvider<T> implements org.gwtproject.view.client.ProvidesKey<T> {
 
-  /**
-   * Return the passed-in item.
-   */
+  /** Return the passed-in item. */
   public Object getKey(T item) {
     return item;
   }

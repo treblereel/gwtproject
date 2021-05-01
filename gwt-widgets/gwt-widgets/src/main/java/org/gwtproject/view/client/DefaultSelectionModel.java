@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,49 +15,40 @@
  */
 package org.gwtproject.view.client;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.gwtproject.view.client.MultiSelectionModel.SelectionChange;
 import org.gwtproject.view.client.SelectionModel.AbstractSelectionModel;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * A convenience {@link org.gwtproject.view.client.SelectionModel} that allows items to be selected
- * according to a subclass-defined rule, plus a list of positive or negative
- * exceptions.
- * 
+ * according to a subclass-defined rule, plus a list of positive or negative exceptions.
+ *
  * @param <T> the data type of records in the list
  */
 public abstract class DefaultSelectionModel<T> extends AbstractSelectionModel<T> {
 
   private final Map<Object, Boolean> exceptions = new HashMap<Object, Boolean>();
 
-  /**
-   * A map of keys to the item and its pending selection state.
-   */
+  /** A map of keys to the item and its pending selection state. */
   private final Map<Object, SelectionChange<T>> selectionChanges =
       new HashMap<Object, SelectionChange<T>>();
 
-  /**
-   * Constructs a DefaultSelectionModel without a key provider.
-   */
+  /** Constructs a DefaultSelectionModel without a key provider. */
   public DefaultSelectionModel() {
     super(null);
   }
 
   /**
    * Constructs a DefaultSelectionModel with the given key provider.
-   * 
-   * @param keyProvider an instance of ProvidesKey<T>, or null if the item
-   *          should act as its own key
+   *
+   * @param keyProvider an instance of ProvidesKey<T>, or null if the item should act as its own key
    */
   public DefaultSelectionModel(org.gwtproject.view.client.ProvidesKey<T> keyProvider) {
     super(keyProvider);
   }
 
-  /**
-   * Removes all exceptions.
-   */
+  /** Removes all exceptions. */
   public void clearExceptions() {
     exceptions.clear();
     selectionChanges.clear();
@@ -65,17 +56,17 @@ public abstract class DefaultSelectionModel<T> extends AbstractSelectionModel<T>
   }
 
   /**
-   * Returns true if the given item should be selected by default. Subclasses
-   * implement this method in order to define the default selection behavior.
-   * 
+   * Returns true if the given item should be selected by default. Subclasses implement this method
+   * in order to define the default selection behavior.
+   *
    * @param item an object of this {@link org.gwtproject.view.client.SelectionModel}'s type
    * @return true if the item should be selected by default
    */
   public abstract boolean isDefaultSelected(T item);
 
   /**
-   * If the given item is marked as an exception, return the exception value.
-   * Otherwise, return the value of isDefaultSelected for the given item.
+   * If the given item is marked as an exception, return the exception value. Otherwise, return the
+   * value of isDefaultSelected for the given item.
    */
   @Override
   public boolean isSelected(T item) {
@@ -92,10 +83,10 @@ public abstract class DefaultSelectionModel<T> extends AbstractSelectionModel<T>
   }
 
   /**
-   * Sets an item's selection state. If the item is currently marked as an
-   * exception, and the new selected state differs from the previous selected
-   * state, the object is removed from the list of exceptions. Otherwise, the
-   * object is added to the list of exceptions with the given selected state.
+   * Sets an item's selection state. If the item is currently marked as an exception, and the new
+   * selected state differs from the previous selected state, the object is removed from the list of
+   * exceptions. Otherwise, the object is added to the list of exceptions with the given selected
+   * state.
    */
   @Override
   public void setSelected(T item, boolean selected) {
@@ -113,7 +104,7 @@ public abstract class DefaultSelectionModel<T> extends AbstractSelectionModel<T>
 
   /**
    * Copies the exceptions map into a user-supplied map.
-   * 
+   *
    * @param output the user supplied map
    * @return the user supplied map
    */

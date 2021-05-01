@@ -19,23 +19,27 @@
     <dependency>
       <groupId>com.google.gwt</groupId>
       <artifactId>gwt-user</artifactId>
+      <version>${gwt.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.google.gwt</groupId>
       <artifactId>gwt-dev</artifactId>
+      <version>${gwt.version}</version>
       <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
+      <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>org.gwtproject.safehtml</groupId>
       <artifactId>gwt-safehtml</artifactId>
+      <version>${revision}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -45,16 +49,18 @@
       <plugin>
         <groupId>net.ltgt.gwt.maven</groupId>
         <artifactId>gwt-maven-plugin</artifactId>
+        <version>${maven.gwt.plugin}</version>
         <extensions>true</extensions>
         <configuration>
           <failOnError>true</failOnError>
           <moduleName>org.gwtproject.safehtml.SafeHtmlTestModule</moduleName>
-          <sourceLevel>${maven.compiler.source}</sourceLevel>
+          <sourceLevel>1.8</sourceLevel>
         </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-deploy-plugin</artifactId>
+        <version>${maven.deploy.plugin}</version>
         <configuration>
           <skip>true</skip>
         </configuration>

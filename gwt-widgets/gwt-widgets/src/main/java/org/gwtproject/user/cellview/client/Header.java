@@ -15,7 +15,6 @@
  */
 package org.gwtproject.user.cellview.client;
 
-import org.gwtproject.user.cellview.client.ColumnSortEvent;
 import org.gwtproject.cell.client.Cell;
 import org.gwtproject.cell.client.Cell.Context;
 import org.gwtproject.cell.client.ValueUpdater;
@@ -54,20 +53,19 @@ public abstract class Header<H> {
   }
 
   /**
-   * Get extra style names that should be applied to a cell in this header. May be overridden to
-   * get value dependent styles by calling {@link #getValue}.
+   * Get extra style names that should be applied to a cell in this header. May be overridden to get
+   * value dependent styles by calling {@link #getValue}.
    *
-   * @return the extra styles of the given row in a space-separated list, or
-   *         {@code null} if there are no extra styles for the cells in this
-   *         header
+   * @return the extra styles of the given row in a space-separated list, or {@code null} if there
+   *     are no extra styles for the cells in this header
    */
   public String getHeaderStyleNames() {
     return headerStyleNames;
   }
 
   /**
-   * Get the key for the header value. By default, the key is the same as the
-   * value. Override this method to return a custom key.
+   * Get the key for the header value. By default, the key is the same as the value. Override this
+   * method to return a custom key.
    *
    * @return the key associated with the value
    */
@@ -94,19 +92,19 @@ public abstract class Header<H> {
   }
 
   /**
-   * Preview a browser event that may trigger a column sort event. Return true if the
-   * {@link CellTable} should proceed with sorting the column. Subclasses can override this method
-   * to disable column sort for some click events, or particular header/footer sections.
-   * <p>
-   * This method will be invoked even if the header's cell does not consume a click event.
-   * </p>
+   * Preview a browser event that may trigger a column sort event. Return true if the {@link
+   * CellTable} should proceed with sorting the column. Subclasses can override this method to
+   * disable column sort for some click events, or particular header/footer sections.
+   *
+   * <p>This method will be invoked even if the header's cell does not consume a click event.
    *
    * @param context the context of the header
    * @param elem the parent Element
    * @param event the native browser event
-   * @return true if the {@link CellTable} should continue respond to the event (i.e., if this is
-   *         a click event on a sortable column's header, fire {@link ColumnSortEvent}). False if
-   *         the {@link CellTable} should stop respond to the event.
+   * @return true if the {@link CellTable} should continue respond to the event (i.e., if this is a
+   *     click event on a sortable column's header, fire {@link
+   *     org.gwtproject.user.cellview.client.ColumnSortEvent}). False if the {@link CellTable}
+   *     should stop respond to the event.
    */
   public boolean onPreviewColumnSortEvent(Context context, Element elem, NativeEvent event) {
     return true;
@@ -125,13 +123,11 @@ public abstract class Header<H> {
   /**
    * Set extra style names that should be applied to every cell in this header.
    *
-   * <p>
-   * If you want to apply style names based on the header value, override
-   * {@link #getHeaderStyleNames(Object)} directly.
-   * </p>
+   * <p>If you want to apply style names based on the header value, override {@link
+   * #getHeaderStyleNames(Object)} directly.
    *
-   * @param styleNames the extra style names to apply in a space-separated list,
-   *          or {@code null} if there are no extra styles for this cell
+   * @param styleNames the extra style names to apply in a space-separated list, or {@code null} if
+   *     there are no extra styles for this cell
    */
   public void setHeaderStyleNames(String styleNames) {
     this.headerStyleNames = styleNames;

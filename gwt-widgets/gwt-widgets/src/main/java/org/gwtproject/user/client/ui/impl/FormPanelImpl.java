@@ -22,9 +22,7 @@ import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.IFrameElement;
 import org.gwtproject.user.client.impl.DOMImplStandard;
 
-/**
- * Implementation class used by {@link org.gwtproject.user.client.ui.FormPanel}.
- */
+/** Implementation class used by {@link org.gwtproject.user.client.ui.FormPanel}. */
 public class FormPanelImpl {
 
   /**
@@ -34,17 +32,17 @@ public class FormPanelImpl {
    * @return the response html
    */
   public String getContents(Element iframe) {
-      try {
-          // Make sure the iframe's window & document are loaded.
-          IFrameElement _iframe = Js.uncheckedCast(iframe);
-          if (_iframe.getContentDocument() == null) {
-              return null;
-          }
-          // Get the body's entire inner HTML.
-          return _iframe.getContentDocument().getBody().getInnerHTML();
-      } catch (Exception e) {
-          return null;
+    try {
+      // Make sure the iframe's window & document are loaded.
+      IFrameElement _iframe = Js.uncheckedCast(iframe);
+      if (_iframe.getContentDocument() == null) {
+        return null;
       }
+      // Get the body's entire inner HTML.
+      return _iframe.getContentDocument().getBody().getInnerHTML();
+    } catch (Exception e) {
+      return null;
+    }
   }
 
   /**
@@ -54,7 +52,7 @@ public class FormPanelImpl {
    * @return the form's encoding type
    */
   public String getEncoding(Element form) {
-    return ((JsPropertyMap)form).get("enctype").toString();
+    return ((JsPropertyMap) form).get("enctype").toString();
   }
 
   /**
@@ -64,16 +62,19 @@ public class FormPanelImpl {
    * @param form the form whose onSubmit event is to be hooked
    * @param listener the listener to receive notification
    */
-  public void hookEvents(Element iframe, Element form,
-      FormPanelImplHost listener) {
-        if (iframe != null) {
-          ((JsPropertyMap)iframe).set("onload", (DOMImplStandard.Fn) event -> {
-            if(!((JsPropertyMap)iframe).has("__formAction")){
-              return;
-            }
-            listener.onFrameLoad();
-          });
-        }
+  public void hookEvents(Element iframe, Element form, FormPanelImplHost listener) {
+    if (iframe != null) {
+      ((JsPropertyMap) iframe)
+          .set(
+              "onload",
+              (DOMImplStandard.Fn)
+                  event -> {
+                    if (!((JsPropertyMap) iframe).has("__formAction")) {
+                      return;
+                    }
+                    listener.onFrameLoad();
+                  });
+    }
   }
 
   /**
@@ -82,7 +83,7 @@ public class FormPanelImpl {
    * @param form the form to be reset
    */
   public void reset(Element form) {
-    ((HTMLFormElement)Js.uncheckedCast(form)).reset();
+    ((HTMLFormElement) Js.uncheckedCast(form)).reset();
   }
 
   /**
@@ -92,8 +93,8 @@ public class FormPanelImpl {
    * @param encoding the new encoding type
    */
   public void setEncoding(Element form, String encoding) {
-    ((JsPropertyMap)form).set("enctype", encoding);
-    ((JsPropertyMap)form).set("encoding", encoding);
+    ((JsPropertyMap) form).set("enctype", encoding);
+    ((JsPropertyMap) form).set("encoding", encoding);
   }
 
   /**
@@ -103,11 +104,11 @@ public class FormPanelImpl {
    * @param iframe the iframe that is targetted, or <code>null</code>
    */
   public void submit(Element form, Element iframe) {
-    JsPropertyMap map = ((JsPropertyMap)form);
-    if(iframe != null) {
-      ((JsPropertyMap)iframe).set("__formAction", map.get("action"));
+    JsPropertyMap map = ((JsPropertyMap) form);
+    if (iframe != null) {
+      ((JsPropertyMap) iframe).set("__formAction", map.get("action"));
     } else {
-      ((HTMLFormElement)Js.uncheckedCast(form)).submit();
+      ((HTMLFormElement) Js.uncheckedCast(form)).submit();
     }
   }
 
@@ -118,10 +119,9 @@ public class FormPanelImpl {
    * @param form the form whose onSubmit event is to be unhooked
    */
   public void unhookEvents(Element iframe, Element form) {
-      if(iframe != null) {
-          ((JsPropertyMap)form).set("onload", null);
-          ((JsPropertyMap)form).set("onsubmit", null);
-      }
+    if (iframe != null) {
+      ((JsPropertyMap) form).set("onload", null);
+      ((JsPropertyMap) form).set("onsubmit", null);
+    }
   }
-
 }

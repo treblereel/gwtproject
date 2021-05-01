@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,47 +15,49 @@
  */
 package org.gwtproject.user.client.ui;
 
-import org.gwtproject.dom.client.Element;
 import org.gwtproject.cell.client.Cell;
+import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
 import org.gwtproject.user.client.ui.HasVerticalAlignment.VerticalAlignmentConstant;
 
 /**
- * A panel whose child widgets are contained within the cells of a table. Each
- * cell's size may be set independently. Each child widget can take up a subset
- * of its cell and can be aligned within it.
- * 
- * <p>
- * Note: This class is not related to the
- * {@link Cell} based data presentation widgets such
- * as {@link org.gwtproject.user.cellview.client.CellList} and
- * {@link org.gwtproject.user.cellview.client.CellTable}.
- * 
+ * A panel whose child widgets are contained within the cells of a table. Each cell's size may be
+ * set independently. Each child widget can take up a subset of its cell and can be aligned within
+ * it.
+ *
+ * <p>Note: This class is not related to the {@link Cell} based data presentation widgets such as
+ * {@link org.gwtproject.user.cellview.client.CellList} and {@link
+ * org.gwtproject.user.cellview.client.CellTable}.
+ *
  * <h3>Use in UiBinder Templates</h3>
- * <P>
- * When working with CellPanel subclasses in 
- * {@link org.gwtproject.uibinder.client.UiBinder UiBinder} templates, wrap
- * child widgets in <code>&lt;g:cell></code> elements. (Note the lower case
- * "c", meant to signal that the cell is not a runtime object, and so cannot
- * have a <code>ui:field</code> attribute.) Cell elements can have
- * attributes setting their height, width and alignment.
+ *
+ * <p>When working with CellPanel subclasses in {@link org.gwtproject.uibinder.client.UiBinder
+ * UiBinder} templates, wrap child widgets in <code>&lt;g:cell></code> elements. (Note the lower
+ * case "c", meant to signal that the cell is not a runtime object, and so cannot have a <code>
+ * ui:field</code> attribute.) Cell elements can have attributes setting their height, width and
+ * alignment.
+ *
  * <h4>&lt;g:cell> attributes</h4>
+ *
  * <p>
+ *
  * <dl>
- * <dt>horizontalAlignment
- * <dd>Interpreted as a static member of {@link HorizontalAlignmentConstant}
- * and used as the <code>align</code> argument to {@link #setCellHorizontalAlignment}
- * <dt>verticalAlignment
- * <dd>Interpreted as a static member of {@link VerticalAlignmentConstant}
- * and used as the <code>align</code> argument to {@link #setCellVerticalAlignment}
- * <dt>width
- * <dd>Used as the <code>width</code> argument to {@link #setCellWidth} 
- * <dt>height
- * <dd>Used as the <code>height</code> argument to {@link #setCellHeight} 
+ *   <dt>horizontalAlignment
+ *   <dd>Interpreted as a static member of {@link HorizontalAlignmentConstant} and used as the
+ *       <code>align</code> argument to {@link #setCellHorizontalAlignment}
+ *   <dt>verticalAlignment
+ *   <dd>Interpreted as a static member of {@link VerticalAlignmentConstant} and used as the <code>
+ *       align</code> argument to {@link #setCellVerticalAlignment}
+ *   <dt>width
+ *   <dd>Used as the <code>width</code> argument to {@link #setCellWidth}
+ *   <dt>height
+ *   <dd>Used as the <code>height</code> argument to {@link #setCellHeight}
  * </dl>
- * <p>
- * For example:<pre>
+ *
+ * <p>For example:
+ *
+ * <pre>
  * &lt;g:HorizontalPanel>
  *   &lt;g:cell width='5em' horizontalAlignment='ALIGN_RIGHT'>
  *     &lt;g:Label ui:field='leftSide' />
@@ -80,7 +82,7 @@ public abstract class CellPanel extends ComplexPanel {
 
   /**
    * Gets the amount of spacing between this panel's cells.
-   * 
+   *
    * @return the inter-cell spacing, in pixels
    */
   public int getSpacing() {
@@ -88,10 +90,10 @@ public abstract class CellPanel extends ComplexPanel {
   }
 
   /**
-   * Sets the width of the border to be applied to all cells in this panel. This
-   * is particularly useful when debugging layouts, in that it allows you to see
-   * explicitly the cells that contain this panel's children.
-   * 
+   * Sets the width of the border to be applied to all cells in this panel. This is particularly
+   * useful when debugging layouts, in that it allows you to see explicitly the cells that contain
+   * this panel's children.
+   *
    * @param width the width of the panel's cell borders, in pixels
    */
   public void setBorderWidth(int width) {
@@ -99,9 +101,8 @@ public abstract class CellPanel extends ComplexPanel {
   }
 
   /**
-   * Sets the height of the cell associated with the given widget, related to
-   * the panel as a whole.
-   * 
+   * Sets the height of the cell associated with the given widget, related to the panel as a whole.
+   *
    * @param w the widget whose cell height is to be set
    * @param height the cell's height, in CSS units
    */
@@ -111,10 +112,10 @@ public abstract class CellPanel extends ComplexPanel {
       td.setPropertyString("height", height);
     }
   }
-  
+
   /**
    * Overloaded version for IsWidget.
-   * 
+   *
    * @see #setCellHeight(Widget,String)
    */
   public void setCellHeight(IsWidget w, String height) {
@@ -123,35 +124,31 @@ public abstract class CellPanel extends ComplexPanel {
 
   /**
    * Sets the horizontal alignment of the given widget within its cell.
-   * 
+   *
    * @param w the widget whose horizontal alignment is to be set
-   * @param align the widget's horizontal alignment, as defined in
-   *          {@link HasHorizontalAlignment}.
+   * @param align the widget's horizontal alignment, as defined in {@link HasHorizontalAlignment}.
    */
-  public void setCellHorizontalAlignment(Widget w,
-      HorizontalAlignmentConstant align) {
+  public void setCellHorizontalAlignment(Widget w, HorizontalAlignmentConstant align) {
     Element td = getWidgetTd(w);
     if (td != null) {
       setCellHorizontalAlignment(td, align);
     }
   }
-  
+
   /**
    * Overloaded version for IsWidget.
-   * 
+   *
    * @see #setCellHorizontalAlignment(Widget,HorizontalAlignmentConstant)
    */
-  public void setCellHorizontalAlignment(IsWidget w,
-      HorizontalAlignmentConstant align) {
+  public void setCellHorizontalAlignment(IsWidget w, HorizontalAlignmentConstant align) {
     this.setCellHorizontalAlignment(w.asWidget(), align);
   }
 
   /**
    * Sets the vertical alignment of the given widget within its cell.
-   * 
+   *
    * @param w the widget whose vertical alignment is to be set
-   * @param align the widget's vertical alignment, as defined in
-   *          {@link HasVerticalAlignment}.
+   * @param align the widget's vertical alignment, as defined in {@link HasVerticalAlignment}.
    */
   public void setCellVerticalAlignment(Widget w, VerticalAlignmentConstant align) {
     Element td = getWidgetTd(w);
@@ -159,20 +156,19 @@ public abstract class CellPanel extends ComplexPanel {
       setCellVerticalAlignment(td, align);
     }
   }
-  
+
   /**
    * Overloaded version for IsWidget.
-   * 
+   *
    * @see #setCellVerticalAlignment(Widget,VerticalAlignmentConstant)
    */
   public void setCellVerticalAlignment(IsWidget w, VerticalAlignmentConstant align) {
-    this.setCellVerticalAlignment(w.asWidget(),align);
+    this.setCellVerticalAlignment(w.asWidget(), align);
   }
 
   /**
-   * Sets the width of the cell associated with the given widget, related to the
-   * panel as a whole.
-   * 
+   * Sets the width of the cell associated with the given widget, related to the panel as a whole.
+   *
    * @param w the widget whose cell width is to be set
    * @param width the cell's width, in CSS units
    */
@@ -182,10 +178,10 @@ public abstract class CellPanel extends ComplexPanel {
       td.setPropertyString("width", width);
     }
   }
-  
+
   /**
    * Overloaded version for IsWidget.
-   * 
+   *
    * @see #setCellWidth(Widget,String)
    */
   public void setCellWidth(IsWidget w, String width) {
@@ -194,7 +190,7 @@ public abstract class CellPanel extends ComplexPanel {
 
   /**
    * Sets the amount of spacing between this panel's cells.
-   * 
+   *
    * @param spacing the inter-cell spacing, in pixels
    */
   public void setSpacing(int spacing) {
@@ -210,20 +206,16 @@ public abstract class CellPanel extends ComplexPanel {
     return table;
   }
 
-
   /**
    * @deprecated Call and override {@link #setCellHorizontalAlignment(Element,
-   *             HorizontalAlignmentConstant)} instead.
+   *     HorizontalAlignmentConstant)} instead.
    */
   @Deprecated
-  protected void setCellHorizontalAlignment(Element td,
-                                            HorizontalAlignmentConstant align) {
+  protected void setCellHorizontalAlignment(Element td, HorizontalAlignmentConstant align) {
     td.setPropertyString("align", align.getTextAlignString());
   }
 
-
-  protected void setCellVerticalAlignment(Element td,
-                                          VerticalAlignmentConstant align) {
+  protected void setCellVerticalAlignment(Element td, VerticalAlignmentConstant align) {
     td.getStyle().setProperty("verticalAlign", align.getVerticalAlignString());
   }
 

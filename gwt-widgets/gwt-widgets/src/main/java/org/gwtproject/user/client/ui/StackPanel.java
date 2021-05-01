@@ -23,44 +23,40 @@ import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.Event;
 
 /**
- * A panel that stacks its children vertically, displaying only one at a time,
- * with a header for each child which the user can click to display.
+ * A panel that stacks its children vertically, displaying only one at a time, with a header for
+ * each child which the user can click to display.
  *
- * <p>
- * This widget will <em>only</em> work in quirks mode. If your application is in
- * Standards Mode, use {@link StackLayoutPanel} instead.
- * </p>
+ * <p>This widget will <em>only</em> work in quirks mode. If your application is in Standards Mode,
+ * use {@link StackLayoutPanel} instead.
  *
- * <p>
- * <img class='gallery' src='doc-files/StackPanel.png'/>
- * </p>
+ * <p><img class='gallery' src='doc-files/StackPanel.png'/>
+ *
  * <h3>CSS Style Rules</h3>
+ *
  * <ul class='css'>
- * <li>.gwt-StackPanel { the panel itself }</li>
- * <li>.gwt-StackPanel .gwt-StackPanelItem { unselected items }</li>
- * <li>.gwt-StackPanel .gwt-StackPanelItem-selected { selected items }</li>
- * <li>.gwt-StackPanel .gwt-StackPanelContent { the wrapper around the contents
- * of the item }</li>
+ *   <li>.gwt-StackPanel { the panel itself }
+ *   <li>.gwt-StackPanel .gwt-StackPanelItem { unselected items }
+ *   <li>.gwt-StackPanel .gwt-StackPanelItem-selected { selected items }
+ *   <li>.gwt-StackPanel .gwt-StackPanelContent { the wrapper around the contents of the item }
  * </ul>
+ *
  * <p>
+ *
  * <h3>Example</h3>
+ *
  * {@example com.google.gwt.examples.StackPanelExample}
- * </p>
  *
  * @see StackLayoutPanel
  */
 public class StackPanel extends ComplexPanel implements InsertPanel.ForIsWidget {
 
   private static final String DEFAULT_STYLENAME = "gwt-StackPanel";
-  private static final String DEFAULT_ITEM_STYLENAME = DEFAULT_STYLENAME
-      + "Item";
+  private static final String DEFAULT_ITEM_STYLENAME = DEFAULT_STYLENAME + "Item";
 
   private Element body;
   private int visibleStack = -1;
 
-  /**
-   * Creates an empty stack panel.
-   */
+  /** Creates an empty stack panel. */
   public StackPanel() {
     Element table = DOM.createTable();
     setElement(table);
@@ -91,8 +87,7 @@ public class StackPanel extends ComplexPanel implements InsertPanel.ForIsWidget 
   }
 
   /**
-   * Adds a new child with the given widget and header, optionally interpreting
-   * the header as HTML.
+   * Adds a new child with the given widget and header, optionally interpreting the header as HTML.
    *
    * @param w the widget to be added
    * @param stackHtml the header html associated with this widget
@@ -102,8 +97,7 @@ public class StackPanel extends ComplexPanel implements InsertPanel.ForIsWidget 
   }
 
   /**
-   * Adds a new child with the given widget and header, optionally interpreting
-   * the header as HTML.
+   * Adds a new child with the given widget and header, optionally interpreting the header as HTML.
    *
    * @param w the widget to be added
    * @param stackText the header text associated with this widget
@@ -261,10 +255,11 @@ public class StackPanel extends ComplexPanel implements InsertPanel.ForIsWidget 
 
   /**
    * <b>Affected Elements:</b>
+   *
    * <ul>
-   * <li>-text# = The element around the header at the specified index.</li>
-   * <li>-text-wrapper# = The element around the header at the specified index.</li>
-   * <li>-content# = The element around the body at the specified index.</li>
+   *   <li>-text# = The element around the header at the specified index.
+   *   <li>-text-wrapper# = The element around the header at the specified index.
+   *   <li>-content# = The element around the body at the specified index.
    * </ul>
    *
    * @see UIObject#onEnsureDebugId(String)
@@ -284,16 +279,14 @@ public class StackPanel extends ComplexPanel implements InsertPanel.ForIsWidget 
     }
   }
 
-  /**
-   * Returns a header element.
-   */
+  /** Returns a header element. */
   Element createHeaderElem() {
     return DOM.createDiv();
   }
 
   /**
-   * Get the element that holds the header text given the header element created
-   * by #createHeaderElement.
+   * Get the element that holds the header text given the header element created by
+   * #createHeaderElement.
    *
    * @param headerElem the header element
    * @return the element around the header text
@@ -417,5 +410,4 @@ public class StackPanel extends ComplexPanel implements InsertPanel.ForIsWidget 
       }
     }
   }
-
 }

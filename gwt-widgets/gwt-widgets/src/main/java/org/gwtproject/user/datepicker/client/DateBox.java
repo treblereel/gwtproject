@@ -16,12 +16,11 @@
 
 package org.gwtproject.user.datepicker.client;
 
-import org.gwtproject.editor.client.IsEditor;
-import org.gwtproject.editor.client.LeafValueEditor;
-import org.gwtproject.i18n.client.DateTimeFormat;
-import org.gwtproject.i18n.client.DateTimeFormat.PredefinedFormat;
+import java.util.Date;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
+import org.gwtproject.editor.client.IsEditor;
+import org.gwtproject.editor.client.LeafValueEditor;
 import org.gwtproject.editor.client.adapters.TakesValueEditor;
 import org.gwtproject.event.dom.client.*;
 import org.gwtproject.event.logical.shared.CloseEvent;
@@ -29,9 +28,9 @@ import org.gwtproject.event.logical.shared.CloseHandler;
 import org.gwtproject.event.logical.shared.ValueChangeEvent;
 import org.gwtproject.event.logical.shared.ValueChangeHandler;
 import org.gwtproject.event.shared.HandlerRegistration;
+import org.gwtproject.i18n.client.DateTimeFormat;
+import org.gwtproject.i18n.client.DateTimeFormat.PredefinedFormat;
 import org.gwtproject.user.client.ui.*;
-
-import java.util.Date;
 
 /**
  * A text box that shows a {@link DatePicker} when the user focuses on it.
@@ -39,46 +38,39 @@ import java.util.Date;
  * <h3>CSS Style Rules</h3>
  *
  * <dl>
- * <dt>.gwt-DateBox</dt>
- * <dd>default style name</dd>
- * <dt>.dateBoxPopup</dt>
- * <dd>Applied to the popup around the DatePicker</dd>
- * <dt>.dateBoxFormatError</dt>
- * <dd>Default style for when the date box has bad input. Applied by
- * {@link DefaultFormat} when the text does not represent a date that
- * can be parsed</dd>
+ *   <dt>.gwt-DateBox
+ *   <dd>default style name
+ *   <dt>.dateBoxPopup
+ *   <dd>Applied to the popup around the DatePicker
+ *   <dt>.dateBoxFormatError
+ *   <dd>Default style for when the date box has bad input. Applied by {@link DefaultFormat} when
+ *       the text does not represent a date that can be parsed
  * </dl>
  *
  * <p>
+ *
  * <h3>Example</h3>
+ *
  * {@example com.google.gwt.examples.DateBoxExample}
- * </p>
  */
-public class DateBox extends Composite implements HasEnabled, HasValue<Date>,
-    IsEditor<LeafValueEditor<Date>> {
+public class DateBox extends Composite
+    implements HasEnabled, HasValue<Date>, IsEditor<LeafValueEditor<Date>> {
   /**
-   * Default {@link Format} class. The date is first parsed using the
-   * {@link DateTimeFormat} supplied by the user, or
-   * {@link PredefinedFormat#DATE_TIME_MEDIUM} by default.
-   * <p>
-   * If that fails, we then try to parse again using the default browser date
-   * parsing.
-   * </p>
-   * If that fails, the <code>dateBoxFormatError</code> css style is applied to
-   * the {@link DateBox}. The style will be removed when either a successful
-   * {@link #parse(DateBox,String, boolean)} is called or
-   * {@link #format(DateBox,Date)} is called.
-   * <p>
-   * Use a different {@link Format} instance to change that behavior.
-   * </p>
+   * Default {@link Format} class. The date is first parsed using the {@link DateTimeFormat}
+   * supplied by the user, or {@link PredefinedFormat#DATE_TIME_MEDIUM} by default.
+   *
+   * <p>If that fails, we then try to parse again using the default browser date parsing. If that
+   * fails, the <code>dateBoxFormatError</code> css style is applied to the {@link DateBox}. The
+   * style will be removed when either a successful {@link #parse(DateBox,String, boolean)} is
+   * called or {@link #format(DateBox,Date)} is called.
+   *
+   * <p>Use a different {@link Format} instance to change that behavior.
    */
   public static class DefaultFormat implements Format {
 
     private final DateTimeFormat dateTimeFormat;
 
-    /**
-     * Creates a new default format instance.
-     */
+    /** Creates a new default format instance. */
     @SuppressWarnings("deprecation")
     public DefaultFormat() {
       dateTimeFormat = DateTimeFormat.getFormat(PredefinedFormat.DATE_TIME_MEDIUM);
@@ -87,8 +79,7 @@ public class DateBox extends Composite implements HasEnabled, HasValue<Date>,
     /**
      * Creates a new default format instance.
      *
-     * @param dateTimeFormat the {@link DateTimeFormat} to use with this
-     *          {@link Format}.
+     * @param dateTimeFormat the {@link DateTimeFormat} to use with this {@link Format}.
      */
     public DefaultFormat(DateTimeFormat dateTimeFormat) {
       this.dateTimeFormat = dateTimeFormat;
@@ -139,9 +130,8 @@ public class DateBox extends Composite implements HasEnabled, HasValue<Date>,
   }
 
   /**
-   * Implemented by a delegate to handle the parsing and formating of date
-   * values. The default {@link Format} uses a new {@link DefaultFormat}
-   * instance.
+   * Implemented by a delegate to handle the parsing and formating of date values. The default
+   * {@link Format} uses a new {@link DefaultFormat} instance.
    */
   public interface Format {
 
@@ -159,15 +149,13 @@ public class DateBox extends Composite implements HasEnabled, HasValue<Date>,
      *
      * @param dateBox the date box
      * @param text the string representing a date
-     * @param reportError should the formatter indicate a parse error to the
-     *          user?
+     * @param reportError should the formatter indicate a parse error to the user?
      * @return the date created, or null if there was a parse error
      */
     Date parse(DateBox dateBox, String text, boolean reportError);
 
     /**
-     * If the format did any modifications to the date box's styling, reset them
-     * now.
+     * If the format did any modifications to the date box's styling, reset them now.
      *
      * @param abandon true when the current format is being replaced by another
      * @param dateBox the date box
@@ -175,9 +163,13 @@ public class DateBox extends Composite implements HasEnabled, HasValue<Date>,
     void reset(DateBox dateBox, boolean abandon);
   }
 
-  private class DateBoxHandler implements ValueChangeHandler<Date>,
-      FocusHandler, BlurHandler, ClickHandler, KeyDownHandler,
-      CloseHandler<PopupPanel> {
+  private class DateBoxHandler
+      implements ValueChangeHandler<Date>,
+          FocusHandler,
+          BlurHandler,
+          ClickHandler,
+          KeyDownHandler,
+          CloseHandler<PopupPanel> {
 
     public void onBlur(BlurEvent event) {
       if (isDatePickerShowing() == false) {
@@ -234,15 +226,12 @@ public class DateBox extends Composite implements HasEnabled, HasValue<Date>,
     }
   }
 
-  /**
-   * Default style name added when the date box has a format error.
-   */
+  /** Default style name added when the date box has a format error. */
   private static final String DATE_BOX_FORMAT_ERROR = "dateBoxFormatError";
 
-  /**
-   * Default style name.
-   */
+  /** Default style name. */
   public static final String DEFAULT_STYLENAME = "gwt-DateBox";
+
   private static final DefaultFormat DEFAULT_FORMAT = new DefaultFormat();
   private final PopupPanel popup;
   private final TextBox box = new TextBox();
@@ -252,9 +241,7 @@ public class DateBox extends Composite implements HasEnabled, HasValue<Date>,
   private boolean allowDPShow = true;
   private boolean fireNullValues = false;
 
-  /**
-   * Create a date box with a new {@link DatePicker}.
-   */
+  /** Create a date box with a new {@link DatePicker}. */
   public DateBox() {
     this(new DatePicker(), null, DEFAULT_FORMAT);
   }
@@ -290,14 +277,11 @@ public class DateBox extends Composite implements HasEnabled, HasValue<Date>,
     setValue(date);
   }
 
-  public HandlerRegistration addValueChangeHandler(
-      ValueChangeHandler<Date> handler) {
+  public HandlerRegistration addValueChangeHandler(ValueChangeHandler<Date> handler) {
     return addHandler(handler, ValueChangeEvent.getType());
   }
 
-  /**
-   * Returns a {@link TakesValueEditor} backed by the DateBox.
-   */
+  /** Returns a {@link TakesValueEditor} backed by the DateBox. */
   public LeafValueEditor<Date> asEditor() {
     if (editor == null) {
       editor = TakesValueEditor.of(this);
@@ -309,7 +293,6 @@ public class DateBox extends Composite implements HasEnabled, HasValue<Date>,
    * Gets the current cursor position in the date box.
    *
    * @return the cursor position
-   *
    */
   public int getCursorPos() {
     return box.getCursorPos();
@@ -325,16 +308,15 @@ public class DateBox extends Composite implements HasEnabled, HasValue<Date>,
   }
 
   /**
-   * Returns true iff the date box will fire {@code ValueChangeEvents} with a
-   * date value of {@code null} for invalid or empty string values.
+   * Returns true iff the date box will fire {@code ValueChangeEvents} with a date value of {@code
+   * null} for invalid or empty string values.
    */
   public boolean getFireNullValues() {
     return fireNullValues;
   }
-  
+
   /**
-   * Gets the format instance used to control formatting and parsing of this
-   * {@link DateBox}.
+   * Gets the format instance used to control formatting and parsing of this {@link DateBox}.
    *
    * @return the format
    */
@@ -361,8 +343,7 @@ public class DateBox extends Composite implements HasEnabled, HasValue<Date>,
   }
 
   /**
-   * Get the date displayed, or null if the text box is empty, or cannot be
-   * interpreted.
+   * Get the date displayed, or null if the text box is empty, or cannot be interpreted.
    *
    * @return the current date value
    */
@@ -370,30 +351,24 @@ public class DateBox extends Composite implements HasEnabled, HasValue<Date>,
     return parseDate(true);
   }
 
-  /**
-   * Hide the date picker.
-   */
+  /** Hide the date picker. */
   public void hideDatePicker() {
     popup.hide();
   }
 
-  /**
-   * Returns true if date picker is currently showing, false if not.
-   */
+  /** Returns true if date picker is currently showing, false if not. */
   public boolean isDatePickerShowing() {
     return popup.isShowing();
   }
 
-  /**
-   * Returns true if the date box is enabled, false if not.
-   */
+  /** Returns true if the date box is enabled, false if not. */
   public boolean isEnabled() {
     return box.isEnabled();
   }
 
   /**
-   * Sets the date box's 'access key'. This key is used (in conjunction with a
-   * browser-specific modifier key) to automatically focus the widget.
+   * Sets the date box's 'access key'. This key is used (in conjunction with a browser-specific
+   * modifier key) to automatically focus the widget.
    *
    * @param key the date box's access key
    */
@@ -411,16 +386,16 @@ public class DateBox extends Composite implements HasEnabled, HasValue<Date>,
   }
 
   /**
-   * Sets whether or not the date box will fire {@code ValueChangeEvents} with a
-   * date value of {@code null} for invalid or empty string values.
+   * Sets whether or not the date box will fire {@code ValueChangeEvents} with a date value of
+   * {@code null} for invalid or empty string values.
    */
   public void setFireNullValues(boolean fireNullValues) {
     this.fireNullValues = fireNullValues;
   }
-  
+
   /**
-   * Explicitly focus/unfocus this widget. Only one widget can have focus at a
-   * time, and the widget that does will receive all keyboard events.
+   * Explicitly focus/unfocus this widget. Only one widget can have focus at a time, and the widget
+   * that does will receive all keyboard events.
    *
    * @param focused whether this widget should take focus or release it
    */
@@ -429,9 +404,9 @@ public class DateBox extends Composite implements HasEnabled, HasValue<Date>,
   }
 
   /**
-   * Sets the format used to control formatting and parsing of dates in this
-   * {@link DateBox}. If this {@link DateBox} is not empty, the contents of date
-   * box will be replaced with current contents in the new format.
+   * Sets the format used to control formatting and parsing of dates in this {@link DateBox}. If
+   * this {@link DateBox} is not empty, the contents of date box will be replaced with current
+   * contents in the new format.
    *
    * @param format the new date format
    */
@@ -452,10 +427,9 @@ public class DateBox extends Composite implements HasEnabled, HasValue<Date>,
   }
 
   /**
-   * Sets the date box's position in the tab index. If more than one widget has
-   * the same tab index, each such widget will receive focus in an arbitrary
-   * order. Setting the tab index to <code>-1</code> will cause this widget to
-   * be removed from the tab order.
+   * Sets the date box's position in the tab index. If more than one widget has the same tab index,
+   * each such widget will receive focus in an arbitrary order. Setting the tab index to <code>-1
+   * </code> will cause this widget to be removed from the tab order.
    *
    * @param index the date box's tab index
    */
@@ -463,9 +437,7 @@ public class DateBox extends Composite implements HasEnabled, HasValue<Date>,
     box.setTabIndex(index);
   }
 
-  /**
-   * Set the date.
-   */
+  /** Set the date. */
   public void setValue(Date date) {
     setValue(date, false);
   }
@@ -474,9 +446,7 @@ public class DateBox extends Composite implements HasEnabled, HasValue<Date>,
     setValue(picker.getValue(), date, fireEvents, true);
   }
 
-  /**
-   * Parses the current date box's value and shows that date.
-   */
+  /** Parses the current date box's value and shows that date. */
   public void showDatePicker() {
     Date current = parseDate(false);
     if (current == null) {
@@ -496,11 +466,13 @@ public class DateBox extends Composite implements HasEnabled, HasValue<Date>,
 
   private void preventDatePickerPopup() {
     allowDPShow = false;
-    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-      public void execute() {
-        allowDPShow = true;
-      }
-    });
+    Scheduler.get()
+        .scheduleDeferred(
+            new ScheduledCommand() {
+              public void execute() {
+                allowDPShow = true;
+              }
+            });
   }
 
   private void setValue(Date oldDate, Date date, boolean fireEvents, boolean updateText) {
@@ -508,12 +480,12 @@ public class DateBox extends Composite implements HasEnabled, HasValue<Date>,
       picker.setCurrentMonth(date);
     }
     picker.setValue(date, false);
-    
+
     if (updateText) {
       format.reset(this, false);
       box.setText(getFormat().format(this, date));
     }
-    
+
     if (fireEvents) {
       DateChangeEvent.fireIfNotEqualDates(this, oldDate, date);
     }

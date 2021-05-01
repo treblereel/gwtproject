@@ -15,9 +15,7 @@
  */
 package org.gwtproject.user.cellview.client;
 
-/**
- * A representation of a node in a tree.
- */
+/** A representation of a node in a tree. */
 public interface TreeNode {
 
   /**
@@ -50,8 +48,7 @@ public interface TreeNode {
   TreeNode getParent();
 
   /**
-   * Get the value associated with this node. This method can be called on
-   * destroyed nodes.
+   * Get the value associated with this node. This method can be called on destroyed nodes.
    *
    * @return the value
    */
@@ -74,37 +71,35 @@ public interface TreeNode {
   boolean isChildOpen(int index);
 
   /**
-   * Check whether or not the current node is destroyed. The node is destroyed
-   * when it is closed, even if it still appears in the tree as an unopened
-   * non-leaf node. Once a node is destroyed, calling most methods on the node
-   * results in an {@link IllegalStateException}.
+   * Check whether or not the current node is destroyed. The node is destroyed when it is closed,
+   * even if it still appears in the tree as an unopened non-leaf node. Once a node is destroyed,
+   * calling most methods on the node results in an {@link IllegalStateException}.
    *
    * @return true if destroyed, false if active
    */
   boolean isDestroyed();
 
   /**
-   * Open or close a child node and fire an event. If <code>open</code> is true
-   * and the {@link TreeNode} successfully opens, returns the child
-   * {@link TreeNode}. Delegates to {@link #setChildOpen(int,boolean, boolean)}.
+   * Open or close a child node and fire an event. If <code>open</code> is true and the {@link
+   * TreeNode} successfully opens, returns the child {@link TreeNode}. Delegates to {@link
+   * #setChildOpen(int,boolean, boolean)}.
    *
    * @param index the index of the child
    * @param open true to open, false to close
-   * @return the {@link TreeNode} that was opened, or null if the node was
-   *         closed or could not be opened
+   * @return the {@link TreeNode} that was opened, or null if the node was closed or could not be
+   *     opened
    */
   TreeNode setChildOpen(int index, boolean open);
 
   /**
-   * Open or close the node, optionally firing an event. If <code>open</code> is
-   * true and the {@link TreeNode} successfully opens, returns the child
-   * {@link TreeNode}.
+   * Open or close the node, optionally firing an event. If <code>open</code> is true and the {@link
+   * TreeNode} successfully opens, returns the child {@link TreeNode}.
    *
    * @param index the index of the child
    * @param open true to open, false to flose
    * @param fireEvents true to fire an event, false not to
-   * @return the {@link TreeNode} that was opened, or null if the node was
-   *         closed or could not be opened
+   * @return the {@link TreeNode} that was opened, or null if the node was closed or could not be
+   *     opened
    */
   TreeNode setChildOpen(int index, boolean open, boolean fireEvents);
 }

@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -16,6 +16,9 @@
 package org.gwtproject.user.client.ui;
 
 import elemental2.core.JsArray;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 import org.gwtproject.dom.client.Document;
@@ -52,31 +55,22 @@ import org.gwtproject.user.client.impl.ElementMapperImpl;
 import org.gwtproject.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
 import org.gwtproject.user.client.ui.HasVerticalAlignment.VerticalAlignmentConstant;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-
 /**
- * HTMLTable contains the common table algorithms for
- * {@link Grid} and
- * {@link FlexTable}.
- * <p>
- * <img class='gallery' src='doc-files/Table.png'/>
- * </p>
+ * HTMLTable contains the common table algorithms for {@link Grid} and {@link FlexTable}.
+ *
+ * <p><img class='gallery' src='doc-files/Table.png'/>
  */
-public abstract class HTMLTable extends Panel implements
-    HasAllDragAndDropHandlers, HasClickHandlers, HasDoubleClickHandlers {
+public abstract class HTMLTable extends Panel
+    implements HasAllDragAndDropHandlers, HasClickHandlers, HasDoubleClickHandlers {
 
-  /**
-   * Return value for {@link HTMLTable#getCellForEvent}.
-   */
+  /** Return value for {@link HTMLTable#getCellForEvent}. */
   public class Cell {
     private final int rowIndex;
     private final int cellIndex;
 
     /**
      * Creates a cell.
-     * 
+     *
      * @param rowIndex the cell's row
      * @param cellIndex the cell's index
      */
@@ -87,7 +81,7 @@ public abstract class HTMLTable extends Panel implements
 
     /**
      * Gets the cell index.
-     * 
+     *
      * @return the cell index
      */
     public int getCellIndex() {
@@ -96,7 +90,7 @@ public abstract class HTMLTable extends Panel implements
 
     /**
      * Gets the cell's element.
-     * 
+     *
      * @return the cell's element.
      */
     public Element getElement() {
@@ -105,20 +99,18 @@ public abstract class HTMLTable extends Panel implements
 
     /**
      * Get row index.
-     * 
+     *
      * @return the row index
      */
     public int getRowIndex() {
       return rowIndex;
     }
   }
-  /**
-   * This class contains methods used to format a table's cells.
-   */
+  /** This class contains methods used to format a table's cells. */
   public class CellFormatter {
     /**
      * Adds a style to the specified cell.
-     * 
+     *
      * @param row the cell's row
      * @param column the cell's column
      * @param styleName the style name to be added
@@ -132,7 +124,7 @@ public abstract class HTMLTable extends Panel implements
 
     /**
      * Gets the TD element representing the specified cell.
-     * 
+     *
      * @param row the row of the cell to be retrieved
      * @param column the column of the cell to be retrieved
      * @return the column's TD element
@@ -145,7 +137,7 @@ public abstract class HTMLTable extends Panel implements
 
     /**
      * Gets the style of a specified cell.
-     * 
+     *
      * @param row the cell's row
      * @param column the cell's column
      * @see UIObject#getStyleName()
@@ -158,7 +150,7 @@ public abstract class HTMLTable extends Panel implements
 
     /**
      * Gets the primary style of a specified cell.
-     * 
+     *
      * @param row the cell's row
      * @param column the cell's column
      * @see UIObject#getStylePrimaryName()
@@ -171,7 +163,7 @@ public abstract class HTMLTable extends Panel implements
 
     /**
      * Determines whether or not this cell is visible.
-     * 
+     *
      * @param row the row of the cell whose visibility is to be set
      * @param column the column of the cell whose visibility is to be set
      * @return <code>true</code> if the object is visible
@@ -183,7 +175,7 @@ public abstract class HTMLTable extends Panel implements
 
     /**
      * Removes a style from the specified cell.
-     * 
+     *
      * @param row the cell's row
      * @param column the cell's column
      * @param styleName the style name to be removed
@@ -197,26 +189,24 @@ public abstract class HTMLTable extends Panel implements
     }
 
     /**
-     * Sets the horizontal and vertical alignment of the specified cell's
-     * contents.
-     * 
+     * Sets the horizontal and vertical alignment of the specified cell's contents.
+     *
      * @param row the row of the cell whose alignment is to be set
      * @param column the column of the cell whose alignment is to be set
-     * @param hAlign the cell's new horizontal alignment as specified in
-     *          {@link HasHorizontalAlignment}
-     * @param vAlign the cell's new vertical alignment as specified in
-     *          {@link HasVerticalAlignment}
+     * @param hAlign the cell's new horizontal alignment as specified in {@link
+     *     HasHorizontalAlignment}
+     * @param vAlign the cell's new vertical alignment as specified in {@link HasVerticalAlignment}
      * @throws IndexOutOfBoundsException
      */
-    public void setAlignment(int row, int column,
-        HorizontalAlignmentConstant hAlign, VerticalAlignmentConstant vAlign) {
+    public void setAlignment(
+        int row, int column, HorizontalAlignmentConstant hAlign, VerticalAlignmentConstant vAlign) {
       setHorizontalAlignment(row, column, hAlign);
       setVerticalAlignment(row, column, vAlign);
     }
 
     /**
      * Sets the height of the specified cell.
-     * 
+     *
      * @param row the row of the cell whose height is to be set
      * @param column the column of the cell whose height is to be set
      * @param height the cell's new height, in CSS units
@@ -230,15 +220,14 @@ public abstract class HTMLTable extends Panel implements
 
     /**
      * Sets the horizontal alignment of the specified cell.
-     * 
+     *
      * @param row the row of the cell whose alignment is to be set
      * @param column the column of the cell whose alignment is to be set
-     * @param align the cell's new horizontal alignment as specified in
-     *          {@link HasHorizontalAlignment}.
+     * @param align the cell's new horizontal alignment as specified in {@link
+     *     HasHorizontalAlignment}.
      * @throws IndexOutOfBoundsException
      */
-    public void setHorizontalAlignment(int row, int column,
-        HorizontalAlignmentConstant align) {
+    public void setHorizontalAlignment(int row, int column, HorizontalAlignmentConstant align) {
       prepareCell(row, column);
       Element elem = getCellElement(bodyElem, row, column);
       elem.setPropertyString("align", align.getTextAlignString());
@@ -260,7 +249,7 @@ public abstract class HTMLTable extends Panel implements
 
     /**
      * Sets the primary style name associated with the specified cell.
-     * 
+     *
      * @param row the row of the cell whose style name is to be set
      * @param column the column of the cell whose style name is to be set
      * @param styleName the new style name
@@ -268,35 +257,32 @@ public abstract class HTMLTable extends Panel implements
      * @throws IndexOutOfBoundsException
      */
     public void setStylePrimaryName(int row, int column, String styleName) {
-      UIObject.setStylePrimaryName(getCellElement(bodyElem, row, column),
-          styleName);
+      UIObject.setStylePrimaryName(getCellElement(bodyElem, row, column), styleName);
     }
 
     /**
      * Sets the vertical alignment of the specified cell.
-     * 
+     *
      * @param row the row of the cell whose alignment is to be set
      * @param column the column of the cell whose alignment is to be set
-     * @param align the cell's new vertical alignment as specified in
-     *          {@link HasVerticalAlignment}.
+     * @param align the cell's new vertical alignment as specified in {@link HasVerticalAlignment}.
      * @throws IndexOutOfBoundsException
      */
-    public void setVerticalAlignment(int row, int column,
-        VerticalAlignmentConstant align) {
+    public void setVerticalAlignment(int row, int column, VerticalAlignmentConstant align) {
       prepareCell(row, column);
-      getCellElement(bodyElem, row, column).getStyle()
+      getCellElement(bodyElem, row, column)
+          .getStyle()
           .setProperty("verticalAlign", align.getVerticalAlignString());
     }
 
     /**
-     * Sets whether this cell is visible via the display style property. The
-     * other cells in the row will all shift left to fill the cell's space. So,
-     * for example a table with (0,1,2) will become (1,2) if cell 1 is hidden.
-     * 
+     * Sets whether this cell is visible via the display style property. The other cells in the row
+     * will all shift left to fill the cell's space. So, for example a table with (0,1,2) will
+     * become (1,2) if cell 1 is hidden.
+     *
      * @param row the row of the cell whose visibility is to be set
      * @param column the column of the cell whose visibility is to be set
-     * @param visible <code>true</code> to show the cell, <code>false</code> to
-     *          hide it
+     * @param visible <code>true</code> to show the cell, <code>false</code> to hide it
      */
     public void setVisible(int row, int column, boolean visible) {
       Element e = ensureElement(row, column);
@@ -305,7 +291,7 @@ public abstract class HTMLTable extends Panel implements
 
     /**
      * Sets the width of the specified cell.
-     * 
+     *
      * @param row the row of the cell whose width is to be set
      * @param column the column of the cell whose width is to be set
      * @param width the cell's new width, in CSS units
@@ -319,7 +305,7 @@ public abstract class HTMLTable extends Panel implements
 
     /**
      * Sets whether the specified cell will allow word wrapping of its contents.
-     * 
+     *
      * @param row the row of the cell whose word-wrap is to be set
      * @param column the column of the cell whose word-wrap is to be set
      * @param wrap <code>false </code> to disable word wrapping in this cell
@@ -332,9 +318,9 @@ public abstract class HTMLTable extends Panel implements
     }
 
     /**
-     * Gets the element associated with a cell. If it does not exist and the
-     * subtype allows creation of elements, creates it.
-     * 
+     * Gets the element associated with a cell. If it does not exist and the subtype allows creation
+     * of elements, creates it.
+     *
      * @param row the cell's row
      * @param column the cell's column
      * @return the cell's element
@@ -347,7 +333,7 @@ public abstract class HTMLTable extends Panel implements
 
     /**
      * Convenience methods to get an attribute on a cell.
-     * 
+     *
      * @param row cell's row
      * @param column cell's column
      * @param attr attribute to get
@@ -361,7 +347,7 @@ public abstract class HTMLTable extends Panel implements
 
     /**
      * Convenience methods to set an attribute on a cell.
-     * 
+     *
      * @param row cell's row
      * @param column cell's column
      * @param attrName attribute to set
@@ -375,7 +361,7 @@ public abstract class HTMLTable extends Panel implements
 
     /**
      * Get a cell's element.
-     * 
+     *
      * @param tbody the table element
      * @param row the row of the cell
      * @param col the column of the cell
@@ -386,10 +372,9 @@ public abstract class HTMLTable extends Panel implements
     }
 
     /**
-     * Gets the TD element representing the specified cell unsafely (meaning
-     * that it doesn't ensure that <code>row</code> and <code>column</code> are
-     * valid).
-     * 
+     * Gets the TD element representing the specified cell unsafely (meaning that it doesn't ensure
+     * that <code>row</code> and <code>column</code> are valid).
+     *
      * @param row the row of the cell to be retrieved
      * @param column the column of the cell to be retrieved
      * @return the cell's TD element
@@ -400,15 +385,15 @@ public abstract class HTMLTable extends Panel implements
   }
 
   /**
-   * This class contains methods used to format a table's columns. It is limited
-   * by the support cross-browser HTML support for column formatting.
+   * This class contains methods used to format a table's columns. It is limited by the support
+   * cross-browser HTML support for column formatting.
    */
   public class ColumnFormatter {
     protected Element columnGroup;
 
     /**
      * Adds a style to the specified column.
-     * 
+     *
      * @param col the col to which the style will be added
      * @param styleName the style name to be added
      * @see UIObject#addStyleName(String)
@@ -420,7 +405,7 @@ public abstract class HTMLTable extends Panel implements
 
     /**
      * Get the col element for the column.
-     * 
+     *
      * @param column the column index
      * @return the col element
      */
@@ -430,7 +415,7 @@ public abstract class HTMLTable extends Panel implements
 
     /**
      * Gets the style of the specified column.
-     * 
+     *
      * @param column the column to be queried
      * @return the style name
      * @see UIObject#getStyleName()
@@ -442,7 +427,7 @@ public abstract class HTMLTable extends Panel implements
 
     /**
      * Gets the primary style of the specified column.
-     * 
+     *
      * @param column the column to be queried
      * @return the style name
      * @see UIObject#getStylePrimaryName()
@@ -454,7 +439,7 @@ public abstract class HTMLTable extends Panel implements
 
     /**
      * Removes a style from the specified column.
-     * 
+     *
      * @param column the column from which the style will be removed
      * @param styleName the style name to be removed
      * @see UIObject#removeStyleName(String)
@@ -466,7 +451,7 @@ public abstract class HTMLTable extends Panel implements
 
     /**
      * Sets the style name associated with the specified column.
-     * 
+     *
      * @param column the column whose style name is to be set
      * @param styleName the new style name
      * @see UIObject#setStyleName(String)
@@ -478,7 +463,7 @@ public abstract class HTMLTable extends Panel implements
 
     /**
      * Sets the primary style name associated with the specified column.
-     * 
+     *
      * @param column the column whose style name is to be set
      * @param styleName the new style name
      * @see UIObject#setStylePrimaryName(String)
@@ -490,7 +475,7 @@ public abstract class HTMLTable extends Panel implements
 
     /**
      * Sets the width of the specified column.
-     * 
+     *
      * @param column the column of the cell whose width is to be set
      * @param width the cell's new width, in percentage or pixel units
      * @throws IndexOutOfBoundsException
@@ -501,7 +486,7 @@ public abstract class HTMLTable extends Panel implements
 
     /**
      * Resize the column group element.
-     * 
+     *
      * @param columns the number of columns
      * @param growOnly true to only grow, false to shrink if needed
      */
@@ -530,10 +515,9 @@ public abstract class HTMLTable extends Panel implements
     }
 
     /**
-     * Prepare the colgroup tag for the first time, guaranteeing that it exists
-     * and has at least one col tag in it. This method corrects a Mozilla issue
-     * where the col tag will affect the wrong column if a col tag doesn't exist
-     * when the element is attached to the page.
+     * Prepare the colgroup tag for the first time, guaranteeing that it exists and has at least one
+     * col tag in it. This method corrects a Mozilla issue where the col tag will affect the wrong
+     * column if a col tag doesn't exist when the element is attached to the page.
      */
     private void prepareColumnGroup() {
       if (columnGroup == null) {
@@ -544,14 +528,12 @@ public abstract class HTMLTable extends Panel implements
     }
   }
 
-  /**
-   * This class contains methods used to format a table's rows.
-   */
+  /** This class contains methods used to format a table's rows. */
   public class RowFormatter {
 
     /**
      * Adds a style to the specified row.
-     * 
+     *
      * @param row the row to which the style will be added
      * @param styleName the style name to be added
      * @see UIObject#addStyleName(String)
@@ -563,7 +545,7 @@ public abstract class HTMLTable extends Panel implements
 
     /**
      * Gets the TR element representing the specified row.
-     * 
+     *
      * @param row the row whose TR element is to be retrieved
      * @return the row's TR element
      * @throws IndexOutOfBoundsException
@@ -575,7 +557,7 @@ public abstract class HTMLTable extends Panel implements
 
     /**
      * Gets the style of the specified row.
-     * 
+     *
      * @param row the row to be queried
      * @return the style name
      * @see UIObject#getStyleName()
@@ -587,7 +569,7 @@ public abstract class HTMLTable extends Panel implements
 
     /**
      * Gets the primary style of the specified row.
-     * 
+     *
      * @param row the row to be queried
      * @return the style name
      * @see UIObject#getStylePrimaryName()
@@ -598,9 +580,8 @@ public abstract class HTMLTable extends Panel implements
     }
 
     /**
-     * Determines whether or not this row is visible via the display style
-     * attribute.
-     * 
+     * Determines whether or not this row is visible via the display style attribute.
+     *
      * @param row the row whose visibility is to be set
      * @return <code>true</code> if the row is visible
      */
@@ -611,7 +592,7 @@ public abstract class HTMLTable extends Panel implements
 
     /**
      * Removes a style from the specified row.
-     * 
+     *
      * @param row the row from which the style will be removed
      * @param styleName the style name to be removed
      * @see UIObject#removeStyleName(String)
@@ -623,7 +604,7 @@ public abstract class HTMLTable extends Panel implements
 
     /**
      * Sets the style name associated with the specified row.
-     * 
+     *
      * @param row the row whose style name is to be set
      * @param styleName the new style name
      * @see UIObject#setStyleName(String)
@@ -635,7 +616,7 @@ public abstract class HTMLTable extends Panel implements
 
     /**
      * Sets the primary style name associated with the specified row.
-     * 
+     *
      * @param row the row whose style name is to be set
      * @param styleName the new style name
      * @see UIObject#setStylePrimaryName(String)
@@ -647,10 +628,9 @@ public abstract class HTMLTable extends Panel implements
 
     /**
      * Sets the vertical alignment of the specified row.
-     * 
+     *
      * @param row the row whose alignment is to be set
-     * @param align the row's new vertical alignment as specified in
-     *          {@link HasVerticalAlignment}
+     * @param align the row's new vertical alignment as specified in {@link HasVerticalAlignment}
      * @throws IndexOutOfBoundsException
      */
     public void setVerticalAlign(int row, VerticalAlignmentConstant align) {
@@ -659,10 +639,9 @@ public abstract class HTMLTable extends Panel implements
 
     /**
      * Sets whether this row is visible.
-     * 
+     *
      * @param row the row whose visibility is to be set
-     * @param visible <code>true</code> to show the row, <code>false</code> to
-     *          hide it
+     * @param visible <code>true</code> to show the row, <code>false</code> to hide it
      */
     public void setVisible(int row, boolean visible) {
       Element e = ensureElement(row);
@@ -670,9 +649,9 @@ public abstract class HTMLTable extends Panel implements
     }
 
     /**
-     * Ensure the TR element representing the specified row exists for
-     * subclasses that allow dynamic addition of elements.
-     * 
+     * Ensure the TR element representing the specified row exists for subclasses that allow dynamic
+     * addition of elements.
+     *
      * @param row the row whose TR element is to be retrieved
      * @return the row's TR element
      * @throws IndexOutOfBoundsException
@@ -682,14 +661,13 @@ public abstract class HTMLTable extends Panel implements
       return getRow(bodyElem, row);
     }
 
-
     protected Element getRow(Element tbody, int row) {
       return getRows(tbody).getAt(row);
     }
 
     /**
      * Convenience methods to set an attribute on a row.
-     * 
+     *
      * @param row cell's row
      * @param attrName attribute to set
      * @param value value to set
@@ -701,36 +679,24 @@ public abstract class HTMLTable extends Panel implements
     }
   }
 
-  /**
-   * Table's body.
-   */
+  /** Table's body. */
   private final Element bodyElem;
 
-  /**
-   * Current cell formatter.
-   */
+  /** Current cell formatter. */
   private CellFormatter cellFormatter;
 
-  /**
-   * Column Formatter.
-   */
+  /** Column Formatter. */
   private ColumnFormatter columnFormatter;
 
-  /**
-   * Current row formatter.
-   */
+  /** Current row formatter. */
   private RowFormatter rowFormatter;
 
-  /**
-   * Table element.
-   */
+  /** Table element. */
   private final Element tableElem;
 
   private ElementMapperImpl<Widget> widgetMap = new ElementMapperImpl<Widget>();
 
-  /**
-   * Create a new empty HTML Table.
-   */
+  /** Create a new empty HTML Table. */
   public HTMLTable() {
     tableElem = DOM.createTable();
     bodyElem = DOM.createTBody();
@@ -775,8 +741,7 @@ public abstract class HTMLTable extends Panel implements
   }
 
   /**
-   * Removes all widgets from this table, but does not remove other HTML or text
-   * contents of cells.
+   * Removes all widgets from this table, but does not remove other HTML or text contents of cells.
    */
   @Override
   public void clear() {
@@ -784,9 +749,9 @@ public abstract class HTMLTable extends Panel implements
   }
 
   /**
-   * Removes all widgets from this table, optionally clearing the inner HTML of
-   * each cell.  Note that this method does not remove any cells or rows.
-   * 
+   * Removes all widgets from this table, optionally clearing the inner HTML of each cell. Note that
+   * this method does not remove any cells or rows.
+   *
    * @param clearInnerHTML should the cell's inner html be cleared?
    */
   public void clear(boolean clearInnerHTML) {
@@ -798,10 +763,9 @@ public abstract class HTMLTable extends Panel implements
   }
 
   /**
-   * Clears the cell at the given row and column. If it contains a Widget, it
-   * will be removed from the table. If not, its contents will simply be
-   * cleared.
-   * 
+   * Clears the cell at the given row and column. If it contains a Widget, it will be removed from
+   * the table. If not, its contents will simply be cleared.
+   *
    * @param row the widget's row
    * @param column the widget's column
    * @return true if a widget was removed
@@ -814,17 +778,16 @@ public abstract class HTMLTable extends Panel implements
 
   /**
    * Gets the number of cells in a given row.
-   * 
+   *
    * @param row the row whose cells are to be counted
    * @return the number of cells present in the row
    */
   public abstract int getCellCount(int row);
 
   /**
-   * Given a click event, return the Cell that was clicked, or null if the event
-   * did not hit this table.  The cell can also be null if the click event does
-   * not occur on a specific cell.
-   * 
+   * Given a click event, return the Cell that was clicked, or null if the event did not hit this
+   * table. The cell can also be null if the click event does not occur on a specific cell.
+   *
    * @param event A click event of indeterminate origin
    * @return The appropriate cell, or null
    */
@@ -840,9 +803,9 @@ public abstract class HTMLTable extends Panel implements
   }
 
   /**
-   * Gets the {@link CellFormatter} associated with this table. Use casting to
-   * get subclass-specific functionality
-   * 
+   * Gets the {@link CellFormatter} associated with this table. Use casting to get subclass-specific
+   * functionality
+   *
    * @return this table's cell formatter
    */
   public CellFormatter getCellFormatter() {
@@ -851,7 +814,7 @@ public abstract class HTMLTable extends Panel implements
 
   /**
    * Gets the amount of padding that is added around all cells.
-   * 
+   *
    * @return the cell padding, in pixels
    */
   public int getCellPadding() {
@@ -860,7 +823,7 @@ public abstract class HTMLTable extends Panel implements
 
   /**
    * Gets the amount of spacing that is added around all cells.
-   * 
+   *
    * @return the cell spacing, in pixels
    */
   public int getCellSpacing() {
@@ -869,7 +832,7 @@ public abstract class HTMLTable extends Panel implements
 
   /**
    * Gets the column formatter.
-   * 
+   *
    * @return the column formatter
    */
   public ColumnFormatter getColumnFormatter() {
@@ -878,7 +841,7 @@ public abstract class HTMLTable extends Panel implements
 
   /**
    * Gets the HTML contents of the specified cell.
-   * 
+   *
    * @param row the cell's row
    * @param column the cell's column
    * @return the cell's HTML contents
@@ -890,14 +853,14 @@ public abstract class HTMLTable extends Panel implements
 
   /**
    * Gets the number of rows present in this table.
-   * 
+   *
    * @return the table's row count
    */
   public abstract int getRowCount();
 
   /**
    * Gets the RowFormatter associated with this table.
-   * 
+   *
    * @return the table's row formatter
    */
   public RowFormatter getRowFormatter() {
@@ -906,7 +869,7 @@ public abstract class HTMLTable extends Panel implements
 
   /**
    * Gets the text within the specified cell.
-   * 
+   *
    * @param row the cell's row
    * @param column the cell's column
    * @return the cell's text contents
@@ -920,11 +883,10 @@ public abstract class HTMLTable extends Panel implements
 
   /**
    * Gets the widget in the specified cell.
-   * 
+   *
    * @param row the cell's row
    * @param column the cell's column
-   * @return the widget in the specified cell, or <code>null</code> if none is
-   *         present
+   * @return the widget in the specified cell, or <code>null</code> if none is present
    * @throws IndexOutOfBoundsException
    */
   public Widget getWidget(int row, int column) {
@@ -934,7 +896,7 @@ public abstract class HTMLTable extends Panel implements
 
   /**
    * Determines whether the specified cell exists.
-   * 
+   *
    * @param row the cell's row
    * @param column the cell's column
    * @return <code>true</code> if the specified cell exists
@@ -952,7 +914,7 @@ public abstract class HTMLTable extends Panel implements
 
   /**
    * Returns an iterator containing all the widgets in this table.
-   * 
+   *
    * @return the iterator
    */
   public Iterator<Widget> iterator() {
@@ -960,6 +922,7 @@ public abstract class HTMLTable extends Panel implements
       final ArrayList<Widget> widgetList = widgetMap.getObjectList();
       int lastIndex = -1;
       int nextIndex = -1;
+
       {
         findNext();
       }
@@ -1000,7 +963,7 @@ public abstract class HTMLTable extends Panel implements
 
   /**
    * Remove the specified widget from the table.
-   * 
+   *
    * @param widget widget to remove
    * @return was the widget removed from the table.
    */
@@ -1018,7 +981,7 @@ public abstract class HTMLTable extends Panel implements
       // Physical detach.
       Element elem = widget.getElement();
       DOM.getParent(elem).removeChild(elem);
-  
+
       // Logical detach.
       widgetMap.removeByElement(elem);
     }
@@ -1026,9 +989,8 @@ public abstract class HTMLTable extends Panel implements
   }
 
   /**
-   * Sets the width of the table's border. This border is displayed around all
-   * cells in the table.
-   * 
+   * Sets the width of the table's border. This border is displayed around all cells in the table.
+   *
    * @param width the width of the border, in pixels
    */
   public void setBorderWidth(int width) {
@@ -1037,7 +999,7 @@ public abstract class HTMLTable extends Panel implements
 
   /**
    * Sets the amount of padding to be added around all cells.
-   * 
+   *
    * @param padding the cell padding, in pixels
    */
   public void setCellPadding(int padding) {
@@ -1046,7 +1008,7 @@ public abstract class HTMLTable extends Panel implements
 
   /**
    * Sets the amount of spacing to be added around all cells.
-   * 
+   *
    * @param spacing the cell spacing, in pixels
    */
   public void setCellSpacing(int spacing) {
@@ -1100,16 +1062,13 @@ public abstract class HTMLTable extends Panel implements
 
   /**
    * Sets the widget within the specified cell.
-   * <p>
-   * Inherited implementations may either throw IndexOutOfBounds exception if
-   * the cell does not exist, or allocate a new cell to store the content.
-   * </p>
-   * <p>
-   * FlexTable will automatically allocate the cell at the correct location and
-   * then set the widget. Grid will set the widget if and only if the cell is
-   * within the Grid's bounding box.
-   * </p>
-   * 
+   *
+   * <p>Inherited implementations may either throw IndexOutOfBounds exception if the cell does not
+   * exist, or allocate a new cell to store the content.
+   *
+   * <p>FlexTable will automatically allocate the cell at the correct location and then set the
+   * widget. Grid will set the widget if and only if the cell is within the Grid's bounding box.
+   *
    * @param widget The widget to be added, or null to clear the cell
    * @param row the cell's row
    * @param column the cell's column
@@ -1133,10 +1092,10 @@ public abstract class HTMLTable extends Panel implements
       adopt(widget);
     }
   }
-  
+
   /**
    * Overloaded version for IsWidget.
-   * 
+   *
    * @see #setWidget(int,int,Widget)
    */
   public void setWidget(int row, int column, IsWidget widget) {
@@ -1145,7 +1104,7 @@ public abstract class HTMLTable extends Panel implements
 
   /**
    * Bounds checks that the cell exists at the specified location.
-   * 
+   *
    * @param row cell's row
    * @param column cell's column
    * @throws IndexOutOfBoundsException
@@ -1153,34 +1112,31 @@ public abstract class HTMLTable extends Panel implements
   protected void checkCellBounds(int row, int column) {
     checkRowBounds(row);
     if (column < 0) {
-      throw new IndexOutOfBoundsException("Column " + column
-          + " must be non-negative: " + column);
+      throw new IndexOutOfBoundsException("Column " + column + " must be non-negative: " + column);
     }
     int cellSize = getCellCount(row);
     if (cellSize <= column) {
-      throw new IndexOutOfBoundsException("Column index: " + column
-          + ", Column size: " + getCellCount(row));
+      throw new IndexOutOfBoundsException(
+          "Column index: " + column + ", Column size: " + getCellCount(row));
     }
   }
 
   /**
    * Checks that the row is within the correct bounds.
-   * 
+   *
    * @param row row index to check
    * @throws IndexOutOfBoundsException
    */
   protected void checkRowBounds(int row) {
     int rowSize = getRowCount();
     if ((row >= rowSize) || (row < 0)) {
-      throw new IndexOutOfBoundsException("Row index: " + row + ", Row size: "
-          + rowSize);
+      throw new IndexOutOfBoundsException("Row index: " + row + ", Row size: " + rowSize);
     }
   }
 
   /**
-   * Creates a new cell. Override this method if the cell should have initial
-   * contents.
-   * 
+   * Creates a new cell. Override this method if the cell should have initial contents.
+   *
    * @return the newly created TD
    */
   protected Element createCell() {
@@ -1189,7 +1145,7 @@ public abstract class HTMLTable extends Panel implements
 
   /**
    * Gets the table's TBODY element.
-   * 
+   *
    * @return the TBODY element
    */
   protected Element getBodyElement() {
@@ -1198,7 +1154,7 @@ public abstract class HTMLTable extends Panel implements
 
   /**
    * Directly ask the underlying DOM what the cell count on the given row is.
-   * 
+   *
    * @param tableBody the element
    * @param row the row
    * @return number of columns in the row
@@ -1210,7 +1166,7 @@ public abstract class HTMLTable extends Panel implements
 
   /**
    * Directly ask the underlying DOM what the cell count on the given row is.
-   * 
+   *
    * @param row the row
    * @return number of columns in the row
    */
@@ -1220,13 +1176,12 @@ public abstract class HTMLTable extends Panel implements
 
   /**
    * Directly ask the underlying DOM what the row count is.
-   * 
+   *
    * @return Returns the number of rows in the table
    */
   protected int getDOMRowCount() {
     return getDOMRowCount(bodyElem);
   }
-
 
   protected int getDOMRowCount(Element tbody) {
     return getRows(tbody).length;
@@ -1234,10 +1189,9 @@ public abstract class HTMLTable extends Panel implements
 
   /**
    * Determines the TD associated with the specified event.
-   * 
+   *
    * @param event the event to be queried
-   * @return the TD associated with the event, or <code>null</code> if none is
-   *         found.
+   * @return the TD associated with the event, or <code>null</code> if none is found.
    */
   protected Element getEventTargetCell(Event event) {
     Element td = DOM.eventGetTarget(event);
@@ -1262,7 +1216,7 @@ public abstract class HTMLTable extends Panel implements
 
   /**
    * Inserts a new cell into the specified row.
-   * 
+   *
    * @param row the row into which the new cell will be inserted
    * @param column the column before which the cell will be inserted
    * @throws IndexOutOfBoundsException
@@ -1275,7 +1229,7 @@ public abstract class HTMLTable extends Panel implements
 
   /**
    * Inserts a number of cells before the specified cell.
-   * 
+   *
    * @param row the row into which the new cells will be inserted
    * @param column the column before which the new cells will be inserted
    * @param count number of cells to be inserted
@@ -1291,7 +1245,7 @@ public abstract class HTMLTable extends Panel implements
 
   /**
    * Inserts a new row into the table.
-   * 
+   *
    * @param beforeRow the index before which the new row will be inserted
    * @return the index of the newly-created row
    * @throws IndexOutOfBoundsException
@@ -1307,16 +1261,15 @@ public abstract class HTMLTable extends Panel implements
   }
 
   /**
-   * Does actual clearing, used by clearCell and cleanCell. All HTMLTable
-   * methods should use internalClearCell rather than clearCell, as clearCell
-   * may be overridden in subclasses to format an empty cell.
-   * 
+   * Does actual clearing, used by clearCell and cleanCell. All HTMLTable methods should use
+   * internalClearCell rather than clearCell, as clearCell may be overridden in subclasses to format
+   * an empty cell.
+   *
    * @param td element to clear
    * @param clearInnerHTML should the cell's inner html be cleared?
    * @return returns whether a widget was cleared
    */
-  protected boolean internalClearCell(Element td,
-                                      boolean clearInnerHTML) {
+  protected boolean internalClearCell(Element td, boolean clearInnerHTML) {
     Element maybeChild = DOM.getFirstChild(td);
     Widget widget = null;
     if (maybeChild != null) {
@@ -1337,10 +1290,11 @@ public abstract class HTMLTable extends Panel implements
 
   /**
    * <b>Affected Elements:</b>
+   *
    * <ul>
-   * <li>-(row)#-(cell)# = the cell at the given row and cell index.</li>
+   *   <li>-(row)#-(cell)# = the cell at the given row and cell index.
    * </ul>
-   * 
+   *
    * @see UIObject#onEnsureDebugId(String)
    */
   @Override
@@ -1358,22 +1312,20 @@ public abstract class HTMLTable extends Panel implements
   }
 
   /**
-   * Subclasses must implement this method. It allows them to decide what to do
-   * just before a cell is accessed. If the cell already exists, this method
-   * must do nothing. Otherwise, a subclass must either ensure that the cell
-   * exists or throw an {@link IndexOutOfBoundsException}.
-   * 
+   * Subclasses must implement this method. It allows them to decide what to do just before a cell
+   * is accessed. If the cell already exists, this method must do nothing. Otherwise, a subclass
+   * must either ensure that the cell exists or throw an {@link IndexOutOfBoundsException}.
+   *
    * @param row the cell's row
    * @param column the cell's column
    */
   protected abstract void prepareCell(int row, int column);
 
   /**
-   * Subclasses can implement this method. It allows them to decide what to do
-   * just before a column is accessed. For classes, such as
-   * <code>FlexTable</code>, that do not have a concept of a global column
-   * length can ignore this method.
-   * 
+   * Subclasses can implement this method. It allows them to decide what to do just before a column
+   * is accessed. For classes, such as <code>FlexTable</code>, that do not have a concept of a
+   * global column length can ignore this method.
+   *
    * @param column the cell's column
    * @throws IndexOutOfBoundsException
    */
@@ -1386,17 +1338,17 @@ public abstract class HTMLTable extends Panel implements
   }
 
   /**
-   * Subclasses must implement this method. If the row already exists, this
-   * method must do nothing. Otherwise, a subclass must either ensure that the
-   * row exists or throw an {@link IndexOutOfBoundsException}.
-   * 
+   * Subclasses must implement this method. If the row already exists, this method must do nothing.
+   * Otherwise, a subclass must either ensure that the row exists or throw an {@link
+   * IndexOutOfBoundsException}.
+   *
    * @param row the cell's row
    */
   protected abstract void prepareRow(int row);
 
   /**
    * Removes the specified cell from the table.
-   * 
+   *
    * @param row the row of the cell to remove
    * @param column the column of cell to remove
    * @throws IndexOutOfBoundsException
@@ -1410,7 +1362,7 @@ public abstract class HTMLTable extends Panel implements
 
   /**
    * Removes the specified row from the table.
-   * 
+   *
    * @param row the index of the row to be removed
    * @throws IndexOutOfBoundsException
    */
@@ -1424,7 +1376,7 @@ public abstract class HTMLTable extends Panel implements
 
   /**
    * Sets the table's CellFormatter.
-   * 
+   *
    * @param cellFormatter the table's cell formatter
    */
   protected void setCellFormatter(CellFormatter cellFormatter) {
@@ -1443,7 +1395,7 @@ public abstract class HTMLTable extends Panel implements
 
   /**
    * Sets the table's RowFormatter.
-   * 
+   *
    * @param rowFormatter the table's row formatter
    */
   protected void setRowFormatter(RowFormatter rowFormatter) {
@@ -1462,14 +1414,14 @@ public abstract class HTMLTable extends Panel implements
     return Js.uncheckedCast(((JsPropertyMap) tbody).get("rows"));
   }
 
-  private JsArray<Element> getCells(Element row)  {
+  private JsArray<Element> getCells(Element row) {
     return Js.uncheckedCast(((JsPropertyMap) row).get("cells"));
   }
 
   /**
-   * Removes any widgets, text, and HTML within the cell. This method assumes
-   * that the requested cell already exists.
-   * 
+   * Removes any widgets, text, and HTML within the cell. This method assumes that the requested
+   * cell already exists.
+   *
    * @param row the cell's row
    * @param column the cell's column
    * @param clearInnerHTML should the cell's inner html be cleared?
@@ -1484,7 +1436,7 @@ public abstract class HTMLTable extends Panel implements
 
   /**
    * Gets the Widget associated with the given cell.
-   * 
+   *
    * @param row the cell's row
    * @param column the cell's column
    * @return the widget

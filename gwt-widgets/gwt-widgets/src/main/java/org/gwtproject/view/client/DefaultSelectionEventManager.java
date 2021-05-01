@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,33 +15,28 @@
  */
 package org.gwtproject.view.client;
 
+import java.util.*;
 import org.gwtproject.dom.client.BrowserEvents;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.InputElement;
 import org.gwtproject.dom.client.NativeEvent;
 
-import java.util.*;
-
 /**
- * An implementation of {@link CellPreviewEvent.Handler} that adds selection
- * support via the spacebar and mouse clicks and handles the control key.
- * 
- * <p>
- * If the {@link org.gwtproject.view.client.HasData} source of the selection event uses a
- * {@link org.gwtproject.view.client.MultiSelectionModel}, this manager additionally provides support for
- * shift key to select a range of values. For all other {@link SelectionModel}s,
- * only the control key is supported.
- * </p>
- * 
+ * An implementation of {@link CellPreviewEvent.Handler} that adds selection support via the
+ * spacebar and mouse clicks and handles the control key.
+ *
+ * <p>If the {@link org.gwtproject.view.client.HasData} source of the selection event uses a {@link
+ * org.gwtproject.view.client.MultiSelectionModel}, this manager additionally provides support for
+ * shift key to select a range of values. For all other {@link SelectionModel}s, only the control
+ * key is supported.
+ *
  * @param <T> the data type of records in the list
  */
-public class DefaultSelectionEventManager<T> implements
-    CellPreviewEvent.Handler<T> {
+public class DefaultSelectionEventManager<T> implements CellPreviewEvent.Handler<T> {
 
   /**
-   * An event translator that disables selection for the specified blacklisted
-   * columns.
-   * 
+   * An event translator that disables selection for the specified blacklisted columns.
+   *
    * @param <T> the data type
    */
   public static class BlacklistEventTranslator<T> implements EventTranslator<T> {
@@ -49,7 +44,7 @@ public class DefaultSelectionEventManager<T> implements
 
     /**
      * Construct a new {@link BlacklistEventTranslator}.
-     * 
+     *
      * @param blacklistedColumns the columns to blacklist
      */
     public BlacklistEventTranslator(int... blacklistedColumns) {
@@ -60,9 +55,7 @@ public class DefaultSelectionEventManager<T> implements
       }
     }
 
-    /**
-     * Clear all columns from the blacklist.
-     */
+    /** Clear all columns from the blacklist. */
     public void clearBlacklist() {
       blacklist.clear();
     }
@@ -73,7 +66,7 @@ public class DefaultSelectionEventManager<T> implements
 
     /**
      * Check if the specified column is blacklisted.
-     * 
+     *
      * @param index the column index
      * @return true if blacklisted, false if not
      */
@@ -83,7 +76,7 @@ public class DefaultSelectionEventManager<T> implements
 
     /**
      * Set whether or not the specified column in blacklisted.
-     * 
+     *
      * @param index the column index
      * @param isBlacklisted true to blacklist, false to allow selection
      */
@@ -96,36 +89,33 @@ public class DefaultSelectionEventManager<T> implements
     }
 
     public SelectAction translateSelectionEvent(CellPreviewEvent<T> event) {
-      return isColumnBlacklisted(event.getColumn()) ? SelectAction.IGNORE
-          : SelectAction.DEFAULT;
+      return isColumnBlacklisted(event.getColumn()) ? SelectAction.IGNORE : SelectAction.DEFAULT;
     }
   }
-  
+
   /**
-   * Implementation of {@link EventTranslator} that only triggers selection when
-   * any checkbox is selected.
-   * 
+   * Implementation of {@link EventTranslator} that only triggers selection when any checkbox is
+   * selected.
+   *
    * @param <T> the data type
    */
   public static class CheckboxEventTranslator<T> implements EventTranslator<T> {
 
-    /**
-     * The column index of the checkbox. Other columns are ignored.
-     */
+    /** The column index of the checkbox. Other columns are ignored. */
     private final int column;
 
     /**
-     * Construct a new {@link CheckboxEventTranslator} that will trigger
-     * selection when any checkbox in any column is selected.
+     * Construct a new {@link CheckboxEventTranslator} that will trigger selection when any checkbox
+     * in any column is selected.
      */
     public CheckboxEventTranslator() {
       this(-1);
     }
 
     /**
-     * Construct a new {@link CheckboxEventTranslator} that will trigger
-     * selection when a checkbox in the specified column is selected.
-     * 
+     * Construct a new {@link CheckboxEventTranslator} that will trigger selection when a checkbox
+     * in the specified column is selected.
+     *
      * @param column the column index, or -1 for all columns
      */
     public CheckboxEventTranslator(int column) {
@@ -151,8 +141,7 @@ public class DefaultSelectionEventManager<T> implements
           final InputElement input = target.cast();
           if ("checkbox".equals(input.getType().toLowerCase(Locale.ROOT))) {
             // Synchronize the checkbox with the current selection state.
-            input.setChecked(event.getDisplay().getSelectionModel().isSelected(
-                event.getValue()));
+            input.setChecked(event.getDisplay().getSelectionModel().isSelected(event.getValue()));
             return SelectAction.TOGGLE;
           }
         }
@@ -164,29 +153,24 @@ public class DefaultSelectionEventManager<T> implements
     }
   }
 
-  /**
-   * Translates {@link CellPreviewEvent}s into {@link SelectAction}s.
-   */
+  /** Translates {@link CellPreviewEvent}s into {@link SelectAction}s. */
   public static interface EventTranslator<T> {
     /**
-     * Check whether a user selection event should clear all currently selected
-     * values.
-     * 
+     * Check whether a user selection event should clear all currently selected values.
+     *
      * @param event the {@link CellPreviewEvent} to translate
      */
     boolean clearCurrentSelection(CellPreviewEvent<T> event);
 
     /**
      * Translate the user selection event into a {@link SelectAction}.
-     * 
+     *
      * @param event the {@link CellPreviewEvent} to translate
      */
     SelectAction translateSelectionEvent(CellPreviewEvent<T> event);
   }
 
-  /**
-   * The action that controls how selection is handled.
-   */
+  /** The action that controls how selection is handled. */
   public static enum SelectAction {
     DEFAULT, // Perform the default action.
     SELECT, // Select the value.
@@ -196,9 +180,8 @@ public class DefaultSelectionEventManager<T> implements
   }
 
   /**
-   * An event translator that allows selection only for the specified
-   * whitelisted columns.
-   * 
+   * An event translator that allows selection only for the specified whitelisted columns.
+   *
    * @param <T> the data type
    */
   public static class WhitelistEventTranslator<T> implements EventTranslator<T> {
@@ -206,7 +189,7 @@ public class DefaultSelectionEventManager<T> implements
 
     /**
      * Construct a new {@link WhitelistEventTranslator}.
-     * 
+     *
      * @param whitelistedColumns the columns to whitelist
      */
     public WhitelistEventTranslator(int... whitelistedColumns) {
@@ -221,16 +204,14 @@ public class DefaultSelectionEventManager<T> implements
       return false;
     }
 
-    /**
-     * Clear all columns from the whitelist.
-     */
+    /** Clear all columns from the whitelist. */
     public void clearWhitelist() {
       whitelist.clear();
     }
 
     /**
      * Check if the specified column is whitelisted.
-     * 
+     *
      * @param index the column index
      * @return true if whitelisted, false if not
      */
@@ -240,7 +221,7 @@ public class DefaultSelectionEventManager<T> implements
 
     /**
      * Set whether or not the specified column in whitelisted.
-     * 
+     *
      * @param index the column index
      * @param isWhitelisted true to whitelist, false to allow disallow selection
      */
@@ -253,29 +234,27 @@ public class DefaultSelectionEventManager<T> implements
     }
 
     public SelectAction translateSelectionEvent(CellPreviewEvent<T> event) {
-      return isColumnWhitelisted(event.getColumn()) ? SelectAction.DEFAULT
-          : SelectAction.IGNORE;
+      return isColumnWhitelisted(event.getColumn()) ? SelectAction.DEFAULT : SelectAction.IGNORE;
     }
   }
 
   /**
-   * Construct a new {@link DefaultSelectionEventManager} that ignores selection
-   * for the columns in the specified blacklist.
-   * 
+   * Construct a new {@link DefaultSelectionEventManager} that ignores selection for the columns in
+   * the specified blacklist.
+   *
    * @param <T> the data type of the display
    * @param blacklistedColumns the columns to include in the blacklist
    * @return a {@link DefaultSelectionEventManager} instance
    */
   public static <T> DefaultSelectionEventManager<T> createBlacklistManager(
       int... blacklistedColumns) {
-    return new DefaultSelectionEventManager<T>(new BlacklistEventTranslator<T>(
-        blacklistedColumns));
+    return new DefaultSelectionEventManager<T>(new BlacklistEventTranslator<T>(blacklistedColumns));
   }
-  
+
   /**
-   * Construct a new {@link DefaultSelectionEventManager} that triggers
-   * selection when any checkbox in any column is clicked.
-   * 
+   * Construct a new {@link DefaultSelectionEventManager} that triggers selection when any checkbox
+   * in any column is clicked.
+   *
    * @param <T> the data type of the display
    * @return a {@link DefaultSelectionEventManager} instance
    */
@@ -284,24 +263,21 @@ public class DefaultSelectionEventManager<T> implements
   }
 
   /**
-   * Construct a new {@link DefaultSelectionEventManager} that triggers
-   * selection when a checkbox in the specified column is clicked.
-   * 
+   * Construct a new {@link DefaultSelectionEventManager} that triggers selection when a checkbox in
+   * the specified column is clicked.
+   *
    * @param <T> the data type of the display
    * @param column the column to handle
    * @return a {@link DefaultSelectionEventManager} instance
    */
-  public static <T> DefaultSelectionEventManager<T> createCheckboxManager(
-      int column) {
-    return new DefaultSelectionEventManager<T>(new CheckboxEventTranslator<T>(
-        column));
+  public static <T> DefaultSelectionEventManager<T> createCheckboxManager(int column) {
+    return new DefaultSelectionEventManager<T>(new CheckboxEventTranslator<T>(column));
   }
 
   /**
-   * Create a new {@link DefaultSelectionEventManager} using the specified
-   * {@link EventTranslator} to control which {@link SelectAction} to take for
-   * each event.
-   * 
+   * Create a new {@link DefaultSelectionEventManager} using the specified {@link EventTranslator}
+   * to control which {@link SelectAction} to take for each event.
+   *
    * @param <T> the data type of the display
    * @param translator the {@link EventTranslator} to use
    * @return a {@link DefaultSelectionEventManager} instance
@@ -312,9 +288,8 @@ public class DefaultSelectionEventManager<T> implements
   }
 
   /**
-   * Create a new {@link DefaultSelectionEventManager} that handles selection
-   * via user interactions.
-   * 
+   * Create a new {@link DefaultSelectionEventManager} that handles selection via user interactions.
+   *
    * @param <T> the data type of the display
    * @return a new {@link DefaultSelectionEventManager} instance
    */
@@ -323,55 +298,43 @@ public class DefaultSelectionEventManager<T> implements
   }
 
   /**
-   * Construct a new {@link DefaultSelectionEventManager} that allows selection
-   * only for the columns in the specified whitelist.
-   * 
+   * Construct a new {@link DefaultSelectionEventManager} that allows selection only for the columns
+   * in the specified whitelist.
+   *
    * @param <T> the data type of the display
    * @param whitelistedColumns the columns to include in the whitelist
    * @return a {@link DefaultSelectionEventManager} instance
    */
   public static <T> DefaultSelectionEventManager<T> createWhitelistManager(
       int... whitelistedColumns) {
-    return new DefaultSelectionEventManager<T>(new WhitelistEventTranslator<T>(
-        whitelistedColumns));
+    return new DefaultSelectionEventManager<T>(new WhitelistEventTranslator<T>(whitelistedColumns));
   }
 
-  /**
-   * The last {@link org.gwtproject.view.client.HasData} that was handled.
-   */
+  /** The last {@link org.gwtproject.view.client.HasData} that was handled. */
   private org.gwtproject.view.client.HasData<T> lastDisplay;
 
-  /**
-   * The last page start.
-   */
+  /** The last page start. */
   private int lastPageStart;
 
-  /**
-   * The last selected row index.
-   */
+  /** The last selected row index. */
   private int lastSelectedIndex = -1;
 
-  /**
-   * A boolean indicating that the last shift selection was additive.
-   */
+  /** A boolean indicating that the last shift selection was additive. */
   private boolean shiftAdditive;
 
   /**
-   * The last place where the user clicked without holding shift. Multi
-   * selections that use the shift key are rooted at the anchor.
+   * The last place where the user clicked without holding shift. Multi selections that use the
+   * shift key are rooted at the anchor.
    */
   private int shiftAnchor = -1;
 
-  /**
-   * The {@link EventTranslator} that controls how selection is handled.
-   */
+  /** The {@link EventTranslator} that controls how selection is handled. */
   private final EventTranslator<T> translator;
 
   /**
-   * Construct a new {@link DefaultSelectionEventManager} using the specified
-   * {@link EventTranslator} to control which {@link SelectAction} to take for
-   * each event.
-   * 
+   * Construct a new {@link DefaultSelectionEventManager} using the specified {@link
+   * EventTranslator} to control which {@link SelectAction} to take for each event.
+   *
    * @param translator the {@link EventTranslator} to use
    */
   protected DefaultSelectionEventManager(EventTranslator<T> translator) {
@@ -380,7 +343,7 @@ public class DefaultSelectionEventManager<T> implements
 
   /**
    * Update the selection model based on a user selection event.
-   * 
+   *
    * @param selectionModel the selection model to update
    * @param row the absolute index of the selected row
    * @param rowValue the selected row value
@@ -388,9 +351,14 @@ public class DefaultSelectionEventManager<T> implements
    * @param selectRange true to select the range from the last selected row
    * @param clearOthers true to clear the current selection
    */
-  public void doMultiSelection(org.gwtproject.view.client.MultiSelectionModel<? super T> selectionModel,
-                               org.gwtproject.view.client.HasData<T> display, int row, T rowValue, SelectAction action,
-                               boolean selectRange, boolean clearOthers) {
+  public void doMultiSelection(
+      org.gwtproject.view.client.MultiSelectionModel<? super T> selectionModel,
+      org.gwtproject.view.client.HasData<T> display,
+      int row,
+      T rowValue,
+      SelectAction action,
+      boolean selectRange,
+      boolean clearOthers) {
     // Determine if we will add or remove selection.
     boolean addToSelection = true;
     if (action != null) {
@@ -412,8 +380,11 @@ public class DefaultSelectionEventManager<T> implements
 
     // Determine which rows will be newly selected.
     int pageStart = display.getVisibleRange().getStart();
-    if (selectRange && pageStart == lastPageStart && lastSelectedIndex > -1
-        && shiftAnchor > -1 && display == lastDisplay) {
+    if (selectRange
+        && pageStart == lastPageStart
+        && lastSelectedIndex > -1
+        && shiftAnchor > -1
+        && display == lastDisplay) {
       /*
        * Get the new shift bounds based on the existing shift anchor and the
        * selected row.
@@ -423,12 +394,20 @@ public class DefaultSelectionEventManager<T> implements
 
       if (lastSelectedIndex < start) {
         // Revert previous selection if the user reselects a smaller range.
-        setRangeSelection(selectionModel, display, new org.gwtproject.view.client.Range(lastSelectedIndex,
-            start - lastSelectedIndex), !shiftAdditive, false);
+        setRangeSelection(
+            selectionModel,
+            display,
+            new org.gwtproject.view.client.Range(lastSelectedIndex, start - lastSelectedIndex),
+            !shiftAdditive,
+            false);
       } else if (lastSelectedIndex > end) {
         // Revert previous selection if the user reselects a smaller range.
-        setRangeSelection(selectionModel, display, new org.gwtproject.view.client.Range(end + 1,
-            lastSelectedIndex - end), !shiftAdditive, false);
+        setRangeSelection(
+            selectionModel,
+            display,
+            new org.gwtproject.view.client.Range(end + 1, lastSelectedIndex - end),
+            !shiftAdditive,
+            false);
       } else {
         // Remember if we are adding or removing rows.
         shiftAdditive = addToSelection;
@@ -438,8 +417,12 @@ public class DefaultSelectionEventManager<T> implements
       lastSelectedIndex = row;
 
       // Select the range.
-      setRangeSelection(selectionModel, display, new org.gwtproject.view.client.Range(start, end - start
-          + 1), shiftAdditive, clearOthers);
+      setRangeSelection(
+          selectionModel,
+          display,
+          new org.gwtproject.view.client.Range(start, end - start + 1),
+          shiftAdditive,
+          clearOthers);
     } else {
       /*
        * If we are not selecting a range, save the last row and set the shift
@@ -467,13 +450,15 @@ public class DefaultSelectionEventManager<T> implements
     }
 
     // Check for user defined actions.
-    SelectAction action = (translator == null) ? SelectAction.DEFAULT
-        : translator.translateSelectionEvent(event);
+    SelectAction action =
+        (translator == null) ? SelectAction.DEFAULT : translator.translateSelectionEvent(event);
 
     // Handle the event based on the SelectionModel type.
     if (selectionModel instanceof org.gwtproject.view.client.MultiSelectionModel<?>) {
       // Add shift key support for MultiSelectionModel.
-      handleMultiSelectionEvent(event, action,
+      handleMultiSelectionEvent(
+          event,
+          action,
           (org.gwtproject.view.client.MultiSelectionModel<? super T>) selectionModel);
     } else {
       // Use the standard handler.
@@ -483,25 +468,28 @@ public class DefaultSelectionEventManager<T> implements
 
   /**
    * Removes all items from the selection.
-   * 
+   *
    * @param selectionModel the {@link org.gwtproject.view.client.MultiSelectionModel} to clear
    */
-  protected void clearSelection(org.gwtproject.view.client.MultiSelectionModel<? super T> selectionModel) {
+  protected void clearSelection(
+      org.gwtproject.view.client.MultiSelectionModel<? super T> selectionModel) {
     selectionModel.clear();
   }
 
   /**
-   * Handle an event that could cause a value to be selected for a
-   * {@link org.gwtproject.view.client.MultiSelectionModel}. This overloaded method adds support for both
-   * the control and shift keys. If the shift key is held down, all rows between
-   * the previous selected row and the current row are selected.
-   * 
+   * Handle an event that could cause a value to be selected for a {@link
+   * org.gwtproject.view.client.MultiSelectionModel}. This overloaded method adds support for both
+   * the control and shift keys. If the shift key is held down, all rows between the previous
+   * selected row and the current row are selected.
+   *
    * @param event the {@link CellPreviewEvent} that triggered selection
    * @param action the action to handle
    * @param selectionModel the {@link SelectionModel} to update
    */
-  protected void handleMultiSelectionEvent(CellPreviewEvent<T> event,
-      SelectAction action, org.gwtproject.view.client.MultiSelectionModel<? super T> selectionModel) {
+  protected void handleMultiSelectionEvent(
+      CellPreviewEvent<T> event,
+      SelectAction action,
+      org.gwtproject.view.client.MultiSelectionModel<? super T> selectionModel) {
     NativeEvent nativeEvent = event.getNativeEvent();
     String type = nativeEvent.getType();
     if (BrowserEvents.CLICK.equals(type)) {
@@ -512,13 +500,19 @@ public class DefaultSelectionEventManager<T> implements
        */
       boolean shift = nativeEvent.getShiftKey();
       boolean ctrlOrMeta = nativeEvent.getCtrlKey() || nativeEvent.getMetaKey();
-      boolean clearOthers = (translator == null) ? !ctrlOrMeta
-          : translator.clearCurrentSelection(event);
+      boolean clearOthers =
+          (translator == null) ? !ctrlOrMeta : translator.clearCurrentSelection(event);
       if (action == null || action == SelectAction.DEFAULT) {
         action = ctrlOrMeta ? SelectAction.TOGGLE : SelectAction.SELECT;
       }
-      doMultiSelection(selectionModel, event.getDisplay(), event.getIndex(),
-          event.getValue(), action, shift, clearOthers);
+      doMultiSelection(
+          selectionModel,
+          event.getDisplay(),
+          event.getIndex(),
+          event.getValue(),
+          action,
+          shift,
+          clearOthers);
     } else if (BrowserEvents.KEYUP.equals(type)) {
       int keyCode = nativeEvent.getKeyCode();
       if (keyCode == 32) {
@@ -527,28 +521,34 @@ public class DefaultSelectionEventManager<T> implements
          * toggles selection, regardless of whether the control key is pressed.
          */
         boolean shift = nativeEvent.getShiftKey();
-        boolean clearOthers = (translator == null) ? false
-            : translator.clearCurrentSelection(event);
+        boolean clearOthers =
+            (translator == null) ? false : translator.clearCurrentSelection(event);
         if (action == null || action == SelectAction.DEFAULT) {
           action = SelectAction.TOGGLE;
         }
-        doMultiSelection(selectionModel, event.getDisplay(), event.getIndex(),
-            event.getValue(), action, shift, clearOthers);
+        doMultiSelection(
+            selectionModel,
+            event.getDisplay(),
+            event.getIndex(),
+            event.getValue(),
+            action,
+            shift,
+            clearOthers);
       }
     }
   }
 
   /**
-   * Handle an event that could cause a value to be selected. This method works
-   * for any {@link SelectionModel}. Pressing the space bar or ctrl+click will
-   * toggle the selection state. Clicking selects the row if it is not selected.
-   * 
+   * Handle an event that could cause a value to be selected. This method works for any {@link
+   * SelectionModel}. Pressing the space bar or ctrl+click will toggle the selection state. Clicking
+   * selects the row if it is not selected.
+   *
    * @param event the {@link CellPreviewEvent} that triggered selection
    * @param action the action to handle
    * @param selectionModel the {@link SelectionModel} to update
    */
-  protected void handleSelectionEvent(CellPreviewEvent<T> event,
-      SelectAction action, SelectionModel<? super T> selectionModel) {
+  protected void handleSelectionEvent(
+      CellPreviewEvent<T> event, SelectAction action, SelectionModel<? super T> selectionModel) {
     // Handle selection overrides.
     T value = event.getValue();
     if (action != null) {
@@ -589,14 +589,17 @@ public class DefaultSelectionEventManager<T> implements
 
   /**
    * Selects the given item, optionally clearing any prior selection.
-   * 
+   *
    * @param selectionModel the {@link org.gwtproject.view.client.MultiSelectionModel} to update
    * @param target the item to select
    * @param selected true to select, false to deselect
    * @param clearOthers true to clear all other selected items
    */
-  protected void selectOne(org.gwtproject.view.client.MultiSelectionModel<? super T> selectionModel,
-                           T target, boolean selected, boolean clearOthers) {
+  protected void selectOne(
+      org.gwtproject.view.client.MultiSelectionModel<? super T> selectionModel,
+      T target,
+      boolean selected,
+      boolean clearOthers) {
     if (clearOthers) {
       clearSelection(selectionModel);
     }
@@ -604,9 +607,8 @@ public class DefaultSelectionEventManager<T> implements
   }
 
   /**
-   * Select or deselect a range of row indexes, optionally deselecting all other
-   * values.
-   * 
+   * Select or deselect a range of row indexes, optionally deselecting all other values.
+   *
    * @param selectionModel the {@link org.gwtproject.view.client.MultiSelectionModel} to update
    * @param display the {@link org.gwtproject.view.client.HasData} source of the selection event
    * @param range the {@link org.gwtproject.view.client.Range} of rows to select or deselect
@@ -614,8 +616,11 @@ public class DefaultSelectionEventManager<T> implements
    * @param clearOthers true to deselect rows not in the range
    */
   protected void setRangeSelection(
-      org.gwtproject.view.client.MultiSelectionModel<? super T> selectionModel, org.gwtproject.view.client.HasData<T> display,
-      org.gwtproject.view.client.Range range, boolean addToSelection, boolean clearOthers) {
+      org.gwtproject.view.client.MultiSelectionModel<? super T> selectionModel,
+      org.gwtproject.view.client.HasData<T> display,
+      org.gwtproject.view.client.Range range,
+      boolean addToSelection,
+      boolean clearOthers) {
     // Get the list of values to select.
     List<T> toUpdate = new ArrayList<T>();
     int itemCount = display.getVisibleItemCount();

@@ -20,14 +20,10 @@ import org.gwtproject.safehtml.shared.SafeHtml;
 import org.gwtproject.safehtml.shared.SafeHtmlBuilder;
 
 /**
- * <p>
- * An {@link AbstractCell} used to render an image. The String value is the url
- * of the image.
- * </p>
- * <p>
- * If the images being displayed are static or available at compile time, using
- * {@link ImageResourceCell} will usually be more efficient.
- * </p>
+ * An {@link AbstractCell} used to render an image. The String value is the url of the image.
+ *
+ * <p>If the images being displayed are static or available at compile time, using {@link
+ * ImageResourceCell} will usually be more efficient.
  *
  * @see ImageResourceCell
  */
@@ -39,9 +35,7 @@ public class ImageCell extends AbstractCell<String> {
     SafeHtml img(String url);
   }
 
-  /**
-   * Construct a new ImageCell.
-   */
+  /** Construct a new ImageCell. */
   public ImageCell() {
     super();
   }

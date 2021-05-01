@@ -20,32 +20,25 @@ import org.gwtproject.safehtml.shared.SafeHtmlBuilder;
 import org.gwtproject.text.shared.SafeHtmlRenderer;
 import org.gwtproject.text.shared.SimpleSafeHtmlRenderer;
 
-/**
- * A {@link Cell} used to render formatted numbers.
- */
+/** A {@link Cell} used to render formatted numbers. */
 public class NumberCell extends AbstractCell<Number> {
 
-  /**
-   * The {@link NumberFormat} used to render the number.
-   */
+  /** The {@link NumberFormat} used to render the number. */
   private final NumberFormat format;
 
-  /**
-   * The {@link SafeHtmlRenderer} used to render the formatted number as HTML.
-   */
+  /** The {@link SafeHtmlRenderer} used to render the formatted number as HTML. */
   private final SafeHtmlRenderer<String> renderer;
 
   /**
-   * Construct a new {@link NumberCell} using decimal format and a
-   * {@link SimpleSafeHtmlRenderer}.
+   * Construct a new {@link NumberCell} using decimal format and a {@link SimpleSafeHtmlRenderer}.
    */
   public NumberCell() {
     this(NumberFormat.getDecimalFormat(), SimpleSafeHtmlRenderer.getInstance());
   }
 
   /**
-   * Construct a new {@link NumberCell} using the given {@link NumberFormat} and
-   * a {@link SimpleSafeHtmlRenderer}.
+   * Construct a new {@link NumberCell} using the given {@link NumberFormat} and a {@link
+   * SimpleSafeHtmlRenderer}.
    *
    * @param format the {@link NumberFormat} used to render the number
    */
@@ -54,23 +47,20 @@ public class NumberCell extends AbstractCell<Number> {
   }
 
   /**
-   * Construct a new {@link NumberCell} using decimal format and the given
-   * {@link SafeHtmlRenderer}.
+   * Construct a new {@link NumberCell} using decimal format and the given {@link SafeHtmlRenderer}.
    *
-   * @param renderer the {@link SafeHtmlRenderer} used to render the formatted
-   *          number as HTML
+   * @param renderer the {@link SafeHtmlRenderer} used to render the formatted number as HTML
    */
   public NumberCell(SafeHtmlRenderer<String> renderer) {
     this(NumberFormat.getDecimalFormat(), renderer);
   }
 
   /**
-   * Construct a new {@link NumberCell} using the given {@link NumberFormat} and
-   * a {@link SafeHtmlRenderer}.
+   * Construct a new {@link NumberCell} using the given {@link NumberFormat} and a {@link
+   * SafeHtmlRenderer}.
    *
    * @param format the {@link NumberFormat} used to render the number
-   * @param renderer the {@link SafeHtmlRenderer} used to render the formatted
-   *          number as HTML
+   * @param renderer the {@link SafeHtmlRenderer} used to render the formatted number as HTML
    */
   public NumberCell(NumberFormat format, SafeHtmlRenderer<String> renderer) {
     super();

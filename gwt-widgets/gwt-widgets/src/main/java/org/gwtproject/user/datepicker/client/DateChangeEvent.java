@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -16,22 +16,18 @@
 
 package org.gwtproject.user.datepicker.client;
 
+import java.util.Date;
 import org.gwtproject.event.logical.shared.HasValueChangeHandlers;
 import org.gwtproject.event.logical.shared.ValueChangeEvent;
 import org.gwtproject.event.shared.HasHandlers;
 
-import java.util.Date;
-
-/**
- * Creates a new value every time a date is accessed.
- */
+/** Creates a new value every time a date is accessed. */
 class DateChangeEvent extends ValueChangeEvent<Date> {
 
   /**
-   * Fires value change event if the old value is not equal to the new value.
-   * Use this call rather than making the decision to short circuit yourself for
-   * safe handling of null.
-   * 
+   * Fires value change event if the old value is not equal to the new value. Use this call rather
+   * than making the decision to short circuit yourself for safe handling of null.
+   *
    * @param <S> The event source
    * @param source the source of the handlers
    * @param oldValue the oldValue, may be null
@@ -46,7 +42,7 @@ class DateChangeEvent extends ValueChangeEvent<Date> {
 
   /**
    * Creates a new date value change event.
-   * 
+   *
    * @param value the value
    */
   protected DateChangeEvent(Date value) {

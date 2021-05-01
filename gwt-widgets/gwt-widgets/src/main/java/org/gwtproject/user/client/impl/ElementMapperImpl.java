@@ -16,12 +16,11 @@
 
 package org.gwtproject.user.client.impl;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import jsinterop.base.JsPropertyMap;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.ui.UIObject;
-
-import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * Creates a mapping from elements to their associated ui objects.
@@ -41,20 +40,20 @@ public class ElementMapperImpl<T extends UIObject> {
   }
 
   private static void clearIndex(Element elem) {
-    ((JsPropertyMap)elem).set("__uiObjectID", null);
+    ((JsPropertyMap) elem).set("__uiObjectID", null);
   }
 
   private static int getIndex(Element elem) {
     try {
-      Integer index = Integer.valueOf(((JsPropertyMap)elem).get("__uiObjectID").toString());
+      Integer index = Integer.valueOf(((JsPropertyMap) elem).get("__uiObjectID").toString());
       return (index == null) ? -1 : index;
-    }catch (Exception e) {
+    } catch (Exception e) {
       return -1;
     }
   }
 
   private static void setIndex(Element elem, int index) {
-    ((JsPropertyMap)elem).set("__uiObjectID", index);
+    ((JsPropertyMap) elem).set("__uiObjectID", index);
   }
 
   private ElementMapperImpl.FreeNode freeList = null;

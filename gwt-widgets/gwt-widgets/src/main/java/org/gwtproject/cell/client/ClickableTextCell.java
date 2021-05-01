@@ -15,6 +15,9 @@
  */
 package org.gwtproject.cell.client;
 
+import static org.gwtproject.dom.client.BrowserEvents.CLICK;
+import static org.gwtproject.dom.client.BrowserEvents.KEYDOWN;
+
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.safehtml.shared.SafeHtml;
@@ -22,27 +25,20 @@ import org.gwtproject.safehtml.shared.SafeHtmlBuilder;
 import org.gwtproject.text.shared.SafeHtmlRenderer;
 import org.gwtproject.text.shared.SimpleSafeHtmlRenderer;
 
-import static org.gwtproject.dom.client.BrowserEvents.CLICK;
-import static org.gwtproject.dom.client.BrowserEvents.KEYDOWN;
-
 /**
  * A {@link org.gwtproject.cell.client.Cell} used to render text. Clicking on the cell causes its
  * {@link org.gwtproject.cell.client.ValueUpdater} to be called.
  */
 public class ClickableTextCell extends AbstractSafeHtmlCell<String> {
 
-  /**
-   * Construct a new ClickableTextCell that will use a
-   * {@link SimpleSafeHtmlRenderer}.
-   */
+  /** Construct a new ClickableTextCell that will use a {@link SimpleSafeHtmlRenderer}. */
   public ClickableTextCell() {
     this(SimpleSafeHtmlRenderer.getInstance());
   }
 
   /**
-   * Construct a new ClickableTextCell that will use a given
-   * {@link SafeHtmlRenderer}.
-   * 
+   * Construct a new ClickableTextCell that will use a given {@link SafeHtmlRenderer}.
+   *
    * @param renderer a {@link SafeHtmlRenderer SafeHtmlRenderer<String>} instance
    */
   public ClickableTextCell(SafeHtmlRenderer<String> renderer) {
@@ -50,8 +46,12 @@ public class ClickableTextCell extends AbstractSafeHtmlCell<String> {
   }
 
   @Override
-  public void onBrowserEvent(Cell.Context context, Element parent, String value,
-                             NativeEvent event, org.gwtproject.cell.client.ValueUpdater<String> valueUpdater) {
+  public void onBrowserEvent(
+      Cell.Context context,
+      Element parent,
+      String value,
+      NativeEvent event,
+      org.gwtproject.cell.client.ValueUpdater<String> valueUpdater) {
     super.onBrowserEvent(context, parent, value, event, valueUpdater);
     if (CLICK.equals(event.getType())) {
       onEnterKeyDown(context, parent, value, event, valueUpdater);
@@ -59,8 +59,12 @@ public class ClickableTextCell extends AbstractSafeHtmlCell<String> {
   }
 
   @Override
-  protected void onEnterKeyDown(Cell.Context context, Element parent, String value,
-                                NativeEvent event, org.gwtproject.cell.client.ValueUpdater<String> valueUpdater) {
+  protected void onEnterKeyDown(
+      Cell.Context context,
+      Element parent,
+      String value,
+      NativeEvent event,
+      org.gwtproject.cell.client.ValueUpdater<String> valueUpdater) {
     if (valueUpdater != null) {
       valueUpdater.update(value);
     }

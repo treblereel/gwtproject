@@ -15,26 +15,21 @@
  */
 package org.gwtproject.user.client.ui.impl;
 
-/**
- * Mozilla-specific implementation of rich-text editing.
- */
+/** Mozilla-specific implementation of rich-text editing. */
 public class RichTextAreaImplMozilla extends RichTextAreaImplStandard {
 
-    /**
-     * Indicates that the RichTextArea has never received focus after
-     * initialization.
-     */
-    boolean isFirstFocus;
+  /** Indicates that the RichTextArea has never received focus after initialization. */
+  boolean isFirstFocus;
 
-    @Override
-    public String getBackColor() {
-        return queryCommandValue("HiliteColor");
-    }
+  @Override
+  public String getBackColor() {
+    return queryCommandValue("HiliteColor");
+  }
 
-    @Override
-    public void setBackColor(String color) {
-        // Gecko uses 'BackColor' for the *entire area's* background. 'HiliteColor'
-        // does what we actually want.
-        execCommand("HiliteColor", color);
-    }
+  @Override
+  public void setBackColor(String color) {
+    // Gecko uses 'BackColor' for the *entire area's* background. 'HiliteColor'
+    // does what we actually want.
+    execCommand("HiliteColor", color);
+  }
 }

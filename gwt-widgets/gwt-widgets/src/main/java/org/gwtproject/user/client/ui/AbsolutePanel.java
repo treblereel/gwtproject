@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -16,38 +16,29 @@
 package org.gwtproject.user.client.ui;
 
 import elemental2.dom.DomGlobal;
+import java.util.Locale;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.DOM;
 
-import java.util.Locale;
-
 /**
- * An absolute panel positions all of its children absolutely, allowing them to
- * overlap.
- * 
- * <p>
- * Note that this panel will not automatically resize itself to allow enough
- * room for its absolutely-positioned children. It must be explicitly sized in
- * order to make room for them.
- * </p>
- * 
- * <p>
- * Once a widget has been added to an absolute panel, the panel effectively
- * "owns" the positioning of the widget. Any existing positioning attributes on
- * the widget may be modified by the panel.
- * </p>
- * 
+ * An absolute panel positions all of its children absolutely, allowing them to overlap.
+ *
+ * <p>Note that this panel will not automatically resize itself to allow enough room for its
+ * absolutely-positioned children. It must be explicitly sized in order to make room for them.
+ *
+ * <p>Once a widget has been added to an absolute panel, the panel effectively "owns" the
+ * positioning of the widget. Any existing positioning attributes on the widget may be modified by
+ * the panel.
+ *
  * <h3>Use in UiBinder Templates</h3>
- * <p>
- * AbsolutePanel elements in {@link org.gwtproject.uibinder.client.UiBinder
- * UiBinder} templates lay out their children with absolute position, using
- * &lt;g:at> elements. Each at element should have <code>left</code> and
- * <code>top</code> attributes in pixels. They also can contain widget children
- * directly, with no position specified.
- * 
- * <p>
- * For example:
- * 
+ *
+ * <p>AbsolutePanel elements in {@link org.gwtproject.uibinder.client.UiBinder UiBinder} templates
+ * lay out their children with absolute position, using &lt;g:at> elements. Each at element should
+ * have <code>left</code> and <code>top</code> attributes in pixels. They also can contain widget
+ * children directly, with no position specified.
+ *
+ * <p>For example:
+ *
  * <pre>
  * &lt;g:AbsolutePanel>
  *   &lt;g:at left='10' top='20'>
@@ -57,12 +48,11 @@ import java.util.Locale;
  * &lt;/g:AbsolutePanel>
  * </pre>
  */
-public class AbsolutePanel extends ComplexPanel implements
-    InsertPanel.ForIsWidget {
+public class AbsolutePanel extends ComplexPanel implements InsertPanel.ForIsWidget {
 
   /**
    * Changes a DOM element's positioning to static.
-   * 
+   *
    * @param elem the DOM element
    */
   private static void changeToStaticPositioning(Element elem) {
@@ -71,9 +61,7 @@ public class AbsolutePanel extends ComplexPanel implements
     elem.getStyle().setProperty("position", "");
   }
 
-  /**
-   * Creates an empty absolute panel.
-   */
+  /** Creates an empty absolute panel. */
   public AbsolutePanel() {
     this(DOM.createDiv());
 
@@ -84,10 +72,10 @@ public class AbsolutePanel extends ComplexPanel implements
   }
 
   /**
-   * Creates an AbsolutePanel with the given element. This is protected so that
-   * it can be used by {@link RootPanel} or a subclass that wants to substitute
-   * another element. The element is presumed to be a &lt;div&gt;.
-   * 
+   * Creates an AbsolutePanel with the given element. This is protected so that it can be used by
+   * {@link RootPanel} or a subclass that wants to substitute another element. The element is
+   * presumed to be a &lt;div&gt;.
+   *
    * @param elem the element to be used for this panel
    */
   protected AbsolutePanel(Element elem) {
@@ -98,12 +86,11 @@ public class AbsolutePanel extends ComplexPanel implements
   public void add(Widget w) {
     super.add(w, getElement());
   }
-  
+
   /**
-   * Adds a widget to the panel at the specified position. Setting a position of
-   * <code>(-1, -1)</code> will cause the child widget to be positioned
-   * statically.
-   * 
+   * Adds a widget to the panel at the specified position. Setting a position of <code>(-1, -1)
+   * </code> will cause the child widget to be positioned statically.
+   *
    * @param w the widget to be added
    * @param left the widget's left position
    * @param top the widget's top position
@@ -119,65 +106,59 @@ public class AbsolutePanel extends ComplexPanel implements
     insert(w, beforeIndex);
     verifyPositionNotStatic(w);
   }
-  
+
   /**
    * Overloaded version for IsWidget.
-   * 
+   *
    * @see #add(Widget,int,int)
    */
   public void add(IsWidget w, int left, int top) {
-    this.add(w.asWidget(),left,top);
+    this.add(w.asWidget(), left, top);
   }
 
   /**
-   * Gets the position of the left outer border edge of the widget relative to
-   * the left outer border edge of the panel.
-   * 
+   * Gets the position of the left outer border edge of the widget relative to the left outer border
+   * edge of the panel.
+   *
    * @param w the widget whose position is to be retrieved
    * @return the widget's left position
    */
   public int getWidgetLeft(Widget w) {
     checkWidgetParent(w);
-    return w.getElement().getAbsoluteLeft()
-        - getElement().getAbsoluteLeft();
+    return w.getElement().getAbsoluteLeft() - getElement().getAbsoluteLeft();
   }
 
   /**
-   * Gets the position of the top outer border edge of the widget relative to
-   * the top outer border edge of the panel.
-   * 
+   * Gets the position of the top outer border edge of the widget relative to the top outer border
+   * edge of the panel.
+   *
    * @param w the widget whose position is to be retrieved
    * @return the widget's top position
    */
   public int getWidgetTop(Widget w) {
     checkWidgetParent(w);
-    return w.getElement().getAbsoluteTop()
-        - getElement().getAbsoluteTop();
+    return w.getElement().getAbsoluteTop() - getElement().getAbsoluteTop();
   }
 
   public void insert(Widget w, int beforeIndex) {
     insert(w, getElement(), beforeIndex, true);
   }
-  
-  /**
-   * Convenience overload to allow {@link IsWidget} to be used directly.
-   */
+
+  /** Convenience overload to allow {@link IsWidget} to be used directly. */
   public void insert(IsWidget w, int beforeIndex) {
     insert(asWidgetOrNull(w), beforeIndex);
   }
 
   /**
-   * Inserts a child widget at the specified position before the specified
-   * index. Setting a position of <code>(-1, -1)</code> will cause the child
-   * widget to be positioned statically. If the widget is already a child of
-   * this panel, it will be moved to the specified index.
-   * 
+   * Inserts a child widget at the specified position before the specified index. Setting a position
+   * of <code>(-1, -1)</code> will cause the child widget to be positioned statically. If the widget
+   * is already a child of this panel, it will be moved to the specified index.
+   *
    * @param w the child widget to be inserted
    * @param left the widget's left position
    * @param top the widget's top position
    * @param beforeIndex the index before which it will be inserted
-   * @throws IndexOutOfBoundsException if <code>beforeIndex</code> is out of
-   *           range
+   * @throws IndexOutOfBoundsException if <code>beforeIndex</code> is out of range
    */
   public void insert(Widget w, int left, int top, int beforeIndex) {
     // In order to avoid the potential for a flicker effect, it is necessary
@@ -191,10 +172,9 @@ public class AbsolutePanel extends ComplexPanel implements
   }
 
   /**
-   * Overrides {@link ComplexPanel#remove(Widget)} to change the removed
-   * Widget's element back to static positioning.This is done so that any
-   * positioning changes to the widget that were done by the panel are undone
-   * when the widget is disowned from the panel.
+   * Overrides {@link ComplexPanel#remove(Widget)} to change the removed Widget's element back to
+   * static positioning.This is done so that any positioning changes to the widget that were done by
+   * the panel are undone when the widget is disowned from the panel.
    */
   @Override
   public boolean remove(Widget w) {
@@ -206,10 +186,9 @@ public class AbsolutePanel extends ComplexPanel implements
   }
 
   /**
-   * Sets the position of the specified child widget. Setting a position of
-   * <code>(-1, -1)</code> will cause the child widget to be positioned
-   * statically.
-   * 
+   * Sets the position of the specified child widget. Setting a position of <code>(-1, -1)</code>
+   * will cause the child widget to be positioned statically.
+   *
    * @param w the child widget to be positioned
    * @param left the widget's left position
    * @param top the widget's top position
@@ -233,18 +212,16 @@ public class AbsolutePanel extends ComplexPanel implements
 
   private void checkWidgetParent(Widget w) {
     if (w.getParent() != this) {
-      throw new IllegalArgumentException(
-          "Widget must be a child of this panel.");
+      throw new IllegalArgumentException("Widget must be a child of this panel.");
     }
   }
 
   /**
-   * Verify that the given widget is not statically positioned on the page
-   * (relative to the document window), unless the widget is in fact directly
-   * attached to the document BODY. Note that the current use of this method is
-   * not comprehensive, since we can only verify the offsetParent if both parent
-   * (AbsolutePanel) and child widget are both visible and attached to the DOM
-   * when this test is executed.
+   * Verify that the given widget is not statically positioned on the page (relative to the document
+   * window), unless the widget is in fact directly attached to the document BODY. Note that the
+   * current use of this method is not comprehensive, since we can only verify the offsetParent if
+   * both parent (AbsolutePanel) and child widget are both visible and attached to the DOM when this
+   * test is executed.
    *
    * @param child the widget whose position and placement should be tested
    */
@@ -258,7 +235,7 @@ public class AbsolutePanel extends ComplexPanel implements
     if (child.getElement().getOffsetParent() == null) {
       return;
     }
-    
+
     // Check if offsetParent == parent
     if (child.getElement().getOffsetParent() == getElement()) {
       return;
@@ -281,13 +258,16 @@ public class AbsolutePanel extends ComplexPanel implements
      * apps depend on broken CSS.
      */
     String className = getClass().getName();
-    DomGlobal.console.warn("Warning: " + className + " descendants will be incorrectly "
-        + "positioned, i.e. not relative to their parent element, when "
-        + "'position:static', which is the CSS default, is in effect. One "
-        + "possible fix is to call "
-        + "'panel.getElement().getStyle().setPosition(Position.RELATIVE)'.",
-                           // Stack trace provides context for the developer
-                           new IllegalStateException(className
-            + " is missing CSS 'position:{relative,absolute,fixed}'"));
+    DomGlobal.console.warn(
+        "Warning: "
+            + className
+            + " descendants will be incorrectly "
+            + "positioned, i.e. not relative to their parent element, when "
+            + "'position:static', which is the CSS default, is in effect. One "
+            + "possible fix is to call "
+            + "'panel.getElement().getStyle().setPosition(Position.RELATIVE)'.",
+        // Stack trace provides context for the developer
+        new IllegalStateException(
+            className + " is missing CSS 'position:{relative,absolute,fixed}'"));
   }
 }

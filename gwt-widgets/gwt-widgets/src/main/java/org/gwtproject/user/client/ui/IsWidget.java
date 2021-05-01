@@ -16,14 +16,12 @@
 package org.gwtproject.user.client.ui;
 
 /**
- * Extended by view interfaces that are likely to be implemented by Widgets.
- * Provides access to that widget, if it exists, without compromising the
- * ability to provide a mock view instance in JRE unit tests.
+ * Extended by view interfaces that are likely to be implemented by Widgets. Provides access to that
+ * widget, if it exists, without compromising the ability to provide a mock view instance in JRE
+ * unit tests.
  */
 public interface IsWidget {
 
-  /**
-   * Returns the {@link Widget} aspect of the receiver.
-   */
+  /** Returns the {@link Widget} aspect of the receiver. */
   Widget asWidget();
 }

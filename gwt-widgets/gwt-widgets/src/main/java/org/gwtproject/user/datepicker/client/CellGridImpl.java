@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -16,6 +16,8 @@
 
 package org.gwtproject.user.datepicker.client;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.event.dom.client.ClickEvent;
@@ -29,13 +31,9 @@ import org.gwtproject.user.client.impl.ElementMapperImpl;
 import org.gwtproject.user.client.ui.Grid;
 import org.gwtproject.user.client.ui.Widget;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
 /**
- * Highlighting, selectable cell grid. Used to help construct the default
- * calendar view.
- * 
+ * Highlighting, selectable cell grid. Used to help construct the default calendar view.
+ *
  * @param <V> type of value in grid.
  */
 abstract class CellGridImpl<V> extends Grid {
@@ -59,26 +57,30 @@ abstract class CellGridImpl<V> extends Grid {
       }
 
       elementToCell.put(this);
-      addDomHandler(new KeyDownHandler() {
-        @Override
-        public void onKeyDown(KeyDownEvent event) {
-          if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER ||
-             event.getNativeKeyCode() == ' ') {
-            if (isActive(Cell.this)) {
-              setSelected(Cell.this);
+      addDomHandler(
+          new KeyDownHandler() {
+            @Override
+            public void onKeyDown(KeyDownEvent event) {
+              if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER
+                  || event.getNativeKeyCode() == ' ') {
+                if (isActive(Cell.this)) {
+                  setSelected(Cell.this);
+                }
+              }
             }
-          }
-        }
-      }, KeyDownEvent.getType());
+          },
+          KeyDownEvent.getType());
 
-      addDomHandler(new ClickHandler() {
-          @Override
-          public void onClick(ClickEvent event) {
-            if (isActive(Cell.this)) {
-              setSelected(Cell.this);
+      addDomHandler(
+          new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+              if (isActive(Cell.this)) {
+                setSelected(Cell.this);
+              }
             }
-          }
-        }, ClickEvent.getType());
+          },
+          ClickEvent.getType());
     }
 
     public V getValue() {
@@ -127,23 +129,17 @@ abstract class CellGridImpl<V> extends Grid {
       }
     }
 
-    /**
-     * @param enabled
-     */
+    /** @param enabled */
     protected void onEnabled(boolean enabled) {
       updateStyle();
     }
 
-    /**
-     * @param highlighted
-     */
+    /** @param highlighted */
     protected void onHighlighted(boolean highlighted) {
       updateStyle();
     }
 
-    /**
-     * @param selected
-     */
+    /** @param selected */
     protected void onSelected(boolean selected) {
       updateStyle();
     }
@@ -217,33 +213,36 @@ abstract class CellGridImpl<V> extends Grid {
   @Override
   public void onBrowserEvent(Event event) {
     switch (DOM.eventGetType(event)) {
-      case Event.ONCLICK: {
-        Cell cell = getCell(event);
-        if (isActive(cell)) {
-          setSelected(cell);
-        }
-        break;
-      }
-      case Event.ONMOUSEOUT: {
-        Element e = DOM.eventGetFromElement(event);
-        if (e != null) {
-          Cell cell = elementToCell.get(e);
-          if (cell == highlightedCell) {
-            setHighlighted(null);
-          }
-        }
-        break;
-      }
-      case Event.ONMOUSEOVER: {
-        Element e = DOM.eventGetToElement(event);
-        if (e != null) {
-          Cell cell = elementToCell.get(e);
+      case Event.ONCLICK:
+        {
+          Cell cell = getCell(event);
           if (isActive(cell)) {
-            setHighlighted(cell);
+            setSelected(cell);
           }
+          break;
         }
-        break;
-      }
+      case Event.ONMOUSEOUT:
+        {
+          Element e = DOM.eventGetFromElement(event);
+          if (e != null) {
+            Cell cell = elementToCell.get(e);
+            if (cell == highlightedCell) {
+              setHighlighted(null);
+            }
+          }
+          break;
+        }
+      case Event.ONMOUSEOVER:
+        {
+          Element e = DOM.eventGetToElement(event);
+          if (e != null) {
+            Cell cell = elementToCell.get(e);
+            if (isActive(cell)) {
+              setHighlighted(cell);
+            }
+          }
+          break;
+        }
     }
   }
 

@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -19,14 +19,10 @@ import org.gwtproject.cell.client.Cell;
 import org.gwtproject.cell.client.ValueUpdater;
 import org.gwtproject.event.shared.HandlerRegistration;
 
-/**
- * A model of a tree.
- */
+/** A model of a tree. */
 public interface TreeViewModel {
 
-  /**
-   * Default implementation of {@link NodeInfo}.
-   */
+  /** Default implementation of {@link NodeInfo}. */
   class DefaultNodeInfo<T> implements NodeInfo<T> {
 
     private final Cell<T> cell;
@@ -39,9 +35,8 @@ public interface TreeViewModel {
 
     /**
      * Construct a new {@link DefaultNodeInfo}.
-     * 
-     * @param dataProvider the {@link AbstractDataProvider} that provides the
-     *          child values
+     *
+     * @param dataProvider the {@link AbstractDataProvider} that provides the child values
      * @param cell the {@link Cell} used to render the child values
      */
     public DefaultNodeInfo(AbstractDataProvider<T> dataProvider, Cell<T> cell) {
@@ -50,37 +45,43 @@ public interface TreeViewModel {
 
     /**
      * Construct a new {@link DefaultNodeInfo}.
-     * 
-     * @param dataProvider the {@link AbstractDataProvider} that provides the
-     *          child values
-     * @param cell the {@link Cell} used to render the child values update when
-     *          the selection changes
+     *
+     * @param dataProvider the {@link AbstractDataProvider} that provides the child values
+     * @param cell the {@link Cell} used to render the child values update when the selection
+     *     changes
      * @param selectionModel the {@link SelectionModel} used for selection
      * @param valueUpdater the {@link ValueUpdater}
      */
-    public DefaultNodeInfo(AbstractDataProvider<T> dataProvider,
-                           final Cell<T> cell, SelectionModel<? super T> selectionModel,
-                           final ValueUpdater<T> valueUpdater) {
-      this(dataProvider, cell, selectionModel,
-          DefaultSelectionEventManager.<T> createDefaultManager(), valueUpdater);
+    public DefaultNodeInfo(
+        AbstractDataProvider<T> dataProvider,
+        final Cell<T> cell,
+        SelectionModel<? super T> selectionModel,
+        final ValueUpdater<T> valueUpdater) {
+      this(
+          dataProvider,
+          cell,
+          selectionModel,
+          DefaultSelectionEventManager.<T>createDefaultManager(),
+          valueUpdater);
     }
 
     /**
      * Construct a new {@link DefaultNodeInfo}.
-     * 
-     * @param dataProvider the {@link AbstractDataProvider} that provides the
-     *          child values
-     * @param cell the {@link Cell} used to render the child values update when
-     *          the selection changes
+     *
+     * @param dataProvider the {@link AbstractDataProvider} that provides the child values
+     * @param cell the {@link Cell} used to render the child values update when the selection
+     *     changes
      * @param selectionModel the {@link SelectionModel} used for selection
-     * @param selectionEventManager the {@link CellPreviewEvent.Handler} that
-     *          handles user selection interaction
+     * @param selectionEventManager the {@link CellPreviewEvent.Handler} that handles user selection
+     *     interaction
      * @param valueUpdater the {@link ValueUpdater}
      */
-    public DefaultNodeInfo(AbstractDataProvider<T> dataProvider,
-                           final Cell<T> cell, SelectionModel<? super T> selectionModel,
-                           CellPreviewEvent.Handler<T> selectionEventManager,
-                           final ValueUpdater<T> valueUpdater) {
+    public DefaultNodeInfo(
+        AbstractDataProvider<T> dataProvider,
+        final Cell<T> cell,
+        SelectionModel<? super T> selectionModel,
+        CellPreviewEvent.Handler<T> selectionEventManager,
+        final ValueUpdater<T> valueUpdater) {
       this.dataProvider = dataProvider;
       this.cell = cell;
       this.selectionModel = selectionModel;
@@ -124,62 +125,59 @@ public interface TreeViewModel {
     }
   }
 
-  /**
-   * The info needed to create the children of a tree node.
-   */
+  /** The info needed to create the children of a tree node. */
   interface NodeInfo<T> {
 
     /**
      * Get the {@link Cell} used to render the children of this node.
-     * 
+     *
      * @return the {@link Cell}
      */
     Cell<T> getCell();
 
     /**
      * Return the key provider for children of this node.
-     * 
+     *
      * @return the {@link org.gwtproject.view.client.ProvidesKey}
      */
     org.gwtproject.view.client.ProvidesKey<T> getProvidesKey();
 
     /**
-     * Get the {@link SelectionModel} used for the children of this node. To
-     * unify selection across all items of the same type, or across the entire
-     * tree, return the same instance of {@link SelectionModel} from all
-     * {@link NodeInfo}.
-     * 
+     * Get the {@link SelectionModel} used for the children of this node. To unify selection across
+     * all items of the same type, or across the entire tree, return the same instance of {@link
+     * SelectionModel} from all {@link NodeInfo}.
+     *
      * @return the {@link SelectionModel}
      */
     SelectionModel<? super T> getSelectionModel();
 
     /**
      * Get the value updater associated with the cell.
-     * 
+     *
      * @return the value updater
      */
     ValueUpdater<T> getValueUpdater();
 
     /**
-     * Set the display that is listening to this {@link NodeInfo}. The
-     * implementation should attach the display to the source of data.
-     * 
+     * Set the display that is listening to this {@link NodeInfo}. The implementation should attach
+     * the display to the source of data.
+     *
      * @param display the {@link org.gwtproject.view.client.HasData}
      */
     void setDataDisplay(org.gwtproject.view.client.HasData<T> display);
 
     /**
-     * Unset the display from the {@link NodeInfo}. The implementation should
-     * detach the display from the source of data.
+     * Unset the display from the {@link NodeInfo}. The implementation should detach the display
+     * from the source of data.
      */
     void unsetDataDisplay();
   }
 
   /**
    * Get the {@link NodeInfo} that will provide the {@link org.gwtproject.view.client.ProvidesKey},
-   * {@link Cell}, and {@link org.gwtproject.view.client.HasData} instances to retrieve and display the
-   * children of the specified value.
-   * 
+   * {@link Cell}, and {@link org.gwtproject.view.client.HasData} instances to retrieve and display
+   * the children of the specified value.
+   *
    * @param value the value in the parent node
    * @return the {@link NodeInfo}
    */
@@ -187,9 +185,8 @@ public interface TreeViewModel {
 
   /**
    * Check if the value is known to be a leaf node.
-   * 
+   *
    * @param value the value at the node
-   * 
    * @return true if the node is known to be a leaf node, false otherwise
    */
   boolean isLeaf(Object value);

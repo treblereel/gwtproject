@@ -15,7 +15,9 @@
  */
 package org.gwtproject.cell.client;
 
-import org.gwtproject.cell.client.Cell;
+import static org.gwtproject.dom.client.BrowserEvents.CLICK;
+import static org.gwtproject.dom.client.BrowserEvents.KEYDOWN;
+
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.EventTarget;
 import org.gwtproject.dom.client.NativeEvent;
@@ -23,12 +25,8 @@ import org.gwtproject.safehtml.shared.SafeHtml;
 import org.gwtproject.safehtml.shared.SafeHtmlBuilder;
 import org.gwtproject.safehtml.shared.SafeHtmlUtils;
 
-import static org.gwtproject.dom.client.BrowserEvents.CLICK;
-import static org.gwtproject.dom.client.BrowserEvents.KEYDOWN;
-
 /**
- * A cell that renders a button and takes a delegate to perform actions on
- * mouseUp.
+ * A cell that renders a button and takes a delegate to perform actions on mouseUp.
  *
  * @param <C> the type that this Cell represents
  */
@@ -60,14 +58,16 @@ public class ActionCell<C> extends AbstractCell<C> {
   public ActionCell(SafeHtml message, Delegate<C> delegate) {
     super(CLICK, KEYDOWN);
     this.delegate = delegate;
-    this.html = new SafeHtmlBuilder().appendHtmlConstant(
-        "<button type=\"button\" tabindex=\"-1\">").append(message).appendHtmlConstant(
-        "</button>").toSafeHtml();
+    this.html =
+        new SafeHtmlBuilder()
+            .appendHtmlConstant("<button type=\"button\" tabindex=\"-1\">")
+            .append(message)
+            .appendHtmlConstant("</button>")
+            .toSafeHtml();
   }
 
   /**
-   * Construct a new {@link ActionCell} with a text String that does not contain
-   * HTML markup.
+   * Construct a new {@link ActionCell} with a text String that does not contain HTML markup.
    *
    * @param text the text to display on the button
    * @param delegate the delegate that will handle events
@@ -77,8 +77,12 @@ public class ActionCell<C> extends AbstractCell<C> {
   }
 
   @Override
-  public void onBrowserEvent(Cell.Context context, Element parent, C value,
-                             NativeEvent event, org.gwtproject.cell.client.ValueUpdater<C> valueUpdater) {
+  public void onBrowserEvent(
+      Cell.Context context,
+      Element parent,
+      C value,
+      NativeEvent event,
+      org.gwtproject.cell.client.ValueUpdater<C> valueUpdater) {
     super.onBrowserEvent(context, parent, value, event, valueUpdater);
     if (CLICK.equals(event.getType())) {
       EventTarget eventTarget = event.getEventTarget();
@@ -98,8 +102,12 @@ public class ActionCell<C> extends AbstractCell<C> {
   }
 
   @Override
-  protected void onEnterKeyDown(Cell.Context context, Element parent, C value,
-                                NativeEvent event, org.gwtproject.cell.client.ValueUpdater<C> valueUpdater) {
+  protected void onEnterKeyDown(
+      Cell.Context context,
+      Element parent,
+      C value,
+      NativeEvent event,
+      org.gwtproject.cell.client.ValueUpdater<C> valueUpdater) {
     delegate.execute(value);
   }
 }

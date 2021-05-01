@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -26,10 +26,7 @@ import org.gwtproject.event.dom.client.ScrollHandler;
 import org.gwtproject.event.shared.HandlerRegistration;
 import org.gwtproject.user.client.Event;
 
-/**
- * Abstract parent class for scrollbars implemented using the native browser
- * scrollbars.
- */
+/** Abstract parent class for scrollbars implemented using the native browser scrollbars. */
 public abstract class AbstractNativeScrollbar extends Widget implements HasScrollHandlers {
 
   private static int nativeHeight = -1;
@@ -38,11 +35,9 @@ public abstract class AbstractNativeScrollbar extends Widget implements HasScrol
 
   /**
    * Get the height of a native horizontal scrollbar.
-   * 
-   * <p>
-   * This method assumes that all native scrollbars on the page have the same
-   * height.
-   * 
+   *
+   * <p>This method assumes that all native scrollbars on the page have the same height.
+   *
    * @return the height in pixels
    */
   public static int getNativeScrollbarHeight() {
@@ -52,11 +47,9 @@ public abstract class AbstractNativeScrollbar extends Widget implements HasScrol
 
   /**
    * Get the width of a native vertical scrollbar.
-   * 
-   * <p>
-   * This method assumes that all native vertical scrollbars on the page have
-   * the same width.
-   * 
+   *
+   * <p>This method assumes that all native vertical scrollbars on the page have the same width.
+   *
    * @return the height in pixels
    */
   public static int getNativeScrollbarWidth() {
@@ -65,9 +58,9 @@ public abstract class AbstractNativeScrollbar extends Widget implements HasScrol
   }
 
   /**
-   * Check whether or not the native vertical scrollbar is aligned on the left
-   * side of the scrollable element in RTL mode.
-   * 
+   * Check whether or not the native vertical scrollbar is aligned on the left side of the
+   * scrollable element in RTL mode.
+   *
    * @return true if left aligned, false if not
    */
   public static boolean isScrollbarLeftAlignedInRtl() {
@@ -75,9 +68,7 @@ public abstract class AbstractNativeScrollbar extends Widget implements HasScrol
     return nativeRtl;
   }
 
-  /**
-   * Recalculate the height and width of a native scrollbar.
-   */
+  /** Recalculate the height and width of a native scrollbar. */
   private static void maybeRecalculateNativeScrollbarSize() {
     // Check if the size has already been calculated.
     if (nativeHeight > -1) {
@@ -117,7 +108,7 @@ public abstract class AbstractNativeScrollbar extends Widget implements HasScrol
 
   /**
    * Get the scrollable element.
-   * 
+   *
    * @return the scrollable element
    */
   protected abstract Element getScrollableElement();

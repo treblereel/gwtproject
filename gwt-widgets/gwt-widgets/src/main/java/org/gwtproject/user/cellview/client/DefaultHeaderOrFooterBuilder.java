@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -21,14 +21,14 @@ import org.gwtproject.dom.builder.shared.TableRowBuilder;
 
 /**
  * Default implementation of {@link HeaderBuilder} that renders columns.
- * 
+ *
  * @param <T> the data type of the table
  */
 public class DefaultHeaderOrFooterBuilder<T> extends AbstractHeaderOrFooterBuilder<T> {
 
   /**
    * Create a new DefaultHeaderBuilder for the header of footer section.
-   * 
+   *
    * @param table the table being built
    * @param isFooter true if building the footer, false if the header
    */
@@ -94,8 +94,18 @@ public class DefaultHeaderOrFooterBuilder<T> extends AbstractHeaderOrFooterBuild
 
       if (header != prevHeader) {
         // The header has changed, so append the previous one.
-        buildTableHeader(tr, column, prevHeader, isSortable, isSorted, isSortAscending,
-            classesBuilder, sortableStyle, sortedStyle, prevColspan, curColumn);
+        buildTableHeader(
+            tr,
+            column,
+            prevHeader,
+            isSortable,
+            isSorted,
+            isSortAscending,
+            classesBuilder,
+            sortableStyle,
+            sortedStyle,
+            prevColspan,
+            curColumn);
 
         // Reset the previous header.
         prevHeader = header;
@@ -117,12 +127,23 @@ public class DefaultHeaderOrFooterBuilder<T> extends AbstractHeaderOrFooterBuild
     }
 
     // The first and last columns could be the same column.
-    classesBuilder.append(" ").append(
-        isFooter ? style.lastColumnFooter() : style.lastColumnHeader());
+    classesBuilder
+        .append(" ")
+        .append(isFooter ? style.lastColumnFooter() : style.lastColumnHeader());
 
     // Render the last header.
-    buildTableHeader(tr, column, prevHeader, isSortable, isSorted, isSortAscending,
-        classesBuilder, sortableStyle, sortedStyle, prevColspan, curColumn);
+    buildTableHeader(
+        tr,
+        column,
+        prevHeader,
+        isSortable,
+        isSorted,
+        isSortAscending,
+        classesBuilder,
+        sortableStyle,
+        sortedStyle,
+        prevColspan,
+        curColumn);
 
     // End the row.
     tr.endTR();
@@ -130,12 +151,19 @@ public class DefaultHeaderOrFooterBuilder<T> extends AbstractHeaderOrFooterBuild
     return true;
   }
 
-  /**
-   * Build the table header for the column.
-   */
-  private void buildTableHeader(TableRowBuilder tr, Column<T, ?> column, Header<?> header,
-                                boolean isSortable, boolean isSorted, boolean isSortAscending, StringBuilder classesBuilder,
-                                String sortableStyle, String sortedStyle, int prevColspan, int curColumn) {
+  /** Build the table header for the column. */
+  private void buildTableHeader(
+      TableRowBuilder tr,
+      Column<T, ?> column,
+      Header<?> header,
+      boolean isSortable,
+      boolean isSorted,
+      boolean isSortAscending,
+      StringBuilder classesBuilder,
+      String sortableStyle,
+      String sortedStyle,
+      int prevColspan,
+      int curColumn) {
 
     if (isSortable) {
       classesBuilder.append(sortableStyle);
@@ -159,12 +187,13 @@ public class DefaultHeaderOrFooterBuilder<T> extends AbstractHeaderOrFooterBuild
     }
     th.endTH();
   }
-  
+
   /**
    * Append the extra style names for the header.
+   *
    * @param header the header that may contain extra styles, it can be null
    * @param classesBuilder the string builder for the TD classes
-   */  
+   */
   private <H> void appendExtraStyles(Header<H> header, StringBuilder classesBuilder) {
     if (header == null) {
       return;

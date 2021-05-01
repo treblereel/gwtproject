@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,22 +15,22 @@
  */
 package org.gwtproject.user.client.ui;
 
-import org.gwtproject.editor.client.IsEditor;
-import org.gwtproject.editor.client.LeafValueEditor;
-import org.gwtproject.i18n.client.HasDirection.Direction;
-import org.gwtproject.i18n.shared.DirectionEstimator;
-import org.gwtproject.i18n.shared.HasDirectionEstimator;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.InputElement;
 import org.gwtproject.dom.client.LabelElement;
 import org.gwtproject.dom.style.shared.WhiteSpace;
+import org.gwtproject.editor.client.IsEditor;
+import org.gwtproject.editor.client.LeafValueEditor;
 import org.gwtproject.editor.client.adapters.TakesValueEditor;
 import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.event.dom.client.ClickHandler;
 import org.gwtproject.event.logical.shared.ValueChangeEvent;
 import org.gwtproject.event.logical.shared.ValueChangeHandler;
 import org.gwtproject.event.shared.HandlerRegistration;
+import org.gwtproject.i18n.client.HasDirection.Direction;
+import org.gwtproject.i18n.shared.DirectionEstimator;
+import org.gwtproject.i18n.shared.HasDirectionEstimator;
 import org.gwtproject.safehtml.shared.SafeHtml;
 import org.gwtproject.safehtml.shared.annotations.IsSafeHtml;
 import org.gwtproject.user.client.DOM;
@@ -38,41 +38,44 @@ import org.gwtproject.user.client.Event;
 
 /**
  * A standard check box widget.
- * 
- * This class also serves as a base class for
- * {@link RadioButton}.
- * 
- * <p>
- * <img class='gallery' src='doc-files/CheckBox.png'/>
- * </p>
+ *
+ * <p>This class also serves as a base class for {@link RadioButton}.
+ *
+ * <p><img class='gallery' src='doc-files/CheckBox.png'/>
  *
  * <p>
+ *
  * <h3>Built-in Bidi Text Support</h3>
- * This widget is capable of automatically adjusting its direction according to
- * its content. This feature is controlled by {@link #setDirectionEstimator} or
- * passing a DirectionEstimator parameter to the constructor, and is off by
- * default.
- * </p>
+ *
+ * This widget is capable of automatically adjusting its direction according to its content. This
+ * feature is controlled by {@link #setDirectionEstimator} or passing a DirectionEstimator parameter
+ * to the constructor, and is off by default.
  *
  * <h3>CSS Style Rules</h3>
+ *
  * <dl>
- * <dt>.gwt-CheckBox</dt>
- * <dd>the outer element</dd>
- * <dt>.gwt-CheckBox-disabled</dt>
- * <dd>applied when Checkbox is disabled</dd>
+ *   <dt>.gwt-CheckBox
+ *   <dd>the outer element
+ *   <dt>.gwt-CheckBox-disabled
+ *   <dd>applied when Checkbox is disabled
  * </dl>
- * 
+ *
  * <p>
+ *
  * <h3>Example</h3>
+ *
  * {@example com.google.gwt.examples.CheckBoxExample}
- * </p>
  */
-public class CheckBox extends ButtonBase implements HasName, HasValue<Boolean>,
-    HasWordWrap, HasDirectionalSafeHtml, HasDirectionEstimator,
-    IsEditor<LeafValueEditor<Boolean>> {
+public class CheckBox extends ButtonBase
+    implements HasName,
+        HasValue<Boolean>,
+        HasWordWrap,
+        HasDirectionalSafeHtml,
+        HasDirectionEstimator,
+        IsEditor<LeafValueEditor<Boolean>> {
 
   public static final DirectionEstimator DEFAULT_DIRECTION_ESTIMATOR =
-    DirectionalTextHelper.DEFAULT_DIRECTION_ESTIMATOR;
+      DirectionalTextHelper.DEFAULT_DIRECTION_ESTIMATOR;
 
   final DirectionalTextHelper directionalTextHelper;
   InputElement inputElem;
@@ -80,9 +83,7 @@ public class CheckBox extends ButtonBase implements HasName, HasValue<Boolean>,
   private LeafValueEditor<Boolean> editor;
   private boolean valueChangeHandlerInitialized;
 
-  /**
-   * Creates a check box with no label.
-   */
+  /** Creates a check box with no label. */
   public CheckBox() {
     this(DOM.createInputCheck());
     setStyleName("gwt-CheckBox");
@@ -90,7 +91,7 @@ public class CheckBox extends ButtonBase implements HasName, HasValue<Boolean>,
 
   /**
    * Creates a check box with the specified text label.
-   * 
+   *
    * @param label the check box's label
    */
   public CheckBox(SafeHtml label) {
@@ -99,10 +100,10 @@ public class CheckBox extends ButtonBase implements HasName, HasValue<Boolean>,
 
   /**
    * Creates a check box with the specified text label.
-   * 
+   *
    * @param label the check box's label
-   * @param dir the text's direction. Note that {@code DEFAULT} means direction
-   *          should be inherited from the widget's parent element.
+   * @param dir the text's direction. Note that {@code DEFAULT} means direction should be inherited
+   *     from the widget's parent element.
    */
   public CheckBox(SafeHtml label, Direction dir) {
     this();
@@ -111,11 +112,10 @@ public class CheckBox extends ButtonBase implements HasName, HasValue<Boolean>,
 
   /**
    * Creates a check box with the specified text label.
-   * 
+   *
    * @param label the check box's label
-   * @param directionEstimator A DirectionEstimator object used for automatic
-   *          direction adjustment. For convenience,
-   *          {@link #DEFAULT_DIRECTION_ESTIMATOR} can be used.
+   * @param directionEstimator A DirectionEstimator object used for automatic direction adjustment.
+   *     For convenience, {@link #DEFAULT_DIRECTION_ESTIMATOR} can be used.
    */
   public CheckBox(SafeHtml label, DirectionEstimator directionEstimator) {
     this();
@@ -125,7 +125,7 @@ public class CheckBox extends ButtonBase implements HasName, HasValue<Boolean>,
 
   /**
    * Creates a check box with the specified text label.
-   * 
+   *
    * @param label the check box's label
    */
   public CheckBox(String label) {
@@ -135,10 +135,10 @@ public class CheckBox extends ButtonBase implements HasName, HasValue<Boolean>,
 
   /**
    * Creates a check box with the specified text label.
-   * 
+   *
    * @param label the check box's label
-   * @param dir the text's direction. Note that {@code DEFAULT} means direction
-   *          should be inherited from the widget's parent element.
+   * @param dir the text's direction. Note that {@code DEFAULT} means direction should be inherited
+   *     from the widget's parent element.
    */
   public CheckBox(String label, Direction dir) {
     this();
@@ -147,11 +147,10 @@ public class CheckBox extends ButtonBase implements HasName, HasValue<Boolean>,
 
   /**
    * Creates a label with the specified text and a default direction estimator.
-   * 
+   *
    * @param label the check box's label
-   * @param directionEstimator A DirectionEstimator object used for automatic
-   *          direction adjustment. For convenience,
-   *          {@link #DEFAULT_DIRECTION_ESTIMATOR} can be used.
+   * @param directionEstimator A DirectionEstimator object used for automatic direction adjustment.
+   *     For convenience, {@link #DEFAULT_DIRECTION_ESTIMATOR} can be used.
    */
   public CheckBox(String label, DirectionEstimator directionEstimator) {
     this();
@@ -198,8 +197,7 @@ public class CheckBox extends ButtonBase implements HasName, HasValue<Boolean>,
   }
 
   @Override
-  public HandlerRegistration addValueChangeHandler(
-      ValueChangeHandler<Boolean> handler) {
+  public HandlerRegistration addValueChangeHandler(ValueChangeHandler<Boolean> handler) {
     // Is this the first value change handler? If so, time to add handlers
     if (!valueChangeHandlerInitialized) {
       ensureDomEventHandlers();
@@ -222,13 +220,12 @@ public class CheckBox extends ButtonBase implements HasName, HasValue<Boolean>,
   }
 
   /**
-   * Returns the value property of the input element that backs this widget.
-   * This is the value that will be associated with the CheckBox name and
-   * submitted to the server if a {@link FormPanel} that holds it is submitted
-   * and the box is checked.
-   * <p>
-   * Don't confuse this with {@link #getValue}, which returns true or false if
-   * the widget is checked.
+   * Returns the value property of the input element that backs this widget. This is the value that
+   * will be associated with the CheckBox name and submitted to the server if a {@link FormPanel}
+   * that holds it is submitted and the box is checked.
+   *
+   * <p>Don't confuse this with {@link #getValue}, which returns true or false if the widget is
+   * checked.
    */
   public String getFormValue() {
     return inputElem.getValue();
@@ -261,13 +258,11 @@ public class CheckBox extends ButtonBase implements HasName, HasValue<Boolean>,
 
   /**
    * Determines whether this check box is currently checked.
-   * <p>
-   * Note that this <em>does not</em> return the value property of the checkbox
-   * input element wrapped by this widget. For access to that property, see
-   * {@link #getFormValue()}
-   * 
-   * @return <code>true</code> if the check box is checked, false otherwise.
-   *         Will not return null
+   *
+   * <p>Note that this <em>does not</em> return the value property of the checkbox input element
+   * wrapped by this widget. For access to that property, see {@link #getFormValue()}
+   *
+   * @return <code>true</code> if the check box is checked, false otherwise. Will not return null
    */
   @Override
   public Boolean getValue() {
@@ -285,7 +280,7 @@ public class CheckBox extends ButtonBase implements HasName, HasValue<Boolean>,
 
   /**
    * Determines whether this check box is currently checked.
-   * 
+   *
    * @return <code>true</code> if the check box is checked
    * @deprecated Use {@link #getValue} instead
    */
@@ -306,9 +301,9 @@ public class CheckBox extends ButtonBase implements HasName, HasValue<Boolean>,
   }
 
   /**
-   * Checks or unchecks this check box. Does not fire {@link ValueChangeEvent}.
-   * (If you want the event to fire, use {@link #setValue(Boolean, boolean)})
-   * 
+   * Checks or unchecks this check box. Does not fire {@link ValueChangeEvent}. (If you want the
+   * event to fire, use {@link #setValue(Boolean, boolean)})
+   *
    * @param checked <code>true</code> to check the check box.
    * @deprecated Use {@link #setValue(Boolean)} instead
    */
@@ -319,8 +314,8 @@ public class CheckBox extends ButtonBase implements HasName, HasValue<Boolean>,
 
   /**
    * {@inheritDoc}
-   * <p>
-   * See note at {@link #setDirectionEstimator(DirectionEstimator)}.
+   *
+   * <p>See note at {@link #setDirectionEstimator(DirectionEstimator)}.
    */
   @Override
   public void setDirectionEstimator(boolean enabled) {
@@ -329,12 +324,11 @@ public class CheckBox extends ButtonBase implements HasName, HasValue<Boolean>,
 
   /**
    * {@inheritDoc}
-   * <p>
-   * Note: DirectionEstimator should be set before the label has any content;
-   * it's highly recommended to set it using a constructor. Reason: if the
-   * label already has non-empty content, this will update its direction
-   * according to the new estimator's result. This may cause flicker, and thus
-   * should be avoided.
+   *
+   * <p>Note: DirectionEstimator should be set before the label has any content; it's highly
+   * recommended to set it using a constructor. Reason: if the label already has non-empty content,
+   * this will update its direction according to the new estimator's result. This may cause flicker,
+   * and thus should be avoided.
    */
   @Override
   public void setDirectionEstimator(DirectionEstimator directionEstimator) {
@@ -361,14 +355,12 @@ public class CheckBox extends ButtonBase implements HasName, HasValue<Boolean>,
   }
 
   /**
-   * Set the value property on the input element that backs this widget. This is
-   * the value that will be associated with the CheckBox's name and submitted to
-   * the server if a {@link FormPanel} that holds it is submitted and the box is
-   * checked.
-   * <p>
-   * Don't confuse this with {@link #setValue}, which actually checks and
-   * unchecks the box.
-   * 
+   * Set the value property on the input element that backs this widget. This is the value that will
+   * be associated with the CheckBox's name and submitted to the server if a {@link FormPanel} that
+   * holds it is submitted and the box is checked.
+   *
+   * <p>Don't confuse this with {@link #setValue}, which actually checks and unchecks the box.
+   *
    * @param value
    */
   public void setFormValue(String value) {
@@ -413,11 +405,10 @@ public class CheckBox extends ButtonBase implements HasName, HasValue<Boolean>,
 
   /**
    * Checks or unchecks the check box.
-   * <p>
-   * Note that this <em>does not</em> set the value property of the checkbox
-   * input element wrapped by this widget. For access to that property, see
-   * {@link #setFormValue(String)}
-   * 
+   *
+   * <p>Note that this <em>does not</em> set the value property of the checkbox input element
+   * wrapped by this widget. For access to that property, see {@link #setFormValue(String)}
+   *
    * @param value true to check, false to uncheck; null value implies false
    */
   @Override
@@ -426,16 +417,13 @@ public class CheckBox extends ButtonBase implements HasName, HasValue<Boolean>,
   }
 
   /**
-   * Checks or unchecks the check box, firing {@link ValueChangeEvent} if
-   * appropriate.
-   * <p>
-   * Note that this <em>does not</em> set the value property of the checkbox
-   * input element wrapped by this widget. For access to that property, see
-   * {@link #setFormValue(String)}
-   * 
+   * Checks or unchecks the check box, firing {@link ValueChangeEvent} if appropriate.
+   *
+   * <p>Note that this <em>does not</em> set the value property of the checkbox input element
+   * wrapped by this widget. For access to that property, see {@link #setFormValue(String)}
+   *
    * @param value true to check, false to uncheck; null value implies false
-   * @param fireEvents If true, and value has changed, fire a
-   *          {@link ValueChangeEvent}
+   * @param fireEvents If true, and value has changed, fire a {@link ValueChangeEvent}
    */
   @Override
   public void setValue(Boolean value, boolean fireEvents) {
@@ -464,31 +452,32 @@ public class CheckBox extends ButtonBase implements HasName, HasValue<Boolean>,
   @Override
   public void sinkEvents(int eventBitsToAdd) {
     if (isOrWasAttached()) {
-      Event.sinkEvents(inputElem, eventBitsToAdd
-          | Event.getEventsSunk(inputElem));
+      Event.sinkEvents(inputElem, eventBitsToAdd | Event.getEventsSunk(inputElem));
     } else {
       super.sinkEvents(eventBitsToAdd);
     }
   }
 
   protected void ensureDomEventHandlers() {
-    addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        // Checkboxes always toggle their value, no need to compare
-        // with old value. Radio buttons are not so lucky, see
-        // overrides in RadioButton
-        ValueChangeEvent.fire(CheckBox.this, getValue());
-      }
-    });
+    addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(ClickEvent event) {
+            // Checkboxes always toggle their value, no need to compare
+            // with old value. Radio buttons are not so lucky, see
+            // overrides in RadioButton
+            ValueChangeEvent.fire(CheckBox.this, getValue());
+          }
+        });
   }
 
   /**
    * <b>Affected Elements:</b>
+   *
    * <ul>
-   * <li>-label = label next to checkbox.</li>
+   *   <li>-label = label next to checkbox.
    * </ul>
-   * 
+   *
    * @see UIObject#onEnsureDebugId(String)
    */
   @Override
@@ -500,9 +489,9 @@ public class CheckBox extends ButtonBase implements HasName, HasValue<Boolean>,
   }
 
   /**
-   * This method is called when a widget is attached to the browser's document.
-   * onAttach needs special handling for the CheckBox case. Must still call
-   * {@link Widget#onAttach()} to preserve the <code>onAttach</code> contract.
+   * This method is called when a widget is attached to the browser's document. onAttach needs
+   * special handling for the CheckBox case. Must still call {@link Widget#onAttach()} to preserve
+   * the <code>onAttach</code> contract.
    */
   @Override
   protected void onLoad() {
@@ -510,9 +499,9 @@ public class CheckBox extends ButtonBase implements HasName, HasValue<Boolean>,
   }
 
   /**
-   * This method is called when a widget is detached from the browser's
-   * document. Overridden because of IE bug that throws away checked state and
-   * in order to clear the event listener off of the <code>inputElem</code>.
+   * This method is called when a widget is detached from the browser's document. Overridden because
+   * of IE bug that throws away checked state and in order to clear the event listener off of the
+   * <code>inputElem</code>.
    */
   @Override
   protected void onUnload() {
@@ -523,10 +512,10 @@ public class CheckBox extends ButtonBase implements HasName, HasValue<Boolean>,
   }
 
   /**
-   * Replace the current input element with a new one. Preserves all state
-   * except for the name property, for nasty reasons related to radio button
-   * grouping. (See implementation of {@link RadioButton#setName}.)
-   * 
+   * Replace the current input element with a new one. Preserves all state except for the name
+   * property, for nasty reasons related to radio button grouping. (See implementation of {@link
+   * RadioButton#setName}.)
+   *
    * @param elem the new input element
    */
   protected void replaceInputElement(Element elem) {

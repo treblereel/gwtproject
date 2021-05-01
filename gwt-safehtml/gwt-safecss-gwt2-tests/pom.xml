@@ -8,6 +8,7 @@
     <artifactId>gwt-safehtml-parent</artifactId>
     <version>dev</version>
   </parent>
+  <groupId>org.gwtproject.safehtml</groupId>
   <artifactId>gwt-safecss-gwt2-tests</artifactId>
   <version>${revision}</version>
   <packaging>gwt-lib</packaging>
@@ -19,23 +20,27 @@
     <dependency>
       <groupId>com.google.gwt</groupId>
       <artifactId>gwt-user</artifactId>
+      <version>${gwt.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.google.gwt</groupId>
       <artifactId>gwt-dev</artifactId>
+      <version>${gwt.version}</version>
       <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
+      <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>org.gwtproject.safehtml</groupId>
       <artifactId>gwt-safecss</artifactId>
+      <version>${revision}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -45,16 +50,18 @@
       <plugin>
         <groupId>net.ltgt.gwt.maven</groupId>
         <artifactId>gwt-maven-plugin</artifactId>
+        <version>${maven.gwt.plugin}</version>
         <extensions>true</extensions>
         <configuration>
           <failOnError>true</failOnError>
           <moduleName>org.gwtproject.safecss.SafeCssGwt2Test</moduleName>
-          <sourceLevel>${maven.compiler.source}</sourceLevel>
+          <sourceLevel>1.8</sourceLevel>
         </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-deploy-plugin</artifactId>
+        <version>${maven.deploy.plugin}</version>
         <configuration>
           <skip>true</skip>
         </configuration>

@@ -15,29 +15,19 @@
  */
 package org.gwtproject.user.cellview.client;
 
-/**
- * Implemented by widgets that have a
- * {@link HasKeyboardPagingPolicy.KeyboardPagingPolicy}.
- */
+/** Implemented by widgets that have a {@link HasKeyboardPagingPolicy.KeyboardPagingPolicy}. */
 public interface HasKeyboardPagingPolicy extends HasKeyboardSelectionPolicy {
 
-  /**
-   * The policy that determines how keyboard paging will work.
-   */
+  /** The policy that determines how keyboard paging will work. */
   enum KeyboardPagingPolicy {
-    /**
-     * Users cannot navigate past the current page.
-     */
+    /** Users cannot navigate past the current page. */
     CURRENT_PAGE(true),
 
-    /**
-     * Users can navigate between pages.
-     */
+    /** Users can navigate between pages. */
     CHANGE_PAGE(false),
 
     /**
-     * If the user navigates to the beginning or end of the current range, the
-     * range is increased.
+     * If the user navigates to the beginning or end of the current range, the range is increased.
      */
     INCREASE_RANGE(false);
 

@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -25,19 +25,17 @@ import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.Event;
 
 /**
- * A type of widget that can wrap another widget, hiding the wrapped widget's
- * methods. When added to a panel, a composite behaves exactly as if the widget
- * it wraps had been added.
+ * A type of widget that can wrap another widget, hiding the wrapped widget's methods. When added to
+ * a panel, a composite behaves exactly as if the widget it wraps had been added.
+ *
+ * <p>The composite is useful for creating a single widget out of an aggregate of multiple other
+ * widgets contained in a single panel.
  *
  * <p>
- * The composite is useful for creating a single widget out of an aggregate of
- * multiple other widgets contained in a single panel.
- * </p>
  *
- * <p>
  * <h3>Example</h3>
+ *
  * {@example com.google.gwt.examples.CompositeExample}
- * </p>
  */
 public abstract class Composite extends Widget implements IsRenderable {
 
@@ -90,8 +88,7 @@ public abstract class Composite extends Widget implements IsRenderable {
     } else {
       checkInit();
 
-      HtmlSpanBuilder spanBuilder = HtmlBuilderFactory.get()
-          .createSpanBuilder();
+      HtmlSpanBuilder spanBuilder = HtmlBuilderFactory.get().createSpanBuilder();
       stamper.stamp(spanBuilder).end();
       return spanBuilder.asSafeHtml();
     }
@@ -107,18 +104,15 @@ public abstract class Composite extends Widget implements IsRenderable {
   }
 
   /**
-   * Provides subclasses access to the topmost widget that defines this
-   * composite.
-   * 
+   * Provides subclasses access to the topmost widget that defines this composite.
+   *
    * @return the widget
    */
   protected Widget getWidget() {
     return widget;
   }
 
-  /**
-   * Check if the composite is initialized.
-   */
+  /** Check if the composite is initialized. */
   private void checkInit() {
     if (widget == null) {
       throw new IllegalStateException("initWidget() is not called yet");
@@ -126,17 +120,16 @@ public abstract class Composite extends Widget implements IsRenderable {
   }
 
   /**
-   * Sets the widget to be wrapped by the composite. The wrapped widget must be
-   * set before calling any {@link Widget} methods on this object, or adding it
-   * to a panel. This method may only be called once for a given composite.
-   * 
+   * Sets the widget to be wrapped by the composite. The wrapped widget must be set before calling
+   * any {@link Widget} methods on this object, or adding it to a panel. This method may only be
+   * called once for a given composite.
+   *
    * @param widget the widget to be wrapped
    */
   protected void initWidget(Widget widget) {
     // Validate. Make sure the widget is not being set twice.
     if (this.widget != null) {
-      throw new IllegalStateException("Composite.initWidget() may only be "
-          + "called once.");
+      throw new IllegalStateException("Composite.initWidget() may only be " + "called once.");
     }
 
     if (widget == null) {
@@ -212,9 +205,9 @@ public abstract class Composite extends Widget implements IsRenderable {
   }
 
   /**
-   * This method was for initializing the Widget to be wrapped by this
-   * Composite, but has been deprecated in favor of {@link #initWidget(Widget)}.
-   * 
+   * This method was for initializing the Widget to be wrapped by this Composite, but has been
+   * deprecated in favor of {@link #initWidget(Widget)}.
+   *
    * @deprecated Use {@link #initWidget(Widget)} instead
    */
   @Deprecated

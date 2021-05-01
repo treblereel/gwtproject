@@ -32,41 +32,37 @@ import org.gwtproject.user.client.ui.impl.FormPanelImplHost;
 /**
  * A panel that wraps its contents in an HTML &lt;FORM&gt; element.
  *
- * <p>
- * This panel can be used to achieve interoperability with servers that accept
- * traditional HTML form encoding. The following widgets (those that implement
- * {@link HasName}) will be submitted to the
- * server if they are contained within this panel:
+ * <p>This panel can be used to achieve interoperability with servers that accept traditional HTML
+ * form encoding. The following widgets (those that implement {@link HasName}) will be submitted to
+ * the server if they are contained within this panel:
+ *
  * <ul>
- * <li>{@link TextBox}</li>
- * <li>{@link PasswordTextBox}</li>
- * <li>{@link RadioButton}</li>
- * <li>{@link SimpleRadioButton}</li>
- * <li>{@link CheckBox}</li>
- * <li>{@link SimpleCheckBox}</li>
- * <li>{@link TextArea}</li>
- * <li>{@link ListBox}</li>
- * <li>{@link FileUpload}</li>
- * <li>{@link Hidden}</li>
+ *   <li>{@link TextBox}
+ *   <li>{@link PasswordTextBox}
+ *   <li>{@link RadioButton}
+ *   <li>{@link SimpleRadioButton}
+ *   <li>{@link CheckBox}
+ *   <li>{@link SimpleCheckBox}
+ *   <li>{@link TextArea}
+ *   <li>{@link ListBox}
+ *   <li>{@link FileUpload}
+ *   <li>{@link Hidden}
  * </ul>
- * In particular, {@link FileUpload} is
- * <i>only</i> useful when used within a FormPanel, because the browser will
- * only upload files using form submission.
- * </p>
+ *
+ * In particular, {@link FileUpload} is <i>only</i> useful when used within a FormPanel, because the
+ * browser will only upload files using form submission.
  *
  * <p>
+ *
  * <h3>Example</h3>
+ *
  * {@example com.google.gwt.examples.FormPanelExample}
- * </p>
  */
 public class FormPanel extends SimplePanel implements FormPanelImplHost {
-  /**
-   * Fired when a form has been submitted successfully.
-   */
-  public static class SubmitCompleteEvent extends org.gwtproject.event.shared.Event<SubmitCompleteHandler> {
-    /**
-     * The event type.
-     */
+  /** Fired when a form has been submitted successfully. */
+  public static class SubmitCompleteEvent
+      extends org.gwtproject.event.shared.Event<SubmitCompleteHandler> {
+    /** The event type. */
     private static Type<SubmitCompleteHandler> TYPE;
 
     /**
@@ -100,10 +96,9 @@ public class FormPanel extends SimplePanel implements FormPanelImplHost {
     /**
      * Gets the result text of the form submission.
      *
-     * @return the result html, or <code>null</code> if there was an error
-     *         reading it
-     * @tip The result html can be <code>null</code> as a result of submitting a
-     *      form to a different domain.
+     * @return the result html, or <code>null</code> if there was an error reading it
+     * @tip The result html can be <code>null</code> as a result of submitting a form to a different
+     *     domain.
      */
     public String getResults() {
       return resultHtml;
@@ -115,9 +110,7 @@ public class FormPanel extends SimplePanel implements FormPanelImplHost {
     }
   }
 
-  /**
-   * Handler for {@link SubmitCompleteEvent} events.
-   */
+  /** Handler for {@link SubmitCompleteEvent} events. */
   public interface SubmitCompleteHandler {
     /**
      * Fired when a form has been submitted successfully.
@@ -127,13 +120,9 @@ public class FormPanel extends SimplePanel implements FormPanelImplHost {
     void onSubmitComplete(SubmitCompleteEvent event);
   }
 
-  /**
-   * Fired when the form is submitted.
-   */
+  /** Fired when the form is submitted. */
   public static class SubmitEvent extends org.gwtproject.event.shared.Event<SubmitHandler> {
-    /**
-     * The event type.
-     */
+    /** The event type. */
     private static Type<SubmitHandler> TYPE;
 
     /**
@@ -151,8 +140,8 @@ public class FormPanel extends SimplePanel implements FormPanelImplHost {
     private boolean canceled = false;
 
     /**
-     * Cancel the form submit. Firing this will prevent a subsequent
-     * {@link SubmitCompleteEvent} from being fired.
+     * Cancel the form submit. Firing this will prevent a subsequent {@link SubmitCompleteEvent}
+     * from being fired.
      */
     public void cancel() {
       this.canceled = true;
@@ -178,8 +167,8 @@ public class FormPanel extends SimplePanel implements FormPanelImplHost {
     }
 
     /**
-     * This method is used for legacy support and should be removed when
-     * {@link FormHandler} is removed.
+     * This method is used for legacy support and should be removed when {@link FormHandler} is
+     * removed.
      *
      * @deprecated Use {@link SubmitEvent#cancel()} instead
      */
@@ -189,18 +178,14 @@ public class FormPanel extends SimplePanel implements FormPanelImplHost {
     }
   }
 
-  /**
-   * Handler for {@link SubmitEvent} events.
-   */
+  /** Handler for {@link SubmitEvent} events. */
   public interface SubmitHandler {
     /**
      * Fired when the form is submitted.
      *
-     * <p>
-     * The FormPanel must <em>not</em> be detached (i.e. removed from its parent
-     * or otherwise disconnected from a {@link RootPanel}) until the submission
-     * is complete. Otherwise, notification of submission will fail.
-     * </p>
+     * <p>The FormPanel must <em>not</em> be detached (i.e. removed from its parent or otherwise
+     * disconnected from a {@link RootPanel}) until the submission is complete. Otherwise,
+     * notification of submission will fail.
      *
      * @param event the event
      */
@@ -214,28 +199,26 @@ public class FormPanel extends SimplePanel implements FormPanelImplHost {
   }
 
   /**
-   * Used with {@link #setEncoding(String)} to specify that the form will be
-   * submitted using MIME encoding (necessary for {@link FileUpload} to work
-   * properly).
+   * Used with {@link #setEncoding(String)} to specify that the form will be submitted using MIME
+   * encoding (necessary for {@link FileUpload} to work properly).
    */
   public static final String ENCODING_MULTIPART = "multipart/form-data";
 
   /**
-   * Used with {@link #setEncoding(String)} to specify that the form will be
-   * submitted using traditional URL encoding.
+   * Used with {@link #setEncoding(String)} to specify that the form will be submitted using
+   * traditional URL encoding.
    */
   public static final String ENCODING_URLENCODED = "application/x-www-form-urlencoded";
 
   /**
-   * Used with {@link #setMethod(String)} to specify that the form will be
-   * submitted using an HTTP GET request.
+   * Used with {@link #setMethod(String)} to specify that the form will be submitted using an HTTP
+   * GET request.
    */
   public static final String METHOD_GET = "get";
 
   /**
-   * Used with {@link #setMethod(String)} to specify that the form will be
-   * submitted using an HTTP POST request (necessary for {@link FileUpload} to
-   * work properly).
+   * Used with {@link #setMethod(String)} to specify that the form will be submitted using an HTTP
+   * POST request (necessary for {@link FileUpload} to work properly).
    */
   public static final String METHOD_POST = "post";
 
@@ -245,14 +228,11 @@ public class FormPanel extends SimplePanel implements FormPanelImplHost {
   /**
    * Creates a FormPanel that wraps an existing &lt;form&gt; element.
    *
-   * This element must already be attached to the document. If the element is
-   * removed from the document, you must call
-   * {@link RootPanel#detachNow(Widget)}.
+   * <p>This element must already be attached to the document. If the element is removed from the
+   * document, you must call {@link RootPanel#detachNow(Widget)}.
    *
-   * <p>
-   * The specified form element's target attribute will not be set, and the
-   * {@link FormSubmitCompleteEvent} will not be fired.
-   * </p>
+   * <p>The specified form element's target attribute will not be set, and the {@link
+   * FormSubmitCompleteEvent} will not be fired.
    *
    * @param element the element to be wrapped
    */
@@ -272,20 +252,16 @@ public class FormPanel extends SimplePanel implements FormPanelImplHost {
   /**
    * Creates a FormPanel that wraps an existing &lt;form&gt; element.
    *
-   * This element must already be attached to the document. If the element is
-   * removed from the document, you must call
-   * {@link RootPanel#detachNow(Widget)}.
+   * <p>This element must already be attached to the document. If the element is removed from the
+   * document, you must call {@link RootPanel#detachNow(Widget)}.
    *
-   * <p>
-   * If the createIFrame parameter is set to <code>true</code>, then the wrapped
-   * form's target attribute will be set to a hidden iframe. If not, the form's
-   * target will be left alone, and the FormSubmitComplete event will not be
-   * fired.
-   * </p>
+   * <p>If the createIFrame parameter is set to <code>true</code>, then the wrapped form's target
+   * attribute will be set to a hidden iframe. If not, the form's target will be left alone, and the
+   * FormSubmitComplete event will not be fired.
    *
    * @param element the element to be wrapped
-   * @param createIFrame <code>true</code> to create an &lt;iframe&gt; element
-   *          that will be targeted by this form
+   * @param createIFrame <code>true</code> to create an &lt;iframe&gt; element that will be targeted
+   *     by this form
    */
   public static FormPanel wrap(Element element, boolean createIFrame) {
     // Assert that the element is attached.
@@ -304,37 +280,30 @@ public class FormPanel extends SimplePanel implements FormPanelImplHost {
   private Element synthesizedFrame;
 
   /**
-   * Creates a new FormPanel. When created using this constructor, it will be
-   * submitted to a hidden &lt;iframe&gt; element, and the results of the
-   * submission made available via {@link SubmitCompleteHandler}.
+   * Creates a new FormPanel. When created using this constructor, it will be submitted to a hidden
+   * &lt;iframe&gt; element, and the results of the submission made available via {@link
+   * SubmitCompleteHandler}.
    *
-   * <p>
-   * The back-end server is expected to respond with a content-type of
-   * 'text/html', meaning that the text returned will be treated as HTML. If any
-   * other content-type is specified by the server, then the result HTML sent in
-   * the onFormSubmit event will be unpredictable across browsers, and the
-   * {@link SubmitCompleteHandler#onSubmitComplete(SubmitCompleteEvent)
+   * <p>The back-end server is expected to respond with a content-type of 'text/html', meaning that
+   * the text returned will be treated as HTML. If any other content-type is specified by the
+   * server, then the result HTML sent in the onFormSubmit event will be unpredictable across
+   * browsers, and the {@link SubmitCompleteHandler#onSubmitComplete(SubmitCompleteEvent)
    * onSubmitComplete} event may not fire at all.
-   * </p>
    *
-   * @tip The initial implementation of FormPanel specified that the server
-   *      respond with a content-type of 'text/plain'. This has been
-   *      intentionally changed to specify 'text/html' because 'text/plain'
-   *      cannot be made to work properly on all browsers.
+   * @tip The initial implementation of FormPanel specified that the server respond with a
+   *     content-type of 'text/plain'. This has been intentionally changed to specify 'text/html'
+   *     because 'text/plain' cannot be made to work properly on all browsers.
    */
   public FormPanel() {
     this(Document.get().createFormElement(), true);
   }
 
   /**
-   * Creates a FormPanel that targets a {@link NamedFrame}. The target frame is
-   * not physically attached to the form, and must therefore still be added to a
-   * panel elsewhere.
+   * Creates a FormPanel that targets a {@link NamedFrame}. The target frame is not physically
+   * attached to the form, and must therefore still be added to a panel elsewhere.
    *
-   * <p>
-   * When the FormPanel targets an external frame in this way, it will not fire
-   * the FormSubmitComplete event.
-   * </p>
+   * <p>When the FormPanel targets an external frame in this way, it will not fire the
+   * FormSubmitComplete event.
    *
    * @param frameTarget the {@link NamedFrame} to be targetted
    */
@@ -343,18 +312,14 @@ public class FormPanel extends SimplePanel implements FormPanelImplHost {
   }
 
   /**
-   * Creates a new FormPanel. When created using this constructor, it will be
-   * submitted either by replacing the current page, or to the named
-   * &lt;iframe&gt;.
+   * Creates a new FormPanel. When created using this constructor, it will be submitted either by
+   * replacing the current page, or to the named &lt;iframe&gt;.
    *
-   * <p>
-   * When the FormPanel targets an external frame in this way, it will not fire
-   * the FormSubmitComplete event.
-   * </p>
+   * <p>When the FormPanel targets an external frame in this way, it will not fire the
+   * FormSubmitComplete event.
    *
-   * @param target the name of the &lt;iframe&gt; to receive the results of the
-   *          submission, or <code>null</code> to specify that the current page
-   *          be replaced
+   * @param target the name of the &lt;iframe&gt; to receive the results of the submission, or
+   *     <code>null</code> to specify that the current page be replaced
    */
   public FormPanel(String target) {
     super(Document.get().createFormElement());
@@ -362,13 +327,11 @@ public class FormPanel extends SimplePanel implements FormPanelImplHost {
   }
 
   /**
-   * This constructor may be used by subclasses to explicitly use an existing
-   * element. This element must be a &lt;form&gt; element.
+   * This constructor may be used by subclasses to explicitly use an existing element. This element
+   * must be a &lt;form&gt; element.
    *
-   * <p>
-   * The specified form element's target attribute will not be set, and the
-   * {@link FormSubmitCompleteEvent} will not be fired.
-   * </p>
+   * <p>The specified form element's target attribute will not be set, and the {@link
+   * FormSubmitCompleteEvent} will not be fired.
    *
    * @param element the element to be used
    */
@@ -377,26 +340,24 @@ public class FormPanel extends SimplePanel implements FormPanelImplHost {
   }
 
   /**
-   * This constructor may be used by subclasses to explicitly use an existing
-   * element. This element must be a &lt;form&gt; element.
+   * This constructor may be used by subclasses to explicitly use an existing element. This element
+   * must be a &lt;form&gt; element.
    *
-   * <p>
-   * If the createIFrame parameter is set to <code>true</code>, then the wrapped
-   * form's target attribute will be set to a hidden iframe. If not, the form's
-   * target will be left alone, and the FormSubmitComplete event will not be
-   * fired.
-   * </p>
+   * <p>If the createIFrame parameter is set to <code>true</code>, then the wrapped form's target
+   * attribute will be set to a hidden iframe. If not, the form's target will be left alone, and the
+   * FormSubmitComplete event will not be fired.
    *
    * @param element the element to be used
-   * @param createIFrame <code>true</code> to create an &lt;iframe&gt; element
-   *          that will be targeted by this form
+   * @param createIFrame <code>true</code> to create an &lt;iframe&gt; element that will be targeted
+   *     by this form
    */
   protected FormPanel(Element element, boolean createIFrame) {
     super(element);
     FormElement.as(element);
 
     if (createIFrame) {
-      assert ((getTarget() == null) || (getTarget().trim().length() == 0)) : "Cannot create target iframe if the form's target is already set.";
+      assert ((getTarget() == null) || (getTarget().trim().length() == 0))
+          : "Cannot create target iframe if the form's target is already set.";
 
       // We use the module name as part of the unique ID to ensure that ids are
       // unique across modules.
@@ -428,8 +389,7 @@ public class FormPanel extends SimplePanel implements FormPanelImplHost {
   }
 
   /**
-   * Gets the 'action' associated with this form. This is the URL to which it
-   * will be submitted.
+   * Gets the 'action' associated with this form. This is the URL to which it will be submitted.
    *
    * @return the form's action
    */
@@ -438,8 +398,8 @@ public class FormPanel extends SimplePanel implements FormPanelImplHost {
   }
 
   /**
-   * Gets the encoding used for submitting this form. This should be either
-   * {@link #ENCODING_MULTIPART} or {@link #ENCODING_URLENCODED}.
+   * Gets the encoding used for submitting this form. This should be either {@link
+   * #ENCODING_MULTIPART} or {@link #ENCODING_URLENCODED}.
    *
    * @return the form's encoding
    */
@@ -448,8 +408,8 @@ public class FormPanel extends SimplePanel implements FormPanelImplHost {
   }
 
   /**
-   * Gets the HTTP method used for submitting this form. This should be either
-   * {@link #METHOD_GET} or {@link #METHOD_POST}.
+   * Gets the HTTP method used for submitting this form. This should be either {@link #METHOD_GET}
+   * or {@link #METHOD_POST}.
    *
    * @return the form's method
    */
@@ -458,9 +418,8 @@ public class FormPanel extends SimplePanel implements FormPanelImplHost {
   }
 
   /**
-   * Gets the form's 'target'. This is the name of the {@link NamedFrame} that
-   * will receive the results of submission, or <code>null</code> if none has
-   * been specified.
+   * Gets the form's 'target'. This is the name of the {@link NamedFrame} that will receive the
+   * results of submission, or <code>null</code> if none has been specified.
    *
    * @return the form's target.
    */
@@ -481,16 +440,13 @@ public class FormPanel extends SimplePanel implements FormPanelImplHost {
     onFrameLoadImpl();
   }
 
-  /**
-   * Resets the form, clearing all fields.
-   */
+  /** Resets the form, clearing all fields. */
   public void reset() {
     impl.reset(getElement());
   }
 
   /**
-   * Sets the 'action' associated with this form. This is the URL to which it
-   * will be submitted.
+   * Sets the 'action' associated with this form. This is the URL to which it will be submitted.
    *
    * @param url the form's action
    */
@@ -499,8 +455,7 @@ public class FormPanel extends SimplePanel implements FormPanelImplHost {
   }
 
   /**
-   * Sets the 'action' associated with this form. This is the URL to which it
-   * will be submitted.
+   * Sets the 'action' associated with this form. This is the URL to which it will be submitted.
    *
    * @param url the form's action
    */
@@ -509,8 +464,8 @@ public class FormPanel extends SimplePanel implements FormPanelImplHost {
   }
 
   /**
-   * Sets the encoding used for submitting this form. This should be either
-   * {@link #ENCODING_MULTIPART} or {@link #ENCODING_URLENCODED}.
+   * Sets the encoding used for submitting this form. This should be either {@link
+   * #ENCODING_MULTIPART} or {@link #ENCODING_URLENCODED}.
    *
    * @param encodingType the form's encoding
    */
@@ -519,8 +474,8 @@ public class FormPanel extends SimplePanel implements FormPanelImplHost {
   }
 
   /**
-   * Sets the HTTP method used for submitting this form. This should be either
-   * {@link #METHOD_GET} or {@link #METHOD_POST}.
+   * Sets the HTTP method used for submitting this form. This should be either {@link #METHOD_GET}
+   * or {@link #METHOD_POST}.
    *
    * @param method the form's method
    */
@@ -531,11 +486,9 @@ public class FormPanel extends SimplePanel implements FormPanelImplHost {
   /**
    * Submits the form.
    *
-   * <p>
-   * The FormPanel must <em>not</em> be detached (i.e. removed from its parent
-   * or otherwise disconnected from a {@link RootPanel}) until the submission is
-   * complete. Otherwise, notification of submission will fail.
-   * </p>
+   * <p>The FormPanel must <em>not</em> be detached (i.e. removed from its parent or otherwise
+   * disconnected from a {@link RootPanel}) until the submission is complete. Otherwise,
+   * notification of submission will fail.
    */
   public void submit() {
     // Fire the onSubmit event, because javascript's form.submit() does not
@@ -609,9 +562,7 @@ public class FormPanel extends SimplePanel implements FormPanelImplHost {
     return getElement().cast();
   }
 
-  /**
-   * Returns true if the form is submitted, false if canceled.
-   */
+  /** Returns true if the form is submitted, false if canceled. */
   private boolean onFormSubmitImpl() {
     return fireSubmitEvent();
   }
@@ -621,11 +572,13 @@ public class FormPanel extends SimplePanel implements FormPanelImplHost {
     // because clients that detach the form panel when submission is
     // complete can cause some browsers (i.e. Mozilla) to go into an
     // 'infinite loading' state. See issue 916.
-    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-      public void execute() {
-        fireEvent(new SubmitCompleteEvent(impl.getContents(synthesizedFrame)));
-      }
-    });
+    Scheduler.get()
+        .scheduleDeferred(
+            new ScheduledCommand() {
+              public void execute() {
+                fireEvent(new SubmitCompleteEvent(impl.getContents(synthesizedFrame)));
+              }
+            });
   }
 
   private void setTarget(String target) {

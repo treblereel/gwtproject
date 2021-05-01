@@ -61,7 +61,8 @@
     <module>gwt-timer</module>
     <module>gwt-xhr</module>
     <module>gwt-xml</module>
-    <module>gwt-typedarrays</module>
+    <module>gwt-resources</module>
+    <module>gwt-widgets</module>
   </modules>
 
   <properties>
@@ -86,7 +87,7 @@
     <maven.shade.plugin>3.2.4</maven.shade.plugin>
     <maven.resource.plugin>3.2.0</maven.resource.plugin>
     <maven.failsafe.plugin>3.0.0-M5</maven.failsafe.plugin>
-    <maven.j2cl.plugin>0.16-SNAPSHOT</maven.j2cl.plugin>
+    <maven.j2cl.plugin>0.17-SNAPSHOT</maven.j2cl.plugin>
 
     <revision>HEAD-SNAPSHOT</revision>
     <auto.common.version>0.10</auto.common.version>
@@ -106,7 +107,7 @@
     <elemental2.version>1.1.0</elemental2.version>
     <com.google.jsinterop.base>1.0.0</com.google.jsinterop.base>
     <com.google.jsinterop.annotations>2.0.0</com.google.jsinterop.annotations>
-    <j2cl.version>0.8-SNAPSHOT</j2cl.version>
+    <j2cl.version>0.9-SNAPSHOT</j2cl.version>
 
     <junit.version>4.13.1</junit.version>
     <vertispan.j2cl.repo.url>https://repo.vertispan.com/j2cl/</vertispan.j2cl.repo.url>
@@ -580,6 +581,10 @@
       <id>vertispan-snapshots</id>
       <name>Vertispan hosted artifacts-releases</name>
       <url>${vertispan.j2cl.repo.url}</url>
+    </repository>
+    <repository>
+      <id>gwt-snapshot</id>
+      <url>https://repo.vertispan.com/gwt-snapshot/</url>
     </repository>
     <repository>
       <id>ossrh</id>

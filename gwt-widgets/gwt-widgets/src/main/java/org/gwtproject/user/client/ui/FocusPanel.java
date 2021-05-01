@@ -81,13 +81,19 @@ import org.gwtproject.event.shared.HandlerRegistration;
 import org.gwtproject.user.client.ui.impl.FocusImpl;
 
 /**
- * A simple panel that makes its contents focusable, and adds the ability to
- * catch mouse and keyboard events.
+ * A simple panel that makes its contents focusable, and adds the ability to catch mouse and
+ * keyboard events.
  */
-public class FocusPanel extends SimplePanel implements Focusable,
-    HasAllDragAndDropHandlers, HasAllMouseHandlers, HasClickHandlers,
-    HasDoubleClickHandlers, HasAllKeyHandlers, HasAllFocusHandlers,
-    HasAllGestureHandlers, HasAllTouchHandlers {
+public class FocusPanel extends SimplePanel
+    implements Focusable,
+        HasAllDragAndDropHandlers,
+        HasAllMouseHandlers,
+        HasClickHandlers,
+        HasDoubleClickHandlers,
+        HasAllKeyHandlers,
+        HasAllFocusHandlers,
+        HasAllGestureHandlers,
+        HasAllTouchHandlers {
 
   static final FocusImpl impl = FocusImpl.getFocusImplForPanel();
 

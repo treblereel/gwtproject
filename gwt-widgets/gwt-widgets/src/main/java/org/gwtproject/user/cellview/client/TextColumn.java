@@ -18,16 +18,13 @@ package org.gwtproject.user.cellview.client;
 import org.gwtproject.cell.client.TextCell;
 
 /**
- * A column that displays its contents with a {@link TextCell} and does not make
- * use of view data.
+ * A column that displays its contents with a {@link TextCell} and does not make use of view data.
  *
  * @param <T> the row type
  */
 public abstract class TextColumn<T> extends Column<T, String> {
 
-  /**
-   * Construct a new TextColumn.
-   */
+  /** Construct a new TextColumn. */
   public TextColumn() {
     super(new TextCell());
   }

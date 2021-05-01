@@ -15,6 +15,8 @@
  */
 package org.gwtproject.cell.client;
 
+import static org.gwtproject.dom.client.BrowserEvents.CLICK;
+import static org.gwtproject.dom.client.BrowserEvents.KEYDOWN;
 
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.EventTarget;
@@ -24,24 +26,17 @@ import org.gwtproject.safehtml.shared.SafeHtmlBuilder;
 import org.gwtproject.text.shared.SafeHtmlRenderer;
 import org.gwtproject.text.shared.SimpleSafeHtmlRenderer;
 
-import static org.gwtproject.dom.client.BrowserEvents.CLICK;
-import static org.gwtproject.dom.client.BrowserEvents.KEYDOWN;
-
-/**
- * A {@link Cell} used to render a button.
- */
+/** A {@link Cell} used to render a button. */
 public class ButtonCell extends AbstractSafeHtmlCell<String> {
 
-  /**
-   * Construct a new ButtonCell that will use a {@link SimpleSafeHtmlRenderer}.
-   */
+  /** Construct a new ButtonCell that will use a {@link SimpleSafeHtmlRenderer}. */
   public ButtonCell() {
     this(SimpleSafeHtmlRenderer.getInstance());
   }
 
   /**
    * Construct a new ButtonCell that will use a given {@link SafeHtmlRenderer}.
-   * 
+   *
    * @param renderer a {@link SafeHtmlRenderer SafeHtmlRenderer<String>} instance
    */
   public ButtonCell(SafeHtmlRenderer<String> renderer) {
@@ -49,8 +44,12 @@ public class ButtonCell extends AbstractSafeHtmlCell<String> {
   }
 
   @Override
-  public void onBrowserEvent(Cell.Context context, Element parent, String value,
-                             NativeEvent event, ValueUpdater<String> valueUpdater) {
+  public void onBrowserEvent(
+      Cell.Context context,
+      Element parent,
+      String value,
+      NativeEvent event,
+      ValueUpdater<String> valueUpdater) {
     super.onBrowserEvent(context, parent, value, event, valueUpdater);
     if (CLICK.equals(event.getType())) {
       EventTarget eventTarget = event.getEventTarget();
@@ -74,8 +73,12 @@ public class ButtonCell extends AbstractSafeHtmlCell<String> {
   }
 
   @Override
-  protected void onEnterKeyDown(Cell.Context context, Element parent, String value,
-                                NativeEvent event, ValueUpdater<String> valueUpdater) {
+  protected void onEnterKeyDown(
+      Cell.Context context,
+      Element parent,
+      String value,
+      NativeEvent event,
+      ValueUpdater<String> valueUpdater) {
     if (valueUpdater != null) {
       valueUpdater.update(value);
     }

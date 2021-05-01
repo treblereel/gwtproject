@@ -18,8 +18,8 @@ package org.gwtproject.view.client;
 import org.gwtproject.cell.client.Cell;
 
 /**
- * Interface for classes that have a {@link org.gwtproject.view.client.ProvidesKey}. Must be implemented by
- * {@link Cell} containers.
+ * Interface for classes that have a {@link org.gwtproject.view.client.ProvidesKey}. Must be
+ * implemented by {@link Cell} containers.
  *
  * @param <T> the data type
  */

@@ -15,22 +15,16 @@
  */
 package org.gwtproject.user.client.ui;
 
-/**
- * A widget that implements this interface can be put in an "enabled"
- * or "disabled" state.
- */
+/** A widget that implements this interface can be put in an "enabled" or "disabled" state. */
 public interface HasEnabled {
 
-  /**
-   * Returns true if the widget is enabled, false if not.
-   */
+  /** Returns true if the widget is enabled, false if not. */
   boolean isEnabled();
 
   /**
    * Sets whether this widget is enabled.
    *
-   * @param enabled <code>true</code> to enable the widget, <code>false</code>
-   *          to disable it
+   * @param enabled <code>true</code> to enable the widget, <code>false</code> to disable it
    */
   void setEnabled(boolean enabled);
 }

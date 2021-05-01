@@ -22,9 +22,7 @@ import org.gwtproject.view.client.Range;
 import org.gwtproject.view.client.RangeChangeEvent;
 import org.gwtproject.view.client.RowCountChangeEvent;
 
-/**
- * An abstract pager that exposes many methods useful for paging.
- */
+/** An abstract pager that exposes many methods useful for paging. */
 public abstract class AbstractPager extends Composite {
 
   // Visible for testing.
@@ -33,14 +31,10 @@ public abstract class AbstractPager extends Composite {
 
   private HasRows display;
 
-  /**
-   * If true, all operations should be limited to the data size.
-   */
+  /** If true, all operations should be limited to the data size. */
   private boolean isRangeLimited = true;
 
-  /**
-   * The last row count.
-   */
+  /** The last row count. */
   private int lastRowCount;
 
   /**
@@ -74,8 +68,7 @@ public abstract class AbstractPager extends Composite {
   }
 
   /**
-   * Check if the page should be limited to the actual data size. Defaults to
-   * true.
+   * Check if the page should be limited to the actual data size. Defaults to true.
    *
    * @return true if the range is limited to the data size
    * @see #setRangeLimited(boolean)
@@ -85,9 +78,8 @@ public abstract class AbstractPager extends Composite {
   }
 
   /**
-   * Set whether or not the page range should be limited to the actual data
-   * size. If true, all operations will adjust so that there is always data
-   * visible on the page.
+   * Set whether or not the page range should be limited to the actual data size. If true, all
+   * operations will adjust so that there is always data visible on the page.
    *
    * @param isRangeLimited true to limit the range, false not to
    * @see #isRangeLimited()
@@ -116,44 +108,42 @@ public abstract class AbstractPager extends Composite {
     // Set the new display.
     this.display = display;
     if (display != null) {
-      rangeChangeHandler = display.addRangeChangeHandler(new RangeChangeEvent.Handler() {
-        @Override
-        public void onRangeChange(RangeChangeEvent event) {
-          if (AbstractPager.this.display != null) {
-            onRangeOrRowCountChanged();
-          }
-        }
-      });
-      rowCountChangeHandler = display.addRowCountChangeHandler(new RowCountChangeEvent.Handler() {
-        @Override
-        public void onRowCountChange(RowCountChangeEvent event) {
-          if (AbstractPager.this.display != null) {
-            handleRowCountChange(event.getNewRowCount(), event.isNewRowCountExact());
-          }
-        }
-      });
+      rangeChangeHandler =
+          display.addRangeChangeHandler(
+              new RangeChangeEvent.Handler() {
+                @Override
+                public void onRangeChange(RangeChangeEvent event) {
+                  if (AbstractPager.this.display != null) {
+                    onRangeOrRowCountChanged();
+                  }
+                }
+              });
+      rowCountChangeHandler =
+          display.addRowCountChangeHandler(
+              new RowCountChangeEvent.Handler() {
+                @Override
+                public void onRowCountChange(RowCountChangeEvent event) {
+                  if (AbstractPager.this.display != null) {
+                    handleRowCountChange(event.getNewRowCount(), event.isNewRowCountExact());
+                  }
+                }
+              });
 
       // Initialize the pager.
       onRangeOrRowCountChanged();
     }
   }
 
-  /**
-   * Go to the first page.
-   */
+  /** Go to the first page. */
   protected void firstPage() {
     setPage(0);
   }
 
   /**
-   * <p>
    * Get the current page index.
-   * </p>
-   * <p>
-   * Since the page start index can be set to any value, its possible to be
-   * between pages. In this case, the return value is the number of times
-   * {@link #previousPage()} can be called.
-   * </p>
+   *
+   * <p>Since the page start index can be set to any value, its possible to be between pages. In
+   * this case, the return value is the number of times {@link #previousPage()} can be called.
    *
    * @return the page index, or -1 if the display is not set
    * @see #setPage(int)
@@ -181,9 +171,8 @@ public abstract class AbstractPager extends Composite {
   }
 
   /**
-   * Returns true if there is enough data such that a call to
-   * {@link #nextPage()} will succeed in moving the starting point of the table
-   * forward.
+   * Returns true if there is enough data such that a call to {@link #nextPage()} will succeed in
+   * moving the starting point of the table forward.
    *
    * @return true if there is a next page
    */
@@ -198,8 +187,7 @@ public abstract class AbstractPager extends Composite {
   }
 
   /**
-   * Returns true if there is enough data to display a given number of
-   * additional pages.
+   * Returns true if there is enough data to display a given number of additional pages.
    *
    * @param pages the number of pages to query
    * @return true if there are {@code pages} next pages
@@ -213,32 +201,27 @@ public abstract class AbstractPager extends Composite {
   }
 
   /**
-   * Returns true if there is enough data such that the specified page is within
-   * range.
+   * Returns true if there is enough data such that the specified page is within range.
    *
    * @param index the page index
    * @return true if the specified page is in range
    */
   protected boolean hasPage(int index) {
-    return display == null ? false : getPageSize() * index
-        < display.getRowCount();
+    return display == null ? false : getPageSize() * index < display.getRowCount();
   }
 
   /**
-   * Returns true if there is enough data such that a call to
-   * {@link #previousPage()} will succeed in moving the starting point of the
-   * table backward.
+   * Returns true if there is enough data such that a call to {@link #previousPage()} will succeed
+   * in moving the starting point of the table backward.
    *
    * @return true if there is a previous page
    */
   protected boolean hasPreviousPage() {
-    return display == null ? false : getPageStart() > 0
-        && display.getRowCount() > 0;
+    return display == null ? false : getPageStart() > 0 && display.getRowCount() > 0;
   }
 
   /**
-   * Returns true if there is enough data to display a given number of previous
-   * pages.
+   * Returns true if there is enough data to display a given number of previous pages.
    *
    * @param pages the number of previous pages to query
    * @return true if there are {@code pages} previous pages
@@ -251,25 +234,19 @@ public abstract class AbstractPager extends Composite {
     return (pages - 1) * range.getLength() < range.getStart();
   }
 
-  /**
-   * Go to the last page.
-   */
+  /** Go to the last page. */
   protected void lastPage() {
     setPage(getPageCount() - 1);
   }
 
-  /**
-   * Set the page start to the last index that will still show a full page.
-   */
+  /** Set the page start to the last index that will still show a full page. */
   protected void lastPageStart() {
     if (display != null) {
       setPageStart(display.getRowCount() - getPageSize());
     }
   }
 
-  /**
-   * Advance the starting row by 'pageSize' rows.
-   */
+  /** Advance the starting row by 'pageSize' rows. */
   protected void nextPage() {
     if (display != null) {
       Range range = display.getVisibleRange();
@@ -277,15 +254,10 @@ public abstract class AbstractPager extends Composite {
     }
   }
 
-  /**
-   * Called when the range or row count changes. Implement this method to update
-   * the pager.
-   */
+  /** Called when the range or row count changes. Implement this method to update the pager. */
   protected abstract void onRangeOrRowCountChanged();
 
-  /**
-   * Move the starting row back by 'pageSize' rows.
-   */
+  /** Move the starting row back by 'pageSize' rows. */
   protected void previousPage() {
     if (display != null) {
       Range range = display.getVisibleRange();
@@ -300,8 +272,7 @@ public abstract class AbstractPager extends Composite {
    * @see #getPage()
    */
   protected void setPage(int index) {
-    if (display != null
-        && (!isRangeLimited || !display.isRowCountExact() || hasPage(index))) {
+    if (display != null && (!isRangeLimited || !display.isRowCountExact() || hasPage(index))) {
       // We don't use the local version of setPageStart because it would
       // constrain the index, but the user probably wants to use absolute page
       // indexes.

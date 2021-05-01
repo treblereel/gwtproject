@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,25 +15,16 @@
  */
 package org.gwtproject.touch.client;
 
-/**
- * Default implementation of momentum.
- */
+/** Default implementation of momentum. */
 public class DefaultMomentum implements Momentum {
 
-  /**
-   * The constant factor applied to velocity every millisecond to simulate
-   * deceleration.
-   */
+  /** The constant factor applied to velocity every millisecond to simulate deceleration. */
   private static final double DECELERATION_FACTOR = 0.9993;
 
-  /**
-   * The velocity threshold at which declereration will end.
-   */
+  /** The velocity threshold at which declereration will end. */
   private static final double DECELERATION_STOP_VELOCITY = 0.02;
 
-  /**
-   * The minimum deceleration rate in pixels per millisecond^2.
-   */
+  /** The minimum deceleration rate in pixels per millisecond^2. */
   private static final double MIN_DECELERATION = 0.0005;
 
   public State createState(Point initialPosition, Point initialVelocity) {
@@ -75,17 +66,16 @@ public class DefaultMomentum implements Momentum {
 
   /**
    * Calculate the new velocity.
-   * 
+   *
    * @param initialVelocity the initial velocity
-   * @param decelFactor the deceleration factor based on the cumulative elapsed
-   *          time
+   * @param decelFactor the deceleration factor based on the cumulative elapsed time
    * @param oldVelocity the previous velocity
-   * @param minDecel the absolute value of the minimum deceleration over the
-   *          elapsed time since the last update
+   * @param minDecel the absolute value of the minimum deceleration over the elapsed time since the
+   *     last update
    * @return the new velocity
    */
-  private double calcNewVelocity(double initialVelocity, double decelFactor, double oldVelocity,
-      double minDecel) {
+  private double calcNewVelocity(
+      double initialVelocity, double decelFactor, double oldVelocity, double minDecel) {
     // Calculate the new velocity based on the deceleration factor.
     double newVelocity = initialVelocity * decelFactor;
 

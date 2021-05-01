@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,32 +15,30 @@
  */
 package org.gwtproject.user.client.ui;
 
+import java.util.*;
 import org.gwtproject.editor.client.IsEditor;
-import org.gwtproject.text.shared.Renderer;
-import org.gwtproject.text.shared.ToStringRenderer;
 import org.gwtproject.editor.client.adapters.TakesValueEditor;
 import org.gwtproject.event.dom.client.ChangeEvent;
 import org.gwtproject.event.dom.client.ChangeHandler;
 import org.gwtproject.event.logical.shared.ValueChangeEvent;
 import org.gwtproject.event.logical.shared.ValueChangeHandler;
 import org.gwtproject.event.shared.HandlerRegistration;
+import org.gwtproject.text.shared.Renderer;
+import org.gwtproject.text.shared.ToStringRenderer;
 import org.gwtproject.view.client.ProvidesKey;
 import org.gwtproject.view.client.SimpleKeyProvider;
 
-import java.util.*;
-
 /**
- * Implementation of {@link HasConstrainedValue} based on a
- * {@link org.gwtproject.dom.client.SelectElement}.
- * <p>
- * A {@link Renderer Renderer<T>} is used to get user-presentable strings to
- * display in the select element.
- * 
+ * Implementation of {@link HasConstrainedValue} based on a {@link
+ * org.gwtproject.dom.client.SelectElement}.
+ *
+ * <p>A {@link Renderer Renderer<T>} is used to get user-presentable strings to display in the
+ * select element.
+ *
  * @param <T> the value type
  */
-public class ValueListBox<T> extends Composite implements
-    Focusable, HasConstrainedValue<T>, HasEnabled,
-    IsEditor<TakesValueEditor<T>> {
+public class ValueListBox<T> extends Composite
+    implements Focusable, HasConstrainedValue<T>, HasEnabled, IsEditor<TakesValueEditor<T>> {
 
   private final List<T> values = new ArrayList<T>();
   private final Map<Object, Integer> valueKeyToIndex = new HashMap<Object, Integer>();
@@ -57,32 +55,32 @@ public class ValueListBox<T> extends Composite implements
   public ValueListBox(Renderer<? super T> renderer) {
     this(renderer, new SimpleKeyProvider<T>());
   }
-  
+
   public ValueListBox(Renderer<? super T> renderer, ProvidesKey<T> keyProvider) {
     this.keyProvider = keyProvider;
     this.renderer = renderer;
     initWidget(new ListBox());
 
-    getListBox().addChangeHandler(new ChangeHandler() {
-      public void onChange(ChangeEvent event) {
-        int selectedIndex = getListBox().getSelectedIndex();
+    getListBox()
+        .addChangeHandler(
+            new ChangeHandler() {
+              public void onChange(ChangeEvent event) {
+                int selectedIndex = getListBox().getSelectedIndex();
 
-        if (selectedIndex < 0) {
-          return; // Not sure why this happens during addValue
-        }
-        T newValue = values.get(selectedIndex);
-        setValue(newValue, true);
-      }
-    });
+                if (selectedIndex < 0) {
+                  return; // Not sure why this happens during addValue
+                }
+                T newValue = values.get(selectedIndex);
+                setValue(newValue, true);
+              }
+            });
   }
 
   public HandlerRegistration addValueChangeHandler(ValueChangeHandler<T> handler) {
     return addHandler(handler, ValueChangeEvent.getType());
   }
 
-  /**
-   * Returns a {@link TakesValueEditor} backed by the ValueListBox.
-   */
+  /** Returns a {@link TakesValueEditor} backed by the ValueListBox. */
   public TakesValueEditor<T> asEditor() {
     if (editor == null) {
       editor = TakesValueEditor.of(this);
@@ -133,13 +131,13 @@ public class ValueListBox<T> extends Composite implements
   }
 
   @Override
-  public void setTabIndex (int index) {
+  public void setTabIndex(int index) {
     getListBox().setTabIndex(index);
   }
 
   /**
-   * Set the value and display it in the select element. Add the value to the
-   * acceptable set if it is not already there.
+   * Set the value and display it in the select element. Add the value to the acceptable set if it
+   * is not already there.
    */
   public void setValue(T value) {
     setValue(value, false);

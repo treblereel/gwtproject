@@ -18,8 +18,7 @@ package org.gwtproject.user.cellview.client;
 import org.gwtproject.cell.client.Cell;
 
 /**
- * A passthrough column, useful for giving cells access to the entire row
- * object.
+ * A passthrough column, useful for giving cells access to the entire row object.
  *
  * @param <T> the row type
  */
@@ -27,7 +26,7 @@ public class IdentityColumn<T> extends Column<T, T> {
 
   /**
    * Construct a new IdentityColumn with a given {@link Cell}.
-   * 
+   *
    * @param cell the {@link Cell} responsible for rendering items in the column
    */
   public IdentityColumn(Cell<T> cell) {

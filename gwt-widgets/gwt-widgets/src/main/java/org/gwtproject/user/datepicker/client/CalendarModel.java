@@ -16,26 +16,18 @@
 
 package org.gwtproject.user.datepicker.client;
 
+import java.util.Date;
 import org.gwtproject.i18n.client.DateTimeFormat;
 import org.gwtproject.i18n.client.DateTimeFormat.PredefinedFormat;
 
-import java.util.Date;
-
-/**
- * Model used to get calendar information for {@link DatePicker} and its
- * subclasses.
- */
-@SuppressWarnings(/* Required to use Date API in gwt */{"deprecation"})
+/** Model used to get calendar information for {@link DatePicker} and its subclasses. */
+@SuppressWarnings(/* Required to use Date API in gwt */ {"deprecation"})
 public class CalendarModel {
 
-  /**
-   * The number of weeks normally displayed in a month.
-   */
+  /** The number of weeks normally displayed in a month. */
   public static final int WEEKS_IN_MONTH = 6;
 
-  /**
-   * Number of days normally displayed in a week.
-   */
+  /** Number of days normally displayed in a week. */
   public static final int DAYS_IN_WEEK = 7;
 
   public static final int MONTHS_IN_YEAR = 12;
@@ -50,9 +42,7 @@ public class CalendarModel {
 
   private final Date currentMonth;
 
-  /**
-   * Constructor.
-   */
+  /** Constructor. */
   public CalendarModel() {
     currentMonth = new Date();
 
@@ -154,16 +144,18 @@ public class CalendarModel {
       return new Date(currentMonth.getTime());
     } else {
       Date d = new Date(currentMonth.getTime());
-      int offset = wkDayOfMonth1st - start > 0 ? wkDayOfMonth1st - start
-          : DAYS_IN_WEEK - (start - wkDayOfMonth1st);
+      int offset =
+          wkDayOfMonth1st - start > 0
+              ? wkDayOfMonth1st - start
+              : DAYS_IN_WEEK - (start - wkDayOfMonth1st);
       CalendarUtil.addDaysToDate(d, -offset);
       return d;
     }
   }
 
   /**
-   * Gets the date representation of the currently specified month. Used to
-   * access both the month and year information.
+   * Gets the date representation of the currently specified month. Used to access both the month
+   * and year information.
    *
    * @return the month and year
    */
@@ -192,8 +184,8 @@ public class CalendarModel {
   }
 
   /**
-   * Shifts the currently specified date by the given number of months. The day
-   * of the month will be pinned to the original value as far as possible.
+   * Shifts the currently specified date by the given number of months. The day of the month will be
+   * pinned to the original value as far as possible.
    *
    * @param deltaMonths - number of months to be added to the current date
    */
@@ -247,9 +239,7 @@ public class CalendarModel {
     return DateTimeFormat.getFormat(PredefinedFormat.YEAR);
   }
 
-  /**
-   * Returns {@code true} if the month is before year in the date formatter in current locale.
-   */
+  /** Returns {@code true} if the month is before year in the date formatter in current locale. */
   protected boolean isMonthBeforeYear() {
     String monthAndYearPattern = getMonthAndYearFormatter().getPattern();
 
@@ -266,9 +256,6 @@ public class CalendarModel {
     return true;
   }
 
-  /**
-   * Refresh the current model as needed.
-   */
-  protected void refresh() {
-  }
+  /** Refresh the current model as needed. */
+  protected void refresh() {}
 }

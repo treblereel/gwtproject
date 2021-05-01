@@ -18,25 +18,18 @@ package org.gwtproject.user.cellview.client;
 import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.event.dom.client.ClickHandler;
 import org.gwtproject.uibinder.client.UiConstructor;
-import org.gwtproject.user.cellview.client.AbstractPager;
 import org.gwtproject.user.client.ui.Anchor;
 import org.gwtproject.user.client.ui.FlexTable;
 import org.gwtproject.view.client.HasRows;
 import org.gwtproject.view.client.Range;
 
-/**
- * A simple pager that controls the page size.
- */
+/** A simple pager that controls the page size. */
 public class PageSizePager extends AbstractPager {
 
-  /**
-   * The increment by which to grow or shrink the page size.
-   */
+  /** The increment by which to grow or shrink the page size. */
   private final int increment;
 
-  /**
-   * The main layout widget.
-   */
+  /** The main layout widget. */
   private final FlexTable layout = new FlexTable();
 
   // TODO(jlabanca): I18N button text.
@@ -45,7 +38,7 @@ public class PageSizePager extends AbstractPager {
 
   /**
    * Construct a PageSizePager with a given increment.
-   * 
+   *
    * @param increment the amount by which to increase the page size
    */
   @UiConstructor
@@ -56,30 +49,33 @@ public class PageSizePager extends AbstractPager {
     layout.setCellSpacing(0);
 
     // Show more button.
-    showMoreButton.addClickHandler(new ClickHandler() {
-      public void onClick(ClickEvent event) {
-        // Display should be non-null, but we check defensively.
-        HasRows display = getDisplay();
-        if (display != null) {
-          Range range = display.getVisibleRange();
-          int pageSize = Math.min(range.getLength() + increment,
-              display.getRowCount()
-                  + (display.isRowCountExact() ? 0 : increment));
-          display.setVisibleRange(range.getStart(), pageSize);
-        }
-      }
-    });
-    showLessButton.addClickHandler(new ClickHandler() {
-      public void onClick(ClickEvent event) {
-        // Display should be non-null, but we check defensively.
-        HasRows display = getDisplay();
-        if (display != null) {
-          Range range = display.getVisibleRange();
-          int pageSize = Math.max(range.getLength() - increment, increment);
-          display.setVisibleRange(range.getStart(), pageSize);
-        }
-      }
-    });
+    showMoreButton.addClickHandler(
+        new ClickHandler() {
+          public void onClick(ClickEvent event) {
+            // Display should be non-null, but we check defensively.
+            HasRows display = getDisplay();
+            if (display != null) {
+              Range range = display.getVisibleRange();
+              int pageSize =
+                  Math.min(
+                      range.getLength() + increment,
+                      display.getRowCount() + (display.isRowCountExact() ? 0 : increment));
+              display.setVisibleRange(range.getStart(), pageSize);
+            }
+          }
+        });
+    showLessButton.addClickHandler(
+        new ClickHandler() {
+          public void onClick(ClickEvent event) {
+            // Display should be non-null, but we check defensively.
+            HasRows display = getDisplay();
+            if (display != null) {
+              Range range = display.getVisibleRange();
+              int pageSize = Math.max(range.getLength() - increment, increment);
+              display.setVisibleRange(range.getStart(), pageSize);
+            }
+          }
+        });
 
     // Add the buttons to the pager.
     layout.setWidget(0, 0, showLessButton);
@@ -112,23 +108,18 @@ public class PageSizePager extends AbstractPager {
     HasRows display = getDisplay();
     int pageSize = display.getVisibleRange().getLength();
     boolean hasLess = pageSize > increment;
-    boolean hasMore = !display.isRowCountExact()
-        || pageSize < display.getRowCount();
+    boolean hasMore = !display.isRowCountExact() || pageSize < display.getRowCount();
     showLessButton.setVisible(hasLess);
     showMoreButton.setVisible(hasMore);
     layout.setText(0, 1, (hasLess && hasMore) ? " | " : "");
   }
 
-  /**
-   * Visible for testing.
-   */
+  /** Visible for testing. */
   boolean isShowLessButtonVisible() {
     return showLessButton.isVisible();
   }
 
-  /**
-   * Visible for testing.
-   */
+  /** Visible for testing. */
   boolean isShowMoreButtonVisible() {
     return showMoreButton.isVisible();
   }

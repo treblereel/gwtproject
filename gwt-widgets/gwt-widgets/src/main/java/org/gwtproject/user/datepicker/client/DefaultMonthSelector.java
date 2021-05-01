@@ -16,6 +16,7 @@
 
 package org.gwtproject.user.datepicker.client;
 
+import java.util.Date;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.event.dom.client.ChangeEvent;
 import org.gwtproject.event.dom.client.ChangeHandler;
@@ -27,14 +28,11 @@ import org.gwtproject.user.client.ui.ListBox;
 import org.gwtproject.user.client.ui.PushButton;
 import org.gwtproject.user.client.ui.Widget;
 
-import java.util.Date;
-
 /**
  * A simple {@link MonthSelector} used for the default date picker. It allows to select months and
  * years but the name is not changed for backward compatibility. Also not extensible as we wish to
  * evolve it freely over time.
  */
-
 public final class DefaultMonthSelector extends MonthSelector {
 
   private PushButton monthBackwards;
@@ -46,44 +44,32 @@ public final class DefaultMonthSelector extends MonthSelector {
   private ListBox yearSelect;
   private int monthColumn;
 
-  /**
-   * Returns the button for moving to the previous month.
-   */
+  /** Returns the button for moving to the previous month. */
   public Element getBackwardButtonElement() {
     return monthBackwards.getElement();
   }
 
-  /**
-   * Returns the button for moving to the next month.
-   */
+  /** Returns the button for moving to the next month. */
   public Element getForwardButtonElement() {
     return monthForwards.getElement();
   }
 
-  /**
-   * Returns the button for moving to the previous year.
-   */
+  /** Returns the button for moving to the previous year. */
   public Element getYearBackwardButtonElement() {
     return yearBackwards.getElement();
   }
 
-  /**
-   * Returns the button for moving to the next year.
-   */
+  /** Returns the button for moving to the next year. */
   public Element getYearForwardButtonElement() {
     return yearForwards.getElement();
   }
 
-  /**
-   * Returns the ListBox for selecting the month
-   */
+  /** Returns the ListBox for selecting the month */
   public ListBox getMonthSelectListBox() {
     return monthSelect;
   }
 
-  /**
-   * Returns the ListBox for selecting the year
-   */
+  /** Returns the ListBox for selecting the year */
   public ListBox getYearSelectListBox() {
     return yearSelect;
   }
@@ -123,11 +109,12 @@ public final class DefaultMonthSelector extends MonthSelector {
       @IsSafeHtml String label, final int noOfMonths, String styleName) {
     PushButton button = new PushButton();
 
-    button.addClickHandler(new ClickHandler() {
-      public void onClick(ClickEvent event) {
-        addMonths(noOfMonths);
-      }
-    });
+    button.addClickHandler(
+        new ClickHandler() {
+          public void onClick(ClickEvent event) {
+            addMonths(noOfMonths);
+          }
+        });
 
     button.getUpFace().setHTML(label);
     button.setStyleName(styleName);
@@ -142,17 +129,18 @@ public final class DefaultMonthSelector extends MonthSelector {
       monthListBox.addItem(getModel().formatMonth(i));
     }
 
-    monthListBox.addChangeHandler(new ChangeHandler() {
+    monthListBox.addChangeHandler(
+        new ChangeHandler() {
 
-      @Override
-      public void onChange(ChangeEvent event) {
-        int previousMonth = getModel().getCurrentMonth().getMonth();
-        int newMonth = monthListBox.getSelectedIndex();
-        int delta = newMonth - previousMonth;
+          @Override
+          public void onChange(ChangeEvent event) {
+            int previousMonth = getModel().getCurrentMonth().getMonth();
+            int newMonth = monthListBox.getSelectedIndex();
+            int delta = newMonth - previousMonth;
 
-        addMonths(delta);
-      }
-    });
+            addMonths(delta);
+          }
+        });
 
     return monthListBox;
   }
@@ -160,26 +148,26 @@ public final class DefaultMonthSelector extends MonthSelector {
   private ListBox createYearSelect() {
     final ListBox yearListBox = new ListBox();
 
-    yearListBox.addChangeHandler(new ChangeHandler() {
+    yearListBox.addChangeHandler(
+        new ChangeHandler() {
 
-      @Override
-      public void onChange(ChangeEvent event) {
-        int deltaYears = yearListBox.getSelectedIndex() - getNoOfYearsToDisplayBefore();
+          @Override
+          public void onChange(ChangeEvent event) {
+            int deltaYears = yearListBox.getSelectedIndex() - getNoOfYearsToDisplayBefore();
 
-        addMonths(deltaYears * CalendarModel.MONTHS_IN_YEAR);
-      }
-    });
+            addMonths(deltaYears * CalendarModel.MONTHS_IN_YEAR);
+          }
+        });
 
     return yearListBox;
   }
-
 
   private boolean isDatePickerConfigChanged() {
     boolean isMonthCurrentlySelectable = monthSelect.getParent() != null;
     boolean isYearNavigationCurrentlyEnabled = yearBackwards.getParent() != null;
 
-    return getDatePicker().isYearAndMonthDropdownVisible() != isMonthCurrentlySelectable ||
-        getDatePicker().isYearArrowsVisible() != isYearNavigationCurrentlyEnabled;
+    return getDatePicker().isYearAndMonthDropdownVisible() != isMonthCurrentlySelectable
+        || getDatePicker().isYearArrowsVisible() != isYearNavigationCurrentlyEnabled;
   }
 
   private void setDate(Date date) {
@@ -207,7 +195,7 @@ public final class DefaultMonthSelector extends MonthSelector {
   }
 
   private int getNoOfYearsToDisplayBefore() {
-    return (getDatePicker().getVisibleYearCount() -  1) / 2;
+    return (getDatePicker().getVisibleYearCount() - 1) / 2;
   }
 
   private int getNoOfYearsToDisplayAfter() {

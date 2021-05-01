@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -21,26 +21,24 @@ import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 import org.gwtproject.dom.client.Element;
 
-/**
- * Implementation class used by {@link org.gwtproject.user.client.ui.TextBox}.
- */
+/** Implementation class used by {@link org.gwtproject.user.client.ui.TextBox}. */
 public class TextBoxImpl {
 
   public int getCursorPos(Element elem) {
     JsPropertyMap jsObject = Js.asPropertyMap(elem);
-    if(jsObject.has("selectionStart")) {
-        try {
-          return Integer.valueOf(jsObject.get("selectionStart").toString());
-        } catch (Exception e) {
+    if (jsObject.has("selectionStart")) {
+      try {
+        return Integer.valueOf(jsObject.get("selectionStart").toString());
+      } catch (Exception e) {
 
-        }
+      }
     }
     return 0;
   }
 
   public int getSelectionLength(Element elem) {
     JsPropertyMap jsObject = Js.asPropertyMap(elem);
-    if(jsObject.has("selectionEnd") && jsObject.has("selectionStart")) {
+    if (jsObject.has("selectionEnd") && jsObject.has("selectionStart")) {
       try {
         int selectionEnd = Integer.valueOf(jsObject.get("selectionEnd").toString());
         int selectionStart = Integer.valueOf(jsObject.get("selectionStart").toString());
@@ -71,5 +69,4 @@ public class TextBoxImpl {
   public static class HTMLInputElement {
     public native void setSelectionRange(int pos, int i);
   }
-
 }

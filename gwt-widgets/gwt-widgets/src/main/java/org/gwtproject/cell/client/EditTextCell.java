@@ -15,8 +15,12 @@
  */
 package org.gwtproject.cell.client;
 
-import java.util.Locale;
+import static org.gwtproject.dom.client.BrowserEvents.BLUR;
+import static org.gwtproject.dom.client.BrowserEvents.CLICK;
+import static org.gwtproject.dom.client.BrowserEvents.KEYDOWN;
+import static org.gwtproject.dom.client.BrowserEvents.KEYUP;
 
+import java.util.Locale;
 import jsinterop.annotations.JsFunction;
 import jsinterop.base.JsPropertyMap;
 import org.gwtproject.dom.client.Document;
@@ -31,44 +35,32 @@ import org.gwtproject.safehtml.shared.SafeHtmlBuilder;
 import org.gwtproject.text.shared.SafeHtmlRenderer;
 import org.gwtproject.text.shared.SimpleSafeHtmlRenderer;
 
-import static org.gwtproject.dom.client.BrowserEvents.BLUR;
-import static org.gwtproject.dom.client.BrowserEvents.CLICK;
-import static org.gwtproject.dom.client.BrowserEvents.KEYDOWN;
-import static org.gwtproject.dom.client.BrowserEvents.KEYUP;
-
-/**
- * An editable text cell. Click to edit, escape to cancel, return to commit.
- */
-public class EditTextCell extends
-    AbstractEditableCell<String, EditTextCell.ViewData> {
+/** An editable text cell. Click to edit, escape to cancel, return to commit. */
+public class EditTextCell extends AbstractEditableCell<String, EditTextCell.ViewData> {
 
   interface Template extends SafeHtmlTemplates {
 
     EditTextCell.Template INSTANCE = new EditTextCell_TemplateImpl();
 
-
     SafeHtml input(String value);
   }
 
   /**
-   * The view data object used by this cell. We need to store both the text and
-   * the state because this cell is rendered differently in edit mode. If we did
-   * not store the edit state, refreshing the cell with view data would always
-   * put us in to edit state, rendering a text box instead of the new text
-   * string.
+   * The view data object used by this cell. We need to store both the text and the state because
+   * this cell is rendered differently in edit mode. If we did not store the edit state, refreshing
+   * the cell with view data would always put us in to edit state, rendering a text box instead of
+   * the new text string.
    */
   static class ViewData {
 
     private boolean isEditing;
 
-    /**
-     * If true, this is not the first edit.
-     */
+    /** If true, this is not the first edit. */
     private boolean isEditingAgain;
 
     /**
-     * Keep track of the original value at the start of the edit, which might be
-     * the edited value from the previous edit and NOT the actual value.
+     * Keep track of the original value at the start of the edit, which might be the edited value
+     * from the previous edit and NOT the actual value.
      */
     private String original;
 
@@ -93,7 +85,8 @@ public class EditTextCell extends
       }
       ViewData vd = (ViewData) o;
       return equalsOrBothNull(original, vd.original)
-          && equalsOrBothNull(text, vd.text) && isEditing == vd.isEditing
+          && equalsOrBothNull(text, vd.text)
+          && isEditing == vd.isEditing
           && isEditingAgain == vd.isEditingAgain;
     }
 
@@ -107,7 +100,8 @@ public class EditTextCell extends
 
     @Override
     public int hashCode() {
-      return original.hashCode() + text.hashCode()
+      return original.hashCode()
+          + text.hashCode()
           + Boolean.valueOf(isEditing).hashCode() * 29
           + Boolean.valueOf(isEditingAgain).hashCode();
     }
@@ -142,20 +136,16 @@ public class EditTextCell extends
 
   private final SafeHtmlRenderer<String> renderer;
 
-  /**
-   * Construct a new EditTextCell that will use a
-   * {@link SimpleSafeHtmlRenderer}.
-   */
+  /** Construct a new EditTextCell that will use a {@link SimpleSafeHtmlRenderer}. */
   public EditTextCell() {
     this(SimpleSafeHtmlRenderer.getInstance());
   }
 
   /**
-   * Construct a new EditTextCell that will use a given {@link SafeHtmlRenderer}
-   * to render the value when not in edit mode.
-   * 
-   * @param renderer a {@link SafeHtmlRenderer SafeHtmlRenderer<String>}
-   *          instance
+   * Construct a new EditTextCell that will use a given {@link SafeHtmlRenderer} to render the value
+   * when not in edit mode.
+   *
+   * @param renderer a {@link SafeHtmlRenderer SafeHtmlRenderer<String>} instance
    */
   public EditTextCell(SafeHtmlRenderer<String> renderer) {
     super(CLICK, KEYUP, KEYDOWN, BLUR);
@@ -172,8 +162,12 @@ public class EditTextCell extends
   }
 
   @Override
-  public void onBrowserEvent(Cell.Context context, Element parent, String value,
-                             NativeEvent event, ValueUpdater<String> valueUpdater) {
+  public void onBrowserEvent(
+      Cell.Context context,
+      Element parent,
+      String value,
+      NativeEvent event,
+      ValueUpdater<String> valueUpdater) {
     Object key = context.getKey();
     ViewData viewData = getViewData(key);
     if (viewData != null && viewData.isEditing()) {
@@ -182,8 +176,7 @@ public class EditTextCell extends
     } else {
       String type = event.getType();
       int keyCode = event.getKeyCode();
-      boolean enterPressed = KEYUP.equals(type)
-          && keyCode == KeyCodes.KEY_ENTER;
+      boolean enterPressed = KEYUP.equals(type) && keyCode == KeyCodes.KEY_ENTER;
       if (CLICK.equals(type) || enterPressed) {
         // Go into edit mode.
         if (viewData == null) {
@@ -202,7 +195,9 @@ public class EditTextCell extends
     // Get the view data.
     Object key = context.getKey();
     ViewData viewData = getViewData(key);
-    if (viewData != null && !viewData.isEditing() && value != null
+    if (viewData != null
+        && !viewData.isEditing()
+        && value != null
         && value.equals(viewData.getText())) {
       clearViewData(key);
       viewData = null;
@@ -261,7 +256,7 @@ public class EditTextCell extends
 
   /**
    * Convert the cell to non-edit mode.
-   * 
+   *
    * @param context the context of the cell
    * @param parent the parent Element
    * @param value the value associated with the cell
@@ -272,31 +267,30 @@ public class EditTextCell extends
   }
 
   /**
-   * Clear selected from the input element. Both Firefox and IE fire spurious
-   * onblur events after the input is removed from the DOM if selection is not
-   * cleared.
+   * Clear selected from the input element. Both Firefox and IE fire spurious onblur events after
+   * the input is removed from the DOM if selection is not cleared.
    *
    * @param input the input element
    */
   private void clearInput(Element input) {
-    JsPropertyMap jsObject = ((JsPropertyMap)input);
-    if(jsObject.has("selectionEnd")) {
+    JsPropertyMap jsObject = ((JsPropertyMap) input);
+    if (jsObject.has("selectionEnd")) {
       jsObject.set("selectionEnd", jsObject.get("selectionStart"));
-    } else if(((JsPropertyMap)Document.get()).has("selection")) {
-      ((Fn)((JsPropertyMap)Document.get()).get("selection")).onInvoke();
+    } else if (((JsPropertyMap) Document.get()).has("selection")) {
+      ((Fn) ((JsPropertyMap) Document.get()).get("selection")).onInvoke();
     }
   }
 
   /**
    * Commit the current value.
-   * 
+   *
    * @param context the context of the cell
    * @param parent the parent Element
    * @param viewData the {@link ViewData} object
    * @param valueUpdater the {@link ValueUpdater}
    */
-  private void commit(Cell.Context context, Element parent, ViewData viewData,
-                      ValueUpdater<String> valueUpdater) {
+  private void commit(
+      Cell.Context context, Element parent, ViewData viewData, ValueUpdater<String> valueUpdater) {
     String value = updateViewData(parent, viewData, false);
     clearInput(getInputElement(parent));
     setValue(context, parent, viewData.getOriginal());
@@ -305,8 +299,13 @@ public class EditTextCell extends
     }
   }
 
-  private void editEvent(Cell.Context context, Element parent, String value,
-                         ViewData viewData, NativeEvent event, ValueUpdater<String> valueUpdater) {
+  private void editEvent(
+      Cell.Context context,
+      Element parent,
+      String value,
+      ViewData viewData,
+      NativeEvent event,
+      ValueUpdater<String> valueUpdater) {
     String type = event.getType();
     boolean keyUp = KEYUP.equals(type);
     boolean keyDown = KEYDOWN.equals(type);
@@ -342,11 +341,9 @@ public class EditTextCell extends
     }
   }
 
-  /**
-   * Get the input element in edit mode.
-   */
+  /** Get the input element in edit mode. */
   private InputElement getInputElement(Element parent) {
-    return parent.getFirstChild().<InputElement> cast();
+    return parent.getFirstChild().<InputElement>cast();
   }
 
   /**
@@ -357,8 +354,7 @@ public class EditTextCell extends
    * @param isEditing true if in edit mode
    * @return the new value
    */
-  private String updateViewData(Element parent, ViewData viewData,
-                                boolean isEditing) {
+  private String updateViewData(Element parent, ViewData viewData, boolean isEditing) {
     InputElement input = (InputElement) parent.getFirstChild();
     String value = input.getValue();
     viewData.setText(value);

@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,63 +15,44 @@
  */
 package org.gwtproject.user.cellview.client;
 
-
 import org.gwtproject.event.shared.Event;
 
-/**
- * An event used to indicate that the data loading state has changed.
- */
+/** An event used to indicate that the data loading state has changed. */
 public class LoadingStateChangeEvent extends Event<LoadingStateChangeEvent.Handler> {
 
-  /**
-   * Implemented by handlers of {@link LoadingStateChangeEvent}.
-   */
+  /** Implemented by handlers of {@link LoadingStateChangeEvent}. */
   public interface Handler {
     /**
      * Called when a {@link LoadingStateChangeEvent} is fired.
-     * 
+     *
      * @param event the {@link LoadingStateChangeEvent}
      */
     void onLoadingStateChanged(LoadingStateChangeEvent event);
   }
 
-  /**
-   * Represents the current status of the data being loaded.
-   */
+  /** Represents the current status of the data being loaded. */
   public static interface LoadingState {
-    /**
-     * Indicates that the data has started to load.
-     */
+    /** Indicates that the data has started to load. */
     LoadingState LOADING = new DefaultLoadingState();
 
-    /**
-     * Indicates that part of the data set has been loaded, but more data is
-     * still pending.
-     */
+    /** Indicates that part of the data set has been loaded, but more data is still pending. */
     LoadingState PARTIALLY_LOADED = new DefaultLoadingState();
 
-    /**
-     * Indicates that the data set has been completely loaded.
-     */
+    /** Indicates that the data set has been completely loaded. */
     LoadingState LOADED = new DefaultLoadingState();
   }
 
-  /**
-   * Default implementation of {@link LoadingState}.
-   */
-  private static class DefaultLoadingState implements LoadingState {
-  }
+  /** Default implementation of {@link LoadingState}. */
+  private static class DefaultLoadingState implements LoadingState {}
 
-  /**
-   * A singleton instance of Type.
-   */
+  /** A singleton instance of Type. */
   public static final Type<Handler> TYPE = new Type<Handler>();
 
   private final LoadingState state;
 
   /**
    * Construct a new {@link LoadingStateChangeEvent}.
-   * 
+   *
    * @param state the new state
    */
   public LoadingStateChangeEvent(LoadingState state) {
@@ -85,7 +66,7 @@ public class LoadingStateChangeEvent extends Event<LoadingStateChangeEvent.Handl
 
   /**
    * Get the new {@link LoadingState} associated with this event.
-   * 
+   *
    * @return the {@link LoadingState}
    */
   public LoadingState getLoadingState() {

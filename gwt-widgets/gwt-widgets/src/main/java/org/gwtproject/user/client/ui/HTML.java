@@ -24,44 +24,39 @@ import org.gwtproject.safehtml.shared.annotations.IsSafeHtml;
 /**
  * A widget that can contain arbitrary HTML.
  *
- * This widget uses a &lt;div&gt; element, causing it to be displayed with block
- * layout.
+ * <p>This widget uses a &lt;div&gt; element, causing it to be displayed with block layout.
  *
- * <p>
- * If you only need a simple label (text, but not HTML), then the
- * {@link Label} widget is more appropriate, as it
- * disallows the use of HTML, which can lead to potential security issues if not
+ * <p>If you only need a simple label (text, but not HTML), then the {@link Label} widget is more
+ * appropriate, as it disallows the use of HTML, which can lead to potential security issues if not
  * used properly.
- * </p>
  *
  * <p>
+ *
  * <h3>Built-in Bidi Text Support</h3>
- * This widget is capable of automatically adjusting its direction according to
- * its content. This feature is controlled by {@link #setDirectionEstimator} or
- * passing a DirectionEstimator parameter to the constructor, and is off by
- * default.
- * </p>
+ *
+ * This widget is capable of automatically adjusting its direction according to its content. This
+ * feature is controlled by {@link #setDirectionEstimator} or passing a DirectionEstimator parameter
+ * to the constructor, and is off by default.
  *
  * <h3>CSS Style Rules</h3>
+ *
  * <ul class='css'>
- * <li>.gwt-HTML { }</li>
+ *   <li>.gwt-HTML { }
  * </ul>
  *
  * <p>
+ *
  * <h3>Example</h3>
+ *
  * {@example com.google.gwt.examples.HTMLExample}
- * </p>
  */
-public class HTML extends Label 
-    implements HasDirectionalHtml, HasDirectionalSafeHtml {
+public class HTML extends Label implements HasDirectionalHtml, HasDirectionalSafeHtml {
 
   /**
-   * Creates an HTML widget that wraps an existing &lt;div&gt; or &lt;span&gt;
-   * element.
+   * Creates an HTML widget that wraps an existing &lt;div&gt; or &lt;span&gt; element.
    *
-   * This element must already be attached to the document. If the element is
-   * removed from the document, you must call
-   * {@link RootPanel#detachNow(Widget)}.
+   * <p>This element must already be attached to the document. If the element is removed from the
+   * document, you must call {@link RootPanel#detachNow(Widget)}.
    *
    * @param element the element to be wrapped
    */
@@ -78,9 +73,7 @@ public class HTML extends Label
     return html;
   }
 
-  /**
-   * Creates an empty HTML widget.
-   */
+  /** Creates an empty HTML widget. */
   public HTML() {
     super(Document.get().createDivElement());
     setStyleName("gwt-HTML");
@@ -96,25 +89,22 @@ public class HTML extends Label
   }
 
   /**
-   * Creates an HTML widget with the specified contents and with the specified
-   * direction.
+   * Creates an HTML widget with the specified contents and with the specified direction.
    *
    * @param html the new widget's SafeHtml contents
-   * @param dir the content's direction. Note: {@code Direction.DEFAULT} means
-   *        direction should be inherited from the widget's parent element.
+   * @param dir the content's direction. Note: {@code Direction.DEFAULT} means direction should be
+   *     inherited from the widget's parent element.
    */
   public HTML(SafeHtml html, Direction dir) {
     this(html.asString(), dir);
   }
 
   /**
-   * Creates an HTML widget with the specified HTML contents and specifies a
-   * direction estimator.
+   * Creates an HTML widget with the specified HTML contents and specifies a direction estimator.
    *
    * @param html the new widget's SafeHtml contents
-   * @param directionEstimator A DirectionEstimator object used for automatic
-   *          direction adjustment. For convenience,
-   *          {@link Label#DEFAULT_DIRECTION_ESTIMATOR} can be used.
+   * @param directionEstimator A DirectionEstimator object used for automatic direction adjustment.
+   *     For convenience, {@link Label#DEFAULT_DIRECTION_ESTIMATOR} can be used.
    */
   public HTML(SafeHtml html, DirectionEstimator directionEstimator) {
     this();
@@ -133,21 +123,20 @@ public class HTML extends Label
   }
 
   /**
-   * Creates an HTML widget with the specified HTML contents and with the
-   * specified direction.
+   * Creates an HTML widget with the specified HTML contents and with the specified direction.
    *
    * @param html the new widget's HTML contents
-   * @param dir the content's direction. Note: {@code Direction.DEFAULT} means
-   *        direction should be inherited from the widget's parent element.
+   * @param dir the content's direction. Note: {@code Direction.DEFAULT} means direction should be
+   *     inherited from the widget's parent element.
    */
   public HTML(@IsSafeHtml String html, Direction dir) {
     this();
     setHTML(html, dir);
   }
-  
+
   /**
-   * Creates an HTML widget with the specified contents, optionally treating it
-   * as HTML, and optionally disabling word wrapping.
+   * Creates an HTML widget with the specified contents, optionally treating it as HTML, and
+   * optionally disabling word wrapping.
    *
    * @param html the widget's contents
    * @param wordWrap <code>false</code> to disable word wrapping
@@ -158,8 +147,8 @@ public class HTML extends Label
   }
 
   /**
-   * This constructor may be used by subclasses to explicitly use an existing
-   * element. This element must be either a &lt;div&gt; or &lt;span&gt; element.
+   * This constructor may be used by subclasses to explicitly use an existing element. This element
+   * must be either a &lt;div&gt; or &lt;span&gt; element.
    *
    * @param element the element to be used
    */
@@ -174,9 +163,8 @@ public class HTML extends Label
   }
 
   /**
-   * Sets the label's content to the given HTML.
-   * See {@link #setText(String)} for details on potential effects on direction
-   * and alignment.
+   * Sets the label's content to the given HTML. See {@link #setText(String)} for details on
+   * potential effects on direction and alignment.
    *
    * @param html the new widget's HTML content
    */
@@ -186,14 +174,13 @@ public class HTML extends Label
   }
 
   /**
-   * Sets the label's content to the given HTML, applying the given direction.
-   * See
-   * {@link #setText(String, Direction) setText(String, Direction)}
-   * for details on potential effects on alignment.
+   * Sets the label's content to the given HTML, applying the given direction. See {@link
+   * #setText(String, Direction) setText(String, Direction)} for details on potential effects on
+   * alignment.
    *
    * @param html the new widget's HTML content
-   * @param dir the content's direction. Note: {@code Direction.DEFAULT} means
-   *          direction should be inherited from the widget's parent element.
+   * @param dir the content's direction. Note: {@code Direction.DEFAULT} means direction should be
+   *     inherited from the widget's parent element.
    */
   public void setHTML(@IsSafeHtml String html, Direction dir) {
     directionalTextHelper.setHtml(html, dir);
@@ -202,7 +189,7 @@ public class HTML extends Label
 
   /**
    * Sets this object's contents via known-safe HTML.
-   * 
+   *
    * @see org.gwtproject.safehtml.client.HasSafeHtml#setHTML(SafeHtml)
    * @param html the html to set.
    */

@@ -81,13 +81,18 @@ import org.gwtproject.event.dom.client.TouchStartHandler;
 import org.gwtproject.event.shared.HandlerRegistration;
 import org.gwtproject.user.client.ui.impl.FocusImpl;
 
-/**
- * Abstract base class for most widgets that can receive keyboard focus.
- */
-public abstract class FocusWidget extends Widget implements
-    HasClickHandlers, HasDoubleClickHandlers, Focusable, HasEnabled,
-    HasAllDragAndDropHandlers, HasAllFocusHandlers, HasAllGestureHandlers,
-    HasAllKeyHandlers, HasAllMouseHandlers, HasAllTouchHandlers {
+/** Abstract base class for most widgets that can receive keyboard focus. */
+public abstract class FocusWidget extends Widget
+    implements HasClickHandlers,
+        HasDoubleClickHandlers,
+        Focusable,
+        HasEnabled,
+        HasAllDragAndDropHandlers,
+        HasAllFocusHandlers,
+        HasAllGestureHandlers,
+        HasAllKeyHandlers,
+        HasAllMouseHandlers,
+        HasAllTouchHandlers {
 
   private static final FocusImpl impl = FocusImpl.getFocusImplForWidget();
 
@@ -101,11 +106,10 @@ public abstract class FocusWidget extends Widget implements
   }
 
   /**
-   * Creates a new focus widget with no element. {@link #setElement(Element)}
-   * must be called before any other methods.
+   * Creates a new focus widget with no element. {@link #setElement(Element)} must be called before
+   * any other methods.
    */
-  protected FocusWidget() {
-  }
+  protected FocusWidget() {}
 
   /**
    * Creates a new focus widget that wraps the specified browser element.
@@ -249,8 +253,7 @@ public abstract class FocusWidget extends Widget implements
   /**
    * Sets whether this widget is enabled.
    *
-   * @param enabled <code>true</code> to enable the widget, <code>false</code>
-   *          to disable it
+   * @param enabled <code>true</code> to enable the widget, <code>false</code> to disable it
    */
   public void setEnabled(boolean enabled) {
     getElement().setPropertyBoolean("disabled", !enabled);

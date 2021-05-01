@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -23,29 +23,27 @@ import org.gwtproject.safehtml.shared.annotations.IsSafeHtml;
 import org.gwtproject.safehtml.shared.annotations.SuppressIsSafeHtmlCastCheck;
 
 /**
- * A widget that serves as an "internal" hyperlink. That is, it is a link to
- * another state of the running application. It should behave exactly like
- * {@link Hyperlink}, save that it lays out
- * as an inline element, not block.
- * 
+ * A widget that serves as an "internal" hyperlink. That is, it is a link to another state of the
+ * running application. It should behave exactly like {@link Hyperlink}, save that it lays out as an
+ * inline element, not block.
+ *
  * <p>
+ *
  * <h3>Built-in Bidi Text Support</h3>
- * This widget is capable of automatically adjusting its direction according to
- * its content. This feature is controlled by {@link #setDirectionEstimator} or
- * passing a DirectionEstimator parameter to the constructor, and is off by
- * default.
- * </p>
+ *
+ * This widget is capable of automatically adjusting its direction according to its content. This
+ * feature is controlled by {@link #setDirectionEstimator} or passing a DirectionEstimator parameter
+ * to the constructor, and is off by default.
  *
  * <h3>CSS Style Rules</h3>
+ *
  * <ul class='css'>
- * <li>.gwt-InlineHyperlink { }</li>
+ *   <li>.gwt-InlineHyperlink { }
  * </ul>
  */
 public class InlineHyperlink extends Hyperlink {
 
-  /**
-   * Creates an empty hyperlink.
-   */
+  /** Creates an empty hyperlink. */
   public InlineHyperlink() {
     super(null);
 
@@ -65,29 +63,27 @@ public class InlineHyperlink extends Hyperlink {
 
   /**
    * Creates a hyperlink with its html and target history token specified.
-   * 
+   *
    * @param html the hyperlink's html
    * @param dir the html's direction
    * @param targetHistoryToken the history token to which it will link
    * @see #setTargetHistoryToken
    */
-  public InlineHyperlink(SafeHtml html, Direction dir,
-      String targetHistoryToken) {
+  public InlineHyperlink(SafeHtml html, Direction dir, String targetHistoryToken) {
     this(html.asString(), true, dir, targetHistoryToken);
   }
-  
+
   /**
    * Creates a hyperlink with its html and target history token specified.
    *
    * @param html the hyperlink's html
-   * @param directionEstimator A DirectionEstimator object used for automatic
-   *          direction adjustment. For convenience,
-   *          {@link Hyperlink#DEFAULT_DIRECTION_ESTIMATOR} can be used.
+   * @param directionEstimator A DirectionEstimator object used for automatic direction adjustment.
+   *     For convenience, {@link Hyperlink#DEFAULT_DIRECTION_ESTIMATOR} can be used.
    * @param targetHistoryToken the history token to which it will link
    * @see #setTargetHistoryToken
    */
-  public InlineHyperlink(SafeHtml html, DirectionEstimator directionEstimator,
-      String targetHistoryToken) {
+  public InlineHyperlink(
+      SafeHtml html, DirectionEstimator directionEstimator, String targetHistoryToken) {
     this(html.asString(), true, directionEstimator, targetHistoryToken);
   }
 
@@ -118,9 +114,8 @@ public class InlineHyperlink extends Hyperlink {
    * Creates a hyperlink with its text and target history token specified.
    *
    * @param text the hyperlink's text
-   * @param directionEstimator A DirectionEstimator object used for automatic
-   *          direction adjustment. For convenience,
-   *          {@link Hyperlink#DEFAULT_DIRECTION_ESTIMATOR} can be used.
+   * @param directionEstimator A DirectionEstimator object used for automatic direction adjustment.
+   *     For convenience, {@link Hyperlink#DEFAULT_DIRECTION_ESTIMATOR} can be used.
    * @param targetHistoryToken the history token to which it will link
    */
   @SuppressIsSafeHtmlCastCheck
@@ -164,9 +159,8 @@ public class InlineHyperlink extends Hyperlink {
    *
    * @param text the hyperlink's text
    * @param asHTML <code>true</code> to treat the specified text as html
-   * @param directionEstimator A DirectionEstimator object used for automatic
-   *          direction adjustment. For convenience,
-   *          {@link Hyperlink#DEFAULT_DIRECTION_ESTIMATOR} can be used.
+   * @param directionEstimator A DirectionEstimator object used for automatic direction adjustment.
+   *     For convenience, {@link Hyperlink#DEFAULT_DIRECTION_ESTIMATOR} can be used.
    * @param targetHistoryToken the history token to which it will link
    * @see #setTargetHistoryToken
    */

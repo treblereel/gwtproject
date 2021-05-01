@@ -43,59 +43,53 @@ import org.gwtproject.user.client.Event.NativePreviewEvent;
 import org.gwtproject.user.window.client.Window;
 
 /**
- * A form of popup that has a caption area at the top and can be dragged by the
- * user. Unlike a PopupPanel, calls to {@link #setWidth(String)} and
- * {@link #setHeight(String)} will set the width and height of the dialog box
- * itself, even if a widget has not been added as yet.
- * <p>
- * <img class='gallery' src='doc-files/DialogBox.png'/>
- * </p>
+ * A form of popup that has a caption area at the top and can be dragged by the user. Unlike a
+ * PopupPanel, calls to {@link #setWidth(String)} and {@link #setHeight(String)} will set the width
+ * and height of the dialog box itself, even if a widget has not been added as yet.
+ *
+ * <p><img class='gallery' src='doc-files/DialogBox.png'/>
+ *
  * <h3>CSS Style Rules</h3>
- * 
+ *
  * <ul>
- * <li>.gwt-DialogBox { the outside of the dialog }</li>
- * <li>.gwt-DialogBox .Caption { the caption }</li>
- * <li>.gwt-DialogBox .dialogContent { the wrapper around the content }</li>
- * <li>.gwt-DialogBox .dialogTopLeft { the top left cell }</li>
- * <li>.gwt-DialogBox .dialogTopLeftInner { the inner element of the cell }</li>
- * <li>.gwt-DialogBox .dialogTopCenter { the top center cell, where the caption
- * is located }</li>
- * <li>.gwt-DialogBox .dialogTopCenterInner { the inner element of the cell }</li>
- * <li>.gwt-DialogBox .dialogTopRight { the top right cell }</li>
- * <li>.gwt-DialogBox .dialogTopRightInner { the inner element of the cell }</li>
- * <li>.gwt-DialogBox .dialogMiddleLeft { the middle left cell }</li>
- * <li>.gwt-DialogBox .dialogMiddleLeftInner { the inner element of the cell }</li>
- * <li>.gwt-DialogBox .dialogMiddleCenter { the middle center cell, where the
- * content is located }</li>
- * <li>.gwt-DialogBox .dialogMiddleCenterInner { the inner element of the cell }
- * </li>
- * <li>.gwt-DialogBox .dialogMiddleRight { the middle right cell }</li>
- * <li>.gwt-DialogBox .dialogMiddleRightInner { the inner element of the cell }</li>
- * <li>.gwt-DialogBox .dialogBottomLeft { the bottom left cell }</li>
- * <li>.gwt-DialogBox .dialogBottomLeftInner { the inner element of the cell }</li>
- * <li>.gwt-DialogBox .dialogBottomCenter { the bottom center cell }</li>
- * <li>.gwt-DialogBox .dialogBottomCenterInner { the inner element of the cell }
- * </li>
- * <li>.gwt-DialogBox .dialogBottomRight { the bottom right cell }</li>
- * <li>.gwt-DialogBox .dialogBottomRightInner { the inner element of the cell }</li>
+ *   <li>.gwt-DialogBox { the outside of the dialog }
+ *   <li>.gwt-DialogBox .Caption { the caption }
+ *   <li>.gwt-DialogBox .dialogContent { the wrapper around the content }
+ *   <li>.gwt-DialogBox .dialogTopLeft { the top left cell }
+ *   <li>.gwt-DialogBox .dialogTopLeftInner { the inner element of the cell }
+ *   <li>.gwt-DialogBox .dialogTopCenter { the top center cell, where the caption is located }
+ *   <li>.gwt-DialogBox .dialogTopCenterInner { the inner element of the cell }
+ *   <li>.gwt-DialogBox .dialogTopRight { the top right cell }
+ *   <li>.gwt-DialogBox .dialogTopRightInner { the inner element of the cell }
+ *   <li>.gwt-DialogBox .dialogMiddleLeft { the middle left cell }
+ *   <li>.gwt-DialogBox .dialogMiddleLeftInner { the inner element of the cell }
+ *   <li>.gwt-DialogBox .dialogMiddleCenter { the middle center cell, where the content is located }
+ *   <li>.gwt-DialogBox .dialogMiddleCenterInner { the inner element of the cell }
+ *   <li>.gwt-DialogBox .dialogMiddleRight { the middle right cell }
+ *   <li>.gwt-DialogBox .dialogMiddleRightInner { the inner element of the cell }
+ *   <li>.gwt-DialogBox .dialogBottomLeft { the bottom left cell }
+ *   <li>.gwt-DialogBox .dialogBottomLeftInner { the inner element of the cell }
+ *   <li>.gwt-DialogBox .dialogBottomCenter { the bottom center cell }
+ *   <li>.gwt-DialogBox .dialogBottomCenterInner { the inner element of the cell }
+ *   <li>.gwt-DialogBox .dialogBottomRight { the bottom right cell }
+ *   <li>.gwt-DialogBox .dialogBottomRightInner { the inner element of the cell }
  * </ul>
+ *
  * <p>
+ *
  * <h3>Example</h3>
+ *
  * {@example com.google.gwt.examples.DialogBoxExample}
- * </p>
- * 
+ *
  * <h3>Use in UiBinder Templates</h3>
- * <p>
- * DialogBox elements in {@link org.gwtproject.uibinder.client.UiBinder
- * UiBinder} templates can have one widget child and one &lt;g:caption> child.
- * (Note the lower case "c", meant to signal that the caption is not a runtime
- * object, and so cannot have a <code>ui:field</code> attribute.) The body of
- * the caption can be html.
- * 
- * <p>
- * 
- * For example:
- * 
+ *
+ * <p>DialogBox elements in {@link org.gwtproject.uibinder.client.UiBinder UiBinder} templates can
+ * have one widget child and one &lt;g:caption> child. (Note the lower case "c", meant to signal
+ * that the caption is not a runtime object, and so cannot have a <code>ui:field</code> attribute.)
+ * The body of the caption can be html.
+ *
+ * <p>For example:
+ *
  * <pre>
  * &lt;g:DialogBox autoHide="true" modal="true">
  *   &lt;g:caption>&lt;b>Caption text&lt;/b>&lt;/g:caption>
@@ -106,16 +100,13 @@ import org.gwtproject.user.window.client.Window;
  *   &lt;/g:HTMLPanel>
  * &lt;/g:DialogBox>
  * </pre>
- * 
- * You may also create your own header caption. The caption must implement
- * {@link Caption}.
+ *
+ * You may also create your own header caption. The caption must implement {@link Caption}.
+ *
+ * <p>For example:
  *
  * <p>
  *
- * For example:
- * 
- * <p>
- * 
  * <pre>
  * &lt;g:DialogBox autoHide="true" modal="true">
  *   &lt;-- foo is your prefix and Bar is a class that implements {@link Caption}-->
@@ -127,22 +118,14 @@ import org.gwtproject.user.window.client.Window;
  *   &lt;/g:HTMLPanel>
  * &lt;/g:DialogBox>
  * </pre>
- * 
  */
-public class DialogBox extends DecoratedPopupPanel implements HasHTML,
-    HasSafeHtml {
-  /**
-   * Set of characteristic interfaces supported by the {@link DialogBox}
-   * caption.
-   *
-   */
-  public interface Caption extends HasAllMouseHandlers, HasHTML, HasSafeHtml,
-      IsWidget {
-  }
+public class DialogBox extends DecoratedPopupPanel implements HasHTML, HasSafeHtml {
+  /** Set of characteristic interfaces supported by the {@link DialogBox} caption. */
+  public interface Caption extends HasAllMouseHandlers, HasHTML, HasSafeHtml, IsWidget {}
 
   /**
-   * Default implementation of Caption. This will be created as the header if
-   * there isn't a header specified.
+   * Default implementation of Caption. This will be created as the header if there isn't a header
+   * specified.
    */
   public static class CaptionImpl extends HTML implements Caption {
 
@@ -152,8 +135,12 @@ public class DialogBox extends DecoratedPopupPanel implements HasHTML,
     }
   }
 
-  private class MouseHandler implements MouseDownHandler, MouseUpHandler,
-      MouseOutHandler, MouseOverHandler, MouseMoveHandler {
+  private class MouseHandler
+      implements MouseDownHandler,
+          MouseUpHandler,
+          MouseOutHandler,
+          MouseOverHandler,
+          MouseMoveHandler {
 
     public void onMouseDown(MouseDownEvent event) {
       beginDragging(event);
@@ -176,9 +163,7 @@ public class DialogBox extends DecoratedPopupPanel implements HasHTML,
     }
   }
 
-  /**
-   * The default style name.
-   */
+  /** The default style name. */
   private static final String DEFAULT_STYLENAME = "gwt-DialogBox";
 
   private Caption caption;
@@ -192,28 +177,27 @@ public class DialogBox extends DecoratedPopupPanel implements HasHTML,
   HandlerRegistration resizeHandlerRegistration;
 
   /**
-   * Creates an empty dialog box. It should not be shown until its child widget
-   * has been added using {@link #add(Widget)}.
+   * Creates an empty dialog box. It should not be shown until its child widget has been added using
+   * {@link #add(Widget)}.
    */
   public DialogBox() {
     this(false);
   }
 
   /**
-   * Creates an empty dialog box specifying its "auto-hide" property. It should
-   * not be shown until its child widget has been added using
-   * {@link #add(Widget)}.
+   * Creates an empty dialog box specifying its "auto-hide" property. It should not be shown until
+   * its child widget has been added using {@link #add(Widget)}.
    *
-   * @param autoHide <code>true</code> if the dialog should be automatically
-   *          hidden when the user clicks outside of it
+   * @param autoHide <code>true</code> if the dialog should be automatically hidden when the user
+   *     clicks outside of it
    */
   public DialogBox(boolean autoHide) {
     this(autoHide, true);
   }
 
   /**
-   * Creates an empty dialog box specifying its {@link Caption}. It should not
-   * be shown until its child widget has been added using {@link #add(Widget)}.
+   * Creates an empty dialog box specifying its {@link Caption}. It should not be shown until its
+   * child widget has been added using {@link #add(Widget)}.
    *
    * @param captionWidget the widget that is the DialogBox's header.
    */
@@ -222,29 +206,27 @@ public class DialogBox extends DecoratedPopupPanel implements HasHTML,
   }
 
   /**
-   * Creates an empty dialog box specifying its "auto-hide" and "modal"
-   * properties. It should not be shown until its child widget has been added
-   * using {@link #add(Widget)}.
+   * Creates an empty dialog box specifying its "auto-hide" and "modal" properties. It should not be
+   * shown until its child widget has been added using {@link #add(Widget)}.
    *
-   * @param autoHide <code>true</code> if the dialog should be automatically
-   *          hidden when the user clicks outside of it
-   * @param modal <code>true</code> if keyboard and mouse events for widgets not
-   *          contained by the dialog should be ignored
+   * @param autoHide <code>true</code> if the dialog should be automatically hidden when the user
+   *     clicks outside of it
+   * @param modal <code>true</code> if keyboard and mouse events for widgets not contained by the
+   *     dialog should be ignored
    */
   public DialogBox(boolean autoHide, boolean modal) {
     this(autoHide, modal, new CaptionImpl());
   }
 
   /**
+   * Creates an empty dialog box specifying its "auto-hide", "modal" properties and an
+   * implementation a custom {@link Caption}. It should not be shown until its child widget has been
+   * added using {@link #add(Widget)}.
    *
-   * Creates an empty dialog box specifying its "auto-hide", "modal" properties
-   * and an implementation a custom {@link Caption}. It should not be shown
-   * until its child widget has been added using {@link #add(Widget)}.
-   *
-   * @param autoHide <code>true</code> if the dialog should be automatically
-   *          hidden when the user clicks outside of it
-   * @param modal <code>true</code> if keyboard and mouse events for widgets not
-   *          contained by the dialog should be ignored
+   * @param autoHide <code>true</code> if the dialog should be automatically hidden when the user
+   *     clicks outside of it
+   * @param modal <code>true</code> if keyboard and mouse events for widgets not contained by the
+   *     dialog should be ignored
    * @param captionWidget the widget that is the DialogBox's header.
    */
   public DialogBox(boolean autoHide, boolean modal, Caption captionWidget) {
@@ -319,9 +301,7 @@ public class DialogBox extends DecoratedPopupPanel implements HasHTML,
     super.onBrowserEvent(event);
   }
 
-  /**
-   * @deprecated Use {@link #beginDragging} and {@link #getCaption} instead
-   */
+  /** @deprecated Use {@link #beginDragging} and {@link #getCaption} instead */
   @Deprecated
   public void onMouseDown(Widget sender, int x, int y) {
     if (DOM.getCaptureElement() == null) {
@@ -338,23 +318,15 @@ public class DialogBox extends DecoratedPopupPanel implements HasHTML,
     }
   }
 
-  /**
-   * @deprecated Use {@link Caption#addMouseOverHandler} instead
-   */
+  /** @deprecated Use {@link Caption#addMouseOverHandler} instead */
   @Deprecated
-  public void onMouseEnter(Widget sender) {
-  }
+  public void onMouseEnter(Widget sender) {}
 
-  /**
-   * @deprecated Use {@link Caption#addMouseOutHandler} instead
-   */
+  /** @deprecated Use {@link Caption#addMouseOutHandler} instead */
   @Deprecated
-  public void onMouseLeave(Widget sender) {
-  }
+  public void onMouseLeave(Widget sender) {}
 
-  /**
-   * @deprecated Use {@link #continueDragging} and {@link #getCaption} instead
-   */
+  /** @deprecated Use {@link #continueDragging} and {@link #getCaption} instead */
   @Deprecated
   public void onMouseMove(Widget sender, int x, int y) {
     if (dragging) {
@@ -372,9 +344,7 @@ public class DialogBox extends DecoratedPopupPanel implements HasHTML,
     }
   }
 
-  /**
-   * @deprecated Use {@link #endDragging} and {@link #getCaption} instead
-   */
+  /** @deprecated Use {@link #endDragging} and {@link #getCaption} instead */
   @Deprecated
   public void onMouseUp(Widget sender, int x, int y) {
     dragging = false;
@@ -382,11 +352,9 @@ public class DialogBox extends DecoratedPopupPanel implements HasHTML,
   }
 
   /**
-   * Sets the html string inside the caption by calling its
-   * {@link #setHTML(SafeHtml)} method.
+   * Sets the html string inside the caption by calling its {@link #setHTML(SafeHtml)} method.
    *
-   * Use {@link #setWidget(Widget)} to set the contents inside the
-   * {@link DialogBox}.
+   * <p>Use {@link #setWidget(Widget)} to set the contents inside the {@link DialogBox}.
    *
    * @param html the object's new HTML
    */
@@ -395,12 +363,10 @@ public class DialogBox extends DecoratedPopupPanel implements HasHTML,
   }
 
   /**
-   * Sets the html string inside the caption by calling its
-   * {@link #setHTML(SafeHtml)} method. Only known safe HTML should be inserted
-   * in here.
+   * Sets the html string inside the caption by calling its {@link #setHTML(SafeHtml)} method. Only
+   * known safe HTML should be inserted in here.
    *
-   * Use {@link #setWidget(Widget)} to set the contents inside the
-   * {@link DialogBox}.
+   * <p>Use {@link #setWidget(Widget)} to set the contents inside the {@link DialogBox}.
    *
    * @param html the object's new HTML
    */
@@ -409,11 +375,9 @@ public class DialogBox extends DecoratedPopupPanel implements HasHTML,
   }
 
   /**
-   * Sets the text inside the caption by calling its {@link #setText(String)}
-   * method.
+   * Sets the text inside the caption by calling its {@link #setText(String)} method.
    *
-   * Use {@link #setWidget(Widget)} to set the contents inside the
-   * {@link DialogBox}.
+   * <p>Use {@link #setWidget(Widget)} to set the contents inside the {@link DialogBox}.
    *
    * @param text the object's new text
    */
@@ -424,18 +388,19 @@ public class DialogBox extends DecoratedPopupPanel implements HasHTML,
   @Override
   public void show() {
     if (resizeHandlerRegistration == null) {
-      resizeHandlerRegistration = Window.addResizeHandler(new ResizeHandler() {
-        public void onResize(ResizeEvent event) {
-          windowWidth = event.getWidth();
-        }
-      });
+      resizeHandlerRegistration =
+          Window.addResizeHandler(
+              new ResizeHandler() {
+                public void onResize(ResizeEvent event) {
+                  windowWidth = event.getWidth();
+                }
+              });
     }
     super.show();
   }
 
   /**
-   * Called on mouse down in the caption area, begins the dragging loop by
-   * turning on event capture.
+   * Called on mouse down in the caption area, begins the dragging loop by turning on event capture.
    *
    * @see DOM#setCapture
    * @see #continueDragging
@@ -446,8 +411,8 @@ public class DialogBox extends DecoratedPopupPanel implements HasHTML,
   }
 
   /**
-   * Called on mouse move in the caption area, continues dragging if it was
-   * started by {@link #beginDragging}.
+   * Called on mouse move in the caption area, continues dragging if it was started by {@link
+   * #beginDragging}.
    *
    * @see #beginDragging
    * @see #endDragging
@@ -483,11 +448,9 @@ public class DialogBox extends DecoratedPopupPanel implements HasHTML,
   }
 
   /**
-   * Called on mouse up in the caption area, ends dragging by ending event
-   * capture.
+   * Called on mouse up in the caption area, ends dragging by ending event capture.
    *
    * @param event the mouse up event that ended dragging
-   *
    * @see DOM#releaseCapture
    * @see #beginDragging
    * @see #endDragging
@@ -498,9 +461,10 @@ public class DialogBox extends DecoratedPopupPanel implements HasHTML,
 
   /**
    * <b>Affected Elements:</b>
+   *
    * <ul>
-   * <li>-caption = text at the top of the {@link DialogBox}.</li>
-   * <li>-content = the container around the content.</li>
+   *   <li>-caption = text at the top of the {@link DialogBox}.
+   *   <li>-content = the container around the content.
    * </ul>
    *
    * @see UIObject#onEnsureDebugId(String)
@@ -519,7 +483,8 @@ public class DialogBox extends DecoratedPopupPanel implements HasHTML,
     // is dragged.
     NativeEvent nativeEvent = event.getNativeEvent();
 
-    if (!event.isCanceled() && (event.getTypeInt() == Event.ONMOUSEDOWN)
+    if (!event.isCanceled()
+        && (event.getTypeInt() == Event.ONMOUSEDOWN)
         && isCaptionEvent(nativeEvent)) {
       nativeEvent.preventDefault();
     }
@@ -530,8 +495,7 @@ public class DialogBox extends DecoratedPopupPanel implements HasHTML,
   private boolean isCaptionEvent(NativeEvent event) {
     EventTarget target = event.getEventTarget();
     if (Element.is(target)) {
-      return getCellElement(0, 1).getParentElement().isOrHasChild(
-          Element.as(target));
+      return getCellElement(0, 1).getParentElement().isOrHasChild(Element.as(target));
     }
     return false;
   }

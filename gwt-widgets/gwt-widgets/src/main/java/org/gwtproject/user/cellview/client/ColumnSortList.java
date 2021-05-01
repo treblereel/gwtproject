@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -19,15 +19,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * An ordered list containing the sort history of {@link Column}s in a table.
- * The 0th item is the {@link ColumnSortInfo} of the most recently sorted
- * column.
+ * An ordered list containing the sort history of {@link Column}s in a table. The 0th item is the
+ * {@link ColumnSortInfo} of the most recently sorted column.
  */
 public class ColumnSortList {
 
-  /**
-   * Information about the sort order of a specific column in a table.
-   */
+  /** Information about the sort order of a specific column in a table. */
   public static class ColumnSortInfo {
 
     private final boolean ascending;
@@ -35,7 +32,7 @@ public class ColumnSortList {
 
     /**
      * Construct a new {@link ColumnSortInfo}.
-     * 
+     *
      * @param column the column index
      * @param ascending true if sorted ascending
      */
@@ -44,17 +41,15 @@ public class ColumnSortList {
       this.ascending = ascending;
     }
 
-    /**
-     * Default constructor used for RPC.
-     */
+    /** Default constructor used for RPC. */
     ColumnSortInfo() {
       this(null, true);
     }
 
     /**
-     * Check if this object is equal to another. The objects are equal if the
-     * column and ascending values are the equal.
-     * 
+     * Check if this object is equal to another. The objects are equal if the column and ascending
+     * values are the equal.
+     *
      * @param obj the object to check for equality
      * @return true if objects are the same
      */
@@ -73,7 +68,7 @@ public class ColumnSortList {
 
     /**
      * Get the {@link Column} that was sorted.
-     * 
+     *
      * @return the {@link Column}
      */
     public Column<?, ?> getColumn() {
@@ -87,7 +82,7 @@ public class ColumnSortList {
 
     /**
      * Check if the column was sorted in ascending or descending order.
-     * 
+     *
      * @return true if ascending, false if descending
      */
     public boolean isAscending() {
@@ -99,61 +94,48 @@ public class ColumnSortList {
     }
   }
 
-  /**
-   * The delegate that handles modifications to the list.
-   */
+  /** The delegate that handles modifications to the list. */
   public interface Delegate {
 
-    /**
-     * Called when the list is modified.
-     */
+    /** Called when the list is modified. */
     void onModification();
   }
 
-  /**
-   * The delegate that handles modifications.
-   */
+  /** The delegate that handles modifications. */
   private final Delegate delegate;
 
-  /**
-   * A List used to manage the insertion/removal of {@link ColumnSortInfo}.
-   */
+  /** A List used to manage the insertion/removal of {@link ColumnSortInfo}. */
   private final List<ColumnSortInfo> infos = new ArrayList<ColumnSortInfo>();
 
   /**
-   * This limit prevents the infos list to grow over a given size. The default value (0) means
-   * that the size can grow indefinitely.
+   * This limit prevents the infos list to grow over a given size. The default value (0) means that
+   * the size can grow indefinitely.
    */
   private int limit = 0;
 
-  /**
-   * Construct a new {@link ColumnSortList} without a {@link Delegate}.
-   */
+  /** Construct a new {@link ColumnSortList} without a {@link Delegate}. */
   public ColumnSortList() {
     this(null);
   }
 
   /**
    * Construct a new {@link ColumnSortList} with the specified {@link Delegate}.
-   * 
+   *
    * @param delegate the {@link Delegate} to inform of modifications
    */
   public ColumnSortList(Delegate delegate) {
     this.delegate = delegate;
   }
 
-  /**
-   * Removes all of the elements from this list.
-   */
+  /** Removes all of the elements from this list. */
   public void clear() {
     infos.clear();
     fireDelegate();
   }
 
   /**
-   * Check if the specified object equals this list. Two {@link ColumnSortList}
-   * are equals if they are the same size, and all entries are
-   * <code>equals</code> and in the same order.
+   * Check if the specified object equals this list. Two {@link ColumnSortList} are equals if they
+   * are the same size, and all entries are <code>equals</code> and in the same order.
    */
   @Override
   public boolean equals(Object obj) {
@@ -170,7 +152,7 @@ public class ColumnSortList {
 
   /**
    * Get the {@link ColumnSortInfo} at the specified index.
-   * 
+   *
    * @param index the index
    * @return the {@link ColumnSortInfo}
    */
@@ -180,7 +162,7 @@ public class ColumnSortList {
 
   /**
    * Get the actual limit value
-   * 
+   *
    * @return the actual limit value
    */
   public int getLimit() {
@@ -193,10 +175,10 @@ public class ColumnSortList {
   }
 
   /**
-   * Inserts the specified {@link ColumnSortInfo} at the specified position in
-   * this list. If the column already exists in the sort info, the index will be
-   * adjusted to account for any removed entries.
-   * 
+   * Inserts the specified {@link ColumnSortInfo} at the specified position in this list. If the
+   * column already exists in the sort info, the index will be adjusted to account for any removed
+   * entries.
+   *
    * @param sortInfo the {@link ColumnSortInfo} to add
    */
   public void insert(int index, ColumnSortInfo sortInfo) {
@@ -216,7 +198,7 @@ public class ColumnSortList {
         i--;
       }
     }
-    
+
     if (limit > 0) {
       // at this point, infos.size() must not exceed the limit, a simple condition check is enough
       if (limit == infos.size()) {
@@ -234,12 +216,11 @@ public class ColumnSortList {
   }
 
   /**
-   * Push a {@link Column} onto the list at index zero, setting ascending to
-   * true. If the column already exists, it will be removed from its current
-   * position and placed at the start of the list. If the Column is already at
-   * the start of the list, its ascending bit will be flipped (ascending to
-   * descending and vice versa).
-   * 
+   * Push a {@link Column} onto the list at index zero, setting ascending to true. If the column
+   * already exists, it will be removed from its current position and placed at the start of the
+   * list. If the Column is already at the start of the list, its ascending bit will be flipped
+   * (ascending to descending and vice versa).
+   *
    * @param column the {@link Column} to push
    * @return the {@link ColumnSortInfo} that was pushed
    */
@@ -257,10 +238,9 @@ public class ColumnSortList {
   }
 
   /**
-   * Push a {@link ColumnSortInfo} onto the list at index zero. If the column
-   * already exists, it will be removed from its current position and placed at
-   * the start of the list.
-   * 
+   * Push a {@link ColumnSortInfo} onto the list at index zero. If the column already exists, it
+   * will be removed from its current position and placed at the start of the list.
+   *
    * @param sortInfo the {@link ColumnSortInfo} to push
    */
   public void push(ColumnSortInfo sortInfo) {
@@ -269,7 +249,7 @@ public class ColumnSortList {
 
   /**
    * Remove a {@link ColumnSortInfo} from the list.
-   * 
+   *
    * @param sortInfo the {@link ColumnSortInfo} to remove
    */
   public boolean remove(ColumnSortInfo sortInfo) {
@@ -282,14 +262,14 @@ public class ColumnSortList {
    * Set the limit to a positive value to prevent the growth of the infos list over the given size.
    * This method will check if the actual infos list is over the limit, and it will fire the
    * delegate in the case it should remove items from the list.
-   * 
-   * The default value (0) means the size can grow indefinitely. 
-   * 
+   *
+   * <p>The default value (0) means the size can grow indefinitely.
+   *
    * @param limit the new limit value
    */
   public void setLimit(int limit) {
     this.limit = limit;
-    
+
     if (limit > 0) {
       // checking the list size, as it might have been populated over the limit
       boolean modified = false;
@@ -305,7 +285,7 @@ public class ColumnSortList {
 
   /**
    * Get the size of the list.
-   * 
+   *
    * @return the number of {@link ColumnSortInfo} in the list
    */
   public int size() {

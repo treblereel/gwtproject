@@ -24,11 +24,9 @@ import org.gwtproject.safehtml.shared.SafeHtml;
 import org.gwtproject.safehtml.shared.SafeHtmlBuilder;
 import org.gwtproject.text.shared.SafeHtmlRenderer;
 
-/**
- * An {@link org.gwtproject.cell.client.AbstractCell} used to render a text input.
- */
-public class TextInputCell extends
-    org.gwtproject.cell.client.AbstractInputCell<String, TextInputCell.ViewData> {
+/** An {@link org.gwtproject.cell.client.AbstractCell} used to render a text input. */
+public class TextInputCell
+    extends org.gwtproject.cell.client.AbstractInputCell<String, TextInputCell.ViewData> {
 
   interface Template extends SafeHtmlTemplates {
 
@@ -37,18 +35,12 @@ public class TextInputCell extends
     SafeHtml input(String value);
   }
 
-  /**
-   * The {@code ViewData} for this cell.
-   */
+  /** The {@code ViewData} for this cell. */
   public static class ViewData {
-    /**
-     * The last value that was updated.
-     */
+    /** The last value that was updated. */
     private String lastValue;
 
-    /**
-     * The current value.
-     */
+    /** The current value. */
     private String curValue;
 
     /**
@@ -62,8 +54,8 @@ public class TextInputCell extends
     }
 
     /**
-     * Return true if the last and current values of this ViewData object
-     * are equal to those of the other object.
+     * Return true if the last and current values of this ViewData object are equal to those of the
+     * other object.
      */
     @Override
     public boolean equals(Object other) {
@@ -71,13 +63,12 @@ public class TextInputCell extends
         return false;
       }
       ViewData vd = (ViewData) other;
-      return equalsOrNull(lastValue, vd.lastValue)
-          && equalsOrNull(curValue, vd.curValue);
+      return equalsOrNull(lastValue, vd.lastValue) && equalsOrNull(curValue, vd.curValue);
     }
 
     /**
      * Return the current value of the input element.
-     * 
+     *
      * @return the current value String
      * @see #setCurrentValue(String)
      */
@@ -87,7 +78,7 @@ public class TextInputCell extends
 
     /**
      * Return the last value sent to the {@link org.gwtproject.cell.client.ValueUpdater}.
-     * 
+     *
      * @return the last value String
      * @see #setLastValue(String)
      */
@@ -95,9 +86,7 @@ public class TextInputCell extends
       return lastValue;
     }
 
-    /**
-     * Return a hash code based on the last and current values.
-     */
+    /** Return a hash code based on the last and current values. */
     @Override
     public int hashCode() {
       return (lastValue + "_*!@HASH_SEPARATOR@!*_" + curValue).hashCode();
@@ -105,7 +94,7 @@ public class TextInputCell extends
 
     /**
      * Set the current value.
-     * 
+     *
      * @param curValue the current value
      * @see #getCurrentValue()
      */
@@ -115,7 +104,7 @@ public class TextInputCell extends
 
     /**
      * Set the last value.
-     * 
+     *
      * @param lastValue the last value
      * @see #getLastValue()
      */
@@ -128,16 +117,13 @@ public class TextInputCell extends
     }
   }
 
-  /**
-   * Constructs a TextInputCell that renders its text without HTML markup.
-   */
+  /** Constructs a TextInputCell that renders its text without HTML markup. */
   public TextInputCell() {
     super(BrowserEvents.CHANGE, BrowserEvents.KEYUP);
   }
 
   /**
-   * Constructs a TextInputCell that renders its text using the given
-   * {@link SafeHtmlRenderer}.
+   * Constructs a TextInputCell that renders its text using the given {@link SafeHtmlRenderer}.
    *
    * @param renderer parameter is ignored
    * @deprecated the value of a text input is never treated as html
@@ -148,8 +134,12 @@ public class TextInputCell extends
   }
 
   @Override
-  public void onBrowserEvent(Context context, Element parent, String value,
-                             NativeEvent event, org.gwtproject.cell.client.ValueUpdater<String> valueUpdater) {
+  public void onBrowserEvent(
+      Context context,
+      Element parent,
+      String value,
+      NativeEvent event,
+      org.gwtproject.cell.client.ValueUpdater<String> valueUpdater) {
     super.onBrowserEvent(context, parent, value, event, valueUpdater);
 
     // Ignore events that don't target the input.
@@ -193,8 +183,11 @@ public class TextInputCell extends
   }
 
   @Override
-  protected void finishEditing(Element parent, String value, Object key,
-                               org.gwtproject.cell.client.ValueUpdater<String> valueUpdater) {
+  protected void finishEditing(
+      Element parent,
+      String value,
+      Object key,
+      org.gwtproject.cell.client.ValueUpdater<String> valueUpdater) {
     String newValue = getInputElement(parent).getValue();
 
     // Get the view data.
@@ -217,6 +210,6 @@ public class TextInputCell extends
 
   @Override
   protected InputElement getInputElement(Element parent) {
-    return super.getInputElement(parent).<InputElement> cast();
+    return super.getInputElement(parent).<InputElement>cast();
   }
 }

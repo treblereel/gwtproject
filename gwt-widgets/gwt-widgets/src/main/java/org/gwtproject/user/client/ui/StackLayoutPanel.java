@@ -15,6 +15,9 @@
  */
 package org.gwtproject.user.client.ui;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.event.dom.client.ClickHandler;
@@ -35,52 +38,45 @@ import org.gwtproject.safehtml.shared.SafeHtml;
 import org.gwtproject.safehtml.shared.annotations.IsSafeHtml;
 import org.gwtproject.safehtml.shared.annotations.SuppressIsSafeHtmlCastCheck;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-
 /**
- * A panel that stacks its children vertically, displaying only one at a time,
- * with a header for each child which the user can click to display.
+ * A panel that stacks its children vertically, displaying only one at a time, with a header for
+ * each child which the user can click to display.
  *
- * <p>
- * This widget will <em>only</em> work in standards mode, which requires that
- * the HTML page in which it is run have an explicit &lt;!DOCTYPE&gt;
- * declaration.
- * </p>
+ * <p>This widget will <em>only</em> work in standards mode, which requires that the HTML page in
+ * which it is run have an explicit &lt;!DOCTYPE&gt; declaration.
  *
  * <h3>CSS Style Rules</h3>
+ *
  * <dl>
- * <dt>.gwt-StackLayoutPanel <dd> the panel itself
- * <dt>.gwt-StackLayoutPanel .gwt-StackLayoutPanelHeader <dd> applied to each
- * header widget
- * <dt>.gwt-StackLayoutPanel .gwt-StackLayoutPanelHeader-hovering <dd> applied to each
- * header widget on mouse hover
- * <dt>.gwt-StackLayoutPanel .gwt-StackLayoutPanelContent <dd> applied to each
- * child widget
+ *   <dt>.gwt-StackLayoutPanel
+ *   <dd>the panel itself
+ *   <dt>.gwt-StackLayoutPanel .gwt-StackLayoutPanelHeader
+ *   <dd>applied to each header widget
+ *   <dt>.gwt-StackLayoutPanel .gwt-StackLayoutPanelHeader-hovering
+ *   <dd>applied to each header widget on mouse hover
+ *   <dt>.gwt-StackLayoutPanel .gwt-StackLayoutPanelContent
+ *   <dd>applied to each child widget
  * </dl>
  *
  * <p>
+ *
  * <h3>Example</h3>
+ *
  * {@example com.google.gwt.examples.StackLayoutPanelExample}
- * </p>
  *
  * <h3>Use in UiBinder Templates</h3>
- * <p>
- * A StackLayoutPanel element in a
- * {@link org.gwtproject.uibinder.client.UiBinder UiBinder} template may have a
- * <code>unit</code> attribute with a
- * {@link Unit Style.Unit} value (it defaults to
- * PX).
- * <p>
- * The children of a StackLayoutPanel element are laid out in &lt;g:stack>
- * elements. Each stack can have one widget child and one of two types of header
- * elements. A &lt;g:header> element can hold html, or a &lt;g:customHeader>
- * element can hold a widget. (Note that the tags of the header elements are not
- * capitalized. This is meant to signal that the head is not a runtime object,
- * and so cannot have a <code>ui:field</code> attribute.)
- * <p>
- * For example:
+ *
+ * <p>A StackLayoutPanel element in a {@link org.gwtproject.uibinder.client.UiBinder UiBinder}
+ * template may have a <code>unit</code> attribute with a {@link Unit Style.Unit} value (it defaults
+ * to PX).
+ *
+ * <p>The children of a StackLayoutPanel element are laid out in &lt;g:stack> elements. Each stack
+ * can have one widget child and one of two types of header elements. A &lt;g:header> element can
+ * hold html, or a &lt;g:customHeader> element can hold a widget. (Note that the tags of the header
+ * elements are not capitalized. This is meant to signal that the head is not a runtime object, and
+ * so cannot have a <code>ui:field</code> attribute.)
+ *
+ * <p>For example:
  *
  * <pre>
  * &lt;g:StackLayoutPanel unit='PX'>
@@ -97,9 +93,13 @@ import java.util.NoSuchElementException;
  * &lt;/g:StackLayoutPanel>
  * </pre>
  */
-public class StackLayoutPanel extends ResizeComposite implements HasWidgets,
-    ProvidesResize, IndexedPanel.ForIsWidget, AnimatedLayout,
-    HasBeforeSelectionHandlers<Integer>, HasSelectionHandlers<Integer> {
+public class StackLayoutPanel extends ResizeComposite
+    implements HasWidgets,
+        ProvidesResize,
+        IndexedPanel.ForIsWidget,
+        AnimatedLayout,
+        HasBeforeSelectionHandlers<Integer>,
+        HasSelectionHandlers<Integer> {
 
   private class Header extends Composite implements HasClickHandlers {
     public Header(Widget child) {
@@ -160,8 +160,7 @@ public class StackLayoutPanel extends ResizeComposite implements HasWidgets,
   }
 
   /**
-   * Adds a child widget to this stack, along with a widget representing the
-   * stack header.
+   * Adds a child widget to this stack, along with a widget representing the stack header.
    *
    * @param widget the child widget to be added
    * @param header the html to be shown on its header
@@ -170,10 +169,9 @@ public class StackLayoutPanel extends ResizeComposite implements HasWidgets,
   public void add(final Widget widget, SafeHtml header, double headerSize) {
     add(widget, header.asString(), true, headerSize);
   }
-  
+
   /**
-   * Adds a child widget to this stack, along with a widget representing the
-   * stack header.
+   * Adds a child widget to this stack, along with a widget representing the stack header.
    *
    * @param widget the child widget to be added
    * @param header the text to be shown on its header
@@ -184,7 +182,7 @@ public class StackLayoutPanel extends ResizeComposite implements HasWidgets,
       final Widget widget, @IsSafeHtml String header, boolean asHtml, double headerSize) {
     insert(widget, header, asHtml, headerSize, getWidgetCount());
   }
-  
+
   /**
    * Overloaded version for IsWidget.
    *
@@ -196,8 +194,7 @@ public class StackLayoutPanel extends ResizeComposite implements HasWidgets,
   }
 
   /**
-   * Adds a child widget to this stack, along with a widget representing the
-   * stack header.
+   * Adds a child widget to this stack, along with a widget representing the stack header.
    *
    * @param widget the child widget to be added
    * @param header the text to be shown on its header
@@ -208,8 +205,7 @@ public class StackLayoutPanel extends ResizeComposite implements HasWidgets,
   }
 
   /**
-   * Adds a child widget to this stack, along with a widget representing the
-   * stack header.
+   * Adds a child widget to this stack, along with a widget representing the stack header.
    *
    * @param widget the child widget to be added
    * @param header the header widget
@@ -221,20 +217,18 @@ public class StackLayoutPanel extends ResizeComposite implements HasWidgets,
 
   /**
    * Overloaded version for IsWidget.
-   * 
+   *
    * @see #add(Widget,Widget,double)
    */
   public void add(final IsWidget widget, IsWidget header, double headerSize) {
     this.add(widget.asWidget(), header.asWidget(), headerSize);
   }
-  
-  public HandlerRegistration addBeforeSelectionHandler(
-      BeforeSelectionHandler<Integer> handler) {
+
+  public HandlerRegistration addBeforeSelectionHandler(BeforeSelectionHandler<Integer> handler) {
     return addHandler(handler, BeforeSelectionEvent.getType());
   }
 
-  public HandlerRegistration addSelectionHandler(
-      SelectionHandler<Integer> handler) {
+  public HandlerRegistration addSelectionHandler(SelectionHandler<Integer> handler) {
     return addHandler(handler, SelectionEvent.getType());
   }
 
@@ -255,8 +249,7 @@ public class StackLayoutPanel extends ResizeComposite implements HasWidgets,
     int i = 0;
     for (; i < layoutData.size(); ++i) {
       LayoutData data = layoutData.get(i);
-      layoutPanel.setWidgetTopHeight(data.header, top, unit, data.headerSize,
-          unit);
+      layoutPanel.setWidgetTopHeight(data.header, top, unit, data.headerSize, unit);
 
       top += data.headerSize;
 
@@ -269,8 +262,7 @@ public class StackLayoutPanel extends ResizeComposite implements HasWidgets,
 
     for (int j = layoutData.size() - 1; j > i; --j) {
       LayoutData data = layoutData.get(j);
-      layoutPanel.setWidgetBottomHeight(data.header, bottom, unit,
-          data.headerSize, unit);
+      layoutPanel.setWidgetBottomHeight(data.header, bottom, unit, data.headerSize, unit);
       layoutPanel.setWidgetBottomHeight(data.widget, bottom, unit, 0, unit);
       bottom += data.headerSize;
     }
@@ -293,7 +285,7 @@ public class StackLayoutPanel extends ResizeComposite implements HasWidgets,
 
   /**
    * Get the duration of the animated transition between children.
-   * 
+   *
    * @return the duration in milliseconds
    */
   public int getAnimationDuration() {
@@ -364,22 +356,21 @@ public class StackLayoutPanel extends ResizeComposite implements HasWidgets,
   }
 
   /**
-   * Inserts a widget into the panel. If the Widget is already attached, it will
-   * be moved to the requested index.
+   * Inserts a widget into the panel. If the Widget is already attached, it will be moved to the
+   * requested index.
    *
    * @param child the widget to be added
    * @param html the safe html to be shown on its header
    * @param headerSize the size of the header widget
    * @param beforeIndex the index before which it will be inserted
    */
-  public void insert(Widget child, SafeHtml html, double headerSize, 
-      int beforeIndex) {
+  public void insert(Widget child, SafeHtml html, double headerSize, int beforeIndex) {
     insert(child, html.asString(), true, headerSize, beforeIndex);
   }
-  
+
   /**
-   * Inserts a widget into the panel. If the Widget is already attached, it will
-   * be moved to the requested index.
+   * Inserts a widget into the panel. If the Widget is already attached, it will be moved to the
+   * requested index.
    *
    * @param child the widget to be added
    * @param text the text to be shown on its header
@@ -399,8 +390,8 @@ public class StackLayoutPanel extends ResizeComposite implements HasWidgets,
   }
 
   /**
-   * Inserts a widget into the panel. If the Widget is already attached, it will
-   * be moved to the requested index.
+   * Inserts a widget into the panel. If the Widget is already attached, it will be moved to the
+   * requested index.
    *
    * @param child the widget to be added
    * @param text the text to be shown on its header
@@ -413,16 +404,15 @@ public class StackLayoutPanel extends ResizeComposite implements HasWidgets,
   }
 
   /**
-   * Inserts a widget into the panel. If the Widget is already attached, it will
-   * be moved to the requested index.
+   * Inserts a widget into the panel. If the Widget is already attached, it will be moved to the
+   * requested index.
    *
    * @param child the widget to be added
    * @param header the widget to be placed in the associated header
    * @param headerSize the size of the header widget
    * @param beforeIndex the index before which it will be inserted
    */
-  public void insert(Widget child, Widget header, double headerSize,
-      int beforeIndex) {
+  public void insert(Widget child, Widget header, double headerSize, int beforeIndex) {
     insert(child, new Header(header), headerSize, beforeIndex);
   }
 
@@ -499,7 +489,7 @@ public class StackLayoutPanel extends ResizeComposite implements HasWidgets,
 
   /**
    * Set the duration of the animated transition between children.
-   * 
+   *
    * @param duration the duration in milliseconds.
    */
   public void setAnimationDuration(int duration) {
@@ -509,10 +499,9 @@ public class StackLayoutPanel extends ResizeComposite implements HasWidgets,
   /**
    * Sets a stack header's HTML contents.
    *
-   * Use care when setting an object's HTML; it is an easy way to expose
-   * script-based security problems. Consider using
-   * {@link #setHeaderHTML(int, SafeHtml)} or
-   * {@link #setHeaderText(int, String)} whenever possible.
+   * <p>Use care when setting an object's HTML; it is an easy way to expose script-based security
+   * problems. Consider using {@link #setHeaderHTML(int, SafeHtml)} or {@link #setHeaderText(int,
+   * String)} whenever possible.
    *
    * @param index the index of the header whose HTML is to be set
    * @param html the header's new HTML contents
@@ -528,14 +517,14 @@ public class StackLayoutPanel extends ResizeComposite implements HasWidgets,
 
   /**
    * Sets a stack header's HTML contents.
-   * 
+   *
    * @param index the index of the header whose HTML is to be set
    * @param html the header's new HTML contents
    */
   public void setHeaderHTML(int index, SafeHtml html) {
     setHeaderHTML(index, html.asString());
   }
-  
+
   /**
    * Sets a stack header's text contents.
    *
@@ -604,8 +593,7 @@ public class StackLayoutPanel extends ResizeComposite implements HasWidgets,
     assert (index >= 0) && (index < getWidgetCount()) : "Index out of bounds";
   }
 
-  private void insert(final Widget child, final Header header, double headerSize,
-      int beforeIndex) {
+  private void insert(final Widget child, final Header header, double headerSize, int beforeIndex) {
     assert (beforeIndex >= 0) && (beforeIndex <= getWidgetCount()) : "beforeIndex out of bounds";
 
     // Check to see if the StackPanel already contains the Widget. If so,
@@ -631,23 +619,26 @@ public class StackLayoutPanel extends ResizeComposite implements HasWidgets,
     header.addStyleName(HEADER_STYLE);
     child.addStyleName(CONTENT_STYLE);
 
-    header.addClickHandler(new ClickHandler() {
-      public void onClick(ClickEvent event) {
-        showWidget(child);
-      }
-    });
+    header.addClickHandler(
+        new ClickHandler() {
+          public void onClick(ClickEvent event) {
+            showWidget(child);
+          }
+        });
 
-    header.addMouseOutHandler(new MouseOutHandler() {
-      public void onMouseOut(MouseOutEvent event) {
-        header.removeStyleName(HEADER_STYLE_HOVERING);
-      }
-    });
+    header.addMouseOutHandler(
+        new MouseOutHandler() {
+          public void onMouseOut(MouseOutEvent event) {
+            header.removeStyleName(HEADER_STYLE_HOVERING);
+          }
+        });
 
-    header.addMouseOverHandler(new MouseOverHandler() {
-      public void onMouseOver(MouseOverEvent event) {
-        header.addStyleName(HEADER_STYLE_HOVERING);
-      }
-    });
+    header.addMouseOverHandler(
+        new MouseOverHandler() {
+          public void onMouseOver(MouseOverEvent event) {
+            header.addStyleName(HEADER_STYLE_HOVERING);
+          }
+        });
 
     if (selectedIndex == -1) {
       // If there's no visible widget, display the first one. The layout will

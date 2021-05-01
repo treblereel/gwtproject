@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -20,52 +20,37 @@ import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.DOM;
 
 /**
- * A panel that displays all of its child widgets in a 'deck', where only one
- * can be visible at a time. It is used by
- * {@link TabPanel}.
- * 
- * <p>
- * Once a widget has been added to a DeckPanel, its visibility, width, and
- * height attributes will be manipulated. When the widget is removed from the
- * DeckPanel, it will be visible, and its width and height attributes will be
- * cleared.
- * </p>
+ * A panel that displays all of its child widgets in a 'deck', where only one can be visible at a
+ * time. It is used by {@link TabPanel}.
+ *
+ * <p>Once a widget has been added to a DeckPanel, its visibility, width, and height attributes will
+ * be manipulated. When the widget is removed from the DeckPanel, it will be visible, and its width
+ * and height attributes will be cleared.
  */
-public class DeckPanel extends ComplexPanel implements HasAnimation,
-    InsertPanel.ForIsWidget {
-  /**
-   * An {@link Animation} used to slide in the new content.
-   */
+public class DeckPanel extends ComplexPanel implements HasAnimation, InsertPanel.ForIsWidget {
+  /** An {@link Animation} used to slide in the new content. */
   private static class SlideAnimation extends Animation {
-    /**
-     * The {@link Element} holding the {@link Widget} with a lower index.
-     */
+    /** The {@link Element} holding the {@link Widget} with a lower index. */
     private Element container1 = null;
 
-    /**
-     * The {@link Element} holding the {@link Widget} with a higher index.
-     */
+    /** The {@link Element} holding the {@link Widget} with a higher index. */
     private Element container2 = null;
 
-    /**
-     * A boolean indicating whether container1 is growing or shrinking.
-     */
+    /** A boolean indicating whether container1 is growing or shrinking. */
     private boolean growing = false;
 
     /**
-     * The fixed height of a {@link TabPanel} in pixels. If the {@link TabPanel}
-     * does not have a fixed height, this will be set to -1.
+     * The fixed height of a {@link TabPanel} in pixels. If the {@link TabPanel} does not have a
+     * fixed height, this will be set to -1.
      */
     private int fixedHeight = -1;
 
-    /**
-     * The old {@link Widget} that is being hidden.
-     */
+    /** The old {@link Widget} that is being hidden. */
     private Widget oldWidget = null;
 
     /**
      * Switch to a new {@link Widget}.
-     * 
+     *
      * @param oldWidget the {@link Widget} to hide
      * @param newWidget the {@link Widget} to show
      * @param animate true to animate, false to switch instantly
@@ -76,8 +61,7 @@ public class DeckPanel extends ComplexPanel implements HasAnimation,
 
       // Get the container and index of the new widget
       Element newContainer = getContainer(newWidget);
-      int newIndex = DOM.getChildIndex(DOM.getParent(newContainer),
-          newContainer);
+      int newIndex = DOM.getChildIndex(DOM.getParent(newContainer), newContainer);
 
       // If we aren't showing anything, don't bother with the animation
       if (oldWidget == null) {
@@ -89,8 +73,7 @@ public class DeckPanel extends ComplexPanel implements HasAnimation,
 
       // Get the container and index of the old widget
       Element oldContainer = getContainer(oldWidget);
-      int oldIndex = DOM.getChildIndex(DOM.getParent(oldContainer),
-          oldContainer);
+      int oldIndex = DOM.getChildIndex(DOM.getParent(oldContainer), oldContainer);
 
       // Figure out whether to grow or shrink the container
       if (newIndex > oldIndex) {
@@ -110,12 +93,10 @@ public class DeckPanel extends ComplexPanel implements HasAnimation,
         int deckHeight = deckElem.getOffsetHeight();
         if (growing) {
           fixedHeight = container2.getOffsetHeight();
-          container2.getStyle().setPropertyPx("height",
-              Math.max(1, fixedHeight - 1));
+          container2.getStyle().setPropertyPx("height", Math.max(1, fixedHeight - 1));
         } else {
           fixedHeight = container1.getOffsetHeight();
-          container1.getStyle().setPropertyPx("height",
-              Math.max(1, fixedHeight - 1));
+          container1.getStyle().setPropertyPx("height", Math.max(1, fixedHeight - 1));
         }
         if (deckElem.getOffsetHeight() != deckHeight) {
           fixedHeight = -1;
@@ -195,9 +176,7 @@ public class DeckPanel extends ComplexPanel implements HasAnimation,
       container2.getStyle().setProperty("height", height2 + "px");
     }
 
-    /**
-     * Hide the old widget when the animation completes.
-     */
+    /** Hide the old widget when the animation completes. */
     private void hideOldWidget() {
       // Issue 2510: Hiding the widget isn't necessary because we hide its
       // wrapper, but its in here for legacy support.
@@ -214,19 +193,15 @@ public class DeckPanel extends ComplexPanel implements HasAnimation,
     }
   }
 
-  /**
-   * The duration of the animation.
-   */
+  /** The duration of the animation. */
   private static final int ANIMATION_DURATION = 350;
 
-  /**
-   * The {@link Animation} used to slide in the new {@link Widget}.
-   */
+  /** The {@link Animation} used to slide in the new {@link Widget}. */
   private static SlideAnimation slideAnimation;
 
   /**
    * The container {@link Element} around a {@link Widget}.
-   * 
+   *
    * @param w the {@link Widget}
    * @return the container {@link Element}
    */
@@ -238,9 +213,7 @@ public class DeckPanel extends ComplexPanel implements HasAnimation,
 
   private Widget visibleWidget;
 
-  /**
-   * Creates an empty deck panel.
-   */
+  /** Creates an empty deck panel. */
   public DeckPanel() {
     setElement(DOM.createDiv());
   }
@@ -265,7 +238,7 @@ public class DeckPanel extends ComplexPanel implements HasAnimation,
 
   /**
    * Gets the index of the currently-visible widget, if any.
-   * 
+   *
    * @return the visible widget's index, or -1 if there is no such widget
    */
   public int getVisibleWidget() {
@@ -309,9 +282,9 @@ public class DeckPanel extends ComplexPanel implements HasAnimation,
   }
 
   /**
-   * Shows the widget at the specified index. This causes the currently- visible
-   * widget to be hidden.
-   * 
+   * Shows the widget at the specified index. This causes the currently- visible widget to be
+   * hidden.
+   *
    * @param index the index of the widget to be shown
    */
   public void showWidget(int index) {
@@ -323,14 +296,11 @@ public class DeckPanel extends ComplexPanel implements HasAnimation,
       if (slideAnimation == null) {
         slideAnimation = new SlideAnimation();
       }
-      slideAnimation.showWidget(oldWidget, visibleWidget, isAnimationEnabled
-          && isAttached());
+      slideAnimation.showWidget(oldWidget, visibleWidget, isAnimationEnabled && isAttached());
     }
   }
 
-  /**
-   * Setup the container around the widget.
-   */
+  /** Setup the container around the widget. */
   private Element createWidgetContainer() {
     Element container = DOM.createDiv();
     container.getStyle().setProperty("width", "100%");
@@ -340,9 +310,7 @@ public class DeckPanel extends ComplexPanel implements HasAnimation,
     return container;
   }
 
-  /**
-   * Setup the container around the widget.
-   */
+  /** Setup the container around the widget. */
   private void finishWidgetInitialization(Element container, Widget w) {
     UIObject.setVisible(container, false);
     container.getStyle().setProperty("height", "100%");
@@ -361,9 +329,7 @@ public class DeckPanel extends ComplexPanel implements HasAnimation,
     w.setVisible(false);
   }
 
-  /**
-   * Reset the dimensions of the widget when it is removed.
-   */
+  /** Reset the dimensions of the widget when it is removed. */
   private void resetChildWidget(Widget w) {
     w.setSize("", "");
     w.setVisible(true);

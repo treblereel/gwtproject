@@ -15,6 +15,7 @@
  */
 package org.gwtproject.cell.client;
 
+import java.util.Date;
 import org.gwtproject.i18n.shared.DateTimeFormat;
 import org.gwtproject.i18n.shared.DateTimeFormat.PredefinedFormat;
 import org.gwtproject.i18n.shared.TimeZone;
@@ -22,11 +23,7 @@ import org.gwtproject.safehtml.shared.SafeHtmlBuilder;
 import org.gwtproject.text.shared.SafeHtmlRenderer;
 import org.gwtproject.text.shared.SimpleSafeHtmlRenderer;
 
-import java.util.Date;
-
-/**
- * A {@link org.gwtproject.cell.client.Cell} used to render {@link Date}s.
- */
+/** A {@link org.gwtproject.cell.client.Cell} used to render {@link Date}s. */
 public class DateCell extends org.gwtproject.cell.client.AbstractCell<Date> {
 
   private final DateTimeFormat format;
@@ -36,28 +33,29 @@ public class DateCell extends org.gwtproject.cell.client.AbstractCell<Date> {
   private final TimeZone timeZone;
 
   /**
-   * Construct a new {@link DateCell} using the format
-   * {@link PredefinedFormat#DATE_FULL} and a {@link SimpleSafeHtmlRenderer}.
+   * Construct a new {@link DateCell} using the format {@link PredefinedFormat#DATE_FULL} and a
+   * {@link SimpleSafeHtmlRenderer}.
    */
   public DateCell() {
-    this(DateTimeFormat.getFormat(PredefinedFormat.DATE_FULL),
-        SimpleSafeHtmlRenderer.getInstance(), null);
+    this(
+        DateTimeFormat.getFormat(PredefinedFormat.DATE_FULL),
+        SimpleSafeHtmlRenderer.getInstance(),
+        null);
   }
 
   /**
-   * Construct a new {@link DateCell} using the format
-   * {@link PredefinedFormat#DATE_FULL} and a {@link SimpleSafeHtmlRenderer}.
+   * Construct a new {@link DateCell} using the format {@link PredefinedFormat#DATE_FULL} and a
+   * {@link SimpleSafeHtmlRenderer}.
    *
-   * @param renderer a non-null {@link SafeHtmlRenderer} used to render the
-   *          formatted date as HTML
+   * @param renderer a non-null {@link SafeHtmlRenderer} used to render the formatted date as HTML
    */
   public DateCell(SafeHtmlRenderer<String> renderer) {
     this(DateTimeFormat.getFormat(PredefinedFormat.DATE_FULL), renderer, null);
   }
 
   /**
-   * Construct a new {@link DateCell} using the specified format and a
-   * {@link SimpleSafeHtmlRenderer}.
+   * Construct a new {@link DateCell} using the specified format and a {@link
+   * SimpleSafeHtmlRenderer}.
    *
    * @param format the {@link DateTimeFormat} used to render the date
    */
@@ -66,12 +64,11 @@ public class DateCell extends org.gwtproject.cell.client.AbstractCell<Date> {
   }
 
   /**
-   * Construct a new {@link DateCell} using the specified format and the given
-   * {@link SafeHtmlRenderer}.
+   * Construct a new {@link DateCell} using the specified format and the given {@link
+   * SafeHtmlRenderer}.
    *
    * @param format the {@link DateTimeFormat} used to render the date
-   * @param renderer a non-null {@link SafeHtmlRenderer} used to render the
-   *          formatted date
+   * @param renderer a non-null {@link SafeHtmlRenderer} used to render the formatted date
    */
   public DateCell(DateTimeFormat format, SafeHtmlRenderer<String> renderer) {
     this(format, renderer, null);
@@ -81,29 +78,25 @@ public class DateCell extends org.gwtproject.cell.client.AbstractCell<Date> {
    * Construct a new {@link DateCell} using the specified format and time zone.
    *
    * @param format the {@link DateTimeFormat} used to render the date
-   * @param timeZone the {@link TimeZone} used to render the date, or null to
-   *          use the default behavior for the local time zone and the rendered
-   *          date. See {@link DateTimeFormat#format(Date)} and
-   *          {@link Date#getTimezoneOffset()}
+   * @param timeZone the {@link TimeZone} used to render the date, or null to use the default
+   *     behavior for the local time zone and the rendered date. See {@link
+   *     DateTimeFormat#format(Date)} and {@link Date#getTimezoneOffset()}
    */
   public DateCell(DateTimeFormat format, TimeZone timeZone) {
     this(format, SimpleSafeHtmlRenderer.getInstance(), timeZone);
   }
 
   /**
-   * Construct a new {@link DateCell} using the specified format, the given
-   * {@link SafeHtmlRenderer}, and the specified time zone.
+   * Construct a new {@link DateCell} using the specified format, the given {@link
+   * SafeHtmlRenderer}, and the specified time zone.
    *
    * @param format the {@link DateTimeFormat} used to render the date
-   * @param renderer a non-null {@link SafeHtmlRenderer} used to render the
-   *          formatted date
-   * @param timeZone the {@link TimeZone} used to render the date, or null to
-   *          use the default behavior for the local time zone and the rendered
-   *          date. See {@link DateTimeFormat#format(Date)} and
-   *          {@link Date#getTimezoneOffset()}
+   * @param renderer a non-null {@link SafeHtmlRenderer} used to render the formatted date
+   * @param timeZone the {@link TimeZone} used to render the date, or null to use the default
+   *     behavior for the local time zone and the rendered date. See {@link
+   *     DateTimeFormat#format(Date)} and {@link Date#getTimezoneOffset()}
    */
-  public DateCell(DateTimeFormat format, SafeHtmlRenderer<String> renderer,
-                  TimeZone timeZone) {
+  public DateCell(DateTimeFormat format, SafeHtmlRenderer<String> renderer, TimeZone timeZone) {
     if (format == null) {
       throw new IllegalArgumentException("format == null");
     }

@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -20,15 +20,13 @@ import org.gwtproject.event.shared.HasHandlers;
 import org.gwtproject.user.client.Event;
 
 /**
- * Represents a row hover event. The event includes change in the hovering
- * row (e.g. the mouse moves over another row) and cell hover events (e.g.
- * the mouse moves over another cell within the actual row).
+ * Represents a row hover event. The event includes change in the hovering row (e.g. the mouse moves
+ * over another row) and cell hover events (e.g. the mouse moves over another cell within the actual
+ * row).
  */
 public class RowHoverEvent extends org.gwtproject.event.shared.Event<RowHoverEvent.Handler> {
 
-  /**
-   * Handler for {@link RowHoverEvent}.
-   */
+  /** Handler for {@link RowHoverEvent}. */
   public static interface Handler {
 
     /**
@@ -39,78 +37,74 @@ public class RowHoverEvent extends org.gwtproject.event.shared.Event<RowHoverEve
     void onRowHover(RowHoverEvent event);
   }
 
-  /**
-   * Indicates the scope/area of the hover event
-   */
+  /** Indicates the scope/area of the hover event */
   public static enum HoveringScope {
     /**
-     * Backward-compatibility parameter to handle the rare case where we don't
-     * know the event's context, because it is outside of CellTable. Clients
-     * should not limit features (e.g. event processing) if the scope is unknown.
+     * Backward-compatibility parameter to handle the rare case where we don't know the event's
+     * context, because it is outside of CellTable. Clients should not limit features (e.g. event
+     * processing) if the scope is unknown.
      */
     UNKNOWN,
 
-    /**
-     * Change in the hovering row, the mouse is moving over different rows
-     */
+    /** Change in the hovering row, the mouse is moving over different rows */
     ROW_HOVER,
 
-    /**
-     * Cell-only hover event, the mouse remains on the same row
-     */
+    /** Cell-only hover event, the mouse remains on the same row */
     CELL_HOVER
   }
 
-  /**
-   * Handler type.
-   */
+  /** Handler type. */
   private static Type<Handler> TYPE;
 
   /**
-   * Fires a row hover event on all registered handlers in the handler
-   * manager. If no such handlers exist, this implementation will do nothing.
+   * Fires a row hover event on all registered handlers in the handler manager. If no such handlers
+   * exist, this implementation will do nothing.
    *
    * @param source the source of the event
    * @param hoveringRow the currently hovering {@link TableRowElement}. If isUnHover is true, this
-   *          should be the previouly hovering {@link TableRowElement}
+   *     should be the previouly hovering {@link TableRowElement}
    * @param isUnHover true if this is an unhover event
    * @return the {@link RowHoverEvent} that was fired
    */
-  public static RowHoverEvent fire(HasHandlers source, TableRowElement hoveringRow,
-                                   boolean isUnHover) {
+  public static RowHoverEvent fire(
+      HasHandlers source, TableRowElement hoveringRow, boolean isUnHover) {
     return fire(source, hoveringRow, null, isUnHover, HoveringScope.UNKNOWN);
   }
 
   /**
-   * Fires a row hover event on all registered handlers in the handler
-   * manager. If no such handlers exist, this implementation will do nothing.
+   * Fires a row hover event on all registered handlers in the handler manager. If no such handlers
+   * exist, this implementation will do nothing.
    *
    * @param source the source of the event
    * @param hoveringRow the currently hovering {@link TableRowElement}. If isUnHover is true, this
-   *          should be the previouly hovering {@link TableRowElement}
+   *     should be the previouly hovering {@link TableRowElement}
    * @param browserEvent the original browser event
    * @param isUnHover true if this is an unhover event
    * @return the {@link RowHoverEvent} that was fired
    */
-  public static RowHoverEvent fire(HasHandlers source, TableRowElement hoveringRow,
-                                   Event browserEvent, boolean isUnHover) {
+  public static RowHoverEvent fire(
+      HasHandlers source, TableRowElement hoveringRow, Event browserEvent, boolean isUnHover) {
     return fire(source, hoveringRow, browserEvent, isUnHover, HoveringScope.UNKNOWN);
   }
 
   /**
-   * Fires a row hover event on all registered handlers in the handler
-   * manager. If no such handlers exist, this implementation will do nothing.
+   * Fires a row hover event on all registered handlers in the handler manager. If no such handlers
+   * exist, this implementation will do nothing.
    *
    * @param source the source of the event
    * @param hoveringRow the currently hovering {@link TableRowElement}. If isUnHover is true, this
-   *          should be the previouly hovering {@link TableRowElement}
+   *     should be the previouly hovering {@link TableRowElement}
    * @param browserEvent the original browser event
    * @param isUnHover true if this is an unhover event
    * @param hoveringScope the scope/area of the hover event
    * @return the {@link RowHoverEvent} that was fired
    */
-  public static RowHoverEvent fire(HasHandlers source, TableRowElement hoveringRow,
-                                   Event browserEvent, boolean isUnHover, HoveringScope hoveringScope) {
+  public static RowHoverEvent fire(
+      HasHandlers source,
+      TableRowElement hoveringRow,
+      Event browserEvent,
+      boolean isUnHover,
+      HoveringScope hoveringScope) {
     RowHoverEvent event = new RowHoverEvent(hoveringRow, browserEvent, isUnHover, hoveringScope);
     if (TYPE != null) {
       source.fireEvent(event);
@@ -142,7 +136,7 @@ public class RowHoverEvent extends org.gwtproject.event.shared.Event<RowHoverEve
    * Construct a new {@link RowHoverEvent}.
    *
    * @param hoveringRow the currently hovering {@link TableRowElement}. If isUnHover is true, this
-   *          should be the previouly hovering {@link TableRowElement}
+   *     should be the previouly hovering {@link TableRowElement}
    * @param isUnHover true if this is an unhover event
    */
   protected RowHoverEvent(TableRowElement hoveringRow, boolean isUnHover) {
@@ -153,7 +147,7 @@ public class RowHoverEvent extends org.gwtproject.event.shared.Event<RowHoverEve
    * Construct a new {@link RowHoverEvent}.
    *
    * @param hoveringRow the currently hovering {@link TableRowElement}. If isUnHover is true, this
-   *                    should be the previouly hovering {@link TableRowElement}
+   *     should be the previouly hovering {@link TableRowElement}
    * @param browserEvent the original browser event
    * @param isUnHover true if this is an unhover event
    */
@@ -165,13 +159,16 @@ public class RowHoverEvent extends org.gwtproject.event.shared.Event<RowHoverEve
    * Construct a new {@link RowHoverEvent}.
    *
    * @param hoveringRow the currently hovering {@link TableRowElement}. If isUnHover is true, this
-   *                    should be the previouly hovering {@link TableRowElement}
+   *     should be the previouly hovering {@link TableRowElement}
    * @param browserEvent the original browser event
    * @param isUnHover true if this is an unhover event
    * @param hoveringScope the scope/area of the hover event
    */
-  protected RowHoverEvent(TableRowElement hoveringRow, Event browserEvent, boolean isUnHover,
-                          HoveringScope hoveringScope) {
+  protected RowHoverEvent(
+      TableRowElement hoveringRow,
+      Event browserEvent,
+      boolean isUnHover,
+      HoveringScope hoveringScope) {
     this.hoveringRow = hoveringRow;
     this.browserEvent = browserEvent;
     this.isUnHover = isUnHover;
@@ -191,23 +188,17 @@ public class RowHoverEvent extends org.gwtproject.event.shared.Event<RowHoverEve
     return browserEvent;
   }
 
-  /**
-   * Return the {@link TableRowElement} that the user just hovered or unhovered.
-   */
+  /** Return the {@link TableRowElement} that the user just hovered or unhovered. */
   public TableRowElement getHoveringRow() {
     return hoveringRow;
   }
 
-  /**
-   * Return the scope/area of the hover event.
-   */
+  /** Return the scope/area of the hover event. */
   public HoveringScope getHoveringScope() {
     return hoveringScope;
   }
 
-  /**
-   * Return whether this is an unhover event.
-   */
+  /** Return whether this is an unhover event. */
   public boolean isUnHover() {
     return isUnHover;
   }
@@ -217,4 +208,3 @@ public class RowHoverEvent extends org.gwtproject.event.shared.Event<RowHoverEve
     handler.onRowHover(this);
   }
 }
-

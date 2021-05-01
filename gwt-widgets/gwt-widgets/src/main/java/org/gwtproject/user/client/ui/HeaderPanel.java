@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import java.util.Iterator;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import org.gwtproject.dom.client.Document;
@@ -25,24 +26,22 @@ import org.gwtproject.dom.style.shared.Position;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.user.client.ui.FiniteWidgetIterator.WidgetProvider;
 
-import java.util.Iterator;
-
 /**
- * A panel that includes a header (top), footer (bottom), and content (middle)
- * area. The header and footer areas resize naturally. The content area is
- * allocated all of the remaining space between the header and footer area.
+ * A panel that includes a header (top), footer (bottom), and content (middle) area. The header and
+ * footer areas resize naturally. The content area is allocated all of the remaining space between
+ * the header and footer area.
  */
 public class HeaderPanel extends Panel implements RequiresResize {
 
   /**
    * The widget provider for this panel.
-   * 
-   * <p>
-   * Widgets are returned in the following order:
+   *
+   * <p>Widgets are returned in the following order:
+   *
    * <ol>
-   * <li>Header widget</li>
-   * <li>Content widget</li>
-   * <li>Footer widget</li>
+   *   <li>Header widget
+   *   <li>Content widget
+   *   <li>Footer widget
    * </ol>
    */
   private class WidgetProviderImpl implements WidgetProvider {
@@ -68,12 +67,13 @@ public class HeaderPanel extends Panel implements RequiresResize {
   private Widget header;
   private final Element headerContainer;
   private final ResizeLayoutPanel.Impl headerImpl = new ResizeLayoutPanel.ImplStandard();
-  private final ScheduledCommand layoutCmd = new ScheduledCommand() {
-    public void execute() {
-      layoutScheduled = false;
-      forceLayout();
-    }
-  };
+  private final ScheduledCommand layoutCmd =
+      new ScheduledCommand() {
+        public void execute() {
+          layoutScheduled = false;
+          forceLayout();
+        }
+      };
   private boolean layoutScheduled = false;
 
   public HeaderPanel() {
@@ -84,11 +84,12 @@ public class HeaderPanel extends Panel implements RequiresResize {
     setElement(elem);
 
     // Create a delegate to handle resize from the header and footer.
-    ResizeLayoutPanel.Impl.Delegate resizeDelegate = new ResizeLayoutPanel.Impl.Delegate() {
-      public void onResize() {
-        scheduledLayout();
-      }
-    };
+    ResizeLayoutPanel.Impl.Delegate resizeDelegate =
+        new ResizeLayoutPanel.Impl.Delegate() {
+          public void onResize() {
+            scheduledLayout();
+          }
+        };
 
     // Create the header container.
     headerContainer = createContainer();
@@ -112,7 +113,7 @@ public class HeaderPanel extends Panel implements RequiresResize {
 
   /**
    * Adds a widget to this panel.
-   * 
+   *
    * @param w the child widget to be added
    */
   @Override
@@ -132,7 +133,7 @@ public class HeaderPanel extends Panel implements RequiresResize {
 
   /**
    * Get the content widget that appears between the header and footer.
-   * 
+   *
    * @return the content {@link Widget}
    */
   public Widget getContentWidget() {
@@ -141,7 +142,7 @@ public class HeaderPanel extends Panel implements RequiresResize {
 
   /**
    * Get the footer widget at the bottom of the panel.
-   * 
+   *
    * @return the footer {@link Widget}
    */
   public Widget getFooterWidget() {
@@ -150,7 +151,7 @@ public class HeaderPanel extends Panel implements RequiresResize {
 
   /**
    * Get the header widget at the top of the panel.
-   * 
+   *
    * @return the header {@link Widget}
    */
   public Widget getHeaderWidget() {
@@ -211,7 +212,7 @@ public class HeaderPanel extends Panel implements RequiresResize {
 
   /**
    * Set the widget in the content portion between the header and footer.
-   * 
+   *
    * @param w the widget to use as the content
    */
   public void setContentWidget(Widget w) {
@@ -224,7 +225,7 @@ public class HeaderPanel extends Panel implements RequiresResize {
 
   /**
    * Set the widget in the footer portion at the bottom of the panel.
-   * 
+   *
    * @param w the widget to use as the footer
    */
   public void setFooterWidget(Widget w) {
@@ -237,7 +238,7 @@ public class HeaderPanel extends Panel implements RequiresResize {
 
   /**
    * Set the widget in the header portion at the top of the panel.
-   * 
+   *
    * @param w the widget to use as the header
    */
   public void setHeaderWidget(Widget w) {
@@ -249,9 +250,9 @@ public class HeaderPanel extends Panel implements RequiresResize {
   }
 
   /**
-   * Add a widget to the panel in the specified container. Note that this method
-   * does not do the logical attach.
-   * 
+   * Add a widget to the panel in the specified container. Note that this method does not do the
+   * logical attach.
+   *
    * @param w the widget to add
    * @param toReplace the widget to replace
    * @param container the container in which to place the widget
@@ -290,9 +291,7 @@ public class HeaderPanel extends Panel implements RequiresResize {
     return container;
   }
 
-  /**
-   * Update the layout.
-   */
+  /** Update the layout. */
   private void forceLayout() {
     // No sense in doing layout if we aren't attached or have no content.
     if (!isAttached() || content == null) {
@@ -319,9 +318,7 @@ public class HeaderPanel extends Panel implements RequiresResize {
     }
   }
 
-  /**
-   * Schedule layout to adjust the height of the content area.
-   */
+  /** Schedule layout to adjust the height of the content area. */
   private void scheduledLayout() {
     if (isAttached() && !layoutScheduled) {
       layoutScheduled = true;

@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -34,42 +34,31 @@ import org.gwtproject.user.client.ui.RichTextArea;
 import org.gwtproject.user.client.ui.RichTextArea.FontSize;
 import org.gwtproject.user.client.ui.RichTextArea.Justification;
 
-/**
- * Basic rich text platform implementation.
- */
-public abstract class RichTextAreaImplStandard extends RichTextAreaImpl implements
-    RichTextArea.Formatter {
+/** Basic rich text platform implementation. */
+public abstract class RichTextAreaImplStandard extends RichTextAreaImpl
+    implements RichTextArea.Formatter {
+
+  /** The message displayed when the formatter is used before the RichTextArea is initialized. */
+  private static final String INACTIVE_MESSAGE =
+      "RichTextArea formatters " + "cannot be used until the RichTextArea is attached and focused.";
 
   /**
-   * The message displayed when the formatter is used before the RichTextArea
-   * is initialized.
-   */
-  private static final String INACTIVE_MESSAGE = "RichTextArea formatters " +
-      "cannot be used until the RichTextArea is attached and focused.";
-
-  /**
-   * Holds a cached copy of any user setHTML/setText/setEnabled actions until
-   * the real text area is fully initialized.  Becomes <code>null</code> after
-   * init.
+   * Holds a cached copy of any user setHTML/setText/setEnabled actions until the real text area is
+   * fully initialized. Becomes <code>null</code> after init.
    */
   private Element beforeInitPlaceholder = DOM.createDiv();
 
   /**
-   * Set to true when the {@link RichTextArea} is attached to the page and
-   * {@link #initElement()} is called.  If the {@link RichTextArea} is detached
-   * before {@link #onElementInitialized()} is called, this will be set to
-   * false.  See issue 1897 for details.
+   * Set to true when the {@link RichTextArea} is attached to the page and {@link #initElement()} is
+   * called. If the {@link RichTextArea} is detached before {@link #onElementInitialized()} is
+   * called, this will be set to false. See issue 1897 for details.
    */
   protected boolean initializing;
 
-  /**
-   * Indicates that the text area should be focused as soon as it is loaded.
-   */
+  /** Indicates that the text area should be focused as soon as it is loaded. */
   private boolean isPendingFocus;
 
-  /**
-   * True when the element has been attached.
-   */
+  /** True when the element has been attached. */
   private boolean isReady;
 
   @Override
@@ -107,15 +96,19 @@ public abstract class RichTextAreaImplStandard extends RichTextAreaImpl implemen
     RichTextAreaImplStandard _this = this;
     _this.onElementInitializing();
 
-    DomGlobal.setTimeout((ignore) -> {
-      if(_this.elem != null) {
-        HTMLIFrameElement iframe = Js.uncheckedCast(_this.elem);
-        if(iframe.contentWindow != null) {
-          ((JsPropertyMap)((JsPropertyMap)iframe.contentWindow).get("document")).set("designMode", "On");
-          _this.onElementInitialized();
-        }
-      }
-    }, 1.0D, new Object[0]);
+    DomGlobal.setTimeout(
+        (ignore) -> {
+          if (_this.elem != null) {
+            HTMLIFrameElement iframe = Js.uncheckedCast(_this.elem);
+            if (iframe.contentWindow != null) {
+              ((JsPropertyMap) ((JsPropertyMap) iframe.contentWindow).get("document"))
+                  .set("designMode", "On");
+              _this.onElementInitialized();
+            }
+          }
+        },
+        1.0D,
+        new Object[0]);
   }
 
   public void insertHorizontalRule() {
@@ -144,7 +137,8 @@ public abstract class RichTextAreaImplStandard extends RichTextAreaImpl implemen
 
   @Override
   public boolean isEnabled() {
-    return beforeInitPlaceholder == null ? isEnabledImpl()
+    return beforeInitPlaceholder == null
+        ? isEnabledImpl()
         : !beforeInitPlaceholder.getPropertyBoolean("disabled");
   }
 
@@ -313,41 +307,58 @@ public abstract class RichTextAreaImplStandard extends RichTextAreaImpl implemen
   }
 
   protected String getHTMLImpl() {
-    return ((IFrameElement)Js.uncheckedCast(this.elem)).getContentDocument().getBody().getInnerHTML();
+    return ((IFrameElement) Js.uncheckedCast(this.elem))
+        .getContentDocument()
+        .getBody()
+        .getInnerHTML();
   }
 
   protected String getTextImpl() {
-    return ((IFrameElement)Js.uncheckedCast(this.elem)).getContentDocument().getBody().getInnerText();
+    return ((IFrameElement) Js.uncheckedCast(this.elem))
+        .getContentDocument()
+        .getBody()
+        .getInnerText();
   }
 
   @Override
   protected void hookEvents() {
     HTMLIFrameElement iframe = Js.uncheckedCast(elem);
     Window wnd = iframe.contentWindow;
-    elem.setPropertyObject("__gwt_handler", (DOMImplStandard.Fn) event -> {
-      DOM.dispatchEvent(event, elem);
-    });
+    elem.setPropertyObject(
+        "__gwt_handler",
+        (DOMImplStandard.Fn)
+            event -> {
+              DOM.dispatchEvent(event, elem);
+            });
 
-    elem.setPropertyObject("__gwt_focusHandler", (DOMImplStandard.Fn) event -> {
-      if(((JsPropertyMap)elem).has("__gwt_isFocused")) {
-        return;
-      }
-      ((JsPropertyMap)elem).set("__gwt_isFocused", true);
-      ((DOMImplStandard.Fn) ((JsPropertyMap)elem).get("__gwt_handler")).onInvoke(event);
-    });
+    elem.setPropertyObject(
+        "__gwt_focusHandler",
+        (DOMImplStandard.Fn)
+            event -> {
+              if (((JsPropertyMap) elem).has("__gwt_isFocused")) {
+                return;
+              }
+              ((JsPropertyMap) elem).set("__gwt_isFocused", true);
+              ((DOMImplStandard.Fn) ((JsPropertyMap) elem).get("__gwt_handler")).onInvoke(event);
+            });
 
-    elem.setPropertyObject("__gwt_blurHandler", (DOMImplStandard.Fn) event -> {
-      if(((JsPropertyMap)elem).has("__gwt_isFocused")) {
-        return;
-      }
+    elem.setPropertyObject(
+        "__gwt_blurHandler",
+        (DOMImplStandard.Fn)
+            event -> {
+              if (((JsPropertyMap) elem).has("__gwt_isFocused")) {
+                return;
+              }
 
-      ((JsPropertyMap)elem).set("__gwt_isFocused", true);
-      ((DOMImplStandard.Fn) ((JsPropertyMap)elem).get("__gwt_handler")).onInvoke(event);
-    });
+              ((JsPropertyMap) elem).set("__gwt_isFocused", true);
+              ((DOMImplStandard.Fn) ((JsPropertyMap) elem).get("__gwt_handler")).onInvoke(event);
+            });
 
-    EventListener __gwt_handler = (EventListener)(((JsPropertyMap)elem).get("__gwt_handler"));
-    EventListener __gwt_focusHandler = (EventListener)(((JsPropertyMap)elem).get("__gwt_focusHandler"));
-    EventListener __gwt_blurHandler = (EventListener)(((JsPropertyMap)elem).get("__gwt_blurHandler"));
+    EventListener __gwt_handler = (EventListener) (((JsPropertyMap) elem).get("__gwt_handler"));
+    EventListener __gwt_focusHandler =
+        (EventListener) (((JsPropertyMap) elem).get("__gwt_focusHandler"));
+    EventListener __gwt_blurHandler =
+        (EventListener) (((JsPropertyMap) elem).get("__gwt_blurHandler"));
 
     wnd.addEventListener("keydown", __gwt_handler, true);
     wnd.addEventListener("keyup", __gwt_handler, true);
@@ -361,15 +372,15 @@ public abstract class RichTextAreaImplStandard extends RichTextAreaImpl implemen
 
     wnd.addEventListener("focus", __gwt_focusHandler, true);
     wnd.addEventListener("blur", __gwt_blurHandler, true);
-
   }
+
   protected boolean isEnabledImpl() {
     HTMLIFrameElement iframe = Js.uncheckedCast(elem);
-    return ((JsPropertyMap)((JsPropertyMap)iframe.contentWindow).get("document"))
-            .get("designMode")
-            .toString()
-            .toUpperCase()
-            .equals("ON");
+    return ((JsPropertyMap) ((JsPropertyMap) iframe.contentWindow).get("document"))
+        .get("designMode")
+        .toString()
+        .toUpperCase()
+        .equals("ON");
   }
 
   @Override
@@ -406,8 +417,8 @@ public abstract class RichTextAreaImplStandard extends RichTextAreaImpl implemen
 
   protected void setEnabledImpl(boolean enabled) {
     HTMLIFrameElement iframe = Js.uncheckedCast(elem);
-    ((JsPropertyMap)((JsPropertyMap)iframe.contentWindow).get("document"))
-            .set("designMode", enabled ? "On" : "Off");
+    ((JsPropertyMap) ((JsPropertyMap) iframe.contentWindow).get("document"))
+        .set("designMode", enabled ? "On" : "Off");
   }
 
   protected void setFocusImpl(boolean focused) {
@@ -432,20 +443,20 @@ public abstract class RichTextAreaImplStandard extends RichTextAreaImpl implemen
   protected void unhookEvents() {
     HTMLIFrameElement iframe = Js.uncheckedCast(elem);
     Window wnd = iframe.contentWindow;
-    JsPropertyMap asMap = ((JsPropertyMap)iframe);
+    JsPropertyMap asMap = ((JsPropertyMap) iframe);
 
-    wnd.removeEventListener("keydown", (EventListener)asMap.get("__gwt_handler"), true);
-    wnd.removeEventListener("keyup", (EventListener)asMap.get("__gwt_handler"), true);
-    wnd.removeEventListener("keypress",(EventListener)asMap.get("__gwt_handler"), true);
-    wnd.removeEventListener("mousedown",(EventListener)asMap.get("__gwt_handler"), true);
-    wnd.removeEventListener("mouseup", (EventListener)asMap.get("__gwt_handler"), true);
-    wnd.removeEventListener("mousemove", (EventListener)asMap.get("__gwt_handler"), true);
-    wnd.removeEventListener("mouseover", (EventListener)asMap.get("__gwt_handler"), true);
-    wnd.removeEventListener("mouseout", (EventListener)asMap.get("__gwt_handler"), true);
-    wnd.removeEventListener("click", (EventListener)asMap.get("__gwt_handler"), true);
+    wnd.removeEventListener("keydown", (EventListener) asMap.get("__gwt_handler"), true);
+    wnd.removeEventListener("keyup", (EventListener) asMap.get("__gwt_handler"), true);
+    wnd.removeEventListener("keypress", (EventListener) asMap.get("__gwt_handler"), true);
+    wnd.removeEventListener("mousedown", (EventListener) asMap.get("__gwt_handler"), true);
+    wnd.removeEventListener("mouseup", (EventListener) asMap.get("__gwt_handler"), true);
+    wnd.removeEventListener("mousemove", (EventListener) asMap.get("__gwt_handler"), true);
+    wnd.removeEventListener("mouseover", (EventListener) asMap.get("__gwt_handler"), true);
+    wnd.removeEventListener("mouseout", (EventListener) asMap.get("__gwt_handler"), true);
+    wnd.removeEventListener("click", (EventListener) asMap.get("__gwt_handler"), true);
 
-    wnd.removeEventListener("focus", (EventListener)asMap.get("__gwt_focusHandler"), true);
-    wnd.removeEventListener("blur", (EventListener)asMap.get("__gwt_blurHandler"), true);
+    wnd.removeEventListener("focus", (EventListener) asMap.get("__gwt_focusHandler"), true);
+    wnd.removeEventListener("blur", (EventListener) asMap.get("__gwt_blurHandler"), true);
 
     asMap.set("__gwt_handler", null);
     asMap.set("__gwt_focusHandler", null);
@@ -470,7 +481,8 @@ public abstract class RichTextAreaImplStandard extends RichTextAreaImpl implemen
   void execCommandAssumingFocus(String cmd, String param) {
     HTMLIFrameElement iframe = Js.uncheckedCast(elem);
     Document document = Js.uncheckedCast(Js.asPropertyMap(iframe.contentWindow).get("document"));
-    ((ExecCommand)Js.uncheckedCast(Js.asPropertyMap(document).get("execCommand"))).onInvoke(cmd, false, param);
+    ((ExecCommand) Js.uncheckedCast(Js.asPropertyMap(document).get("execCommand")))
+        .onInvoke(cmd, false, param);
   }
 
   boolean queryCommandState(String cmd) {
@@ -490,7 +502,9 @@ public abstract class RichTextAreaImplStandard extends RichTextAreaImpl implemen
   boolean queryCommandStateAssumingFocus(String cmd) {
     HTMLIFrameElement iframe = Js.uncheckedCast(elem);
     Document document = Js.uncheckedCast(Js.asPropertyMap(iframe.contentWindow).get("document"));
-    return ((QueryCommandState)Js.uncheckedCast(Js.asPropertyMap(document).get("queryCommandState"))).onInvoke(cmd);
+    return ((QueryCommandState)
+            Js.uncheckedCast(Js.asPropertyMap(document).get("queryCommandState")))
+        .onInvoke(cmd);
   }
 
   String queryCommandValue(String cmd) {
@@ -510,7 +524,9 @@ public abstract class RichTextAreaImplStandard extends RichTextAreaImpl implemen
   String queryCommandValueAssumingFocus(String cmd) {
     HTMLIFrameElement iframe = Js.uncheckedCast(elem);
     Document document = Js.uncheckedCast(Js.asPropertyMap(iframe.contentWindow).get("document"));
-    return ((QueryCommandValue)Js.uncheckedCast(Js.asPropertyMap(document).get("queryCommandValue"))).onInvoke(cmd);
+    return ((QueryCommandValue)
+            Js.uncheckedCast(Js.asPropertyMap(document).get("queryCommandValue")))
+        .onInvoke(cmd);
   }
 
   @FunctionalInterface

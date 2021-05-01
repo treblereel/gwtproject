@@ -18,29 +18,19 @@ package org.gwtproject.user.cellview.client;
 import org.gwtproject.view.client.SelectionModel;
 
 /**
- * Implemented by widgets that have a
- * {@link HasKeyboardSelectionPolicy.KeyboardSelectionPolicy}.
+ * Implemented by widgets that have a {@link HasKeyboardSelectionPolicy.KeyboardSelectionPolicy}.
  */
 public interface HasKeyboardSelectionPolicy {
 
-  /**
-   * The policy that determines how keyboard selection will work.
-   */
+  /** The policy that determines how keyboard selection will work. */
   enum KeyboardSelectionPolicy {
-    /**
-     * Keyboard selection is disabled.
-     */
+    /** Keyboard selection is disabled. */
     DISABLED,
 
-    /**
-     * Keyboard selection is enabled.
-     */
+    /** Keyboard selection is enabled. */
     ENABLED,
 
-    /**
-     * Keyboard selection is bound to the
-     * {@link SelectionModel}.
-     */
+    /** Keyboard selection is bound to the {@link SelectionModel}. */
     BOUND_TO_SELECTION
   }
 

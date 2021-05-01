@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -16,30 +16,29 @@
 package org.gwtproject.user.client.ui;
 
 /**
- * A flexible table that creates cells on demand. It can be jagged (that is,
- * each row can contain a different number of cells) and individual cells can be
- * set to span multiple rows or columns.
+ * A flexible table that creates cells on demand. It can be jagged (that is, each row can contain a
+ * different number of cells) and individual cells can be set to span multiple rows or columns.
+ *
+ * <p><img class='gallery' src='doc-files/Table.png'/>
+ *
  * <p>
- * <img class='gallery' src='doc-files/Table.png'/>
- * </p>
- * <p>
+ *
  * <h3>Example</h3>
+ *
  * {@example com.google.gwt.examples.FlexTableExample}
- * </p>
  */
 public class FlexTable extends HTMLTable {
 
   /**
-   * FlexTable-specific implementation of {@link CellFormatter}. The
-   * formatter retrieved from {@link HTMLTable#getCellFormatter()} may be cast
-   * to this class.
+   * FlexTable-specific implementation of {@link CellFormatter}. The formatter retrieved from {@link
+   * HTMLTable#getCellFormatter()} may be cast to this class.
    */
   public class FlexCellFormatter extends CellFormatter {
 
     /**
-     * Gets the column span for the given cell. This is the number of logical
-     * columns covered by the cell.
-     * 
+     * Gets the column span for the given cell. This is the number of logical columns covered by the
+     * cell.
+     *
      * @param row the cell's row
      * @param column the cell's column
      * @return the cell's column span
@@ -50,9 +49,8 @@ public class FlexTable extends HTMLTable {
     }
 
     /**
-     * Gets the row span for the given cell. This is the number of logical rows
-     * covered by the cell.
-     * 
+     * Gets the row span for the given cell. This is the number of logical rows covered by the cell.
+     *
      * @param row the cell's row
      * @param column the cell's column
      * @return the cell's row span
@@ -63,9 +61,9 @@ public class FlexTable extends HTMLTable {
     }
 
     /**
-     * Sets the column span for the given cell. This is the number of logical
-     * columns covered by the cell.
-     * 
+     * Sets the column span for the given cell. This is the number of logical columns covered by the
+     * cell.
+     *
      * @param row the cell's row
      * @param column the cell's column
      * @param colSpan the cell's column span
@@ -76,9 +74,8 @@ public class FlexTable extends HTMLTable {
     }
 
     /**
-     * Sets the row span for the given cell. This is the number of logical rows
-     * covered by the cell.
-     * 
+     * Sets the row span for the given cell. This is the number of logical rows covered by the cell.
+     *
      * @param row the cell's row
      * @param column the cell's column
      * @param rowSpan the cell's row span
@@ -98,7 +95,7 @@ public class FlexTable extends HTMLTable {
 
   /**
    * Appends a cell to the specified row.
-   * 
+   *
    * @param row the row to which the new cell will be added
    * @throws IndexOutOfBoundsException
    */
@@ -108,7 +105,7 @@ public class FlexTable extends HTMLTable {
 
   /**
    * Gets the number of cells on a given row.
-   * 
+   *
    * @param row the row whose cells are to be counted
    * @return the number of cells present
    * @throws IndexOutOfBoundsException
@@ -120,10 +117,9 @@ public class FlexTable extends HTMLTable {
   }
 
   /**
-   * Explicitly gets the {@link FlexCellFormatter}. The results of
-   * {@link HTMLTable#getCellFormatter()} may also be downcast to a
-   * {@link FlexCellFormatter}.
-   * 
+   * Explicitly gets the {@link FlexCellFormatter}. The results of {@link
+   * HTMLTable#getCellFormatter()} may also be downcast to a {@link FlexCellFormatter}.
+   *
    * @return the FlexTable's cell formatter
    */
   public FlexCellFormatter getFlexCellFormatter() {
@@ -132,7 +128,7 @@ public class FlexTable extends HTMLTable {
 
   /**
    * Gets the number of rows.
-   * 
+   *
    * @return number of rows
    */
   @Override
@@ -142,7 +138,7 @@ public class FlexTable extends HTMLTable {
 
   /**
    * Inserts a cell into the FlexTable.
-   * 
+   *
    * @param beforeRow the cell's row
    * @param beforeColumn the cell's column
    */
@@ -153,7 +149,7 @@ public class FlexTable extends HTMLTable {
 
   /**
    * Inserts a row into the FlexTable.
-   * 
+   *
    * @param beforeRow the row to insert
    */
   @Override
@@ -161,9 +157,7 @@ public class FlexTable extends HTMLTable {
     return super.insertRow(beforeRow);
   }
 
-  /**
-   * Remove all rows in this table.
-   */
+  /** Remove all rows in this table. */
   public void removeAllRows() {
     int numRows = getRowCount();
     for (int i = 0; i < numRows; i++) {
@@ -178,7 +172,7 @@ public class FlexTable extends HTMLTable {
 
   /**
    * Removes a number of cells from a row in the table.
-   * 
+   *
    * @param row the row of the cells to be removed
    * @param column the column of the first cell to be removed
    * @param num the number of cells to be removed
@@ -197,7 +191,7 @@ public class FlexTable extends HTMLTable {
 
   /**
    * Ensure that the cell exists.
-   * 
+   *
    * @param row the row to prepare.
    * @param column the column to prepare.
    * @throws IndexOutOfBoundsException if the row is negative
@@ -220,15 +214,14 @@ public class FlexTable extends HTMLTable {
 
   /**
    * Ensure that the row exists.
-   * 
+   *
    * @param row The row to prepare.
    * @throws IndexOutOfBoundsException if the row is negative
    */
   @Override
   protected void prepareRow(int row) {
     if (row < 0) {
-      throw new IndexOutOfBoundsException(
-          "Cannot create a row with a negative index: " + row);
+      throw new IndexOutOfBoundsException("Cannot create a row with a negative index: " + row);
     }
 
     // Ensure that the requested row exists.

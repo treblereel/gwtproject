@@ -17,9 +17,7 @@ package org.gwtproject.view.client;
 
 import java.io.Serializable;
 
-/**
- * The range of interest for a single handler.
- */
+/** The range of interest for a single handler. */
 public class Range implements Serializable {
 
   private int length;
@@ -36,16 +34,10 @@ public class Range implements Serializable {
     this.length = length;
   }
 
-  /**
-   * Used by RPC.
-   */
-  Range() {
-  }
+  /** Used by RPC. */
+  Range() {}
 
-  /**
-   * Return true if this ranges's start end length are equal to those of
-   * the given object.
-   */
+  /** Return true if this ranges's start end length are equal to those of the given object. */
   @Override
   public boolean equals(Object o) {
     if (!(o instanceof Range)) {
@@ -73,17 +65,13 @@ public class Range implements Serializable {
     return start;
   }
 
-  /**
-   * Return a hash code based on this range's start and length.
-   */
+  /** Return a hash code based on this range's start and length. */
   @Override
   public int hashCode() {
     return (length * 31) ^ start;
   }
 
-  /**
-   * Returns a String representation for debugging.
-   */
+  /** Returns a String representation for debugging. */
   @Override
   public String toString() {
     return "Range(" + start + "," + length + ")";

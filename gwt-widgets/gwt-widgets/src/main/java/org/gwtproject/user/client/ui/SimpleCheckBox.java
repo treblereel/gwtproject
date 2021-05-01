@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,11 +15,11 @@
  */
 package org.gwtproject.user.client.ui;
 
-import org.gwtproject.editor.client.IsEditor;
-import org.gwtproject.editor.client.LeafValueEditor;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.InputElement;
+import org.gwtproject.editor.client.IsEditor;
+import org.gwtproject.editor.client.LeafValueEditor;
 import org.gwtproject.editor.client.adapters.TakesValueEditor;
 import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.event.dom.client.ClickHandler;
@@ -29,24 +29,23 @@ import org.gwtproject.event.shared.HandlerRegistration;
 
 /**
  * A simple checkbox widget, with no label.
- * 
+ *
  * <h3>CSS Style Rules</h3>
+ *
  * <ul class='css'>
- * <li>.gwt-SimpleCheckBox { }</li>
- * <li>.gwt-SimpleCheckBox-disabled { Applied when checkbox is disabled }</li>
+ *   <li>.gwt-SimpleCheckBox { }
+ *   <li>.gwt-SimpleCheckBox-disabled { Applied when checkbox is disabled }
  * </ul>
  */
-public class SimpleCheckBox extends FocusWidget implements HasName,
-    HasValue<Boolean>, IsEditor<LeafValueEditor<Boolean>> {
+public class SimpleCheckBox extends FocusWidget
+    implements HasName, HasValue<Boolean>, IsEditor<LeafValueEditor<Boolean>> {
 
   /**
-   * Creates a SimpleCheckBox widget that wraps an existing &lt;input
-   * type='checkbox'&gt; element.
-   * 
-   * This element must already be attached to the document. If the element is
-   * removed from the document, you must call
-   * {@link RootPanel#detachNow(Widget)}.
-   * 
+   * Creates a SimpleCheckBox widget that wraps an existing &lt;input type='checkbox'&gt; element.
+   *
+   * <p>This element must already be attached to the document. If the element is removed from the
+   * document, you must call {@link RootPanel#detachNow(Widget)}.
+   *
    * @param element the element to be wrapped
    */
   public static SimpleCheckBox wrap(Element element) {
@@ -65,18 +64,15 @@ public class SimpleCheckBox extends FocusWidget implements HasName,
   private LeafValueEditor<Boolean> editor;
   private boolean valueChangeHandlerInitialized;
 
-  /**
-   * Creates a new simple checkbox.
-   */
+  /** Creates a new simple checkbox. */
   public SimpleCheckBox() {
     this(Document.get().createCheckInputElement(), "gwt-SimpleCheckBox");
   }
 
   /**
-   * This constructor may be used by subclasses to explicitly use an existing
-   * element. This element must be an &lt;input&gt; element whose type is either
-   * 'checkbox'.
-   * 
+   * This constructor may be used by subclasses to explicitly use an existing element. This element
+   * must be an &lt;input&gt; element whose type is either 'checkbox'.
+   *
    * @param element the element to be used
    */
   protected SimpleCheckBox(Element element) {
@@ -92,8 +88,7 @@ public class SimpleCheckBox extends FocusWidget implements HasName,
   }
 
   @Override
-  public HandlerRegistration addValueChangeHandler(
-      ValueChangeHandler<Boolean> handler) {
+  public HandlerRegistration addValueChangeHandler(ValueChangeHandler<Boolean> handler) {
     // Is this the first value change handler? If so, time to add handlers
     if (!valueChangeHandlerInitialized) {
       ensureDomEventHandlers();
@@ -110,13 +105,12 @@ public class SimpleCheckBox extends FocusWidget implements HasName,
   }
 
   /**
-   * Returns the value property of the input element that backs this widget.
-   * This is the value that will be associated with the check box name and
-   * submitted to the server if a {@link FormPanel} that holds it is submitted
-   * and the box is checked.
-   * <p>
-   * Don't confuse this with {@link #getValue}, which returns true or false if
-   * the widget is checked.
+   * Returns the value property of the input element that backs this widget. This is the value that
+   * will be associated with the check box name and submitted to the server if a {@link FormPanel}
+   * that holds it is submitted and the box is checked.
+   *
+   * <p>Don't confuse this with {@link #getValue}, which returns true or false if the widget is
+   * checked.
    */
   public String getFormValue() {
     return getInputElement().getValue();
@@ -128,13 +122,11 @@ public class SimpleCheckBox extends FocusWidget implements HasName,
 
   /**
    * Determines whether this check box is currently checked.
-   * <p>
-   * Note that this <em>does not</em> return the value property of the checkbox
-   * input element wrapped by this widget. For access to that property, see
-   * {@link #getFormValue()}
-   * 
-   * @return <code>true</code> if the check box is checked, false otherwise.
-   *         Will not return null
+   *
+   * <p>Note that this <em>does not</em> return the value property of the checkbox input element
+   * wrapped by this widget. For access to that property, see {@link #getFormValue()}
+   *
+   * @return <code>true</code> if the check box is checked, false otherwise. Will not return null
    */
   public Boolean getValue() {
     String propName = isAttached() ? "checked" : "defaultChecked";
@@ -143,7 +135,7 @@ public class SimpleCheckBox extends FocusWidget implements HasName,
 
   /**
    * Determines whether this check box is currently checked.
-   * 
+   *
    * @return <code>true</code> if the check box is checked
    * @deprecated Use {@link #getValue} instead
    */
@@ -155,7 +147,7 @@ public class SimpleCheckBox extends FocusWidget implements HasName,
 
   /**
    * Checks or unchecks this check box.
-   * 
+   *
    * @param checked <code>true</code> to check the check box
    * @deprecated Use {@link #setValue(Boolean)} instead
    */
@@ -175,14 +167,12 @@ public class SimpleCheckBox extends FocusWidget implements HasName,
   }
 
   /**
-   * Set the value property on the input element that backs this widget. This is
-   * the value that will be associated with the check box's name and submitted
-   * to the server if a {@link FormPanel} that holds it is submitted and the box
-   * is checked.
-   * <p>
-   * Don't confuse this with {@link #setValue}, which actually checks and
-   * unchecks the box.
-   * 
+   * Set the value property on the input element that backs this widget. This is the value that will
+   * be associated with the check box's name and submitted to the server if a {@link FormPanel} that
+   * holds it is submitted and the box is checked.
+   *
+   * <p>Don't confuse this with {@link #setValue}, which actually checks and unchecks the box.
+   *
    * @param value
    */
   public void setFormValue(String value) {
@@ -195,11 +185,10 @@ public class SimpleCheckBox extends FocusWidget implements HasName,
 
   /**
    * Checks or unchecks the check box.
-   * <p>
-   * Note that this <em>does not</em> set the value property of the checkbox
-   * input element wrapped by this widget. For access to that property, see
-   * {@link #setFormValue(String)}
-   * 
+   *
+   * <p>Note that this <em>does not</em> set the value property of the checkbox input element
+   * wrapped by this widget. For access to that property, see {@link #setFormValue(String)}
+   *
    * @param value true to check, false to uncheck; null value implies false
    */
   public void setValue(Boolean value) {
@@ -207,16 +196,13 @@ public class SimpleCheckBox extends FocusWidget implements HasName,
   }
 
   /**
-   * Checks or unchecks the check box, firing {@link ValueChangeEvent} if
-   * appropriate.
-   * <p>
-   * Note that this <em>does not</em> set the value property of the checkbox
-   * input element wrapped by this widget. For access to that property, see
-   * {@link #setFormValue(String)}
-   * 
+   * Checks or unchecks the check box, firing {@link ValueChangeEvent} if appropriate.
+   *
+   * <p>Note that this <em>does not</em> set the value property of the checkbox input element
+   * wrapped by this widget. For access to that property, see {@link #setFormValue(String)}
+   *
    * @param value true to check, false to uncheck; null value implies false
-   * @param fireEvents If true, and value has changed, fire a
-   *          {@link ValueChangeEvent}
+   * @param fireEvents If true, and value has changed, fire a {@link ValueChangeEvent}
    */
   @Override
   public void setValue(Boolean value, boolean fireEvents) {
@@ -233,17 +219,18 @@ public class SimpleCheckBox extends FocusWidget implements HasName,
   }
 
   protected void ensureDomEventHandlers() {
-    addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        ValueChangeEvent.fire(SimpleCheckBox.this, getValue());
-      }
-    });
+    addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(ClickEvent event) {
+            ValueChangeEvent.fire(SimpleCheckBox.this, getValue());
+          }
+        });
   }
 
   /**
-   * This method is called when a widget is detached from the browser's
-   * document. Overridden because of IE bug that throws away checked state.
+   * This method is called when a widget is detached from the browser's document. Overridden because
+   * of IE bug that throws away checked state.
    */
   @Override
   protected void onUnload() {

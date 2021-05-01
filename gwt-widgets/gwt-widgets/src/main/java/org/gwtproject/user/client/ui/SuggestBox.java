@@ -15,11 +15,13 @@
  */
 package org.gwtproject.user.client.ui;
 
-import org.gwtproject.editor.client.IsEditor;
-import org.gwtproject.editor.client.LeafValueEditor;
+import java.util.Collection;
+import java.util.List;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
+import org.gwtproject.editor.client.IsEditor;
+import org.gwtproject.editor.client.LeafValueEditor;
 import org.gwtproject.editor.client.adapters.TakesValueEditor;
 import org.gwtproject.event.dom.client.*;
 import org.gwtproject.event.logical.shared.*;
@@ -30,22 +32,15 @@ import org.gwtproject.user.client.ui.SuggestOracle.Request;
 import org.gwtproject.user.client.ui.SuggestOracle.Response;
 import org.gwtproject.user.client.ui.SuggestOracle.Suggestion;
 
-import java.util.Collection;
-import java.util.List;
-
 /**
- * A {@link SuggestBox} is a text box or text area which displays a
- * pre-configured set of selections that match the user's input.
+ * A {@link SuggestBox} is a text box or text area which displays a pre-configured set of selections
+ * that match the user's input.
  *
- * Each {@link SuggestBox} is associated with a single {@link SuggestOracle}.
- * The {@link SuggestOracle} is used to provide a set of selections given a
- * specific query string.
+ * <p>Each {@link SuggestBox} is associated with a single {@link SuggestOracle}. The {@link
+ * SuggestOracle} is used to provide a set of selections given a specific query string.
  *
- * <p>
- * By default, the {@link SuggestBox} uses a {@link MultiWordSuggestOracle} as
- * its oracle. Below we show how a {@link MultiWordSuggestOracle} can be
- * configured:
- * </p>
+ * <p>By default, the {@link SuggestBox} uses a {@link MultiWordSuggestOracle} as its oracle. Below
+ * we show how a {@link MultiWordSuggestOracle} can be configured:
  *
  * <pre>
  *   MultiWordSuggestOracle oracle = new MultiWordSuggestOracle();
@@ -57,52 +52,47 @@ import java.util.List;
  *   SuggestBox box = new SuggestBox(oracle);
  * </pre>
  *
- * Using the example above, if the user types "C" into the text widget, the
- * oracle will configure the suggestions with the "Cat" and "Canary"
- * suggestions. Specifically, whenever the user types a key into the text
- * widget, the value is submitted to the <code>MultiWordSuggestOracle</code>.
+ * Using the example above, if the user types "C" into the text widget, the oracle will configure
+ * the suggestions with the "Cat" and "Canary" suggestions. Specifically, whenever the user types a
+ * key into the text widget, the value is submitted to the <code>MultiWordSuggestOracle</code>.
  *
- * <p>
- * Note that there is no method to retrieve the "currently selected suggestion"
- * in a SuggestBox, because there are points in time where the currently
- * selected suggestion is not defined. For example, if the user types in some
- * text that does not match any of the SuggestBox's suggestions, then the
- * SuggestBox will not have a currently selected suggestion. It is more useful
- * to know when a suggestion has been chosen from the SuggestBox's list of
- * suggestions. A SuggestBox fires {@link SelectionEvent SelectionEvents}
- * whenever a suggestion is chosen, and handlers for these events can be added
- * using the {@link #addSelectionHandler(SelectionHandler)} method.
- * </p>
+ * <p>Note that there is no method to retrieve the "currently selected suggestion" in a SuggestBox,
+ * because there are points in time where the currently selected suggestion is not defined. For
+ * example, if the user types in some text that does not match any of the SuggestBox's suggestions,
+ * then the SuggestBox will not have a currently selected suggestion. It is more useful to know when
+ * a suggestion has been chosen from the SuggestBox's list of suggestions. A SuggestBox fires {@link
+ * SelectionEvent SelectionEvents} whenever a suggestion is chosen, and handlers for these events
+ * can be added using the {@link #addSelectionHandler(SelectionHandler)} method.
  *
- * <p>
- * <img class='gallery' src='doc-files/SuggestBox.png'/>
- * </p>
+ * <p><img class='gallery' src='doc-files/SuggestBox.png'/>
  *
  * <h3>CSS Style Rules</h3>
+ *
  * <dl>
- * <dt>.gwt-SuggestBox</dt>
- * <dd>the suggest box itself</dd>
+ *   <dt>.gwt-SuggestBox
+ *   <dd>the suggest box itself
  * </dl>
  *
  * @see SuggestOracle
  * @see MultiWordSuggestOracle
  * @see ValueBoxBase
  */
-public class SuggestBox extends Composite implements HasText, Focusable,
-    HasAnimation, HasEnabled, HasAllKeyHandlers,
-    HasValue<String>, HasSelectionHandlers<Suggestion>,
-    IsEditor<LeafValueEditor<String>> {
+public class SuggestBox extends Composite
+    implements HasText,
+        Focusable,
+        HasAnimation,
+        HasEnabled,
+        HasAllKeyHandlers,
+        HasValue<String>,
+        HasSelectionHandlers<Suggestion>,
+        IsEditor<LeafValueEditor<String>> {
 
-  /**
-   * The callback used when a user selects a {@link Suggestion}.
-   */
+  /** The callback used when a user selects a {@link Suggestion}. */
   public interface SuggestionCallback {
     void onSuggestionSelected(Suggestion suggestion);
   }
 
-  /**
-   * Used to display suggestions to the user.
-   */
+  /** Used to display suggestions to the user. */
   public abstract static class SuggestionDisplay {
 
     /**
@@ -112,21 +102,13 @@ public class SuggestBox extends Composite implements HasText, Focusable,
      */
     protected abstract Suggestion getCurrentSelection();
 
-    /**
-     * Hide the list of suggestions from view.
-     */
+    /** Hide the list of suggestions from view. */
     protected abstract void hideSuggestions();
 
-    /**
-     * Highlight the suggestion directly below the current selection in the
-     * list.
-     */
+    /** Highlight the suggestion directly below the current selection in the list. */
     protected abstract void moveSelectionDown();
 
-    /**
-     * Highlight the suggestion directly above the current selection in the
-     * list.
-     */
+    /** Highlight the suggestion directly above the current selection in the list. */
     protected abstract void moveSelectionUp();
 
     /**
@@ -135,38 +117,37 @@ public class SuggestBox extends Composite implements HasText, Focusable,
      * @param suggestBoxBaseID the baseID of the {@link SuggestBox}
      * @see UIObject#onEnsureDebugId(String)
      */
-    protected void onEnsureDebugId(String suggestBoxBaseID) {
-    }
+    protected void onEnsureDebugId(String suggestBoxBaseID) {}
 
     /**
-     * Accepts information about whether there were more suggestions matching
-     * than were provided to {@link #showSuggestions}.
+     * Accepts information about whether there were more suggestions matching than were provided to
+     * {@link #showSuggestions}.
      *
      * @param hasMoreSuggestions true if more matches were available
-     * @param numMoreSuggestions number of more matches available. If the
-     *     specific number is unknown, 0 will be passed.
+     * @param numMoreSuggestions number of more matches available. If the specific number is
+     *     unknown, 0 will be passed.
      */
-    protected void setMoreSuggestions(boolean hasMoreSuggestions,
-        int numMoreSuggestions) {
+    protected void setMoreSuggestions(boolean hasMoreSuggestions, int numMoreSuggestions) {
       // Subclasses may optionally implement.
     }
 
     /**
      * Update the list of visible suggestions.
      *
-     * Use care when using isDisplayStringHtml; it is an easy way to expose
-     * script-based security problems.
+     * <p>Use care when using isDisplayStringHtml; it is an easy way to expose script-based security
+     * problems.
      *
      * @param suggestBox the suggest box where the suggestions originated
      * @param suggestions the suggestions to show
      * @param isDisplayStringHTML should the suggestions be displayed as HTML
-     * @param isAutoSelectEnabled if true, the first item should be selected
-     *          automatically
+     * @param isAutoSelectEnabled if true, the first item should be selected automatically
      * @param callback the callback used when the user makes a suggestion
      */
-    protected abstract void showSuggestions(SuggestBox suggestBox,
+    protected abstract void showSuggestions(
+        SuggestBox suggestBox,
         Collection<? extends Suggestion> suggestions,
-        boolean isDisplayStringHTML, boolean isAutoSelectEnabled,
+        boolean isDisplayStringHTML,
+        boolean isAutoSelectEnabled,
         SuggestionCallback callback);
 
     /**
@@ -193,7 +174,6 @@ public class SuggestBox extends Composite implements HasText, Focusable,
      * This is here for legacy reasons. It is intentionally not visible.
      *
      * @param enable true to enable animation
-     *
      * @deprecated implemented in DefaultSuggestionDisplay
      */
     @Deprecated
@@ -205,7 +185,6 @@ public class SuggestBox extends Composite implements HasText, Focusable,
      * This is here for legacy reasons. It is intentionally not visible.
      *
      * @param style the style name
-     *
      * @deprecated implemented in DefaultSuggestionDisplay
      */
     @Deprecated
@@ -215,88 +194,79 @@ public class SuggestBox extends Composite implements HasText, Focusable,
   }
 
   /**
-   * <p>
-   * The default implementation of {@link SuggestionDisplay} displays
-   * suggestions in a {@link PopupPanel} beneath the {@link SuggestBox}.
-   * </p>
+   * The default implementation of {@link SuggestionDisplay} displays suggestions in a {@link
+   * PopupPanel} beneath the {@link SuggestBox}.
    *
    * <h3>CSS Style Rules</h3>
+   *
    * <dl>
-   * <dt>.gwt-SuggestBoxPopup</dt>
-   * <dd>the suggestion popup</dd>
-   * <dt>.gwt-SuggestBoxPopup .item</dt>
-   * <dd>an unselected suggestion</dd>
-   * <dt>.gwt-SuggestBoxPopup .item-selected</dt>
-   * <dd>a selected suggestion</dd>
-   * <dt>.gwt-SuggestBoxPopup .suggestPopupTopLeft</dt>
-   * <dd>the top left cell</dd>
-   * <dt>.gwt-SuggestBoxPopup .suggestPopupTopLeftInner</dt>
-   * <dd>the inner element of the cell</dd>
-   * <dt>.gwt-SuggestBoxPopup .suggestPopupTopCenter</dt>
-   * <dd>the top center cell</dd>
-   * <dt>.gwt-SuggestBoxPopup .suggestPopupTopCenterInner</dt>
-   * <dd>the inner element of the cell</dd>
-   * <dt>.gwt-SuggestBoxPopup .suggestPopupTopRight</dt>
-   * <dd>the top right cell</dd>
-   * <dt>.gwt-SuggestBoxPopup .suggestPopupTopRightInner</dt>
-   * <dd>the inner element of the cell</dd>
-   * <dt>.gwt-SuggestBoxPopup .suggestPopupMiddleLeft</dt>
-   * <dd>the middle left cell</dd>
-   * <dt>.gwt-SuggestBoxPopup .suggestPopupMiddleLeftInner</dt>
-   * <dd>the inner element of the cell</dd>
-   * <dt>.gwt-SuggestBoxPopup .suggestPopupMiddleCenter</dt>
-   * <dd>the middle center cell</dd>
-   * <dt>.gwt-SuggestBoxPopup .suggestPopupMiddleCenterInner</dt>
-   * <dd>the inner element of the cell</dd>
-   * <dt>.gwt-SuggestBoxPopup .suggestPopupMiddleRight</dt>
-   * <dd>the middle right cell</dd>
-   * <dt>.gwt-SuggestBoxPopup .suggestPopupMiddleRightInner</dt>
-   * <dd>the inner element of the cell</dd>
-   * <dt>.gwt-SuggestBoxPopup .suggestPopupBottomLeft</dt>
-   * <dd>the bottom left cell</dd>
-   * <dt>.gwt-SuggestBoxPopup .suggestPopupBottomLeftInner</dt>
-   * <dd>the inner element of the cell</dd>
-   * <dt>.gwt-SuggestBoxPopup .suggestPopupBottomCenter</dt>
-   * <dd>the bottom center cell</dd>
-   * <dt>.gwt-SuggestBoxPopup .suggestPopupBottomCenterInner</dt>
-   * <dd>the inner element of the cell</dd>
-   * <dt>.gwt-SuggestBoxPopup .suggestPopupBottomRight</dt>
-   * <dd>the bottom right cell</dd>
-   * <dt>.gwt-SuggestBoxPopup .suggestPopupBottomRightInner</dt>
-   * <dd>the inner element of the cell</dd>
+   *   <dt>.gwt-SuggestBoxPopup
+   *   <dd>the suggestion popup
+   *   <dt>.gwt-SuggestBoxPopup .item
+   *   <dd>an unselected suggestion
+   *   <dt>.gwt-SuggestBoxPopup .item-selected
+   *   <dd>a selected suggestion
+   *   <dt>.gwt-SuggestBoxPopup .suggestPopupTopLeft
+   *   <dd>the top left cell
+   *   <dt>.gwt-SuggestBoxPopup .suggestPopupTopLeftInner
+   *   <dd>the inner element of the cell
+   *   <dt>.gwt-SuggestBoxPopup .suggestPopupTopCenter
+   *   <dd>the top center cell
+   *   <dt>.gwt-SuggestBoxPopup .suggestPopupTopCenterInner
+   *   <dd>the inner element of the cell
+   *   <dt>.gwt-SuggestBoxPopup .suggestPopupTopRight
+   *   <dd>the top right cell
+   *   <dt>.gwt-SuggestBoxPopup .suggestPopupTopRightInner
+   *   <dd>the inner element of the cell
+   *   <dt>.gwt-SuggestBoxPopup .suggestPopupMiddleLeft
+   *   <dd>the middle left cell
+   *   <dt>.gwt-SuggestBoxPopup .suggestPopupMiddleLeftInner
+   *   <dd>the inner element of the cell
+   *   <dt>.gwt-SuggestBoxPopup .suggestPopupMiddleCenter
+   *   <dd>the middle center cell
+   *   <dt>.gwt-SuggestBoxPopup .suggestPopupMiddleCenterInner
+   *   <dd>the inner element of the cell
+   *   <dt>.gwt-SuggestBoxPopup .suggestPopupMiddleRight
+   *   <dd>the middle right cell
+   *   <dt>.gwt-SuggestBoxPopup .suggestPopupMiddleRightInner
+   *   <dd>the inner element of the cell
+   *   <dt>.gwt-SuggestBoxPopup .suggestPopupBottomLeft
+   *   <dd>the bottom left cell
+   *   <dt>.gwt-SuggestBoxPopup .suggestPopupBottomLeftInner
+   *   <dd>the inner element of the cell
+   *   <dt>.gwt-SuggestBoxPopup .suggestPopupBottomCenter
+   *   <dd>the bottom center cell
+   *   <dt>.gwt-SuggestBoxPopup .suggestPopupBottomCenterInner
+   *   <dd>the inner element of the cell
+   *   <dt>.gwt-SuggestBoxPopup .suggestPopupBottomRight
+   *   <dd>the bottom right cell
+   *   <dt>.gwt-SuggestBoxPopup .suggestPopupBottomRightInner
+   *   <dd>the inner element of the cell
    * </dl>
    */
-  public static class DefaultSuggestionDisplay extends SuggestionDisplay
-      implements HasAnimation {
+  public static class DefaultSuggestionDisplay extends SuggestionDisplay implements HasAnimation {
 
     private final SuggestionMenu suggestionMenu;
     private final PopupPanel suggestionPopup;
 
     /**
-     * We need to keep track of the last {@link SuggestBox} because it acts as
-     * an autoHide partner for the {@link PopupPanel}. If we use the same
-     * display for multiple {@link SuggestBox}, we need to switch the autoHide
-     * partner.
+     * We need to keep track of the last {@link SuggestBox} because it acts as an autoHide partner
+     * for the {@link PopupPanel}. If we use the same display for multiple {@link SuggestBox}, we
+     * need to switch the autoHide partner.
      */
     private SuggestBox lastSuggestBox = null;
 
     /**
-     * Sub-classes making use of {@link decorateSuggestionList} to add
-     * elements to the suggestion popup _may_ want those elements to show even
-     * when there are 0 suggestions. An example would be showing a "No
-     * matches" message.
+     * Sub-classes making use of {@link decorateSuggestionList} to add elements to the suggestion
+     * popup _may_ want those elements to show even when there are 0 suggestions. An example would
+     * be showing a "No matches" message.
      */
     private boolean hideWhenEmpty = true;
 
-    /**
-     * Object to position the suggestion display next to, instead of the
-     * associated suggest box.
-     */
+    /** Object to position the suggestion display next to, instead of the associated suggest box. */
     private UIObject positionRelativeTo;
 
-    /**
-     * Construct a new {@link DefaultSuggestionDisplay}.
-     */
+    /** Construct a new {@link DefaultSuggestionDisplay}. */
     public DefaultSuggestionDisplay() {
       suggestionMenu = new SuggestionMenu(true);
       suggestionPopup = createPopup();
@@ -313,8 +283,7 @@ public class SuggestBox extends Composite implements HasText, Focusable,
     }
 
     /**
-     * Check whether or not the suggestion list is hidden when there are no
-     * suggestions to display.
+     * Check whether or not the suggestion list is hidden when there are no suggestions to display.
      *
      * @return true if hidden when empty, false if not
      */
@@ -344,16 +313,16 @@ public class SuggestBox extends Composite implements HasText, Focusable,
     /**
      * Sets the UI object where the suggestion display should appear next to.
      *
-     * @param uiObject the uiObject used for positioning, or null to position
-     *     relative to the suggest box
+     * @param uiObject the uiObject used for positioning, or null to position relative to the
+     *     suggest box
      */
     public void setPositionRelativeTo(UIObject uiObject) {
       positionRelativeTo = uiObject;
     }
 
     /**
-     * Set whether or not the suggestion list should be hidden when there are
-     * no suggestions to display. Defaults to true.
+     * Set whether or not the suggestion list should be hidden when there are no suggestions to
+     * display. Defaults to true.
      *
      * @param hideWhenEmpty true to hide when empty, false not to
      */
@@ -375,9 +344,8 @@ public class SuggestBox extends Composite implements HasText, Focusable,
     }
 
     /**
-     * Wrap the list of suggestions before adding it to the popup. You can
-     * override this method if you want to wrap the suggestion list in a
-     * decorator.
+     * Wrap the list of suggestions before adding it to the popup. You can override this method if
+     * you want to wrap the suggestion list in a decorator.
      *
      * @param suggestionList the widget that contains the list of suggestions
      * @return the suggestList, optionally inside of a wrapper
@@ -445,9 +413,10 @@ public class SuggestBox extends Composite implements HasText, Focusable,
 
     /**
      * <b>Affected Elements:</b>
+     *
      * <ul>
-     * <li>-popup = The popup that appears with suggestions.</li>
-     * <li>-item# = The suggested item at the specified index.</li>
+     *   <li>-popup = The popup that appears with suggestions.
+     *   <li>-item# = The suggested item at the specified index.
      * </ul>
      *
      * @see UIObject#onEnsureDebugId(String)
@@ -459,9 +428,11 @@ public class SuggestBox extends Composite implements HasText, Focusable,
     }
 
     @Override
-    protected void showSuggestions(final SuggestBox suggestBox,
+    protected void showSuggestions(
+        final SuggestBox suggestBox,
         Collection<? extends Suggestion> suggestions,
-        boolean isDisplayStringHTML, boolean isAutoSelectEnabled,
+        boolean isDisplayStringHTML,
+        boolean isAutoSelectEnabled,
         final SuggestionCallback callback) {
       // Hide the popup if there are no suggestions to display.
       boolean anySuggestions = (suggestions != null && suggestions.size() > 0);
@@ -480,13 +451,14 @@ public class SuggestBox extends Composite implements HasText, Focusable,
       suggestionMenu.clearItems();
 
       for (final Suggestion curSuggestion : suggestions) {
-        final SuggestionMenuItem menuItem = new SuggestionMenuItem(
-            curSuggestion, isDisplayStringHTML);
-        menuItem.setScheduledCommand(new ScheduledCommand() {
-          public void execute() {
-            callback.onSuggestionSelected(curSuggestion);
-          }
-        });
+        final SuggestionMenuItem menuItem =
+            new SuggestionMenuItem(curSuggestion, isDisplayStringHTML);
+        menuItem.setScheduledCommand(
+            new ScheduledCommand() {
+              public void execute() {
+                callback.onSuggestionSelected(curSuggestion);
+              }
+            });
 
         suggestionMenu.addItem(menuItem);
       }
@@ -507,8 +479,7 @@ public class SuggestBox extends Composite implements HasText, Focusable,
       }
 
       // Show the popup under the TextBox.
-      suggestionPopup.showRelativeTo(positionRelativeTo != null
-          ? positionRelativeTo : suggestBox);
+      suggestionPopup.showRelativeTo(positionRelativeTo != null ? positionRelativeTo : suggestBox);
     }
 
     @Override
@@ -528,15 +499,13 @@ public class SuggestBox extends Composite implements HasText, Focusable,
   }
 
   /**
-   * The SuggestionMenu class is used for the display and selection of
-   * suggestions in the SuggestBox widget. SuggestionMenu differs from MenuBar
-   * in that it always has a vertical orientation, and it has no submenus. It
-   * also allows for programmatic selection of items in the menu, and
-   * programmatically performing the action associated with the selected item.
-   * In the MenuBar class, items cannot be selected programatically - they can
-   * only be selected when the user places the mouse over a particlar item.
-   * Additional methods in SuggestionMenu provide information about the number
-   * of items in the menu, and the index of the currently selected item.
+   * The SuggestionMenu class is used for the display and selection of suggestions in the SuggestBox
+   * widget. SuggestionMenu differs from MenuBar in that it always has a vertical orientation, and
+   * it has no submenus. It also allows for programmatic selection of items in the menu, and
+   * programmatically performing the action associated with the selected item. In the MenuBar class,
+   * items cannot be selected programatically - they can only be selected when the user places the
+   * mouse over a particlar item. Additional methods in SuggestionMenu provide information about the
+   * number of items in the menu, and the index of the currently selected item.
    */
   private static class SuggestionMenu extends MenuBar {
 
@@ -568,9 +537,9 @@ public class SuggestBox extends Composite implements HasText, Focusable,
     }
 
     /**
-     * Selects the item at the specified index in the menu. Selecting the item
-     * does not perform the item's associated action; it only changes the style
-     * of the item and updates the value of SuggestionMenu.selectedItem.
+     * Selects the item at the specified index in the menu. Selecting the item does not perform the
+     * item's associated action; it only changes the style of the item and updates the value of
+     * SuggestionMenu.selectedItem.
      *
      * @param index index
      */
@@ -583,10 +552,10 @@ public class SuggestBox extends Composite implements HasText, Focusable,
   }
 
   /**
-   * Class for menu items in a SuggestionMenu. A SuggestionMenuItem differs from
-   * a MenuItem in that each item is backed by a Suggestion object. The text of
-   * each menu item is derived from the display string of a Suggestion object,
-   * and each item stores a reference to its Suggestion object.
+   * Class for menu items in a SuggestionMenu. A SuggestionMenuItem differs from a MenuItem in that
+   * each item is backed by a Suggestion object. The text of each menu item is derived from the
+   * display string of a Suggestion object, and each item stores a reference to its Suggestion
+   * object.
    */
   private static class SuggestionMenuItem extends MenuItem {
 
@@ -617,12 +586,10 @@ public class SuggestBox extends Composite implements HasText, Focusable,
   private static final String STYLENAME_DEFAULT = "gwt-SuggestBox";
 
   /**
-   * Creates a {@link SuggestBox} widget that wraps an existing &lt;input
-   * type='text'&gt; element.
+   * Creates a {@link SuggestBox} widget that wraps an existing &lt;input type='text'&gt; element.
    *
-   * This element must already be attached to the document. If the element is
-   * removed from the document, you must call
-   * {@link RootPanel#detachNow(Widget)}.
+   * <p>This element must already be attached to the document. If the element is removed from the
+   * document, you must call {@link RootPanel#detachNow(Widget)}.
    *
    * @param oracle the suggest box oracle to use
    * @param element the element to be wrapped
@@ -648,38 +615,42 @@ public class SuggestBox extends Composite implements HasText, Focusable,
   private LeafValueEditor<String> editor;
   private final SuggestionDisplay display;
   private final ValueBoxBase<String> box;
-  private final Callback callback = new Callback() {
-    public void onSuggestionsReady(Request request, Response response) {
-      // If disabled while request was in-flight, drop it
-      if (!isEnabled()) {
-        return;
-      }
-      display.setMoreSuggestions(response.hasMoreSuggestions(),
-          response.getMoreSuggestionsCount());
-      display.showSuggestions(SuggestBox.this, response.getSuggestions(),
-          oracle.isDisplayStringHTML(), isAutoSelectEnabled(),
-          suggestionCallback);
-    }
-  };
-  private final SuggestionCallback suggestionCallback = new SuggestionCallback() {
-    public void onSuggestionSelected(Suggestion suggestion) {
-      box.setFocus(true);
-      setNewSelection(suggestion);
-    }
-  };
+  private final Callback callback =
+      new Callback() {
+        public void onSuggestionsReady(Request request, Response response) {
+          // If disabled while request was in-flight, drop it
+          if (!isEnabled()) {
+            return;
+          }
+          display.setMoreSuggestions(
+              response.hasMoreSuggestions(), response.getMoreSuggestionsCount());
+          display.showSuggestions(
+              SuggestBox.this,
+              response.getSuggestions(),
+              oracle.isDisplayStringHTML(),
+              isAutoSelectEnabled(),
+              suggestionCallback);
+        }
+      };
+  private final SuggestionCallback suggestionCallback =
+      new SuggestionCallback() {
+        public void onSuggestionSelected(Suggestion suggestion) {
+          box.setFocus(true);
+          setNewSelection(suggestion);
+        }
+      };
 
   /**
-   * Constructor for {@link SuggestBox}. Creates a
-   * {@link MultiWordSuggestOracle} and {@link TextBox} to use with this
-   * {@link SuggestBox}.
+   * Constructor for {@link SuggestBox}. Creates a {@link MultiWordSuggestOracle} and {@link
+   * TextBox} to use with this {@link SuggestBox}.
    */
   public SuggestBox() {
     this(new MultiWordSuggestOracle());
   }
 
   /**
-   * Constructor for {@link SuggestBox}. Creates a {@link TextBox} to use with
-   * this {@link SuggestBox}.
+   * Constructor for {@link SuggestBox}. Creates a {@link TextBox} to use with this {@link
+   * SuggestBox}.
    *
    * @param oracle the oracle for this <code>SuggestBox</code>
    */
@@ -688,11 +659,10 @@ public class SuggestBox extends Composite implements HasText, Focusable,
   }
 
   /**
-   * Constructor for {@link SuggestBox}. The text box will be removed from it's
-   * current location and wrapped by the {@link SuggestBox}.
+   * Constructor for {@link SuggestBox}. The text box will be removed from it's current location and
+   * wrapped by the {@link SuggestBox}.
    *
-   * @param oracle supplies suggestions based upon the current contents of the
-   *          text widget
+   * @param oracle supplies suggestions based upon the current contents of the text widget
    * @param box the text widget
    */
   public SuggestBox(SuggestOracle oracle, ValueBoxBase<String> box) {
@@ -700,16 +670,15 @@ public class SuggestBox extends Composite implements HasText, Focusable,
   }
 
   /**
-   * Constructor for {@link SuggestBox}. The text box will be removed from it's
-   * current location and wrapped by the {@link SuggestBox}.
+   * Constructor for {@link SuggestBox}. The text box will be removed from it's current location and
+   * wrapped by the {@link SuggestBox}.
    *
-   * @param oracle supplies suggestions based upon the current contents of the
-   *          text widget
+   * @param oracle supplies suggestions based upon the current contents of the text widget
    * @param box the text widget
    * @param suggestDisplay the class used to display suggestions
    */
-  public SuggestBox(SuggestOracle oracle, ValueBoxBase<String> box,
-      SuggestionDisplay suggestDisplay) {
+  public SuggestBox(
+      SuggestOracle oracle, ValueBoxBase<String> box, SuggestionDisplay suggestDisplay) {
     this.box = box;
     this.display = suggestDisplay;
     initWidget(box);
@@ -732,19 +701,15 @@ public class SuggestBox extends Composite implements HasText, Focusable,
     return addDomHandler(handler, KeyUpEvent.getType());
   }
 
-  public HandlerRegistration addSelectionHandler(
-      SelectionHandler<Suggestion> handler) {
+  public HandlerRegistration addSelectionHandler(SelectionHandler<Suggestion> handler) {
     return addHandler(handler, SelectionEvent.getType());
   }
 
-  public HandlerRegistration addValueChangeHandler(
-      ValueChangeHandler<String> handler) {
+  public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
     return addHandler(handler, ValueChangeEvent.getType());
   }
 
-  /**
-   * Returns a {@link TakesValueEditor} backed by the SuggestBox.
-   */
+  /** Returns a {@link TakesValueEditor} backed by the SuggestBox. */
   public LeafValueEditor<String> asEditor() {
     if (editor == null) {
       editor = TakesValueEditor.of(this);
@@ -753,9 +718,8 @@ public class SuggestBox extends Composite implements HasText, Focusable,
   }
 
   /**
-   * Gets the limit for the number of suggestions that should be displayed for
-   * this box. It is up to the current {@link SuggestOracle} to enforce this
-   * limit.
+   * Gets the limit for the number of suggestions that should be displayed for this box. It is up to
+   * the current {@link SuggestOracle} to enforce this limit.
    *
    * @return the limit for the number of suggestions
    */
@@ -793,8 +757,7 @@ public class SuggestBox extends Composite implements HasText, Focusable,
    * Get the text box associated with this suggest box.
    *
    * @return this suggest box's text box
-   * @throws ClassCastException if this suggest box's value box is not an
-   *     instance of TextBoxBase
+   * @throws ClassCastException if this suggest box's value box is not an instance of TextBoxBase
    * @deprecated in favour of getValueBox
    */
   @Deprecated
@@ -816,8 +779,8 @@ public class SuggestBox extends Composite implements HasText, Focusable,
   }
 
   /**
-   * Hide current suggestions in the {@link DefaultSuggestionDisplay}. Note that
-   * this method is a no-op unless the {@link DefaultSuggestionDisplay} is used.
+   * Hide current suggestions in the {@link DefaultSuggestionDisplay}. Note that this method is a
+   * no-op unless the {@link DefaultSuggestionDisplay} is used.
    *
    * @deprecated use {@link DefaultSuggestionDisplay#hideSuggestions()} instead
    */
@@ -827,12 +790,11 @@ public class SuggestBox extends Composite implements HasText, Focusable,
   }
 
   /**
-   * Check whether or not the {@link DefaultSuggestionDisplay} has animations
-   * enabled. Note that this method only has a meaningful return value when the
-   * {@link DefaultSuggestionDisplay} is used.
+   * Check whether or not the {@link DefaultSuggestionDisplay} has animations enabled. Note that
+   * this method only has a meaningful return value when the {@link DefaultSuggestionDisplay} is
+   * used.
    *
-   * @deprecated use {@link DefaultSuggestionDisplay#isAnimationEnabled()}
-   *             instead
+   * @deprecated use {@link DefaultSuggestionDisplay#isAnimationEnabled()} instead
    */
   @Deprecated
   public boolean isAnimationEnabled() {
@@ -840,8 +802,8 @@ public class SuggestBox extends Composite implements HasText, Focusable,
   }
 
   /**
-   * Returns whether or not the first suggestion will be automatically selected.
-   * This behavior is on by default.
+   * Returns whether or not the first suggestion will be automatically selected. This behavior is on
+   * by default.
    *
    * @return true if the first suggestion will be automatically selected
    */
@@ -867,9 +829,7 @@ public class SuggestBox extends Composite implements HasText, Focusable,
     return display.isSuggestionListShowing();
   }
 
-  /**
-   * Refreshes the current list of suggestions.
-   */
+  /** Refreshes the current list of suggestions. */
   public void refreshSuggestionList() {
     if (isAttached()) {
       refreshSuggestions();
@@ -881,13 +841,10 @@ public class SuggestBox extends Composite implements HasText, Focusable,
   }
 
   /**
-   * Enable or disable animations in the {@link DefaultSuggestionDisplay}. Note
-   * that this method is a no-op unless the {@link DefaultSuggestionDisplay} is
-   * used.
+   * Enable or disable animations in the {@link DefaultSuggestionDisplay}. Note that this method is
+   * a no-op unless the {@link DefaultSuggestionDisplay} is used.
    *
-   * @deprecated use
-   *             {@link DefaultSuggestionDisplay#setAnimationEnabled(boolean)}
-   *             instead
+   * @deprecated use {@link DefaultSuggestionDisplay#setAnimationEnabled(boolean)} instead
    */
   @Deprecated
   public void setAnimationEnabled(boolean enable) {
@@ -895,11 +852,10 @@ public class SuggestBox extends Composite implements HasText, Focusable,
   }
 
   /**
-   * Turns on or off the behavior that automatically selects the first suggested
-   * item. This behavior is on by default.
+   * Turns on or off the behavior that automatically selects the first suggested item. This behavior
+   * is on by default.
    *
-   * @param selectsFirstItem Whether or not to automatically select the first
-   *          suggestion
+   * @param selectsFirstItem Whether or not to automatically select the first suggestion
    */
   public void setAutoSelectEnabled(boolean selectsFirstItem) {
     this.selectsFirstItem = selectsFirstItem;
@@ -908,8 +864,7 @@ public class SuggestBox extends Composite implements HasText, Focusable,
   /**
    * Sets whether this widget is enabled.
    *
-   * @param enabled <code>true</code> to enable the widget, <code>false</code>
-   *          to disable it
+   * @param enabled <code>true</code> to enable the widget, <code>false</code> to disable it
    */
   public void setEnabled(boolean enabled) {
     box.setEnabled(enabled);
@@ -923,8 +878,8 @@ public class SuggestBox extends Composite implements HasText, Focusable,
   }
 
   /**
-   * Sets the limit to the number of suggestions the oracle should provide. It
-   * is up to the oracle to enforce this limit.
+   * Sets the limit to the number of suggestions the oracle should provide. It is up to the oracle
+   * to enforce this limit.
    *
    * @param limit the limit to the number of suggestions provided
    */
@@ -933,14 +888,12 @@ public class SuggestBox extends Composite implements HasText, Focusable,
   }
 
   /**
-   * Sets the style name of the suggestion popup in the
-   * {@link DefaultSuggestionDisplay}. Note that this method is a no-op unless
-   * the {@link DefaultSuggestionDisplay} is used.
+   * Sets the style name of the suggestion popup in the {@link DefaultSuggestionDisplay}. Note that
+   * this method is a no-op unless the {@link DefaultSuggestionDisplay} is used.
    *
    * @param style the new primary style name
    * @see UIObject#setStyleName(String)
-   * @deprecated use {@link DefaultSuggestionDisplay#setPopupStyleName(String)}
-   *             instead
+   * @deprecated use {@link DefaultSuggestionDisplay#setPopupStyleName(String)} instead
    */
   @Deprecated
   public void setPopupStyleName(String style) {
@@ -963,9 +916,7 @@ public class SuggestBox extends Composite implements HasText, Focusable,
     box.setValue(value, fireEvents);
   }
 
-  /**
-   * Show the current list of suggestions.
-   */
+  /** Show the current list of suggestions. */
   public void showSuggestionList() {
     if (isAttached()) {
       currentText = null;
@@ -980,7 +931,7 @@ public class SuggestBox extends Composite implements HasText, Focusable,
   }
 
   void showSuggestions(String query) {
-      if (query.length() == 0) {
+    if (query.length() == 0) {
       oracle.requestDefaultSuggestions(new Request(null, limit), callback);
     } else {
       oracle.requestSuggestions(new Request(query, limit), callback);
@@ -991,7 +942,7 @@ public class SuggestBox extends Composite implements HasText, Focusable,
     class TextBoxEvents implements KeyDownHandler, KeyUpHandler, ValueChangeHandler<String> {
 
       public void onKeyDown(KeyDownEvent event) {
-          switch (event.getNativeKeyCode()) {
+        switch (event.getNativeKeyCode()) {
           case KeyCodes.KEY_DOWN:
             display.moveSelectionDown();
             if (isSuggestionListShowing()) {
@@ -1017,7 +968,7 @@ public class SuggestBox extends Composite implements HasText, Focusable,
       }
 
       public void onKeyUp(KeyUpEvent event) {
-          // After every user key input, refresh the popup's suggestions.
+        // After every user key input, refresh the popup's suggestions.
         refreshSuggestions();
       }
 
@@ -1027,23 +978,21 @@ public class SuggestBox extends Composite implements HasText, Focusable,
     }
 
     TextBoxEvents events = new TextBoxEvents();
-    box.addChangeHandler(new ChangeHandler() {
-      @Override
-      public void onChange(ChangeEvent changeEvent) {
+    box.addChangeHandler(
+        new ChangeHandler() {
+          @Override
+          public void onChange(ChangeEvent changeEvent) {}
+        });
 
-      }
-    });
-
-    box.addValueChangeHandler(new ValueChangeHandler<String>() {
-      @Override
-      public void onValueChange(ValueChangeEvent<String> valueChangeEvent) {
-
-      }
-    });
+    box.addValueChangeHandler(
+        new ValueChangeHandler<String>() {
+          @Override
+          public void onValueChange(ValueChangeEvent<String> valueChangeEvent) {}
+        });
 
     box.addKeyDownHandler(events);
     box.addKeyUpHandler(events);
-    //box.addValueChangeHandler(events);
+    // box.addValueChangeHandler(events);
   }
 
   private void fireSuggestionEvent(Suggestion selectedSuggestion) {

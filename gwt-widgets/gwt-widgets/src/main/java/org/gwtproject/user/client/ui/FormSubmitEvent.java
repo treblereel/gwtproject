@@ -17,9 +17,7 @@ package org.gwtproject.user.client.ui;
 
 import java.util.EventObject;
 
-/**
- * Event object containing information about form submission events.
- */
+/** Event object containing information about form submission events. */
 public class FormSubmitEvent extends EventObject {
 
   private boolean cancel;

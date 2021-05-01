@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -18,7 +18,6 @@ package org.gwtproject.user.cellview.client;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-
 import org.gwtproject.cell.client.Cell;
 import org.gwtproject.cell.client.Cell.Context;
 import org.gwtproject.cell.client.ValueUpdater;
@@ -51,81 +50,62 @@ import org.gwtproject.view.client.SelectionModel;
 
 /**
  * A single column list of cells.
- * 
+ *
  * <p>
+ *
  * <h3>Examples</h3>
+ *
  * <dl>
- * <dt>Trivial example</dt>
- * <dd>{@example com.google.gwt.examples.cellview.CellListExample}</dd>
- * <dt>Handling user input with ValueUpdater</dt>
- * <dd>{@example com.google.gwt.examples.cellview.CellListValueUpdaterExample}</dd>
- * <dt>Pushing data with List Data Provider (backed by {@link List})</dt>
- * <dd>{@example com.google.gwt.examples.view.ListDataProviderExample}</dd>
- * <dt>Pushing data asynchronously with Async Data Provider</dt>
- * <dd>{@example com.google.gwt.examples.view.AsyncDataProviderExample}</dd>
- * <dt>Writing a custom data provider</dt>
- * <dd>{@example com.google.gwt.examples.view.RangeChangeHandlerExample}</dd>
- * <dt>Using a key provider to track objects as they change</dt>
- * <dd>{@example com.google.gwt.examples.view.KeyProviderExample}</dd>
+ *   <dt>Trivial example
+ *   <dd>{@example com.google.gwt.examples.cellview.CellListExample}
+ *   <dt>Handling user input with ValueUpdater
+ *   <dd>{@example com.google.gwt.examples.cellview.CellListValueUpdaterExample}
+ *   <dt>Pushing data with List Data Provider (backed by {@link List})
+ *   <dd>{@example com.google.gwt.examples.view.ListDataProviderExample}
+ *   <dt>Pushing data asynchronously with Async Data Provider
+ *   <dd>{@example com.google.gwt.examples.view.AsyncDataProviderExample}
+ *   <dt>Writing a custom data provider
+ *   <dd>{@example com.google.gwt.examples.view.RangeChangeHandlerExample}
+ *   <dt>Using a key provider to track objects as they change
+ *   <dd>{@example com.google.gwt.examples.view.KeyProviderExample}
  * </dl>
- * </p>
- * 
+ *
  * @param <T> the data type of list items
  */
 public class CellList<T> extends AbstractHasData<T> {
 
-  /**
-   * A ClientBundle that provides images for this widget.
-   */
+  /** A ClientBundle that provides images for this widget. */
   public interface Resources extends ClientBundle {
 
     Resources INSTANCE = new CellList_ResourcesImpl();
-    /**
-     * The background used for selected items.
-     */
+    /** The background used for selected items. */
     @ImageOptions(repeatStyle = RepeatStyle.Horizontal, flipRtl = true)
     ImageResource cellListSelectedBackground();
 
-    /**
-     * The styles used in this widget.
-     */
+    /** The styles used in this widget. */
     @Source(Style.DEFAULT_CSS)
     Style cellListStyle();
   }
 
-  /**
-   * Styles used by this widget.
-   */
+  /** Styles used by this widget. */
   @ImportedWithPrefix("gwt-CellList")
   public interface Style extends CssResource {
-    /**
-     * The path to the default CSS styles used by this resource.
-     */
+    /** The path to the default CSS styles used by this resource. */
     String DEFAULT_CSS = "org/gwtproject/user/cellview/client/CellList.gss";
 
-    /**
-     * Applied to even items.
-     */
+    /** Applied to even items. */
     String cellListEvenItem();
 
-    /**
-     * Applied to the keyboard selected item.
-     */
+    /** Applied to the keyboard selected item. */
     String cellListKeyboardSelectedItem();
 
-    /**
-     * Applied to odd items.
-     */
+    /** Applied to odd items. */
     String cellListOddItem();
 
-    /**
-     * Applied to selected items.
-     */
+    /** Applied to selected items. */
     String cellListSelectedItem();
 
-    /**
-     * Applied to the widget.
-     */
+    /** Applied to the widget. */
     String cellListWidget();
   }
 
@@ -136,9 +116,7 @@ public class CellList<T> extends AbstractHasData<T> {
     SafeHtml div(int idx, String classes, SafeHtml cellContents);
   }
 
-  /**
-   * The default page size.
-   */
+  /** The default page size. */
   private static final int DEFAULT_PAGE_SIZE = 25;
 
   private static Resources DEFAULT_RESOURCES;
@@ -157,9 +135,7 @@ public class CellList<T> extends AbstractHasData<T> {
   private final SimplePanel emptyListWidgetContainer = new SimplePanel();
   private final SimplePanel loadingIndicatorContainer = new SimplePanel();
 
-  /**
-   * A {@link DeckPanel} to hold widgets associated with various loading states.
-   */
+  /** A {@link DeckPanel} to hold widgets associated with various loading states. */
   private final DeckPanel messagesPanel = new DeckPanel();
 
   private final Style style;
@@ -168,7 +144,7 @@ public class CellList<T> extends AbstractHasData<T> {
 
   /**
    * Construct a new {@link CellList}.
-   * 
+   *
    * @param cell the cell used to render each item
    */
   public CellList(final Cell<T> cell) {
@@ -177,7 +153,7 @@ public class CellList<T> extends AbstractHasData<T> {
 
   /**
    * Construct a new {@link CellList} with the specified {@link Resources}.
-   * 
+   *
    * @param cell the cell used to render each item
    * @param resources the resources used for this widget
    */
@@ -186,25 +162,24 @@ public class CellList<T> extends AbstractHasData<T> {
   }
 
   /**
-   * Construct a new {@link CellList} with the specified {@link ProvidesKey key
-   * provider}.
-   * 
+   * Construct a new {@link CellList} with the specified {@link ProvidesKey key provider}.
+   *
    * @param cell the cell used to render each item
-   * @param keyProvider an instance of ProvidesKey<T>, or null if the record
-   *          object should act as its own key
+   * @param keyProvider an instance of ProvidesKey<T>, or null if the record object should act as
+   *     its own key
    */
   public CellList(final Cell<T> cell, ProvidesKey<T> keyProvider) {
     this(cell, getDefaultResources(), keyProvider);
   }
 
   /**
-   * Construct a new {@link CellList} with the specified {@link Resources} and
-   * {@link ProvidesKey key provider}.
-   * 
+   * Construct a new {@link CellList} with the specified {@link Resources} and {@link ProvidesKey
+   * key provider}.
+   *
    * @param cell the cell used to render each item
    * @param resources the resources used for this widget
-   * @param keyProvider an instance of ProvidesKey<T>, or null if the record
-   *          object should act as its own key
+   * @param keyProvider an instance of ProvidesKey<T>, or null if the record object should act as
+   *     its own key
    */
   public CellList(final Cell<T> cell, Resources resources, ProvidesKey<T> keyProvider) {
     super(Document.get().createDivElement(), DEFAULT_PAGE_SIZE, keyProvider);
@@ -230,12 +205,13 @@ public class CellList<T> extends AbstractHasData<T> {
     messagesPanel.add(loadingIndicatorContainer);
 
     // Sink events that the cell consumes.
-    org.gwtproject.user.cellview.client.CellBasedWidgetImpl.get().sinkEvents(this, cell.getConsumedEvents());
+    org.gwtproject.user.cellview.client.CellBasedWidgetImpl.get()
+        .sinkEvents(this, cell.getConsumedEvents());
   }
 
   /**
    * Get the message that is displayed when there is no data.
-   * 
+   *
    * @return the empty message
    * @see #setEmptyListMessage(SafeHtml)
    * @deprecated as of GWT 2.3, use {@link #getEmptyListWidget()} instead
@@ -247,7 +223,7 @@ public class CellList<T> extends AbstractHasData<T> {
 
   /**
    * Get the widget displayed when the list has no rows.
-   * 
+   *
    * @return the empty list widget
    */
   public Widget getEmptyListWidget() {
@@ -256,7 +232,7 @@ public class CellList<T> extends AbstractHasData<T> {
 
   /**
    * Get the widget displayed when the data is loading.
-   * 
+   *
    * @return the loading indicator
    */
   public Widget getLoadingIndicator() {
@@ -264,13 +240,12 @@ public class CellList<T> extends AbstractHasData<T> {
   }
 
   /**
-   * Get the {@link Element} for the specified index. If the element has not
-   * been created, null is returned.
-   * 
+   * Get the {@link Element} for the specified index. If the element has not been created, null is
+   * returned.
+   *
    * @param indexOnPage the index on the page
    * @return the element, or null if it doesn't exists
-   * @throws IndexOutOfBoundsException if the index is outside of the current
-   *           page
+   * @throws IndexOutOfBoundsException if the index is outside of the current page
    */
   public Element getRowElement(int indexOnPage) {
     getPresenter().flush();
@@ -283,12 +258,11 @@ public class CellList<T> extends AbstractHasData<T> {
 
   /**
    * Set the message to display when there is no data.
-   * 
+   *
    * @param html the message to display when there are no results
    * @see #getEmptyListMessage()
-   * @deprecated as of GWT 2.3, use
-   *             {@link #setEmptyListWidget(org.gwtproject.user.client.ui.Widget)}
-   *             instead
+   * @deprecated as of GWT 2.3, use {@link
+   *     #setEmptyListWidget(org.gwtproject.user.client.ui.Widget)} instead
    */
   @Deprecated
   public void setEmptyListMessage(SafeHtml html) {
@@ -298,7 +272,7 @@ public class CellList<T> extends AbstractHasData<T> {
 
   /**
    * Set the widget to display when the list has no rows.
-   * 
+   *
    * @param widget the empty data widget
    */
   public void setEmptyListWidget(Widget widget) {
@@ -307,7 +281,7 @@ public class CellList<T> extends AbstractHasData<T> {
 
   /**
    * Set the widget to display when the data is loading.
-   * 
+   *
    * @param widget the loading indicator
    */
   public void setLoadingIndicator(Widget widget) {
@@ -316,7 +290,7 @@ public class CellList<T> extends AbstractHasData<T> {
 
   /**
    * Set the value updater to use when cells modify items.
-   * 
+   *
    * @param valueUpdater the {@link ValueUpdater}
    */
   public void setValueUpdater(ValueUpdater<T> valueUpdater) {
@@ -348,7 +322,7 @@ public class CellList<T> extends AbstractHasData<T> {
 
   /**
    * Fire an event to the cell.
-   * 
+   *
    * @param context the {@link Context} of the cell
    * @param event the event that was fired
    * @param parent the parent of the cell
@@ -361,27 +335,27 @@ public class CellList<T> extends AbstractHasData<T> {
       cell.onBrowserEvent(context, parent, value, event, valueUpdater);
       cellIsEditing = cell.isEditing(context, parent, value);
       if (cellWasEditing && !cellIsEditing) {
-        org.gwtproject.user.cellview.client.CellBasedWidgetImpl.get().resetFocus(new Scheduler.ScheduledCommand() {
-          @Override
-          public void execute() {
-            setFocus(true);
-          }
-        });
+        org.gwtproject.user.cellview.client.CellBasedWidgetImpl.get()
+            .resetFocus(
+                new Scheduler.ScheduledCommand() {
+                  @Override
+                  public void execute() {
+                    setFocus(true);
+                  }
+                });
       }
     }
   }
 
-  /**
-   * Return the cell used to render each item.
-   */
+  /** Return the cell used to render each item. */
   protected Cell<T> getCell() {
     return cell;
   }
 
   /**
-   * Get the parent element that wraps the cell from the list item. Override
-   * this method if you add structure to the element.
-   * 
+   * Get the parent element that wraps the cell from the list item. Override this method if you add
+   * structure to the element.
+   *
    * @param item the row element that wraps the list item
    * @return the parent element of the cell
    */
@@ -408,7 +382,6 @@ public class CellList<T> extends AbstractHasData<T> {
   protected boolean isKeyboardNavigationSuppressed() {
     return cellIsEditing;
   }
-
 
   @Override
   protected void onBrowserEvent2(Event event) {
@@ -441,13 +414,14 @@ public class CellList<T> extends AbstractHasData<T> {
       // Get the cell parent before doing selection in case the list is redrawn.
       boolean isSelectionHandled =
           cell.handlesSelection()
-              || HasKeyboardSelectionPolicy.KeyboardSelectionPolicy.BOUND_TO_SELECTION == getKeyboardSelectionPolicy();
+              || HasKeyboardSelectionPolicy.KeyboardSelectionPolicy.BOUND_TO_SELECTION
+                  == getKeyboardSelectionPolicy();
       Element cellParent = getCellParent(cellTarget);
       T value = getVisibleItem(indexOnPage);
       Context context = new Context(idx, 0, getValueKey(value));
       CellPreviewEvent<T> previewEvent =
-          CellPreviewEvent.fire(this, event, this, context, value, cellIsEditing,
-              isSelectionHandled);
+          CellPreviewEvent.fire(
+              this, event, this, context, value, cellIsEditing, isSelectionHandled);
 
       // Fire the event to the cell if the list has not been refreshed.
       if (!previewEvent.isCanceled()) {
@@ -458,7 +432,7 @@ public class CellList<T> extends AbstractHasData<T> {
 
   /**
    * Called when the loading state changes.
-   * 
+   *
    * @param state the new loading state
    */
   @Override
@@ -486,8 +460,8 @@ public class CellList<T> extends AbstractHasData<T> {
   }
 
   @Override
-  protected void renderRowValues(SafeHtmlBuilder sb, List<T> values, int start,
-                                 SelectionModel<? super T> selectionModel) {
+  protected void renderRowValues(
+      SafeHtmlBuilder sb, List<T> values, int start, SelectionModel<? super T> selectionModel) {
     String keyboardSelectedItem = " " + style.cellListKeyboardSelectedItem();
     String selectedItem = " " + style.cellListSelectedItem();
     String evenItem = style.cellListEvenItem();
@@ -546,9 +520,8 @@ public class CellList<T> extends AbstractHasData<T> {
   }
 
   /**
-   * @deprecated this method is never called by AbstractHasData, render the
-   *             selected styles in
-   *             {@link #renderRowValues(SafeHtmlBuilder, List, int, SelectionModel)}
+   * @deprecated this method is never called by AbstractHasData, render the selected styles in
+   *     {@link #renderRowValues(SafeHtmlBuilder, List, int, SelectionModel)}
    */
   @Override
   @Deprecated

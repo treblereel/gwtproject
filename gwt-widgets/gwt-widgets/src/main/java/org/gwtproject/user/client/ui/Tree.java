@@ -15,6 +15,11 @@
  */
 package org.gwtproject.user.client.ui;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import jsinterop.base.Js;
 import org.gwtproject.aria.client.ExpandedValue;
 import org.gwtproject.aria.client.Id;
@@ -63,73 +68,63 @@ import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.safehtml.shared.SafeHtml;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.Event;
-import org.gwtproject.user.client.ui.AbstractImagePrototype.ImagePrototypeElement;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 /**
- * A standard hierarchical tree widget. The tree contains a hierarchy of
- * {@link TreeItem TreeItems} that the user can
- * open, close, and select.
- * <p>
- * <img class='gallery' src='doc-files/Tree.png'/>
- * </p>
+ * A standard hierarchical tree widget. The tree contains a hierarchy of {@link TreeItem TreeItems}
+ * that the user can open, close, and select.
+ *
+ * <p><img class='gallery' src='doc-files/Tree.png'/>
+ *
  * <h3>CSS Style Rules</h3>
+ *
  * <dl>
- * <dt>.gwt-Tree</dt>
- * <dd>the tree itself</dd>
- * <dt>.gwt-Tree .gwt-TreeItem</dt>
- * <dd>a tree item</dd>
- * <dt>.gwt-Tree .gwt-TreeItem-selected</dt>
- * <dd>a selected tree item</dd>
+ *   <dt>.gwt-Tree
+ *   <dd>the tree itself
+ *   <dt>.gwt-Tree .gwt-TreeItem
+ *   <dd>a tree item
+ *   <dt>.gwt-Tree .gwt-TreeItem-selected
+ *   <dd>a selected tree item
  * </dl>
+ *
  * <p>
+ *
  * <h3>Example</h3>
+ *
  * {@example com.google.gwt.examples.TreeExample}
- * </p>
  */
-public class Tree extends Widget implements HasTreeItems.ForIsWidget, HasWidgets.ForIsWidget,
-    Focusable, HasAnimation, HasAllKeyHandlers,
-    HasAllFocusHandlers, HasSelectionHandlers<TreeItem>,
-    HasOpenHandlers<TreeItem>, HasCloseHandlers<TreeItem>,
-    HasAllMouseHandlers {
+public class Tree extends Widget
+    implements HasTreeItems.ForIsWidget,
+        HasWidgets.ForIsWidget,
+        Focusable,
+        HasAnimation,
+        HasAllKeyHandlers,
+        HasAllFocusHandlers,
+        HasSelectionHandlers<TreeItem>,
+        HasOpenHandlers<TreeItem>,
+        HasCloseHandlers<TreeItem>,
+        HasAllMouseHandlers {
   /*
    * For compatibility with UiBinder interface HasTreeItems should be declared
    * before HasWidgets, so that corresponding parser will run first and add
    * TreeItem children as items, not as widgets.
    */
 
-  /**
-   * A ClientBundle that provides images for this widget.
-   */
+  /** A ClientBundle that provides images for this widget. */
   public interface Resources extends ClientBundle {
 
     Resources INSTANCE = new Tree_ResourcesImpl();
 
-    /**
-     * An image indicating a closed branch.
-     */
+    /** An image indicating a closed branch. */
     ImageResource treeClosed();
 
-    /**
-     * An image indicating a leaf.
-     */
+    /** An image indicating a leaf. */
     ImageResource treeLeaf();
 
-    /**
-     * An image indicating an open branch.
-     */
+    /** An image indicating an open branch. */
     ImageResource treeOpen();
   }
 
-  /**
-   * There are several ways of configuring images for the Tree widget due to
-   * deprecated APIs.
-   */
+  /** There are several ways of configuring images for the Tree widget due to deprecated APIs. */
   static class ImageAdapter {
     private static final Resources DEFAULT_RESOURCES = new Tree_ResourcesImpl();
     private final AbstractImagePrototype treeClosed;
@@ -159,19 +154,17 @@ public class Tree extends Widget implements HasTreeItems.ForIsWidget, HasWidgets
     }
   }
 
-  static boolean shouldTreeDelegateFocusToElement(Element elem)  {
+  static boolean shouldTreeDelegateFocusToElement(Element elem) {
     String name = elem.getNodeName();
-        return name.equals("SELECT") ||
-                    name.equals("INPUT")  ||
-                    name.equals("TEXTAREA") ||
-                    name.equals("OPTION") ||
-                    name.equals("BUTTON") ||
-                    name.equals("LABEL");
+    return name.equals("SELECT")
+        || name.equals("INPUT")
+        || name.equals("TEXTAREA")
+        || name.equals("OPTION")
+        || name.equals("BUTTON")
+        || name.equals("LABEL");
   }
 
-  /**
-   * Map of TreeItem.widget -> TreeItem.
-   */
+  /** Map of TreeItem.widget -> TreeItem. */
   private final Map<Widget, TreeItem> childWidgets = new HashMap<Widget, TreeItem>();
 
   private TreeItem curSelection;
@@ -189,12 +182,10 @@ public class Tree extends Widget implements HasTreeItems.ForIsWidget, HasWidgets
   private TreeItem root;
 
   private boolean scrollOnSelectEnabled = true;
-  
+
   private boolean useLeafImages;
 
-  /**
-   * Constructs an empty tree.
-   */
+  /** Constructs an empty tree. */
   public Tree() {
     init(new ImageAdapter(), false);
   }
@@ -209,9 +200,8 @@ public class Tree extends Widget implements HasTreeItems.ForIsWidget, HasWidgets
   }
 
   /**
-   * Constructs a tree that uses the specified ClientBundle for images. If this
-   * tree does not use leaf images, the width of the Resources's leaf image will
-   * control the leaf indent.
+   * Constructs a tree that uses the specified ClientBundle for images. If this tree does not use
+   * leaf images, the width of the Resources's leaf image will control the leaf indent.
    *
    * @param resources a bundle that provides tree specific images
    * @param useLeafImages use leaf images from bundle
@@ -359,8 +349,7 @@ public class Tree extends Widget implements HasTreeItems.ForIsWidget, HasWidgets
   }
 
   @Override
-  public HandlerRegistration addSelectionHandler(
-      SelectionHandler<TreeItem> handler) {
+  public HandlerRegistration addSelectionHandler(SelectionHandler<TreeItem> handler) {
     return addHandler(handler, SelectionEvent.getType());
   }
 
@@ -375,17 +364,15 @@ public class Tree extends Widget implements HasTreeItems.ForIsWidget, HasWidgets
     return root.addTextItem(itemText);
   }
 
-  /**
-   * Clears all tree items from the current tree.
-   */
+  /** Clears all tree items from the current tree. */
   @Override
   public void clear() {
     root.removeItems();
   }
 
   /**
-   * Ensures that the currently-selected item is visible, opening its parents
-   * and scrolling the tree as necessary.
+   * Ensures that the currently-selected item is visible, opening its parents and scrolling the tree
+   * as necessary.
    */
   public void ensureSelectedItemVisible() {
     if (curSelection == null) {
@@ -433,8 +420,7 @@ public class Tree extends Widget implements HasTreeItems.ForIsWidget, HasWidgets
   }
 
   /**
-   * Inserts a child tree item at the specified index containing the specified
-   * html.
+   * Inserts a child tree item at the specified index containing the specified html.
    *
    * @param beforeIndex the index where the item will be inserted
    * @param itemHtml the html of the item to be added
@@ -457,8 +443,7 @@ public class Tree extends Widget implements HasTreeItems.ForIsWidget, HasWidgets
   }
 
   /**
-   * Inserts a child tree item at the specified index containing the specified
-   * widget.
+   * Inserts a child tree item at the specified index containing the specified widget.
    *
    * @param beforeIndex the index where the item will be inserted
    * @param widget the widget to be added
@@ -470,9 +455,8 @@ public class Tree extends Widget implements HasTreeItems.ForIsWidget, HasWidgets
   }
 
   /**
-   * Inserts a child tree item at the specified index containing the specified
-   * text.
-   * 
+   * Inserts a child tree item at the specified index containing the specified text.
+   *
    * @param beforeIndex the index where the item will be inserted
    * @param itemText the text of the item to be added
    * @return the item that was added
@@ -487,13 +471,11 @@ public class Tree extends Widget implements HasTreeItems.ForIsWidget, HasWidgets
     return isAnimationEnabled;
   }
 
-  /**
-   * Determines whether selecting a tree item will scroll it into view.
-   */
+  /** Determines whether selecting a tree item will scroll it into view. */
   public boolean isScrollOnSelectEnabled() {
     return scrollOnSelectEnabled;
   }
-  
+
   @Override
   public Iterator<Widget> iterator() {
     final Widget[] widgets = new Widget[childWidgets.size()];
@@ -507,16 +489,17 @@ public class Tree extends Widget implements HasTreeItems.ForIsWidget, HasWidgets
     int eventType = DOM.eventGetType(event);
 
     switch (eventType) {
-      case Event.ONKEYDOWN: {
-        // If nothing's selected, select the first item.
-        if (curSelection == null) {
-          if (root.getChildCount() > 0) {
-            onSelection(root.getChild(0), true, true);
+      case Event.ONKEYDOWN:
+        {
+          // If nothing's selected, select the first item.
+          if (curSelection == null) {
+            if (root.getChildCount() > 0) {
+              onSelection(root.getChild(0), true, true);
+            }
+            super.onBrowserEvent(event);
+            return;
           }
-          super.onBrowserEvent(event);
-          return;
         }
-      }
 
         // Intentional fallthrough.
       case Event.ONKEYPRESS:
@@ -530,66 +513,72 @@ public class Tree extends Widget implements HasTreeItems.ForIsWidget, HasWidgets
     }
 
     switch (eventType) {
-      case Event.ONCLICK: {
-        Element e = DOM.eventGetTarget(event);
-        if (shouldTreeDelegateFocusToElement(e)) {
-          // The click event should have given focus to this element already.
-          // Avoid moving focus back up to the tree (so that focusable widgets
-          // attached to TreeItems can receive keyboard events).
-        } else if ((curSelection != null) && curSelection.getContentElem().isOrHasChild(e)) {
-          setFocus(true);
-        }
-        break;
-      }
-
-      case Event.ONMOUSEDOWN: {
-        // Currently, the way we're using image bundles causes extraneous events
-        // to be sunk on individual items' open/close images. This leads to an
-        // extra event reaching the Tree, which we will ignore here.
-        // Also, ignore middle and right clicks here.
-        if ((DOM.eventGetCurrentTarget(event) == getElement())
-            && (event.getButton() == Event.BUTTON_LEFT)) {
-          elementClicked(DOM.eventGetTarget(event));
-        }
-        break;
-      }
-      case Event.ONKEYDOWN: {
-        keyboardNavigation(event);
-        lastWasKeyDown = true;
-        break;
-      }
-
-      case Event.ONKEYPRESS: {
-        if (!lastWasKeyDown) {
-          keyboardNavigation(event);
-        }
-        lastWasKeyDown = false;
-        break;
-      }
-
-      case Event.ONKEYUP: {
-        if (event.getKeyCode() == KeyCodes.KEY_TAB) {
-          ArrayList<Element> chain = new ArrayList<Element>();
-          collectElementChain(chain, getElement(), DOM.eventGetTarget(event));
-          TreeItem item = findItemByChain(chain, 0, root);
-          if (item != getSelectedItem()) {
-            setSelectedItem(item, true);
+      case Event.ONCLICK:
+        {
+          Element e = DOM.eventGetTarget(event);
+          if (shouldTreeDelegateFocusToElement(e)) {
+            // The click event should have given focus to this element already.
+            // Avoid moving focus back up to the tree (so that focusable widgets
+            // attached to TreeItems can receive keyboard events).
+          } else if ((curSelection != null) && curSelection.getContentElem().isOrHasChild(e)) {
+            setFocus(true);
           }
+          break;
         }
-        lastWasKeyDown = false;
-        break;
-      }
+
+      case Event.ONMOUSEDOWN:
+        {
+          // Currently, the way we're using image bundles causes extraneous events
+          // to be sunk on individual items' open/close images. This leads to an
+          // extra event reaching the Tree, which we will ignore here.
+          // Also, ignore middle and right clicks here.
+          if ((DOM.eventGetCurrentTarget(event) == getElement())
+              && (event.getButton() == Event.BUTTON_LEFT)) {
+            elementClicked(DOM.eventGetTarget(event));
+          }
+          break;
+        }
+      case Event.ONKEYDOWN:
+        {
+          keyboardNavigation(event);
+          lastWasKeyDown = true;
+          break;
+        }
+
+      case Event.ONKEYPRESS:
+        {
+          if (!lastWasKeyDown) {
+            keyboardNavigation(event);
+          }
+          lastWasKeyDown = false;
+          break;
+        }
+
+      case Event.ONKEYUP:
+        {
+          if (event.getKeyCode() == KeyCodes.KEY_TAB) {
+            ArrayList<Element> chain = new ArrayList<Element>();
+            collectElementChain(chain, getElement(), DOM.eventGetTarget(event));
+            TreeItem item = findItemByChain(chain, 0, root);
+            if (item != getSelectedItem()) {
+              setSelectedItem(item, true);
+            }
+          }
+          lastWasKeyDown = false;
+          break;
+        }
     }
 
     switch (eventType) {
       case Event.ONKEYDOWN:
-      case Event.ONKEYUP: {
-        if (KeyCodes.isArrowKey(event.getKeyCode())) {
-          event.stopPropagation();
-          event.preventDefault();
-          return;
+      case Event.ONKEYUP:
+        {
+          if (KeyCodes.isArrowKey(event.getKeyCode())) {
+            event.stopPropagation();
+            event.preventDefault();
+            return;
+          }
         }
-      }
     }
 
     // We must call super for all handlers.
@@ -642,9 +631,7 @@ public class Tree extends Widget implements HasTreeItems.ForIsWidget, HasWidgets
     }
   }
 
-  /**
-   * Removes all items from the root level of this tree.
-   */
+  /** Removes all items from the root level of this tree. */
   @Override
   public void removeItems() {
     while (getItemCount() > 0) {
@@ -678,12 +665,11 @@ public class Tree extends Widget implements HasTreeItems.ForIsWidget, HasWidgets
   public void setScrollOnSelectEnabled(boolean enable) {
     scrollOnSelectEnabled = enable;
   }
-  
+
   /**
    * Selects a specified item.
    *
-   * @param item the item to be selected, or <code>null</code> to deselect all
-   *          items
+   * @param item the item to be selected, or <code>null</code> to deselect all items
    */
   public void setSelectedItem(TreeItem item) {
     setSelectedItem(item, true);
@@ -692,8 +678,7 @@ public class Tree extends Widget implements HasTreeItems.ForIsWidget, HasWidgets
   /**
    * Selects a specified item.
    *
-   * @param item the item to be selected, or <code>null</code> to deselect all
-   *          items
+   * @param item the item to be selected, or <code>null</code> to deselect all items
    * @param fireEvents <code>true</code> to allow selection events to be fired
    */
   public void setSelectedItem(TreeItem item, boolean fireEvents) {
@@ -728,8 +713,7 @@ public class Tree extends Widget implements HasTreeItems.ForIsWidget, HasWidgets
   @Override
   protected void doAttachChildren() {
     try {
-      AttachDetachException.tryCommand(this,
-          AttachDetachException.attachCommand);
+      AttachDetachException.tryCommand(this, AttachDetachException.attachCommand);
     } finally {
       DOM.setEventListener(focusable, this);
     }
@@ -738,21 +722,19 @@ public class Tree extends Widget implements HasTreeItems.ForIsWidget, HasWidgets
   @Override
   protected void doDetachChildren() {
     try {
-      AttachDetachException.tryCommand(this,
-          AttachDetachException.detachCommand);
+      AttachDetachException.tryCommand(this, AttachDetachException.detachCommand);
     } finally {
       DOM.setEventListener(focusable, null);
     }
   }
 
   /**
-   * Indicates if keyboard navigation is enabled for the Tree and for a given
-   * TreeItem. Subclasses of Tree can override this function to selectively
-   * enable or disable keyboard navigation.
+   * Indicates if keyboard navigation is enabled for the Tree and for a given TreeItem. Subclasses
+   * of Tree can override this function to selectively enable or disable keyboard navigation.
    *
    * @param currentItem the currently selected TreeItem
-   * @return <code>true</code> if the Tree will response to arrow keys by
-   *         changing the currently selected item
+   * @return <code>true</code> if the Tree will response to arrow keys by changing the currently
+   *     selected item
    */
   protected boolean isKeyboardNavigationEnabled(TreeItem currentItem) {
     return true;
@@ -760,8 +742,9 @@ public class Tree extends Widget implements HasTreeItems.ForIsWidget, HasWidgets
 
   /**
    * <b>Affected Elements:</b>
+   *
    * <ul>
-   * <li>-root = The root {@link TreeItem}.</li>
+   *   <li>-root = The root {@link TreeItem}.
    * </ul>
    *
    * @see UIObject#onEnsureDebugId(String)
@@ -804,9 +787,8 @@ public class Tree extends Widget implements HasTreeItems.ForIsWidget, HasWidgets
 
   void maybeUpdateSelection(TreeItem itemThatChangedState, boolean isItemOpening) {
     /**
-     * If we just closed the item, let's check to see if this item is the parent
-     * of the currently selected item. If so, we should make this item the
-     * currently selected selected item.
+     * If we just closed the item, let's check to see if this item is the parent of the currently
+     * selected item. If so, we should make this item the currently selected selected item.
      */
     if (!isItemOpening) {
       TreeItem tempItem = curSelection;
@@ -834,8 +816,7 @@ public class Tree extends Widget implements HasTreeItems.ForIsWidget, HasWidgets
   }
 
   /**
-   * Called only from {@link TreeItem}: Shows the closed image on that tree
-   * item.
+   * Called only from {@link TreeItem}: Shows the closed image on that tree item.
    *
    * @param treeItem the tree item
    */
@@ -867,11 +848,8 @@ public class Tree extends Widget implements HasTreeItems.ForIsWidget, HasWidgets
     showImage(treeItem, images.treeOpen());
   }
 
-  /**
-   * Collects parents going up the element tree, terminated at the tree root.
-   */
-  private void collectElementChain(ArrayList<Element> chain, Element hRoot,
-      Element hElem) {
+  /** Collects parents going up the element tree, terminated at the tree root. */
+  private void collectElementChain(ArrayList<Element> chain, Element hRoot, Element hElem) {
     if ((hElem == null) || (hElem == hRoot)) {
       return;
     }
@@ -886,8 +864,7 @@ public class Tree extends Widget implements HasTreeItems.ForIsWidget, HasWidgets
 
     TreeItem item = findItemByChain(chain, 0, root);
     if (item != null && item != root) {
-      if (item.getChildCount() > 0
-          && item.getImageElement().isOrHasChild(hElem)) {
+      if (item.getChildCount() > 0 && item.getImageElement().isOrHasChild(hElem)) {
         item.setState(!item.getState(), true);
         return true;
       } else if (item.getElement().isOrHasChild(hElem)) {
@@ -906,8 +883,7 @@ public class Tree extends Widget implements HasTreeItems.ForIsWidget, HasWidgets
     return findDeepestOpenChild(item.getChild(item.getChildCount() - 1));
   }
 
-  private TreeItem findItemByChain(ArrayList<Element> chain, int idx,
-      TreeItem root) {
+  private TreeItem findItemByChain(ArrayList<Element> chain, int idx, TreeItem root) {
     if (idx == chain.size()) {
       return root;
     }
@@ -928,8 +904,8 @@ public class Tree extends Widget implements HasTreeItems.ForIsWidget, HasWidgets
   }
 
   /**
-   * Get the top parent above this {@link TreeItem} that is in closed state. In
-   * other words, get the parent that is guaranteed to be visible.
+   * Get the top parent above this {@link TreeItem} that is in closed state. In other words, get the
+   * parent that is guaranteed to be visible.
    *
    * @param item
    * @return the closed parent, or null if all parents are opened
@@ -989,25 +965,30 @@ public class Tree extends Widget implements HasTreeItems.ForIsWidget, HasWidgets
       int code = event.getKeyCode();
 
       switch (KeyCodes.maybeSwapArrowKeysForRtl(code, LocaleInfo.getCurrentLocale().isRTL())) {
-        case KeyCodes.KEY_UP: {
-          moveSelectionUp(curSelection);
-          break;
-        }
-        case KeyCodes.KEY_DOWN: {
-          moveSelectionDown(curSelection, true);
-          break;
-        }
-        case KeyCodes.KEY_LEFT: {
-          maybeCollapseTreeItem();
-          break;
-        }
-        case KeyCodes.KEY_RIGHT: {
-          maybeExpandTreeItem();
-          break;
-        }
-        default: {
-          return;
-        }
+        case KeyCodes.KEY_UP:
+          {
+            moveSelectionUp(curSelection);
+            break;
+          }
+        case KeyCodes.KEY_DOWN:
+          {
+            moveSelectionDown(curSelection, true);
+            break;
+          }
+        case KeyCodes.KEY_LEFT:
+          {
+            maybeCollapseTreeItem();
+            break;
+          }
+        case KeyCodes.KEY_RIGHT:
+          {
+            maybeExpandTreeItem();
+            break;
+          }
+        default:
+          {
+            return;
+          }
       }
     }
   }
@@ -1041,9 +1022,7 @@ public class Tree extends Widget implements HasTreeItems.ForIsWidget, HasWidgets
     }
   }
 
-  /**
-   * Move the tree focus to the specified selected item.
-   */
+  /** Move the tree focus to the specified selected item. */
   private void moveFocus() {
     Focusable focusableWidget = curSelection.getFocusable();
     if (focusableWidget != null) {
@@ -1058,7 +1037,7 @@ public class Tree extends Widget implements HasTreeItems.ForIsWidget, HasWidgets
         Element selectedElem = curSelection.getContentElem();
         int containerLeft = getAbsoluteLeft();
         int containerTop = getAbsoluteTop();
-  
+
         int left = selectedElem.getAbsoluteLeft() - containerLeft;
         int top = selectedElem.getAbsoluteTop() - containerTop;
         int width = selectedElem.getPropertyInt("offsetWidth");
@@ -1070,14 +1049,14 @@ public class Tree extends Widget implements HasTreeItems.ForIsWidget, HasWidgets
           DOM.setIntStyleAttribute(focusable, "top", 0);
           return;
         }
-  
+
         // Set the focusable element's position and size to exactly underlap the
         // item's content element.
         focusable.getStyle().setProperty("left", left + "px");
         focusable.getStyle().setProperty("top", top + "px");
         focusable.getStyle().setProperty("width", width + "px");
         focusable.getStyle().setProperty("height", height + "px");
-  
+
         // Scroll it into view.
         focusable.scrollIntoView();
       }
@@ -1092,9 +1071,7 @@ public class Tree extends Widget implements HasTreeItems.ForIsWidget, HasWidgets
     }
   }
 
-  /**
-   * Moves to the next item, going into children as if dig is enabled.
-   */
+  /** Moves to the next item, going into children as if dig is enabled. */
   private void moveSelectionDown(TreeItem sel, boolean dig) {
     if (sel == root) {
       return;
@@ -1124,9 +1101,7 @@ public class Tree extends Widget implements HasTreeItems.ForIsWidget, HasWidgets
     }
   }
 
-  /**
-   * Moves the selected item up one.
-   */
+  /** Moves the selected item up one. */
   private void moveSelectionUp(TreeItem sel) {
     // Find a parent that is visible
     TreeItem topClosedParent = getTopClosedParent(sel);
@@ -1231,13 +1206,12 @@ public class Tree extends Widget implements HasTreeItems.ForIsWidget, HasWidgets
       curSelectionParent = root;
     }
 
-    Roles.getTreeitemRole().setAriaSetsizeProperty(curSelectionContentElem,
-        curSelectionParent.getChildCount());
+    Roles.getTreeitemRole()
+        .setAriaSetsizeProperty(curSelectionContentElem, curSelectionParent.getChildCount());
 
     int curSelectionIndex = curSelectionParent.getChildIndex(curSelection);
 
-    Roles.getTreeitemRole().setAriaPosinsetProperty(curSelectionContentElem,
-        curSelectionIndex + 1);
+    Roles.getTreeitemRole().setAriaPosinsetProperty(curSelectionContentElem, curSelectionIndex + 1);
 
     // Set the 'aria-expanded' state. This depends on the state of the currently
     // selected item.
@@ -1247,19 +1221,17 @@ public class Tree extends Widget implements HasTreeItems.ForIsWidget, HasWidgets
       Roles.getTreeitemRole().removeAriaExpandedState(curSelectionContentElem);
 
     } else {
-      Roles.getTreeitemRole().setAriaExpandedState(curSelectionContentElem,
-            ExpandedValue.of(curSelection.getState()));
+      Roles.getTreeitemRole()
+          .setAriaExpandedState(curSelectionContentElem, ExpandedValue.of(curSelection.getState()));
     }
 
     // Make sure that 'aria-selected' is true.
 
-    Roles.getTreeitemRole().setAriaSelectedState(curSelectionContentElem,
-        SelectedValue.of(true));
+    Roles.getTreeitemRole().setAriaSelectedState(curSelectionContentElem, SelectedValue.of(true));
 
     // Update the 'aria-activedescendant' state for the focusable element to
     // match the id of the currently selected item
 
-    Roles.getTreeRole().setAriaActivedescendantProperty(focusable, Id.of(
-        curSelectionContentElem));
+    Roles.getTreeRole().setAriaActivedescendantProperty(focusable, Id.of(curSelectionContentElem));
   }
 }

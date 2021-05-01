@@ -31,27 +31,23 @@ import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.Event;
 
 /**
- * CustomButton is a base button class with built in support for a set number
- * of button faces.
+ * CustomButton is a base button class with built in support for a set number of button faces.
  *
- * Each face has its own style modifier. For example, the state for down and
- * hovering is assigned the CSS modifier <i>down-hovering</i>. So, if the
- * button's overall style name is <i>gwt-PushButton</i> then when showing the
- * <code>down-hovering</code> face, the button's style is <i>
- * gwt-PushButton-down-hovering</i>. The overall style name can be used to
- * change the style of the button irrespective of the current face.
+ * <p>Each face has its own style modifier. For example, the state for down and hovering is assigned
+ * the CSS modifier <i>down-hovering</i>. So, if the button's overall style name is
+ * <i>gwt-PushButton</i> then when showing the <code>down-hovering</code> face, the button's style
+ * is <i> gwt-PushButton-down-hovering</i>. The overall style name can be used to change the style
+ * of the button irrespective of the current face.
  *
- * <p>
- * Each button face can be assigned is own image, text, or html contents. If no
- * content is defined for a face, then the face will use the contents of another
- * face. For example, if <code>down-hovering</code> does not have defined
- * contents, it will use the contents defined by the <code>down</code> face.
- * </p>
+ * <p>Each button face can be assigned is own image, text, or html contents. If no content is
+ * defined for a face, then the face will use the contents of another face. For example, if <code>
+ * down-hovering</code> does not have defined contents, it will use the contents defined by the
+ * <code>down</code> face.
+ *
+ * <p>The supported faces are defined below:
  *
  * <p>
- * The supported faces are defined below:
- * </p>
- * <p>
+ *
  * <table border="4">
  * <tr>
  *
@@ -103,26 +99,28 @@ import org.gwtproject.user.client.Event;
  * <td>down</td>
  * </tr>
  * </table>
- * </p>
  *
  * <h3>Use in UiBinder Templates</h3>
  *
- * When working with CustomButton subclasses in
- * {@link org.gwtproject.uibinder.client.UiBinder UiBinder} templates, you
- * can set text and assign ImageResources for their various faces via
- * child elements:
+ * When working with CustomButton subclasses in {@link org.gwtproject.uibinder.client.UiBinder
+ * UiBinder} templates, you can set text and assign ImageResources for their various faces via child
+ * elements:
+ *
  * <p>
+ *
  * <dl>
- * <dt>&lt;g:upFace>
- * <dt>&lt;g:downFace>
- * <dt>&lt;g:upHoveringFace>
- * <dt>&lt;g:downHoveringFace>
- * <dt>&lt;g:upDisabledFace>
- * <dt>&lt;g:downDisabledFace>
+ *   <dt>&lt;g:upFace>
+ *   <dt>&lt;g:downFace>
+ *   <dt>&lt;g:upHoveringFace>
+ *   <dt>&lt;g:downHoveringFace>
+ *   <dt>&lt;g:upDisabledFace>
+ *   <dt>&lt;g:downDisabledFace>
  * </dl>
  *
- * Each face element can take an optional <code>image</code> attribute
- * and an html body. For example:<pre>
+ * Each face element can take an optional <code>image</code> attribute and an html body. For
+ * example:
+ *
+ * <pre>
  * &lt;ui:image field='downButton'/> &lt;!-- define an {@link ImageResource ImageResource} -->
  *
  * &lt;g:PushButton ui:field='pushButton' enabled='true'>
@@ -140,8 +138,8 @@ import org.gwtproject.user.client.Event;
  */
 public abstract class CustomButton extends ButtonBase {
   /**
-   * Represents a button's face. Each face is associated with its own style
-   * modifier and, optionally, its own contents html, text, or image.
+   * Represents a button's face. Each face is associated with its own style modifier and,
+   * optionally, its own contents html, text, or image.
    */
   public abstract class Face implements HasHTML, HasSafeHtml {
     private static final String STYLENAME_HTML_FACE = "html-face";
@@ -149,8 +147,7 @@ public abstract class CustomButton extends ButtonBase {
     private Element face;
 
     /**
-     * Constructor for <code>Face</code>. Creates a new face that delegates to
-     * the supplied face.
+     * Constructor for <code>Face</code>. Creates a new face that delegates to the supplied face.
      *
      * @param delegateTo default content provider
      */
@@ -162,7 +159,6 @@ public abstract class CustomButton extends ButtonBase {
      * Gets the face's contents as html.
      *
      * @return face's contents as html
-     *
      */
     @Override
     public String getHTML() {
@@ -173,7 +169,6 @@ public abstract class CustomButton extends ButtonBase {
      * Gets the face's contents as text.
      *
      * @return face's contents as text
-     *
      */
     @Override
     public String getText() {
@@ -194,7 +189,6 @@ public abstract class CustomButton extends ButtonBase {
      * Set the face's contents as html.
      *
      * @param html html to set as face's contents html
-     *
      */
     @Override
     public void setHTML(@IsSafeHtml String html) {
@@ -233,24 +227,23 @@ public abstract class CustomButton extends ButtonBase {
     }
 
     /**
-     * Gets the ID associated with this face. This will be a bitwise and of all
-     * of the attributes that comprise this face.
+     * Gets the ID associated with this face. This will be a bitwise and of all of the attributes
+     * that comprise this face.
      */
     abstract int getFaceID();
 
     /**
-     * Get the name of the face. This property is also used as a modifier on the
-     * <code>CustomButton</code> style. <p/> For instance, if the
-     * <code>CustomButton</code> style is "gwt-PushButton" and the face name is
-     * "up", then the CSS class name will be "gwt-PushButton-up".
+     * Get the name of the face. This property is also used as a modifier on the <code>CustomButton
+     * </code> style.
+     *
+     * <p>For instance, if the <code>CustomButton</code> style is "gwt-PushButton" and the face name
+     * is "up", then the CSS class name will be "gwt-PushButton-up".
      *
      * @return the face's name
      */
     abstract String getName();
 
-    /**
-     * Gets the contents associated with this face.
-     */
+    /** Gets the contents associated with this face. */
     private Element getFace() {
       if (face == null) {
         if (delegateTo == null) {
@@ -274,104 +267,65 @@ public abstract class CustomButton extends ButtonBase {
 
   private static final String STYLENAME_DEFAULT = "gwt-CustomButton";
 
-  /**
-   * Pressed Attribute bit.
-   */
+  /** Pressed Attribute bit. */
   private static final int DOWN_ATTRIBUTE = 1;
 
-  /**
-   * Hovering Attribute bit.
-   */
+  /** Hovering Attribute bit. */
   private static final int HOVERING_ATTRIBUTE = 2;
 
-  /**
-   * Disabled Attribute bit.
-   */
+  /** Disabled Attribute bit. */
   private static final int DISABLED_ATTRIBUTE = 4;
 
-  /**
-   * ID for up face.
-   */
+  /** ID for up face. */
   private static final int UP = 0;
 
-  /**
-   * ID for down face.
-   */
+  /** ID for down face. */
   private static final int DOWN = DOWN_ATTRIBUTE;
 
-  /**
-   * ID for upHovering face.
-   */
+  /** ID for upHovering face. */
   private static final int UP_HOVERING = HOVERING_ATTRIBUTE;
 
-  /**
-   * ID for downHovering face.
-   */
+  /** ID for downHovering face. */
   private static final int DOWN_HOVERING = DOWN_ATTRIBUTE | HOVERING_ATTRIBUTE;
 
-  /**
-   * ID for upDisabled face.
-   */
+  /** ID for upDisabled face. */
   private static final int UP_DISABLED = DISABLED_ATTRIBUTE;
 
-  /**
-   * ID for downDisabled face.
-   */
+  /** ID for downDisabled face. */
   private static final int DOWN_DISABLED = DOWN | DISABLED_ATTRIBUTE;
 
-  /**
-   * The button's current face element.
-   */
+  /** The button's current face element. */
   private Element curFaceElement;
 
-  /**
-   * The button's current face.
-   */
+  /** The button's current face. */
   private Face curFace;
 
-  /**
-   * Face for up.
-   */
+  /** Face for up. */
   private Face up;
 
-  /**
-   * Face for down.
-   */
+  /** Face for down. */
   private Face down;
 
-  /**
-   * Face for downHover.
-   */
+  /** Face for downHover. */
   private Face downHovering;
 
-  /**
-   * Face for upHover.
-   */
+  /** Face for upHover. */
   private Face upHovering;
 
-  /**
-   * Face for upDisabled.
-   */
+  /** Face for upDisabled. */
   private Face upDisabled;
 
-  /**
-   * Face for downDisabled.
-   */
+  /** Face for downDisabled. */
   private Face downDisabled;
 
-  /**
-   * If <code>true</code>, this widget is capturing with the mouse held down.
-   */
+  /** If <code>true</code>, this widget is capturing with the mouse held down. */
   private boolean isCapturing;
 
-  /**
-   * If <code>true</code>, this widget has focus with the space bar down.
-   */
+  /** If <code>true</code>, this widget has focus with the space bar down. */
   private boolean isFocusing;
 
   /**
-   * Used to decide whether to allow clicks to propagate up to the superclass
-   * or container elements.
+   * Used to decide whether to allow clicks to propagate up to the superclass or container elements.
    */
   private boolean allowClick;
 
@@ -463,15 +417,12 @@ public abstract class CustomButton extends ButtonBase {
     addClickHandler(handler);
   }
 
-  /**
-   * Constructor for <code>CustomButton</code>.
-   */
+  /** Constructor for <code>CustomButton</code>. */
   protected CustomButton() {
     // Use FocusPanel.impl rather than FocusWidget because only FocusPanel.impl
     // works across browsers to create a focusable element.
     super(FocusPanel.impl.createFocusable());
-    sinkEvents(Event.ONCLICK | Event.MOUSEEVENTS | Event.FOCUSEVENTS
-        | Event.KEYEVENTS);
+    sinkEvents(Event.ONCLICK | Event.MOUSEEVENTS | Event.FOCUSEVENTS | Event.KEYEVENTS);
     setUpFace(createFace(null, "up", UP));
     setStyleName(STYLENAME_DEFAULT);
 
@@ -486,8 +437,7 @@ public abstract class CustomButton extends ButtonBase {
    */
   public final Face getDownDisabledFace() {
     if (downDisabled == null) {
-      setDownDisabledFace(createFace(getDownFace(), "down-disabled",
-          DOWN_DISABLED));
+      setDownDisabledFace(createFace(getDownFace(), "down-disabled", DOWN_DISABLED));
     }
     return downDisabled;
   }
@@ -511,8 +461,7 @@ public abstract class CustomButton extends ButtonBase {
    */
   public final Face getDownHoveringFace() {
     if (downHovering == null) {
-      setDownHoveringFace(createFace(getDownFace(), "down-hovering",
-          DOWN_HOVERING));
+      setDownHoveringFace(createFace(getDownFace(), "down-hovering", DOWN_HOVERING));
     }
     return downHovering;
   }
@@ -588,8 +537,8 @@ public abstract class CustomButton extends ButtonBase {
       case Event.ONCLICK:
         // If clicks are currently disallowed, keep it from bubbling or being
         // passed to the superclass.
-          if (!allowClick) {
-            event.stopPropagation();
+        if (!allowClick) {
+          event.stopPropagation();
           return;
         }
         break;
@@ -685,8 +634,7 @@ public abstract class CustomButton extends ButtonBase {
   /**
    * Sets whether this button is enabled.
    *
-   * @param enabled <code>true</code> to enable the button, <code>false</code>
-   * to disable it
+   * @param enabled <code>true</code> to enable the button, <code>false</code> to disable it
    */
   @Override
   public final void setEnabled(boolean enabled) {
@@ -751,8 +699,8 @@ public abstract class CustomButton extends ButtonBase {
   }
 
   /**
-   * Overridden on attach to ensure that a button face has been chosen before
-   * the button is displayed.
+   * Overridden on attach to ensure that a button face has been chosen before the button is
+   * displayed.
    */
   @Override
   protected void onAttach() {
@@ -761,10 +709,9 @@ public abstract class CustomButton extends ButtonBase {
   }
 
   /**
-   * Called when the user finishes clicking on this button. The default behavior
-   * is to fire the click event to listeners. Subclasses that override
-   * {@link #onClickStart()} should override this method to restore the normal
-   * widget display.
+   * Called when the user finishes clicking on this button. The default behavior is to fire the
+   * click event to listeners. Subclasses that override {@link #onClickStart()} should override this
+   * method to restore the normal widget display.
    */
   protected void onClick() {
     // Allow the click we're about to synthesize to pass through to the
@@ -774,33 +721,27 @@ public abstract class CustomButton extends ButtonBase {
 
     // Mouse coordinates are not always available (e.g., when the click is
     // caused by a keyboard event).
-    NativeEvent evt = Document.get().createClickEvent(1, 0, 0, 0, 0, false,
-        false, false, false);
+    NativeEvent evt = Document.get().createClickEvent(1, 0, 0, 0, 0, false, false, false, false);
     getElement().dispatchEvent(evt);
 
     allowClick = false;
   }
 
   /**
-   * Called when the user aborts a click in progress; for example, by dragging
-   * the mouse outside of the button before releasing the mouse button.
-   * Subclasses that override {@link #onClickStart()} should override this
-   * method to restore the normal widget display.
+   * Called when the user aborts a click in progress; for example, by dragging the mouse outside of
+   * the button before releasing the mouse button. Subclasses that override {@link #onClickStart()}
+   * should override this method to restore the normal widget display.
    */
-  protected void onClickCancel() {
-  }
+  protected void onClickCancel() {}
 
   /**
-   * Called when the user begins to click on this button. Subclasses may
-   * override this method to display the start of the click visually; such
-   * subclasses should also override {@link #onClick()} and
-   * {@link #onClickCancel()} to restore normal visual state. Each
-   * <code>onClickStart</code> will eventually be followed by either
-   * <code>onClick</code> or <code>onClickCancel</code>, depending on whether
-   * the click is completed.
+   * Called when the user begins to click on this button. Subclasses may override this method to
+   * display the start of the click visually; such subclasses should also override {@link
+   * #onClick()} and {@link #onClickCancel()} to restore normal visual state. Each <code>
+   * onClickStart</code> will eventually be followed by either <code>onClick</code> or <code>
+   * onClickCancel</code>, depending on whether the click is completed.
    */
-  protected void onClickStart() {
-  }
+  protected void onClickStart() {}
 
   @Override
   protected void onDetach() {
@@ -812,8 +753,7 @@ public abstract class CustomButton extends ButtonBase {
   /**
    * Sets whether this button is down.
    *
-   * @param down <code>true</code> to press the button, <code>false</code>
-   * otherwise
+   * @param down <code>true</code> to press the button, <code>false</code> otherwise
    */
   protected void setDown(boolean down) {
     if (down != isDown()) {
@@ -821,9 +761,7 @@ public abstract class CustomButton extends ButtonBase {
     }
   }
 
-  /**
-   * Common setup between constructors.
-   */
+  /** Common setup between constructors. */
   void finishSetup() {
     if (curFace == null) {
       setCurrentFace(getUpFace());
@@ -832,8 +770,7 @@ public abstract class CustomButton extends ButtonBase {
 
   void fireClickListeners(@SuppressWarnings("unused") Event nativeEvent) {
     // TODO(ecc) Once event triggering is committed, should fire a native click event instead.
-    fireEvent(new ClickEvent() {
-    });
+    fireEvent(new ClickEvent() {});
   }
 
   /**
@@ -841,7 +778,6 @@ public abstract class CustomButton extends ButtonBase {
    *
    * @return the current face
    */
-
   Face getCurrentFace() {
     /*
      * Implementation note: Package protected so we can use it when testing the
@@ -889,17 +825,15 @@ public abstract class CustomButton extends ButtonBase {
     }
   }
 
-  /**
-   * Toggle the up/down attribute.
-   */
+  /** Toggle the up/down attribute. */
   void toggleDown() {
     int newFaceID = getCurrentFace().getFaceID() ^ DOWN_ATTRIBUTE;
     setCurrentFace(newFaceID);
   }
 
   /**
-   * Resets internal state if this button can no longer service events. This can
-   * occur when the widget becomes detached or disabled.
+   * Resets internal state if this button can no longer service events. This can occur when the
+   * widget becomes detached or disabled.
    */
   private void cleanupCaptureState() {
     if (isCapturing || isFocusing) {
@@ -1023,9 +957,7 @@ public abstract class CustomButton extends ButtonBase {
     this.upHovering = upHovering;
   }
 
-  /**
-   * Toggle the disabled attribute.
-   */
+  /** Toggle the disabled attribute. */
   private void toggleDisabled() {
     // Toggle disabled.
     int newFaceID = getCurrentFace().getFaceID() ^ DISABLED_ATTRIBUTE;
@@ -1037,9 +969,7 @@ public abstract class CustomButton extends ButtonBase {
     setCurrentFace(newFaceID);
   }
 
-  /**
-   * Toggle the hovering attribute.
-   */
+  /** Toggle the hovering attribute. */
   private void toggleHover() {
     // Toggle hovering.
     int newFaceID = getCurrentFace().getFaceID() ^ HOVERING_ATTRIBUTE;

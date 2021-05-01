@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -19,24 +19,17 @@ import org.gwtproject.dom.client.DivElement;
 import org.gwtproject.dom.client.Document;
 
 /**
- * A panel that formats its child widgets using the default HTML layout
- * behavior.
+ * A panel that formats its child widgets using the default HTML layout behavior.
  *
- * <p>
- * <img class='gallery' src='doc-files/FlowPanel.png'/>
- * </p>
+ * <p><img class='gallery' src='doc-files/FlowPanel.png'/>
  */
 public class FlowPanel extends ComplexPanel implements InsertPanel.ForIsWidget {
-  /**
-   * Creates an empty flow panel.
-   */
+  /** Creates an empty flow panel. */
   public FlowPanel() {
     this(DivElement.TAG);
   }
 
-  /**
-   * Creates an empty flow panel with a custom tag.
-   */
+  /** Creates an empty flow panel with a custom tag. */
   public FlowPanel(String tag) {
     setElement(Document.get().createElement(tag));
   }
@@ -70,8 +63,7 @@ public class FlowPanel extends ComplexPanel implements InsertPanel.ForIsWidget {
    *
    * @param w the widget to be inserted
    * @param beforeIndex the index before which it will be inserted
-   * @throws IndexOutOfBoundsException if <code>beforeIndex</code> is out of
-   *           range
+   * @throws IndexOutOfBoundsException if <code>beforeIndex</code> is out of range
    */
   @Override
   public void insert(Widget w, int beforeIndex) {

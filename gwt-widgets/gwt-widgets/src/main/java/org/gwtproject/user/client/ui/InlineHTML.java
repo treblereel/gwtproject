@@ -24,38 +24,33 @@ import org.gwtproject.safehtml.shared.annotations.IsSafeHtml;
 /**
  * A widget that can contain arbitrary HTML.
  *
- * This widget uses a &lt;span&gt; element, causing it to be displayed with
- * inline layout.
+ * <p>This widget uses a &lt;span&gt; element, causing it to be displayed with inline layout.
  *
- * <p>
- * If you only need a simple label (text, but not HTML), then the
- * {@link Label} widget is more appropriate, as it
- * disallows the use of HTML, which can lead to potential security issues if not
+ * <p>If you only need a simple label (text, but not HTML), then the {@link Label} widget is more
+ * appropriate, as it disallows the use of HTML, which can lead to potential security issues if not
  * used properly.
- * </p>
  *
  * <p>
+ *
  * <h3>Built-in Bidi Text Support</h3>
- * This widget is capable of automatically adjusting its direction according to
- * its content. This feature is controlled by {@link #setDirectionEstimator} or
- * passing a DirectionEstimator parameter to the constructor, and is off by
- * default.
- * </p>
+ *
+ * This widget is capable of automatically adjusting its direction according to its content. This
+ * feature is controlled by {@link #setDirectionEstimator} or passing a DirectionEstimator parameter
+ * to the constructor, and is off by default.
  *
  * <h3>CSS Style Rules</h3>
+ *
  * <ul class='css'>
- * <li>.gwt-InlineHTML { }</li>
+ *   <li>.gwt-InlineHTML { }
  * </ul>
  */
 public class InlineHTML extends HTML {
 
   /**
-   * Creates an InlineHTML widget that wraps an existing &lt;div&gt; or
-   * &lt;span&gt; element.
+   * Creates an InlineHTML widget that wraps an existing &lt;div&gt; or &lt;span&gt; element.
    *
-   * This element must already be attached to the document. If the element is
-   * removed from the document, you must call
-   * {@link RootPanel#detachNow(Widget)}.
+   * <p>This element must already be attached to the document. If the element is removed from the
+   * document, you must call {@link RootPanel#detachNow(Widget)}.
    *
    * @param element the element to be wrapped
    */
@@ -72,9 +67,7 @@ public class InlineHTML extends HTML {
     return html;
   }
 
-  /**
-   * Creates an empty HTML widget.
-   */
+  /** Creates an empty HTML widget. */
   public InlineHTML() {
     super(Document.get().createSpanElement());
     setStyleName("gwt-InlineHTML");
@@ -90,25 +83,22 @@ public class InlineHTML extends HTML {
   }
 
   /**
-   * Creates an HTML widget with the specified contents and with the
-   * specified direction.
+   * Creates an HTML widget with the specified contents and with the specified direction.
    *
    * @param html the new widget's SafeHtml contents
-   * @param dir the content's direction. Note: {@code Direction.DEFAULT} means
-   *        direction should be inherited from the widget's parent element.
+   * @param dir the content's direction. Note: {@code Direction.DEFAULT} means direction should be
+   *     inherited from the widget's parent element.
    */
   public InlineHTML(SafeHtml html, Direction dir) {
     this(html.asString(), dir);
   }
 
   /**
-   * Creates an HTML widget with the specified HTML contents and with a default
-   * direction estimator.
+   * Creates an HTML widget with the specified HTML contents and with a default direction estimator.
    *
    * @param html the new widget's SafeHtml contents
-   * @param directionEstimator A DirectionEstimator object used for automatic
-   *          direction adjustment. For convenience,
-   *          {@link Label#DEFAULT_DIRECTION_ESTIMATOR} can be used.
+   * @param directionEstimator A DirectionEstimator object used for automatic direction adjustment.
+   *     For convenience, {@link Label#DEFAULT_DIRECTION_ESTIMATOR} can be used.
    */
   public InlineHTML(SafeHtml html, DirectionEstimator directionEstimator) {
     this();
@@ -127,12 +117,11 @@ public class InlineHTML extends HTML {
   }
 
   /**
-   * Creates an HTML widget with the specified HTML contents and with the
-   * specified direction.
+   * Creates an HTML widget with the specified HTML contents and with the specified direction.
    *
    * @param html the new widget's HTML contents
-   * @param dir the content's direction. Note: {@code Direction.DEFAULT} means
-   *        direction should be inherited from the widget's parent element.
+   * @param dir the content's direction. Note: {@code Direction.DEFAULT} means direction should be
+   *     inherited from the widget's parent element.
    */
   public InlineHTML(@IsSafeHtml String html, Direction dir) {
     this();
@@ -140,8 +129,8 @@ public class InlineHTML extends HTML {
   }
 
   /**
-   * This constructor may be used by subclasses to explicitly use an existing
-   * element. This element must be either a &lt;div&gt; &lt;span&gt; element.
+   * This constructor may be used by subclasses to explicitly use an existing element. This element
+   * must be either a &lt;div&gt; &lt;span&gt; element.
    *
    * @param element the element to be used
    */

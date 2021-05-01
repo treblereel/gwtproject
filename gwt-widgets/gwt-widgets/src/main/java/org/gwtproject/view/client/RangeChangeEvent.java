@@ -17,19 +17,13 @@ package org.gwtproject.view.client;
 
 import org.gwtproject.event.shared.Event;
 
-/**
- * Represents a range change event.
- */
+/** Represents a range change event. */
 public class RangeChangeEvent extends Event<RangeChangeEvent.Handler> {
 
-  /**
-   * Handler type.
-   */
+  /** Handler type. */
   private static Type<Handler> TYPE;
 
-  /**
-   * Handler interface for {@link RangeChangeEvent} events.
-   */
+  /** Handler interface for {@link RangeChangeEvent} events. */
   public static interface Handler {
 
     /**
@@ -41,13 +35,14 @@ public class RangeChangeEvent extends Event<RangeChangeEvent.Handler> {
   }
 
   /**
-   * Fires a {@link RangeChangeEvent} on all registered handlers in the handler
-   * manager. If no such handlers exist, this method will do nothing.
+   * Fires a {@link RangeChangeEvent} on all registered handlers in the handler manager. If no such
+   * handlers exist, this method will do nothing.
    *
    * @param source the source of the handlers
    * @param range the new range
    */
-  public static void fire(org.gwtproject.view.client.HasRows source, org.gwtproject.view.client.Range range) {
+  public static void fire(
+      org.gwtproject.view.client.HasRows source, org.gwtproject.view.client.Range range) {
     if (TYPE != null) {
       RangeChangeEvent event = new RangeChangeEvent(range);
       source.fireEvent(event);

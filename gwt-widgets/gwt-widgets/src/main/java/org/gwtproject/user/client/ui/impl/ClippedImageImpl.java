@@ -31,11 +31,11 @@ import org.gwtproject.safehtml.shared.UriUtils;
 import org.gwtproject.user.client.ui.Image;
 
 /**
- * Uses a combination of a clear image and a background image to clip all except
- * a desired portion of an underlying image.
+ * Uses a combination of a clear image and a background image to clip all except a desired portion
+ * of an underlying image.
  *
- * Do not use this class - it is used for implementation only, and its methods
- * may change in the future.
+ * <p>Do not use this class - it is used for implementation only, and its methods may change in the
+ * future.
  */
 public class ClippedImageImpl {
 
@@ -47,8 +47,7 @@ public class ClippedImageImpl {
     SafeHtml image(SafeUri clearImage, SafeStyles style);
   }
 
-  protected static final SafeUri clearImage =
-    UriUtils.fromTrustedString("clear.cache.gif");//TODO
+  protected static final SafeUri clearImage = UriUtils.fromTrustedString("clear.cache.gif"); // TODO
   private static Template template;
   private static DraggableTemplate draggableTemplate;
 
@@ -69,12 +68,13 @@ public class ClippedImageImpl {
   }
 
   public static JavaScriptObject createOnLoadHandlerFunction() {
-    return Js.uncheckedCast(new Fn(){
-      @Override
-      public void onInvoke() {
-        Js.asPropertyMap(this).set("__gwtLastUnhandledEvent", "load");
-      }
-    });
+    return Js.uncheckedCast(
+        new Fn() {
+          @Override
+          public void onInvoke() {
+            Js.asPropertyMap(this).set("__gwtLastUnhandledEvent", "load");
+          }
+        });
   }
 
   public Element getImgElement(Image image) {
@@ -85,18 +85,22 @@ public class ClippedImageImpl {
     return getSafeHtml(url, left, top, width, height, false);
   }
 
-  public SafeHtml getSafeHtml(SafeUri url, int left, int top, int width, int height,
-      boolean isDraggable) {
+  public SafeHtml getSafeHtml(
+      SafeUri url, int left, int top, int width, int height, boolean isDraggable) {
     SafeStylesBuilder builder = new SafeStylesBuilder();
-    builder.width(width, Unit.PX).height(height, Unit.PX).trustedNameAndValue("background",
-        "url(" + url.asString() + ") " + "no-repeat " + (-left + "px ") + (-top + "px"));
+    builder
+        .width(width, Unit.PX)
+        .height(height, Unit.PX)
+        .trustedNameAndValue(
+            "background",
+            "url(" + url.asString() + ") " + "no-repeat " + (-left + "px ") + (-top + "px"));
 
     if (!isDraggable) {
-      return getTemplate().image(clearImage,
-        SafeStylesUtils.fromTrustedString(builder.toSafeStyles().asString()));
+      return getTemplate()
+          .image(clearImage, SafeStylesUtils.fromTrustedString(builder.toSafeStyles().asString()));
     } else {
-      return getDraggableTemplate().image(clearImage,
-          SafeStylesUtils.fromTrustedString(builder.toSafeStyles().asString()));
+      return getDraggableTemplate()
+          .image(clearImage, SafeStylesUtils.fromTrustedString(builder.toSafeStyles().asString()));
     }
   }
 

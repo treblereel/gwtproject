@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,15 +15,16 @@
  */
 package org.gwtproject.user.cellview.client;
 
+import org.gwtproject.cell.client.Cell;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.client.TableColElement;
+import org.gwtproject.dom.client.TableElement;
+import org.gwtproject.dom.client.TableSectionElement;
 import org.gwtproject.dom.style.shared.Display;
 import org.gwtproject.dom.style.shared.Overflow;
 import org.gwtproject.dom.style.shared.TableLayout;
 import org.gwtproject.dom.style.shared.Unit;
-import org.gwtproject.dom.client.TableColElement;
-import org.gwtproject.dom.client.TableElement;
-import org.gwtproject.dom.client.TableSectionElement;
 import org.gwtproject.event.dom.client.ScrollEvent;
 import org.gwtproject.event.dom.client.ScrollHandler;
 import org.gwtproject.resources.client.ClientBundle;
@@ -31,7 +32,6 @@ import org.gwtproject.resources.client.CssResource;
 import org.gwtproject.resources.client.CssResource.ImportedWithPrefix;
 import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.resources.client.ImageResource.ImageOptions;
-import org.gwtproject.resources.client.Resource;
 import org.gwtproject.user.cellview.client.LoadingStateChangeEvent.LoadingState;
 import org.gwtproject.user.client.ui.CustomScrollPanel;
 import org.gwtproject.user.client.ui.FlexTable;
@@ -42,213 +42,150 @@ import org.gwtproject.user.client.ui.ScrollPanel;
 import org.gwtproject.user.client.ui.SimplePanel;
 import org.gwtproject.user.client.ui.Widget;
 import org.gwtproject.view.client.ProvidesKey;
-import org.gwtproject.cell.client.Cell;
 
 /**
- * A tabular view with a fixed header and footer section and a scrollable data
- * section in the middle. This widget supports paging and columns.
- * 
+ * A tabular view with a fixed header and footer section and a scrollable data section in the
+ * middle. This widget supports paging and columns.
+ *
  * <p>
- * <h3>Columns</h3> The {@link Column} class defines the
- * {@link Cell} used to render a column. Implement
- * {@link Column#getValue(Object)} to retrieve the field value from the row
- * object that will be rendered in the {@link Cell}.
- * </p>
- * 
+ *
+ * <h3>Columns</h3>
+ *
+ * The {@link Column} class defines the {@link Cell} used to render a column. Implement {@link
+ * Column#getValue(Object)} to retrieve the field value from the row object that will be rendered in
+ * the {@link Cell}.
+ *
  * <p>
- * <h3>Headers and Footers</h3> A {@link Header} can be placed at the top
- * (header) or bottom (footer) of the {@link DataGrid}. You can specify a header
- * as text using {@link #addColumn(Column, String)}, or you can create a custom
- * {@link Header} that can change with the value of the cells, such as a column
- * total. The {@link Header} will be rendered every time the row data changes or
- * the table is redrawn. If you pass the same header instance (==) into adjacent
- * columns, the header will span the columns.
- * </p>
- * 
+ *
+ * <h3>Headers and Footers</h3>
+ *
+ * A {@link Header} can be placed at the top (header) or bottom (footer) of the {@link DataGrid}.
+ * You can specify a header as text using {@link #addColumn(Column, String)}, or you can create a
+ * custom {@link Header} that can change with the value of the cells, such as a column total. The
+ * {@link Header} will be rendered every time the row data changes or the table is redrawn. If you
+ * pass the same header instance (==) into adjacent columns, the header will span the columns.
+ *
  * <p>
+ *
  * <h3>Examples</h3>
+ *
  * <dl>
- * <dt>Trivial example</dt>
- * <dd>{@example com.google.gwt.examples.cellview.CellTableExample}</dd>
- * <dt>FieldUpdater example</dt>
- * <dd>{@example com.google.gwt.examples.cellview.CellTableFieldUpdaterExample}</dd>
- * <dt>Key provider example</dt>
- * <dd>{@example com.google.gwt.examples.view.KeyProviderExample}</dd>
+ *   <dt>Trivial example
+ *   <dd>{@example com.google.gwt.examples.cellview.CellTableExample}
+ *   <dt>FieldUpdater example
+ *   <dd>{@example com.google.gwt.examples.cellview.CellTableFieldUpdaterExample}
+ *   <dt>Key provider example
+ *   <dd>{@example com.google.gwt.examples.view.KeyProviderExample}
  * </dl>
- * </p>
- * 
+ *
  * @param <T> the data type of each row
  */
 public class DataGrid<T> extends AbstractCellTable<T> implements RequiresResize {
 
-  /**
-   * A ClientBundle that provides images for this widget.
-   */
+  /** A ClientBundle that provides images for this widget. */
   public interface Resources extends ClientBundle {
 
     Resources INSTANCE = new DataGrid_ResourcesImpl();
-    /**
-     * The loading indicator used while the table is waiting for data.
-     */
+    /** The loading indicator used while the table is waiting for data. */
     @Source("cellTableLoading.gif")
     @ImageOptions(flipRtl = true)
     ImageResource dataGridLoading();
 
-    /**
-     * Icon used when a column is sorted in ascending order.
-     */
+    /** Icon used when a column is sorted in ascending order. */
     @Source("sortAscending.png")
     @ImageOptions(flipRtl = true)
     ImageResource dataGridSortAscending();
 
-    /**
-     * Icon used when a column is sorted in descending order.
-     */
+    /** Icon used when a column is sorted in descending order. */
     @Source("sortDescending.png")
     @ImageOptions(flipRtl = true)
     ImageResource dataGridSortDescending();
 
-    /**
-     * The styles used in this widget.
-     */
+    /** The styles used in this widget. */
     @Source(Style.DEFAULT_CSS)
     Style dataGridStyle();
   }
 
-  /**
-   * Styles used by this widget.
-   */
+  /** Styles used by this widget. */
   @ImportedWithPrefix("gwt-CellTable")
   public interface Style extends CssResource {
-    /**
-     * The path to the default CSS styles used by this resource.
-     */
+    /** The path to the default CSS styles used by this resource. */
     String DEFAULT_CSS = "org/gwtproject/user/cellview/client/DataGrid.gss";
 
-    /**
-     * Applied to every cell.
-     */
+    /** Applied to every cell. */
     String dataGridCell();
 
-    /**
-     * Applied to even rows.
-     */
+    /** Applied to even rows. */
     String dataGridEvenRow();
 
-    /**
-     * Applied to cells in even rows.
-     */
+    /** Applied to cells in even rows. */
     String dataGridEvenRowCell();
 
-    /**
-     * Applied to the first column.
-     */
+    /** Applied to the first column. */
     String dataGridFirstColumn();
 
-    /**
-     * Applied to the first column footers.
-     */
+    /** Applied to the first column footers. */
     String dataGridFirstColumnFooter();
 
-    /**
-     * Applied to the first column headers.
-     */
+    /** Applied to the first column headers. */
     String dataGridFirstColumnHeader();
 
-    /**
-     * Applied to footers cells.
-     */
+    /** Applied to footers cells. */
     String dataGridFooter();
 
-    /**
-     * Applied to headers cells.
-     */
+    /** Applied to headers cells. */
     String dataGridHeader();
 
-    /**
-     * Applied to the hovered row.
-     */
+    /** Applied to the hovered row. */
     String dataGridHoveredRow();
 
-    /**
-     * Applied to the cells in the hovered row.
-     */
+    /** Applied to the cells in the hovered row. */
     String dataGridHoveredRowCell();
 
-    /**
-     * Applied to the keyboard selected cell.
-     */
+    /** Applied to the keyboard selected cell. */
     String dataGridKeyboardSelectedCell();
 
-    /**
-     * Applied to the keyboard selected row.
-     */
+    /** Applied to the keyboard selected row. */
     String dataGridKeyboardSelectedRow();
 
-    /**
-     * Applied to the cells in the keyboard selected row.
-     */
+    /** Applied to the cells in the keyboard selected row. */
     String dataGridKeyboardSelectedRowCell();
 
-    /**
-     * Applied to the last column.
-     */
+    /** Applied to the last column. */
     String dataGridLastColumn();
 
-    /**
-     * Applied to the last column footers.
-     */
+    /** Applied to the last column footers. */
     String dataGridLastColumnFooter();
 
-    /**
-     * Applied to the last column headers.
-     */
+    /** Applied to the last column headers. */
     String dataGridLastColumnHeader();
 
-    /**
-     * Applied to odd rows.
-     */
+    /** Applied to odd rows. */
     String dataGridOddRow();
 
-    /**
-     * Applied to cells in odd rows.
-     */
+    /** Applied to cells in odd rows. */
     String dataGridOddRowCell();
 
-    /**
-     * Applied to selected rows.
-     */
+    /** Applied to selected rows. */
     String dataGridSelectedRow();
 
-    /**
-     * Applied to cells in selected rows.
-     */
+    /** Applied to cells in selected rows. */
     String dataGridSelectedRowCell();
 
-    /**
-     * Applied to header cells that are sortable.
-     */
+    /** Applied to header cells that are sortable. */
     String dataGridSortableHeader();
 
-    /**
-     * Applied to header cells that are sorted in ascending order.
-     */
+    /** Applied to header cells that are sorted in ascending order. */
     String dataGridSortedHeaderAscending();
 
-    /**
-     * Applied to header cells that are sorted in descending order.
-     */
+    /** Applied to header cells that are sorted in descending order. */
     String dataGridSortedHeaderDescending();
 
-    /**
-     * Applied to the table.
-     */
+    /** Applied to the table. */
     String dataGridWidget();
   }
 
-  /**
-   * A simple widget wrapper around a table element.
-   */
+  /** A simple widget wrapper around a table element. */
   static class TableWidget extends Widget {
     private final TableColElement colgroup;
     private TableSectionElement section;
@@ -272,9 +209,8 @@ public class DataGrid<T> extends AbstractCellTable<T> implements RequiresResize 
     }
 
     /**
-     * Get the {@link TableColElement} at the specified index, creating it if
-     * necessary.
-     * 
+     * Get the {@link TableColElement} at the specified index, creating it if necessary.
+     *
      * @param index the column index
      * @return the {@link TableColElement}
      */
@@ -295,7 +231,7 @@ public class DataGrid<T> extends AbstractCellTable<T> implements RequiresResize 
 
     /**
      * Hide columns that aren't used in the table.
-     * 
+     *
      * @param start the first unused column index
      */
     void hideUnusedColumns(int start) {
@@ -319,10 +255,7 @@ public class DataGrid<T> extends AbstractCellTable<T> implements RequiresResize 
     }
   }
 
-  /**
-   * Adapter class to convert {@link Resources} to
-   * {@link AbstractCellTable.Resources}.
-   */
+  /** Adapter class to convert {@link Resources} to {@link AbstractCellTable.Resources}. */
   private static class ResourcesAdapter implements AbstractCellTable.Resources {
 
     private final DataGrid.Resources resources;
@@ -349,9 +282,7 @@ public class DataGrid<T> extends AbstractCellTable<T> implements RequiresResize 
     }
   }
 
-  /**
-   * Adapter class to convert {@link Style} to {@link AbstractCellTable.Style}.
-   */
+  /** Adapter class to convert {@link Style} to {@link AbstractCellTable.Style}. */
   private static class StyleAdapter implements AbstractCellTable.Style {
     private final DataGrid.Style style;
 
@@ -484,9 +415,9 @@ public class DataGrid<T> extends AbstractCellTable<T> implements RequiresResize 
   private static Resources DEFAULT_RESOURCES;
 
   /**
-   * Create the default loading indicator using the loading image in the
-   * specified {@link Resources}.
-   * 
+   * Create the default loading indicator using the loading image in the specified {@link
+   * Resources}.
+   *
    * @param resources the resources containing the loading image
    * @return a widget loading indicator
    */
@@ -521,16 +452,14 @@ public class DataGrid<T> extends AbstractCellTable<T> implements RequiresResize 
   private final SimplePanel tableHeaderContainer;
   private final Element tableHeaderScroller;
 
-  /**
-   * Constructs a table with a default page size of 50.
-   */
+  /** Constructs a table with a default page size of 50. */
   public DataGrid() {
     this(DEFAULT_PAGESIZE);
   }
 
   /**
    * Constructs a table with the given page size.
-   * 
+   *
    * @param pageSize the page size
    */
   public DataGrid(final int pageSize) {
@@ -538,21 +467,19 @@ public class DataGrid<T> extends AbstractCellTable<T> implements RequiresResize 
   }
 
   /**
-   * Constructs a table with the given page size and the given
-   * {@link ProvidesKey key provider}.
-   * 
+   * Constructs a table with the given page size and the given {@link ProvidesKey key provider}.
+   *
    * @param pageSize the page size
-   * @param keyProvider an instance of ProvidesKey<T>, or null if the record
-   *          object should act as its own key
+   * @param keyProvider an instance of ProvidesKey<T>, or null if the record object should act as
+   *     its own key
    */
   public DataGrid(int pageSize, ProvidesKey<T> keyProvider) {
     this(pageSize, getDefaultResources(), keyProvider);
   }
 
   /**
-   * Constructs a table with the given page size with the specified
-   * {@link Resources}.
-   * 
+   * Constructs a table with the given page size with the specified {@link Resources}.
+   *
    * @param pageSize the page size
    * @param resources the resources to use for this widget
    */
@@ -561,31 +488,30 @@ public class DataGrid<T> extends AbstractCellTable<T> implements RequiresResize 
   }
 
   /**
-   * Constructs a table with the given page size, the specified
-   * {@link Resources}, and the given key provider.
-   * 
+   * Constructs a table with the given page size, the specified {@link Resources}, and the given key
+   * provider.
+   *
    * @param pageSize the page size
    * @param resources the resources to use for this widget
-   * @param keyProvider an instance of ProvidesKey<T>, or null if the record
-   *          object should act as its own key
+   * @param keyProvider an instance of ProvidesKey<T>, or null if the record object should act as
+   *     its own key
    */
   public DataGrid(int pageSize, Resources resources, ProvidesKey<T> keyProvider) {
     this(pageSize, resources, keyProvider, createDefaultLoadingIndicator(resources));
   }
 
   /**
-   * Constructs a table with the given page size, the specified
-   * {@link Resources}, and the given key provider.
-   * 
+   * Constructs a table with the given page size, the specified {@link Resources}, and the given key
+   * provider.
+   *
    * @param pageSize the page size
    * @param resources the resources to use for this widget
-   * @param keyProvider an instance of ProvidesKey<T>, or null if the record
-   *          object should act as its own key
-   * @param loadingIndicator the widget to use as a loading indicator, or null
-   *          to disable
+   * @param keyProvider an instance of ProvidesKey<T>, or null if the record object should act as
+   *     its own key
+   * @param loadingIndicator the widget to use as a loading indicator, or null to disable
    */
-  public DataGrid(int pageSize, Resources resources, ProvidesKey<T> keyProvider,
-      Widget loadingIndicator) {
+  public DataGrid(
+      int pageSize, Resources resources, ProvidesKey<T> keyProvider, Widget loadingIndicator) {
     super(new HeaderPanel(), pageSize, new ResourcesAdapter(resources), keyProvider);
     headerPanel = (HeaderPanel) getWidget();
 
@@ -656,22 +582,23 @@ public class DataGrid<T> extends AbstractCellTable<T> implements RequiresResize 
     setLoadingIndicator(loadingIndicator); // Can be null.
 
     // Synchronize the scroll positions of the three tables.
-    tableDataScroller.addScrollHandler(new ScrollHandler() {
-      @Override
-      public void onScroll(ScrollEvent event) {
-        int scrollLeft = tableDataScroller.getHorizontalScrollPosition();
-        tableHeaderScroller.setScrollLeft(scrollLeft);
-        tableFooterScroller.setScrollLeft(scrollLeft);
-      }
-    });
+    tableDataScroller.addScrollHandler(
+        new ScrollHandler() {
+          @Override
+          public void onScroll(ScrollEvent event) {
+            int scrollLeft = tableDataScroller.getHorizontalScrollPosition();
+            tableHeaderScroller.setScrollLeft(scrollLeft);
+            tableFooterScroller.setScrollLeft(scrollLeft);
+          }
+        });
   }
 
   /**
-   * Constructs a table with a default page size of 50, and the given
-   * {@link ProvidesKey key provider}.
-   * 
-   * @param keyProvider an instance of ProvidesKey<T>, or null if the record
-   *          object should act as its own key
+   * Constructs a table with a default page size of 50, and the given {@link ProvidesKey key
+   * provider}.
+   *
+   * @param keyProvider an instance of ProvidesKey<T>, or null if the record object should act as
+   *     its own key
    */
   public DataGrid(ProvidesKey<T> keyProvider) {
     this(DEFAULT_PAGESIZE, keyProvider);
@@ -685,16 +612,13 @@ public class DataGrid<T> extends AbstractCellTable<T> implements RequiresResize 
   }
 
   /**
-   * Clear the width of the tables in this widget, which causes them to fill the
-   * available width.
-   * 
-   * <p>
-   * The table width is not the same as the width of this widget. If the tables
-   * are narrower than this widget, there will be a gap between the table and
-   * the edge of the widget. If the tables are wider than this widget, a
-   * horizontal scrollbar will appear so the user can scroll horizontally.
-   * </p>
-   * 
+   * Clear the width of the tables in this widget, which causes them to fill the available width.
+   *
+   * <p>The table width is not the same as the width of this widget. If the tables are narrower than
+   * this widget, there will be a gap between the table and the edge of the widget. If the tables
+   * are wider than this widget, a horizontal scrollbar will appear so the user can scroll
+   * horizontally.
+   *
    * @see #setMinimumTableWidth(double, Unit)
    * @see #setTableWidth(double, Unit)
    */
@@ -718,11 +642,11 @@ public class DataGrid<T> extends AbstractCellTable<T> implements RequiresResize 
 
   /**
    * Sets whether this grid always shows its scroll bars, or only when necessary.
-   * 
+   *
    * @param alwaysShowScrollBars <code>true</code> to show scroll bars at all times
    */
   public void setAlwaysShowScrollBars(boolean alwaysShowScrollBars) {
-      tableDataScroller.setAlwaysShowScrollBars(alwaysShowScrollBars);
+    tableDataScroller.setAlwaysShowScrollBars(alwaysShowScrollBars);
   }
 
   @Override
@@ -738,14 +662,11 @@ public class DataGrid<T> extends AbstractCellTable<T> implements RequiresResize 
   }
 
   /**
-   * Set the minimum width of the tables in this widget. If the widget become
-   * narrower than the minimum width, a horizontal scrollbar will appear so the
-   * user can scroll horizontally.
-   * 
-   * <p>
-   * Note that this method is not supported in IE6 and earlier versions of IE.
-   * </p>
-   * 
+   * Set the minimum width of the tables in this widget. If the widget become narrower than the
+   * minimum width, a horizontal scrollbar will appear so the user can scroll horizontally.
+   *
+   * <p>Note that this method is not supported in IE6 and earlier versions of IE.
+   *
    * @param value the width
    * @param unit the unit of the width
    * @see #setTableWidth(double, Unit)
@@ -762,30 +683,22 @@ public class DataGrid<T> extends AbstractCellTable<T> implements RequiresResize 
   }
 
   /**
-   * Set the width of the tables in this widget. By default, the width is not
-   * set and the tables take the available width.
-   * 
-   * <p>
-   * The table width is not the same as the width of this widget. If the tables
-   * are narrower than this widget, there will be a gap between the table and
-   * the edge of the widget. If the tables are wider than this widget, a
-   * horizontal scrollbar will appear so the user can scroll horizontally.
-   * </p>
-   * 
-   * <p>
-   * If your table has many columns and you want to ensure that the columns are
-   * not truncated, you probably want to use
-   * {@link #setMinimumTableWidth(double, Unit)} instead. That will ensure that
-   * the table is wide enough, but it will still allow the table to expand to
-   * 100% if the user has a wide screen.
-   * </p>
-   * 
-   * <p>
-   * Note that setting the width in percentages will not work on older versions
-   * of IE because it does not account for scrollbars when calculating the
-   * width.
-   * </p>
-   * 
+   * Set the width of the tables in this widget. By default, the width is not set and the tables
+   * take the available width.
+   *
+   * <p>The table width is not the same as the width of this widget. If the tables are narrower than
+   * this widget, there will be a gap between the table and the edge of the widget. If the tables
+   * are wider than this widget, a horizontal scrollbar will appear so the user can scroll
+   * horizontally.
+   *
+   * <p>If your table has many columns and you want to ensure that the columns are not truncated,
+   * you probably want to use {@link #setMinimumTableWidth(double, Unit)} instead. That will ensure
+   * that the table is wide enough, but it will still allow the table to expand to 100% if the user
+   * has a wide screen.
+   *
+   * <p>Note that setting the width in percentages will not work on older versions of IE because it
+   * does not account for scrollbars when calculating the width.
+   *
    * @param value the width
    * @param unit the unit of the width
    * @see #setMinimumTableWidth(double, Unit)
@@ -840,7 +753,7 @@ public class DataGrid<T> extends AbstractCellTable<T> implements RequiresResize 
 
   /**
    * Called when the loading state changes.
-   * 
+   *
    * @param state the new loading state
    */
   @Override

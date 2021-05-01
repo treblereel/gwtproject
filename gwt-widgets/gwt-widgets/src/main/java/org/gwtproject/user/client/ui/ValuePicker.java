@@ -15,22 +15,21 @@
  */
 package org.gwtproject.user.client.ui;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import org.gwtproject.cell.client.AbstractCell;
 import org.gwtproject.editor.client.IsEditor;
 import org.gwtproject.editor.client.LeafValueEditor;
-import org.gwtproject.text.shared.Renderer;
-import org.gwtproject.text.shared.ToStringRenderer;
-import org.gwtproject.cell.client.AbstractCell;
 import org.gwtproject.editor.client.adapters.TakesValueEditor;
 import org.gwtproject.event.logical.shared.ValueChangeEvent;
 import org.gwtproject.event.logical.shared.ValueChangeHandler;
 import org.gwtproject.event.shared.HandlerRegistration;
 import org.gwtproject.safehtml.shared.SafeHtmlBuilder;
+import org.gwtproject.text.shared.Renderer;
+import org.gwtproject.text.shared.ToStringRenderer;
 import org.gwtproject.user.cellview.client.CellList;
 import org.gwtproject.view.client.SelectionChangeEvent;
 import org.gwtproject.view.client.SingleSelectionModel;
-
-import java.util.ArrayList;
-import java.util.Collection;
 
 /**
  * Allows the user to pick a single value from a list.
@@ -63,11 +62,12 @@ public class ValuePicker<T> extends Composite
     this.cellList = cellList;
     initWidget(cellList);
     cellList.setSelectionModel(smodel);
-    smodel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
-      public void onSelectionChange(SelectionChangeEvent event) {
-        setValue(smodel.getSelectedObject(), true);
-      }
-    });
+    smodel.addSelectionChangeHandler(
+        new SelectionChangeEvent.Handler() {
+          public void onSelectionChange(SelectionChangeEvent event) {
+            setValue(smodel.getSelectedObject(), true);
+          }
+        });
   }
 
   public ValuePicker(Renderer<? super T> renderer) {
@@ -82,9 +82,7 @@ public class ValuePicker<T> extends Composite
     return addHandler(handler, ValueChangeEvent.getType());
   }
 
-  /**
-   * Returns a {@link TakesValueEditor} backed by the ValuePicker.
-   */
+  /** Returns a {@link TakesValueEditor} backed by the ValuePicker. */
   public LeafValueEditor<T> asEditor() {
     if (editor == null) {
       editor = TakesValueEditor.of(this);
@@ -92,9 +90,7 @@ public class ValuePicker<T> extends Composite
     return editor;
   }
 
-  /**
-   * Returns this view.
-   */
+  /** Returns this view. */
   @Override
   public ValuePicker<T> asWidget() {
     return this;

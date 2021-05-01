@@ -15,6 +15,8 @@
  */
 package org.gwtproject.user.client.ui;
 
+import java.util.ArrayList;
+import java.util.List;
 import jsinterop.base.JsPropertyMap;
 import org.gwtproject.animation.client.Animation;
 import org.gwtproject.dom.client.Document;
@@ -34,72 +36,61 @@ import org.gwtproject.event.logical.shared.ValueChangeEvent;
 import org.gwtproject.event.logical.shared.ValueChangeHandler;
 import org.gwtproject.event.shared.HandlerRegistration;
 import org.gwtproject.i18n.shared.cldr.LocaleInfo;
+import org.gwtproject.timer.client.Timer;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.Event;
 import org.gwtproject.user.client.Event.NativePreviewEvent;
 import org.gwtproject.user.client.Event.NativePreviewHandler;
-import org.gwtproject.user.history.client.History;
-import org.gwtproject.timer.client.Timer;
-import org.gwtproject.user.window.client.Window;
 import org.gwtproject.user.client.ui.impl.PopupImpl;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.gwtproject.user.history.client.History;
+import org.gwtproject.user.window.client.Window;
 
 /**
- * A panel that can "pop up" over other widgets. It overlays the browser's
- * client area (and any previously-created popups).
+ * A panel that can "pop up" over other widgets. It overlays the browser's client area (and any
+ * previously-created popups).
+ *
+ * <p>A PopupPanel should not generally be added to other panels; rather, it should be shown and
+ * hidden using the {@link #show()} and {@link #hide()} methods.
+ *
+ * <p>The width and height of the PopupPanel cannot be explicitly set; they are determined by the
+ * PopupPanel's widget. Calls to {@link #setWidth(String)} and {@link #setHeight(String)} will call
+ * these methods on the PopupPanel's widget.
+ *
+ * <p><img class='gallery' src='doc-files/PopupPanel.png'/>
+ *
+ * <p>The PopupPanel can be optionally displayed with a "glass" element behind it, which is commonly
+ * used to gray out the widgets behind it. It can be enabled using {@link
+ * #setGlassEnabled(boolean)}. It has a default style name of "gwt-PopupPanelGlass", which can be
+ * changed using {@link #setGlassStyleName(String)}.
  *
  * <p>
- * A PopupPanel should not generally be added to other panels; rather, it should
- * be shown and hidden using the {@link #show()} and {@link #hide()} methods.
- * </p>
- * <p>
- * The width and height of the PopupPanel cannot be explicitly set; they are
- * determined by the PopupPanel's widget. Calls to {@link #setWidth(String)} and
- * {@link #setHeight(String)} will call these methods on the PopupPanel's
- * widget.
- * </p>
- * <p>
- * <img class='gallery' src='doc-files/PopupPanel.png'/>
- * </p>
  *
- * <p>
- * The PopupPanel can be optionally displayed with a "glass" element behind it,
- * which is commonly used to gray out the widgets behind it. It can be enabled
- * using {@link #setGlassEnabled(boolean)}. It has a default style name of
- * "gwt-PopupPanelGlass", which can be changed using
- * {@link #setGlassStyleName(String)}.
- * </p>
- *
- * <p>
  * <h3>Example</h3>
+ *
  * {@example com.google.gwt.examples.PopupPanelExample}
- * </p>
+ *
  * <h3>CSS Style Rules</h3>
+ *
  * <dl>
- * <dt>.gwt-PopupPanel</dt>
- * <dd>the outside of the popup</dd>
- * <dt>.gwt-PopupPanel .popupContent</dt>
- * <dd>the wrapper around the content</dd>
- * <dt>.gwt-PopupPanelGlass</dt>
- * <dd>the glass background behind the popup</dd>
+ *   <dt>.gwt-PopupPanel
+ *   <dd>the outside of the popup
+ *   <dt>.gwt-PopupPanel .popupContent
+ *   <dd>the wrapper around the content
+ *   <dt>.gwt-PopupPanelGlass
+ *   <dd>the glass background behind the popup
  * </dl>
  */
-public class PopupPanel extends SimplePanel implements
-    HasAnimation, HasCloseHandlers<PopupPanel> {
+public class PopupPanel extends SimplePanel implements HasAnimation, HasCloseHandlers<PopupPanel> {
 
   /**
-   * A callback that is used to set the position of a {@link PopupPanel} right
-   * before it is shown.
+   * A callback that is used to set the position of a {@link PopupPanel} right before it is shown.
    */
   public interface PositionCallback {
 
     /**
-     * Provides the opportunity to set the position of the PopupPanel right
-     * before the PopupPanel is shown. The offsetWidth and offsetHeight values
-     * of the PopupPanel are made available to allow for positioning based on
-     * its size.
+     * Provides the opportunity to set the position of the PopupPanel right before the PopupPanel is
+     * shown. The offsetWidth and offsetHeight values of the PopupPanel are made available to allow
+     * for positioning based on its size.
      *
      * @param offsetWidth the offsetWidth of the PopupPanel
      * @param offsetHeight the offsetHeight of the PopupPanel
@@ -112,49 +103,38 @@ public class PopupPanel extends SimplePanel implements
    * The type of animation to use when opening the popup.
    *
    * <ul>
-   * <li>CENTER - Expand from the center of the popup</li>
-   * <li>ONE_WAY_CORNER - Expand from the top left corner, do not animate hiding</li>
-   * <li>ROLL_DOWN - Expand from the top to the bottom, do not animate hiding</li>
+   *   <li>CENTER - Expand from the center of the popup
+   *   <li>ONE_WAY_CORNER - Expand from the top left corner, do not animate hiding
+   *   <li>ROLL_DOWN - Expand from the top to the bottom, do not animate hiding
    * </ul>
    */
   public enum AnimationType {
-    CENTER, ONE_WAY_CORNER, ROLL_DOWN
+    CENTER,
+    ONE_WAY_CORNER,
+    ROLL_DOWN
   }
 
-  /**
-   * An {@link Animation} used to enlarge the popup into view.
-   */
+  /** An {@link Animation} used to enlarge the popup into view. */
   static class ResizeAnimation extends Animation {
-    /**
-     * The {@link PopupPanel} being affected.
-     */
+    /** The {@link PopupPanel} being affected. */
     private PopupPanel curPanel = null;
 
     /**
-     * Indicates whether or not the {@link PopupPanel} is in the process of
-     * unloading. If the popup is unloading, then the animation just does
-     * cleanup.
+     * Indicates whether or not the {@link PopupPanel} is in the process of unloading. If the popup
+     * is unloading, then the animation just does cleanup.
      */
     private boolean isUnloading;
 
-    /**
-     * The offset height and width of the current {@link PopupPanel}.
-     */
+    /** The offset height and width of the current {@link PopupPanel}. */
     private int offsetHeight, offsetWidth = -1;
 
-    /**
-     * A boolean indicating whether we are showing or hiding the popup.
-     */
+    /** A boolean indicating whether we are showing or hiding the popup. */
     private boolean showing;
 
-    /**
-     * The timer used to delay the show animation.
-     */
+    /** The timer used to delay the show animation. */
     private Timer showTimer;
 
-    /**
-     * A boolean indicating whether the glass element is currently attached.
-     */
+    /** A boolean indicating whether the glass element is currently attached. */
     private boolean glassShowing;
 
     private HandlerRegistration resizeRegistration;
@@ -169,9 +149,8 @@ public class PopupPanel extends SimplePanel implements
     }
 
     /**
-     * Open or close the content. This method always called immediately after
-     * the PopupPanel showing state has changed, so we base the animation on the
-     * current state.
+     * Open or close the content. This method always called immediately after the PopupPanel showing
+     * state has changed, so we base the animation on the current state.
      *
      * @param showing true if the popup is showing, false if not
      */
@@ -212,8 +191,7 @@ public class PopupPanel extends SimplePanel implements
           // position to its absolute position (issue #1231).
           curPanel.getElement().getStyle().setProperty("position", "absolute");
           if (curPanel.topPosition != -1) {
-            curPanel.setPopupPosition(curPanel.leftPosition,
-                curPanel.topPosition);
+            curPanel.setPopupPosition(curPanel.leftPosition, curPanel.topPosition);
           }
           impl.setClip(curPanel.getElement(), getRectString(0, 0, 0, 0));
           RootPanel.get().add(curPanel);
@@ -221,13 +199,14 @@ public class PopupPanel extends SimplePanel implements
           // Wait for the popup panel and iframe to be attached before running
           // the animation. We use a Timer instead of a DeferredCommand so we
           // can cancel it if the popup is hidden synchronously.
-          showTimer = new Timer() {
-            @Override
-            public void run() {
-              showTimer = null;
-              ResizeAnimation.this.run(ANIMATION_DURATION);
-            }
-          };
+          showTimer =
+              new Timer() {
+                @Override
+                public void run() {
+                  showTimer = null;
+                  ResizeAnimation.this.run(ANIMATION_DURATION);
+                }
+              };
           showTimer.schedule(1);
         } else {
           run(ANIMATION_DURATION);
@@ -290,21 +269,15 @@ public class PopupPanel extends SimplePanel implements
           break;
       }
       // Set the rect clipping
-      impl.setClip(curPanel.getElement(), getRectString(top, right, bottom,
-          left));
+      impl.setClip(curPanel.getElement(), getRectString(top, right, bottom, left));
     }
 
-    /**
-     * Returns a rect string.
-     */
+    /** Returns a rect string. */
     private String getRectString(int top, int right, int bottom, int left) {
-      return "rect(" + top + "px, " + right + "px, " + bottom + "px, " + left
-          + "px)";
+      return "rect(" + top + "px, " + right + "px, " + bottom + "px, " + left + "px)";
     }
 
-    /**
-     * Show or hide the glass.
-     */
+    /** Show or hide the glass. */
     private void maybeShowGlass() {
       if (showing) {
         if (curPanel.isGlassEnabled) {
@@ -345,46 +318,41 @@ public class PopupPanel extends SimplePanel implements
     }
   }
 
-  /**
-   * The duration of the animation.
-   */
+  /** The duration of the animation. */
   private static final int ANIMATION_DURATION = 200;
 
-  /**
-   * The default style name.
-   */
+  /** The default style name. */
   private static final String DEFAULT_STYLENAME = "gwt-PopupPanel";
 
   private static final PopupImpl impl = new PopupImpl();
 
-  /**
-   * Window resize handler used to keep the glass the proper size.
-   */
-  private ResizeHandler glassResizer = new ResizeHandler() {
-    public void onResize(ResizeEvent event) {
-      Style style = glass.getStyle();
+  /** Window resize handler used to keep the glass the proper size. */
+  private ResizeHandler glassResizer =
+      new ResizeHandler() {
+        public void onResize(ResizeEvent event) {
+          Style style = glass.getStyle();
 
-      int winWidth = Window.getClientWidth();
-      int winHeight = Window.getClientHeight();
+          int winWidth = Window.getClientWidth();
+          int winHeight = Window.getClientHeight();
 
-      // Hide the glass while checking the document size. Otherwise it would
-      // interfere with the measurement.
-      style.setDisplay(Display.NONE);
-      style.setWidth(0, Unit.PX);
-      style.setHeight(0, Unit.PX);
+          // Hide the glass while checking the document size. Otherwise it would
+          // interfere with the measurement.
+          style.setDisplay(Display.NONE);
+          style.setWidth(0, Unit.PX);
+          style.setHeight(0, Unit.PX);
 
-      int width = Document.get().getScrollWidth();
-      int height = Document.get().getScrollHeight();
+          int width = Document.get().getScrollWidth();
+          int height = Document.get().getScrollHeight();
 
-      // Set the glass size to the larger of the window's client size or the
-      // document's scroll size.
-      style.setWidth(Math.max(width, winWidth), Unit.PX);
-      style.setHeight(Math.max(height, winHeight), Unit.PX);
+          // Set the glass size to the larger of the window's client size or the
+          // document's scroll size.
+          style.setWidth(Math.max(width, winWidth), Unit.PX);
+          style.setHeight(Math.max(height, winHeight), Unit.PX);
 
-      // The size is set. Show the glass again.
-      style.setDisplay(Display.BLOCK);
-    }
-  };
+          // The size is set. Show the glass again.
+          style.setDisplay(Display.BLOCK);
+        }
+      };
 
   private AnimationType animType = AnimationType.CENTER;
 
@@ -398,16 +366,12 @@ public class PopupPanel extends SimplePanel implements
 
   private String desiredWidth;
 
-  /**
-   * The glass element.
-   */
+  /** The glass element. */
   private Element glass;
 
   private String glassStyleName = "gwt-PopupPanelGlass";
 
-  /**
-   * A boolean indicating that a glass element should be used.
-   */
+  /** A boolean indicating that a glass element should be used. */
   private boolean isGlassEnabled;
 
   private boolean isAnimationEnabled = false;
@@ -418,18 +382,13 @@ public class PopupPanel extends SimplePanel implements
   private HandlerRegistration nativePreviewHandlerRegistration;
   private HandlerRegistration historyHandlerRegistration;
 
-  /**
-   * The {@link ResizeAnimation} used to open and close the {@link PopupPanel}s.
-   */
+  /** The {@link ResizeAnimation} used to open and close the {@link PopupPanel}s. */
   private ResizeAnimation resizeAnimation = new ResizeAnimation(this);
 
   // The top style attribute in pixels
   private int topPosition = -1;
 
-  /**
-   * Creates an empty popup panel. A child widget must be added to it before it
-   * is shown.
-   */
+  /** Creates an empty popup panel. A child widget must be added to it before it is shown. */
   public PopupPanel() {
     super();
     super.getContainerElement().appendChild(impl.createElement());
@@ -445,9 +404,8 @@ public class PopupPanel extends SimplePanel implements
   /**
    * Creates an empty popup panel, specifying its "auto-hide" property.
    *
-   * @param autoHide <code>true</code> if the popup should be automatically
-   *          hidden when the user clicks outside of it or the history token
-   *          changes.
+   * @param autoHide <code>true</code> if the popup should be automatically hidden when the user
+   *     clicks outside of it or the history token changes.
    */
   public PopupPanel(boolean autoHide) {
     this();
@@ -456,14 +414,12 @@ public class PopupPanel extends SimplePanel implements
   }
 
   /**
-   * Creates an empty popup panel, specifying its "auto-hide" and "modal"
-   * properties.
+   * Creates an empty popup panel, specifying its "auto-hide" and "modal" properties.
    *
-   * @param autoHide <code>true</code> if the popup should be automatically
-   *          hidden when the user clicks outside of it or the history token
-   *          changes.
-   * @param modal <code>true</code> if keyboard or mouse events that do not
-   *          target the PopupPanel or its children should be ignored
+   * @param autoHide <code>true</code> if the popup should be automatically hidden when the user
+   *     clicks outside of it or the history token changes.
+   * @param modal <code>true</code> if keyboard or mouse events that do not target the PopupPanel or
+   *     its children should be ignored
    */
   public PopupPanel(boolean autoHide, boolean modal) {
     this(autoHide);
@@ -471,8 +427,7 @@ public class PopupPanel extends SimplePanel implements
   }
 
   /**
-   * Mouse events that occur within an autoHide partner will not hide a panel
-   * set to autoHide.
+   * Mouse events that occur within an autoHide partner will not hide a panel set to autoHide.
    *
    * @param partner the auto hide partner to add
    */
@@ -489,8 +444,8 @@ public class PopupPanel extends SimplePanel implements
   }
 
   /**
-   * Centers the popup in the browser window and shows it. If the popup was
-   * already showing, then the popup is centered.
+   * Centers the popup in the browser window and shows it. If the popup was already showing, then
+   * the popup is centered.
    */
   public void center() {
     boolean initiallyShowing = showing;
@@ -512,8 +467,8 @@ public class PopupPanel extends SimplePanel implements
 
     int left = (Window.getClientWidth() - getOffsetWidth()) >> 1;
     int top = (Window.getClientHeight() - getOffsetHeight()) >> 1;
-    setPopupPosition(Math.max(Window.getScrollLeft() + left, 0), Math.max(
-        Window.getScrollTop() + top, 0));
+    setPopupPosition(
+        Math.max(Window.getScrollLeft() + left, 0), Math.max(Window.getScrollTop() + top, 0));
 
     if (!initiallyShowing) {
       setAnimationEnabled(initiallyAnimated);
@@ -530,8 +485,7 @@ public class PopupPanel extends SimplePanel implements
   }
 
   /**
-   * Gets the style name to be used on the glass element. By default, this is
-   * "gwt-PopupPanelGlass".
+   * Gets the style name to be used on the glass element. By default, this is "gwt-PopupPanelGlass".
    *
    * @return the glass element's style name
    */
@@ -540,9 +494,8 @@ public class PopupPanel extends SimplePanel implements
   }
 
   /**
-   * Gets the panel's offset height in pixels. Calls to
-   * {@link #setHeight(String)} before the panel's child widget is set will not
-   * influence the offset height.
+   * Gets the panel's offset height in pixels. Calls to {@link #setHeight(String)} before the
+   * panel's child widget is set will not influence the offset height.
    *
    * @return the object's offset height
    */
@@ -552,8 +505,8 @@ public class PopupPanel extends SimplePanel implements
   }
 
   /**
-   * Gets the panel's offset width in pixels. Calls to {@link #setWidth(String)}
-   * before the panel's child widget is set will not influence the offset width.
+   * Gets the panel's offset width in pixels. Calls to {@link #setWidth(String)} before the panel's
+   * child widget is set will not influence the offset width.
    *
    * @return the object's offset width
    */
@@ -586,19 +539,19 @@ public class PopupPanel extends SimplePanel implements
   }
 
   /**
-   * Hides the popup and detaches it from the page. This has no effect if it is
-   * not currently showing.
+   * Hides the popup and detaches it from the page. This has no effect if it is not currently
+   * showing.
    */
   public void hide() {
     hide(false);
   }
 
   /**
-   * Hides the popup and detaches it from the page. This has no effect if it is
-   * not currently showing.
+   * Hides the popup and detaches it from the page. This has no effect if it is not currently
+   * showing.
    *
-   * @param autoClosed the value that will be passed to
-   *          {@link CloseHandler#onClose(CloseEvent)} when the popup is closed
+   * @param autoClosed the value that will be passed to {@link CloseHandler#onClose(CloseEvent)}
+   *     when the popup is closed
    */
   public void hide(boolean autoClosed) {
     if (!isShowing()) {
@@ -613,8 +566,8 @@ public class PopupPanel extends SimplePanel implements
   }
 
   /**
-   * Returns <code>true</code> if the popup should be automatically hidden when
-   * the user clicks outside of it.
+   * Returns <code>true</code> if the popup should be automatically hidden when the user clicks
+   * outside of it.
    *
    * @return true if autoHide is enabled, false if disabled
    */
@@ -623,9 +576,8 @@ public class PopupPanel extends SimplePanel implements
   }
 
   /**
-   * Returns <code>true</code> if the popup should be automatically hidden when
-   * the history token changes, such as when the user presses the browser's back
-   * button.
+   * Returns <code>true</code> if the popup should be automatically hidden when the history token
+   * changes, such as when the user presses the browser's back button.
    *
    * @return true if enabled, false if disabled
    */
@@ -634,8 +586,7 @@ public class PopupPanel extends SimplePanel implements
   }
 
   /**
-   * Returns <code>true</code> if a glass element will be displayed under the
-   * {@link PopupPanel}.
+   * Returns <code>true</code> if a glass element will be displayed under the {@link PopupPanel}.
    *
    * @return true if enabled
    */
@@ -644,8 +595,8 @@ public class PopupPanel extends SimplePanel implements
   }
 
   /**
-   * Returns <code>true</code> if keyboard or mouse events that do not target
-   * the PopupPanel or its children should be ignored.
+   * Returns <code>true</code> if keyboard or mouse events that do not target the PopupPanel or its
+   * children should be ignored.
    *
    * @return true if popup is modal, false if not
    */
@@ -654,8 +605,8 @@ public class PopupPanel extends SimplePanel implements
   }
 
   /**
-   * Returns <code>true</code> if the popup should preview all native events,
-   * even if the event has already been consumed by another popup.
+   * Returns <code>true</code> if the popup should preview all native events, even if the event has
+   * already been consumed by another popup.
    *
    * @return true if previewAllNativeEvents is enabled, false if disabled
    */
@@ -675,10 +626,9 @@ public class PopupPanel extends SimplePanel implements
   }
 
   /**
-   * Determines whether or not this popup is visible. Note that this just checks
-   * the <code>visibility</code> style attribute, which is set in the
-   * {@link #setVisible(boolean)} method. If you want to know if the popup is
-   * attached to the page, use {@link #isShowing()} instead.
+   * Determines whether or not this popup is visible. Note that this just checks the <code>
+   * visibility</code> style attribute, which is set in the {@link #setVisible(boolean)} method. If
+   * you want to know if the popup is attached to the page, use {@link #isShowing()} instead.
    *
    * @return <code>true</code> if the object is visible
    * @see #setVisible(boolean)
@@ -688,9 +638,7 @@ public class PopupPanel extends SimplePanel implements
     return !"hidden".equals(getElement().getStyle().getProperty("visibility"));
   }
 
-  /**
-   * @deprecated Use {@link #onPreviewNativeEvent} instead
-   */
+  /** @deprecated Use {@link #onPreviewNativeEvent} instead */
   @Deprecated
   public boolean onEventPreview(Event event) {
     return true;
@@ -713,8 +661,8 @@ public class PopupPanel extends SimplePanel implements
   }
 
   /**
-   * Enable or disable the autoHide feature. When enabled, the popup will be
-   * automatically hidden when the user clicks outside of it.
+   * Enable or disable the autoHide feature. When enabled, the popup will be automatically hidden
+   * when the user clicks outside of it.
    *
    * @param autoHide true to enable autoHide, false to disable
    */
@@ -723,9 +671,9 @@ public class PopupPanel extends SimplePanel implements
   }
 
   /**
-   * Enable or disable autoHide on history change events. When enabled, the
-   * popup will be automatically hidden when the history token changes, such as
-   * when the user presses the browser's back button. Disabled by default.
+   * Enable or disable autoHide on history change events. When enabled, the popup will be
+   * automatically hidden when the history token changes, such as when the user presses the
+   * browser's back button. Disabled by default.
    *
    * @param enabled true to enable, false to disable
    */
@@ -734,9 +682,9 @@ public class PopupPanel extends SimplePanel implements
   }
 
   /**
-   * When enabled, the background will be blocked with a semi-transparent pane
-   * the next time it is shown. If the PopupPanel is already visible, the glass
-   * will not be displayed until it is hidden and shown again.
+   * When enabled, the background will be blocked with a semi-transparent pane the next time it is
+   * shown. If the PopupPanel is already visible, the glass will not be displayed until it is hidden
+   * and shown again.
    *
    * @param enabled true to enable, false to disable
    */
@@ -753,8 +701,7 @@ public class PopupPanel extends SimplePanel implements
   }
 
   /**
-   * Sets the style name to be used on the glass element. By default, this is
-   * "gwt-PopupPanelGlass".
+   * Sets the style name to be used on the glass element. By default, this is "gwt-PopupPanelGlass".
    *
    * @param glassStyleName the glass element's style name
    */
@@ -766,16 +713,13 @@ public class PopupPanel extends SimplePanel implements
   }
 
   /**
-   * Sets the height of the panel's child widget. If the panel's child widget
-   * has not been set, the height passed in will be cached and used to set the
-   * height immediately after the child widget is set.
+   * Sets the height of the panel's child widget. If the panel's child widget has not been set, the
+   * height passed in will be cached and used to set the height immediately after the child widget
+   * is set.
    *
-   * <p>
-   * Note that subclasses may have a different behavior. A subclass may decide
-   * not to change the height of the child widget. It may instead decide to
-   * change the height of an internal panel widget, which contains the child
-   * widget.
-   * </p>
+   * <p>Note that subclasses may have a different behavior. A subclass may decide not to change the
+   * height of the child widget. It may instead decide to change the height of an internal panel
+   * widget, which contains the child widget.
    *
    * @param height the object's new height, in CSS units (e.g. "10px", "1em")
    */
@@ -790,8 +734,8 @@ public class PopupPanel extends SimplePanel implements
   }
 
   /**
-   * When the popup is modal, keyboard or mouse events that do not target the
-   * PopupPanel or its children will be ignored.
+   * When the popup is modal, keyboard or mouse events that do not target the PopupPanel or its
+   * children will be ignored.
    *
    * @param modal true to make the popup modal
    */
@@ -800,8 +744,8 @@ public class PopupPanel extends SimplePanel implements
   }
 
   /**
-   * Sets the popup's position relative to the browser's client area. The
-   * popup's position may be set before calling {@link #show()}.
+   * Sets the popup's position relative to the browser's client area. The popup's position may be
+   * set before calling {@link #show()}.
    *
    * @param left the left position, in pixels
    * @param top the top position, in pixels
@@ -825,11 +769,10 @@ public class PopupPanel extends SimplePanel implements
   }
 
   /**
-   * Sets the popup's position using a {@link PositionCallback}, and shows the
-   * popup. The callback allows positioning to be performed based on the
-   * offsetWidth and offsetHeight of the popup, which are normally not available
-   * until the popup is showing. By positioning the popup before it is shown,
-   * the popup will not jump from its original position to the new position.
+   * Sets the popup's position using a {@link PositionCallback}, and shows the popup. The callback
+   * allows positioning to be performed based on the offsetWidth and offsetHeight of the popup,
+   * which are normally not available until the popup is showing. By positioning the popup before it
+   * is shown, the popup will not jump from its original position to the new position.
    *
    * @param callback the callback to set the position of the popup
    * @see PositionCallback#setPosition(int offsetWidth, int offsetHeight)
@@ -842,16 +785,12 @@ public class PopupPanel extends SimplePanel implements
   }
 
   /**
-   * <p>
-   * When enabled, the popup will preview all native events, even if another
-   * popup was opened after this one.
-   * </p>
-   * <p>
-   * If autoHide is enabled, enabling this feature will cause the popup to
-   * autoHide even if another non-modal popup was shown after it. If this
-   * feature is disabled, the popup will only autoHide if it was the last popup
-   * opened.
-   * </p>
+   * When enabled, the popup will preview all native events, even if another popup was opened after
+   * this one.
+   *
+   * <p>If autoHide is enabled, enabling this feature will cause the popup to autoHide even if
+   * another non-modal popup was shown after it. If this feature is disabled, the popup will only
+   * autoHide if it was the last popup opened.
    *
    * @param previewAllNativeEvents true to enable, false to disable
    */
@@ -870,12 +809,11 @@ public class PopupPanel extends SimplePanel implements
   }
 
   /**
-   * Sets whether this object is visible. This method just sets the
-   * <code>visibility</code> style attribute. You need to call {@link #show()}
-   * to actually attached/detach the {@link PopupPanel} to the page.
+   * Sets whether this object is visible. This method just sets the <code>visibility</code> style
+   * attribute. You need to call {@link #show()} to actually attached/detach the {@link PopupPanel}
+   * to the page.
    *
-   * @param visible <code>true</code> to show the object, <code>false</code> to
-   *          hide it
+   * @param visible <code>true</code> to show the object, <code>false</code> to hide it
    * @see #show()
    * @see #hide()
    */
@@ -901,16 +839,13 @@ public class PopupPanel extends SimplePanel implements
   }
 
   /**
-   * Sets the width of the panel's child widget. If the panel's child widget has
-   * not been set, the width passed in will be cached and used to set the width
-   * immediately after the child widget is set.
+   * Sets the width of the panel's child widget. If the panel's child widget has not been set, the
+   * width passed in will be cached and used to set the width immediately after the child widget is
+   * set.
    *
-   * <p>
-   * Note that subclasses may have a different behavior. A subclass may decide
-   * not to change the width of the child widget. It may instead decide to
-   * change the width of an internal panel widget, which contains the child
-   * widget.
-   * </p>
+   * <p>Note that subclasses may have a different behavior. A subclass may decide not to change the
+   * width of the child widget. It may instead decide to change the width of an internal panel
+   * widget, which contains the child widget.
    *
    * @param width the object's new width, in CSS units (e.g. "10px", "1em")
    */
@@ -925,8 +860,8 @@ public class PopupPanel extends SimplePanel implements
   }
 
   /**
-   * Shows the popup and attach it to the page. It must have a child widget
-   * before this method is called.
+   * Shows the popup and attach it to the page. It must have a child widget before this method is
+   * called.
    */
   public void show() {
     if (showing) {
@@ -941,22 +876,22 @@ public class PopupPanel extends SimplePanel implements
   }
 
   /**
-   * Normally, the popup is positioned directly below the relative target, with
-   * its left edge aligned with the left edge of the target. Depending on the
-   * width and height of the popup and the distance from the target to the
-   * bottom and right edges of the window, the popup may be displayed directly
-   * above the target, and/or its right edge may be aligned with the right edge
+   * Normally, the popup is positioned directly below the relative target, with its left edge
+   * aligned with the left edge of the target. Depending on the width and height of the popup and
+   * the distance from the target to the bottom and right edges of the window, the popup may be
+   * displayed directly above the target, and/or its right edge may be aligned with the right edge
    * of the target.
    *
    * @param target the target to show the popup below
    */
   public final void showRelativeTo(final UIObject target) {
     // Set the position of the popup right before it is shown.
-    setPopupPositionAndShow(new PositionCallback() {
-      public void setPosition(int offsetWidth, int offsetHeight) {
-        position(target, offsetWidth, offsetHeight);
-      }
-    });
+    setPopupPositionAndShow(
+        new PositionCallback() {
+          public void setPosition(int offsetWidth, int offsetHeight) {
+            position(target, offsetWidth, offsetHeight);
+          }
+        });
   }
 
   @Override
@@ -965,8 +900,8 @@ public class PopupPanel extends SimplePanel implements
   }
 
   /**
-   * Get the glass element used by this {@link PopupPanel}. The element is not
-   * created until it is enabled via {@link #setGlassEnabled(boolean)}.
+   * Get the glass element used by this {@link PopupPanel}. The element is not created until it is
+   * enabled via {@link #setGlassEnabled(boolean)}.
    *
    * @return the glass element, or null if not created
    */
@@ -981,8 +916,7 @@ public class PopupPanel extends SimplePanel implements
 
   protected void onPreviewNativeEvent(NativePreviewEvent event) {
     // Cancel the event based on the deprecated onEventPreview() method
-    if (event.isFirstHandler()
-        && !onEventPreview(Event.as(event.getNativeEvent()))) {
+    if (event.isFirstHandler() && !onEventPreview(Event.as(event.getNativeEvent()))) {
       event.cancel();
     }
   }
@@ -1000,10 +934,10 @@ public class PopupPanel extends SimplePanel implements
   }
 
   /**
-   * We control size by setting our child widget's size. However, if we don't
-   * currently have a child, we record the size the user wanted so that when we
-   * do get a child, we can set it correctly. Until size is explicitly cleared,
-   * any child put into the popup will be given that size.
+   * We control size by setting our child widget's size. However, if we don't currently have a
+   * child, we record the size the user wanted so that when we do get a child, we can set it
+   * correctly. Until size is explicitly cleared, any child put into the popup will be given that
+   * size.
    */
   void maybeUpdateSize() {
     // For subclasses of PopupPanel, we want the default behavior of setWidth
@@ -1026,9 +960,9 @@ public class PopupPanel extends SimplePanel implements
   }
 
   /**
-   * Sets the animation used to animate this popup. Used by gwt-incubator to
-   * allow DropDownPanel to override the default popup animation. Not protected
-   * because the exact API may change in gwt 1.6.
+   * Sets the animation used to animate this popup. Used by gwt-incubator to allow DropDownPanel to
+   * override the default popup animation. Not protected because the exact API may change in gwt
+   * 1.6.
    *
    * @param animation the animation to use for this popup
    */
@@ -1061,9 +995,8 @@ public class PopupPanel extends SimplePanel implements
    *
    * @param elt The Element on which <code>blur()</code> will be invoked
    */
-  private void blur(Element elt)  {
-    if(((JsPropertyMap)elt).has("blur") && elt != Document.get().getBody())
-      elt.blur();
+  private void blur(Element elt) {
+    if (((JsPropertyMap) elt).has("blur") && elt != Document.get().getBody()) elt.blur();
   }
 
   /**
@@ -1103,10 +1036,9 @@ public class PopupPanel extends SimplePanel implements
   }
 
   /**
-   * Get the element that {@link PopupImpl} uses. PopupImpl creates an element
-   * that goes inside of the outer element, so all methods in PopupImpl are
-   * relative to the first child of the outer element, not the outer element
-   * itself.
+   * Get the element that {@link PopupImpl} uses. PopupImpl creates an element that goes inside of
+   * the outer element, so all methods in PopupImpl are relative to the first child of the outer
+   * element, not the outer element itself.
    *
    * @return the Element that {@link PopupImpl} creates and expects
    */
@@ -1115,15 +1047,13 @@ public class PopupPanel extends SimplePanel implements
   }
 
   /**
-   * Positions the popup, called after the offset width and height of the popup
-   * are known.
+   * Positions the popup, called after the offset width and height of the popup are known.
    *
    * @param relativeObject the ui object to position relative to
    * @param offsetWidth the drop down's offset width
    * @param offsetHeight the drop down's offset height
    */
-  private void position(final UIObject relativeObject, int offsetWidth,
-      int offsetHeight) {
+  private void position(final UIObject relativeObject, int offsetWidth, int offsetHeight) {
     // Calculate left position for the popup. The computation for
     // the left position is bidi-sensitive.
 
@@ -1154,8 +1084,7 @@ public class PopupPanel extends SimplePanel implements
         int windowLeft = Window.getScrollLeft();
 
         // Compute the left value for the right edge of the textbox
-        int textBoxLeftValForRightEdge = textBoxAbsoluteLeft
-            + textBoxOffsetWidth;
+        int textBoxLeftValForRightEdge = textBoxAbsoluteLeft + textBoxOffsetWidth;
 
         // Distance from the right edge of the text box to the right edge
         // of the window
@@ -1170,8 +1099,7 @@ public class PopupPanel extends SimplePanel implements
         // overflow to the right of the text box, then left-align the popup.
         // However, if there is not enough space on either side, stick with
         // right-alignment.
-        if (distanceFromWindowLeft < offsetWidth
-            && distanceToWindowRight >= offsetWidthDiff) {
+        if (distanceFromWindowLeft < offsetWidth && distanceToWindowRight >= offsetWidthDiff) {
           // Align with the left edge of the text box.
           left = textBoxAbsoluteLeft;
         }
@@ -1203,8 +1131,7 @@ public class PopupPanel extends SimplePanel implements
         // overflow to the left of the text box, then right-align the popup.
         // However, if there is not enough space on either side, then stick with
         // left-alignment.
-        if (distanceToWindowRight < offsetWidth
-            && distanceFromWindowLeft >= offsetWidthDiff) {
+        if (distanceToWindowRight < offsetWidth && distanceFromWindowLeft >= offsetWidthDiff) {
           // Align with the right edge of the text box.
           left -= offsetWidthDiff;
         }
@@ -1226,16 +1153,14 @@ public class PopupPanel extends SimplePanel implements
 
     // Distance from the bottom edge of the window to the bottom edge of
     // the text box
-    int distanceToWindowBottom = windowBottom
-        - (top + relativeObject.getOffsetHeight());
+    int distanceToWindowBottom = windowBottom - (top + relativeObject.getOffsetHeight());
 
     // If there is not enough space for the popup's height below the text
     // box and there IS enough space for the popup's height above the text
     // box, then position the popup above the text box. However, if there
     // is not enough space on either side, then stick with displaying the
     // popup below the text box.
-    if (distanceToWindowBottom < offsetHeight
-        && distanceFromWindowTop >= offsetHeight) {
+    if (distanceToWindowBottom < offsetHeight && distanceFromWindowTop >= offsetHeight) {
       top -= offsetHeight;
     } else {
       // Position above the text box
@@ -1268,8 +1193,8 @@ public class PopupPanel extends SimplePanel implements
 
     // If the event targets the popup or the partner, consume it
     Event nativeEvent = Event.as(event.getNativeEvent());
-    boolean eventTargetsPopupOrPartner = eventTargetsPopup(nativeEvent)
-        || eventTargetsPartner(nativeEvent);
+    boolean eventTargetsPopupOrPartner =
+        eventTargetsPopup(nativeEvent) || eventTargetsPartner(nativeEvent);
     if (eventTargetsPopupOrPartner) {
       event.consume();
     }
@@ -1283,15 +1208,18 @@ public class PopupPanel extends SimplePanel implements
     // Switch on the event type
     int type = event.getTypeInt();
     switch (type) {
-      case Event.ONKEYDOWN: {
-        return;
-      }
-      case Event.ONKEYUP: {
-        return;
-      }
-      case Event.ONKEYPRESS: {
-        return;
-      }
+      case Event.ONKEYDOWN:
+        {
+          return;
+        }
+      case Event.ONKEYUP:
+        {
+          return;
+        }
+      case Event.ONKEYPRESS:
+        {
+          return;
+        }
 
       case Event.ONMOUSEDOWN:
       case Event.ONTOUCHSTART:
@@ -1311,31 +1239,31 @@ public class PopupPanel extends SimplePanel implements
       case Event.ONMOUSEMOVE:
       case Event.ONCLICK:
       case Event.ONDBLCLICK:
-      case Event.ONTOUCHEND: {
-        // Don't eat events if event capture is enabled, as this can
-        // interfere with dialog dragging, for example.
-        if (DOM.getCaptureElement() != null) {
-          event.consume();
-          return;
+      case Event.ONTOUCHEND:
+        {
+          // Don't eat events if event capture is enabled, as this can
+          // interfere with dialog dragging, for example.
+          if (DOM.getCaptureElement() != null) {
+            event.consume();
+            return;
+          }
+          break;
         }
-        break;
-      }
 
-      case Event.ONFOCUS: {
-        Element target = nativeEvent.getTarget();
-        if (modal && !eventTargetsPopupOrPartner && (target != null)) {
-          blur(target);
-          event.cancel();
-          return;
+      case Event.ONFOCUS:
+        {
+          Element target = nativeEvent.getTarget();
+          if (modal && !eventTargetsPopupOrPartner && (target != null)) {
+            blur(target);
+            event.cancel();
+            return;
+          }
+          break;
         }
-        break;
-      }
     }
   }
 
-  /**
-   * Register or unregister the handlers used by {@link PopupPanel}.
-   */
+  /** Register or unregister the handlers used by {@link PopupPanel}. */
   private void updateHandlers() {
     // Remove any existing handlers.
     if (nativePreviewHandlerRegistration != null) {
@@ -1349,18 +1277,22 @@ public class PopupPanel extends SimplePanel implements
 
     // Create handlers if showing.
     if (showing) {
-      nativePreviewHandlerRegistration = Event.addNativePreviewHandler(new NativePreviewHandler() {
-        public void onPreviewNativeEvent(NativePreviewEvent event) {
-          previewNativeEvent(event);
-        }
-      });
-      historyHandlerRegistration = History.addValueChangeHandler(new ValueChangeHandler<String>() {
-        public void onValueChange(ValueChangeEvent<String> event) {
-          if (autoHideOnHistoryEvents) {
-            hide();
-          }
-        }
-      });
+      nativePreviewHandlerRegistration =
+          Event.addNativePreviewHandler(
+              new NativePreviewHandler() {
+                public void onPreviewNativeEvent(NativePreviewEvent event) {
+                  previewNativeEvent(event);
+                }
+              });
+      historyHandlerRegistration =
+          History.addValueChangeHandler(
+              new ValueChangeHandler<String>() {
+                public void onValueChange(ValueChangeEvent<String> event) {
+                  if (autoHideOnHistoryEvents) {
+                    hide();
+                  }
+                }
+              });
     }
   }
 }

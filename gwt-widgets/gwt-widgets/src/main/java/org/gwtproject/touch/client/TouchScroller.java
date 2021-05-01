@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -16,6 +16,9 @@
 package org.gwtproject.touch.client;
 
 import elemental2.dom.DomGlobal;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import org.gwtproject.core.client.Duration;
 import org.gwtproject.core.client.JsArray;
 import org.gwtproject.core.client.Scheduler;
@@ -39,39 +42,30 @@ import org.gwtproject.touch.client.Momentum.State;
 import org.gwtproject.user.client.Event;
 import org.gwtproject.user.client.Event.NativePreviewEvent;
 import org.gwtproject.user.client.Event.NativePreviewHandler;
-import org.gwtproject.user.window.client.Window;
 import org.gwtproject.user.client.ui.HasScrolling;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import org.gwtproject.user.window.client.Window;
 
 /**
  * Adds touch based scrolling to a scroll panel.
- * 
- * <p>
- * Touch based scrolling is only supported on devices that support touch events
- * and do not implement native touch based scrolling.
- * </p>
+ *
+ * <p>Touch based scrolling is only supported on devices that support touch events and do not
+ * implement native touch based scrolling.
  */
 @PartialSupport
 public class TouchScroller {
 
   /**
    * A point associated with a time.
-   * 
-   * Visible for testing.
+   *
+   * <p>Visible for testing.
    */
   static class TemporalPoint {
     private Point point;
     private double time;
 
-    public TemporalPoint() {
-    }
+    public TemporalPoint() {}
 
-    /**
-     * Construct a new {@link TemporalPoint} for the specified point and time.
-     */
+    /** Construct a new {@link TemporalPoint} for the specified point and time. */
     public TemporalPoint(Point point, double time) {
       setTemporalPoint(point, time);
     }
@@ -86,7 +80,7 @@ public class TouchScroller {
 
     /**
      * Update the point and time.
-     * 
+     *
      * @param point the new point
      * @param time the new time
      */
@@ -96,9 +90,7 @@ public class TouchScroller {
     }
   }
 
-  /**
-   * The command used to apply momentum.
-   */
+  /** The command used to apply momentum. */
   private class MomentumCommand implements RepeatingCommand {
 
     private final Duration duration = new Duration();
@@ -109,23 +101,24 @@ public class TouchScroller {
 
     /**
      * Construct a {@link MomentumCommand}.
-     * 
+     *
      * @param endVelocity the final velocity of the user drag
      */
     public MomentumCommand(Point endVelocity) {
       state = momentum.createState(initialPosition, endVelocity);
 
       /**
-       * If the user resizes the window (which happens on orientation change of
-       * a mobile device), cancel the momentum. The scrollable widget may be
-       * resized, which will cause its content to reflow and invalidates the
-       * current scrolling position.
+       * If the user resizes the window (which happens on orientation change of a mobile device),
+       * cancel the momentum. The scrollable widget may be resized, which will cause its content to
+       * reflow and invalidates the current scrolling position.
        */
-      windowResizeHandler = Window.addResizeHandler(new ResizeHandler() {
-        public void onResize(ResizeEvent event) {
-          finish();
-        }
-      });
+      windowResizeHandler =
+          Window.addResizeHandler(
+              new ResizeHandler() {
+                public void onResize(ResizeEvent event) {
+                  finish();
+                }
+              });
     }
 
     @Override
@@ -177,9 +170,7 @@ public class TouchScroller {
       return notDone;
     }
 
-    /**
-     * Finish and cleanup this momentum command.
-     */
+    /** Finish and cleanup this momentum command. */
     private void finish() {
       if (windowResizeHandler != null) {
         windowResizeHandler.removeHandler();
@@ -192,9 +183,8 @@ public class TouchScroller {
   }
 
   /**
-   * The command used to remove touch points that occurred while the scrolling
-   * momentum is active. Only the touch points that occurred before
-   * TIME_THRESHOLD get to be removed.
+   * The command used to remove touch points that occurred while the scrolling momentum is active.
+   * Only the touch points that occurred before TIME_THRESHOLD get to be removed.
    */
   private class MomentumTouchRemovalCommand implements RepeatingCommand {
     @Override
@@ -211,55 +201,45 @@ public class TouchScroller {
     }
   }
 
-  /**
-   * The number of frames per second the animation should run at.
-   */
+  /** The number of frames per second the animation should run at. */
   private static final double FRAMES_PER_SECOND = 60;
 
   /**
-   * The number of ms to wait during a drag before updating the reported start
-   * position of the drag.
+   * The number of ms to wait during a drag before updating the reported start position of the drag.
    */
   private static final double MAX_TRACKING_TIME = 200;
 
-  /**
-   * The number of ms to wait before putting a position on deck.
-   */
+  /** The number of ms to wait before putting a position on deck. */
   private static final double MAX_TRACKING_TIME_ON_DECK = MAX_TRACKING_TIME / 2;
 
-  /**
-   * Minimum movement of touch required to be considered a drag.
-   */
+  /** Minimum movement of touch required to be considered a drag. */
   private static final double MIN_TRACKING_FOR_DRAG = 5;
 
   /**
-   * The threshold for how close the time of a click event has to be to that of
-   * a touch event for us to consider those events to be related; that is,
-   * caused by the same user action (tap).
+   * The threshold for how close the time of a click event has to be to that of a touch event for us
+   * to consider those events to be related; that is, caused by the same user action (tap).
    */
   private static final int TIME_THRESHOLD = 2500;
 
   /**
-   * The threshold for how close the coordinates of a click event has to be to
-   * those of a touch event for us to consider those events to be related;
-   * that is, caused by the same user action (tap).
+   * The threshold for how close the coordinates of a click event has to be to those of a touch
+   * event for us to consider those events to be related; that is, caused by the same user action
+   * (tap).
    */
   private static final int DISTANCE_THRESHOLD = 25;
 
-  /**
-   * The number of milliseconds per animation frame.
-   */
+  /** The number of milliseconds per animation frame. */
   private static final int MS_PER_FRAME = (int) (1000 / FRAMES_PER_SECOND);
 
   /**
-   * A cached boolean indicating whether or not touch scrolling is supported.
-   * Set to a non-null value the first time {@link #isSupported()} is called.
+   * A cached boolean indicating whether or not touch scrolling is supported. Set to a non-null
+   * value the first time {@link #isSupported()} is called.
    */
   private static Boolean isSupported;
 
   /**
    * Return a new {@link TouchScroller}.
-   * 
+   *
    * @return a new {@link TouchScroller} if supported, and null otherwise
    */
   public static TouchScroller createIfSupported() {
@@ -267,9 +247,9 @@ public class TouchScroller {
   }
 
   /**
-   * Return a new {@link TouchScroller} that augments the specified scrollable
-   * widget if supported, and null otherwise.
-   * 
+   * Return a new {@link TouchScroller} that augments the specified scrollable widget if supported,
+   * and null otherwise.
+   *
    * @param widget the scrollable widget
    * @return a new {@link TouchScroller} if supported, and null otherwise
    */
@@ -282,17 +262,16 @@ public class TouchScroller {
   }
 
   /**
-   * Runtime check for whether touch scrolling is supported in this browser.
-   * Returns true if touch events are supported but touch based scrolling is not
-   * natively supported.
-   * 
+   * Runtime check for whether touch scrolling is supported in this browser. Returns true if touch
+   * events are supported but touch based scrolling is not natively supported.
+   *
    * @return true if touch scrolling is supported, false if not
    */
   public static boolean isSupported() {
     if (isSupported == null) {
       /*
        * Android 3.0 devices support touch scrolling natively.
-       * 
+       *
        * TODO(jlabanca): Find a more reliable way to detect if native touch
        * scrolling is supported.
        */
@@ -303,9 +282,8 @@ public class TouchScroller {
 
   /**
    * Check if the user agent is android 3.0 or greater.
-   * 
+   *
    * @return true if android 3.0+
-   * 
    */
   private static boolean isAndroid3() {
     String useragent = DomGlobal.navigator.userAgent;
@@ -321,109 +299,85 @@ public class TouchScroller {
     return false;
   }
 
-  /**
-   * The registration for the preview handler used to bust click events.
-   */
+  /** The registration for the preview handler used to bust click events. */
   private HandlerRegistration bustClickHandlerReg;
 
-  /**
-   * The registration for the attach event handler.
-   */
+  /** The registration for the attach event handler. */
   private HandlerRegistration attachHandlerReg;
 
   /**
-   * A boolean indicating that we are in a drag sequence. Dragging occurs after
-   * the user moves beyond a threshold distance.
+   * A boolean indicating that we are in a drag sequence. Dragging occurs after the user moves
+   * beyond a threshold distance.
    */
   private boolean dragging;
 
-  /**
-   * Registrations for the handlers added to the widget.
-   */
-  private final List<HandlerRegistration> handlerRegs =
-      new ArrayList<HandlerRegistration>();
+  /** Registrations for the handlers added to the widget. */
+  private final List<HandlerRegistration> handlerRegs = new ArrayList<HandlerRegistration>();
 
   /**
-   * The last (most recent) touch position. We need to keep track of this when
-   * we handle touch move events because the Touch is already destroyed before
-   * the touch end event fires.
+   * The last (most recent) touch position. We need to keep track of this when we handle touch move
+   * events because the Touch is already destroyed before the touch end event fires.
    */
   private final TemporalPoint lastTouchPosition = new TemporalPoint();
 
   /**
-   * The momentum that determines how the widget scrolls after the user
-   * completes a gesture. Can be null if momentum is not supported.
+   * The momentum that determines how the widget scrolls after the user completes a gesture. Can be
+   * null if momentum is not supported.
    */
   Momentum momentum;
 
   /**
-   * The repeating command used to continue momentum after the gesture ends. The
-   * command is instantiated after the user finishes a drag sequence. A non null
-   * value indicates that momentum is occurring.
+   * The repeating command used to continue momentum after the gesture ends. The command is
+   * instantiated after the user finishes a drag sequence. A non null value indicates that momentum
+   * is occurring.
    */
   RepeatingCommand momentumCommand;
 
   /**
-   * The coordinate of the most recent relevant touch event. For most drag
-   * sequences this will be the same as the startCoordinate. If the touch
-   * gesture changes direction significantly or pauses for a while this
-   * coordinate will be updated to the coordinate of the on deck touchmove
-   * event.
+   * The coordinate of the most recent relevant touch event. For most drag sequences this will be
+   * the same as the startCoordinate. If the touch gesture changes direction significantly or pauses
+   * for a while this coordinate will be updated to the coordinate of the on deck touchmove event.
    */
   private final TemporalPoint recentTouchPosition = new TemporalPoint();
 
   /**
-   * If the gesture takes too long, we update the recentTouchPosition to the
-   * position on deck, which occurred halfway through the max tracking time. We
-   * do this so that we don't base the velocity on two touch events that
-   * occurred very close to each other at the end of a long gesture.
+   * If the gesture takes too long, we update the recentTouchPosition to the position on deck, which
+   * occurred halfway through the max tracking time. We do this so that we don't base the velocity
+   * on two touch events that occurred very close to each other at the end of a long gesture.
    */
   private TemporalPoint recentTouchPositionOnDeck;
 
-  /**
-   * The coordinate of the most recent touch event that triggered scrolling.
-   */
-  private TemporalPoint recentScrollTriggeringTouchPosition =
-      new TemporalPoint();
+  /** The coordinate of the most recent touch event that triggered scrolling. */
+  private TemporalPoint recentScrollTriggeringTouchPosition = new TemporalPoint();
 
   /**
-   * The coordinates of the touch positions while the momentum is active. The
-   * points stored in this array will be removed after TIME_THRESHOLD.
+   * The coordinates of the touch positions while the momentum is active. The points stored in this
+   * array will be removed after TIME_THRESHOLD.
    */
-  private List<TemporalPoint> touchPositionsDuringMomentum =
-      new ArrayList<TemporalPoint>();
+  private List<TemporalPoint> touchPositionsDuringMomentum = new ArrayList<TemporalPoint>();
 
   /**
    * The repeating command used to remove the touch points that were added to
    * touchPositionsDuringMomentum after TIME_THRESHOLD.
    */
-  private RepeatingCommand momentumTouchRemovalCommand =
-      new MomentumTouchRemovalCommand();
+  private RepeatingCommand momentumTouchRemovalCommand = new MomentumTouchRemovalCommand();
 
-  /**
-   * The position of the scrollable when the first touch occured.
-   */
+  /** The position of the scrollable when the first touch occured. */
   private Point startScrollPosition;
 
-  /**
-   * The position of the first touch.
-   */
+  /** The position of the first touch. */
   private Point startTouchPosition;
 
-  /**
-   * A boolean indicating that we are in a touch sequence.
-   */
+  /** A boolean indicating that we are in a touch sequence. */
   private boolean touching;
 
-  /**
-   * The widget being augmented.
-   */
+  /** The widget being augmented. */
   private HasScrolling widget;
 
   /**
-   * Construct a new {@link TouchScroller}. This constructor should be called
-   * using the static method {@link #createIfSupported()}.
-   * 
+   * Construct a new {@link TouchScroller}. This constructor should be called using the static
+   * method {@link #createIfSupported()}.
+   *
    * @see #createIfSupported()
    */
   protected TouchScroller() {
@@ -431,9 +385,8 @@ public class TouchScroller {
   }
 
   /**
-   * Get the {@link Momentum} that controls scrolling after the user completes a
-   * gesture.
-   * 
+   * Get the {@link Momentum} that controls scrolling after the user completes a gesture.
+   *
    * @return the scrolling {@link Momentum}, or null if disabled
    */
   public Momentum getMomentum() {
@@ -442,7 +395,7 @@ public class TouchScroller {
 
   /**
    * Get the target {@link HasScrolling} widget that this scroller affects.
-   * 
+   *
    * @return the target widget
    */
   public HasScrolling getTargetWidget() {
@@ -450,9 +403,8 @@ public class TouchScroller {
   }
 
   /**
-   * Set the {@link Momentum} that controls scrolling after the user completes a
-   * gesture.
-   * 
+   * Set the {@link Momentum} that controls scrolling after the user completes a gesture.
+   *
    * @param momentum the scrolling {@link Momentum}, or null to disable
    */
   public void setMomentum(Momentum momentum) {
@@ -465,7 +417,7 @@ public class TouchScroller {
 
   /**
    * Set the target {@link HasScrolling} widget that this scroller affects.
-   * 
+   *
    * @param widget the target widget, or null to disbale
    */
   public void setTargetWidget(HasScrolling widget) {
@@ -492,54 +444,78 @@ public class TouchScroller {
       }
 
       // Make sure to add/remove the bust click handler if the widget is attached/detached.
-      attachHandlerReg = widget.asWidget().addAttachHandler(new AttachEvent.Handler() {
-        @Override
-        public void onAttachOrDetach(AttachEvent event) {
-          if (event.isAttached()) {
-            setupBustClickHandler();
-          } else {
-            removeBustClickHandler();
-          }
-        }
-      });
+      attachHandlerReg =
+          widget
+              .asWidget()
+              .addAttachHandler(
+                  new AttachEvent.Handler() {
+                    @Override
+                    public void onAttachOrDetach(AttachEvent event) {
+                      if (event.isAttached()) {
+                        setupBustClickHandler();
+                      } else {
+                        removeBustClickHandler();
+                      }
+                    }
+                  });
 
       // Add touch start handler.
-      handlerRegs.add(widget.asWidget().addDomHandler(new TouchStartHandler() {
-        @Override
-        public void onTouchStart(TouchStartEvent event) {
-          TouchScroller.this.onTouchStart(event);
-        }
-      }, TouchStartEvent.getType()));
+      handlerRegs.add(
+          widget
+              .asWidget()
+              .addDomHandler(
+                  new TouchStartHandler() {
+                    @Override
+                    public void onTouchStart(TouchStartEvent event) {
+                      TouchScroller.this.onTouchStart(event);
+                    }
+                  },
+                  TouchStartEvent.getType()));
 
       // Add touch move handler.
-      handlerRegs.add(widget.asWidget().addDomHandler(new TouchMoveHandler() {
-        @Override
-        public void onTouchMove(TouchMoveEvent event) {
-          TouchScroller.this.onTouchMove(event);
-        }
-      }, TouchMoveEvent.getType()));
+      handlerRegs.add(
+          widget
+              .asWidget()
+              .addDomHandler(
+                  new TouchMoveHandler() {
+                    @Override
+                    public void onTouchMove(TouchMoveEvent event) {
+                      TouchScroller.this.onTouchMove(event);
+                    }
+                  },
+                  TouchMoveEvent.getType()));
 
       // Add touch end handler.
-      handlerRegs.add(widget.asWidget().addDomHandler(new TouchEndHandler() {
-        @Override
-        public void onTouchEnd(TouchEndEvent event) {
-          TouchScroller.this.onTouchEnd(event);
-        }
-      }, TouchEndEvent.getType()));
+      handlerRegs.add(
+          widget
+              .asWidget()
+              .addDomHandler(
+                  new TouchEndHandler() {
+                    @Override
+                    public void onTouchEnd(TouchEndEvent event) {
+                      TouchScroller.this.onTouchEnd(event);
+                    }
+                  },
+                  TouchEndEvent.getType()));
 
       // Add touch cancel handler.
-      handlerRegs.add(widget.asWidget().addDomHandler(new TouchCancelHandler() {
-        @Override
-        public void onTouchCancel(TouchCancelEvent event) {
-          TouchScroller.this.onTouchCancel(event);
-        }
-      }, TouchCancelEvent.getType()));
+      handlerRegs.add(
+          widget
+              .asWidget()
+              .addDomHandler(
+                  new TouchCancelHandler() {
+                    @Override
+                    public void onTouchCancel(TouchCancelEvent event) {
+                      TouchScroller.this.onTouchCancel(event);
+                    }
+                  },
+                  TouchCancelEvent.getType()));
     }
   }
 
   /**
    * Get touch from event.
-   * 
+   *
    * @param event the event
    * @return the touch object
    */
@@ -550,7 +526,7 @@ public class TouchScroller {
 
   /**
    * Called when the object's drag sequence is complete.
-   * 
+   *
    * @param event the touch event
    */
   protected void onDragEnd(TouchEvent<?> event) {
@@ -569,7 +545,7 @@ public class TouchScroller {
 
   /**
    * Called when the object has been dragged to a new position.
-   * 
+   *
    * @param event the touch event
    */
   protected void onDragMove(TouchEvent<?> event) {
@@ -585,16 +561,15 @@ public class TouchScroller {
 
   /**
    * Called when the object has started dragging.
-   * 
+   *
    * @param event the touch event
    */
-  protected void onDragStart(TouchEvent<?> event) {
-  }
+  protected void onDragStart(TouchEvent<?> event) {}
 
   /**
-   * Called when the user cancels a touch. This can happen if the user touches
-   * the screen with too many fingers.
-   * 
+   * Called when the user cancels a touch. This can happen if the user touches the screen with too
+   * many fingers.
+   *
    * @param event the touch event
    */
   protected void onTouchCancel(TouchEvent<?> event) {
@@ -603,7 +578,7 @@ public class TouchScroller {
 
   /**
    * Called when the user releases a touch.
-   * 
+   *
    * @param event the touch event
    */
   protected void onTouchEnd(TouchEvent<?> event) {
@@ -648,7 +623,7 @@ public class TouchScroller {
          * Check if we should defer to native scrolling. If the scrollable
          * widget is already scrolled as far as it will go, then we don't want
          * to prevent scrolling of the document.
-         * 
+         *
          * We cannot prevent native scrolling in only one direction (ie. we
          * cannot allow native horizontal scrolling but prevent native vertical
          * scrolling), so we make a best guess based on the direction of the
@@ -713,8 +688,8 @@ public class TouchScroller {
       double trackingTime = touchTime - recentTouchPosition.getTime();
       if (trackingTime > MAX_TRACKING_TIME && recentTouchPositionOnDeck != null) {
         // See comment below.
-        recentTouchPosition.setTemporalPoint(recentTouchPositionOnDeck.getPoint(),
-            recentTouchPositionOnDeck.getTime());
+        recentTouchPosition.setTemporalPoint(
+            recentTouchPositionOnDeck.getPoint(), recentTouchPositionOnDeck.getTime());
         recentTouchPositionOnDeck = null;
       } else if (trackingTime > MAX_TRACKING_TIME_ON_DECK && recentTouchPositionOnDeck == null) {
         /*
@@ -730,7 +705,7 @@ public class TouchScroller {
 
   /**
    * Called when the user starts a touch.
-   * 
+   *
    * @param event the touch event
    */
   protected void onTouchStart(TouchEvent<?> event) {
@@ -754,16 +729,13 @@ public class TouchScroller {
     recentTouchPositionOnDeck = null;
 
     /**
-     * If the user touches the screen while the scrolling momentum is active,
-     * add the touch point to an array so that the later click events can be
-     * compared to the points in the array and busted if it shouldn't be
-     * considered as click.
+     * If the user touches the screen while the scrolling momentum is active, add the touch point to
+     * an array so that the later click events can be compared to the points in the array and busted
+     * if it shouldn't be considered as click.
      */
     if (isMomentumActive()) {
-      touchPositionsDuringMomentum.add(
-          new TemporalPoint(startTouchPosition, startTouchTime));
-      Scheduler.get().scheduleFixedDelay(
-          momentumTouchRemovalCommand, TIME_THRESHOLD);
+      touchPositionsDuringMomentum.add(new TemporalPoint(startTouchPosition, startTouchTime));
+      Scheduler.get().scheduleFixedDelay(momentumTouchRemovalCommand, TIME_THRESHOLD);
     }
 
     // Record the starting scroll position.
@@ -775,7 +747,7 @@ public class TouchScroller {
 
   /**
    * Calculate the end velocity. Visible for testing.
-   * 
+   *
    * @param from the starting point
    * @param to the ending point
    * @return the end velocity, or null if it cannot be calculated
@@ -799,46 +771,36 @@ public class TouchScroller {
     return new Point(dist.getX() / time, dist.getY() / time);
   }
 
-  /**
-   * Visible for testing.
-   */
+  /** Visible for testing. */
   TemporalPoint getLastTouchPosition() {
     return lastTouchPosition;
   }
 
-  /**
-   * Visible for testing.
-   */
+  /** Visible for testing. */
   TemporalPoint getRecentTouchPosition() {
     return recentTouchPosition;
   }
 
-  /**
-   * Visible for testing.
-   */
+  /** Visible for testing. */
   boolean isDragging() {
     return dragging;
   }
 
   /**
    * Check if momentum is currently active. Visible for testing.
-   * 
+   *
    * @return true if active, false if not
    */
   boolean isMomentumActive() {
     return (momentumCommand != null);
   }
 
-  /**
-   * Visible for testing.
-   */
+  /** Visible for testing. */
   boolean isTouching() {
     return touching;
   }
 
-  /**
-   * Removes the attach handler. Visible for testing.
-   */
+  /** Removes the attach handler. Visible for testing. */
   void removeAttachHandler() {
     if (attachHandlerReg != null) {
       attachHandlerReg.removeHandler();
@@ -846,9 +808,7 @@ public class TouchScroller {
     }
   }
 
-  /**
-   * Removes the bust click handler. Visible for testing.
-   */
+  /** Removes the bust click handler. Visible for testing. */
   void removeBustClickHandler() {
     if (bustClickHandlerReg != null) {
       bustClickHandlerReg.removeHandler();
@@ -856,52 +816,48 @@ public class TouchScroller {
     }
   }
 
-  /**
-   * Sets up the bust click handler. Visible for testing.
-   */
+  /** Sets up the bust click handler. Visible for testing. */
   void setupBustClickHandler() {
     removeBustClickHandler();
-    bustClickHandlerReg = Event.addNativePreviewHandler(new NativePreviewHandler() {
-      @Override
-      public void onPreviewNativeEvent(NativePreviewEvent event) {
-        if (Event.ONCLICK == event.getTypeInt()) {
-          Point clickPoint = new Point(
-              event.getNativeEvent().getClientX(),
-              event.getNativeEvent().getClientY());
+    bustClickHandlerReg =
+        Event.addNativePreviewHandler(
+            new NativePreviewHandler() {
+              @Override
+              public void onPreviewNativeEvent(NativePreviewEvent event) {
+                if (Event.ONCLICK == event.getTypeInt()) {
+                  Point clickPoint =
+                      new Point(
+                          event.getNativeEvent().getClientX(), event.getNativeEvent().getClientY());
 
-          /*
-           * In mobile browsers, when the user touches on the screen, drag
-           * his finger across and take his finger off, the browser fires a
-           * click event at the position where the touch start happen. This
-           * click event is called "ghost click". This click is not intended by
-           * the user and thus needs to be busted.
-           * Also, while the panel is scrolling, if the user taps on the screen
-           * we want to stop the scrolling and bust the click event that's fired
-           * because the user probably didn't mean to click on something.
-           */
-          if (isClickScrollTriggeringTouch(clickPoint) ||
-              isClickTouchPositionDuringMomentum(clickPoint)) {
-            event.cancel();
-            event.getNativeEvent().stopPropagation();
-            event.getNativeEvent().preventDefault();
-          }
-        }
-      }
-    });
+                  /*
+                   * In mobile browsers, when the user touches on the screen, drag
+                   * his finger across and take his finger off, the browser fires a
+                   * click event at the position where the touch start happen. This
+                   * click event is called "ghost click". This click is not intended by
+                   * the user and thus needs to be busted.
+                   * Also, while the panel is scrolling, if the user taps on the screen
+                   * we want to stop the scrolling and bust the click event that's fired
+                   * because the user probably didn't mean to click on something.
+                   */
+                  if (isClickScrollTriggeringTouch(clickPoint)
+                      || isClickTouchPositionDuringMomentum(clickPoint)) {
+                    event.cancel();
+                    event.getNativeEvent().stopPropagation();
+                    event.getNativeEvent().preventDefault();
+                  }
+                }
+              }
+            });
   }
 
-  /**
-   * Cancel all existing touch, drag, and momentum.
-   */
+  /** Cancel all existing touch, drag, and momentum. */
   private void cancelAll() {
     touching = false;
     dragging = false;
     momentumCommand = null;
   }
 
-  /**
-   * Get the scroll position of the widget.
-   */
+  /** Get the scroll position of the widget. */
   private Point getWidgetScrollPosition() {
     return new Point(widget.getHorizontalScrollPosition(), widget.getVerticalScrollPosition());
   }
@@ -921,37 +877,34 @@ public class TouchScroller {
   }
 
   /**
-   * Checks if the click event is related to the touch event that has triggered
-   * scrolling. Such click events occur as a result of ghost click (i.e. click
-   * event that is fired at the touch start position after the touch end
-   * happens) and should be busted.
+   * Checks if the click event is related to the touch event that has triggered scrolling. Such
+   * click events occur as a result of ghost click (i.e. click event that is fired at the touch
+   * start position after the touch end happens) and should be busted.
    *
    * @param clickPoint point of the click event
-   * @return true if clickPoint is the same as the recent scroll triggering
-   *     touch
+   * @return true if clickPoint is the same as the recent scroll triggering touch
    */
   private boolean isClickScrollTriggeringTouch(Point clickPoint) {
     if (recentScrollTriggeringTouchPosition.getPoint() != null) {
-      return hitTest(
-          clickPoint, recentScrollTriggeringTouchPosition.getPoint());
+      return hitTest(clickPoint, recentScrollTriggeringTouchPosition.getPoint());
     }
     return false;
   }
 
   /**
-   * Checks if the click event point is related to the touch positions
-   * during the recent momentum scrolling.
+   * Checks if the click event point is related to the touch positions during the recent momentum
+   * scrolling.
    *
    * @param clickPoint point of the click event
-   * @return true if clickPoint is the same as one of the touch positions during
-   *     the recent momentum scrolling
+   * @return true if clickPoint is the same as one of the touch positions during the recent momentum
+   *     scrolling
    */
   private boolean isClickTouchPositionDuringMomentum(Point clickPoint) {
     double currentTime = Duration.currentTimeMillis();
     boolean same = false;
     for (TemporalPoint point : touchPositionsDuringMomentum) {
-      if (currentTime - point.getTime() <= TIME_THRESHOLD &&
-          hitTest(clickPoint, point.getPoint())) {
+      if (currentTime - point.getTime() <= TIME_THRESHOLD
+          && hitTest(clickPoint, point.getPoint())) {
         same = true;
         break;
       }
@@ -961,7 +914,7 @@ public class TouchScroller {
 
   /**
    * Sets the scroll position of the widget.
-   * 
+   *
    * @param position the new position
    */
   private void setWidgetScrollPosition(Point position) {

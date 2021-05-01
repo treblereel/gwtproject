@@ -15,72 +15,56 @@
  */
 package org.gwtproject.view.client;
 
+import java.util.*;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 
-import java.util.*;
-
 /**
- * A concrete subclass of {@link AbstractDataProvider} that is backed by an
- * in-memory list.
- * 
+ * A concrete subclass of {@link AbstractDataProvider} that is backed by an in-memory list.
+ *
+ * <p>Modifications (inserts, removes, sets, etc.) to the list returned by {@link #getList()} will
+ * be reflected in the model. However, mutations to the items contained within the list will NOT be
+ * reflected in the model. You must call {@link List#set(int, Object)} to update the item within the
+ * list and push the change to the display, or call {@link #refresh()} to push all rows to the
+ * displays. {@link List#set(int, Object)} performs better because it allows the data provider to
+ * push only those rows which have changed, and usually allows the display to re-render only a
+ * subset of the rows.
+ *
  * <p>
- * Modifications (inserts, removes, sets, etc.) to the list returned by
- * {@link #getList()} will be reflected in the model. However, mutations to the
- * items contained within the list will NOT be reflected in the model. You must
- * call {@link List#set(int, Object)} to update the item within the list and
- * push the change to the display, or call {@link #refresh()} to push all rows
- * to the displays. {@link List#set(int, Object)} performs better because it
- * allows the data provider to push only those rows which have changed, and
- * usually allows the display to re-render only a subset of the rows.
- * </p>
- * 
- * <p>
- * <h3>Example</h3> {@example
- * com.google.gwt.examples.view.ListDataProviderExample}
- * </p>
- * 
+ *
+ * <h3>Example</h3>
+ *
+ * {@example com.google.gwt.examples.view.ListDataProviderExample}
+ *
  * @param <T> the data type of the list
  */
 public class ListDataProvider<T> extends AbstractDataProvider<T> {
 
-  /**
-   * A wrapper around a list that updates the model on any change.
-   */
+  /** A wrapper around a list that updates the model on any change. */
   private class ListWrapper implements List<T> {
 
-    /**
-     * A wrapped ListIterator.
-     */
+    /** A wrapped ListIterator. */
     private final class WrappedListIterator implements ListIterator<T> {
 
       /**
-       * The error message when {@link #add(Object)} or {@link #remove()} is
-       * called more than once per call to {@link #next()} or
-       * {@link #previous()}.
+       * The error message when {@link #add(Object)} or {@link #remove()} is called more than once
+       * per call to {@link #next()} or {@link #previous()}.
        */
       private static final String IMPERMEABLE_EXCEPTION =
           "Cannot call add/remove more than once per call to next/previous.";
 
-      /**
-       * The index of the object that will be returned by {@link #next()}.
-       */
+      /** The index of the object that will be returned by {@link #next()}. */
       private int i = 0;
 
-      /**
-       * The index of the last object accessed through {@link #next()} or
-       * {@link #previous()}.
-       */
+      /** The index of the last object accessed through {@link #next()} or {@link #previous()}. */
       private int last = -1;
 
-      private WrappedListIterator() {
-      }
+      private WrappedListIterator() {}
 
       private WrappedListIterator(int start) {
         int size = ListWrapper.this.size();
         if (start < 0 || start > size) {
-          throw new IndexOutOfBoundsException(
-              "Index: " + start + ", Size: " + size);
+          throw new IndexOutOfBoundsException("Index: " + start + ", Size: " + size);
         }
         i = start;
       }
@@ -149,66 +133,49 @@ public class ListDataProvider<T> extends AbstractDataProvider<T> {
       }
     }
 
-    /**
-     * The current size of the list.
-     */
+    /** The current size of the list. */
     private int curSize = 0;
 
-    /**
-     * The delegate wrapper.
-     */
+    /** The delegate wrapper. */
     private final ListWrapper delegate;
 
-    /**
-     * Set to true if the pending flush has been canceled.
-     */
+    /** Set to true if the pending flush has been canceled. */
     private boolean flushCancelled;
 
     /**
-     * We wait until the end of the current event loop before flushing changes
-     * so that we don't spam the displays. This also allows users to clear and
-     * replace all of the data without forcing the display back to page 0.
+     * We wait until the end of the current event loop before flushing changes so that we don't spam
+     * the displays. This also allows users to clear and replace all of the data without forcing the
+     * display back to page 0.
      */
-    private ScheduledCommand flushCommand = new ScheduledCommand() {
-      @Override
-      public void execute() {
-        flushPending = false;
-        if (flushCancelled) {
-          flushCancelled = false;
-          return;
-        }
-        flushNow();
-      }
-    };
+    private ScheduledCommand flushCommand =
+        new ScheduledCommand() {
+          @Override
+          public void execute() {
+            flushPending = false;
+            if (flushCancelled) {
+              flushCancelled = false;
+              return;
+            }
+            flushNow();
+          }
+        };
 
-    /**
-     * Set to true if a flush is pending.
-     */
+    /** Set to true if a flush is pending. */
     private boolean flushPending;
 
-    /**
-     * The list that backs the wrapper.
-     */
+    /** The list that backs the wrapper. */
     private List<T> list;
 
-    /**
-     * If this is a sublist, the offset it the index relative to the main list.
-     */
+    /** If this is a sublist, the offset it the index relative to the main list. */
     private final int offset;
 
-    /**
-     * If modified is true, the smallest modified index.
-     */
+    /** If modified is true, the smallest modified index. */
     private int maxModified = Integer.MIN_VALUE;
 
-    /**
-     * If modified is true, one past the largest modified index.
-     */
+    /** If modified is true, one past the largest modified index. */
     private int minModified = Integer.MAX_VALUE;
 
-    /**
-     * True if the list data has been modified.
-     */
+    /** True if the list data has been modified. */
     private boolean modified;
 
     public ListWrapper(List<T> list) {
@@ -219,8 +186,7 @@ public class ListDataProvider<T> extends AbstractDataProvider<T> {
     }
 
     /**
-     * Construct a new {@link ListWrapper} that delegates flush calls to the
-     * specified delegate.
+     * Construct a new {@link ListWrapper} that delegates flush calls to the specified delegate.
      *
      * @param list the list to wrap
      * @param delegate the delegate
@@ -416,16 +382,12 @@ public class ListDataProvider<T> extends AbstractDataProvider<T> {
       return list.toArray(a);
     }
 
-    /**
-     * Flush the data to the model.
-     */
+    /** Flush the data to the model. */
     private void flush() {
       // Defer to the delegate.
       if (delegate != null) {
-        delegate.minModified = Math.min(
-            minModified + offset, delegate.minModified);
-        delegate.maxModified = Math.max(
-            maxModified + offset, delegate.maxModified);
+        delegate.minModified = Math.min(minModified + offset, delegate.minModified);
+        delegate.maxModified = Math.max(maxModified + offset, delegate.maxModified);
         delegate.modified = modified || delegate.modified;
         delegate.flush();
         return;
@@ -438,9 +400,7 @@ public class ListDataProvider<T> extends AbstractDataProvider<T> {
       }
     }
 
-    /**
-     * Flush pending list changes to the displays. By default,
-     */
+    /** Flush pending list changes to the displays. By default, */
     private void flushNow() {
       // Cancel any pending flush command.
       if (flushPending) {
@@ -467,27 +427,21 @@ public class ListDataProvider<T> extends AbstractDataProvider<T> {
     }
   }
 
-  /**
-   * The wrapper around the actual list.
-   */
+  /** The wrapper around the actual list. */
   private ListWrapper listWrapper;
 
-  /**
-   * Creates an empty model.
-   */
+  /** Creates an empty model. */
   public ListDataProvider() {
     this(new ArrayList<T>(), null);
   }
 
   /**
    * Creates a list model that wraps the given list.
-   * 
-   * <p>
-   * The wrapped list should no longer be modified as the data provider cannot
-   * detect changes to the wrapped list. Instead, call {@link #getList()} to
-   * retrieve a wrapper that can be modified and will correctly forward changes
-   * to displays.
-   * 
+   *
+   * <p>The wrapped list should no longer be modified as the data provider cannot detect changes to
+   * the wrapped list. Instead, call {@link #getList()} to retrieve a wrapper that can be modified
+   * and will correctly forward changes to displays.
+   *
    * @param listToWrap the List to be wrapped
    */
   public ListDataProvider(List<T> listToWrap) {
@@ -497,8 +451,8 @@ public class ListDataProvider<T> extends AbstractDataProvider<T> {
   /**
    * Creates an empty list model that wraps the given collection.
    *
-   * @param keyProvider an instance of ProvidesKey<T>, or null if the record
-   *        object should act as its own key
+   * @param keyProvider an instance of ProvidesKey<T>, or null if the record object should act as
+   *     its own key
    */
   public ListDataProvider(org.gwtproject.view.client.ProvidesKey<T> keyProvider) {
     this(new ArrayList<T>(), keyProvider);
@@ -506,49 +460,42 @@ public class ListDataProvider<T> extends AbstractDataProvider<T> {
 
   /**
    * Creates a list model that wraps the given list.
-   * 
-   * <p>
-   * The wrapped list should no longer be modified as the data provider cannot
-   * detect changes to the wrapped list. Instead, call {@link #getList()} to
-   * retrieve a wrapper that can be modified and will correctly forward changes
-   * to displays.
-   * 
+   *
+   * <p>The wrapped list should no longer be modified as the data provider cannot detect changes to
+   * the wrapped list. Instead, call {@link #getList()} to retrieve a wrapper that can be modified
+   * and will correctly forward changes to displays.
+   *
    * @param listToWrap the List to be wrapped
-   * @param keyProvider an instance of ProvidesKey<T>, or null if the record
-   *        object should act as its own key
+   * @param keyProvider an instance of ProvidesKey<T>, or null if the record object should act as
+   *     its own key
    */
-  public ListDataProvider(List<T> listToWrap, org.gwtproject.view.client.ProvidesKey<T> keyProvider) {
+  public ListDataProvider(
+      List<T> listToWrap, org.gwtproject.view.client.ProvidesKey<T> keyProvider) {
     super(keyProvider);
     listWrapper = new ListWrapper(listToWrap);
   }
 
   /**
-   * Flush pending list changes to the displays. By default, displays are
-   * informed of modifications to the underlying list at the end of the current
-   * event loop, which makes it possible to perform multiple operations
-   * synchronously without repeatedly refreshing the displays. This method can
-   * be called to flush the changes immediately instead of waiting until the end
-   * of the current event loop.
+   * Flush pending list changes to the displays. By default, displays are informed of modifications
+   * to the underlying list at the end of the current event loop, which makes it possible to perform
+   * multiple operations synchronously without repeatedly refreshing the displays. This method can
+   * be called to flush the changes immediately instead of waiting until the end of the current
+   * event loop.
    */
   public void flush() {
     listWrapper.flushNow();
   }
 
   /**
-   * Get the list that backs this model. Changes to the list will be reflected
-   * in the model.
-   * 
-   * <p>
-   * NOTE: Mutations to the items contained within the list will NOT be
-   * reflected in the model. You must call {@link List#set(int, Object)} to
-   * update the item within the list and push the change to the display, or call
-   * {@link #refresh()} to push all rows to the displays.
-   * {@link List#set(int, Object)} performs better because it allows the data
-   * provider to push only those rows which have changed, and usually allows the
-   * display to re-render only a subset of the rows.
-   * 
+   * Get the list that backs this model. Changes to the list will be reflected in the model.
+   *
+   * <p>NOTE: Mutations to the items contained within the list will NOT be reflected in the model.
+   * You must call {@link List#set(int, Object)} to update the item within the list and push the
+   * change to the display, or call {@link #refresh()} to push all rows to the displays. {@link
+   * List#set(int, Object)} performs better because it allows the data provider to push only those
+   * rows which have changed, and usually allows the display to re-render only a subset of the rows.
+   *
    * @return the list
-   * 
    * @see #setList(List)
    */
   public List<T> getList() {
@@ -557,17 +504,14 @@ public class ListDataProvider<T> extends AbstractDataProvider<T> {
 
   /**
    * Refresh all of the displays listening to this adapter.
-   * 
-   * <p>
-   * Use {@link #refresh()} to push mutations to the underlying data items
-   * contained within the list. The data provider cannot detect changes to data
-   * objects within the list, so you must call this method if you modify items.
-   * 
-   * <p>
-   * This is a shortcut for calling {@link List#set(int, Object)} on every item
-   * that you modify, but note that calling {@link List#set(int, Object)}
-   * performs better because the data provider knows which rows were modified
-   * and can push only the modified rows the displays.
+   *
+   * <p>Use {@link #refresh()} to push mutations to the underlying data items contained within the
+   * list. The data provider cannot detect changes to data objects within the list, so you must call
+   * this method if you modify items.
+   *
+   * <p>This is a shortcut for calling {@link List#set(int, Object)} on every item that you modify,
+   * but note that calling {@link List#set(int, Object)} performs better because the data provider
+   * knows which rows were modified and can push only the modified rows the displays.
    */
   public void refresh() {
     updateRowData(0, listWrapper);
@@ -575,15 +519,12 @@ public class ListDataProvider<T> extends AbstractDataProvider<T> {
 
   /**
    * Replace this model's list with the specified list.
-   * 
-   * <p>
-   * The wrapped list should no longer be modified as the data provider cannot
-   * detect changes to the wrapped list. Instead, call {@link #getList()} to
-   * retrieve a wrapper that can be modified and will correctly forward changes
-   * to displays.
-   * 
+   *
+   * <p>The wrapped list should no longer be modified as the data provider cannot detect changes to
+   * the wrapped list. Instead, call {@link #getList()} to retrieve a wrapper that can be modified
+   * and will correctly forward changes to displays.
+   *
    * @param listToWrap the model's new list
-   * 
    * @see #getList()
    */
   public void setList(List<T> listToWrap) {

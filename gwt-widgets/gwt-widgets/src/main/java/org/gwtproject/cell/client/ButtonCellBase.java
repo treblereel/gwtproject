@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -14,6 +14,10 @@
  * the License.
  */
 package org.gwtproject.cell.client;
+
+import static org.gwtproject.dom.client.BrowserEvents.CLICK;
+import static org.gwtproject.dom.client.BrowserEvents.KEYDOWN;
+import static org.gwtproject.dom.client.BrowserEvents.MOUSEDOWN;
 
 import org.gwtproject.dom.client.BrowserEvents;
 import org.gwtproject.dom.client.Element;
@@ -41,41 +45,38 @@ import org.gwtproject.user.client.Event.NativePreviewHandler;
 import org.gwtproject.user.client.ui.AbstractImagePrototype;
 import org.gwtproject.user.client.ui.HasEnabled;
 
-import static org.gwtproject.dom.client.BrowserEvents.CLICK;
-import static org.gwtproject.dom.client.BrowserEvents.KEYDOWN;
-import static org.gwtproject.dom.client.BrowserEvents.MOUSEDOWN;
-
 /**
  * Base class for button Cells.
- * 
+ *
  * @param <C> the type that this Cell represents
  */
-public class ButtonCellBase<C> extends org.gwtproject.cell.client.AbstractCell<C> implements org.gwtproject.cell.client.IsCollapsible, HasEnabled {
+public class ButtonCellBase<C> extends org.gwtproject.cell.client.AbstractCell<C>
+    implements org.gwtproject.cell.client.IsCollapsible, HasEnabled {
 
   /**
    * The appearance used to render this Cell.
-   * 
+   *
    * @param <C> the type that this Cell represents
    */
   public interface Appearance<C> {
 
     /**
      * Called when the user pushes the button down.
-     * 
+     *
      * @param parent the parent Element
      */
     void onPush(Element parent);
 
     /**
      * Called when the user releases the button from being pushed.
-     * 
+     *
      * @param parent the parent Element
      */
     void onUnpush(Element parent);
 
     /**
      * Render the button and its contents.
-     * 
+     *
      * @param cell the cell that is being rendered
      * @param context the {@link Context} of the cell
      * @param value the value that generated the content
@@ -85,7 +86,7 @@ public class ButtonCellBase<C> extends org.gwtproject.cell.client.AbstractCell<C
 
     /**
      * Explicitly focus/unfocus this cell.
-     * 
+     *
      * @param parent the parent element
      * @param focused whether this cell should take focus or release it
      */
@@ -94,18 +95,20 @@ public class ButtonCellBase<C> extends org.gwtproject.cell.client.AbstractCell<C
 
   /**
    * The decoration applied to the button.
-   * 
+   *
    * <dl>
-   * <dt>DEFAULT</dt>
-   * <dd>A general button used in any context.</dd>
-   * <dt>PRIMARY</dt>
-   * <dd>A primary button that stands out against other buttons.</dd>
-   * <dt>NEGATIVE</dt>
-   * <dd>A button that results in a negative action, such as delete or cancel</dd>
+   *   <dt>DEFAULT
+   *   <dd>A general button used in any context.
+   *   <dt>PRIMARY
+   *   <dd>A primary button that stands out against other buttons.
+   *   <dt>NEGATIVE
+   *   <dd>A button that results in a negative action, such as delete or cancel
    * </dl>
    */
   public static enum Decoration {
-    DEFAULT, PRIMARY, NEGATIVE;
+    DEFAULT,
+    PRIMARY,
+    NEGATIVE;
   }
 
   /**
@@ -115,16 +118,12 @@ public class ButtonCellBase<C> extends org.gwtproject.cell.client.AbstractCell<C
    */
   public static class DefaultAppearance<C> implements Appearance<C> {
 
-    /**
-     * The resources used by this appearance.
-     */
+    /** The resources used by this appearance. */
     public interface Resources extends ClientBundle {
 
       Resources INSTANCE = new ButtonCellBase_DefaultAppearance_ResourcesImpl();
 
-      /**
-       * The background image applied to the button.
-       */
+      /** The background image applied to the button. */
       @ImageOptions(repeatStyle = RepeatStyle.Horizontal, flipRtl = true)
       ImageResource buttonCellBaseBackground();
 
@@ -132,67 +131,47 @@ public class ButtonCellBase<C> extends org.gwtproject.cell.client.AbstractCell<C
       Style buttonCellBaseStyle();
     }
 
-    /**
-     * The Styles used by this appearance.
-     */
+    /** The Styles used by this appearance. */
     @ImportedWithPrefix("gwt-ButtonCellBase")
     public interface Style extends CssResource {
       String DEFAULT_CSS = "org/gwtproject/cell/client/ButtonCellBase.gss";
 
-      /**
-       * Applied to the button.
-       */
+      /** Applied to the button. */
       String buttonCellBase();
 
-      /**
-       * Applied to the button when it has a collapsed left side.
-       */
+      /** Applied to the button when it has a collapsed left side. */
       String buttonCellBaseCollapseLeft();
 
-      /**
-       * Applied to the button when it has a collapsed right side.
-       */
+      /** Applied to the button when it has a collapsed right side. */
       String buttonCellBaseCollapseRight();
 
-      /**
-       * Applied to default buttons.
-       */
+      /** Applied to default buttons. */
       String buttonCellBaseDefault();
 
-      /**
-       * Applied to negative buttons.
-       */
+      /** Applied to negative buttons. */
       String buttonCellBaseNegative();
 
-      /**
-       * Applied to primary buttons.
-       */
+      /** Applied to primary buttons. */
       String buttonCellBasePrimary();
 
-      /**
-       * Applied to the button when being pushed.
-       */
+      /** Applied to the button when being pushed. */
       String buttonCellBasePushing();
     }
 
-    /**
-     * The templates used by this appearance.
-     */
+    /** The templates used by this appearance. */
     interface Template extends SafeHtmlTemplates {
 
       DefaultAppearance.Template INSTANCE = new ButtonCellBase_DefaultAppearance_TemplateImpl();
       /**
        * Positions the icon next to the text.
        *
-       * NOTE: zoom:0 is a workaround for an IE7 bug where the button contents
-       * wrap even when they do not need to.
+       * <p>NOTE: zoom:0 is a workaround for an IE7 bug where the button contents wrap even when
+       * they do not need to.
        */
       SafeHtml iconContentLayout(
           String classes, SafeStyles styles, SafeHtml icon, SafeHtml cellContents);
 
-      /**
-       * The wrapper around the icon that aligns it vertically with the text.
-       */
+      /** The wrapper around the icon that aligns it vertically with the text. */
       SafeHtml iconWrapper(SafeStyles styles, SafeHtml image);
     }
 
@@ -218,7 +197,7 @@ public class ButtonCellBase<C> extends org.gwtproject.cell.client.AbstractCell<C
 
     /**
      * Construct a new {@link ButtonCellBase.DefaultAppearance} using the specified resources.
-     * 
+     *
      * @param renderer the {@link SafeHtmlRenderer} used to render the contents
      * @param resources the resources and styles to apply to the button
      */
@@ -229,9 +208,9 @@ public class ButtonCellBase<C> extends org.gwtproject.cell.client.AbstractCell<C
     }
 
     /**
-     * Return the {@link SafeHtmlRenderer} used by this Appearance to render the
-     * contents of the button.
-     * 
+     * Return the {@link SafeHtmlRenderer} used by this Appearance to render the contents of the
+     * button.
+     *
      * @return a {@link SafeHtmlRenderer} instance
      */
     public SafeHtmlRenderer<C> getRenderer() {
@@ -309,8 +288,12 @@ public class ButtonCellBase<C> extends org.gwtproject.cell.client.AbstractCell<C
         styles.paddingLeft(iconPadding, Unit.PX);
       }
       SafeHtml safeValue = renderer.render(value);
-      SafeHtml content = Template.INSTANCE.iconContentLayout(
-          CommonResources.getInlineBlockStyle(), styles.toSafeStyles(), iconSafeHtml, safeValue);
+      SafeHtml content =
+          Template.INSTANCE.iconContentLayout(
+              CommonResources.getInlineBlockStyle(),
+              styles.toSafeStyles(),
+              iconSafeHtml,
+              safeValue);
       int tabIndex = cell.getTabIndex();
       StringBuilder openTag = new StringBuilder();
       openTag.append("<button type=\"button\"");
@@ -334,8 +317,8 @@ public class ButtonCellBase<C> extends org.gwtproject.cell.client.AbstractCell<C
   }
 
   /**
-   * The {@link NativePreviewHandler} used to unpush a button onmouseup, even if
-   * the event doesn't occur over the button.
+   * The {@link NativePreviewHandler} used to unpush a button onmouseup, even if the event doesn't
+   * occur over the button.
    */
   private class UnpushHandler implements NativePreviewHandler {
 
@@ -368,16 +351,15 @@ public class ButtonCellBase<C> extends org.gwtproject.cell.client.AbstractCell<C
   private boolean isEnabled = true;
 
   /**
-   * The tab index applied to the buttons. If the button is used in a list of
-   * table, a tab index of -1 should be used so it doesn't interrupt the tab
-   * sequence.
+   * The tab index applied to the buttons. If the button is used in a list of table, a tab index of
+   * -1 should be used so it doesn't interrupt the tab sequence.
    */
   private int tabIndex = -1;
 
   /**
-   * Construct a new {@link ButtonCellBase} using the specified
-   * {@link Appearance} to render the contents.
-   * 
+   * Construct a new {@link ButtonCellBase} using the specified {@link Appearance} to render the
+   * contents.
+   *
    * @param appearance the appearance of the cell
    */
   public ButtonCellBase(Appearance<C> appearance) {
@@ -387,23 +369,21 @@ public class ButtonCellBase<C> extends org.gwtproject.cell.client.AbstractCell<C
 
   /**
    * Get the access key.
-   * 
+   *
    * @return the access key, or 0 if one is not defined
    */
   public char getAccessKey() {
     return accessKey;
   }
 
-  /**
-   * Get the decoration style of the button.
-   */
+  /** Get the decoration style of the button. */
   public Decoration getDecoration() {
     return decoration;
   }
 
   /**
    * Get the icon displayed next to the button text.
-   * 
+   *
    * @return the icon resource
    */
   public ImageResource getIcon() {
@@ -412,7 +392,7 @@ public class ButtonCellBase<C> extends org.gwtproject.cell.client.AbstractCell<C
 
   /**
    * Return the tab index that is given to all rendered cells.
-   * 
+   *
    * @return the tab index
    */
   public int getTabIndex() {
@@ -435,8 +415,12 @@ public class ButtonCellBase<C> extends org.gwtproject.cell.client.AbstractCell<C
   }
 
   @Override
-  public void onBrowserEvent(Context context, Element parent, C value, NativeEvent event,
-                             org.gwtproject.cell.client.ValueUpdater<C> valueUpdater) {
+  public void onBrowserEvent(
+      Context context,
+      Element parent,
+      C value,
+      NativeEvent event,
+      org.gwtproject.cell.client.ValueUpdater<C> valueUpdater) {
     // Ignore all events if disabled.
     if (!isEnabled()) {
       return;
@@ -477,12 +461,11 @@ public class ButtonCellBase<C> extends org.gwtproject.cell.client.AbstractCell<C
   }
 
   /**
-   * Sets the cell's 'access key'. This key is used (in conjunction with a
-   * browser-specific modifier key) to automatically focus the cell.
-   * 
-   * <p>
-   * The change takes effect the next time the Cell is rendered.
-   * 
+   * Sets the cell's 'access key'. This key is used (in conjunction with a browser-specific modifier
+   * key) to automatically focus the cell.
+   *
+   * <p>The change takes effect the next time the Cell is rendered.
+   *
    * @param key the cell's access key
    */
   public void setAccessKey(char key) {
@@ -491,9 +474,8 @@ public class ButtonCellBase<C> extends org.gwtproject.cell.client.AbstractCell<C
 
   /**
    * {@inheritDoc}
-   * 
-   * <p>
-   * The change takes effect the next time the Cell is rendered.
+   *
+   * <p>The change takes effect the next time the Cell is rendered.
    */
   @Override
   public void setCollapseLeft(boolean isCollapsed) {
@@ -502,9 +484,8 @@ public class ButtonCellBase<C> extends org.gwtproject.cell.client.AbstractCell<C
 
   /**
    * {@inheritDoc}
-   * 
-   * <p>
-   * The change takes effect the next time the Cell is rendered.
+   *
+   * <p>The change takes effect the next time the Cell is rendered.
    */
   @Override
   public void setCollapseRight(boolean isCollapsed) {
@@ -513,10 +494,9 @@ public class ButtonCellBase<C> extends org.gwtproject.cell.client.AbstractCell<C
 
   /**
    * Set the {@link Decoration} of the button.
-   * 
-   * <p>
-   * This change takes effect the next time the cell is rendered.
-   * 
+   *
+   * <p>This change takes effect the next time the cell is rendered.
+   *
    * @param decoration the button decoration
    */
   public void setDecoration(Decoration decoration) {
@@ -525,9 +505,8 @@ public class ButtonCellBase<C> extends org.gwtproject.cell.client.AbstractCell<C
 
   /**
    * {@inheritDoc}
-   * 
-   * <p>
-   * The change takes effect the next time the Cell is rendered.
+   *
+   * <p>The change takes effect the next time the Cell is rendered.
    */
   @Override
   public void setEnabled(boolean isEnabled) {
@@ -535,9 +514,9 @@ public class ButtonCellBase<C> extends org.gwtproject.cell.client.AbstractCell<C
   }
 
   /**
-   * Explicitly focus/unfocus this cell. Only one UI component can have focus at
-   * a time, and the component that does will receive all keyboard events.
-   * 
+   * Explicitly focus/unfocus this cell. Only one UI component can have focus at a time, and the
+   * component that does will receive all keyboard events.
+   *
    * @param parent the parent element
    * @param focused whether this cell should take focus or release it
    */
@@ -547,7 +526,7 @@ public class ButtonCellBase<C> extends org.gwtproject.cell.client.AbstractCell<C
 
   /**
    * Set the icon to display next to the button text.
-   * 
+   *
    * @param icon the icon resource, or null not to show an icon
    */
   public void setIcon(ImageResource icon) {
@@ -555,10 +534,10 @@ public class ButtonCellBase<C> extends org.gwtproject.cell.client.AbstractCell<C
   }
 
   /**
-   * Set the tab index to apply to the button. By default, the tab index is set
-   * to -1 so that the button does not interrupt the tab chain when in a table
-   * or list. The change takes effect the next time the Cell is rendered.
-   * 
+   * Set the tab index to apply to the button. By default, the tab index is set to -1 so that the
+   * button does not interrupt the tab chain when in a table or list. The change takes effect the
+   * next time the Cell is rendered.
+   *
    * @param tabIndex the tab index
    */
   public void setTabIndex(int tabIndex) {
@@ -566,8 +545,12 @@ public class ButtonCellBase<C> extends org.gwtproject.cell.client.AbstractCell<C
   }
 
   @Override
-  protected void onEnterKeyDown(Context context, Element parent, C value, NativeEvent event,
-                                org.gwtproject.cell.client.ValueUpdater<C> valueUpdater) {
+  protected void onEnterKeyDown(
+      Context context,
+      Element parent,
+      C value,
+      NativeEvent event,
+      org.gwtproject.cell.client.ValueUpdater<C> valueUpdater) {
     if (valueUpdater != null) {
       valueUpdater.update(value);
     }

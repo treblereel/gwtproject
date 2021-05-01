@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -35,61 +35,43 @@ import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.Event;
 
 /**
- * A custom version of the {@link ScrollPanel} that allows user provided
- * scrollbars.
- * 
- * <p>
- * The postion of scrollbars in a {@link CustomScrollPanel} differs from that of
- * a native scrollable element. In a native element, scrollbars appear adjacent
- * to the content, shrinking the content client height and width when they
- * appear. {@link CustomScrollPanel} instead overlays scrollbars on top of the
- * content, so the content does not change size when scrollbars appear. If the
- * scrollbars obscures the content, you can set the <code>padding-top</code> and
- * <code>padding-bottom</code> of the content to shift the content out from
- * under the scrollbars.
- * </p>
- * 
- * <p>
- * NOTE: Unlike {@link ScrollPanel}, which implements {@link RequiresResize} but
- * doesn't really require it, {@link CustomScrollPanel} actually does require
- * resize and should only be added to a panel that implements
- * {@link ProvidesResize}, such as most layout panels and
- * {@link ResizeLayoutPanel}.
- * </p>
+ * A custom version of the {@link ScrollPanel} that allows user provided scrollbars.
+ *
+ * <p>The postion of scrollbars in a {@link CustomScrollPanel} differs from that of a native
+ * scrollable element. In a native element, scrollbars appear adjacent to the content, shrinking the
+ * content client height and width when they appear. {@link CustomScrollPanel} instead overlays
+ * scrollbars on top of the content, so the content does not change size when scrollbars appear. If
+ * the scrollbars obscures the content, you can set the <code>padding-top</code> and <code>
+ * padding-bottom</code> of the content to shift the content out from under the scrollbars.
+ *
+ * <p>NOTE: Unlike {@link ScrollPanel}, which implements {@link RequiresResize} but doesn't really
+ * require it, {@link CustomScrollPanel} actually does require resize and should only be added to a
+ * panel that implements {@link ProvidesResize}, such as most layout panels and {@link
+ * ResizeLayoutPanel}.
  */
 public class CustomScrollPanel extends ScrollPanel {
 
-  /**
-   * A ClientBundle of resources used by this widget.
-   */
+  /** A ClientBundle of resources used by this widget. */
   public interface Resources extends ClientBundle {
 
     Resources INSTANCE = new CustomScrollPanel_ResourcesImpl();
-    /**
-     * The styles used in this widget.
-     */
+    /** The styles used in this widget. */
     @Source(Style.DEFAULT_CSS)
     Style customScrollPanelStyle();
   }
 
-  /**
-   * Styles used by this widget.
-   */
+  /** Styles used by this widget. */
   @ImportedWithPrefix("gwt-CustomScrollPanel")
   public interface Style extends CssResource {
-    /**
-     * The path to the default CSS styles used by this resource.
-     */
+    /** The path to the default CSS styles used by this resource. */
     String DEFAULT_CSS = "org/gwtproject/user/client/ui/CustomScrollPanel.gss";
 
-    /**
-     * Applied to the widget.
-     */
+    /** Applied to the widget. */
     String customScrollPanel();
 
     /**
-     * Applied to the square that appears in the bottom corner where the
-     * vertical and horizontal scrollbars meet, when both are visible.
+     * Applied to the square that appears in the bottom corner where the vertical and horizontal
+     * scrollbars meet, when both are visible.
      */
     String customScrollPanelCorner();
   }
@@ -97,18 +79,15 @@ public class CustomScrollPanel extends ScrollPanel {
   private static Resources DEFAULT_RESOURCES;
 
   /**
-   * The timeout to ignore scroll events after updating the scroll position.
-   * Some browsers queue up scroll events and fire them after a delay. So, if
-   * the user quickly scrolls from position 0 to 100 to 200, the scroll event
-   * will fire for position 100 after the scroller has already moved to position
-   * 200. If we do not ignore the scroll events, we can end up with a loop where
-   * the scrollbars update the scroll position, and vice versa.
+   * The timeout to ignore scroll events after updating the scroll position. Some browsers queue up
+   * scroll events and fire them after a delay. So, if the user quickly scrolls from position 0 to
+   * 100 to 200, the scroll event will fire for position 100 after the scroller has already moved to
+   * position 200. If we do not ignore the scroll events, we can end up with a loop where the
+   * scrollbars update the scroll position, and vice versa.
    */
   private static int IGNORE_SCROLL_TIMEOUT = 500;
 
-  /**
-   * Get the default {@link Resources} for this widget.
-   */
+  /** Get the default {@link Resources} for this widget. */
   private static Resources getDefaultResources() {
     if (DEFAULT_RESOURCES == null) {
       DEFAULT_RESOURCES = new CustomScrollPanel_ResourcesImpl();
@@ -137,9 +116,7 @@ public class CustomScrollPanel extends ScrollPanel {
   private HandlerRegistration vScrollbarHandler;
   private Layer vScrollbarLayer;
 
-  /**
-   * Creates an empty {@link CustomScrollPanel}.
-   */
+  /** Creates an empty {@link CustomScrollPanel}. */
   public CustomScrollPanel() {
     this(getDefaultResources());
   }
@@ -192,18 +169,19 @@ public class CustomScrollPanel extends ScrollPanel {
 
     // Initialize the default scrollbars using the transparent styles.
     NativeHorizontalScrollbar.Resources hResources = new NativeHorizontalScrollbar_ResourcesImpl();
-    setHorizontalScrollbar(new NativeHorizontalScrollbar(hResources), AbstractNativeScrollbar
-        .getNativeScrollbarHeight());
-    NativeVerticalScrollbar.Resources vResources = new NativeVerticalScrollbar_ResourcesTransparantImpl();
-    setVerticalScrollbar(new NativeVerticalScrollbar(vResources), AbstractNativeScrollbar
-        .getNativeScrollbarWidth());
+    setHorizontalScrollbar(
+        new NativeHorizontalScrollbar(hResources),
+        AbstractNativeScrollbar.getNativeScrollbarHeight());
+    NativeVerticalScrollbar.Resources vResources =
+        new NativeVerticalScrollbar_ResourcesTransparantImpl();
+    setVerticalScrollbar(
+        new NativeVerticalScrollbar(vResources), AbstractNativeScrollbar.getNativeScrollbarWidth());
 
     /*
      * Add a handler to catch changes in the content size and update the
      * scrollbars accordingly.
      */
-    ResizeLayoutPanel.Impl.Delegate containerResizeDelegate =
-            () -> maybeUpdateScrollbars();
+    ResizeLayoutPanel.Impl.Delegate containerResizeDelegate = () -> maybeUpdateScrollbars();
     containerResizeImpl.init(getContainerElement(), containerResizeDelegate);
 
     /*
@@ -219,7 +197,7 @@ public class CustomScrollPanel extends ScrollPanel {
 
   /**
    * Creates a {@link CustomScrollPanel} with the specified child widget.
-   * 
+   *
    * @param child the widget to be wrapped by the scroll panel
    */
   public CustomScrollPanel(Widget child) {
@@ -229,7 +207,7 @@ public class CustomScrollPanel extends ScrollPanel {
 
   /**
    * Get the scrollbar used for horizontal scrolling.
-   * 
+   *
    * @return the horizontal scrollbar, or null if none specified
    */
   public HorizontalScrollbar getHorizontalScrollbar() {
@@ -238,7 +216,7 @@ public class CustomScrollPanel extends ScrollPanel {
 
   /**
    * Get the scrollbar used for vertical scrolling.
-   * 
+   *
    * @return the vertical scrollbar, or null if none specified
    */
   public VerticalScrollbar getVerticalScrollbar() {
@@ -308,18 +286,14 @@ public class CustomScrollPanel extends ScrollPanel {
     return true;
   }
 
-  /**
-   * Remove the {@link HorizontalScrollbar}, if one exists.
-   */
+  /** Remove the {@link HorizontalScrollbar}, if one exists. */
   public void removeHorizontalScrollbar() {
     if (hScrollbar != null) {
       remove(hScrollbar);
     }
   }
 
-  /**
-   * Remove the {@link VerticalScrollbar}, if one exists.
-   */
+  /** Remove the {@link VerticalScrollbar}, if one exists. */
   public void removeVerticalScrollbar() {
     if (vScrollbar != null) {
       remove(vScrollbar);
@@ -336,7 +310,7 @@ public class CustomScrollPanel extends ScrollPanel {
 
   /**
    * Set the scrollbar used for horizontal scrolling.
-   * 
+   *
    * @param scrollbar the scrollbar, or null to clear it
    * @param height the height of the scrollbar in pixels
    */
@@ -350,26 +324,28 @@ public class CustomScrollPanel extends ScrollPanel {
 
     // Initialize the new scrollbar.
     if (scrollbar != null) {
-      hScrollbarHandler = scrollbar.addScrollHandler(new ScrollHandler() {
-        @Override
-        public void onScroll(ScrollEvent event) {
-          double curTime = Duration.currentTimeMillis();
-          if (curTime > ignoreScrollbarsUntil) {
-            ignoreContentUntil = curTime + IGNORE_SCROLL_TIMEOUT;
-            int hPos = scrollbar.getHorizontalScrollPosition();
-            if (getHorizontalScrollPosition() != hPos) {
-              setHorizontalScrollPosition(hPos);
-            }
-          }
-        }
-      });
+      hScrollbarHandler =
+          scrollbar.addScrollHandler(
+              new ScrollHandler() {
+                @Override
+                public void onScroll(ScrollEvent event) {
+                  double curTime = Duration.currentTimeMillis();
+                  if (curTime > ignoreScrollbarsUntil) {
+                    ignoreContentUntil = curTime + IGNORE_SCROLL_TIMEOUT;
+                    int hPos = scrollbar.getHorizontalScrollPosition();
+                    if (getHorizontalScrollPosition() != hPos) {
+                      setHorizontalScrollPosition(hPos);
+                    }
+                  }
+                }
+              });
     }
     maybeUpdateScrollbars();
   }
 
   /**
    * Set the scrollbar used for vertical scrolling.
-   * 
+   *
    * @param scrollbar the scrollbar, or null to clear it
    * @param width the width of the scrollbar in pixels
    */
@@ -383,20 +359,22 @@ public class CustomScrollPanel extends ScrollPanel {
 
     // Initialize the new scrollbar.
     if (scrollbar != null) {
-      vScrollbarHandler = scrollbar.addScrollHandler(new ScrollHandler() {
-        @Override
-        public void onScroll(ScrollEvent event) {
-          double curTime = Duration.currentTimeMillis();
-          if (curTime > ignoreScrollbarsUntil) {
-            ignoreContentUntil = curTime + IGNORE_SCROLL_TIMEOUT;
-            int vPos = scrollbar.getVerticalScrollPosition();
-            int v = getVerticalScrollPosition();
-            if (getVerticalScrollPosition() != vPos) {
-              setVerticalScrollPosition(vPos);
-            }
-          }
-        }
-      });
+      vScrollbarHandler =
+          scrollbar.addScrollHandler(
+              new ScrollHandler() {
+                @Override
+                public void onScroll(ScrollEvent event) {
+                  double curTime = Duration.currentTimeMillis();
+                  if (curTime > ignoreScrollbarsUntil) {
+                    ignoreContentUntil = curTime + IGNORE_SCROLL_TIMEOUT;
+                    int vPos = scrollbar.getVerticalScrollPosition();
+                    int v = getVerticalScrollPosition();
+                    if (getVerticalScrollPosition() != vPos) {
+                      setVerticalScrollPosition(vPos);
+                    }
+                  }
+                }
+              });
     }
     maybeUpdateScrollbars();
   }
@@ -414,14 +392,14 @@ public class CustomScrollPanel extends ScrollPanel {
 
   @Override
   protected void doAttachChildren() {
-    AttachDetachException.tryCommand(AttachDetachException.attachCommand, getWidget(), hScrollbar,
-        vScrollbar);
+    AttachDetachException.tryCommand(
+        AttachDetachException.attachCommand, getWidget(), hScrollbar, vScrollbar);
   }
 
   @Override
   protected void doDetachChildren() {
-    AttachDetachException.tryCommand(AttachDetachException.detachCommand, getWidget(), hScrollbar,
-        vScrollbar);
+    AttachDetachException.tryCommand(
+        AttachDetachException.detachCommand, getWidget(), hScrollbar, vScrollbar);
   }
 
   @Override
@@ -441,18 +419,20 @@ public class CustomScrollPanel extends ScrollPanel {
   @Override
   protected void onLoad() {
     hideNativeScrollbars();
-    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-      @Override
-      public void execute() {
-        maybeUpdateScrollbars();
-      }
-    });
+    Scheduler.get()
+        .scheduleDeferred(
+            new ScheduledCommand() {
+              @Override
+              public void execute() {
+                maybeUpdateScrollbars();
+              }
+            });
   }
 
   /**
-   * Add a widget to the panel in the specified layer. Note that this method
-   * does not do the logical attach.
-   * 
+   * Add a widget to the panel in the specified layer. Note that this method does not do the logical
+   * attach.
+   *
    * @param w the widget to add, or null to clear the widget
    * @param toReplace the widget to replace
    * @param layer the layer in which the existing widget is placed
@@ -486,8 +466,8 @@ public class CustomScrollPanel extends ScrollPanel {
   }
 
   /**
-   * Hide the native scrollbars. We call this after attaching to ensure that we
-   * inherit the direction (rtl or ltr).
+   * Hide the native scrollbars. We call this after attaching to ensure that we inherit the
+   * direction (rtl or ltr).
    */
   private void hideNativeScrollbars() {
     int barWidth = AbstractNativeScrollbar.getNativeScrollbarWidth();
@@ -503,8 +483,8 @@ public class CustomScrollPanel extends ScrollPanel {
   }
 
   /**
-   * Synchronize the scroll positions of the scrollbars with the actual scroll
-   * position of the content.
+   * Synchronize the scroll positions of the scrollbars with the actual scroll position of the
+   * content.
    */
   private void maybeUpdateScrollbarPositions() {
     if (!isAttached()) {
@@ -539,18 +519,14 @@ public class CustomScrollPanel extends ScrollPanel {
 
   /**
    * Update the position of the scrollbars.
-   * 
-   * <p>
-   * If only the vertical scrollbar is present, it takes up the entire height of
-   * the right side. If only the horizontal scrollbar is present, it takes up
-   * the entire width of the bottom. If both scrollbars are present, the
-   * vertical scrollbar extends from the top to just above the horizontal
-   * scrollbar, and the horizontal scrollbar extends from the left to just right
-   * of the vertical scrollbar, leaving a small square in the bottom right
-   * corner.
-   * 
-   * <p>
-   * In RTL, the vertical scrollbar appears on the left.
+   *
+   * <p>If only the vertical scrollbar is present, it takes up the entire height of the right side.
+   * If only the horizontal scrollbar is present, it takes up the entire width of the bottom. If
+   * both scrollbars are present, the vertical scrollbar extends from the top to just above the
+   * horizontal scrollbar, and the horizontal scrollbar extends from the left to just right of the
+   * vertical scrollbar, leaving a small square in the bottom right corner.
+   *
+   * <p>In RTL, the vertical scrollbar appears on the left.
    */
   private void maybeUpdateScrollbars() {
     if (!isAttached()) {

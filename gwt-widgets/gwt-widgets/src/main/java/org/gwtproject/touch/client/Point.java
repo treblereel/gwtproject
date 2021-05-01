@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,9 +15,7 @@
  */
 package org.gwtproject.touch.client;
 
-/**
- * A simple point class.
- */
+/** A simple point class. */
 public class Point {
 
   private final double x;
@@ -37,9 +35,9 @@ public class Point {
   }
 
   /**
-   * Divide this point {@link Point} by specified point and return the result.
-   * Does not modified this {@link Point}.
-   * 
+   * Divide this point {@link Point} by specified point and return the result. Does not modified
+   * this {@link Point}.
+   *
    * @param c the value by which to divide
    * @return the resulting point
    */
@@ -58,7 +56,7 @@ public class Point {
 
   /**
    * Get the x value of the point.
-   * 
+   *
    * @return the x value
    */
   public double getX() {
@@ -67,7 +65,7 @@ public class Point {
 
   /**
    * Get the y value of the point.
-   * 
+   *
    * @return the y value
    */
   public double getY() {
@@ -80,9 +78,9 @@ public class Point {
   }
 
   /**
-   * Subtract the specified {@link Point} from this point and return the result.
-   * Does not modified this {@link Point}.
-   * 
+   * Subtract the specified {@link Point} from this point and return the result. Does not modified
+   * this {@link Point}.
+   *
    * @param c the value to subtract
    * @return the resulting point
    */
@@ -91,9 +89,9 @@ public class Point {
   }
 
   /**
-   * Multiple this point {@link Point} by specified point and return the result.
-   * Does not modified this {@link Point}.
-   * 
+   * Multiple this point {@link Point} by specified point and return the result. Does not modified
+   * this {@link Point}.
+   *
    * @param c the value by which to multiply
    * @return the resulting point
    */
@@ -102,9 +100,9 @@ public class Point {
   }
 
   /**
-   * Add the specified {@link Point} to this point and return the result. Does
-   * not modified this {@link Point}.
-   * 
+   * Add the specified {@link Point} to this point and return the result. Does not modified this
+   * {@link Point}.
+   *
    * @param c the value to add
    * @return the resulting point
    */

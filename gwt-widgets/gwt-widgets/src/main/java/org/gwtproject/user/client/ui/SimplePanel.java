@@ -15,22 +15,17 @@
  */
 package org.gwtproject.user.client.ui;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.DOM;
 
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-
-/**
- * Base class for panels that contain only one widget.
- */
+/** Base class for panels that contain only one widget. */
 public class SimplePanel extends Panel implements HasOneWidget {
 
   Widget widget;
 
-  /**
-   * Creates an empty panel that uses a DIV for its contents.
-   */
+  /** Creates an empty panel that uses a DIV for its contents. */
   public SimplePanel() {
     this(DOM.createDiv());
   }
@@ -46,8 +41,7 @@ public class SimplePanel extends Panel implements HasOneWidget {
   }
 
   /**
-   * Creates an empty panel that uses the specified browser element for its
-   * contents.
+   * Creates an empty panel that uses the specified browser element for its contents.
    *
    * @param elem the browser element to use
    */
@@ -162,13 +156,12 @@ public class SimplePanel extends Panel implements HasOneWidget {
   }
 
   /**
-   * Override this method to specify that an element other than the root element
-   * be the container for the panel's child widget. This can be useful when you
-   * want to create a simple panel that decorates its contents.
+   * Override this method to specify that an element other than the root element be the container
+   * for the panel's child widget. This can be useful when you want to create a simple panel that
+   * decorates its contents.
    *
-   * Note that this method continues to return the
-   * {@link Element} class defined in the
-   * <code>User</code> module to maintain backwards compatibility.
+   * <p>Note that this method continues to return the {@link Element} class defined in the <code>
+   * User</code> module to maintain backwards compatibility.
    *
    * @return the element to be used as the panel's container
    */

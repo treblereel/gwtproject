@@ -41,38 +41,34 @@ import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.Event;
 
 /**
- * A horizontal bar of folder-style tabs, most commonly used as part of a
- * {@link TabPanel}.
- * <p>
- * <img class='gallery' src='doc-files/TabBar.png'/>
- * </p>
+ * A horizontal bar of folder-style tabs, most commonly used as part of a {@link TabPanel}.
+ *
+ * <p><img class='gallery' src='doc-files/TabBar.png'/>
+ *
  * <h3>CSS Style Rules</h3>
+ *
  * <ul class='css'>
- * <li>.gwt-TabBar { the tab bar itself }</li>
- * <li>.gwt-TabBar .gwt-TabBarFirst { the left edge of the bar }</li>
- * <li>.gwt-TabBar .gwt-TabBarFirst-wrapper { table cell around the left edge }
- * </li>
- * <li>.gwt-TabBar .gwt-TabBarRest { the right edge of the bar }</li>
- * <li>.gwt-TabBar .gwt-TabBarRest-wrapper { table cell around the right edge }
- * </li>
- * <li>.gwt-TabBar .gwt-TabBarItem { unselected tabs }</li>
- * <li>.gwt-TabBar .gwt-TabBarItem-disabled { disabled tabs }</li>
- * <li>.gwt-TabBar .gwt-TabBarItem-wrapper { table cell around tab }</li>
- * <li>.gwt-TabBar .gwt-TabBarItem-wrapper-disabled { table cell around disabled tab }</li>
- * <li>.gwt-TabBar .gwt-TabBarItem-selected { additional style for selected }</li>
- * <p>
- * <h3>Example</h3>
- * {@example com.google.gwt.examples.TabBarExample}
- * </p>
+ *   <li>.gwt-TabBar { the tab bar itself }
+ *   <li>.gwt-TabBar .gwt-TabBarFirst { the left edge of the bar }
+ *   <li>.gwt-TabBar .gwt-TabBarFirst-wrapper { table cell around the left edge }
+ *   <li>.gwt-TabBar .gwt-TabBarRest { the right edge of the bar }
+ *   <li>.gwt-TabBar .gwt-TabBarRest-wrapper { table cell around the right edge }
+ *   <li>.gwt-TabBar .gwt-TabBarItem { unselected tabs }
+ *   <li>.gwt-TabBar .gwt-TabBarItem-disabled { disabled tabs }
+ *   <li>.gwt-TabBar .gwt-TabBarItem-wrapper { table cell around tab }
+ *   <li>.gwt-TabBar .gwt-TabBarItem-wrapper-disabled { table cell around disabled tab }
+ *   <li>.gwt-TabBar .gwt-TabBarItem-selected { additional style for selected }
+ *       <p>
+ *       <h3>Example</h3>
+ *       {@example com.google.gwt.examples.TabBarExample}
  */
-public class TabBar extends Composite implements
-    HasBeforeSelectionHandlers<Integer>, HasSelectionHandlers<Integer> {
+public class TabBar extends Composite
+    implements HasBeforeSelectionHandlers<Integer>, HasSelectionHandlers<Integer> {
 
   /**
    * Set of characteristic interfaces supported by {@link TabBar} tabs.
    *
-   * Note that this set might expand over time, so implement this interface at
-   * your own risk.
+   * <p>Note that this set might expand over time, so implement this interface at your own risk.
    */
   public interface Tab extends HasAllKeyHandlers, HasClickHandlers, HasWordWrap {
     /**
@@ -84,10 +80,9 @@ public class TabBar extends Composite implements
   }
 
   /**
-   * <code>ClickDelegatePanel</code> decorates any widget with the minimal
-   * amount of machinery to receive clicks for delegation to the parent.
-   * {@link SourcesClickEvents} is not implemented due to the fact that only a
-   * single observer is needed.
+   * <code>ClickDelegatePanel</code> decorates any widget with the minimal amount of machinery to
+   * receive clicks for delegation to the parent. {@link SourcesClickEvents} is not implemented due
+   * to the fact that only a single observer is needed.
    */
   private class ClickDelegatePanel extends Composite implements Tab {
     private SimplePanel focusablePanel;
@@ -137,8 +132,7 @@ public class TabBar extends Composite implements
       if (hasWordWrap()) {
         return ((HasWordWrap) focusablePanel.getWidget()).getWordWrap();
       }
-      throw new UnsupportedOperationException(
-          "Widget does not implement HasWordWrap");
+      throw new UnsupportedOperationException("Widget does not implement HasWordWrap");
     }
 
     @Override
@@ -180,8 +174,7 @@ public class TabBar extends Composite implements
       if (hasWordWrap()) {
         ((HasWordWrap) focusablePanel.getWidget()).setWordWrap(wrap);
       } else {
-        throw new UnsupportedOperationException(
-            "Widget does not implement HasWordWrap");
+        throw new UnsupportedOperationException("Widget does not implement HasWordWrap");
       }
     }
   }
@@ -190,9 +183,7 @@ public class TabBar extends Composite implements
   private HorizontalPanel panel = new HorizontalPanel();
   private Widget selectedTab;
 
-  /**
-   * Creates an empty tab bar.
-   */
+  /** Creates an empty tab bar. */
   public TabBar() {
     initWidget(panel);
     sinkEvents(Event.ONCLICK);
@@ -214,8 +205,7 @@ public class TabBar extends Composite implements
     first.setHeight("100%");
     panel.setCellHeight(first, "100%");
     panel.setCellWidth(rest, "100%");
-    setStyleName(first.getElement().getParentElement(),
-        "gwt-TabBarFirst-wrapper");
+    setStyleName(first.getElement().getParentElement(), "gwt-TabBarFirst-wrapper");
     setStyleName(rest.getElement().getParentElement(), "gwt-TabBarRest-wrapper");
   }
 
@@ -281,9 +271,8 @@ public class TabBar extends Composite implements
   /**
    * Gets the given tab.
    *
-   * This method is final because the Tab interface will expand. Therefore
-   * it is highly likely that subclasses which implemented this method would end up
-   * breaking.
+   * <p>This method is final because the Tab interface will expand. Therefore it is highly likely
+   * that subclasses which implemented this method would end up breaking.
    *
    * @param index the tab's index
    * @return the tab wrapper
@@ -381,8 +370,7 @@ public class TabBar extends Composite implements
   }
 
   /**
-   * Check if a tab is enabled or disabled. If disabled, the user cannot select
-   * the tab.
+   * Check if a tab is enabled or disabled. If disabled, the user cannot select the tab.
    *
    * @param index the index of the tab
    * @return true if the tab is enabled, false if disabled
@@ -410,25 +398,25 @@ public class TabBar extends Composite implements
   }
 
   /**
-   * Programmatically selects the specified tab and fires events. Use index -1
-   * to specify that no tab should be selected.
+   * Programmatically selects the specified tab and fires events. Use index -1 to specify that no
+   * tab should be selected.
    *
    * @param index the index of the tab to be selected
-   * @return <code>true</code> if successful, <code>false</code> if the change
-   * is denied by the {@link BeforeSelectionHandler}.
+   * @return <code>true</code> if successful, <code>false</code> if the change is denied by the
+   *     {@link BeforeSelectionHandler}.
    */
   public boolean selectTab(int index) {
     return selectTab(index, true);
   }
 
   /**
-   * Programmatically selects the specified tab. Use index -1 to specify that no
-   * tab should be selected.
+   * Programmatically selects the specified tab. Use index -1 to specify that no tab should be
+   * selected.
    *
    * @param index the index of the tab to be selected
    * @param fireEvents true to fire events, false not to
-   * @return <code>true</code> if successful, <code>false</code> if the change
-   * is denied by the {@link BeforeSelectionHandler}.
+   * @return <code>true</code> if successful, <code>false</code> if the change is denied by the
+   *     {@link BeforeSelectionHandler}.
    */
   public boolean selectTab(int index, boolean fireEvents) {
     checkTabIndex(index);
@@ -468,16 +456,15 @@ public class TabBar extends Composite implements
     ClickDelegatePanel delPanel = (ClickDelegatePanel) panel.getWidget(index + 1);
     delPanel.setEnabled(enabled);
     setStyleName(delPanel.getElement(), "gwt-TabBarItem-disabled", !enabled);
-    setStyleName(delPanel.getElement().getParentElement(),
-        "gwt-TabBarItem-wrapper-disabled", !enabled);
+    setStyleName(
+        delPanel.getElement().getParentElement(), "gwt-TabBarItem-wrapper-disabled", !enabled);
   }
 
   /**
    * Sets a tab's contents via HTML.
    *
-   * Use care when setting an object's HTML; it is an easy way to expose
-   * script-based security problems. Consider using
-   * {@link #setTabText(int, String)} or {@link #setTabHTML(int, SafeHtml)}
+   * <p>Use care when setting an object's HTML; it is an easy way to expose script-based security
+   * problems. Consider using {@link #setTabText(int, String)} or {@link #setTabHTML(int, SafeHtml)}
    * whenever possible.
    *
    * @param index the index of the tab whose HTML is to be set
@@ -520,11 +507,10 @@ public class TabBar extends Composite implements
   }
 
   /**
-   * Create a {@link SimplePanel} that will wrap the contents in a tab.
-   * Subclasses can use this method to wrap tabs in decorator panels.
+   * Create a {@link SimplePanel} that will wrap the contents in a tab. Subclasses can use this
+   * method to wrap tabs in decorator panels.
    *
-   * @return a {@link SimplePanel} to wrap the tab contents, or null to leave
-   * tabs unwrapped
+   * @return a {@link SimplePanel} to wrap the tab contents, or null to leave tabs unwrapped
    */
   protected SimplePanel createTabTextWrapper() {
     return null;
@@ -548,15 +534,15 @@ public class TabBar extends Composite implements
 
     panel.insert(delWidget, beforeIndex + 1);
 
-    setStyleName(DOM.getParent(delWidget.getElement()), STYLENAME_DEFAULT
-        + "-wrapper", true);
+    setStyleName(DOM.getParent(delWidget.getElement()), STYLENAME_DEFAULT + "-wrapper", true);
   }
 
   /**
    * <b>Affected Elements:</b>
+   *
    * <ul>
-   * <li>-tab# = The element containing the contents of the tab.</li>
-   * <li>-tab-wrapper# = The cell containing the tab at the index.</li>
+   *   <li>-tab# = The element containing the contents of the tab.
+   *   <li>-tab-wrapper# = The cell containing the tab at the index.
    * </ul>
    *
    * @see UIObject#onEnsureDebugId(String)
@@ -570,8 +556,7 @@ public class TabBar extends Composite implements
       ClickDelegatePanel delPanel = (ClickDelegatePanel) panel.getWidget(i + 1);
       SimplePanel focusablePanel = delPanel.getFocusablePanel();
       ensureDebugId(focusablePanel.getContainerElement(), baseID, "tab" + i);
-      ensureDebugId(DOM.getParent(delPanel.getElement()), baseID, "tab-wrapper"
-          + i);
+      ensureDebugId(DOM.getParent(delPanel.getElement()), baseID, "tab-wrapper" + i);
     }
   }
 
@@ -588,13 +573,12 @@ public class TabBar extends Composite implements
   }
 
   /**
-   * Selects the tab corresponding to the widget for the tab. To be clear the
-   * widget for the tab is not the widget INSIDE of the tab; it is the widget
-   * used to represent the tab itself.
+   * Selects the tab corresponding to the widget for the tab. To be clear the widget for the tab is
+   * not the widget INSIDE of the tab; it is the widget used to represent the tab itself.
    *
    * @param tabWidget The widget for the tab to be selected
-   * @return true if the tab corresponding to the widget for the tab could
-   * located and selected, false otherwise
+   * @return true if the tab corresponding to the widget for the tab could located and selected,
+   *     false otherwise
    */
   private boolean selectTabByTabWidget(Widget tabWidget) {
     int numTabs = panel.getWidgetCount() - 1;
@@ -612,12 +596,10 @@ public class TabBar extends Composite implements
     if (item != null) {
       if (selected) {
         item.addStyleName("gwt-TabBarItem-selected");
-        setStyleName(DOM.getParent(item.getElement()),
-            "gwt-TabBarItem-wrapper-selected", true);
+        setStyleName(DOM.getParent(item.getElement()), "gwt-TabBarItem-wrapper-selected", true);
       } else {
         item.removeStyleName("gwt-TabBarItem-selected");
-        setStyleName(DOM.getParent(item.getElement()),
-            "gwt-TabBarItem-wrapper-selected", false);
+        setStyleName(DOM.getParent(item.getElement()), "gwt-TabBarItem-wrapper-selected", false);
       }
     }
   }

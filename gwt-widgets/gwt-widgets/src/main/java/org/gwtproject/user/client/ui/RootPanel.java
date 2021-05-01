@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
 import org.gwtproject.dom.client.BodyElement;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
@@ -30,20 +29,15 @@ import org.gwtproject.user.client.Event;
 import org.gwtproject.user.window.client.Window;
 
 /**
- * The panel to which all other widgets must ultimately be added. RootPanels are
- * never created directly. Rather, they are accessed via {@link RootPanel#get()}
- * .
- * 
- * <p>
- * Most applications will add widgets to the default root panel in their
- * {@link org.gwtproject.core.client.EntryPoint#onModuleLoad} methods.
- * </p>
+ * The panel to which all other widgets must ultimately be added. RootPanels are never created
+ * directly. Rather, they are accessed via {@link RootPanel#get()} .
+ *
+ * <p>Most applications will add widgets to the default root panel in their {@link
+ * org.gwtproject.core.client.EntryPoint#onModuleLoad} methods.
  */
 public class RootPanel extends AbsolutePanel {
 
-  /**
-   * A default RootPanel implementation that wraps the body element.
-   */
+  /** A default RootPanel implementation that wraps the body element. */
   private static class DefaultRootPanel extends RootPanel {
 
     public DefaultRootPanel() {
@@ -61,41 +55,34 @@ public class RootPanel extends AbsolutePanel {
     }
   }
 
-  /**
-   * The singleton command used to detach widgets.
-   */
-  private static final AttachDetachException.Command maybeDetachCommand = w -> {
-    if (w.isAttached()) {
-      w.onDetach();
-    }
-  };
+  /** The singleton command used to detach widgets. */
+  private static final AttachDetachException.Command maybeDetachCommand =
+      w -> {
+        if (w.isAttached()) {
+          w.onDetach();
+        }
+      };
 
   private static Map<String, RootPanel> rootPanels = new HashMap<>();
   private static Set<Widget> widgetsToDetach = new HashSet<>();
 
   /**
    * Marks a widget as detached and removes it from the detach list.
-   * 
-   * <p>
-   * If an element belonging to a widget originally passed to
-   * {@link #detachOnWindowClose(Widget)} has been removed from the document,
-   * calling this method will cause it to be marked as detached immediately.
-   * Failure to do so will keep the widget from being garbage collected until
-   * the page is unloaded.
-   * </p>
-   * 
-   * <p>
-   * This method may only be called per widget, and only for widgets that were
-   * originally passed to {@link #detachOnWindowClose(Widget)}.
-   * </p>
-   * 
-   * @param widget the widget that no longer needs to be cleaned up when the
-   *          page closes
+   *
+   * <p>If an element belonging to a widget originally passed to {@link
+   * #detachOnWindowClose(Widget)} has been removed from the document, calling this method will
+   * cause it to be marked as detached immediately. Failure to do so will keep the widget from being
+   * garbage collected until the page is unloaded.
+   *
+   * <p>This method may only be called per widget, and only for widgets that were originally passed
+   * to {@link #detachOnWindowClose(Widget)}.
+   *
+   * @param widget the widget that no longer needs to be cleaned up when the page closes
    * @see #detachOnWindowClose(Widget)
    */
   public static void detachNow(Widget widget) {
-    assert widgetsToDetach.contains(widget) : "detachNow() called on a widget "
-        + "not currently in the detach list";
+    assert widgetsToDetach.contains(widget)
+        : "detachNow() called on a widget " + "not currently in the detach list";
 
     try {
       widget.onDetach();
@@ -105,42 +92,35 @@ public class RootPanel extends AbsolutePanel {
   }
 
   /**
-   * Adds a widget to the detach list. This is the list of widgets to be
-   * detached when the page unloads.
-   * 
-   * <p>
-   * This method must be called for all widgets that have no parent widgets.
-   * These are most commonly {@link RootPanel RootPanels}, but can also be any
-   * widget used to wrap an existing element on the page. Failing to do this may
-   * cause these widgets to leak memory. This method is called automatically by
-   * widgets' wrap methods (e.g.
-   * {@link Button#wrap(Element)}).
-   * </p>
-   * 
-   * <p>
-   * This method may <em>not</em> be called on any widget whose element is
-   * contained in another widget. This is to ensure that the DOM and Widget
-   * hierarchies cannot get into an inconsistent state.
-   * </p>
-   * 
+   * Adds a widget to the detach list. This is the list of widgets to be detached when the page
+   * unloads.
+   *
+   * <p>This method must be called for all widgets that have no parent widgets. These are most
+   * commonly {@link RootPanel RootPanels}, but can also be any widget used to wrap an existing
+   * element on the page. Failing to do this may cause these widgets to leak memory. This method is
+   * called automatically by widgets' wrap methods (e.g. {@link Button#wrap(Element)}).
+   *
+   * <p>This method may <em>not</em> be called on any widget whose element is contained in another
+   * widget. This is to ensure that the DOM and Widget hierarchies cannot get into an inconsistent
+   * state.
+   *
    * @param widget the widget to be cleaned up when the page closes
    * @see #detachNow(Widget)
    */
   public static void detachOnWindowClose(Widget widget) {
-    assert !widgetsToDetach.contains(widget) : "detachOnUnload() called twice "
-        + "for the same widget";
-    assert !isElementChildOfWidget(widget.getElement()) : "A widget that has "
-        + "an existing parent widget may not be added to the detach list";
+    assert !widgetsToDetach.contains(widget)
+        : "detachOnUnload() called twice " + "for the same widget";
+    assert !isElementChildOfWidget(widget.getElement())
+        : "A widget that has " + "an existing parent widget may not be added to the detach list";
 
     widgetsToDetach.add(widget);
   }
 
   /**
-   * Gets the default root panel. This panel wraps the body of the browser's
-   * document. This root panel can contain any number of widgets, which will be
-   * laid out in their natural HTML ordering. Many applications, however, will
-   * add a single panel to the RootPanel to provide more structure.
-   * 
+   * Gets the default root panel. This panel wraps the body of the browser's document. This root
+   * panel can contain any number of widgets, which will be laid out in their natural HTML ordering.
+   * Many applications, however, will add a single panel to the RootPanel to provide more structure.
+   *
    * @return the default RootPanel
    */
   public static RootPanel get() {
@@ -148,13 +128,11 @@ public class RootPanel extends AbsolutePanel {
   }
 
   /**
-   * Gets the root panel associated with a given browser element. For this to
-   * work, the HTML document into which the application is loaded must have
-   * specified an element with the given id.
-   * 
-   * @param id the id of the element to be wrapped with a root panel (
-   *          <code>null</code> specifies the default instance, which wraps the
-   *          &lt;body&gt; element)
+   * Gets the root panel associated with a given browser element. For this to work, the HTML
+   * document into which the application is loaded must have specified an element with the given id.
+   *
+   * @param id the id of the element to be wrapped with a root panel ( <code>null</code> specifies
+   *     the default instance, which wraps the &lt;body&gt; element)
    * @return the root panel, or <code>null</code> if no such element was found
    */
   public static RootPanel get(String id) {
@@ -189,8 +167,7 @@ public class RootPanel extends AbsolutePanel {
       // If we're in a RTL locale, set the RTL directionality
       // on the entire document.
       if (LocaleInfo.getCurrentLocale().isRTL()) {
-        BidiUtils.setDirectionOnElement(getRootElement(),
-                                        HasDirection.Direction.RTL);
+        BidiUtils.setDirectionOnElement(getRootElement(), HasDirection.Direction.RTL);
       }
     }
 
@@ -210,7 +187,7 @@ public class RootPanel extends AbsolutePanel {
 
   /**
    * Convenience method for getting the document's body element.
-   * 
+   *
    * @return the document's body element
    */
   public static Element getBodyElement() {
@@ -219,7 +196,7 @@ public class RootPanel extends AbsolutePanel {
 
   /**
    * Determines whether the given widget is in the detach list.
-   * 
+   *
    * @param widget the widget to be checked
    * @return <code>true</code> if the widget is in the detach list
    */
@@ -247,7 +224,7 @@ public class RootPanel extends AbsolutePanel {
 
   /**
    * Convenience method for getting the document's root (<html>) element.
-   * 
+   *
    * @return the document's root element
    */
   private static Element getRootElement() {
@@ -287,17 +264,15 @@ public class RootPanel extends AbsolutePanel {
   }
 
   /**
-   * Clears the rootPanel. If clearDom is true, then also remove any DOM
-   * elements that are not widgets.
+   * Clears the rootPanel. If clearDom is true, then also remove any DOM elements that are not
+   * widgets.
    *
-   * <p>By default {@link #clear()} will only remove children that are GWT widgets.
-   * This method also provides the option to remove all children including the
-   * non-widget DOM elements that are directly added (e.g. elements added via
-   * {@code getElement().appendChild(...)}.
+   * <p>By default {@link #clear()} will only remove children that are GWT widgets. This method also
+   * provides the option to remove all children including the non-widget DOM elements that are
+   * directly added (e.g. elements added via {@code getElement().appendChild(...)}.
    *
-   * @param clearDom if {@code true} this method will also remove any DOM
-   *  elements that are not widgets.
-   *
+   * @param clearDom if {@code true} this method will also remove any DOM elements that are not
+   *     widgets.
    * @deprecated Simply removing all DOM elements can cause issues with other elements in the page.
    */
   @Deprecated

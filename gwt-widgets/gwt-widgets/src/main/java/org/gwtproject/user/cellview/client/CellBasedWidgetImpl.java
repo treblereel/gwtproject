@@ -15,24 +15,19 @@
  */
 package org.gwtproject.user.cellview.client;
 
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Set;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.safehtml.shared.SafeHtml;
 import org.gwtproject.user.client.Event;
 import org.gwtproject.user.client.ui.Widget;
 
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
-
-/**
- * Implementation used by various cell based widgets.
- */
+/** Implementation used by various cell based widgets. */
 abstract class CellBasedWidgetImpl {
 
-  /**
-   * The singleton impl instance.
-   */
+  /** The singleton impl instance. */
   private static CellBasedWidgetImpl impl;
 
   /**
@@ -47,9 +42,7 @@ abstract class CellBasedWidgetImpl {
     return impl;
   }
 
-  /**
-   * The set of natively focusable elements.
-   */
+  /** The set of natively focusable elements. */
   final Set<String> focusableTypes;
 
   CellBasedWidgetImpl() {
@@ -63,9 +56,9 @@ abstract class CellBasedWidgetImpl {
   }
 
   /**
-   * Check if an element is focusable. If an element is focusable, the cell
-   * widget should not steal focus from it.
-   * 
+   * Check if an element is focusable. If an element is focusable, the cell widget should not steal
+   * focus from it.
+   *
    * @param elem the element
    * @return true if the element is focusable, false if not
    */
@@ -80,8 +73,7 @@ abstract class CellBasedWidgetImpl {
    * @param widget the {@link Widget} on which the event occurred
    * @param event the event to handle
    */
-  public void onBrowserEvent(Widget widget, Event event) {
-  }
+  public void onBrowserEvent(Widget widget, Event event) {}
 
   /**
    * Takes in an html string and processes it, adding support for events.

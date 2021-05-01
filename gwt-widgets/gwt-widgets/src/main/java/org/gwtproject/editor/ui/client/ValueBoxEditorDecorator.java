@@ -15,6 +15,7 @@
  */
 package org.gwtproject.editor.ui.client;
 
+import java.util.List;
 import org.gwtproject.dom.client.DivElement;
 import org.gwtproject.dom.style.shared.Display;
 import org.gwtproject.editor.client.EditorError;
@@ -25,27 +26,28 @@ import org.gwtproject.uibinder.client.UiBinder;
 import org.gwtproject.uibinder.client.UiChild;
 import org.gwtproject.uibinder.client.UiConstructor;
 import org.gwtproject.uibinder.client.UiField;
-import org.gwtproject.uibinder.client.UiTemplate;
 import org.gwtproject.user.client.ui.Composite;
 import org.gwtproject.user.client.ui.SimplePanel;
 import org.gwtproject.user.client.ui.ValueBoxBase;
 import org.gwtproject.user.client.ui.Widget;
 
-import java.util.List;
-
 /**
  * A simple decorator to display leaf widgets with an error message.
+ *
  * <p>
+ *
  * <h3>Use in UiBinder Templates</h3>
- * <p>
- * The decorator may have exactly one ValueBoxBase added though an
- * <code>&lt;e:valuebox></code> child tag.
- * <p>
- * For example:
+ *
+ * <p>The decorator may have exactly one ValueBoxBase added though an <code>&lt;e:valuebox></code>
+ * child tag.
+ *
+ * <p>For example:
+ *
  * <pre>
  * &#64;UiField
  * ValueBoxEditorDecorator&lt;String&gt; name;
  * </pre>
+ *
  * <pre>
  * &lt;e:ValueBoxEditorDecorator ui:field='name'>
  *   &lt;e:valuebox>
@@ -56,38 +58,33 @@ import java.util.List;
  *
  * @param <T> the type of data being edited
  */
-public class ValueBoxEditorDecorator<T> extends Composite implements
-    HasEditorErrors<T>, IsEditor<ValueBoxEditor<T>> {
+public class ValueBoxEditorDecorator<T> extends Composite
+    implements HasEditorErrors<T>, IsEditor<ValueBoxEditor<T>> {
 
   interface Binder extends UiBinder<Widget, ValueBoxEditorDecorator<?>> {
-    Binder INSTANCE  = new ValueBoxEditorDecorator_BinderImpl();
+    Binder INSTANCE = new ValueBoxEditorDecorator_BinderImpl();
   }
 
-  @UiField
-  SimplePanel contents;
+  @UiField SimplePanel contents;
 
-  @UiField
-  DivElement errorLabel;
+  @UiField DivElement errorLabel;
 
   private ValueBoxEditor<T> editor;
 
-  /**
-   * Constructs a ValueBoxEditorDecorator.
-   */
+  /** Constructs a ValueBoxEditorDecorator. */
   @UiConstructor
   public ValueBoxEditorDecorator() {
     initWidget(Binder.INSTANCE.createAndBindUi(this));
   }
 
   /**
-   * Constructs a ValueBoxEditorDecorator using a {@link ValueBoxBase}
-   * widget and a {@link ValueBoxEditor} editor.
+   * Constructs a ValueBoxEditorDecorator using a {@link ValueBoxBase} widget and a {@link
+   * ValueBoxEditor} editor.
    *
    * @param widget the widget
    * @param editor the editor
    */
-  public ValueBoxEditorDecorator(ValueBoxBase<T> widget,
-      ValueBoxEditor<T> editor) {
+  public ValueBoxEditorDecorator(ValueBoxBase<T> widget, ValueBoxEditor<T> editor) {
     this();
     contents.add(widget);
     this.editor = editor;
@@ -114,8 +111,8 @@ public class ValueBoxEditorDecorator<T> extends Composite implements
   }
 
   /**
-   * Set the widget that the EditorPanel will display. This method will
-   * automatically call {@link #setEditor}.
+   * Set the widget that the EditorPanel will display. This method will automatically call {@link
+   * #setEditor}.
    *
    * @param widget a {@link ValueBoxBase} widget
    */
@@ -126,9 +123,8 @@ public class ValueBoxEditorDecorator<T> extends Composite implements
   }
 
   /**
-   * The default implementation will display, but not consume, received errors
-   * whose {@link EditorError#getEditor() getEditor()} method returns the Editor
-   * passed into {@link #setEditor}.
+   * The default implementation will display, but not consume, received errors whose {@link
+   * EditorError#getEditor() getEditor()} method returns the Editor passed into {@link #setEditor}.
    *
    * @param errors a List of {@link EditorError} instances
    */

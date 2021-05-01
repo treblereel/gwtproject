@@ -19,15 +19,11 @@ import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.safehtml.shared.SafeHtmlBuilder;
 import org.gwtproject.user.client.ui.ImageResourceRenderer;
 
-/**
- * An {@link AbstractCell} used to render an {@link ImageResource}.
- */
+/** An {@link AbstractCell} used to render an {@link ImageResource}. */
 public class ImageResourceCell extends AbstractCell<ImageResource> {
   private static ImageResourceRenderer renderer;
-  
-  /**
-   * Construct a new ImageResourceCell.
-   */
+
+  /** Construct a new ImageResourceCell. */
   public ImageResourceCell() {
     if (renderer == null) {
       renderer = new ImageResourceRenderer();

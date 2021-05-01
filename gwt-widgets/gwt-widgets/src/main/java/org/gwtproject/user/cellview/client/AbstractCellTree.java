@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.cellview.client;
 
+import org.gwtproject.cell.client.Cell;
 import org.gwtproject.event.logical.shared.CloseEvent;
 import org.gwtproject.event.logical.shared.CloseHandler;
 import org.gwtproject.event.logical.shared.HasCloseHandlers;
@@ -25,26 +26,18 @@ import org.gwtproject.event.shared.HandlerRegistration;
 import org.gwtproject.user.client.ui.Composite;
 import org.gwtproject.view.client.TreeViewModel;
 import org.gwtproject.view.client.TreeViewModel.NodeInfo;
-import org.gwtproject.cell.client.Cell;
 
-/**
- * An abstract representation of a tree widget that renders items using
- * {@link Cell}s.
- */
-public abstract class AbstractCellTree extends Composite implements
-    HasOpenHandlers<TreeNode>, HasCloseHandlers<TreeNode>,
-    HasKeyboardSelectionPolicy {
+/** An abstract representation of a tree widget that renders items using {@link Cell}s. */
+public abstract class AbstractCellTree extends Composite
+    implements HasOpenHandlers<TreeNode>, HasCloseHandlers<TreeNode>, HasKeyboardSelectionPolicy {
 
   private KeyboardSelectionPolicy keyboardSelectionPolicy = KeyboardSelectionPolicy.ENABLED;
 
-  /**
-   * The {@link TreeViewModel} that backs the tree.
-   */
+  /** The {@link TreeViewModel} that backs the tree. */
   private final TreeViewModel viewModel;
 
   /**
-   * Construct a new {@link CellTree} with the specified {@link TreeViewModel}
-   * and root value.
+   * Construct a new {@link CellTree} with the specified {@link TreeViewModel} and root value.
    *
    * @param viewModel the {@link TreeViewModel} that backs the tree
    */
@@ -88,8 +81,8 @@ public abstract class AbstractCellTree extends Composite implements
   }
 
   /**
-   * Get the {@link NodeInfo} that will provide the information to retrieve and
-   * display the children of the specified value.
+   * Get the {@link NodeInfo} that will provide the information to retrieve and display the children
+   * of the specified value.
    *
    * @param value the value in the parent node
    * @return the {@link NodeInfo}
@@ -111,7 +104,6 @@ public abstract class AbstractCellTree extends Composite implements
    * Check if the value is known to be a leaf node.
    *
    * @param value the value at the node
-   *
    * @return true if the node is known to be a leaf node, false otherwise
    */
   protected boolean isLeaf(Object value) {

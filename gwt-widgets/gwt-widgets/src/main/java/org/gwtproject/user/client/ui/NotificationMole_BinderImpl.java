@@ -1,64 +1,90 @@
+/*
+ * Copyright © 2019 The GWT Project Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 // Template file: org/gwtproject/user/client/ui/NotificationMole.ui.xml
 // .ui.xml template last modified: 1544462803403
 package org.gwtproject.user.client.ui;
 
-
-public class NotificationMole_BinderImpl implements org.gwtproject.uibinder.client.UiBinder<org.gwtproject.user.client.ui.HTMLPanel, org.gwtproject.user.client.ui.NotificationMole>, org.gwtproject.user.client.ui.NotificationMole.Binder {
+public class NotificationMole_BinderImpl
+    implements org.gwtproject.uibinder.client.UiBinder<
+            org.gwtproject.user.client.ui.HTMLPanel,
+            org.gwtproject.user.client.ui.NotificationMole>,
+        org.gwtproject.user.client.ui.NotificationMole.Binder {
 
   interface Template extends org.gwtproject.safehtml.client.SafeHtmlTemplates {
-    org.gwtproject.safehtml.shared.SafeHtml html1(String arg0, String arg1, String arg2, String arg3, String arg4);
-     
+    org.gwtproject.safehtml.shared.SafeHtml html1(
+        String arg0, String arg1, String arg2, String arg3, String arg4);
   }
 
   Template template = new NotificationMole_BinderImpl_TemplateImpl();
 
-
-  public org.gwtproject.user.client.ui.HTMLPanel createAndBindUi(final org.gwtproject.user.client.ui.NotificationMole owner) {
-
+  public org.gwtproject.user.client.ui.HTMLPanel createAndBindUi(
+      final org.gwtproject.user.client.ui.NotificationMole owner) {
 
     return new Widgets(owner).get_f_HTMLPanel1();
   }
 
-  /**
-   * Encapsulates the access to all inner widgets
-   */
+  /** Encapsulates the access to all inner widgets */
   class Widgets {
     private final org.gwtproject.user.client.ui.NotificationMole owner;
 
-
     public Widgets(final org.gwtproject.user.client.ui.NotificationMole owner) {
       this.owner = owner;
-      build_style();  // generated css resource must be always created. Type: GENERATED_CSS. Precedence: 1
-      build_domId0();  // more than one getter call detected. Type: DOM_ID_HOLDER, precedence: 2
-      build_domId1();  // more than one getter call detected. Type: DOM_ID_HOLDER, precedence: 2
-      build_domId2();  // more than one getter call detected. Type: DOM_ID_HOLDER, precedence: 2
+      build_style(); // generated css resource must be always created. Type: GENERATED_CSS.
+      // Precedence: 1
+      build_domId0(); // more than one getter call detected. Type: DOM_ID_HOLDER, precedence: 2
+      build_domId1(); // more than one getter call detected. Type: DOM_ID_HOLDER, precedence: 2
+      build_domId2(); // more than one getter call detected. Type: DOM_ID_HOLDER, precedence: 2
     }
 
     org.gwtproject.safehtml.shared.SafeHtml template_html1() {
-      return template.html1("" + get_style().centered() + "", get_domId0(), get_domId1(), "" + get_style().notificationText() + "", get_domId2());
+      return template.html1(
+          "" + get_style().centered() + "",
+          get_domId0(),
+          get_domId1(),
+          "" + get_style().notificationText() + "",
+          get_domId2());
     }
 
     /**
-     * Getter for clientBundleFieldNameUnlikelyToCollideWithUserSpecifiedFieldOkay called 1 times. Type: GENERATED_BUNDLE. Build precedence: 1.
+     * Getter for clientBundleFieldNameUnlikelyToCollideWithUserSpecifiedFieldOkay called 1 times.
+     * Type: GENERATED_BUNDLE. Build precedence: 1.
      */
-    private org.gwtproject.user.client.ui.NotificationMole_BinderImpl_GenBundle get_clientBundleFieldNameUnlikelyToCollideWithUserSpecifiedFieldOkay() {
+    private org.gwtproject.user.client.ui.NotificationMole_BinderImpl_GenBundle
+        get_clientBundleFieldNameUnlikelyToCollideWithUserSpecifiedFieldOkay() {
       return build_clientBundleFieldNameUnlikelyToCollideWithUserSpecifiedFieldOkay();
     }
-    private org.gwtproject.user.client.ui.NotificationMole_BinderImpl_GenBundle build_clientBundleFieldNameUnlikelyToCollideWithUserSpecifiedFieldOkay() {
+
+    private org.gwtproject.user.client.ui.NotificationMole_BinderImpl_GenBundle
+        build_clientBundleFieldNameUnlikelyToCollideWithUserSpecifiedFieldOkay() {
       // Creation section.
-      final org.gwtproject.user.client.ui.NotificationMole_BinderImpl_GenBundle clientBundleFieldNameUnlikelyToCollideWithUserSpecifiedFieldOkay = new org.gwtproject.user.client.ui.NotificationMole_BinderImpl_GenBundleImpl();
+      final org.gwtproject.user.client.ui.NotificationMole_BinderImpl_GenBundle
+          clientBundleFieldNameUnlikelyToCollideWithUserSpecifiedFieldOkay =
+              new org.gwtproject.user.client.ui.NotificationMole_BinderImpl_GenBundleImpl();
       // Setup section.
 
       return clientBundleFieldNameUnlikelyToCollideWithUserSpecifiedFieldOkay;
     }
 
-    /**
-     * Getter for style called 3 times. Type: GENERATED_CSS. Build precedence: 1.
-     */
+    /** Getter for style called 3 times. Type: GENERATED_CSS. Build precedence: 1. */
     private org.gwtproject.user.client.ui.NotificationMole_BinderImpl_GenCss_style style;
+
     private org.gwtproject.user.client.ui.NotificationMole_BinderImpl_GenCss_style get_style() {
       return style;
     }
+
     private org.gwtproject.user.client.ui.NotificationMole_BinderImpl_GenCss_style build_style() {
       // Creation section.
       style = get_clientBundleFieldNameUnlikelyToCollideWithUserSpecifiedFieldOkay().style();
@@ -68,21 +94,22 @@ public class NotificationMole_BinderImpl implements org.gwtproject.uibinder.clie
       return style;
     }
 
-    /**
-     * Getter for f_HTMLPanel1 called 1 times. Type: DEFAULT. Build precedence: 1.
-     */
+    /** Getter for f_HTMLPanel1 called 1 times. Type: DEFAULT. Build precedence: 1. */
     private org.gwtproject.user.client.ui.HTMLPanel get_f_HTMLPanel1() {
       return build_f_HTMLPanel1();
     }
+
     private org.gwtproject.user.client.ui.HTMLPanel build_f_HTMLPanel1() {
       // Creation section.
-      final org.gwtproject.user.client.ui.HTMLPanel f_HTMLPanel1 = new org.gwtproject.user.client.ui.HTMLPanel(template_html1().asString());
+      final org.gwtproject.user.client.ui.HTMLPanel f_HTMLPanel1 =
+          new org.gwtproject.user.client.ui.HTMLPanel(template_html1().asString());
       // Setup section.
       f_HTMLPanel1.setStyleName("" + get_style().container() + "");
 
       {
         // Attach section.
-        org.gwtproject.uibinder.client.UiBinderUtil.TempAttachment __attachRecord__ = org.gwtproject.uibinder.client.UiBinderUtil.attachToDom(f_HTMLPanel1.getElement());
+        org.gwtproject.uibinder.client.UiBinderUtil.TempAttachment __attachRecord__ =
+            org.gwtproject.uibinder.client.UiBinderUtil.attachToDom(f_HTMLPanel1.getElement());
 
         get_borderElement();
         get_heightMeasure();
@@ -95,15 +122,15 @@ public class NotificationMole_BinderImpl implements org.gwtproject.uibinder.clie
       return f_HTMLPanel1;
     }
 
-    /**
-     * Getter for borderElement called 1 times. Type: DEFAULT. Build precedence: 2.
-     */
+    /** Getter for borderElement called 1 times. Type: DEFAULT. Build precedence: 2. */
     private org.gwtproject.dom.client.Element get_borderElement() {
       return build_borderElement();
     }
+
     private org.gwtproject.dom.client.Element build_borderElement() {
       // Creation section.
-      final org.gwtproject.dom.client.Element borderElement = new org.gwtproject.uibinder.client.LazyDomElement(get_domId0()).get().cast();
+      final org.gwtproject.dom.client.Element borderElement =
+          new org.gwtproject.uibinder.client.LazyDomElement(get_domId0()).get().cast();
       // Setup section.
 
       this.owner.borderElement = borderElement.cast();
@@ -111,13 +138,13 @@ public class NotificationMole_BinderImpl implements org.gwtproject.uibinder.clie
       return borderElement;
     }
 
-    /**
-     * Getter for domId0 called 2 times. Type: DOM_ID_HOLDER. Build precedence: 2.
-     */
+    /** Getter for domId0 called 2 times. Type: DOM_ID_HOLDER. Build precedence: 2. */
     private java.lang.String domId0;
+
     private java.lang.String get_domId0() {
       return domId0;
     }
+
     private java.lang.String build_domId0() {
       // Creation section.
       domId0 = org.gwtproject.dom.client.Document.get().createUniqueId();
@@ -126,15 +153,15 @@ public class NotificationMole_BinderImpl implements org.gwtproject.uibinder.clie
       return domId0;
     }
 
-    /**
-     * Getter for heightMeasure called 1 times. Type: DEFAULT. Build precedence: 2.
-     */
+    /** Getter for heightMeasure called 1 times. Type: DEFAULT. Build precedence: 2. */
     private org.gwtproject.dom.client.Element get_heightMeasure() {
       return build_heightMeasure();
     }
+
     private org.gwtproject.dom.client.Element build_heightMeasure() {
       // Creation section.
-      final org.gwtproject.dom.client.Element heightMeasure = new org.gwtproject.uibinder.client.LazyDomElement(get_domId1()).get().cast();
+      final org.gwtproject.dom.client.Element heightMeasure =
+          new org.gwtproject.uibinder.client.LazyDomElement(get_domId1()).get().cast();
       // Setup section.
 
       this.owner.heightMeasure = heightMeasure.cast();
@@ -142,13 +169,13 @@ public class NotificationMole_BinderImpl implements org.gwtproject.uibinder.clie
       return heightMeasure;
     }
 
-    /**
-     * Getter for domId1 called 2 times. Type: DOM_ID_HOLDER. Build precedence: 2.
-     */
+    /** Getter for domId1 called 2 times. Type: DOM_ID_HOLDER. Build precedence: 2. */
     private java.lang.String domId1;
+
     private java.lang.String get_domId1() {
       return domId1;
     }
+
     private java.lang.String build_domId1() {
       // Creation section.
       domId1 = org.gwtproject.dom.client.Document.get().createUniqueId();
@@ -157,15 +184,15 @@ public class NotificationMole_BinderImpl implements org.gwtproject.uibinder.clie
       return domId1;
     }
 
-    /**
-     * Getter for notificationText called 1 times. Type: DEFAULT. Build precedence: 2.
-     */
+    /** Getter for notificationText called 1 times. Type: DEFAULT. Build precedence: 2. */
     private org.gwtproject.dom.client.Element get_notificationText() {
       return build_notificationText();
     }
+
     private org.gwtproject.dom.client.Element build_notificationText() {
       // Creation section.
-      final org.gwtproject.dom.client.Element notificationText = new org.gwtproject.uibinder.client.LazyDomElement(get_domId2()).get().cast();
+      final org.gwtproject.dom.client.Element notificationText =
+          new org.gwtproject.uibinder.client.LazyDomElement(get_domId2()).get().cast();
       // Setup section.
 
       this.owner.notificationText = notificationText.cast();
@@ -173,13 +200,13 @@ public class NotificationMole_BinderImpl implements org.gwtproject.uibinder.clie
       return notificationText;
     }
 
-    /**
-     * Getter for domId2 called 2 times. Type: DOM_ID_HOLDER. Build precedence: 2.
-     */
+    /** Getter for domId2 called 2 times. Type: DOM_ID_HOLDER. Build precedence: 2. */
     private java.lang.String domId2;
+
     private java.lang.String get_domId2() {
       return domId2;
     }
+
     private java.lang.String build_domId2() {
       // Creation section.
       domId2 = org.gwtproject.dom.client.Document.get().createUniqueId();

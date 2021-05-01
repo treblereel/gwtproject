@@ -15,6 +15,8 @@
  */
 package org.gwtproject.user.client.ui;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 import org.gwtproject.dom.client.DivElement;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
@@ -22,21 +24,17 @@ import org.gwtproject.safehtml.shared.SafeHtml;
 import org.gwtproject.safehtml.shared.annotations.IsSafeHtml;
 import org.gwtproject.safehtml.shared.annotations.SuppressIsSafeHtmlCastCheck;
 
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-
 /**
- * A panel that contains HTML, and which can attach child widgets to identified
- * elements within that HTML.
+ * A panel that contains HTML, and which can attach child widgets to identified elements within that
+ * HTML.
  */
 public class HTMLPanel extends ComplexPanel {
 
   private static Element hiddenDiv;
 
   /**
-   * A helper method for creating unique IDs for elements within dynamically-
-   * generated HTML. This is important because no two elements in a document
-   * should have the same id.
+   * A helper method for creating unique IDs for elements within dynamically- generated HTML. This
+   * is important because no two elements in a document should have the same id.
    *
    * @return a new unique identifier
    */
@@ -47,9 +45,8 @@ public class HTMLPanel extends ComplexPanel {
   /**
    * Creates an HTML panel that wraps an existing element.
    *
-   * This element must already be attached to the document. If the element is
-   * removed from the document, you must call
-   * {@link RootPanel#detachNow(Widget)}.
+   * <p>This element must already be attached to the document. If the element is removed from the
+   * document, you must call {@link RootPanel#detachNow(Widget)}.
    *
    * @param element the element to be wrapped
    */
@@ -67,9 +64,8 @@ public class HTMLPanel extends ComplexPanel {
   }
 
   /**
-   * Creates an HTML panel with the specified HTML contents inside a DIV
-   * element. Any element within this HTML that has a specified id can contain a
-   * child widget.
+   * Creates an HTML panel with the specified HTML contents inside a DIV element. Any element within
+   * this HTML that has a specified id can contain a child widget.
    *
    * @param html the panel's HTML
    */
@@ -86,7 +82,7 @@ public class HTMLPanel extends ComplexPanel {
   /**
    * Initializes the panel's HTML from a given {@link SafeHtml} object.
    *
-   * Similar to {@link #HTMLPanel(String)}
+   * <p>Similar to {@link #HTMLPanel(String)}
    *
    * @param safeHtml the html to set.
    */
@@ -95,9 +91,8 @@ public class HTMLPanel extends ComplexPanel {
   }
 
   /**
-   * Creates an HTML panel whose root element has the given tag, and with the
-   * specified HTML contents. Any element within this HTML that has a specified
-   * id can contain a child widget.
+   * Creates an HTML panel whose root element has the given tag, and with the specified HTML
+   * contents. Any element within this HTML that has a specified id can contain a child widget.
    *
    * @param tag the tag of the root element
    * @param html the panel's HTML
@@ -153,8 +148,7 @@ public class HTMLPanel extends ComplexPanel {
   }
 
   /**
-   * Adds a child widget to the panel, contained within the HTML element
-   * specified by a given id.
+   * Adds a child widget to the panel, contained within the HTML element specified by a given id.
    *
    * @param widget the widget to be added
    * @param id the id of the element within which it will be contained
@@ -170,9 +164,8 @@ public class HTMLPanel extends ComplexPanel {
   }
 
   /**
-   * Adds a child widget to the panel, contained within an HTML
-   * element.  It is up to the caller to ensure that the given element
-   * is a child of this panel's root element.
+   * Adds a child widget to the panel, contained within an HTML element. It is up to the caller to
+   * ensure that the given element is a child of this panel's root element.
    *
    * @param widget the widget to be added
    * @param elem the element within which it will be contained
@@ -243,8 +236,7 @@ public class HTMLPanel extends ComplexPanel {
   }
 
   /**
-   * Adds a child widget to the panel, replacing the HTML element specified by a
-   * given id.
+   * Adds a child widget to the panel, replacing the HTML element specified by a given id.
    *
    * @param widget the widget to be added
    * @param id the id of the element to be replaced by the widget
@@ -277,13 +269,11 @@ public class HTMLPanel extends ComplexPanel {
     this.addAndReplaceElement(widget.asWidget(), id);
   }
 
-
   /**
    * Finds an {@link Element element} within this panel by its id.
    *
-   * This method uses
-   * {@link Document#getElementById(String)}, so the
-   * id must still be unique within the document.
+   * <p>This method uses {@link Document#getElementById(String)}, so the id must still be unique
+   * within the document.
    *
    * @param id the id of the element to be found
    * @return the element with the given id, or <code>null</code> if none is found
@@ -294,10 +284,10 @@ public class HTMLPanel extends ComplexPanel {
   }
 
   /**
-   * Performs a {@link Document#getElementById(String)} after attaching the panel's
-   * element into a hidden DIV in the document's body. Attachment is necessary
-   * to be able to use the native getElementById. The panel's element will be
-   * re-attached to its original parent (if any) after the method returns.
+   * Performs a {@link Document#getElementById(String)} after attaching the panel's element into a
+   * hidden DIV in the document's body. Attachment is necessary to be able to use the native
+   * getElementById. The panel's element will be re-attached to its original parent (if any) after
+   * the method returns.
    *
    * @param id the id whose associated element is to be retrieved
    * @return the associated element, or <code>null</code> if none is found

@@ -18,21 +18,19 @@ package org.gwtproject.view.client;
 import java.util.List;
 
 /**
- * An implementation of {@link AbstractDataProvider} that allows the data to be
- * modified.
+ * An implementation of {@link AbstractDataProvider} that allows the data to be modified.
  *
  * <p>
+ *
  * <h3>Example</h3>
+ *
  * {@example com.google.gwt.examples.view.AsyncDataProviderExample}
- * </p>
  *
  * @param <T> the data type of records in the list
  */
 public abstract class AsyncDataProvider<T> extends AbstractDataProvider<T> {
 
-  /**
-   * Constructs an AsyncDataProvider without a key provider.
-   */
+  /** Constructs an AsyncDataProvider without a key provider. */
   protected AsyncDataProvider() {
     super(null);
   }
@@ -40,8 +38,8 @@ public abstract class AsyncDataProvider<T> extends AbstractDataProvider<T> {
   /**
    * Constructs an AsyncDataProvider with the given key provider.
    *
-   * @param keyProvider an instance of ProvidesKey<T>, or null if the record
-   *        object should act as its own key
+   * @param keyProvider an instance of ProvidesKey<T>, or null if the record object should act as
+   *     its own key
    */
   protected AsyncDataProvider(ProvidesKey<T> keyProvider) {
     super(keyProvider);

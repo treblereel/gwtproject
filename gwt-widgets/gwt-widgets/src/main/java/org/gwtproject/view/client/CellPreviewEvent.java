@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -21,36 +21,33 @@ import org.gwtproject.event.shared.Event;
 
 /**
  * Allows the previewing of events before they are fired to Cells.
- * 
+ *
  * @param <T> the data type of the {@link org.gwtproject.view.client.HasData} source
  */
 public class CellPreviewEvent<T> extends Event<CellPreviewEvent.Handler<T>> {
 
   /**
    * Handler for {@link CellPreviewEvent}.
-   * 
+   *
    * @param <T> the data type of the {@link org.gwtproject.view.client.HasData}
    */
   public static interface Handler<T> {
 
     /**
      * Called when {@link CellPreviewEvent} is fired.
-     * 
+     *
      * @param event the {@link CellPreviewEvent} that was fired
      */
     void onCellPreview(CellPreviewEvent<T> event);
   }
 
-  /**
-   * Handler type.
-   */
+  /** Handler type. */
   private static Type<Handler<?>> TYPE;
 
   /**
-   * Fires a cell preview event on all registered handlers in the handler
-   * manager. If no such handlers exist, this implementation will do nothing.
-   * This implementation sets the column to 0.
-   * 
+   * Fires a cell preview event on all registered handlers in the handler manager. If no such
+   * handlers exist, this implementation will do nothing. This implementation sets the column to 0.
+   *
    * @param <T> the old value type
    * @param source the source of the handlers
    * @param nativeEvent the event to preview
@@ -61,11 +58,17 @@ public class CellPreviewEvent<T> extends Event<CellPreviewEvent.Handler<T>> {
    * @param isSelectionHandled indicates whether or not selection is handled
    * @return the {@link CellPreviewEvent} that was fired
    */
-  public static <T> CellPreviewEvent<T> fire(org.gwtproject.view.client.HasCellPreviewHandlers<T> source,
-                                             NativeEvent nativeEvent, org.gwtproject.view.client.HasData<T> display, Context context, T value,
-                                             boolean isCellEditing, boolean isSelectionHandled) {
-    CellPreviewEvent<T> event = new CellPreviewEvent<T>(nativeEvent, display,
-        context, value, isCellEditing, isSelectionHandled);
+  public static <T> CellPreviewEvent<T> fire(
+      org.gwtproject.view.client.HasCellPreviewHandlers<T> source,
+      NativeEvent nativeEvent,
+      org.gwtproject.view.client.HasData<T> display,
+      Context context,
+      T value,
+      boolean isCellEditing,
+      boolean isSelectionHandled) {
+    CellPreviewEvent<T> event =
+        new CellPreviewEvent<T>(
+            nativeEvent, display, context, value, isCellEditing, isSelectionHandled);
     if (TYPE != null) {
       source.fireEvent(event);
     }
@@ -74,7 +77,7 @@ public class CellPreviewEvent<T> extends Event<CellPreviewEvent.Handler<T>> {
 
   /**
    * Gets the type associated with this event.
-   * 
+   *
    * @return returns the handler type
    */
   public static Type<Handler<?>> getType() {
@@ -94,7 +97,7 @@ public class CellPreviewEvent<T> extends Event<CellPreviewEvent.Handler<T>> {
 
   /**
    * Construct a new {@link CellPreviewEvent}.
-   * 
+   *
    * @param nativeEvent the event to preview
    * @param display the {@link org.gwtproject.view.client.HasData} source of the event
    * @param context the Cell {@link Context}
@@ -102,9 +105,13 @@ public class CellPreviewEvent<T> extends Event<CellPreviewEvent.Handler<T>> {
    * @param isCellEditing indicates whether or not the cell is being edited
    * @param isSelectionHandled indicates whether or not selection is handled
    */
-  protected CellPreviewEvent(NativeEvent nativeEvent, org.gwtproject.view.client.HasData<T> display,
-                             Context context, T value, boolean isCellEditing,
-                             boolean isSelectionHandled) {
+  protected CellPreviewEvent(
+      NativeEvent nativeEvent,
+      org.gwtproject.view.client.HasData<T> display,
+      Context context,
+      T value,
+      boolean isCellEditing,
+      boolean isSelectionHandled) {
     this.nativeEvent = nativeEvent;
     this.display = display;
     this.context = context;
@@ -122,9 +129,9 @@ public class CellPreviewEvent<T> extends Event<CellPreviewEvent.Handler<T>> {
   }
 
   /**
-   * Get the column index of the Cell where the event occurred if the source is
-   * a table. If the source is not a table, the column is always 0.
-   * 
+   * Get the column index of the Cell where the event occurred if the source is a table. If the
+   * source is not a table, the column is always 0.
+   *
    * @return the column index, or 0 if there is only one column
    */
   public int getColumn() {
@@ -133,44 +140,36 @@ public class CellPreviewEvent<T> extends Event<CellPreviewEvent.Handler<T>> {
 
   /**
    * Get the cell {@link Context}.
-   * 
+   *
    * @return the cell {@link Context}
    */
   public Context getContext() {
     return context;
   }
 
-  /**
-   * Get the {@link org.gwtproject.view.client.HasData} source of the event.
-   */
+  /** Get the {@link org.gwtproject.view.client.HasData} source of the event. */
   public org.gwtproject.view.client.HasData<T> getDisplay() {
     return display;
   }
 
-  /**
-   * Get the index of the value where the event occurred.
-   */
+  /** Get the index of the value where the event occurred. */
   public int getIndex() {
     return context.getIndex();
   }
 
-  /**
-   * Get the {@link NativeEvent} to preview.
-   */
+  /** Get the {@link NativeEvent} to preview. */
   public NativeEvent getNativeEvent() {
     return nativeEvent;
   }
 
-  /**
-   * Get the value where the event occurred.
-   */
+  /** Get the value where the event occurred. */
   public T getValue() {
     return value;
   }
 
   /**
    * Check if the event has been canceled.
-   * 
+   *
    * @return true if the event has been canceled
    * @see #setCanceled(boolean)
    */
@@ -180,7 +179,7 @@ public class CellPreviewEvent<T> extends Event<CellPreviewEvent.Handler<T>> {
 
   /**
    * Check whether or not the cell where the event occurred is being edited.
-   * 
+   *
    * @return true if the cell is being edited, false if not
    */
   public boolean isCellEditing() {
@@ -188,9 +187,8 @@ public class CellPreviewEvent<T> extends Event<CellPreviewEvent.Handler<T>> {
   }
 
   /**
-   * Check whether or not selection is being handled by the widget or one of its
-   * Cells.
-   * 
+   * Check whether or not selection is being handled by the widget or one of its Cells.
+   *
    * @return true if selection is handled by the widget
    */
   public boolean isSelectionHandled() {
@@ -199,7 +197,7 @@ public class CellPreviewEvent<T> extends Event<CellPreviewEvent.Handler<T>> {
 
   /**
    * Cancel the event and prevent it from firing to the Cell.
-   * 
+   *
    * @param cancel true to cancel the event, false to allow it
    */
   public void setCanceled(boolean cancel) {

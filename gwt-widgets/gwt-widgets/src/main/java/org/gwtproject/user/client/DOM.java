@@ -30,10 +30,9 @@ import org.gwtproject.user.client.ui.PotentialElement;
 import org.gwtproject.user.window.client.Window;
 
 /**
- * This class provides a set of static methods that allow you to manipulate the
- * browser's Document Object Model (DOM). It contains methods for manipulating
- * both {@link Element elements} and
- * {@link Event events}.
+ * This class provides a set of static methods that allow you to manipulate the browser's Document
+ * Object Model (DOM). It contains methods for manipulating both {@link Element elements} and {@link
+ * Event events}.
  */
 public class DOM {
 
@@ -44,10 +43,8 @@ public class DOM {
 
   /**
    * Appends one element to another's list of children.
-   * <p>
-   * If the child element is a {@link PotentialElement}, it is first
-   * resolved.
-   * </p>
+   *
+   * <p>If the child element is a {@link PotentialElement}, it is first resolved.
    *
    * @param parent the parent element
    * @param child its new child
@@ -72,8 +69,8 @@ public class DOM {
   }
 
   /**
-   * Compares two elements for equality. Note that this method is now deprecated
-   * because reference identity accurately reports equality.
+   * Compares two elements for equality. Note that this method is now deprecated because reference
+   * identity accurately reports equality.
    *
    * @param elem1 the first element to be compared
    * @param elem2 the second element to be compared
@@ -207,8 +204,7 @@ public class DOM {
   /**
    * Creates an HTML INPUT type='RADIO' element.
    *
-   * @param name the name of the group with which this radio button will be
-   *          associated
+   * @param name the name of the group with which this radio button will be associated
    * @return the newly-created element
    */
   public static Element createInputRadio(String name) {
@@ -255,8 +251,7 @@ public class DOM {
    * Creates an HTML OPTIONS element.
    *
    * @return the newly-created element
-   * @deprecated there is no "options" element; use {@link #createOption()}
-   *             instead
+   * @deprecated there is no "options" element; use {@link #createOption()} instead
    */
   @Deprecated
   public static Element createOptions() {
@@ -379,8 +374,8 @@ public class DOM {
   }
 
   /**
-   * Cancels bubbling for the given event. This will stop the event from being
-   * propagated to parent elements.
+   * Cancels bubbling for the given event. This will stop the event from being propagated to parent
+   * elements.
    *
    * @param evt the event on which to cancel bubbling
    * @param cancel <code>true</code> to cancel bubbling
@@ -405,8 +400,8 @@ public class DOM {
    * Gets the mouse buttons that were depressed when the given event occurred.
    *
    * @param evt the event to be tested
-   * @return a bit-field, defined by {@link Event#BUTTON_LEFT},
-   *         {@link Event#BUTTON_MIDDLE}, and {@link Event#BUTTON_RIGHT}
+   * @return a bit-field, defined by {@link Event#BUTTON_LEFT}, {@link Event#BUTTON_MIDDLE}, and
+   *     {@link Event#BUTTON_RIGHT}
    * @deprecated Use {@link Event#getButton()} instead.
    */
   @Deprecated
@@ -451,9 +446,9 @@ public class DOM {
   }
 
   /**
-   * Gets the current event that is being fired. The current event is only
-   * available within the lifetime of the onBrowserEvent function. Once the
-   * onBrowserEvent method returns, the current event is reset to null.
+   * Gets the current event that is being fired. The current event is only available within the
+   * lifetime of the onBrowserEvent function. Once the onBrowserEvent method returns, the current
+   * event is reset to null.
    *
    * @return the current event
    */
@@ -462,8 +457,8 @@ public class DOM {
   }
 
   /**
-   * Gets the current target element of the given event. This is the element
-   * whose listener fired last, not the element which fired the event initially.
+   * Gets the current target element of the given event. This is the element whose listener fired
+   * last, not the element which fired the event initially.
    *
    * @param evt the event
    * @return the event's current target element
@@ -474,8 +469,8 @@ public class DOM {
   }
 
   /**
-   * Gets the element from which the mouse pointer was moved (valid for
-   * {@link Event#ONMOUSEOVER} and {@link Event#ONMOUSEOUT}).
+   * Gets the element from which the mouse pointer was moved (valid for {@link Event#ONMOUSEOVER}
+   * and {@link Event#ONMOUSEOUT}).
    *
    * @param evt the event to be tested
    * @return the element from which the mouse pointer was moved
@@ -487,11 +482,9 @@ public class DOM {
   /**
    * Gets the key code associated with this event.
    *
-   * <p>
-   * For {@link Event#ONKEYPRESS}, this method returns the Unicode value of the
-   * character generated. For {@link Event#ONKEYDOWN} and {@link Event#ONKEYUP},
-   * it returns the code associated with the physical key.
-   * </p>
+   * <p>For {@link Event#ONKEYPRESS}, this method returns the Unicode value of the character
+   * generated. For {@link Event#ONKEYDOWN} and {@link Event#ONKEYUP}, it returns the code
+   * associated with the physical key.
    *
    * @param evt the event to be tested
    * @return the Unicode character or key code.
@@ -516,16 +509,13 @@ public class DOM {
   }
 
   /**
-   * Gets the velocity of the mouse wheel associated with the event along the Y
-   * axis.
-   * <p>
-   * The velocity of the event is an artificial measurement for relative
-   * comparisons of wheel activity. It is affected by some non-browser factors,
-   * including choice of input hardware and mouse acceleration settings. The
-   * sign of the velocity measurement agrees with the screen coordinate system;
-   * negative values are towards the origin and positive values are away from
-   * the origin. Standard scrolling speed is approximately ten units per event.
-   * </p>
+   * Gets the velocity of the mouse wheel associated with the event along the Y axis.
+   *
+   * <p>The velocity of the event is an artificial measurement for relative comparisons of wheel
+   * activity. It is affected by some non-browser factors, including choice of input hardware and
+   * mouse acceleration settings. The sign of the velocity measurement agrees with the screen
+   * coordinate system; negative values are towards the origin and positive values are away from the
+   * origin. Standard scrolling speed is approximately ten units per event.
    *
    * @param evt the event to be examined.
    * @return The velocity of the mouse wheel.
@@ -595,8 +585,8 @@ public class DOM {
   }
 
   /**
-   * Gets the element to which the mouse pointer was moved (only valid for
-   * {@link Event#ONMOUSEOUT} and {@link Event#ONMOUSEOVER}).
+   * Gets the element to which the mouse pointer was moved (only valid for {@link Event#ONMOUSEOUT}
+   * and {@link Event#ONMOUSEOVER}).
    *
    * @param evt the event to be tested
    * @return the element to which the mouse pointer was moved
@@ -643,8 +633,7 @@ public class DOM {
    *
    * @param evt the event whose key code is to be set
    * @param key the new key code
-   * @deprecated this method only works in IE and should not have been added to
-   *             the API
+   * @deprecated this method only works in IE and should not have been added to the API
    */
   @Deprecated
   public static void eventSetKeyCode(Event evt, char key) {
@@ -652,8 +641,8 @@ public class DOM {
   }
 
   /**
-   * Returns a stringized version of the event. This string is for debugging
-   * purposes and will NOT be consistent on different browsers.
+   * Returns a stringized version of the event. This string is for debugging purposes and will NOT
+   * be consistent on different browsers.
    *
    * @param evt the event to stringize
    * @return a string form of the event
@@ -665,8 +654,7 @@ public class DOM {
   }
 
   /**
-   * Gets an element's absolute left coordinate in the document's coordinate
-   * system.
+   * Gets an element's absolute left coordinate in the document's coordinate system.
    *
    * @param elem the element to be measured
    * @return the element's absolute left coordinate
@@ -678,8 +666,7 @@ public class DOM {
   }
 
   /**
-   * Gets an element's absolute top coordinate in the document's coordinate
-   * system.
+   * Gets an element's absolute top coordinate in the document's coordinate system.
    *
    * @param elem the element to be measured
    * @return the element's absolute top coordinate
@@ -696,8 +683,7 @@ public class DOM {
    * @param elem the element whose property is to be retrieved
    * @param attr the name of the property
    * @return the property's value
-   * @deprecated Use the more appropriately named
-   *             {@link Element#getPropertyString(String)} instead.
+   * @deprecated Use the more appropriately named {@link Element#getPropertyString(String)} instead.
    */
   @Deprecated
   public static String getAttribute(Element elem, String attr) {
@@ -710,8 +696,8 @@ public class DOM {
    * @param elem the element whose property is to be set
    * @param attr the name of the property to be set
    * @return the property's value as a boolean
-   * @deprecated Use the more appropriately named
-   *             {@link Element#getPropertyBoolean(String)} instead.
+   * @deprecated Use the more appropriately named {@link Element#getPropertyBoolean(String)}
+   *     instead.
    */
   @Deprecated
   public static boolean getBooleanAttribute(Element elem, String attr) {
@@ -721,8 +707,7 @@ public class DOM {
   /**
    * Gets the element that currently has mouse capture.
    *
-   * @return a handle to the capture element, or <code>null</code> if none
-   *         exists
+   * @return a handle to the capture element, or <code>null</code> if none exists
    */
   public static Element getCaptureElement() {
     return sCaptureElem;
@@ -754,8 +739,8 @@ public class DOM {
    *
    * @param parent the parent element
    * @param child the child element
-   * @return the child's index within its parent, or <code>-1</code> if it is
-   *         not a child of the given parent
+   * @return the child's index within its parent, or <code>-1</code> if it is not a child of the
+   *     given parent
    */
   public static int getChildIndex(Element parent, Element child) {
     return impl.getChildIndex(parent, child);
@@ -775,8 +760,7 @@ public class DOM {
   }
 
   /**
-   * Gets the element associated with the given unique id within the entire
-   * document.
+   * Gets the element associated with the given unique id within the entire document.
    *
    * @param id the id whose associated element is to be retrieved
    * @return the associated element, or <code>null</code> if none is found
@@ -825,8 +809,8 @@ public class DOM {
   }
 
   /**
-   * Gets the {@link EventListener} that will receive events for the given
-   * element. Only one such listener may exist for a single element.
+   * Gets the {@link EventListener} that will receive events for the given element. Only one such
+   * listener may exist for a single element.
    *
    * @param elem the element whose listener is to be set
    * @return the element's event listener
@@ -839,8 +823,8 @@ public class DOM {
    * Gets the current set of events sunk by a given element.
    *
    * @param elem the element whose events are to be retrieved
-   * @return a bitfield describing the events sunk on this element (its possible
-   *         values are described in {@link Event})
+   * @return a bitfield describing the events sunk on this element (its possible values are
+   *     described in {@link Event})
    */
   public static int getEventsSunk(Element elem) {
     return impl.getEventsSunk(elem);
@@ -857,15 +841,14 @@ public class DOM {
   }
 
   /**
-   * Gets the src attribute of an img element. This method is paired with
-   * {@link #setImgSrc(Element, String)} so that it always returns the correct
-   * url.
+   * Gets the src attribute of an img element. This method is paired with {@link #setImgSrc(Element,
+   * String)} so that it always returns the correct url.
    *
    * @param img a non-null img whose src attribute is to be read.
    * @return the src url of the img
    */
   public static String getImgSrc(Element img) {
-    return img.<ImageElement> cast().getSrc();
+    return img.<ImageElement>cast().getSrc();
   }
 
   /**
@@ -881,8 +864,8 @@ public class DOM {
   }
 
   /**
-   * Gets the text contained within an element. If the element has child
-   * elements, only the text between them will be retrieved.
+   * Gets the text contained within an element. If the element has child elements, only the text
+   * between them will be retrieved.
    *
    * @param elem the element whose inner text is to be retrieved
    * @return the text inside this element
@@ -899,8 +882,7 @@ public class DOM {
    * @param elem the element whose property is to be retrieved
    * @param attr the name of the property to be retrieved
    * @return the property's value as an integer
-   * @deprecated Use the more appropriately named
-   *             {@link Element#getPropertyInt(String)} instead.
+   * @deprecated Use the more appropriately named {@link Element#getPropertyInt(String)} instead.
    */
   @Deprecated
   public static int getIntAttribute(Element elem, String attr) {
@@ -945,8 +927,7 @@ public class DOM {
    * @param elem the element whose style attribute is to be retrieved
    * @param attr the name of the style attribute to be retrieved
    * @return the style attribute's value
-   * @deprecated Use {@link Element#getStyle()} and
-   *             {@link Style#getProperty(String)} instead.
+   * @deprecated Use {@link Element#getStyle()} and {@link Style#getProperty(String)} instead.
    */
   @Deprecated
   public static String getStyleAttribute(Element elem, String attr) {
@@ -954,17 +935,14 @@ public class DOM {
   }
 
   /**
-   * Inserts an element as a child of the given parent element, before another
-   * child of that parent.
-   * <p>
-   * If the child element is a {@link PotentialElement}, it is first
-   * resolved.
-   * </p>
+   * Inserts an element as a child of the given parent element, before another child of that parent.
+   *
+   * <p>If the child element is a {@link PotentialElement}, it is first resolved.
    *
    * @param parent the parent element
    * @param child the child element to add to <code>parent</code>
-   * @param before an existing child element of <code>parent</code> before which
-   *          <code>child</code> will be inserted
+   * @param before an existing child element of <code>parent</code> before which <code>child</code>
+   *     will be inserted
    * @see PotentialElement#resolve(Element)
    */
   public static void insertBefore(Element parent, Element child, Element before) {
@@ -977,16 +955,13 @@ public class DOM {
 
   /**
    * Inserts an element as a child of the given parent element.
-   * <p>
-   * If the child element is a {@link PotentialElement}, it is first
-   * resolved.
-   * </p>
+   *
+   * <p>If the child element is a {@link PotentialElement}, it is first resolved.
    *
    * @param parent the parent element
    * @param child the child element to add to <code>parent</code>
-   * @param index the index before which the child will be inserted (any value
-   *          greater than the number of existing children will cause the child
-   *          to be appended)
+   * @param index the index before which the child will be inserted (any value greater than the
+   *     number of existing children will cause the child to be appended)
    * @see PotentialElement#resolve(Element)
    */
   public static void insertChild(Element parent, Element child, int index) {
@@ -998,19 +973,17 @@ public class DOM {
   }
 
   /**
-   * Creates an <code>&lt;option&gt;</code> element and inserts it as a child of
-   * the specified <code>&lt;select&gt;</code> element. If the index is less
-   * than zero, or greater than or equal to the length of the list, then the
-   * option element will be appended to the end of the list.
+   * Creates an <code>&lt;option&gt;</code> element and inserts it as a child of the specified
+   * <code>&lt;select&gt;</code> element. If the index is less than zero, or greater than or equal
+   * to the length of the list, then the option element will be appended to the end of the list.
    *
    * @param selectElem the <code>&lt;select&gt;</code> element
    * @param item the text of the new item; cannot be <code>null</code>
-   * @param value the <code>value</code> attribute for the new
-   *          <code>&lt;option&gt;</code>; cannot be <code>null</code>
+   * @param value the <code>value</code> attribute for the new <code>&lt;option&gt;</code>; cannot
+   *     be <code>null</code>
    * @param index the index at which to insert the child
    */
-  public static void insertListItem(Element selectElem, String item,
-                                    String value, int index) {
+  public static void insertListItem(Element selectElem, String item, String value, int index) {
     assert !isPotential(selectElem) : "Cannot insert into a PotentialElement";
 
     SelectElement select = selectElem.cast();
@@ -1028,7 +1001,7 @@ public class DOM {
 
   public static boolean isPotential(JavaScriptObject o) {
     try {
-      return (o != null) &&  Js.asPropertyMap(o).has("__gwt_resolve");
+      return (o != null) && Js.asPropertyMap(o).has("__gwt_resolve");
     } catch (Exception e) {
 
     }
@@ -1036,9 +1009,9 @@ public class DOM {
   }
 
   private static Element resolve(Element maybePotential) {
-    if((Js.asPropertyMap(maybePotential).has("__gwt_resolve"))) {
-      return (Element)Js.asPropertyMap(maybePotential).get("__gwt_resolve");
-    }else {
+    if ((Js.asPropertyMap(maybePotential).has("__gwt_resolve"))) {
+      return (Element) Js.asPropertyMap(maybePotential).get("__gwt_resolve");
+    } else {
       return maybePotential;
     }
   }
@@ -1056,9 +1029,8 @@ public class DOM {
   }
 
   /**
-   * Releases mouse/touch/gesture capture on the given element. Calling this
-   * method has no effect if the element does not currently have
-   * mouse/touch/gesture capture.
+   * Releases mouse/touch/gesture capture on the given element. Calling this method has no effect if
+   * the element does not currently have mouse/touch/gesture capture.
    *
    * @param elem the element to release capture
    * @see #setCapture(Element)
@@ -1097,12 +1069,9 @@ public class DOM {
   /**
    * Scrolls the given element into view.
    *
-   * <p>
-   * This method crawls up the DOM hierarchy, adjusting the scrollLeft and
-   * scrollTop properties of each scrollable element to ensure that the
-   * specified element is completely in view. It adjusts each scroll position by
-   * the minimum amount necessary.
-   * </p>
+   * <p>This method crawls up the DOM hierarchy, adjusting the scrollLeft and scrollTop properties
+   * of each scrollable element to ensure that the specified element is completely in view. It
+   * adjusts each scroll position by the minimum amount necessary.
    *
    * @param elem the element to be made visible
    * @deprecated Use {@link Element#scrollIntoView()} instead.
@@ -1118,8 +1087,8 @@ public class DOM {
    * @param elem the element whose property is to be set
    * @param attr the name of the property to be set
    * @param value the new property value
-   * @deprecated Use the more appropriately named
-   *             {@link Element#setPropertyString(String, String)} instead.
+   * @deprecated Use the more appropriately named {@link Element#setPropertyString(String, String)}
+   *     instead.
    */
   @Deprecated
   public static void setAttribute(Element elem, String attr, String value) {
@@ -1132,20 +1101,17 @@ public class DOM {
    * @param elem the element whose property is to be set
    * @param attr the name of the property to be set
    * @param value the property's new boolean value
-   * @deprecated Use the more appropriately named
-   *             {@link Element#setPropertyBoolean(String, boolean)}
-   *             instead.
+   * @deprecated Use the more appropriately named {@link Element#setPropertyBoolean(String,
+   *     boolean)} instead.
    */
   @Deprecated
-  public static void setBooleanAttribute(Element elem, String attr,
-                                         boolean value) {
+  public static void setBooleanAttribute(Element elem, String attr, boolean value) {
     elem.setPropertyBoolean(attr, value);
   }
 
   /**
-   * Sets mouse/touch/gesture capture on the given element. This element will
-   * directly receive all mouse events until {@link #releaseCapture(Element)} is
-   * called on it.
+   * Sets mouse/touch/gesture capture on the given element. This element will directly receive all
+   * mouse events until {@link #releaseCapture(Element)} is called on it.
    *
    * @param elem the element on which to set mouse/touch/gesture capture
    */
@@ -1189,8 +1155,7 @@ public class DOM {
    * @deprecated Use {@link Element#setPropertyBoolean(String, boolean)} instead.
    */
   @Deprecated
-  public static void setElementPropertyBoolean(Element elem, String prop,
-                                               boolean value) {
+  public static void setElementPropertyBoolean(Element elem, String prop, boolean value) {
     elem.setPropertyBoolean(prop, value);
   }
 
@@ -1208,8 +1173,8 @@ public class DOM {
   }
 
   /**
-   * Sets the {@link EventListener} to receive events for the given element.
-   * Only one such listener may exist for a single element.
+   * Sets the {@link EventListener} to receive events for the given element. Only one such listener
+   * may exist for a single element.
    *
    * @param elem the element whose listener is to be set
    * @param listener the listener to receive {@link Event events}
@@ -1219,14 +1184,14 @@ public class DOM {
   }
 
   /**
-   * Sets the src attribute of an img element. This method ensures that imgs
-   * only ever have their contents requested one single time from the server.
+   * Sets the src attribute of an img element. This method ensures that imgs only ever have their
+   * contents requested one single time from the server.
    *
    * @param img a non-null img whose src attribute will be set.
    * @param src a non-null url for the img
    */
   public static void setImgSrc(Element img, String src) {
-    img.<ImageElement> cast().setSrc(src);
+    img.<ImageElement>cast().setSrc(src);
   }
 
   /**
@@ -1242,8 +1207,8 @@ public class DOM {
   }
 
   /**
-   * Sets the text contained within an element. If the element already has
-   * children, they will be destroyed.
+   * Sets the text contained within an element. If the element already has children, they will be
+   * destroyed.
    *
    * @param elem the element whose inner text is to be set
    * @param text the new text
@@ -1260,8 +1225,8 @@ public class DOM {
    * @param elem the element whose property is to be set
    * @param attr the name of the property to be set
    * @param value the property's new integer value
-   * @deprecated Use the more appropriately named
-   *             {@link Element#setPropertyInt(String, int)} instead.
+   * @deprecated Use the more appropriately named {@link Element#setPropertyInt(String, int)}
+   *     instead.
    */
   @Deprecated
   public static void setIntAttribute(Element elem, String attr, int value) {
@@ -1287,7 +1252,7 @@ public class DOM {
    * @param index the index of the option whose text should be set
    */
   public static void setOptionText(Element select, String text, int index) {
-    select.<SelectElement> cast().getOptions().getItem(index).setText(text);
+    select.<SelectElement>cast().getOptions().getItem(index).setText(text);
   }
 
   /**
@@ -1296,8 +1261,8 @@ public class DOM {
    * @param elem the element whose style attribute is to be set
    * @param attr the name of the style attribute to be set
    * @param value the style attribute's new value
-   * @deprecated Use {@link Element#getStyle()} and
-   *             {@link Style#setProperty(String, String)} instead.
+   * @deprecated Use {@link Element#getStyle()} and {@link Style#setProperty(String, String)}
+   *     instead.
    */
   @Deprecated
   public static void setStyleAttribute(Element elem, String attr, String value) {
@@ -1305,8 +1270,8 @@ public class DOM {
   }
 
   /**
-   * Sinks a named event. Events will be fired to the nearest
-   * {@link EventListener} specified on any of the element's parents.
+   * Sinks a named event. Events will be fired to the nearest {@link EventListener} specified on any
+   * of the element's parents.
    *
    * @param elem the element whose events are to be retrieved
    * @param eventTypeName name of the event to sink on this element
@@ -1316,21 +1281,20 @@ public class DOM {
   }
 
   /**
-   * Sets the current set of events sunk by a given element. These events will
-   * be fired to the nearest {@link EventListener} specified on any of the
-   * element's parents.
+   * Sets the current set of events sunk by a given element. These events will be fired to the
+   * nearest {@link EventListener} specified on any of the element's parents.
    *
    * @param elem the element whose events are to be retrieved
-   * @param eventBits a bitfield describing the events sunk on this element (its
-   *          possible values are described in {@link Event})
+   * @param eventBits a bitfield describing the events sunk on this element (its possible values are
+   *     described in {@link Event})
    */
   public static void sinkEvents(Element elem, int eventBits) {
     impl.sinkEvents(elem, eventBits);
   }
 
   /**
-   * Returns a stringized version of the element. This string is for debugging
-   * purposes and will NOT be consistent on different browsers.
+   * Returns a stringized version of the element. This string is for debugging purposes and will NOT
+   * be consistent on different browsers.
    *
    * @param elem the element to stringize
    * @return a string form of the element
@@ -1341,17 +1305,13 @@ public class DOM {
     return elem.getString();
   }
 
-  /**
-   * @deprecated As of GWT 1.5, replaced by {@link Window#getClientHeight()}
-   */
+  /** @deprecated As of GWT 1.5, replaced by {@link Window#getClientHeight()} */
   @Deprecated
   public static int windowGetClientHeight() {
     return Window.getClientHeight();
   }
 
-  /**
-   * @deprecated As of GWT 1.5, replaced by {@link Window#getClientWidth()}
-   */
+  /** @deprecated As of GWT 1.5, replaced by {@link Window#getClientWidth()} */
   @Deprecated
   public static int windowGetClientWidth() {
     return Window.getClientWidth();
@@ -1362,8 +1322,7 @@ public class DOM {
    *
    * @param evt the handle to the event being fired.
    * @param elem the handle to the element that received the event.
-   * @param listener the listener associated with the element that received the
-   *          event.
+   * @param listener the listener associated with the element that received the event.
    */
   public static void dispatchEvent(Event evt, Element elem, EventListener listener) {
     // Preserve the current event in case we are in a reentrant event dispatch.
@@ -1392,16 +1351,13 @@ public class DOM {
     return true;
   }
 
-  /**
-   * Initialize the event system if it has not already been initialized.
-   */
+  /** Initialize the event system if it has not already been initialized. */
   static void maybeInitializeEventSystem() {
     impl.maybeInitializeEventSystem();
   }
 
   /**
-   * This method is called directly by native code when event preview is being
-   * used.
+   * This method is called directly by native code when event preview is being used.
    *
    * @param evt a handle to the event being previewed
    * @return <code>false</code> to cancel the event
@@ -1419,9 +1375,8 @@ public class DOM {
     return ret;
   }
 
-  private static void dispatchEventImpl(Event evt, Element elem,
-                                        EventListener listener) {
-      // If this element has capture...
+  private static void dispatchEventImpl(Event evt, Element elem, EventListener listener) {
+    // If this element has capture...
     if (elem == sCaptureElem) {
       // ... and it's losing capture, clear sCaptureElem.
       if (eventGetType(evt) == Event.ONLOSECAPTURE) {
@@ -1432,5 +1387,4 @@ public class DOM {
     // Pass the event to the listener.
     listener.onBrowserEvent(evt);
   }
-
 }

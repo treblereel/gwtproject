@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -23,38 +23,31 @@ import org.gwtproject.dom.style.shared.Overflow;
 import org.gwtproject.user.client.DOM;
 
 /**
- * Implementation class used by {@link org.gwtproject.user.client.ui.PopupPanel}.
- * This implementation is identical to the implementation provided by
- * {@link PopupImpl} in the case where
+ * Implementation class used by {@link org.gwtproject.user.client.ui.PopupPanel}. This
+ * implementation is identical to the implementation provided by {@link PopupImpl} in the case where
  * Mozilla is NOT running on the Mac.
- * <p>
- * A different implementation is provided for the Mac in order to prevent
- * scrollbars underneath the PopupPanel from being rendered on top of the
- * PopupPanel (issue #410). Unfortunately, the solution that fixes this problem
- * for the Mac causes a problem with dragging a
- * {@link org.gwtproject.user.client.ui.DialogBox} on Linux. While dragging the
- * DialogBox (especially diagonally), it jitters significantly.
- * </p>
- * <p>
- * We did not introduce a deferred binding rule for Mozilla on the Mac because
- * this is the first instance in which we have a Mozilla-related bug fix which
- * does not work on all platforms.
- * </p>
- * <p>
- * This implementation can be simplified in the event that the jittering problem
- * on Linux is fixed, or the scrollbar rendering problem on the Mac is fixed.
- * </p>
+ *
+ * <p>A different implementation is provided for the Mac in order to prevent scrollbars underneath
+ * the PopupPanel from being rendered on top of the PopupPanel (issue #410). Unfortunately, the
+ * solution that fixes this problem for the Mac causes a problem with dragging a {@link
+ * org.gwtproject.user.client.ui.DialogBox} on Linux. While dragging the DialogBox (especially
+ * diagonally), it jitters significantly.
+ *
+ * <p>We did not introduce a deferred binding rule for Mozilla on the Mac because this is the first
+ * instance in which we have a Mozilla-related bug fix which does not work on all platforms.
+ *
+ * <p>This implementation can be simplified in the event that the jittering problem on Linux is
+ * fixed, or the scrollbar rendering problem on the Mac is fixed.
  */
 public class PopupImplMozilla extends PopupImpl {
 
-  /**
-   * Cache the value to avoid repeated calls.
-   */
+  /** Cache the value to avoid repeated calls. */
   private static boolean isFF2Mac = isFF2Mac();
-  
+
   private static boolean isFF2Mac() {
     throw new UnsupportedOperationException();
   }
+
   @Override
   public Element createElement() {
     final Element outerElem = DOM.createDiv();
@@ -81,11 +74,13 @@ public class PopupImplMozilla extends PopupImpl {
       // 'overflow:auto' after all of the elements on the page have been
       // rendered,
       // the PopupPanel becomes the highest element in the stacking order.
-      Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-        public void execute() {
-          outerElem.getStyle().setOverflow(Overflow.AUTO);
-        }
-      });
+      Scheduler.get()
+          .scheduleDeferred(
+              new ScheduledCommand() {
+                public void execute() {
+                  outerElem.getStyle().setOverflow(Overflow.AUTO);
+                }
+              });
     }
 
     return outerElem;

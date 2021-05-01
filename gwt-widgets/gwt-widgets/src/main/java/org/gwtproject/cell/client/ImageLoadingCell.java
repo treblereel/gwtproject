@@ -30,27 +30,25 @@ import org.gwtproject.text.shared.SafeHtmlRenderer;
 import org.gwtproject.user.client.ui.AbstractImagePrototype;
 
 /**
- * An {@link org.gwtproject.cell.client.AbstractCell} used to render an image. A loading indicator is used
- * until the image is fully loaded. The String value is the url of the image.
+ * An {@link org.gwtproject.cell.client.AbstractCell} used to render an image. A loading indicator
+ * is used until the image is fully loaded. The String value is the url of the image.
  */
 public class ImageLoadingCell extends org.gwtproject.cell.client.AbstractCell<String> {
 
-  /**
-   * The renderers used by this cell.
-   */
+  /** The renderers used by this cell. */
   public interface Renderers {
 
     /**
-     * Get the renderer used to render an error message when the image does not
-     * load. By default, the broken image is rendered.
+     * Get the renderer used to render an error message when the image does not load. By default,
+     * the broken image is rendered.
      *
      * @return the {@link SafeHtmlRenderer} used when the image doesn't load
      */
     SafeHtmlRenderer<String> getErrorRenderer();
 
     /**
-     * Get the renderer used to render the image. This renderer must render an
-     * <code>img</code> element, which triggers the <code>load</code> or <code>
+     * Get the renderer used to render the image. This renderer must render an <code>img</code>
+     * element, which triggers the <code>load</code> or <code>
      * error</code> event that this cell handles.
      *
      * @return the {@link SafeHtmlRenderer} used to render the image
@@ -58,8 +56,8 @@ public class ImageLoadingCell extends org.gwtproject.cell.client.AbstractCell<St
     SafeHtmlRenderer<String> getImageRenderer();
 
     /**
-     * Get the renderer used to render a loading message. By default, an
-     * animated loading icon is rendered.
+     * Get the renderer used to render a loading message. By default, an animated loading icon is
+     * rendered.
      *
      * @return the {@link SafeHtmlRenderer} used to render the loading html
      */
@@ -77,9 +75,7 @@ public class ImageLoadingCell extends org.gwtproject.cell.client.AbstractCell<St
     SafeHtml loading(SafeHtml loadingHtml);
   }
 
-  /**
-   * The default {@link SafeHtmlRenderer SafeHtmlRenderers}.
-   */
+  /** The default {@link SafeHtmlRenderer SafeHtmlRenderers}. */
   public static class DefaultRenderers implements Renderers {
 
     private static SafeHtmlRenderer<String> IMAGE_RENDERER;
@@ -87,21 +83,23 @@ public class ImageLoadingCell extends org.gwtproject.cell.client.AbstractCell<St
 
     public DefaultRenderers() {
       if (IMAGE_RENDERER == null) {
-        IMAGE_RENDERER = new AbstractSafeHtmlRenderer<String>() {
-          public SafeHtml render(String object) {
-            return Template.INSTANCE.img(object);
-          }
-        };
+        IMAGE_RENDERER =
+            new AbstractSafeHtmlRenderer<String>() {
+              public SafeHtml render(String object) {
+                return Template.INSTANCE.img(object);
+              }
+            };
       }
       if (LOADING_RENDERER == null) {
         Resources resources = new ImageLoadingCell_ResourcesImpl();
         ImageResource res = resources.loading();
         final SafeHtml loadingHtml = AbstractImagePrototype.create(res).getSafeHtml();
-        LOADING_RENDERER = new AbstractSafeHtmlRenderer<String>() {
-          public SafeHtml render(String object) {
-            return loadingHtml;
-          }
-        };
+        LOADING_RENDERER =
+            new AbstractSafeHtmlRenderer<String>() {
+              public SafeHtml render(String object) {
+                return loadingHtml;
+              }
+            };
       }
     }
 
@@ -134,9 +132,7 @@ public class ImageLoadingCell extends org.gwtproject.cell.client.AbstractCell<St
     }
   }
 
-  /**
-   * The images used by the {@link DefaultRenderers}.
-   */
+  /** The images used by the {@link DefaultRenderers}. */
   interface Resources extends ClientBundle {
     Resources INSTANCE = new ImageLoadingCell_ResourcesImpl();
 
@@ -148,23 +144,20 @@ public class ImageLoadingCell extends org.gwtproject.cell.client.AbstractCell<St
   private final SafeHtmlRenderer<String> loadingRenderer;
 
   /**
-   * <p>
-   * Construct an {@link org.gwtproject.cell.client.ImageResourceCell} using the {@link DefaultRenderers}.
-   * </p>
-   * <p>
-   * The {@link DefaultRenderers} will be constructed using
-   * {@link GWT#create(Class)}, which allows you to replace the class using a
-   * deferred binding.
-   * </p>
+   * Construct an {@link org.gwtproject.cell.client.ImageResourceCell} using the {@link
+   * DefaultRenderers}.
+   *
+   * <p>The {@link DefaultRenderers} will be constructed using {@link GWT#create(Class)}, which
+   * allows you to replace the class using a deferred binding.
    */
   public ImageLoadingCell() {
     this(new DefaultRenderers());
   }
 
   /**
-   * Construct an {@link org.gwtproject.cell.client.ImageResourceCell} using the specified
-   * {@link SafeHtmlRenderer SafeHtmlRenderers}.
-   * 
+   * Construct an {@link org.gwtproject.cell.client.ImageResourceCell} using the specified {@link
+   * SafeHtmlRenderer SafeHtmlRenderers}.
+   *
    * @param renderers an instance of {@link ImageLoadingCell.Renderers Renderers}
    */
   public ImageLoadingCell(Renderers renderers) {
@@ -175,8 +168,12 @@ public class ImageLoadingCell extends org.gwtproject.cell.client.AbstractCell<St
   }
 
   @Override
-  public void onBrowserEvent(Context context, Element parent, String value,
-                             NativeEvent event, org.gwtproject.cell.client.ValueUpdater<String> valueUpdater) {
+  public void onBrowserEvent(
+      Context context,
+      Element parent,
+      String value,
+      NativeEvent event,
+      org.gwtproject.cell.client.ValueUpdater<String> valueUpdater) {
     // The loading indicator can fire its own load or error event, so we check
     // that the event actually occurred on the main image.
     String type = event.getType();
@@ -206,8 +203,7 @@ public class ImageLoadingCell extends org.gwtproject.cell.client.AbstractCell<St
   }
 
   /**
-   * Check whether or not an event occurred within the wrapper around the image
-   * element.
+   * Check whether or not an event occurred within the wrapper around the image element.
    *
    * @param event the event
    * @param parent the parent element

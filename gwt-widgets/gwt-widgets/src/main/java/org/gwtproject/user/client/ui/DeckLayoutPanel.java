@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -23,29 +23,24 @@ import org.gwtproject.layout.client.Layout.AnimationCallback;
 import org.gwtproject.layout.client.Layout.Layer;
 
 /**
- * A panel that displays all of its child widgets in a 'deck', where only one
- * can be visible at a time. It is used by
- * {@link TabLayoutPanel}.
- * 
- * <p>
- * This widget will <em>only</em> work in standards mode, which requires that
- * the HTML page in which it is run have an explicit &lt;!DOCTYPE&gt;
- * declaration.
- * </p>
- * 
- * <p>
- * Once a widget has been added to a DeckPanel, its visibility, width, and
- * height attributes will be manipulated. When the widget is removed from the
- * DeckPanel, it will be visible, and its width and height attributes will be
- * cleared.
- * </p>
+ * A panel that displays all of its child widgets in a 'deck', where only one can be visible at a
+ * time. It is used by {@link TabLayoutPanel}.
+ *
+ * <p>This widget will <em>only</em> work in standards mode, which requires that the HTML page in
+ * which it is run have an explicit &lt;!DOCTYPE&gt; declaration.
+ *
+ * <p>Once a widget has been added to a DeckPanel, its visibility, width, and height attributes will
+ * be manipulated. When the widget is removed from the DeckPanel, it will be visible, and its width
+ * and height attributes will be cleared.
  */
-public class DeckLayoutPanel extends ComplexPanel implements AnimatedLayout,
-    RequiresResize, ProvidesResize, InsertPanel.ForIsWidget, AcceptsOneWidget {
+public class DeckLayoutPanel extends ComplexPanel
+    implements AnimatedLayout,
+        RequiresResize,
+        ProvidesResize,
+        InsertPanel.ForIsWidget,
+        AcceptsOneWidget {
 
-  /**
-   * {@link LayoutCommand} used by this widget.
-   */
+  /** {@link LayoutCommand} used by this widget. */
   private class DeckAnimateCommand extends LayoutCommand {
     public DeckAnimateCommand(Layout layout) {
       super(layout);
@@ -53,22 +48,24 @@ public class DeckLayoutPanel extends ComplexPanel implements AnimatedLayout,
 
     @Override
     public void schedule(int duration, final AnimationCallback callback) {
-      super.schedule(duration, new AnimationCallback() {
-        @Override
-        public void onAnimationComplete() {
-          DeckLayoutPanel.this.doAfterLayout();
-          if (callback != null) {
-            callback.onAnimationComplete();
-          }
-        }
+      super.schedule(
+          duration,
+          new AnimationCallback() {
+            @Override
+            public void onAnimationComplete() {
+              DeckLayoutPanel.this.doAfterLayout();
+              if (callback != null) {
+                callback.onAnimationComplete();
+              }
+            }
 
-        @Override
-        public void onLayout(Layer layer, double progress) {
-          if (callback != null) {
-            callback.onLayout(layer, progress);
-          }
-        }
-      });
+            @Override
+            public void onLayout(Layer layer, double progress) {
+              if (callback != null) {
+                callback.onLayout(layer, progress);
+              }
+            }
+          });
     }
 
     @Override
@@ -85,9 +82,7 @@ public class DeckLayoutPanel extends ComplexPanel implements AnimatedLayout,
   private final LayoutCommand layoutCmd;
   private Widget visibleWidget;
 
-  /**
-   * Creates an empty deck panel.
-   */
+  /** Creates an empty deck panel. */
   public DeckLayoutPanel() {
     setElement(Document.get().createDivElement());
     layout = new Layout(getElement());
@@ -120,7 +115,7 @@ public class DeckLayoutPanel extends ComplexPanel implements AnimatedLayout,
 
   /**
    * Get the duration of the animated transition between tabs.
-   * 
+   *
    * @return the duration in milliseconds
    */
   public int getAnimationDuration() {
@@ -129,7 +124,7 @@ public class DeckLayoutPanel extends ComplexPanel implements AnimatedLayout,
 
   /**
    * Gets the currently-visible widget.
-   * 
+   *
    * @return the visible widget, or null if not visible
    */
   public Widget getVisibleWidget() {
@@ -138,7 +133,7 @@ public class DeckLayoutPanel extends ComplexPanel implements AnimatedLayout,
 
   /**
    * Gets the index of the currently-visible widget.
-   * 
+   *
    * @return the visible widget's index
    */
   public int getVisibleWidgetIndex() {
@@ -152,19 +147,16 @@ public class DeckLayoutPanel extends ComplexPanel implements AnimatedLayout,
 
   @Override
   public void insert(Widget widget, int beforeIndex) {
-    Widget before = (beforeIndex < getWidgetCount()) ? getWidget(beforeIndex)
-        : null;
+    Widget before = (beforeIndex < getWidgetCount()) ? getWidget(beforeIndex) : null;
     insert(widget, before);
   }
 
   /**
-   * Insert a widget before the specified widget. If the widget is already a
-   * child of this panel, this method behaves as though {@link #remove(Widget)}
-   * had already been called.
-   * 
+   * Insert a widget before the specified widget. If the widget is already a child of this panel,
+   * this method behaves as though {@link #remove(Widget)} had already been called.
+   *
    * @param widget the widget to be added
-   * @param before the widget before which to insert the new child, or
-   *          <code>null</code> to append
+   * @param before the widget before which to insert the new child, or <code>null</code> to append
    */
   public void insert(Widget widget, Widget before) {
     assertIsChild(before);
@@ -182,8 +174,9 @@ public class DeckLayoutPanel extends ComplexPanel implements AnimatedLayout,
     }
 
     // Physical attach.
-    Layer layer = layout.attachChild(widget.getElement(), (before != null)
-        ? before.getElement() : null, widget);
+    Layer layer =
+        layout.attachChild(
+            widget.getElement(), (before != null) ? before.getElement() : null, widget);
     setWidgetVisible(widget, layer, false);
     widget.setLayoutData(layer);
 
@@ -195,9 +188,8 @@ public class DeckLayoutPanel extends ComplexPanel implements AnimatedLayout,
   }
 
   /**
-   * Check whether or not transitions slide in vertically or horizontally.
-   * Defaults to horizontally.
-   * 
+   * Check whether or not transitions slide in vertically or horizontally. Defaults to horizontally.
+   *
    * @return true for vertical transitions, false for horizontal
    */
   public boolean isAnimationVertical() {
@@ -236,7 +228,7 @@ public class DeckLayoutPanel extends ComplexPanel implements AnimatedLayout,
 
   /**
    * Set the duration of the animated transition between tabs.
-   * 
+   *
    * @param duration the duration in milliseconds.
    */
   public void setAnimationDuration(int duration) {
@@ -245,7 +237,7 @@ public class DeckLayoutPanel extends ComplexPanel implements AnimatedLayout,
 
   /**
    * Set whether or not transitions slide in vertically or horizontally.
-   * 
+   *
    * @param isVertical true for vertical transitions, false for horizontal
    */
   public void setAnimationVertical(boolean isVertical) {
@@ -253,10 +245,9 @@ public class DeckLayoutPanel extends ComplexPanel implements AnimatedLayout,
   }
 
   /**
-   * Show the specified widget. If the widget is not a child of this panel, it
-   * is added to the end of the panel. If the specified widget is null, the
-   * currently-visible widget will be hidden.
-   * 
+   * Show the specified widget. If the widget is not a child of this panel, it is added to the end
+   * of the panel. If the specified widget is null, the currently-visible widget will be hidden.
+   *
    * @param w the widget to show, and add if not a child
    */
   @Override
@@ -277,9 +268,9 @@ public class DeckLayoutPanel extends ComplexPanel implements AnimatedLayout,
   }
 
   /**
-   * Shows the widget at the specified index. This causes the currently- visible
-   * widget to be hidden.
-   * 
+   * Shows the widget at the specified index. This causes the currently- visible widget to be
+   * hidden.
+   *
    * @param index the index of the widget to be shown
    */
   public void showWidget(int index) {
@@ -288,9 +279,9 @@ public class DeckLayoutPanel extends ComplexPanel implements AnimatedLayout,
   }
 
   /**
-   * Shows the widget at the specified index. This causes the currently- visible
-   * widget to be hidden.
-   * 
+   * Shows the widget at the specified index. This causes the currently- visible widget to be
+   * hidden.
+   *
    * @param widget the widget to be shown
    */
   public void showWidget(Widget widget) {
@@ -317,16 +308,15 @@ public class DeckLayoutPanel extends ComplexPanel implements AnimatedLayout,
 
   /**
    * Assert that the specified widget is null or a child of this widget.
-   * 
+   *
    * @param widget the widget to check
    */
   void assertIsChild(Widget widget) {
-    assert (widget == null) || (widget.getParent() == this) : "The specified widget is not a child of this panel";
+    assert (widget == null) || (widget.getParent() == this)
+        : "The specified widget is not a child of this panel";
   }
 
-  /**
-   * Hide the widget that just slid out of view.
-   */
+  /** Hide the widget that just slid out of view. */
   private void doAfterLayout() {
     if (hidingWidget != null) {
       Layer layer = (Layer) hidingWidget.getLayoutData();
@@ -336,22 +326,18 @@ public class DeckLayoutPanel extends ComplexPanel implements AnimatedLayout,
     }
   }
 
-  /**
-   * Initialize the location of the widget that will slide into view.
-   */
+  /** Initialize the location of the widget that will slide into view. */
   private void doBeforeLayout() {
-    Layer oldLayer = (lastVisibleWidget == null) ? null
-        : (Layer) lastVisibleWidget.getLayoutData();
-    Layer newLayer = (visibleWidget == null) ? null
-        : (Layer) visibleWidget.getLayoutData();
+    Layer oldLayer = (lastVisibleWidget == null) ? null : (Layer) lastVisibleWidget.getLayoutData();
+    Layer newLayer = (visibleWidget == null) ? null : (Layer) visibleWidget.getLayoutData();
 
     // Calculate the direction that the new widget will enter.
     int oldIndex = getWidgetIndex(lastVisibleWidget);
     int newIndex = getWidgetIndex(visibleWidget);
     double direction = (oldIndex < newIndex) ? 100.0 : -100.0;
     double vDirection = isAnimationVertical ? direction : 0.0;
-    double hDirection = isAnimationVertical ? 0.0
-        : LocaleInfo.getCurrentLocale().isRTL() ? -direction : direction;
+    double hDirection =
+        isAnimationVertical ? 0.0 : LocaleInfo.getCurrentLocale().isRTL() ? -direction : direction;
 
     /*
      * Position the old widget in the center of the panel, and the new widget

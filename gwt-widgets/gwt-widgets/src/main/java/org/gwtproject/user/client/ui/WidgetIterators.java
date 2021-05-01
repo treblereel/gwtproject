@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -19,9 +19,8 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * A collection of convenience factories for creating iterators for widgets.
- * This mostly helps developers support {@link HasWidgets} without having to
- * implement their own {@link Iterator}.
+ * A collection of convenience factories for creating iterators for widgets. This mostly helps
+ * developers support {@link HasWidgets} without having to implement their own {@link Iterator}.
  */
 class WidgetIterators {
 
@@ -34,16 +33,15 @@ class WidgetIterators {
   }
 
   /**
-   * Wraps an array of widgets to be returned during iteration.
-   * <code>null</code> is allowed in the array and will be skipped during
-   * iteration.
-   * 
+   * Wraps an array of widgets to be returned during iteration. <code>null</code> is allowed in the
+   * array and will be skipped during iteration.
+   *
    * @param container the container of the widgets in <code>contained</code>
    * @param contained the array of widgets
    * @return the iterator
    */
-  static final Iterator<Widget> createWidgetIterator(final HasWidgets container,
-      final Widget[] contained) {
+  static final Iterator<Widget> createWidgetIterator(
+      final HasWidgets container, final Widget[] contained) {
     return new Iterator<Widget>() {
       int index = -1, last = -1;
       boolean widgetsWasCopied = false;

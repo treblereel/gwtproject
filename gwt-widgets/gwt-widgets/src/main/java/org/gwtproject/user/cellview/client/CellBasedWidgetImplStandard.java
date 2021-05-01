@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,6 +15,8 @@
  */
 package org.gwtproject.user.cellview.client;
 
+import java.util.HashSet;
+import java.util.Set;
 import jsinterop.annotations.JsFunction;
 import jsinterop.base.Js;
 import org.gwtproject.dom.client.BrowserEvents;
@@ -25,17 +27,10 @@ import org.gwtproject.user.client.Event;
 import org.gwtproject.user.client.EventListener;
 import org.gwtproject.user.client.ui.Widget;
 
-import java.util.HashSet;
-import java.util.Set;
-
-/**
- * Standard implementation used by most cell based widgets.
- */
+/** Standard implementation used by most cell based widgets. */
 class CellBasedWidgetImplStandard extends CellBasedWidgetImpl {
 
-  /**
-   * The method used to dispatch non-bubbling events.
-   */
+  /** The method used to dispatch non-bubbling events. */
   private static FnWithOneArg dispatchNonBubblingEvent;
 
   /**
@@ -72,7 +67,7 @@ class CellBasedWidgetImplStandard extends CellBasedWidgetImpl {
   /**
    * Check if the specified element handles the a non-bubbling event.
    *
-   * @param elem     the element to check
+   * @param elem the element to check
    * @param typeName the non-bubbling event
    * @return true if the event is handled, false if not
    */
@@ -80,9 +75,7 @@ class CellBasedWidgetImplStandard extends CellBasedWidgetImpl {
     return "true".equals(elem.getAttribute("__gwtCellBasedWidgetImplDispatching" + typeName));
   }
 
-  /**
-   * The set of non bubbling event types.
-   */
+  /** The set of non bubbling event types. */
   private final Set<String> nonBubblingEvents;
 
   public CellBasedWidgetImplStandard() {
@@ -114,21 +107,21 @@ class CellBasedWidgetImplStandard extends CellBasedWidgetImpl {
     }
   }
 
-  /**
-   * Initialize the event system.
-   */
+  /** Initialize the event system. */
   private void initEventSystem() {
-    dispatchNonBubblingEvent = Js.uncheckedCast((FnWithOneArg)(event) -> handleNonBubblingEvent(Js.uncheckedCast(event)));
+    dispatchNonBubblingEvent =
+        Js.uncheckedCast((FnWithOneArg) (event) -> handleNonBubblingEvent(Js.uncheckedCast(event)));
   }
 
   /**
    * Sink an event on the element.
    *
-   * @param elem     the element to sink the event on
+   * @param elem the element to sink the event on
    * @param typeName the name of the event to sink
    */
   private void sinkEventImpl(Element elem, String typeName) {
-    ((elemental2.dom.EventTarget)Js.uncheckedCast(elem)).addEventListener(typeName, Js.uncheckedCast(dispatchNonBubblingEvent),true);
+    ((elemental2.dom.EventTarget) Js.uncheckedCast(elem))
+        .addEventListener(typeName, Js.uncheckedCast(dispatchNonBubblingEvent), true);
   }
 
   @FunctionalInterface

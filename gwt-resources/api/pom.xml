@@ -7,11 +7,12 @@
     <parent>
         <groupId>org.gwtproject.resources</groupId>
         <artifactId>gwt-resources-parent</artifactId>
-        <version>HEAD-SNAPSHOT</version>
+        <version>dev</version>
     </parent>
 
     <artifactId>gwt-resources-api</artifactId>
     <description>client api for gwt-resources</description>
+    <version>${revision}</version>
     <packaging>jar</packaging>
 
     <developers>
@@ -104,27 +105,6 @@
                 <groupId>com.mycila</groupId>
                 <artifactId>license-maven-plugin</artifactId>
                 <version>${maven.licence.plugin}</version>
-                <configuration>
-                    <header>LICENSE.header</header>
-                    <encoding>UTF-8</encoding>
-                    <skipExistingHeaders>true</skipExistingHeaders>
-                    <mapping>
-                        <java>SLASHSTAR_STYLE</java>
-                    </mapping>
-                    <excludes>
-                        <exclude>**/README.md</exclude>
-                        <exclude>**/LICENSE</exclude>
-                        <exclude>**/LICENSE.header</exclude>
-                        <exclude>**/AUTHORS</exclude>
-                        <exclude>**/*.xml</exclude>
-                        <exclude>src/test/resources/**</exclude>
-                        <exclude>src/main/resources/**</exclude>
-                    </excludes>
-                    <properties>
-                        <year>${project.inceptionYear}</year>
-                        <name>${project.organization.name}</name>
-                    </properties>
-                </configuration>
                 <executions>
                     <execution>
                         <goals>

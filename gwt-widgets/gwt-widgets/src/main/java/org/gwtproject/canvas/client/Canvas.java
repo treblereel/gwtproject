@@ -27,13 +27,13 @@ import org.gwtproject.user.client.ui.RootPanel;
 /**
  * A widget representing a &lt;canvas&gt; element.
  *
- * This widget may not be supported on all browsers.
+ * <p>This widget may not be supported on all browsers.
  */
 @PartialSupport
 public class Canvas extends FocusWidget {
 
   /**
-   * Return a new {@link Canvas} if supported,  and null otherwise.
+   * Return a new {@link Canvas} if supported, and null otherwise.
    *
    * @return a new {@link Canvas} if supported, and null otherwise
    */
@@ -46,11 +46,9 @@ public class Canvas extends FocusWidget {
   }
 
   /**
-   * Wrap an existing canvas element.
-   * The element must already be attached to the document. If the element is removed from the
-   * document, you must call {@link RootPanel#detachNow(Widget)}.
-   * Note: This method can return null if there is no support for canvas by the
-   * current browser.
+   * Wrap an existing canvas element. The element must already be attached to the document. If the
+   * element is removed from the document, you must call {@link RootPanel#detachNow(Widget)}. Note:
+   * This method can return null if there is no support for canvas by the current browser.
    *
    * @param element the element to wrap
    * @return the {@link Canvas} widget or null if canvas is not supported by the current browser.
@@ -82,9 +80,7 @@ public class Canvas extends FocusWidget {
     return isSupportedRunTime(element);
   }
 
-  /**
-   * Protected constructor. Use {@link #createIfSupported()} to create a Canvas.
-   */
+  /** Protected constructor. Use {@link #createIfSupported()} to create a Canvas. */
   private Canvas(CanvasElement element) {
     setElement(element);
   }
@@ -111,7 +107,7 @@ public class Canvas extends FocusWidget {
   /**
    * Returns a 2D rendering context.
    *
-   * This is a convenience method, see {@link #getContext(String)}.
+   * <p>This is a convenience method, see {@link #getContext(String)}.
    *
    * @return a 2D canvas rendering context
    */
@@ -169,26 +165,22 @@ public class Canvas extends FocusWidget {
   }
 
   /**
-   * Returns a data URL for the current content of the canvas element, with a
-   * specified type.
+   * Returns a data URL for the current content of the canvas element, with a specified type.
    *
    * @param type the type of the data url, e.g., image/jpeg or image/png.
-   * @return a data URL for the current content of this element with the
-   *         specified type.
+   * @return a data URL for the current content of this element with the specified type.
    */
   public String toDataUrl(String type) {
     return getCanvasElement().toDataUrl(type);
   }
 
   /**
-   * Using a run-time check, return true if the {@link CanvasElement} is
-   * supported.
+   * Using a run-time check, return true if the {@link CanvasElement} is supported.
    *
    * @return true if supported, false otherwise.
    */
   // TODO: probably safe to assume that everyone supports Canvas
   private static boolean isSupportedRunTime(CanvasElement element) {
-    return ((JsPropertyMap)element).has("getContext");
+    return ((JsPropertyMap) element).has("getContext");
   }
-
 }

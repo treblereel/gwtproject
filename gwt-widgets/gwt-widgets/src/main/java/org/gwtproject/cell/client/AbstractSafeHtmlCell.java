@@ -15,15 +15,14 @@
  */
 package org.gwtproject.cell.client;
 
+import java.util.Set;
 import org.gwtproject.safehtml.shared.SafeHtml;
 import org.gwtproject.safehtml.shared.SafeHtmlBuilder;
 import org.gwtproject.text.shared.SafeHtmlRenderer;
 
-import java.util.Set;
-
 /**
- * A superclass for {@link org.gwtproject.cell.client.Cell}s that render or escape a String argument as
- * HTML.
+ * A superclass for {@link org.gwtproject.cell.client.Cell}s that render or escape a String argument
+ * as HTML.
  *
  * @param <C> the type that this Cell represents
  */
@@ -32,14 +31,13 @@ public abstract class AbstractSafeHtmlCell<C> extends AbstractCell<C> {
   private final SafeHtmlRenderer<C> renderer;
 
   /**
-   * Construct an AbstractSafeHtmlCell using a given {@link SafeHtmlRenderer}
-   * that will consume a given set of events.
-   * 
+   * Construct an AbstractSafeHtmlCell using a given {@link SafeHtmlRenderer} that will consume a
+   * given set of events.
+   *
    * @param renderer a SafeHtmlRenderer
    * @param consumedEvents a varargs list of event names
    */
-  public AbstractSafeHtmlCell(SafeHtmlRenderer<C> renderer,
-      String... consumedEvents) {
+  public AbstractSafeHtmlCell(SafeHtmlRenderer<C> renderer, String... consumedEvents) {
     super(consumedEvents);
     if (renderer == null) {
       throw new IllegalArgumentException("renderer == null");
@@ -48,14 +46,13 @@ public abstract class AbstractSafeHtmlCell<C> extends AbstractCell<C> {
   }
 
   /**
-   * Construct an AbstractSafeHtmlCell using a given {@link SafeHtmlRenderer}
-   * that will consume a given set of events.
-   * 
+   * Construct an AbstractSafeHtmlCell using a given {@link SafeHtmlRenderer} that will consume a
+   * given set of events.
+   *
    * @param renderer a SafeHtmlRenderer
    * @param consumedEvents a Set of event names
    */
-  public AbstractSafeHtmlCell(SafeHtmlRenderer<C> renderer,
-      Set<String> consumedEvents) {
+  public AbstractSafeHtmlCell(SafeHtmlRenderer<C> renderer, Set<String> consumedEvents) {
     super(consumedEvents);
     if (renderer == null) {
       throw new IllegalArgumentException("renderer == null");
@@ -82,13 +79,11 @@ public abstract class AbstractSafeHtmlCell<C> extends AbstractCell<C> {
   }
 
   /**
-   * Render the cell contents after they have been converted to {@link SafeHtml}
-   * form.
-   * 
+   * Render the cell contents after they have been converted to {@link SafeHtml} form.
+   *
    * @param context the original context to render
    * @param data a {@link SafeHtml} string
    * @param sb the {@link SafeHtmlBuilder} to be written to
    */
-  protected abstract void render(Context context, SafeHtml data,
-                                 SafeHtmlBuilder sb);
+  protected abstract void render(Context context, SafeHtml data, SafeHtmlBuilder sb);
 }

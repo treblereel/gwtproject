@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,14 +15,13 @@
  */
 package org.gwtproject.editor.client.adapters;
 
+import java.util.Collections;
 import org.gwtproject.editor.client.LeafValueEditor;
 import org.gwtproject.view.client.HasData;
 
-import java.util.Collections;
-
 /**
  * Adapts the HasData interface to the Editor framework.
- * 
+ *
  * @param <T> the type of data to be edited
  */
 public class HasDataEditor<T> extends ListEditor<T, LeafValueEditor<T>> {
@@ -94,7 +93,7 @@ public class HasDataEditor<T> extends ListEditor<T, LeafValueEditor<T>> {
 
   /**
    * Create a HasDataEditor backed by a HasData.
-   * 
+   *
    * @param <T> the type of data to be edited
    * @param data the HasData that is displaying the data
    * @return a instance of a HasDataEditor
@@ -103,9 +102,7 @@ public class HasDataEditor<T> extends ListEditor<T, LeafValueEditor<T>> {
     return new HasDataEditor<T>(data);
   }
 
-  /**
-   * Prevent subclassing.
-   */
+  /** Prevent subclassing. */
   private HasDataEditor(HasData<T> data) {
     super(new HasDataEditorSource<T>(data));
   }

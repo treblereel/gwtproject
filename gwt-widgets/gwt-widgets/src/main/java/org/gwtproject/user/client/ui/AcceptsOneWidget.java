@@ -15,18 +15,13 @@
  */
 package org.gwtproject.user.client.ui;
 
-/**
- * Implemented by displays that can be given accept an {@link IsWidget}
- * to show.
- */
+/** Implemented by displays that can be given accept an {@link IsWidget} to show. */
 public interface AcceptsOneWidget {
 
   /**
-   * Set the only widget of the receiver, replacing the previous
-   * widget if there was one.
+   * Set the only widget of the receiver, replacing the previous widget if there was one.
    *
    * @param w the widget, or <code>null</code> to remove the widget
-   *
    * @see SimplePanel
    */
   void setWidget(IsWidget w);

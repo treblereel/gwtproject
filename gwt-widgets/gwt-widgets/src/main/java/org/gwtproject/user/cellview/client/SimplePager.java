@@ -15,12 +15,9 @@
  */
 package org.gwtproject.user.cellview.client;
 
-import elemental2.core.JsNumber;
 import elemental2.dom.DomGlobal;
 import jsinterop.base.Js;
 import org.gwtproject.aria.client.Roles;
-import org.gwtproject.event.dom.client.ClickEvent;
-import org.gwtproject.event.dom.client.ClickHandler;
 import org.gwtproject.i18n.client.Constants;
 import org.gwtproject.i18n.client.LocalizableResource.DefaultLocale;
 import org.gwtproject.i18n.client.NumberFormat;
@@ -28,7 +25,6 @@ import org.gwtproject.resources.client.ClientBundle;
 import org.gwtproject.resources.client.CssResource;
 import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.resources.client.ImageResource.ImageOptions;
-import org.gwtproject.resources.client.Resource;
 import org.gwtproject.uibinder.client.UiConstructor;
 import org.gwtproject.user.client.Event;
 import org.gwtproject.user.client.ui.HTML;
@@ -39,147 +35,115 @@ import org.gwtproject.view.client.HasRows;
 import org.gwtproject.view.client.Range;
 
 /**
- * A pager for controlling a {@link HasRows} that only supports simple page
- * navigation.
+ * A pager for controlling a {@link HasRows} that only supports simple page navigation.
  *
  * <p>
+ *
  * <h3>Example</h3>
+ *
  * {@example com.google.gwt.examples.cellview.SimplePagerExample}
- * </p>
  */
 public class SimplePager extends AbstractPager {
-  /**
-   * Constant for labeling the simple pager navigational {@link ImageButton}s
-   */
+  /** Constant for labeling the simple pager navigational {@link ImageButton}s */
   @DefaultLocale("en_US")
   public interface ImageButtonsConstants extends Constants {
     ImageButtonsConstants INSTANCE = new SimplePager_ImageButtonsConstants_en_US();
 
     @DefaultStringValue("Fast forward")
     String fastForward();
+
     @DefaultStringValue("First page")
     String firstPage();
+
     @DefaultStringValue("Last page")
     String lastPage();
+
     @DefaultStringValue("Next page")
     String nextPage();
+
     @DefaultStringValue("Previous page")
     String prevPage();
   }
 
-  /**
-   * A ClientBundle that provides images for this widget.
-   */
+  /** A ClientBundle that provides images for this widget. */
   public interface Resources extends ClientBundle {
 
     Resources INSTANCE = new SimplePager_ResourcesImpl();
 
-    /**
-     * The image used to skip ahead multiple pages.
-     */
+    /** The image used to skip ahead multiple pages. */
     @ImageOptions(flipRtl = true)
     ImageResource simplePagerFastForward();
 
-    /**
-     * The disabled "fast forward" image.
-     */
+    /** The disabled "fast forward" image. */
     @ImageOptions(flipRtl = true)
     ImageResource simplePagerFastForwardDisabled();
 
-    /**
-     * The image used to go to the first page.
-     */
+    /** The image used to go to the first page. */
     @ImageOptions(flipRtl = true)
     ImageResource simplePagerFirstPage();
 
-    /**
-     * The disabled first page image.
-     */
+    /** The disabled first page image. */
     @ImageOptions(flipRtl = true)
     ImageResource simplePagerFirstPageDisabled();
 
-    /**
-     * The image used to go to the last page.
-     */
+    /** The image used to go to the last page. */
     @ImageOptions(flipRtl = true)
     ImageResource simplePagerLastPage();
 
-    /**
-     * The disabled last page image.
-     */
+    /** The disabled last page image. */
     @ImageOptions(flipRtl = true)
     ImageResource simplePagerLastPageDisabled();
 
-    /**
-     * The image used to go to the next page.
-     */
+    /** The image used to go to the next page. */
     @ImageOptions(flipRtl = true)
     ImageResource simplePagerNextPage();
 
-    /**
-     * The disabled next page image.
-     */
+    /** The disabled next page image. */
     @ImageOptions(flipRtl = true)
     ImageResource simplePagerNextPageDisabled();
 
-    /**
-     * The image used to go to the previous page.
-     */
+    /** The image used to go to the previous page. */
     @ImageOptions(flipRtl = true)
     ImageResource simplePagerPreviousPage();
 
-    /**
-     * The disabled previous page image.
-     */
+    /** The disabled previous page image. */
     @ImageOptions(flipRtl = true)
     ImageResource simplePagerPreviousPageDisabled();
 
-    /**
-     * The styles used in this widget.
-     */
+    /** The styles used in this widget. */
     @Source("SimplePager.gss")
     Style simplePagerStyle();
   }
 
-  /**
-   * Styles used by this widget.
-   */
+  /** Styles used by this widget. */
   public interface Style extends CssResource {
 
-    /**
-     * Applied to buttons.
-     */
+    /** Applied to buttons. */
     String button();
 
-    /**
-     * Applied to disabled buttons.
-     */
+    /** Applied to disabled buttons. */
     String disabledButton();
 
-    /**
-     * Applied to the details text.
-     */
+    /** Applied to the details text. */
     String pageDetails();
   }
 
-  /**
-   * The location of the text relative to the paging buttons.
-   */
+  /** The location of the text relative to the paging buttons. */
   public static enum TextLocation {
-    CENTER, LEFT, RIGHT;
+    CENTER,
+    LEFT,
+    RIGHT;
   }
 
-  /**
-   * An {@link Image} that acts as a button.
-   */
+  /** An {@link Image} that acts as a button. */
   private static class ImageButton extends Image {
     private boolean disabled;
     private final ImageResource resDisabled;
     private final ImageResource resEnabled;
     private final String styleDisabled;
 
-    public ImageButton(ImageResource resEnabled, ImageResource resDiabled,
-                       String disabledStyle, String label) {
+    public ImageButton(
+        ImageResource resEnabled, ImageResource resDiabled, String disabledStyle, String label) {
       super(resEnabled);
       this.resEnabled = resEnabled;
       this.resDisabled = resDiabled;
@@ -235,28 +199,20 @@ public class SimplePager extends AbstractPager {
 
   private final ImageButton firstPage;
 
-  /**
-   * We use an {@link HTML} so we can embed the loading image.
-   */
+  /** We use an {@link HTML} so we can embed the loading image. */
   private final HTML label = new HTML();
 
   private final ImageButton lastPage;
   private final ImageButton nextPage;
   private final ImageButton prevPage;
 
-  /**
-   * The {@link Resources} used by this widget.
-   */
+  /** The {@link Resources} used by this widget. */
   private final Resources resources;
 
-  /**
-   * The {@link Style} used by this widget.
-   */
+  /** The {@link Style} used by this widget. */
   private final Style style;
 
-  /**
-   * Construct a {@link SimplePager} with the default text location.
-   */
+  /** Construct a {@link SimplePager} with the default text location. */
   public SimplePager() {
     this(TextLocation.CENTER);
   }
@@ -268,37 +224,42 @@ public class SimplePager extends AbstractPager {
    */
   @UiConstructor
   public SimplePager(TextLocation location) {
-    this(location, getDefaultResources(), true, DEFAULT_FAST_FORWARD_ROWS,
-        false);
+    this(location, getDefaultResources(), true, DEFAULT_FAST_FORWARD_ROWS, false);
   }
 
   /**
-   * Construct a {@link SimplePager} with the default resources, fast forward rows and
-   * default image button names.
+   * Construct a {@link SimplePager} with the default resources, fast forward rows and default image
+   * button names.
    *
    * @param location the location of the text relative to the buttons
-   * @param showFastForwardButton if true, show a fast-forward button that
-   *          advances by a larger increment than a single page
+   * @param showFastForwardButton if true, show a fast-forward button that advances by a larger
+   *     increment than a single page
    * @param showLastPageButton if true, show a button to go to the last page
    */
-  public SimplePager(TextLocation location, boolean showFastForwardButton,
-      boolean showLastPageButton) {
-    this(location, showFastForwardButton, DEFAULT_FAST_FORWARD_ROWS,
-        showLastPageButton);
+  public SimplePager(
+      TextLocation location, boolean showFastForwardButton, boolean showLastPageButton) {
+    this(location, showFastForwardButton, DEFAULT_FAST_FORWARD_ROWS, showLastPageButton);
   }
 
   /**
    * Construct a {@link SimplePager} with the default resources and default image button names.
    *
    * @param location the location of the text relative to the buttons
-   * @param showFastForwardButton if true, show a fast-forward button that
-   *          advances by a larger increment than a single page
+   * @param showFastForwardButton if true, show a fast-forward button that advances by a larger
+   *     increment than a single page
    * @param fastForwardRows the number of rows to jump when fast forwarding
    * @param showLastPageButton if true, show a button to go to the last page
    */
-  public SimplePager(TextLocation location, boolean showFastForwardButton,
-      final int fastForwardRows, boolean showLastPageButton) {
-    this(location, getDefaultResources(), showFastForwardButton, fastForwardRows,
+  public SimplePager(
+      TextLocation location,
+      boolean showFastForwardButton,
+      final int fastForwardRows,
+      boolean showLastPageButton) {
+    this(
+        location,
+        getDefaultResources(),
+        showFastForwardButton,
+        fastForwardRows,
         showLastPageButton);
   }
 
@@ -307,17 +268,27 @@ public class SimplePager extends AbstractPager {
    *
    * @param location the location of the text relative to the buttons
    * @param resources the {@link Resources} to use
-   * @param showFastForwardButton if true, show a fast-forward button that
-   *          advances by a larger increment than a single page
+   * @param showFastForwardButton if true, show a fast-forward button that advances by a larger
+   *     increment than a single page
    * @param fastForwardRows the number of rows to jump when fast forwarding
    * @param showLastPageButton if true, show a button to go to the last page
    * @param imageButtonConstants Constants that contain the image button names
    */
-  public SimplePager(TextLocation location, Resources resources,
-      boolean showFastForwardButton, final int fastForwardRows,
-      boolean showLastPageButton, ImageButtonsConstants imageButtonConstants) {
-    this(location, resources, showFastForwardButton, fastForwardRows,
-        showLastPageButton, true, imageButtonConstants);
+  public SimplePager(
+      TextLocation location,
+      Resources resources,
+      boolean showFastForwardButton,
+      final int fastForwardRows,
+      boolean showLastPageButton,
+      ImageButtonsConstants imageButtonConstants) {
+    this(
+        location,
+        resources,
+        showFastForwardButton,
+        fastForwardRows,
+        showLastPageButton,
+        true,
+        imageButtonConstants);
   }
 
   /**
@@ -325,16 +296,20 @@ public class SimplePager extends AbstractPager {
    *
    * @param location the location of the text relative to the buttons
    * @param resources the {@link Resources} to use
-   * @param showFastForwardButton if true, show a fast-forward button that
-   *          advances by a larger increment than a single page
+   * @param showFastForwardButton if true, show a fast-forward button that advances by a larger
+   *     increment than a single page
    * @param fastForwardRows the number of rows to jump when fast forwarding
    * @param showLastPageButton if true, show a button to go to the last page
    * @param showFirstPageButton if true, show a button to go to the first page
    * @param imageButtonConstants Constants that contain the image button names
    */
-  public SimplePager(TextLocation location, Resources resources,
-      boolean showFastForwardButton, final int fastForwardRows,
-      boolean showLastPageButton, boolean showFirstPageButton,
+  public SimplePager(
+      TextLocation location,
+      Resources resources,
+      boolean showFastForwardButton,
+      final int fastForwardRows,
+      boolean showLastPageButton,
+      boolean showFirstPageButton,
       ImageButtonsConstants imageButtonConstants) {
     this.resources = resources;
     this.fastForwardRows = fastForwardRows;
@@ -344,31 +319,48 @@ public class SimplePager extends AbstractPager {
     // Create the buttons.
     String disabledStyle = style.disabledButton();
     if (showFirstPageButton) {
-      firstPage = new ImageButton(resources.simplePagerFirstPage(),
-          resources.simplePagerFirstPageDisabled(), disabledStyle,
-          imageButtonConstants.firstPage());
+      firstPage =
+          new ImageButton(
+              resources.simplePagerFirstPage(),
+              resources.simplePagerFirstPageDisabled(),
+              disabledStyle,
+              imageButtonConstants.firstPage());
       firstPage.addClickHandler(event -> firstPage());
     } else {
       firstPage = null;
     }
-    nextPage = new ImageButton(resources.simplePagerNextPage(),
-        resources.simplePagerNextPageDisabled(), disabledStyle, imageButtonConstants.nextPage());
+    nextPage =
+        new ImageButton(
+            resources.simplePagerNextPage(),
+            resources.simplePagerNextPageDisabled(),
+            disabledStyle,
+            imageButtonConstants.nextPage());
     nextPage.addClickHandler(event -> nextPage());
-    prevPage = new ImageButton(resources.simplePagerPreviousPage(),
-        resources.simplePagerPreviousPageDisabled(), disabledStyle,
-        imageButtonConstants.prevPage());
+    prevPage =
+        new ImageButton(
+            resources.simplePagerPreviousPage(),
+            resources.simplePagerPreviousPageDisabled(),
+            disabledStyle,
+            imageButtonConstants.prevPage());
     prevPage.addClickHandler(event -> previousPage());
     if (showLastPageButton) {
-      lastPage = new ImageButton(resources.simplePagerLastPage(),
-          resources.simplePagerLastPageDisabled(), disabledStyle, imageButtonConstants.lastPage());
+      lastPage =
+          new ImageButton(
+              resources.simplePagerLastPage(),
+              resources.simplePagerLastPageDisabled(),
+              disabledStyle,
+              imageButtonConstants.lastPage());
       lastPage.addClickHandler(event -> lastPage());
     } else {
       lastPage = null;
     }
     if (showFastForwardButton) {
-      fastForward = new ImageButton(resources.simplePagerFastForward(),
-          resources.simplePagerFastForwardDisabled(), disabledStyle,
-          imageButtonConstants.fastForward());
+      fastForward =
+          new ImageButton(
+              resources.simplePagerFastForward(),
+              resources.simplePagerFastForwardDisabled(),
+              disabledStyle,
+              imageButtonConstants.fastForward());
       fastForward.addClickHandler(event -> setPage(getPage() + getFastForwardPages()));
     } else {
       fastForward = null;
@@ -422,15 +414,23 @@ public class SimplePager extends AbstractPager {
    *
    * @param location the location of the text relative to the buttons
    * @param resources the {@link Resources} to use
-   * @param showFastForwardButton if true, show a fast-forward button that
-   *          advances by a larger increment than a single page
+   * @param showFastForwardButton if true, show a fast-forward button that advances by a larger
+   *     increment than a single page
    * @param fastForwardRows the number of rows to jump when fast forwarding
    * @param showLastPageButton if true, show a button to go to the last page
    */
-  public SimplePager(TextLocation location, Resources resources,
-      boolean showFastForwardButton, final int fastForwardRows,
+  public SimplePager(
+      TextLocation location,
+      Resources resources,
+      boolean showFastForwardButton,
+      final int fastForwardRows,
       boolean showLastPageButton) {
-    this(location, resources, showFastForwardButton, fastForwardRows, showLastPageButton,
+    this(
+        location,
+        resources,
+        showFastForwardButton,
+        fastForwardRows,
+        showLastPageButton,
         ImageButtonsConstants.INSTANCE);
   }
 
@@ -520,9 +520,8 @@ public class SimplePager extends AbstractPager {
   }
 
   /**
-   * Let the page know that the table is loading. Call this method to clear all
-   * data from the table and hide the current range when new data is being
-   * loaded into the table.
+   * Let the page know that the table is loading. Call this method to clear all data from the table
+   * and hide the current range when new data is being loaded into the table.
    */
   public void startLoading() {
     getDisplay().setRowCount(0, true);
@@ -549,8 +548,11 @@ public class SimplePager extends AbstractPager {
     DomGlobal.console.log("createText 1 " + pageSize);
     DomGlobal.console.log("createText 2 " + endIndex);
 
-    return formatter.format(Js.uncheckedCast(pageStart)) + "-" + formatter.format(Js.uncheckedCast(endIndex))
-        + (exact ? " of " : " of over ") + formatter.format(Js.uncheckedCast(dataSize));
+    return formatter.format(Js.uncheckedCast(pageStart))
+        + "-"
+        + formatter.format(Js.uncheckedCast(endIndex))
+        + (exact ? " of " : " of over ")
+        + formatter.format(Js.uncheckedCast(dataSize));
   }
 
   @Override
@@ -568,16 +570,12 @@ public class SimplePager extends AbstractPager {
     }
   }
 
-  /**
-   * Check if the next button is disabled. Visible for testing.
-   */
+  /** Check if the next button is disabled. Visible for testing. */
   boolean isNextButtonDisabled() {
     return nextPage.isDisabled();
   }
 
-  /**
-   * Check if the previous button is disabled. Visible for testing.
-   */
+  /** Check if the previous button is disabled. Visible for testing. */
   boolean isPreviousButtonDisabled() {
     return prevPage.isDisabled();
   }
@@ -603,12 +601,10 @@ public class SimplePager extends AbstractPager {
     }
     if (disabled) {
       fastForward.setResource(resources.simplePagerFastForwardDisabled());
-      fastForward.getElement().getParentElement().addClassName(
-          style.disabledButton());
+      fastForward.getElement().getParentElement().addClassName(style.disabledButton());
     } else {
       fastForward.setResource(resources.simplePagerFastForward());
-      fastForward.getElement().getParentElement().removeClassName(
-          style.disabledButton());
+      fastForward.getElement().getParentElement().removeClassName(style.disabledButton());
     }
   }
 

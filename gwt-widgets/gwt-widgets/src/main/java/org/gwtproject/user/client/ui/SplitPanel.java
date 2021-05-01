@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,32 +15,26 @@
  */
 package org.gwtproject.user.client.ui;
 
+import java.util.Iterator;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.Event;
 
-import java.util.Iterator;
-
 /**
- * Abstract base class for {@link HorizontalSplitPanel} and
- * {@link VerticalSplitPanel}.
- * 
- * @deprecated Use {@link SplitLayoutPanel} instead, but understand that it is
- *             not a drop in replacement for this class. It requires standards
- *             mode, and is most easily used under a {@link RootLayoutPanel} (as
- *             opposed to a {@link RootPanel}
+ * Abstract base class for {@link HorizontalSplitPanel} and {@link VerticalSplitPanel}.
+ *
+ * @deprecated Use {@link SplitLayoutPanel} instead, but understand that it is not a drop in
+ *     replacement for this class. It requires standards mode, and is most easily used under a
+ *     {@link RootLayoutPanel} (as opposed to a {@link RootPanel}
  */
 @Deprecated
 abstract class SplitPanel extends Panel {
-  /**
-   * The element that masks the screen so we can catch mouse events over
-   * iframes.
-   */
+  /** The element that masks the screen so we can catch mouse events over iframes. */
   private static Element glassElem = null;
 
   /**
    * Sets an elements positioning to absolute.
-   * 
+   *
    * @param elem the element
    */
   static void addAbsolutePositoning(Element elem) {
@@ -49,7 +43,7 @@ abstract class SplitPanel extends Panel {
 
   /**
    * Adds clipping to an element.
-   * 
+   *
    * @param elem the element
    */
   static final void addClipping(final Element elem) {
@@ -58,7 +52,7 @@ abstract class SplitPanel extends Panel {
 
   /**
    * Adds as-needed scrolling to an element.
-   * 
+   *
    * @param elem the element
    */
   static final void addScrolling(final Element elem) {
@@ -66,10 +60,9 @@ abstract class SplitPanel extends Panel {
   }
 
   /**
-   * Sizes and element to consume the full area of its parent using the CSS
-   * properties left, right, top, and bottom. This method is used for all
-   * browsers except IE6/7.
-   * 
+   * Sizes and element to consume the full area of its parent using the CSS properties left, right,
+   * top, and bottom. This method is used for all browsers except IE6/7.
+   *
    * @param elem the element
    */
   static final void expandToFitParentUsingCssOffsets(Element elem) {
@@ -83,10 +76,9 @@ abstract class SplitPanel extends Panel {
   }
 
   /**
-   * Sizes an element to consume the full areas of its parent using 100% width
-   * and height. This method is used on IE6/7 where CSS offsets don't work
-   * reliably.
-   * 
+   * Sizes an element to consume the full areas of its parent using 100% width and height. This
+   * method is used on IE6/7 where CSS offsets don't work reliably.
+   *
    * @param elem the element
    */
   static final void expandToFitParentUsingPercentages(Element elem) {
@@ -102,7 +94,7 @@ abstract class SplitPanel extends Panel {
 
   /**
    * Returns the offsetHeight element property.
-   * 
+   *
    * @param elem the element
    * @return the offsetHeight property
    */
@@ -112,7 +104,7 @@ abstract class SplitPanel extends Panel {
 
   /**
    * Returns the offsetWidth element property.
-   * 
+   *
    * @param elem the element
    * @return the offsetWidth property
    */
@@ -121,10 +113,9 @@ abstract class SplitPanel extends Panel {
   }
 
   /**
-   * Adds zero or none CSS values for padding, margin and border to prevent
-   * stylesheet overrides. Returns the element for convenience to support
-   * builder pattern.
-   * 
+   * Adds zero or none CSS values for padding, margin and border to prevent stylesheet overrides.
+   * Returns the element for convenience to support builder pattern.
+   *
    * @param elem the element
    * @return the element
    */
@@ -137,7 +128,7 @@ abstract class SplitPanel extends Panel {
 
   /**
    * Convenience method to set bottom offset of an element.
-   * 
+   *
    * @param elem the element
    * @param size a CSS length value for bottom
    */
@@ -147,7 +138,7 @@ abstract class SplitPanel extends Panel {
 
   /**
    * Sets the elements css class name.
-   * 
+   *
    * @param elem the element
    * @param className the class name
    */
@@ -157,7 +148,7 @@ abstract class SplitPanel extends Panel {
 
   /**
    * Convenience method to set the height of an element.
-   * 
+   *
    * @param elem the element
    * @param height a CSS length value for the height
    */
@@ -167,7 +158,7 @@ abstract class SplitPanel extends Panel {
 
   /**
    * Convenience method to set the left offset of an element.
-   * 
+   *
    * @param elem the element
    * @param left a CSS length value for left
    */
@@ -177,7 +168,7 @@ abstract class SplitPanel extends Panel {
 
   /**
    * Convenience method to set the right offset of an element.
-   * 
+   *
    * @param elem the element
    * @param right a CSS length value for right
    */
@@ -187,7 +178,7 @@ abstract class SplitPanel extends Panel {
 
   /**
    * Convenience method to set the top offset of an element.
-   * 
+   *
    * @param elem the element
    * @param top a CSS length value for top
    */
@@ -197,7 +188,7 @@ abstract class SplitPanel extends Panel {
 
   /**
    * Convenience method to set the width of an element.
-   * 
+   *
    * @param elem the element
    * @param width a CSS length value for the width
    */
@@ -219,14 +210,13 @@ abstract class SplitPanel extends Panel {
 
   /**
    * Initializes the split panel.
-   * 
+   *
    * @param mainElem the root element for the split panel
    * @param splitElem the element that acts as the splitter
    * @param headElem the element to contain the top or left most widget
    * @param tailElem the element to contain the bottom or right most widget
    */
-  SplitPanel(Element mainElem, Element splitElem, Element headElem,
-      Element tailElem) {
+  SplitPanel(Element mainElem, Element splitElem, Element headElem, Element tailElem) {
     setElement(mainElem);
     this.splitElem = splitElem;
     elements[0] = headElem;
@@ -258,16 +248,14 @@ abstract class SplitPanel extends Panel {
     } else if (getWidget(1) == null) {
       setWidget(1, w);
     } else {
-      throw new IllegalStateException(
-          "A Splitter can only contain two Widgets.");
+      throw new IllegalStateException("A Splitter can only contain two Widgets.");
     }
   }
 
   /**
    * Indicates whether the split panel is being resized.
-   * 
-   * @return <code>true</code> if the user is dragging the splitter,
-   *         <code>false</code> otherwise
+   *
+   * @return <code>true</code> if the user is dragging the splitter, <code>false</code> otherwise
    */
   public boolean isResizing() {
     return isResizing;
@@ -280,47 +268,50 @@ abstract class SplitPanel extends Panel {
   @Override
   public void onBrowserEvent(Event event) {
     switch (DOM.eventGetType(event)) {
-
-      case Event.ONMOUSEDOWN: {
-        Element target = DOM.eventGetTarget(event);
-        if (splitElem.isOrHasChild(target)) {
-          startResizingFrom(event.getClientX() - getAbsoluteLeft(),
-              event.getClientY() - getAbsoluteTop());
-          DOM.setCapture(getElement());
-          event.preventDefault();
+      case Event.ONMOUSEDOWN:
+        {
+          Element target = DOM.eventGetTarget(event);
+          if (splitElem.isOrHasChild(target)) {
+            startResizingFrom(
+                event.getClientX() - getAbsoluteLeft(), event.getClientY() - getAbsoluteTop());
+            DOM.setCapture(getElement());
+            event.preventDefault();
+          }
+          break;
         }
-        break;
-      }
 
-      case Event.ONMOUSEUP: {
-        if (isResizing()) {
-          // The order of these two lines is important. If we release capture
-          // first, then we might trigger an onLoseCapture event before we set
-          // isResizing to false.
-          stopResizing();
-          DOM.releaseCapture(getElement());
+      case Event.ONMOUSEUP:
+        {
+          if (isResizing()) {
+            // The order of these two lines is important. If we release capture
+            // first, then we might trigger an onLoseCapture event before we set
+            // isResizing to false.
+            stopResizing();
+            DOM.releaseCapture(getElement());
+          }
+          break;
         }
-        break;
-      }
 
-      case Event.ONMOUSEMOVE: {
-        if (isResizing()) {
-          assert DOM.getCaptureElement() != null;
-          onSplitterResize(event.getClientX() - getAbsoluteLeft(),
-              event.getClientY() - getAbsoluteTop());
-          event.preventDefault();
+      case Event.ONMOUSEMOVE:
+        {
+          if (isResizing()) {
+            assert DOM.getCaptureElement() != null;
+            onSplitterResize(
+                event.getClientX() - getAbsoluteLeft(), event.getClientY() - getAbsoluteTop());
+            event.preventDefault();
+          }
+          break;
         }
-        break;
-      }
 
-      // IE automatically releases capture if the user switches windows, so we
-      // need to catch the event and stop resizing.
-      case Event.ONLOSECAPTURE: {
-        if (isResizing()) {
-          stopResizing();
+        // IE automatically releases capture if the user switches windows, so we
+        // need to catch the event and stop resizing.
+      case Event.ONLOSECAPTURE:
+        {
+          if (isResizing()) {
+            stopResizing();
+          }
+          break;
         }
-        break;
-      }
     }
     super.onBrowserEvent(event);
   }
@@ -339,15 +330,14 @@ abstract class SplitPanel extends Panel {
 
   /**
    * Moves the position of the splitter.
-   * 
-   * @param size the new size of the left region in CSS units (e.g. "10px",
-   *            "1em")
+   *
+   * @param size the new size of the left region in CSS units (e.g. "10px", "1em")
    */
   public abstract void setSplitPosition(String size);
 
   /**
    * Gets the content element for the given index.
-   * 
+   *
    * @param index the index of the element, only 0 and 1 are valid.
    * @return the element
    */
@@ -357,7 +347,7 @@ abstract class SplitPanel extends Panel {
 
   /**
    * Gets the element that is acting as the splitter.
-   * 
+   *
    * @return the element
    */
   protected Element getSplitElement() {
@@ -366,7 +356,7 @@ abstract class SplitPanel extends Panel {
 
   /**
    * Gets one of the contained widgets.
-   * 
+   *
    * @param index the index of the widget, only 0 and 1 are valid.
    * @return the widget
    */
@@ -376,10 +366,11 @@ abstract class SplitPanel extends Panel {
 
   /**
    * <b>Affected Elements:</b>
+   *
    * <ul>
-   * <li>-splitter = the container containing the splitter element.</li>
+   *   <li>-splitter = the container containing the splitter element.
    * </ul>
-   * 
+   *
    * @see UIObject#onEnsureDebugId(String)
    */
   @Override
@@ -390,7 +381,7 @@ abstract class SplitPanel extends Panel {
 
   /**
    * Sets one of the contained widgets.
-   * 
+   *
    * @param index the index, only 0 and 1 are valid
    * @param w the widget
    */
@@ -433,7 +424,7 @@ abstract class SplitPanel extends Panel {
 
   /**
    * Called on each mouse drag event as the user is dragging the splitter.
-   * 
+   *
    * @param x the x coordinate of the mouse relative to the panel's extent
    * @param y the y coordinate of the mosue relative to the panel's extent
    */
@@ -441,7 +432,7 @@ abstract class SplitPanel extends Panel {
 
   /**
    * Called when the user starts dragging the splitter.
-   * 
+   *
    * @param x the x coordinate of the mouse relative to the panel's extent
    * @param y the y coordinate of the mouse relative to the panel's extent
    */

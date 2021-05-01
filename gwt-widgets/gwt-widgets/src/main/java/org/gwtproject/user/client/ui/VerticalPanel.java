@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -20,20 +20,15 @@ import org.gwtproject.user.client.DOM;
 
 /**
  * A panel that lays all of its widgets out in a single vertical column.
- * 
- * <p>
- * <img class='gallery' src='doc-files/VerticalPanel.png'/>
- * </p>
+ *
+ * <p><img class='gallery' src='doc-files/VerticalPanel.png'/>
  */
-public class VerticalPanel extends CellPanel implements HasAlignment,
-    InsertPanel.ForIsWidget {
+public class VerticalPanel extends CellPanel implements HasAlignment, InsertPanel.ForIsWidget {
 
   private HorizontalAlignmentConstant horzAlign = ALIGN_DEFAULT;
   private VerticalAlignmentConstant vertAlign = ALIGN_TOP;
 
-  /**
-   * Creates an empty vertical panel.
-   */
+  /** Creates an empty vertical panel. */
   public VerticalPanel() {
     getTable().setPropertyString("cellSpacing", "0");
     getTable().setPropertyString("cellPadding", "0");
@@ -69,7 +64,7 @@ public class VerticalPanel extends CellPanel implements HasAlignment,
 
     /*
      * The case where we reinsert an already existing child is tricky.
-     * 
+     *
      * For the WIDGET, it ultimately removes first and inserts second, so we
      * have to adjust the index within ComplexPanel.insert(). But for the DOM,
      * we insert first and remove second, which means we DON'T need to adjust
@@ -94,9 +89,9 @@ public class VerticalPanel extends CellPanel implements HasAlignment,
   }
 
   /**
-   * Sets the default horizontal alignment to be used for widgets added to this
-   * panel. It only applies to widgets added after this property is set.
-   * 
+   * Sets the default horizontal alignment to be used for widgets added to this panel. It only
+   * applies to widgets added after this property is set.
+   *
    * @see HasHorizontalAlignment#setHorizontalAlignment(HorizontalAlignmentConstant)
    */
   public void setHorizontalAlignment(HorizontalAlignmentConstant align) {
@@ -104,9 +99,9 @@ public class VerticalPanel extends CellPanel implements HasAlignment,
   }
 
   /**
-   * Sets the default vertical alignment to be used for widgets added to this
-   * panel. It only applies to widgets added after this property is set.
-   * 
+   * Sets the default vertical alignment to be used for widgets added to this panel. It only applies
+   * to widgets added after this property is set.
+   *
    * @see HasVerticalAlignment#setVerticalAlignment(VerticalAlignmentConstant)
    */
   public void setVerticalAlignment(VerticalAlignmentConstant align) {
@@ -115,10 +110,11 @@ public class VerticalPanel extends CellPanel implements HasAlignment,
 
   /**
    * <b>Affected Elements:</b>
+   *
    * <ul>
-   * <li>-# = the cell at the given index.</li>
+   *   <li>-# = the cell at the given index.
    * </ul>
-   * 
+   *
    * @see UIObject#onEnsureDebugId(String)
    */
   @Override

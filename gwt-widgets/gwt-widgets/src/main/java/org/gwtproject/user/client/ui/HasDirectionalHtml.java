@@ -18,9 +18,7 @@ package org.gwtproject.user.client.ui;
 import org.gwtproject.i18n.client.HasDirection.Direction;
 import org.gwtproject.safehtml.shared.annotations.IsSafeHtml;
 
-/**
- * An object that implements this interface contains html that has a direction.
- */
+/** An object that implements this interface contains html that has a direction. */
 public interface HasDirectionalHtml extends HasDirectionalText, HasHTML {
   /**
    * Sets this object's html, also declaring its direction.

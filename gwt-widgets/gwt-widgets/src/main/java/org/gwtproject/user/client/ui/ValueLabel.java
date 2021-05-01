@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,43 +15,40 @@
  */
 package org.gwtproject.user.client.ui;
 
+import java.text.ParseException;
+import org.gwtproject.dom.client.Document;
+import org.gwtproject.dom.client.Element;
 import org.gwtproject.editor.client.IsEditor;
 import org.gwtproject.editor.client.LeafValueEditor;
+import org.gwtproject.editor.client.adapters.TakesValueEditor;
 import org.gwtproject.text.shared.Parser;
 import org.gwtproject.text.shared.Renderer;
 import org.gwtproject.text.shared.ToStringRenderer;
 import org.gwtproject.uibinder.client.UiConstructor;
-import org.gwtproject.dom.client.Document;
-import org.gwtproject.dom.client.Element;
-import org.gwtproject.editor.client.adapters.TakesValueEditor;
 import org.gwtproject.user.client.TakesValue;
-
-import java.text.ParseException;
 
 /**
  * A label displaying its value through a renderer.
- * 
+ *
  * @param <T> the value type.
  */
-public class ValueLabel<T> extends LabelBase<T> implements TakesValue<T>,
-    IsEditor<LeafValueEditor<T>> {
+public class ValueLabel<T> extends LabelBase<T>
+    implements TakesValue<T>, IsEditor<LeafValueEditor<T>> {
 
   /**
    * Creates a ValueLabel widget that wraps an existing &lt;span&gt; element.
-   * <p>
-   * The ValueLabel's value will be <code>null</code>, whether the element being
-   * wrapped has content or not. Use {@link #wrap(Element, Renderer, Parser)} to
-   * parse the initial element's content to initialize the ValueLabel's value.
-   * <p>
-   * This element must already be attached to the document. If the element is
-   * removed from the document, you must call
-   * {@link RootPanel#detachNow(Widget)}.
-   * 
+   *
+   * <p>The ValueLabel's value will be <code>null</code>, whether the element being wrapped has
+   * content or not. Use {@link #wrap(Element, Renderer, Parser)} to parse the initial element's
+   * content to initialize the ValueLabel's value.
+   *
+   * <p>This element must already be attached to the document. If the element is removed from the
+   * document, you must call {@link RootPanel#detachNow(Widget)}.
+   *
    * @param element the element to be wrapped
    * @param renderer the renderer used to render values into the element
    */
-  public static <T> ValueLabel<T> wrap(Element element,
-      Renderer<? super T> renderer) {
+  public static <T> ValueLabel<T> wrap(Element element, Renderer<? super T> renderer) {
     // Assert that the element is attached.
     assert Document.get().getBody().isOrHasChild(element);
 
@@ -66,21 +63,19 @@ public class ValueLabel<T> extends LabelBase<T> implements TakesValue<T>,
 
   /**
    * Creates a ValueLabel widget that wraps an existing &lt;span&gt; element.
-   * <p>
-   * The ValueLabel's value will be initialized with the element's content,
-   * passed through the <code>parser</code>.
-   * <p>
-   * This element must already be attached to the document. If the element is
-   * removed from the document, you must call
-   * {@link RootPanel#detachNow(Widget)}.
-   * 
+   *
+   * <p>The ValueLabel's value will be initialized with the element's content, passed through the
+   * <code>parser</code>.
+   *
+   * <p>This element must already be attached to the document. If the element is removed from the
+   * document, you must call {@link RootPanel#detachNow(Widget)}.
+   *
    * @param element the element to be wrapped
    * @param renderer the renderer used to render values into the element
-   * @param parser the parser used to initialize the ValueLabel's value from the
-   *          element's content
+   * @param parser the parser used to initialize the ValueLabel's value from the element's content
    */
-  public static <T> ValueLabel<T> wrap(Element element,
-      Renderer<? super T> renderer, Parser<? extends T> parser)
+  public static <T> ValueLabel<T> wrap(
+      Element element, Renderer<? super T> renderer, Parser<? extends T> parser)
       throws ParseException {
     ValueLabel<T> label = wrap(element, renderer);
 
@@ -103,7 +98,7 @@ public class ValueLabel<T> extends LabelBase<T> implements TakesValue<T>,
 
   /**
    * Creates an empty value label.
-   * 
+   *
    * @param renderer
    */
   @UiConstructor
@@ -113,10 +108,9 @@ public class ValueLabel<T> extends LabelBase<T> implements TakesValue<T>,
   }
 
   /**
-   * This constructor may be used by subclasses to explicitly use an existing
-   * element. This element must be either a &lt;span&gt; or a &lt;div&gt;
-   * element.
-   * 
+   * This constructor may be used by subclasses to explicitly use an existing element. This element
+   * must be either a &lt;span&gt; or a &lt;div&gt; element.
+   *
    * @param element the element to be used
    */
   protected ValueLabel(Element element, Renderer<? super T> renderer) {

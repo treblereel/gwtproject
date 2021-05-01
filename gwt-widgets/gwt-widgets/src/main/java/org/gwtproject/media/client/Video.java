@@ -20,27 +20,21 @@ import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.VideoElement;
 
 /**
- * <p>
  * A widget representing a &lt;video&gt; element.
  *
- * <p>
- * <span style="color:red">Experimental API: This API is still under development
- * and is subject to change. </span>
- * </p>
- *
- * This widget may not be supported on all browsers.
+ * <p><span style="color:red">Experimental API: This API is still under development and is subject
+ * to change. </span> This widget may not be supported on all browsers.
  */
 public class Video extends MediaBase {
 
   /**
-   * Using a run-time check, return true if the {@link VideoElement} is
-   * supported.
+   * Using a run-time check, return true if the {@link VideoElement} is supported.
    *
    * @return true if supported, false otherwise.
    */
   // TODO: probably safe to assume that everyone supports Video
   private static boolean isSupportedRunTime(VideoElement element) {
-    return ((JsPropertyMap)element).has("canPlayType");
+    return ((JsPropertyMap) element).has("canPlayType");
   }
 
   /**
@@ -66,9 +60,7 @@ public class Video extends MediaBase {
     return isSupportedRunTime(element);
   }
 
-  /**
-   * Protected constructor. Use {@link #createIfSupported()} to create a Video.
-   */
+  /** Protected constructor. Use {@link #createIfSupported()} to create a Video. */
   protected Video(VideoElement element) {
     super(element);
   }
@@ -89,7 +81,6 @@ public class Video extends MediaBase {
    * Returns a poster URL.
    *
    * @return a URL containing a poster image
-   *
    * @see #setPoster(String)
    */
   public String getPoster() {
@@ -108,7 +99,7 @@ public class Video extends MediaBase {
   /**
    * Gets the intrinsic height of video within the element.
    *
-   * To get the element height, use {@link VideoElement#getOffsetHeight()}
+   * <p>To get the element height, use {@link VideoElement#getOffsetHeight()}
    *
    * @return the height, in pixels
    */
@@ -119,7 +110,7 @@ public class Video extends MediaBase {
   /**
    * Gets the instrinsic width of the video within the element.
    *
-   * To get the element width, use {@link VideoElement#getOffsetWidth()}
+   * <p>To get the element width, use {@link VideoElement#getOffsetWidth()}
    *
    * @return the width, in pixels
    */

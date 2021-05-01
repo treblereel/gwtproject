@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import java.util.Iterator;
 import org.gwtproject.aria.client.Roles;
 import org.gwtproject.event.logical.shared.BeforeSelectionEvent;
 import org.gwtproject.event.logical.shared.BeforeSelectionHandler;
@@ -26,63 +27,55 @@ import org.gwtproject.event.shared.HandlerRegistration;
 import org.gwtproject.safehtml.shared.annotations.IsSafeHtml;
 import org.gwtproject.safehtml.shared.annotations.SuppressIsSafeHtmlCastCheck;
 
-import java.util.Iterator;
-
 /**
- * A panel that represents a tabbed set of pages, each of which contains another
- * widget. Its child widgets are shown as the user selects the various tabs
- * associated with them. The tabs can contain arbitrary HTML.
+ * A panel that represents a tabbed set of pages, each of which contains another widget. Its child
+ * widgets are shown as the user selects the various tabs associated with them. The tabs can contain
+ * arbitrary HTML.
  *
- * <p>
- * This widget will <em>only</em> work in quirks mode. If your application is in
- * Standards Mode, use {@link TabLayoutPanel} instead.
- * </p>
+ * <p>This widget will <em>only</em> work in quirks mode. If your application is in Standards Mode,
+ * use {@link TabLayoutPanel} instead.
  *
- * <p>
- * <img class='gallery' src='doc-files/TabPanel.png'/>
- * </p>
+ * <p><img class='gallery' src='doc-files/TabPanel.png'/>
  *
- * <p>
- * Note that this widget is not a panel per se, but rather a
- * {@link Composite} that aggregates a
- * {@link TabBar} and a
- * {@link DeckPanel}. It does, however, implement
- * {@link HasWidgets}.
- * </p>
+ * <p>Note that this widget is not a panel per se, but rather a {@link Composite} that aggregates a
+ * {@link TabBar} and a {@link DeckPanel}. It does, however, implement {@link HasWidgets}.
  *
  * <h3>CSS Style Rules</h3>
+ *
  * <ul class='css'>
- * <li>.gwt-TabPanel { the tab panel itself }</li>
- * <li>.gwt-TabPanelBottom { the bottom section of the tab panel
- * (the deck containing the widget) }</li>
+ *   <li>.gwt-TabPanel { the tab panel itself }
+ *   <li>.gwt-TabPanelBottom { the bottom section of the tab panel (the deck containing the widget)
+ *       }
  * </ul>
  *
  * <p>
+ *
  * <h3>Example</h3>
+ *
  * {@example com.google.gwt.examples.TabPanelExample}
- * </p>
  *
  * @see TabLayoutPanel
  */
 
 // Cannot do anything about tab panel implementing TabListener until next
 // release
-public class TabPanel extends Composite implements
-    HasWidgets, HasAnimation, IndexedPanel.ForIsWidget,
-    HasBeforeSelectionHandlers<Integer>, HasSelectionHandlers<Integer>,
-    BeforeSelectionHandler<Integer>, SelectionHandler<Integer> {
+public class TabPanel extends Composite
+    implements HasWidgets,
+        HasAnimation,
+        IndexedPanel.ForIsWidget,
+        HasBeforeSelectionHandlers<Integer>,
+        HasSelectionHandlers<Integer>,
+        BeforeSelectionHandler<Integer>,
+        SelectionHandler<Integer> {
   /**
-   * This extension of DeckPanel overrides the public mutator methods to prevent
-   * external callers from adding to the state of the DeckPanel.
-   * <p>
-   * Removal of Widgets is supported so that WidgetCollection.WidgetIterator
-   * operates as expected.
-   * </p>
-   * <p>
-   * We ensure that the DeckPanel cannot become of of sync with its associated
-   * TabBar by delegating all mutations to the TabBar to this implementation of
-   * DeckPanel.
-   * </p>
+   * This extension of DeckPanel overrides the public mutator methods to prevent external callers
+   * from adding to the state of the DeckPanel.
+   *
+   * <p>Removal of Widgets is supported so that WidgetCollection.WidgetIterator operates as
+   * expected.
+   *
+   * <p>We ensure that the DeckPanel cannot become of of sync with its associated TabBar by
+   * delegating all mutations to the TabBar to this implementation of DeckPanel.
    */
   private static class TabbedDeckPanel extends DeckPanel {
     private final UnmodifiableTabBar tabBar;
@@ -93,20 +86,17 @@ public class TabPanel extends Composite implements
 
     @Override
     public void add(Widget w) {
-      throw new UnsupportedOperationException(
-          "Use TabPanel.add() to alter the DeckPanel");
+      throw new UnsupportedOperationException("Use TabPanel.add() to alter the DeckPanel");
     }
 
     @Override
     public void clear() {
-      throw new UnsupportedOperationException(
-          "Use TabPanel.clear() to alter the DeckPanel");
+      throw new UnsupportedOperationException("Use TabPanel.clear() to alter the DeckPanel");
     }
 
     @Override
     public void insert(Widget w, int beforeIndex) {
-      throw new UnsupportedOperationException(
-          "Use TabPanel.insert() to alter the DeckPanel");
+      throw new UnsupportedOperationException("Use TabPanel.insert() to alter the DeckPanel");
     }
 
     @Override
@@ -157,20 +147,18 @@ public class TabPanel extends Composite implements
   }
 
   /**
-   * This extension of TabPanel overrides the public mutator methods to prevent
-   * external callers from modifying the state of the TabBar.
+   * This extension of TabPanel overrides the public mutator methods to prevent external callers
+   * from modifying the state of the TabBar.
    */
   private class UnmodifiableTabBar extends TabBar {
     @Override
     public void insertTab(@IsSafeHtml String text, boolean asHTML, int beforeIndex) {
-      throw new UnsupportedOperationException(
-          "Use TabPanel.insert() to alter the TabBar");
+      throw new UnsupportedOperationException("Use TabPanel.insert() to alter the TabBar");
     }
 
     @Override
     public void insertTab(Widget widget, int beforeIndex) {
-      throw new UnsupportedOperationException(
-          "Use TabPanel.insert() to alter the TabBar");
+      throw new UnsupportedOperationException("Use TabPanel.insert() to alter the TabBar");
     }
 
     public void insertTabProtected(@IsSafeHtml String text, boolean asHTML, int beforeIndex) {
@@ -186,8 +174,7 @@ public class TabPanel extends Composite implements
       // It's possible for removeTab() to function correctly, but it's
       // preferable to have only TabbedDeckPanel.remove() be operable,
       // especially since TabBar does not export an Iterator over its values.
-      throw new UnsupportedOperationException(
-          "Use TabPanel.remove() to alter the TabBar");
+      throw new UnsupportedOperationException("Use TabPanel.remove() to alter the TabBar");
     }
 
     public void removeTabProtected(int index) {
@@ -203,9 +190,7 @@ public class TabPanel extends Composite implements
   private final UnmodifiableTabBar tabBar = new UnmodifiableTabBar();
   private final TabbedDeckPanel deck = new TabbedDeckPanel(tabBar);
 
-  /**
-   * Creates an empty tab panel.
-   */
+  /** Creates an empty tab panel. */
   public TabPanel() {
     VerticalPanel panel = new VerticalPanel();
     panel.add(tabBar);
@@ -223,36 +208,29 @@ public class TabPanel extends Composite implements
     Roles.getTabpanelRole().set(deck.getElement());
   }
 
-  /**
-   * Convenience overload to allow {@link IsWidget} to be used directly.
-   */
+  /** Convenience overload to allow {@link IsWidget} to be used directly. */
   public void add(IsWidget w, IsWidget tabWidget) {
     add(asWidgetOrNull(w), asWidgetOrNull(tabWidget));
   }
 
-  /**
-   * Convenience overload to allow {@link IsWidget} to be used directly.
-   */
+  /** Convenience overload to allow {@link IsWidget} to be used directly. */
   public void add(IsWidget w, String tabText) {
     add(asWidgetOrNull(w), tabText);
   }
 
-  /**
-   * Convenience overload to allow {@link IsWidget} to be used directly.
-   */
+  /** Convenience overload to allow {@link IsWidget} to be used directly. */
   public void add(IsWidget w, @IsSafeHtml String tabText, boolean asHTML) {
     add(asWidgetOrNull(w), tabText, asHTML);
   }
 
   @Override
   public void add(Widget w) {
-    throw new UnsupportedOperationException(
-        "A tabText parameter must be specified with add().");
+    throw new UnsupportedOperationException("A tabText parameter must be specified with add().");
   }
 
   /**
-   * Adds a widget to the tab panel. If the Widget is already attached to the
-   * TabPanel, it will be moved to the right-most index.
+   * Adds a widget to the tab panel. If the Widget is already attached to the TabPanel, it will be
+   * moved to the right-most index.
    *
    * @param w the widget to be added
    * @param tabText the text to be shown on its tab
@@ -262,8 +240,8 @@ public class TabPanel extends Composite implements
   }
 
   /**
-   * Adds a widget to the tab panel. If the Widget is already attached to the
-   * TabPanel, it will be moved to the right-most index.
+   * Adds a widget to the tab panel. If the Widget is already attached to the TabPanel, it will be
+   * moved to the right-most index.
    *
    * @param w the widget to be added
    * @param tabText the text to be shown on its tab
@@ -274,8 +252,8 @@ public class TabPanel extends Composite implements
   }
 
   /**
-   * Adds a widget to the tab panel. If the Widget is already attached to the
-   * TabPanel, it will be moved to the right-most index.
+   * Adds a widget to the tab panel. If the Widget is already attached to the TabPanel, it will be
+   * moved to the right-most index.
    *
    * @param w the widget to be added
    * @param tabWidget the widget to be shown in the tab
@@ -285,14 +263,12 @@ public class TabPanel extends Composite implements
   }
 
   @Override
-  public HandlerRegistration addBeforeSelectionHandler(
-      BeforeSelectionHandler<Integer> handler) {
+  public HandlerRegistration addBeforeSelectionHandler(BeforeSelectionHandler<Integer> handler) {
     return addHandler(handler, BeforeSelectionEvent.getType());
   }
 
   @Override
-  public HandlerRegistration addSelectionHandler(
-      SelectionHandler<Integer> handler) {
+  public HandlerRegistration addSelectionHandler(SelectionHandler<Integer> handler) {
     return addHandler(handler, SelectionEvent.getType());
   }
 
@@ -304,9 +280,8 @@ public class TabPanel extends Composite implements
   }
 
   /**
-   * Gets the deck panel within this tab panel. Adding or removing Widgets from
-   * the DeckPanel is not supported and will throw
-   * UnsupportedOperationExceptions.
+   * Gets the deck panel within this tab panel. Adding or removing Widgets from the DeckPanel is not
+   * supported and will throw UnsupportedOperationExceptions.
    *
    * @return the deck panel
    */
@@ -315,8 +290,8 @@ public class TabPanel extends Composite implements
   }
 
   /**
-   * Gets the tab bar within this tab panel. Adding or removing tabs from the
-   * TabBar is not supported and will throw UnsupportedOperationExceptions.
+   * Gets the tab bar within this tab panel. Adding or removing tabs from the TabBar is not
+   * supported and will throw UnsupportedOperationExceptions.
    *
    * @return the tab bar
    */
@@ -334,9 +309,7 @@ public class TabPanel extends Composite implements
     return deck.getWidgetCount();
   }
 
-  /**
-   * Convenience overload to allow {@link IsWidget} to be used directly.
-   */
+  /** Convenience overload to allow {@link IsWidget} to be used directly. */
   @Override
   public int getWidgetIndex(IsWidget child) {
     return getWidgetIndex(asWidgetOrNull(child));
@@ -347,30 +320,24 @@ public class TabPanel extends Composite implements
     return deck.getWidgetIndex(widget);
   }
 
-  /**
-   * Convenience overload to allow {@link IsWidget} to be used directly.
-   */
+  /** Convenience overload to allow {@link IsWidget} to be used directly. */
   public void insert(IsWidget widget, IsWidget tabWidget, int beforeIndex) {
     insert(asWidgetOrNull(widget), asWidgetOrNull(tabWidget), beforeIndex);
   }
 
-  /**
-   * Convenience overload to allow {@link IsWidget} to be used directly.
-   */
+  /** Convenience overload to allow {@link IsWidget} to be used directly. */
   public void insert(IsWidget widget, @IsSafeHtml String tabText, boolean asHTML, int beforeIndex) {
     insert(asWidgetOrNull(widget), tabText, asHTML, beforeIndex);
   }
 
-  /**
-   * Convenience overload to allow {@link IsWidget} to be used directly.
-   */
+  /** Convenience overload to allow {@link IsWidget} to be used directly. */
   public void insert(IsWidget widget, String tabText, int beforeIndex) {
     insert(asWidgetOrNull(widget), tabText, beforeIndex);
   }
 
   /**
-   * Inserts a widget into the tab panel. If the Widget is already attached to
-   * the TabPanel, it will be moved to the requested index.
+   * Inserts a widget into the tab panel. If the Widget is already attached to the TabPanel, it will
+   * be moved to the requested index.
    *
    * @param widget the widget to be inserted
    * @param tabText the text to be shown on its tab
@@ -383,8 +350,8 @@ public class TabPanel extends Composite implements
   }
 
   /**
-   * Inserts a widget into the tab panel. If the Widget is already attached to
-   * the TabPanel, it will be moved to the requested index.
+   * Inserts a widget into the tab panel. If the Widget is already attached to the TabPanel, it will
+   * be moved to the requested index.
    *
    * @param widget the widget to be inserted
    * @param tabText the text to be shown on its tab
@@ -396,8 +363,8 @@ public class TabPanel extends Composite implements
   }
 
   /**
-   * Inserts a widget into the tab panel. If the Widget is already attached to
-   * the TabPanel, it will be moved to the requested index.
+   * Inserts a widget into the tab panel. If the Widget is already attached to the TabPanel, it will
+   * be moved to the requested index.
    *
    * @param widget the widget to be inserted.
    * @param tabWidget the widget to be shown on its tab.
@@ -420,18 +387,14 @@ public class TabPanel extends Composite implements
     return deck.iterator();
   }
 
-  /**
-   * @deprecated Use {@link BeforeSelectionHandler#onBeforeSelection} instead
-   */
+  /** @deprecated Use {@link BeforeSelectionHandler#onBeforeSelection} instead */
   @Override
   public void onBeforeSelection(BeforeSelectionEvent<Integer> event) {
     int tabIndex = event.getItem();
     BeforeSelectionEvent.fire(this, tabIndex);
   }
 
-  /**
-   * @deprecated Use {@link SelectionHandler#onSelection} instead
-   */
+  /** @deprecated Use {@link SelectionHandler#onSelection} instead */
   @Override
   @Deprecated
   public void onSelection(SelectionEvent<Integer> event) {
@@ -482,11 +445,10 @@ public class TabPanel extends Composite implements
   }
 
   /**
-   * Create a {@link SimplePanel} that will wrap the contents in a tab.
-   * Subclasses can use this method to wrap tabs in decorator panels.
+   * Create a {@link SimplePanel} that will wrap the contents in a tab. Subclasses can use this
+   * method to wrap tabs in decorator panels.
    *
-   * @return a {@link SimplePanel} to wrap the tab contents, or null to leave
-   *         tabs unwrapped
+   * @return a {@link SimplePanel} to wrap the tab contents, or null to leave tabs unwrapped
    */
   protected SimplePanel createTabTextWrapper() {
     return null;
@@ -494,11 +456,12 @@ public class TabPanel extends Composite implements
 
   /**
    * <b>Affected Elements:</b>
+   *
    * <ul>
-   * <li>-bar = The tab bar.</li>
-   * <li>-bar-tab# = The element containing the content of the tab itself.</li>
-   * <li>-bar-tab-wrapper# = The cell containing the tab at the index.</li>
-   * <li>-bottom = The panel beneath the tab bar.</li>
+   *   <li>-bar = The tab bar.
+   *   <li>-bar-tab# = The element containing the content of the tab itself.
+   *   <li>-bar-tab-wrapper# = The cell containing the tab at the index.
+   *   <li>-bottom = The panel beneath the tab bar.
    * </ul>
    *
    * @see UIObject#onEnsureDebugId(String)

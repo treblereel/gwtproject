@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -25,25 +25,25 @@ import org.gwtproject.event.logical.shared.ValueChangeHandler;
 import org.gwtproject.event.shared.HandlerRegistration;
 
 /**
- * A <code>ToggleButton</code> is a stylish stateful button which allows the
- * user to toggle between <code>up</code> and <code>down</code> states.
- * 
- * <p>
- * <img class='gallery' src='doc-files/ToggleButton.png'/>
- * </p>
- * 
+ * A <code>ToggleButton</code> is a stylish stateful button which allows the user to toggle between
+ * <code>up</code> and <code>down</code> states.
+ *
+ * <p><img class='gallery' src='doc-files/ToggleButton.png'/>
+ *
  * <h3>CSS Style Rules</h3>
+ *
  * <ul class="css">
- * <li>
- * .gwt-ToggleButton-up/down/up-hovering/down-hovering/up-disabled/down-disabled
- * {.html-face}</li>
+ *   <li>.gwt-ToggleButton-up/down/up-hovering/down-hovering/up-disabled/down-disabled {.html-face}
  * </ul>
- * 
+ *
  * <p>
- * <h3>Example</h3> {@example com.google.gwt.examples.ToggleButtonExample}
- * </p>
+ *
+ * <h3>Example</h3>
+ *
+ * {@example com.google.gwt.examples.ToggleButtonExample}
  */
-public class ToggleButton extends CustomButton implements HasValue<Boolean>, IsEditor<LeafValueEditor<Boolean>> {
+public class ToggleButton extends CustomButton
+    implements HasValue<Boolean>, IsEditor<LeafValueEditor<Boolean>> {
   private static String STYLENAME_DEFAULT = "gwt-ToggleButton";
 
   private LeafValueEditor<Boolean> editor;
@@ -52,17 +52,15 @@ public class ToggleButton extends CustomButton implements HasValue<Boolean>, IsE
     setStyleName(STYLENAME_DEFAULT);
   }
 
-  /**
-   * Constructor for <code>ToggleButton</code>.
-   */
+  /** Constructor for <code>ToggleButton</code>. */
   public ToggleButton() {
     super();
   }
 
   /**
-   * Constructor for <code>ToggleButton</code>. The supplied image is used to
-   * construct the default face.
-   * 
+   * Constructor for <code>ToggleButton</code>. The supplied image is used to construct the default
+   * face.
+   *
    * @param upImage image for the default face of the button
    */
   public ToggleButton(Image upImage) {
@@ -70,9 +68,9 @@ public class ToggleButton extends CustomButton implements HasValue<Boolean>, IsE
   }
 
   /**
-   * Constructor for <code>ToggleButton</code>. The supplied image is used to
-   * construct the default face of the button.
-   * 
+   * Constructor for <code>ToggleButton</code>. The supplied image is used to construct the default
+   * face of the button.
+   *
    * @param upImage image for the default (up) face of the button
    * @param handler the click handler
    */
@@ -82,7 +80,7 @@ public class ToggleButton extends CustomButton implements HasValue<Boolean>, IsE
 
   /**
    * Constructor for <code>ToggleButton</code>.
-   * 
+   *
    * @param upImage image for the default(up) face of the button
    * @param downImage image for the down face of the button
    */
@@ -92,7 +90,7 @@ public class ToggleButton extends CustomButton implements HasValue<Boolean>, IsE
 
   /**
    * Constructor for <code>ToggleButton</code>.
-   * 
+   *
    * @param upImage image for the default(up) face of the button
    * @param downImage image for the down face of the button
    * @param handler the click handler
@@ -102,9 +100,9 @@ public class ToggleButton extends CustomButton implements HasValue<Boolean>, IsE
   }
 
   /**
-   * Constructor for <code>ToggleButton</code>. The supplied text is used to
-   * construct the default face of the button.
-   * 
+   * Constructor for <code>ToggleButton</code>. The supplied text is used to construct the default
+   * face of the button.
+   *
    * @param upText the text for the default (up) face of the button.
    */
   public ToggleButton(String upText) {
@@ -112,9 +110,9 @@ public class ToggleButton extends CustomButton implements HasValue<Boolean>, IsE
   }
 
   /**
-   * Constructor for <code>ToggleButton</code>. The supplied text is used to
-   * construct the default face of the button.
-   * 
+   * Constructor for <code>ToggleButton</code>. The supplied text is used to construct the default
+   * face of the button.
+   *
    * @param upText the text for the default (up) face of the button
    * @param handler the click handler
    */
@@ -124,7 +122,7 @@ public class ToggleButton extends CustomButton implements HasValue<Boolean>, IsE
 
   /**
    * Constructor for <code>ToggleButton</code>.
-   * 
+   *
    * @param upText the text for the default (up) face of the button
    * @param downText the text for down face of the button
    */
@@ -134,7 +132,7 @@ public class ToggleButton extends CustomButton implements HasValue<Boolean>, IsE
 
   /**
    * Constructor for <code>ToggleButton</code>.
-   * 
+   *
    * @param upText the text for the default (up) face of the button
    * @param downText the text for down face of the button
    * @param handler the click handler
@@ -143,8 +141,7 @@ public class ToggleButton extends CustomButton implements HasValue<Boolean>, IsE
     super(upText, downText, handler);
   }
 
-  public HandlerRegistration addValueChangeHandler(
-      ValueChangeHandler<Boolean> handler) {
+  public HandlerRegistration addValueChangeHandler(ValueChangeHandler<Boolean> handler) {
     return addHandler(handler, ValueChangeEvent.getType());
   }
 
@@ -157,9 +154,8 @@ public class ToggleButton extends CustomButton implements HasValue<Boolean>, IsE
 
   /**
    * Determines whether this button is currently down.
-   * 
-   * @return <code>true</code> if the button is pressed, false otherwise. Will
-   *         not return null
+   *
+   * @return <code>true</code> if the button is pressed, false otherwise. Will not return null
    */
   public Boolean getValue() {
     return isDown();
@@ -172,8 +168,8 @@ public class ToggleButton extends CustomButton implements HasValue<Boolean>, IsE
   }
 
   /**
-   * {@inheritDoc} Does not fire {@link ValueChangeEvent}. (If you want the
-   * event to fire, use {@link #setValue(Boolean, boolean)})
+   * {@inheritDoc} Does not fire {@link ValueChangeEvent}. (If you want the event to fire, use
+   * {@link #setValue(Boolean, boolean)})
    */
   @Override
   public void setDown(boolean down) {
@@ -183,22 +179,18 @@ public class ToggleButton extends CustomButton implements HasValue<Boolean>, IsE
 
   /**
    * Sets whether this button is down.
-   * 
-   * @param value true to press the button, false otherwise; null value implies
-   *          false
+   *
+   * @param value true to press the button, false otherwise; null value implies false
    */
   public void setValue(Boolean value) {
     setValue(value, false);
   }
 
   /**
-   * Sets whether this button is down, firing {@link ValueChangeEvent} if
-   * appropriate.
-   * 
-   * @param value true to press the button, false otherwise; null value implies
-   *          false
-   * @param fireEvents If true, and value has changed, fire a
-   *          {@link ValueChangeEvent}
+   * Sets whether this button is down, firing {@link ValueChangeEvent} if appropriate.
+   *
+   * @param value true to press the button, false otherwise; null value implies false
+   * @param fireEvents If true, and value has changed, fire a {@link ValueChangeEvent}
    */
   public void setValue(Boolean value, boolean fireEvents) {
     if (value == null) {

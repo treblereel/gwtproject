@@ -23,39 +23,36 @@ import org.gwtproject.dom.client.InputElement;
 /**
  * A standard single-line text box.
  *
- * <p>
- * <img class='gallery' src='doc-files/TextBox.png'/>
- * </p>
+ * <p><img class='gallery' src='doc-files/TextBox.png'/>
  *
  * <h3>CSS Style Rules</h3>
+ *
  * <ul class='css'>
- * <li>.gwt-TextBox { primary style }</li>
- * <li>.gwt-TextBox-readonly { dependent style set when the text box is
- * read-only }</li>
+ *   <li>.gwt-TextBox { primary style }
+ *   <li>.gwt-TextBox-readonly { dependent style set when the text box is read-only }
  * </ul>
  *
  * <p>
+ *
  * <h3>Built-in Bidi Text Support</h3>
- * This widget is capable of automatically adjusting its direction according to
- * the input text. This feature is controlled by {@link #setDirectionEstimator},
- * and is available by default when at least one of the application's locales is
- * right-to-left.
- * </p>
+ *
+ * This widget is capable of automatically adjusting its direction according to the input text. This
+ * feature is controlled by {@link #setDirectionEstimator}, and is available by default when at
+ * least one of the application's locales is right-to-left.
  *
  * <p>
+ *
  * <h3>Example</h3>
+ *
  * {@example com.google.gwt.examples.TextBoxExample}
- * </p>
  */
 public class TextBox extends TextBoxBase {
 
   /**
-   * Creates a TextBox widget that wraps an existing &lt;input type='text'&gt;
-   * element.
+   * Creates a TextBox widget that wraps an existing &lt;input type='text'&gt; element.
    *
-   * This element must already be attached to the document. If the element is
-   * removed from the document, you must call
-   * {@link RootPanel#detachNow(Widget)}.
+   * <p>This element must already be attached to the document. If the element is removed from the
+   * document, you must call {@link RootPanel#detachNow(Widget)}.
    *
    * @param element the element to be wrapped
    */
@@ -72,17 +69,14 @@ public class TextBox extends TextBoxBase {
     return textBox;
   }
 
-  /**
-   * Creates an empty text box.
-   */
+  /** Creates an empty text box. */
   public TextBox() {
     this(Document.get().createTextInputElement(), "gwt-TextBox");
   }
 
   /**
-   * This constructor may be used by subclasses to explicitly use an existing
-   * element. This element must be an &lt;input&gt; element whose type is
-   * 'text'.
+   * This constructor may be used by subclasses to explicitly use an existing element. This element
+   * must be an &lt;input&gt; element whose type is 'text'.
    *
    * @param element the element to be used
    */

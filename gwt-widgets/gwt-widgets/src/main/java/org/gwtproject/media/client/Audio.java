@@ -21,28 +21,22 @@ import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.PartialSupport;
 
 /**
- * <p>
  * A widget representing an &lt;audio&gt; element.
  *
- * <p>
- * <span style="color:red">Experimental API: This API is still under development
- * and is subject to change. </span>
- * </p>
- *
- * This widget may not be supported on all browsers.
+ * <p><span style="color:red">Experimental API: This API is still under development and is subject
+ * to change. </span> This widget may not be supported on all browsers.
  */
 @PartialSupport
 public class Audio extends MediaBase {
 
   /**
-   * Using a run-time check, return true if the {@link AudioElement} is
-   * supported.
+   * Using a run-time check, return true if the {@link AudioElement} is supported.
    *
    * @return true if supported, false otherwise.
    */
   // TODO: probably safe to assume that everyone supports Audio
   private static boolean isSupportedRunTime(AudioElement element) {
-    return ((JsPropertyMap)element).has("canPlayType");
+    return ((JsPropertyMap) element).has("canPlayType");
   }
 
   /**
@@ -68,9 +62,7 @@ public class Audio extends MediaBase {
     return isSupportedRunTime(element);
   }
 
-  /**
-   * Protected constructor. Use {@link #createIfSupported()} to create an Audio.
-   */
+  /** Protected constructor. Use {@link #createIfSupported()} to create an Audio. */
   protected Audio(AudioElement element) {
     super(element);
   }

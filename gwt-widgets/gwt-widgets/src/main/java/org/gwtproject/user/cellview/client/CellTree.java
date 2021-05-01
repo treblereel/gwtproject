@@ -18,7 +18,6 @@ package org.gwtproject.user.cellview.client;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
-
 import org.gwtproject.animation.client.Animation;
 import org.gwtproject.aria.client.Roles;
 import org.gwtproject.core.client.Scheduler;
@@ -52,27 +51,23 @@ import org.gwtproject.view.client.TreeViewModel;
 /**
  * A view of a tree.
  *
- * <p>
- * This widget will <em>only</em> work in standards mode, which requires that
- * the HTML page in which it is run have an explicit &lt;!DOCTYPE&gt;
- * declaration.
- * </p>
+ * <p>This widget will <em>only</em> work in standards mode, which requires that the HTML page in
+ * which it is run have an explicit &lt;!DOCTYPE&gt; declaration.
  *
  * <p>
+ *
  * <h3>Examples</h3>
+ *
  * <dl>
- * <dt>Trivial example</dt>
- * <dd>{@example com.google.gwt.examples.cellview.CellTreeExample}</dd>
- * <dt>Complex example</dt>
- * <dd>{@example com.google.gwt.examples.cellview.CellTreeExample2}</dd>
+ *   <dt>Trivial example
+ *   <dd>{@example com.google.gwt.examples.cellview.CellTreeExample}
+ *   <dt>Complex example
+ *   <dd>{@example com.google.gwt.examples.cellview.CellTreeExample2}
  * </dl>
  */
-public class CellTree extends AbstractCellTree implements HasAnimation,
-    Focusable {
+public class CellTree extends AbstractCellTree implements HasAnimation, Focusable {
 
-  /**
-   * Resources that match the GWT standard style theme.
-   */
+  /** Resources that match the GWT standard style theme. */
   public interface BasicResources extends Resources {
     BasicResources INSTANCE = new CellTree_BasicResourcesImpl();
 
@@ -86,43 +81,33 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
     @ImageOptions(flipRtl = true)
     ImageResource cellTreeOpenItem();
 
-    /**
-     * The styles used in this widget.
-     */
+    /** The styles used in this widget. */
     @Source(BasicStyle.DEFAULT_CSS)
     BasicStyle cellTreeStyle();
   }
 
-  /**
-   * Constants for labeling the cell tree. Provides just English messages by default.
-   */
+  /** Constants for labeling the cell tree. Provides just English messages by default. */
   @DefaultLocale("en_US")
   public interface CellTreeMessages extends Messages {
     CellTreeMessages INSTANCE = new CellTree_CellTreeMessages_en_US();
 
     @DefaultMessage("Show more")
     String showMore();
+
     @DefaultMessage("Empty")
     String emptyTree();
   }
 
-  /**
-   * A node animation.
-   */
+  /** A node animation. */
   public abstract static class NodeAnimation extends Animation {
 
-    /**
-     * The default animation delay in milliseconds.
-     */
+    /** The default animation delay in milliseconds. */
     private static final int DEFAULT_ANIMATION_DURATION = 450;
 
-    /**
-     * The duration of the animation in milliseconds.
-     */
+    /** The duration of the animation in milliseconds. */
     private int duration = DEFAULT_ANIMATION_DURATION;
 
-    NodeAnimation() {
-    }
+    NodeAnimation() {}
 
     /**
      * Return the duration of the animation in milliseconds.
@@ -152,49 +137,35 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
     abstract void animate(CellTreeNodeView<?> node, boolean isAnimationEnabled);
   }
 
-  /**
-   * A ClientBundle that provides images for this widget.
-   */
+  /** A ClientBundle that provides images for this widget. */
   public interface Resources extends ClientBundle {
 
     Resources INSTANCE = new CellTree_ResourcesImpl();
 
-    /**
-     * An image indicating a closed branch.
-     */
+    /** An image indicating a closed branch. */
     @ImageOptions(flipRtl = true)
     @Source("cellTreeClosedArrow.png")
     ImageResource cellTreeClosedItem();
 
-    /**
-     * An image indicating that a node is loading.
-     */
+    /** An image indicating that a node is loading. */
     @ImageOptions(flipRtl = true)
     ImageResource cellTreeLoading();
 
-    /**
-     * An image indicating an open branch.
-     */
+    /** An image indicating an open branch. */
     @ImageOptions(flipRtl = true)
     @Source("cellTreeOpenArrow.png")
     ImageResource cellTreeOpenItem();
 
-    /**
-     * The background used for selected items.
-     */
+    /** The background used for selected items. */
     @ImageOptions(repeatStyle = RepeatStyle.Horizontal, flipRtl = true)
     ImageResource cellTreeSelectedBackground();
 
-    /**
-     * The styles used in this widget.
-     */
+    /** The styles used in this widget. */
     @Source(Style.DEFAULT_CSS)
     Style cellTreeStyle();
   }
 
-  /**
-   * A {@link NodeAnimation} that reveals the contents of child nodes.
-   */
+  /** A {@link NodeAnimation} that reveals the contents of child nodes. */
   public static class RevealAnimation extends NodeAnimation {
 
     /**
@@ -206,36 +177,23 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
       return new RevealAnimation();
     }
 
-    /**
-     * The container that holds the content, includind the children.
-     */
+    /** The container that holds the content, includind the children. */
     Element contentContainer;
 
-    /**
-     * The target height when opening, the start height when closing.
-     */
+    /** The target height when opening, the start height when closing. */
     int height;
 
-    /**
-     * True if the node is opening, false if closing.
-     */
+    /** True if the node is opening, false if closing. */
     boolean opening;
 
-    /**
-     * The container that holds the child container.
-     */
+    /** The container that holds the child container. */
     private Element animFrame;
 
-    /**
-     * The container that holds the children.
-     */
+    /** The container that holds the children. */
     private Element childContainer;
 
-    /**
-     * Not instantiable.
-     */
-    private RevealAnimation() {
-    }
+    /** Not instantiable. */
+    private RevealAnimation() {}
 
     @Override
     protected void onComplete() {
@@ -302,9 +260,7 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
       }
     }
 
-    /**
-     * Put the node back into a clean state and clear fields.
-     */
+    /** Put the node back into a clean state and clear fields. */
     private void cleanup() {
       if (opening) {
         animFrame.getStyle().clearDisplay();
@@ -320,9 +276,7 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
     }
   }
 
-  /**
-   * A {@link NodeAnimation} that slides children into view.
-   */
+  /** A {@link NodeAnimation} that slides children into view. */
   public static class SlideAnimation extends RevealAnimation {
     /**
      * Create a new {@link RevealAnimation}.
@@ -333,11 +287,8 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
       return new SlideAnimation();
     }
 
-    /**
-     * Not instantiable.
-     */
-    private SlideAnimation() {
-    }
+    /** Not instantiable. */
+    private SlideAnimation() {}
 
     @Override
     protected void onComplete() {
@@ -371,90 +322,56 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
     }
   }
 
-  /**
-   * Styles used by this widget.
-   */
+  /** Styles used by this widget. */
   @ImportedWithPrefix("gwt-CellTree")
   public interface Style extends CssResource {
-    /**
-     * The path to the default CSS styles used by this resource.
-     */
+    /** The path to the default CSS styles used by this resource. */
     String DEFAULT_CSS = "org/gwtproject/user/cellview/client/CellTree.gss";
 
-    /**
-     * Applied to the empty message.
-     */
+    /** Applied to the empty message. */
     String cellTreeEmptyMessage();
 
-    /**
-     * Applied to tree items.
-     */
+    /** Applied to tree items. */
     String cellTreeItem();
 
-    /**
-     * Applied to open/close icon.
-     */
+    /** Applied to open/close icon. */
     String cellTreeItemImage();
 
-    /**
-     * Applied to the wrapper around the image and value.
-     */
+    /** Applied to the wrapper around the image and value. */
     String cellTreeItemImageValue();
 
-    /**
-     * Applied to the value in an item.
-     */
+    /** Applied to the value in an item. */
     String cellTreeItemValue();
 
-    /**
-     * Applied to the keyboard selected item.
-     */
+    /** Applied to the keyboard selected item. */
     String cellTreeKeyboardSelectedItem();
 
-    /**
-     * Applied to open tree items.
-     */
+    /** Applied to open tree items. */
     String cellTreeOpenItem();
 
-    /**
-     * Applied to selected tree items.
-     */
+    /** Applied to selected tree items. */
     String cellTreeSelectedItem();
 
-    /**
-     * Applied to the show more button.
-     */
+    /** Applied to the show more button. */
     String cellTreeShowMoreButton();
 
-    /**
-     * Applied to top level items.
-     */
+    /** Applied to top level items. */
     String cellTreeTopItem();
 
-    /**
-     * Applied to open/close icon at the top level.
-     */
+    /** Applied to open/close icon at the top level. */
     String cellTreeTopItemImage();
 
-    /**
-     * Applied to the wrapper around the image and value of top level items.
-     */
+    /** Applied to the wrapper around the image and value of top level items. */
     String cellTreeTopItemImageValue();
 
-    /**
-     * Applied to the widget.
-     */
+    /** Applied to the widget. */
     String cellTreeWidget();
   }
 
-  /**
-   * Styles used by {@link BasicResources}.
-   */
+  /** Styles used by {@link BasicResources}. */
   @ImportedWithPrefix("gwt-CellTree")
   interface BasicStyle extends Style {
-    /**
-     * The path to the default CSS styles used by this resource.
-     */
+    /** The path to the default CSS styles used by this resource. */
     String DEFAULT_CSS = "org/gwtproject/user/cellview/client/CellTreeBasic.gss";
   }
 
@@ -465,9 +382,7 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
     SafeHtml imageWrapper(String classes, SafeStyles cssLayout, SafeHtml image);
   }
 
-  /**
-   * The default number of children to show under a tree node.
-   */
+  /** The default number of children to show under a tree node. */
   private static final int DEFAULT_LIST_SIZE = 25;
 
   private static Resources DEFAULT_RESOURCES = new CellTree_ResourcesImpl();
@@ -478,83 +393,53 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
     return DEFAULT_RESOURCES;
   }
 
-  /**
-   * A boolean indicating whether or not a cell is being edited.
-   */
+  /** A boolean indicating whether or not a cell is being edited. */
   boolean cellIsEditing;
 
-  /**
-   * A boolean indicating that the widget has focus.
-   */
+  /** A boolean indicating that the widget has focus. */
   boolean isFocused;
 
-  /**
-   * Set to true while the elements are being refreshed. Events are ignored
-   * during this time.
-   */
+  /** Set to true while the elements are being refreshed. Events are ignored during this time. */
   boolean isRefreshing;
 
-  /**
-   * The hidden root node in the tree. Visible for testing.
-   */
+  /** The hidden root node in the tree. Visible for testing. */
   final CellTreeNodeView<?> rootNode;
 
   private char accessKey = 0;
 
-  /**
-   * The animation.
-   */
+  /** The animation. */
   private NodeAnimation animation;
 
-  /**
-   * The HTML used to generate the closed image.
-   */
+  /** The HTML used to generate the closed image. */
   private final SafeHtml closedImageHtml;
 
-  /**
-   * The HTML used to generate the closed image for the top items.
-   */
+  /** The HTML used to generate the closed image for the top items. */
   private final SafeHtml closedImageTopHtml;
 
-  /**
-   * The default number of children to display under each node.
-   */
+  /** The default number of children to display under each node. */
   private int defaultNodeSize = DEFAULT_LIST_SIZE;
 
-  /**
-   * The maximum width of the open and closed images.
-   */
+  /** The maximum width of the open and closed images. */
   private final int imageWidth;
 
-  /**
-   * Indicates whether or not animations are enabled.
-   */
+  /** Indicates whether or not animations are enabled. */
   private boolean isAnimationEnabled;
 
   /**
-   * The {@link CellTreeNodeView} whose children are currently being selected
-   * using the keyboard.
+   * The {@link CellTreeNodeView} whose children are currently being selected using the keyboard.
    */
   private CellTreeNodeView<?> keyboardSelectedNode;
 
-  /**
-   * The HTML used to generate the loading image.
-   */
+  /** The HTML used to generate the loading image. */
   private final SafeHtml loadingImageHtml;
 
-  /**
-   * The HTML used to generate the open image.
-   */
+  /** The HTML used to generate the open image. */
   private final SafeHtml openImageHtml;
 
-  /**
-   * The HTML used to generate the open image for the top items.
-   */
+  /** The HTML used to generate the open image for the top items. */
   private final SafeHtml openImageTopHtml;
 
-  /**
-   * The styles used by this widget.
-   */
+  /** The styles used by this widget. */
   private final Style style;
 
   private int tabIndex;
@@ -571,8 +456,8 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
   }
 
   /**
-   * Construct a new {@link CellTree}. Uses default translations that means
-   * that messages will be always in English.
+   * Construct a new {@link CellTree}. Uses default translations that means that messages will be
+   * always in English.
    *
    * @param <T> the type of data in the root node
    * @param viewModel the {@link TreeViewModel} that backs the tree
@@ -590,13 +475,12 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
    * @param viewModel the {@link TreeViewModel} that backs the tree
    * @param rootValue the hidden root value of the tree
    * @param resources the resources used to render the tree
-   * @param messages translation messages. Users should inherit an empty interface from
-   *                 {@link CellTreeMessages} and add annotations needed for their specific
-   *                 translation systems. Then create the new interface with GWT.create and pass
-   *                 as this argument.
+   * @param messages translation messages. Users should inherit an empty interface from {@link
+   *     CellTreeMessages} and add annotations needed for their specific translation systems. Then
+   *     create the new interface with GWT.create and pass as this argument.
    */
-  public <T> CellTree(TreeViewModel viewModel, T rootValue, Resources resources,
-                      CellTreeMessages messages) {
+  public <T> CellTree(
+      TreeViewModel viewModel, T rootValue, Resources resources, CellTreeMessages messages) {
     this(viewModel, rootValue, resources, messages, DEFAULT_LIST_SIZE);
   }
 
@@ -607,14 +491,17 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
    * @param viewModel the {@link TreeViewModel} that backs the tree
    * @param rootValue the hidden root value of the tree
    * @param resources the resources used to render the tree
-   * @param messages translation messages. Users should inherit an empty interface from
-   *                 {@link CellTreeMessages} and add annotations needed for their specific
-   *                 translation systems. Then create the new interface with GWT.create and pass
-   *                 as this argument.
+   * @param messages translation messages. Users should inherit an empty interface from {@link
+   *     CellTreeMessages} and add annotations needed for their specific translation systems. Then
+   *     create the new interface with GWT.create and pass as this argument.
    * @param defaultNodeSize default number of children to display beneath each child node
    */
-  public <T> CellTree(TreeViewModel viewModel, T rootValue, Resources resources,
-                      CellTreeMessages messages, int defaultNodeSize) {
+  public <T> CellTree(
+      TreeViewModel viewModel,
+      T rootValue,
+      Resources resources,
+      CellTreeMessages messages,
+      int defaultNodeSize) {
     super(viewModel);
     this.defaultNodeSize = defaultNodeSize;
     if (template == null) {
@@ -634,8 +521,8 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
     openImageTopHtml = getImageHtml(treeOpen, true);
     closedImageTopHtml = getImageHtml(treeClosed, true);
     loadingImageHtml = getImageHtml(treeLoading, false);
-    imageWidth = Math.max(Math.max(treeOpen.getWidth(), treeClosed.getWidth()),
-        treeLoading.getWidth());
+    imageWidth =
+        Math.max(Math.max(treeOpen.getWidth(), treeClosed.getWidth()), treeLoading.getWidth());
 
     // We use one animation for the entire tree.
     setAnimation(SlideAnimation.create());
@@ -651,8 +538,8 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
     CellBasedWidgetImpl.get().sinkEvents(this, eventTypes);
 
     // Associate a view with the item.
-    org.gwtproject.user.cellview.client.CellTreeNodeView<T> root = new CellTreeNodeView<T>(this, null, null,
-        getElement(), rootValue, messages);
+    org.gwtproject.user.cellview.client.CellTreeNodeView<T> root =
+        new CellTreeNodeView<T>(this, null, null, getElement(), rootValue, messages);
     keyboardSelectedNode = rootNode = root;
     root.setOpen(true, false);
 
@@ -660,8 +547,7 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
   }
 
   /**
-   * Get the animation used to open and close nodes in this tree if animations
-   * are enabled.
+   * Get the animation used to open and close nodes in this tree if animations are enabled.
    *
    * @return the animation
    * @see #isAnimationEnabled()
@@ -715,7 +601,7 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
     } else if (BrowserEvents.KEYDOWN.equals(eventType) && !cellIsEditing) {
       int keyCode = event.getKeyCode();
       switch (keyCode) {
-        // Handle keyboard navigation.
+          // Handle keyboard navigation.
         case KeyCodes.KEY_DOWN:
         case KeyCodes.KEY_UP:
         case KeyCodes.KEY_RIGHT:
@@ -737,7 +623,8 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
 
     final boolean isMouseDown = BrowserEvents.MOUSEDOWN.equals(eventType);
     final boolean isClick = BrowserEvents.CLICK.equals(eventType);
-    final org.gwtproject.user.cellview.client.CellTreeNodeView<?> nodeView = findItemByChain(chain, 0, rootNode);
+    final org.gwtproject.user.cellview.client.CellTreeNodeView<?> nodeView =
+        findItemByChain(chain, 0, rootNode);
     if (nodeView != null) {
       Element showMoreElem = nodeView.getShowMoreElement();
       if (isMouseDown) {
@@ -776,9 +663,7 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
   /**
    * {@inheritDoc}
    *
-   * <p>
-   * Setting the key to (int) 0 will disable the access key.
-   * </p>
+   * <p>Setting the key to (int) 0 will disable the access key.
    *
    * @see #getAccessKey()
    */
@@ -788,8 +673,8 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
   }
 
   /**
-   * Set the animation used to open and close nodes in this tree. You must call
-   * {@link #setAnimationEnabled(boolean)} to enable or disable animation.
+   * Set the animation used to open and close nodes in this tree. You must call {@link
+   * #setAnimationEnabled(boolean)} to enable or disable animation.
    *
    * @param animation a {@link NodeAnimation}
    * @see #setAnimationEnabled(boolean)
@@ -808,10 +693,10 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
   }
 
   /**
-   * Set the default number of children to display beneath each child node. If
-   * more nodes are available, a button will appear at the end of the list
-   * allowing the user to show more items. Changing this value will not affect
-   * other tree nodes that are already open (including the hidden root node).
+   * Set the default number of children to display beneath each child node. If more nodes are
+   * available, a button will appear at the end of the list allowing the user to show more items.
+   * Changing this value will not affect other tree nodes that are already open (including the
+   * hidden root node).
    *
    * @param defaultNodeSize the max
    * @see #getDefaultNodeSize()
@@ -855,23 +740,17 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
     return accessKey;
   }
 
-  /**
-   * Called when the keyboard selected node loses focus.
-   */
+  /** Called when the keyboard selected node loses focus. */
   protected void onBlur() {
     keyboardSelectedNode.setKeyboardSelectedStyle(false);
   }
 
-  /**
-   * Called when the keyboard selected node gains focus.
-   */
+  /** Called when the keyboard selected node gains focus. */
   protected void onFocus() {
     keyboardSelectedNode.setKeyboardSelectedStyle(true);
   }
 
-  /**
-   * Cancel a pending animation.
-   */
+  /** Cancel a pending animation. */
   void cancelTreeNodeAnimation() {
     animation.cancel();
   }
@@ -895,23 +774,17 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
     return imageWidth;
   }
 
-  /**
-   * Return the node that has keyboard selection.
-   */
+  /** Return the node that has keyboard selection. */
   org.gwtproject.user.cellview.client.CellTreeNodeView<?> getKeyboardSelectedNode() {
     return keyboardSelectedNode;
   }
 
-  /**
-   * Returns the TreeNode that is selected when the CellTree has keyboard focus.
-   */
+  /** Returns the TreeNode that is selected when the CellTree has keyboard focus. */
   public TreeNode getKeyboardSelectedTreeNode() {
     return keyboardSelectedNode == null ? null : keyboardSelectedNode.getTreeNode();
   }
 
-  /**
-   * Return the HTML to render the loading image.
-   */
+  /** Return the HTML to render the loading image. */
   SafeHtml getLoadingImageHtml() {
     return loadingImageHtml;
   }
@@ -926,9 +799,7 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
     return isTop ? openImageTopHtml : openImageHtml;
   }
 
-  /**
-   * Return the Style used by the tree.
-   */
+  /** Return the Style used by the tree. */
   Style getStyle() {
     return style;
   }
@@ -959,30 +830,27 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
    */
   void maybeAnimateTreeNode(CellTreeNodeView<?> node) {
     if (animation != null) {
-      animation.animate(node, node.consumeAnimate() && isAnimationEnabled()
-          && !node.isRootNode());
+      animation.animate(node, node.consumeAnimate() && isAnimationEnabled() && !node.isRootNode());
     }
   }
 
-  /**
-   * If this widget has focus, reset it.
-   */
+  /** If this widget has focus, reset it. */
   void resetFocus() {
-    CellBasedWidgetImpl.get().resetFocus(new Scheduler.ScheduledCommand() {
-      public void execute() {
-        if (isFocused && !keyboardSelectedNode.isDestroyed()
-            && !keyboardSelectedNode.resetFocusOnCell()) {
-          keyboardSelectedNode.setKeyboardSelected(true, true);
-        }
-      }
-    });
+    CellBasedWidgetImpl.get()
+        .resetFocus(
+            new Scheduler.ScheduledCommand() {
+              public void execute() {
+                if (isFocused
+                    && !keyboardSelectedNode.isDestroyed()
+                    && !keyboardSelectedNode.resetFocusOnCell()) {
+                  keyboardSelectedNode.setKeyboardSelected(true, true);
+                }
+              }
+            });
   }
 
-  /**
-   * Collects parents going up the element tree, terminated at the tree root.
-   */
-  private void collectElementChain(ArrayList<Element> chain, Element hRoot,
-                                   Element hElem) {
+  /** Collects parents going up the element tree, terminated at the tree root. */
+  private void collectElementChain(ArrayList<Element> chain, Element hRoot, Element hElem) {
     if ((hElem == null) || (hElem == hRoot)) {
       return;
     }
@@ -1004,8 +872,8 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
     return nodeView;
   }
 
-  private CellTreeNodeView<?> findItemByChain(ArrayList<Element> chain,
-                                             int idx, CellTreeNodeView<?> parent) {
+  private CellTreeNodeView<?> findItemByChain(
+      ArrayList<Element> chain, int idx, CellTreeNodeView<?> parent) {
     if (idx == chain.size()) {
       return parent;
     }
@@ -1051,8 +919,7 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
 
     AbstractImagePrototype proto = AbstractImagePrototype.create(res);
     SafeHtml image = proto.getSafeHtml();
-    return template
-        .imageWrapper(classesBuilder.toString(), cssBuilder.toSafeStyles(), image);
+    return template.imageWrapper(classesBuilder.toString(), cssBuilder.toSafeStyles(), image);
   }
 
   /**
@@ -1060,9 +927,10 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
    *
    * @param keyCode the key code that was pressed
    */
-  //@VisibleForTesting
+  // @VisibleForTesting
   void handleKeyNavigation(int keyCode) {
-    org.gwtproject.user.cellview.client.CellTreeNodeView<?> parent = keyboardSelectedNode.getParentNode();
+    org.gwtproject.user.cellview.client.CellTreeNodeView<?> parent =
+        keyboardSelectedNode.getParentNode();
     int parentChildCount = (parent == null) ? 0 : parent.getChildCount();
     int index = keyboardSelectedNode.getIndex();
     int childCount = keyboardSelectedNode.getChildCount();
@@ -1082,7 +950,8 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
           org.gwtproject.user.cellview.client.CellTreeNodeView<?> curParent = parent;
           org.gwtproject.user.cellview.client.CellTreeNodeView<?> nextSibling = null;
           while (curParent != null && curParent != rootNode) {
-            org.gwtproject.user.cellview.client.CellTreeNodeView<?> grandparent = curParent.getParentNode();
+            org.gwtproject.user.cellview.client.CellTreeNodeView<?> grandparent =
+                curParent.getParentNode();
             if (grandparent == null) {
               break;
             }
@@ -1101,7 +970,8 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
       case KeyCodes.KEY_UP:
         if (index > 0) {
           // Deepest node of previous sibling hierarchy.
-          org.gwtproject.user.cellview.client.CellTreeNodeView<?> prevSibling = parent.getChildNode(index - 1);
+          org.gwtproject.user.cellview.client.CellTreeNodeView<?> prevSibling =
+              parent.getChildNode(index - 1);
           while (prevSibling.isOpen() && prevSibling.getChildCount() > 0) {
             prevSibling = prevSibling.getChildNode(prevSibling.getChildCount() - 1);
           }
@@ -1121,8 +991,8 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
   }
 
   /**
-   * Navigate to a deeper node. If the node is closed, open it. If it is open,
-   * move to the first child.
+   * Navigate to a deeper node. If the node is closed, open it. If it is open, move to the first
+   * child.
    */
   private void keyboardNavigateDeep() {
     if (!keyboardSelectedNode.isLeaf()) {
@@ -1138,11 +1008,12 @@ public class CellTree extends AbstractCellTree implements HasAnimation,
   }
 
   /**
-   * Navigate to a shallower node. If the node is open, close it. If it is
-   * closed, move to the parent.
+   * Navigate to a shallower node. If the node is open, close it. If it is closed, move to the
+   * parent.
    */
   private void keyboardNavigateShallow() {
-    org.gwtproject.user.cellview.client.CellTreeNodeView<?> parent = keyboardSelectedNode.getParentNode();
+    org.gwtproject.user.cellview.client.CellTreeNodeView<?> parent =
+        keyboardSelectedNode.getParentNode();
     if (keyboardSelectedNode.isOpen()) {
       // Close the node.
       keyboardSelectedNode.setOpen(false, true);

@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -22,13 +22,11 @@ import org.gwtproject.layout.client.Layout.AnimationCallback;
 import org.gwtproject.layout.client.Layout.Layer;
 
 /**
- * A scheduled command used by animated layouts to ensure that only layout is
- * ever performed for a panel within a given user event.
- * 
- * <p>
- * Note: This class assumes that {@link Layer#getUserObject Layer.getUserObject()} will
- * return the widget associated with a given layer.
- * </p>
+ * A scheduled command used by animated layouts to ensure that only layout is ever performed for a
+ * panel within a given user event.
+ *
+ * <p>Note: This class assumes that {@link Layer#getUserObject Layer.getUserObject()} will return
+ * the widget associated with a given layer.
  */
 public class LayoutCommand implements ScheduledCommand {
 
@@ -39,7 +37,7 @@ public class LayoutCommand implements ScheduledCommand {
 
   /**
    * Creates a new command for the given layout object.
-   * 
+   *
    * @param layout
    */
   public LayoutCommand(Layout layout) {
@@ -47,8 +45,8 @@ public class LayoutCommand implements ScheduledCommand {
   }
 
   /**
-   * Cancels this command. A subsequent call to
-   * {@link #schedule(int, AnimationCallback)} will re-enable it.
+   * Cancels this command. A subsequent call to {@link #schedule(int, AnimationCallback)} will
+   * re-enable it.
    */
   public void cancel() {
     // There's no way to "unschedule" a command, so we use a canceled flag.
@@ -63,34 +61,36 @@ public class LayoutCommand implements ScheduledCommand {
 
     doBeforeLayout();
 
-    layout.layout(duration, new AnimationCallback() {
-      public void onAnimationComplete() {
-        // Chain to the passed callback.
-        if (callback != null) {
-          callback.onAnimationComplete();
-        }
-      }
+    layout.layout(
+        duration,
+        new AnimationCallback() {
+          public void onAnimationComplete() {
+            // Chain to the passed callback.
+            if (callback != null) {
+              callback.onAnimationComplete();
+            }
+          }
 
-      public void onLayout(Layer layer, double progress) {
-        // Inform the child associated with this layer that its size may
-        // have changed.
-        Widget child = (Widget) layer.getUserObject();
-        if (child instanceof RequiresResize) {
-          ((RequiresResize) child).onResize();
-        }
+          public void onLayout(Layer layer, double progress) {
+            // Inform the child associated with this layer that its size may
+            // have changed.
+            Widget child = (Widget) layer.getUserObject();
+            if (child instanceof RequiresResize) {
+              ((RequiresResize) child).onResize();
+            }
 
-        // Chain to the passed callback.
-        if (callback != null) {
-          callback.onLayout(layer, progress);
-        }
-      }
-    });
+            // Chain to the passed callback.
+            if (callback != null) {
+              callback.onLayout(layer, progress);
+            }
+          }
+        });
   }
 
   /**
-   * Schedules a layout. The duration and callback passed to this method will
-   * supercede any previous call that has not yet been executed.
-   * 
+   * Schedules a layout. The duration and callback passed to this method will supercede any previous
+   * call that has not yet been executed.
+   *
    * @param duration
    * @param callback
    */
@@ -106,9 +106,8 @@ public class LayoutCommand implements ScheduledCommand {
   }
 
   /**
-   * Called before the layout is executed. Override this method to perform any
-   * work that needs to happen just before it.
+   * Called before the layout is executed. Override this method to perform any work that needs to
+   * happen just before it.
    */
-  protected void doBeforeLayout() {
-  }
+  protected void doBeforeLayout() {}
 }

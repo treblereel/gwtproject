@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -23,15 +23,13 @@ import org.gwtproject.event.logical.shared.InitializeEvent;
 import org.gwtproject.safehtml.shared.annotations.IsSafeHtml;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.Event;
-import org.gwtproject.user.client.ui.RichTextArea;
 
 /**
- * Base class for RichText platform implementations. The default version simply
- * creates a text area with no rich text support.
- * 
- * This is not currently used by any user-agent, but will provide a
- * &lt;textarea&gt; fallback in the event a future browser fails to implement
- * rich text editing.
+ * Base class for RichText platform implementations. The default version simply creates a text area
+ * with no rich text support.
+ *
+ * <p>This is not currently used by any user-agent, but will provide a &lt;textarea&gt; fallback in
+ * the event a future browser fails to implement rich text editing.
  */
 public class RichTextAreaImpl {
 
@@ -87,16 +85,16 @@ public class RichTextAreaImpl {
     elem.setPropertyString("value", text);
   }
 
-  public void uninitElement() {
-  }
+  public void uninitElement() {}
 
   protected Element createElement() {
     return DOM.createTextArea();
   }
 
   protected void hookEvents() {
-    DOM.sinkEvents(elem, Event.MOUSEEVENTS | Event.KEYEVENTS | Event.ONCHANGE
-        | Event.ONCLICK | Event.FOCUSEVENTS);
+    DOM.sinkEvents(
+        elem,
+        Event.MOUSEEVENTS | Event.KEYEVENTS | Event.ONCHANGE | Event.ONCLICK | Event.FOCUSEVENTS);
   }
 
   protected void onElementInitialized() {

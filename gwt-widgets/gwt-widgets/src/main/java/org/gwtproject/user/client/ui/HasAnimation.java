@@ -16,13 +16,11 @@
 package org.gwtproject.user.client.ui;
 
 /**
- * A {@link Widget} that uses an animation should implement this class so users
- * can enable or disable animations.
+ * A {@link Widget} that uses an animation should implement this class so users can enable or
+ * disable animations.
  */
 public interface HasAnimation {
-  /**
-   * Returns true if animations are enabled, false if not.
-   */
+  /** Returns true if animations are enabled, false if not. */
   boolean isAnimationEnabled();
 
   /**

@@ -25,13 +25,11 @@ import org.gwtproject.user.client.Command;
 import org.gwtproject.user.client.DOM;
 
 /**
- * An entry in a
- * {@link MenuBar}. Menu items can either fire a
- * {@link ScheduledCommand} when they are clicked, or open a
- * cascading sub-menu.
+ * An entry in a {@link MenuBar}. Menu items can either fire a {@link ScheduledCommand} when they
+ * are clicked, or open a cascading sub-menu.
  *
- * Each menu item is assigned a unique DOM id in order to support ARIA. See
- * {@link Accessibility} for more information.
+ * <p>Each menu item is assigned a unique DOM id in order to support ARIA. See {@link Accessibility}
+ * for more information.
  */
 public class MenuItem extends UIObject implements HasHTML, HasEnabled, HasSafeHtml {
 
@@ -136,9 +134,8 @@ public class MenuItem extends UIObject implements HasHTML, HasEnabled, HasSafeHt
   }
 
   /**
-   * Gets the command associated with this item.  If a scheduled command
-   * is associated with this item a command that can be used to execute the
-   * scheduled command will be returned.
+   * Gets the command associated with this item. If a scheduled command is associated with this item
+   * a command that can be used to execute the scheduled command will be returned.
    *
    * @return the command
    * @deprecated use {@link #getScheduledCommand()} instead
@@ -152,14 +149,15 @@ public class MenuItem extends UIObject implements HasHTML, HasEnabled, HasSafeHt
     } else if (command instanceof Command) {
       rtnVal = (Command) command;
     } else {
-      rtnVal = new Command() {
-        @Override
-        public void execute() {
-          if (command != null) {
-            command.execute();
-          }
-        }
-      };
+      rtnVal =
+          new Command() {
+            @Override
+            public void execute() {
+              if (command != null) {
+                command.execute();
+              }
+            }
+          };
     }
 
     return rtnVal;
@@ -277,8 +275,8 @@ public class MenuItem extends UIObject implements HasHTML, HasEnabled, HasSafeHt
   }
 
   /**
-   * Also sets the Debug IDs of MenuItems in the submenu of this
-   * {@link MenuItem} if a submenu exists.
+   * Also sets the Debug IDs of MenuItems in the submenu of this {@link MenuItem} if a submenu
+   * exists.
    *
    * @see UIObject#onEnsureDebugId(String)
    */

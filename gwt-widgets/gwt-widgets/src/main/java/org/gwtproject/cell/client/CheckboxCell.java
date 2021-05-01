@@ -25,27 +25,23 @@ import org.gwtproject.safehtml.shared.SafeHtmlBuilder;
 import org.gwtproject.safehtml.shared.SafeHtmlUtils;
 
 /**
- * A {@link Cell} used to render a checkbox. The value of the checkbox may be
- * toggled using the ENTER key as well as via mouse click.
+ * A {@link Cell} used to render a checkbox. The value of the checkbox may be toggled using the
+ * ENTER key as well as via mouse click.
  */
 public class CheckboxCell extends AbstractEditableCell<Boolean, Boolean> {
 
-  /**
-   * An html string representation of a checked input box.
-   */
-  private static final SafeHtml INPUT_CHECKED = SafeHtmlUtils.fromSafeConstant("<input type=\"checkbox\" tabindex=\"-1\" checked/>");
+  /** An html string representation of a checked input box. */
+  private static final SafeHtml INPUT_CHECKED =
+      SafeHtmlUtils.fromSafeConstant("<input type=\"checkbox\" tabindex=\"-1\" checked/>");
 
-  /**
-   * An html string representation of an unchecked input box.
-   */
-  private static final SafeHtml INPUT_UNCHECKED = SafeHtmlUtils.fromSafeConstant("<input type=\"checkbox\" tabindex=\"-1\"/>");
+  /** An html string representation of an unchecked input box. */
+  private static final SafeHtml INPUT_UNCHECKED =
+      SafeHtmlUtils.fromSafeConstant("<input type=\"checkbox\" tabindex=\"-1\"/>");
 
   private final boolean dependsOnSelection;
   private final boolean handlesSelection;
 
-  /**
-   * Construct a new {@link CheckboxCell}.
-   */
+  /** Construct a new {@link CheckboxCell}. */
   public CheckboxCell() {
     this(false);
   }
@@ -91,12 +87,16 @@ public class CheckboxCell extends AbstractEditableCell<Boolean, Boolean> {
   }
 
   @Override
-  public void onBrowserEvent(Context context, Element parent, Boolean value,
-                             NativeEvent event, ValueUpdater<Boolean> valueUpdater) {
+  public void onBrowserEvent(
+      Context context,
+      Element parent,
+      Boolean value,
+      NativeEvent event,
+      ValueUpdater<Boolean> valueUpdater) {
     String type = event.getType();
 
-    boolean enterPressed = BrowserEvents.KEYDOWN.equals(type)
-        && event.getKeyCode() == KeyCodes.KEY_ENTER;
+    boolean enterPressed =
+        BrowserEvents.KEYDOWN.equals(type) && event.getKeyCode() == KeyCodes.KEY_ENTER;
     if (BrowserEvents.CHANGE.equals(type) || enterPressed) {
       InputElement input = parent.getFirstChild().cast();
       Boolean isChecked = input.isChecked();

@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -25,23 +25,17 @@ import org.gwtproject.event.shared.HandlerRegistration;
 import org.gwtproject.touch.client.TouchScroller;
 import org.gwtproject.user.client.Event;
 
-/**
- * A simple panel that wraps its contents in a scrollable area.
- */
-public class ScrollPanel extends SimplePanel implements
-    RequiresResize, ProvidesResize, HasScrolling {
+/** A simple panel that wraps its contents in a scrollable area. */
+public class ScrollPanel extends SimplePanel
+    implements RequiresResize, ProvidesResize, HasScrolling {
 
   private final Element containerElem;
   private final Element scrollableElem;
 
-  /**
-   * The scroller used to support touch events.
-   */
+  /** The scroller used to support touch events. */
   private TouchScroller touchScroller;
 
-  /**
-   * Creates an empty scroll panel.
-   */
+  /** Creates an empty scroll panel. */
   public ScrollPanel() {
     this.scrollableElem = getElement();
     this.containerElem = Document.get().createDivElement();
@@ -51,7 +45,7 @@ public class ScrollPanel extends SimplePanel implements
 
   /**
    * Creates a new scroll panel with the given child widget.
-   * 
+   *
    * @param child the widget to be wrapped by the scroll panel
    */
   public ScrollPanel(Widget child) {
@@ -60,12 +54,10 @@ public class ScrollPanel extends SimplePanel implements
   }
 
   /**
-   * Creates an empty scroll panel using the specified root, scrollable, and
-   * container elements.
-   * 
+   * Creates an empty scroll panel using the specified root, scrollable, and container elements.
+   *
    * @param root the root element of the Widget
-   * @param scrollable the scrollable element, which can be the same as the root
-   *          element
+   * @param scrollable the scrollable element, which can be the same as the root element
    * @param container the container element that holds the child
    */
   protected ScrollPanel(Element root, Element scrollable, Element container) {
@@ -85,9 +77,8 @@ public class ScrollPanel extends SimplePanel implements
   }
 
   /**
-   * Ensures that the specified item is visible, by adjusting the panel's scroll
-   * position.
-   * 
+   * Ensures that the specified item is visible, by adjusting the panel's scroll position.
+   *
    * @param item the item whose visibility is to be ensured
    */
   public void ensureVisible(UIObject item) {
@@ -98,7 +89,7 @@ public class ScrollPanel extends SimplePanel implements
 
   /**
    * Gets the horizontal scroll position.
-   * 
+   *
    * @return the horizontal scroll position, in pixels
    */
   public int getHorizontalScrollPosition() {
@@ -137,9 +128,9 @@ public class ScrollPanel extends SimplePanel implements
   }
 
   /**
-   * Check whether or not touch based scrolling is disabled. This method always
-   * returns false on devices that do not support touch scrolling.
-   * 
+   * Check whether or not touch based scrolling is disabled. This method always returns false on
+   * devices that do not support touch scrolling.
+   *
    * @return true if disabled, false if enabled
    */
   public boolean isTouchScrollingDisabled() {
@@ -153,38 +144,29 @@ public class ScrollPanel extends SimplePanel implements
     }
   }
 
-  /**
-   * Scroll to the bottom of this panel.
-   */
+  /** Scroll to the bottom of this panel. */
   public void scrollToBottom() {
     setVerticalScrollPosition(getMaximumVerticalScrollPosition());
   }
 
-  /**
-   * Scroll to the far left of this panel.
-   */
+  /** Scroll to the far left of this panel. */
   public void scrollToLeft() {
     setHorizontalScrollPosition(getMinimumHorizontalScrollPosition());
   }
 
-  /**
-   * Scroll to the far right of this panel.
-   */
+  /** Scroll to the far right of this panel. */
   public void scrollToRight() {
     setHorizontalScrollPosition(getMaximumHorizontalScrollPosition());
   }
 
-  /**
-   * Scroll to the top of this panel.
-   */
+  /** Scroll to the top of this panel. */
   public void scrollToTop() {
     setVerticalScrollPosition(getMinimumVerticalScrollPosition());
   }
 
   /**
-   * Sets whether this panel always shows its scroll bars, or only when
-   * necessary.
-   * 
+   * Sets whether this panel always shows its scroll bars, or only when necessary.
+   *
    * @param alwaysShow <code>true</code> to show scroll bars at all times
    */
   public void setAlwaysShowScrollBars(boolean alwaysShow) {
@@ -192,11 +174,10 @@ public class ScrollPanel extends SimplePanel implements
   }
 
   /**
-   * Sets the object's height. This height does not include decorations such as
-   * border, margin, and padding.
-   * 
-   * @param height the object's new height, in absolute CSS units (e.g. "10px",
-   *          "1em" but not "50%")
+   * Sets the object's height. This height does not include decorations such as border, margin, and
+   * padding.
+   *
+   * @param height the object's new height, in absolute CSS units (e.g. "10px", "1em" but not "50%")
    */
   @Override
   public void setHeight(String height) {
@@ -205,7 +186,7 @@ public class ScrollPanel extends SimplePanel implements
 
   /**
    * Sets the horizontal scroll position.
-   * 
+   *
    * @param position the new horizontal scroll position, in pixels
    */
   public void setHorizontalScrollPosition(int position) {
@@ -216,8 +197,7 @@ public class ScrollPanel extends SimplePanel implements
    * Sets the vertical scroll position.
    *
    * @param position the new vertical scroll position, in pixels
-   * @deprecated as of GWT 2.3, replaced by
-   *             {@link #setVerticalScrollPosition(int)}
+   * @deprecated as of GWT 2.3, replaced by {@link #setVerticalScrollPosition(int)}
    */
   @Deprecated
   public void setScrollPosition(int position) {
@@ -225,13 +205,12 @@ public class ScrollPanel extends SimplePanel implements
   }
 
   /**
-   * Sets the object's size. This size does not include decorations such as
-   * border, margin, and padding.
-   * 
-   * @param width the object's new width, in absolute CSS units (e.g. "10px",
-   *          "1em", but not "50%")
-   * @param height the object's new height, in absolute CSS units (e.g. "10px",
-   *          "1em", but not "50%")
+   * Sets the object's size. This size does not include decorations such as border, margin, and
+   * padding.
+   *
+   * @param width the object's new width, in absolute CSS units (e.g. "10px", "1em", but not "50%")
+   * @param height the object's new height, in absolute CSS units (e.g. "10px", "1em", but not
+   *     "50%")
    */
   @Override
   public void setSize(String width, String height) {
@@ -239,12 +218,11 @@ public class ScrollPanel extends SimplePanel implements
   }
 
   /**
-   * Set whether or not touch scrolling is disabled. By default, touch scrolling
-   * is enabled on devices that support touch events.
-   * 
+   * Set whether or not touch scrolling is disabled. By default, touch scrolling is enabled on
+   * devices that support touch events.
+   *
    * @param isDisabled true to disable, false to enable
-   * @return true if touch scrolling is enabled and supported, false if disabled
-   *         or not supported
+   * @return true if touch scrolling is enabled and supported, false if disabled or not supported
    */
   public boolean setTouchScrollingDisabled(boolean isDisabled) {
     if (isDisabled == isTouchScrollingDisabled()) {
@@ -267,11 +245,10 @@ public class ScrollPanel extends SimplePanel implements
   }
 
   /**
-   * Sets the object's width. This width does not include decorations such as
-   * border, margin, and padding.
-   * 
-   * @param width the object's new width, in absolute CSS units (e.g. "10px",
-   *          "1em", but not "50%")
+   * Sets the object's width. This width does not include decorations such as border, margin, and
+   * padding.
+   *
+   * @param width the object's new width, in absolute CSS units (e.g. "10px", "1em", but not "50%")
    */
   @Override
   public void setWidth(String width) {
@@ -284,9 +261,8 @@ public class ScrollPanel extends SimplePanel implements
   }
 
   /**
-   * Get the scrollable element. That is the element with its overflow set to
-   * 'auto' or 'scroll'.
-   * 
+   * Get the scrollable element. That is the element with its overflow set to 'auto' or 'scroll'.
+   *
    * @return the scrollable element
    */
   protected Element getScrollableElement() {
@@ -317,8 +293,8 @@ public class ScrollPanel extends SimplePanel implements
     super.onDetach();
   }
 
-  private void ensureVisibleImpl(Element scroll, Element e)  {
-    if(e == null) {
+  private void ensureVisibleImpl(Element scroll, Element e) {
+    if (e == null) {
       return;
     }
 
@@ -331,9 +307,7 @@ public class ScrollPanel extends SimplePanel implements
     scroll.setScrollTop(realOffset - scroll.getOffsetHeight() / 2);
   }
 
-  /**
-   * Initialize the widget.
-   */
+  /** Initialize the widget. */
   private void initialize() {
     setAlwaysShowScrollBars(false);
 
@@ -342,7 +316,8 @@ public class ScrollPanel extends SimplePanel implements
     containerElem.getStyle().setPosition(Position.RELATIVE);
 
     // Hack to account for the IE6/7 scrolling bug described here:
-    //   http://stackoverflow.com/questions/139000/div-with-overflowauto-and-a-100-wide-table-problem
+    //
+    // http://stackoverflow.com/questions/139000/div-with-overflowauto-and-a-100-wide-table-problem
     scrollableElem.getStyle().setProperty("zoom", "1");
     containerElem.getStyle().setProperty("zoom", "1");
 

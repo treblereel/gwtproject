@@ -22,13 +22,11 @@ import org.gwtproject.text.shared.testing.PassthroughRenderer;
 /**
  * Abstract base class for most text entry widgets.
  *
- * <p>
- * The names of the static members of {@link TextBoxBase}, as well as simple
- * alignment names (<code>left</code>, <code>center</code>, <code>right</code>,
- * <code>justify</code>), can be used as values for a <code>textAlignment</code>
- * attribute.
- * <p>
- * For example,
+ * <p>The names of the static members of {@link TextBoxBase}, as well as simple alignment names (
+ * <code>left</code>, <code>center</code>, <code>right</code>, <code>justify</code>), can be used as
+ * values for a <code>textAlignment</code> attribute.
+ *
+ * <p>For example,
  *
  * <pre>
  * &lt;g:TextBox textAlignment='ALIGN_RIGHT'/&gt;
@@ -39,6 +37,7 @@ public class TextBoxBase extends ValueBoxBase<String> {
 
   /**
    * Legacy wrapper for {@link TextAlignment}, soon to be deprecated.
+   *
    * @deprecated use {@link #setAlignment(TextAlignment)}
    */
   @Deprecated
@@ -54,33 +53,22 @@ public class TextBoxBase extends ValueBoxBase<String> {
     }
   }
 
-  /**
-   * Center the text.
-   */
-  public static final TextAlignConstant ALIGN_CENTER = new TextAlignConstant(
-      TextAlignment.CENTER);
+  /** Center the text. */
+  public static final TextAlignConstant ALIGN_CENTER = new TextAlignConstant(TextAlignment.CENTER);
+
+  /** Justify the text. */
+  public static final TextAlignConstant ALIGN_JUSTIFY =
+      new TextAlignConstant(TextAlignment.JUSTIFY);
+
+  /** Align the text to the left edge. */
+  public static final TextAlignConstant ALIGN_LEFT = new TextAlignConstant(TextAlignment.LEFT);
+
+  /** Align the text to the right. */
+  public static final TextAlignConstant ALIGN_RIGHT = new TextAlignConstant(TextAlignment.RIGHT);
 
   /**
-   * Justify the text.
-   */
-  public static final TextAlignConstant ALIGN_JUSTIFY = new TextAlignConstant(
-      TextAlignment.JUSTIFY);
-
-  /**
-   * Align the text to the left edge.
-   */
-  public static final TextAlignConstant ALIGN_LEFT = new TextAlignConstant(
-      TextAlignment.LEFT);
-
-  /**
-   * Align the text to the right.
-   */
-  public static final TextAlignConstant ALIGN_RIGHT = new TextAlignConstant(
-      TextAlignment.RIGHT);
-
-  /**
-   * Creates a text box that wraps the given browser element handle. This is
-   * only used by subclasses.
+   * Creates a text box that wraps the given browser element handle. This is only used by
+   * subclasses.
    *
    * @param elem the browser element to wrap
    */
@@ -88,9 +76,7 @@ public class TextBoxBase extends ValueBoxBase<String> {
     super(elem, PassthroughRenderer.instance(), PassthroughParser.instance());
   }
 
-  /**
-   * Overridden to return "" from an empty text box.
-   */
+  /** Overridden to return "" from an empty text box. */
   @Override
   public String getValue() {
     String raw = super.getValue();

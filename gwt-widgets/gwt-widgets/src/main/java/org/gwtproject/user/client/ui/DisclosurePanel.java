@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import java.util.Iterator;
 import org.gwtproject.animation.client.Animation;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.event.logical.shared.CloseEvent;
@@ -27,46 +28,41 @@ import org.gwtproject.event.shared.HandlerRegistration;
 import org.gwtproject.resources.client.ClientBundle;
 import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.resources.client.ImageResource.ImageOptions;
-import org.gwtproject.resources.client.Resource;
 import org.gwtproject.safehtml.shared.annotations.SuppressIsSafeUriCastCheck;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.Event;
 
-import java.util.Iterator;
-
 /**
- * A widget that consists of a header and a content panel that discloses the
- * content when a user clicks on the header.
- * 
- * <h3>CSS Style Rules</h3> 
- * <dl class="css"> 
- * <dt>.gwt-DisclosurePanel 
- * <dd>the panel's primary style 
- * <dt>.gwt-DisclosurePanel-open 
- * <dd> dependent style set when panel is open 
- * <dt>.gwt-DisclosurePanel-closed 
- * <dd> dependent style set when panel is closed
+ * A widget that consists of a header and a content panel that discloses the content when a user
+ * clicks on the header.
+ *
+ * <h3>CSS Style Rules</h3>
+ *
+ * <dl class="css">
+ *   <dt>.gwt-DisclosurePanel
+ *   <dd>the panel's primary style
+ *   <dt>.gwt-DisclosurePanel-open
+ *   <dd>dependent style set when panel is open
+ *   <dt>.gwt-DisclosurePanel-closed
+ *   <dd>dependent style set when panel is closed
  * </dl>
- * <p>
- * <img class='gallery' src='doc-files/DisclosurePanel.png'/>
- * </p>
- * 
- * <p>
- * The header and content sections can be easily selected using css with a child
- * selector:<br/>
+ *
+ * <p><img class='gallery' src='doc-files/DisclosurePanel.png'/>
+ *
+ * <p>The header and content sections can be easily selected using css with a child selector:<br>
  * .gwt-DisclosurePanel-open .header { ... }
- * </p>
+ *
  * <h3>Use in UiBinder Templates</h3>
- * <p>
- * DisclosurePanel elements in  
- * {@link org.gwtproject.uibinder.client.UiBinder UiBinder} templates can
- * have one widget child and one of two types of header elements. A 
- * &lt;g:header> element can hold text (not html), or a &lt;g:customHeader> element
- * can hold a widget. (Note that the tags of the header elements are not
- * capitalized. This is meant to signal that the header is not a runtime object, 
- * and so cannot have a <code>ui:field</code> attribute.) 
- * <p>
- * For example:<pre>
+ *
+ * <p>DisclosurePanel elements in {@link org.gwtproject.uibinder.client.UiBinder UiBinder} templates
+ * can have one widget child and one of two types of header elements. A &lt;g:header> element can
+ * hold text (not html), or a &lt;g:customHeader> element can hold a widget. (Note that the tags of
+ * the header elements are not capitalized. This is meant to signal that the header is not a runtime
+ * object, and so cannot have a <code>ui:field</code> attribute.)
+ *
+ * <p>For example:
+ *
+ * <pre>
  * &lt;g:DisclosurePanel>
  *   &lt;g:header>Text header&lt;/g:header>
  *   &lt;g:Label>Widget body&lt;/g:Label>
@@ -80,9 +76,11 @@ import java.util.Iterator;
  * &lt;/g:DisclosurePanel>
  * </pre>
  */
-public final class DisclosurePanel extends Composite implements
-    HasWidgets.ForIsWidget, HasAnimation,
-    HasOpenHandlers<DisclosurePanel>, HasCloseHandlers<DisclosurePanel> {
+public final class DisclosurePanel extends Composite
+    implements HasWidgets.ForIsWidget,
+        HasAnimation,
+        HasOpenHandlers<DisclosurePanel>,
+        HasCloseHandlers<DisclosurePanel> {
 
   interface DefaultImages extends ClientBundle {
 
@@ -97,12 +95,11 @@ public final class DisclosurePanel extends Composite implements
   private static final DefaultImages DEFAULT_IMAGES = new DisclosurePanel_DefaultImagesImpl();
 
   /**
-   * Used to wrap widgets in the header to provide click support. Effectively
-   * wraps the widget in an <code>anchor</code> to get automatic keyboard
-   * access.
+   * Used to wrap widgets in the header to provide click support. Effectively wraps the widget in an
+   * <code>anchor</code> to get automatic keyboard access.
    */
   private final class ClickableHeader extends SimplePanel {
-    @SuppressIsSafeUriCastCheck //TODO(bangert): refactor away setproperty.
+    @SuppressIsSafeUriCastCheck // TODO(bangert): refactor away setproperty.
     private ClickableHeader() {
       // Anchor is used to allow keyboard access.
       super(DOM.createAnchor());
@@ -126,23 +123,17 @@ public final class DisclosurePanel extends Composite implements
     }
   }
 
-  /**
-   * An {@link Animation} used to open the content.
-   */
+  /** An {@link Animation} used to open the content. */
   private static class ContentAnimation extends Animation {
-    /**
-     * Whether the item is being opened or closed.
-     */
+    /** Whether the item is being opened or closed. */
     private boolean opening;
 
-    /**
-     * The {@link DisclosurePanel} being affected.
-     */
+    /** The {@link DisclosurePanel} being affected. */
     private DisclosurePanel curPanel;
 
     /**
      * Open or close the content.
-     * 
+     *
      * @param panel the panel to open or close
      * @param animate true to animate, false to open instantly
      */
@@ -196,36 +187,33 @@ public final class DisclosurePanel extends Composite implements
     }
   }
 
-  /**
-   * The default header widget used within a {@link DisclosurePanel}.
-   */
-  private class DefaultHeader extends Widget implements HasText,
-      OpenHandler<DisclosurePanel>, CloseHandler<DisclosurePanel> {
+  /** The default header widget used within a {@link DisclosurePanel}. */
+  private class DefaultHeader extends Widget
+      implements HasText, OpenHandler<DisclosurePanel>, CloseHandler<DisclosurePanel> {
 
-    /**
-     * imageTD holds the image for the icon, not null. labelTD holds the text
-     * for the label.
-     */
+    /** imageTD holds the image for the icon, not null. labelTD holds the text for the label. */
     private final Element labelTD;
 
     private final Image iconImage;
     private final Imager imager;
 
     private DefaultHeader(String text) {
-      this(new Imager() {
+      this(
+          new Imager() {
 
-        public Image makeImage() {
-          return new Image(DefaultImages.INSTANCE.disclosurePanelClosed());
-        }
+            public Image makeImage() {
+              return new Image(DefaultImages.INSTANCE.disclosurePanelClosed());
+            }
 
-        public void updateImage(boolean open, Image image) {
-          if (open) {
-            image.setResource(DefaultImages.INSTANCE.disclosurePanelOpen());
-          } else {
-            image.setResource(DefaultImages.INSTANCE.disclosurePanelClosed());
-          }
-        }
-      }, text);
+            public void updateImage(boolean open, Image image) {
+              if (open) {
+                image.setResource(DefaultImages.INSTANCE.disclosurePanelOpen());
+              } else {
+                image.setResource(DefaultImages.INSTANCE.disclosurePanelClosed());
+              }
+            }
+          },
+          text);
     }
 
     private DefaultHeader(Imager imager, String text) {
@@ -260,21 +248,23 @@ public final class DisclosurePanel extends Composite implements
       setStyle();
     }
 
-    private DefaultHeader(final ImageResource openImage,
-        final ImageResource closedImage, String text) {
-      this(new Imager() {
-        public Image makeImage() {
-          return new Image(closedImage);
-        }
+    private DefaultHeader(
+        final ImageResource openImage, final ImageResource closedImage, String text) {
+      this(
+          new Imager() {
+            public Image makeImage() {
+              return new Image(closedImage);
+            }
 
-        public void updateImage(boolean open, Image image) {
-          if (open) {
-            image.setResource(openImage);
-          } else {
-            image.setResource(closedImage);
-          }
-        }
-      }, text);
+            public void updateImage(boolean open, Image image) {
+              if (open) {
+                image.setResource(openImage);
+              } else {
+                image.setResource(closedImage);
+              }
+            }
+          },
+          text);
     }
 
     public final String getText() {
@@ -304,9 +294,7 @@ public final class DisclosurePanel extends Composite implements
     void updateImage(boolean open, Image image);
   }
 
-  /**
-   * The duration of the animation.
-   */
+  /** The duration of the animation. */
   private static final int ANIMATION_DURATION = 350;
 
   // Stylename constants.
@@ -320,34 +308,26 @@ public final class DisclosurePanel extends Composite implements
 
   private static final String STYLENAME_CONTENT = "content";
 
-  /**
-   * The {@link Animation} used to open and close the content.
-   */
+  /** The {@link Animation} used to open and close the content. */
   private static ContentAnimation contentAnimation;
 
   /**
-   * top level widget. The first child will be a reference to {@link #header}.
-   * The second child will be a reference to {@link #contentWrapper}.
+   * top level widget. The first child will be a reference to {@link #header}. The second child will
+   * be a reference to {@link #contentWrapper}.
    */
   private final VerticalPanel mainPanel = new VerticalPanel();
 
-  /**
-   * The wrapper around the content widget.
-   */
+  /** The wrapper around the content widget. */
   private final SimplePanel contentWrapper = new SimplePanel();
 
-  /**
-   * holds the header widget.
-   */
+  /** holds the header widget. */
   private final ClickableHeader header = new ClickableHeader();
 
   private boolean isAnimationEnabled = false;
 
   private boolean isOpen = false;
 
-  /**
-   * Creates an empty DisclosurePanel that is initially closed.
-   */
+  /** Creates an empty DisclosurePanel that is initially closed. */
   public DisclosurePanel() {
     initWidget(mainPanel);
     mainPanel.add(header);
@@ -359,51 +339,45 @@ public final class DisclosurePanel extends Composite implements
   }
 
   /**
-   * Creates a DisclosurePanel with the specified header text, an initial
-   * open/close state and a bundle of images to be used in the default header
-   * widget.
-   * 
+   * Creates a DisclosurePanel with the specified header text, an initial open/close state and a
+   * bundle of images to be used in the default header widget.
+   *
    * @param openImage the open state image resource
    * @param closedImage the closed state image resource
    * @param headerText the text to be displayed in the header
    */
-  public DisclosurePanel(ImageResource openImage, ImageResource closedImage,
-      String headerText) {
+  public DisclosurePanel(ImageResource openImage, ImageResource closedImage, String headerText) {
     this();
     setHeader(new DefaultHeader(openImage, closedImage, headerText));
   }
 
   /**
-   * Creates a DisclosurePanel that will be initially closed using the specified
-   * text in the header.
-   * 
+   * Creates a DisclosurePanel that will be initially closed using the specified text in the header.
+   *
    * @param headerText the text to be displayed in the header
    */
   public DisclosurePanel(String headerText) {
-    this(DEFAULT_IMAGES.disclosurePanelOpen(),
-        DEFAULT_IMAGES.disclosurePanelClosed(), headerText);
+    this(DEFAULT_IMAGES.disclosurePanelOpen(), DEFAULT_IMAGES.disclosurePanelClosed(), headerText);
   }
 
   public void add(Widget w) {
     if (this.getContent() == null) {
       setContent(w);
     } else {
-      throw new IllegalStateException(
-          "A DisclosurePanel can only contain two Widgets.");
+      throw new IllegalStateException("A DisclosurePanel can only contain two Widgets.");
     }
   }
-  
+
   /**
    * Overloaded version for IsWidget.
-   * 
+   *
    * @see #add(Widget)
    */
   public void add(IsWidget w) {
     this.add(asWidgetOrNull(w));
   }
 
-  public HandlerRegistration addCloseHandler(
-      CloseHandler<DisclosurePanel> handler) {
+  public HandlerRegistration addCloseHandler(CloseHandler<DisclosurePanel> handler) {
     return addHandler(handler, CloseEvent.getType());
   }
 
@@ -417,7 +391,7 @@ public final class DisclosurePanel extends Composite implements
 
   /**
    * Gets the widget that was previously set in {@link #setContent(Widget)}.
-   * 
+   *
    * @return the panel's current content widget
    */
   public Widget getContent() {
@@ -426,7 +400,7 @@ public final class DisclosurePanel extends Composite implements
 
   /**
    * Gets the widget that is currently being used as a header.
-   * 
+   *
    * @return the widget currently being used as a header
    */
   public Widget getHeader() {
@@ -434,11 +408,11 @@ public final class DisclosurePanel extends Composite implements
   }
 
   /**
-   * Gets a {@link HasText} instance to provide access to the headers's text, if
-   * the header widget does provide such access.
-   * 
-   * @return a reference to the header widget if it implements {@link HasText},
-   *         <code>null</code> otherwise
+   * Gets a {@link HasText} instance to provide access to the headers's text, if the header widget
+   * does provide such access.
+   *
+   * @return a reference to the header widget if it implements {@link HasText}, <code>null</code>
+   *     otherwise
    */
   public HasText getHeaderTextAccessor() {
     Widget widget = header.getWidget();
@@ -451,7 +425,7 @@ public final class DisclosurePanel extends Composite implements
 
   /**
    * Determines whether the panel is open.
-   * 
+   *
    * @return <code>true</code> if panel is in open state
    */
   public boolean isOpen() {
@@ -459,8 +433,7 @@ public final class DisclosurePanel extends Composite implements
   }
 
   public Iterator<Widget> iterator() {
-    return WidgetIterators.createWidgetIterator(this,
-        new Widget[] {getContent()});
+    return WidgetIterators.createWidgetIterator(this, new Widget[] {getContent()});
   }
 
   public boolean remove(Widget w) {
@@ -470,10 +443,10 @@ public final class DisclosurePanel extends Composite implements
     }
     return false;
   }
-  
+
   /**
    * Overloaded version for IsWidget.
-   * 
+   *
    * @see #remove(Widget)
    */
   public boolean remove(IsWidget w) {
@@ -485,9 +458,9 @@ public final class DisclosurePanel extends Composite implements
   }
 
   /**
-   * Sets the content widget which can be opened and closed by this panel. If
-   * there is a preexisting content widget, it will be detached.
-   * 
+   * Sets the content widget which can be opened and closed by this panel. If there is a preexisting
+   * content widget, it will be detached.
+   *
    * @param content the widget to be used as the content panel
    */
   public void setContent(Widget content) {
@@ -509,7 +482,7 @@ public final class DisclosurePanel extends Composite implements
 
   /**
    * Sets the widget used as the header for the panel.
-   * 
+   *
    * @param headerWidget the widget to be used as the header
    */
   public void setHeader(Widget headerWidget) {
@@ -518,9 +491,8 @@ public final class DisclosurePanel extends Composite implements
 
   /**
    * Changes the visible state of this <code>DisclosurePanel</code>.
-   * 
-   * @param isOpen <code>true</code> to open the panel, <code>false</code> to
-   *          close
+   *
+   * @param isOpen <code>true</code> to open the panel, <code>false</code> to close
    */
   public void setOpen(boolean isOpen) {
     if (this.isOpen != isOpen) {
@@ -532,10 +504,11 @@ public final class DisclosurePanel extends Composite implements
 
   /**
    * <b>Affected Elements:</b>
+   *
    * <ul>
-   * <li>-header = the clickable header.</li>
+   *   <li>-header = the clickable header.
    * </ul>
-   * 
+   *
    * @see UIObject#onEnsureDebugId(String)
    */
   @Override

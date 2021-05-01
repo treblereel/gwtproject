@@ -15,10 +15,9 @@
  */
 package org.gwtproject.user.cellview.client;
 
-import org.gwtproject.user.cellview.client.CellTable;
-
 /**
- * A description of how rows are to be styled in a {@link CellTable}.
+ * A description of how rows are to be styled in a {@link
+ * org.gwtproject.user.cellview.client.CellTable}.
  *
  * @param <T> the data type of each row
  */
@@ -29,9 +28,8 @@ public interface RowStyles<T> {
    *
    * @param row the data stored in the row.
    * @param rowIndex the zero-based index of the row.
-   *
-   * @return the extra styles of the given row in a space-separated list, or
-   * {@code null} if there are no extra styles for this row.
+   * @return the extra styles of the given row in a space-separated list, or {@code null} if there
+   *     are no extra styles for this row.
    */
   String getStyleNames(T row, int rowIndex);
 }

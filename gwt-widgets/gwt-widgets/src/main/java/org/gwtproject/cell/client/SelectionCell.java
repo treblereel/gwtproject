@@ -15,6 +15,9 @@
  */
 package org.gwtproject.cell.client;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import org.gwtproject.dom.client.BrowserEvents;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.NativeEvent;
@@ -23,13 +26,7 @@ import org.gwtproject.safehtml.client.SafeHtmlTemplates;
 import org.gwtproject.safehtml.shared.SafeHtml;
 import org.gwtproject.safehtml.shared.SafeHtmlBuilder;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-/**
- * A {@link Cell} used to render a drop-down list.
- */
+/** A {@link Cell} used to render a drop-down list. */
 public class SelectionCell extends org.gwtproject.cell.client.AbstractInputCell<String, String> {
 
   interface Template extends SafeHtmlTemplates {
@@ -60,8 +57,12 @@ public class SelectionCell extends org.gwtproject.cell.client.AbstractInputCell<
   }
 
   @Override
-  public void onBrowserEvent(Cell.Context context, Element parent, String value,
-                             NativeEvent event, ValueUpdater<String> valueUpdater) {
+  public void onBrowserEvent(
+      Cell.Context context,
+      Element parent,
+      String value,
+      NativeEvent event,
+      ValueUpdater<String> valueUpdater) {
     super.onBrowserEvent(context, parent, value, event, valueUpdater);
     String type = event.getType();
     if (BrowserEvents.CHANGE.equals(type)) {

@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -27,22 +27,18 @@ import org.gwtproject.user.client.ui.HasAlignment;
 
 /**
  * A representation of a column in a table.
- * 
+ *
  * @param <T> the row type
  * @param <C> the column type
  */
 public abstract class Column<T, C> implements HasCell<T, C>, HasAlignment {
 
-  /**
-   * The {@link Cell} responsible for rendering items in the column.
-   */
+  /** The {@link Cell} responsible for rendering items in the column. */
   private final Cell<C> cell;
 
   private String cellStyleNames = null;
 
-  /**
-   * The {@link FieldUpdater} used for updating values in the column.
-   */
+  /** The {@link FieldUpdater} used for updating values in the column. */
   private FieldUpdater<T, C> fieldUpdater;
 
   private boolean isDefaultSortAscending = true;
@@ -53,7 +49,7 @@ public abstract class Column<T, C> implements HasCell<T, C>, HasAlignment {
 
   /**
    * Construct a new Column with a given {@link Cell}.
-   * 
+   *
    * @param cell the Cell used by this Column
    */
   public Column(Cell<C> cell) {
@@ -62,7 +58,7 @@ public abstract class Column<T, C> implements HasCell<T, C>, HasAlignment {
 
   /**
    * Returns the {@link Cell} responsible for rendering items in the column.
-   * 
+   *
    * @return a Cell
    */
   @Override
@@ -72,27 +68,24 @@ public abstract class Column<T, C> implements HasCell<T, C>, HasAlignment {
 
   /**
    * Get extra style names that should be applied to a cell in this column.
-   * 
+   *
    * @param context the cell context
    * @param object the base object to be updated, or null if the row is empty
-   * @return the extra styles of the given row in a space-separated list, or
-   *         {@code null} if there are no extra styles for the cells in this
-   *         column
+   * @return the extra styles of the given row in a space-separated list, or {@code null} if there
+   *     are no extra styles for the cells in this column
    */
   public String getCellStyleNames(Context context, T object) {
     return cellStyleNames;
   }
 
-  /**
-   * @return the database name of the column, or null if it's never been set
-   */
+  /** @return the database name of the column, or null if it's never been set */
   public String getDataStoreName() {
     return dataStoreName;
   }
 
   /**
    * Returns the {@link FieldUpdater} used for updating values in the column.
-   * 
+   *
    * @return an instance of FieldUpdater<T, C>
    * @see #setFieldUpdater(FieldUpdater)
    */
@@ -105,10 +98,8 @@ public abstract class Column<T, C> implements HasCell<T, C>, HasAlignment {
   public HorizontalAlignmentConstant getHorizontalAlignment() {
     return hAlign;
   }
-  
-  /**
-   * Returns the column value from within the underlying data object.
-   */
+
+  /** Returns the column value from within the underlying data object. */
   @Override
   public abstract C getValue(T object);
 
@@ -119,7 +110,7 @@ public abstract class Column<T, C> implements HasCell<T, C>, HasAlignment {
 
   /**
    * Check if the default sort order of the column is ascending or descending.
-   * 
+   *
    * @return true if default sort is ascending, false if not
    */
   public boolean isDefaultSortAscending() {
@@ -128,7 +119,7 @@ public abstract class Column<T, C> implements HasCell<T, C>, HasAlignment {
 
   /**
    * Check if the column is sortable.
-   * 
+   *
    * @return true if sortable, false if not
    */
   public boolean isSortable() {
@@ -137,7 +128,7 @@ public abstract class Column<T, C> implements HasCell<T, C>, HasAlignment {
 
   /**
    * Handle a browser event that took place within the column.
-   * 
+   *
    * @param context the cell context
    * @param elem the parent Element
    * @param object the base object to be updated
@@ -145,18 +136,21 @@ public abstract class Column<T, C> implements HasCell<T, C>, HasAlignment {
    */
   public void onBrowserEvent(Context context, Element elem, final T object, NativeEvent event) {
     final int index = context.getIndex();
-    ValueUpdater<C> valueUpdater = (fieldUpdater == null) ? null : new ValueUpdater<C>() {
-      @Override
-      public void update(C value) {
-        fieldUpdater.update(index, object, value);
-      }
-    };
+    ValueUpdater<C> valueUpdater =
+        (fieldUpdater == null)
+            ? null
+            : new ValueUpdater<C>() {
+              @Override
+              public void update(C value) {
+                fieldUpdater.update(index, object, value);
+              }
+            };
     cell.onBrowserEvent(context, elem, getValue(object), event, valueUpdater);
   }
 
   /**
    * Render the object into the cell.
-   * 
+   *
    * @param context the cell context
    * @param object the object to render
    * @param sb the buffer to render into
@@ -167,14 +161,12 @@ public abstract class Column<T, C> implements HasCell<T, C>, HasAlignment {
 
   /**
    * Set extra style names that should be applied to every cell.
-   * 
-   * <p>
-   * If you want to apply style names based on the row or cell value, override
-   * {@link #getCellStyleNames(Context, Object)} directly.
-   * </p>
-   * 
-   * @param styleNames the extra style names to apply in a space-separated list,
-   *          or {@code null} if there are no extra styles for this cell
+   *
+   * <p>If you want to apply style names based on the row or cell value, override {@link
+   * #getCellStyleNames(Context, Object)} directly.
+   *
+   * @param styleNames the extra style names to apply in a space-separated list, or {@code null} if
+   *     there are no extra styles for this cell
    */
   public void setCellStyleNames(String styleNames) {
     this.cellStyleNames = styleNames;
@@ -182,7 +174,7 @@ public abstract class Column<T, C> implements HasCell<T, C>, HasAlignment {
 
   /**
    * Sets a string that identifies this column in a data query.
-   * 
+   *
    * @param name name of the column from the data store's perspective
    */
   public void setDataStoreName(String name) {
@@ -191,9 +183,8 @@ public abstract class Column<T, C> implements HasCell<T, C>, HasAlignment {
 
   /**
    * Set whether or not the default sort order is ascending.
-   * 
-   * @param isAscending true to set the default order to ascending, false for
-   *          descending
+   *
+   * @param isAscending true to set the default order to ascending, false for descending
    */
   public void setDefaultSortAscending(boolean isAscending) {
     this.isDefaultSortAscending = isAscending;
@@ -201,7 +192,7 @@ public abstract class Column<T, C> implements HasCell<T, C>, HasAlignment {
 
   /**
    * Set the {@link FieldUpdater} used for updating values in the column.
-   * 
+   *
    * @param fieldUpdater the field updater
    * @see #getFieldUpdater()
    */
@@ -211,11 +202,8 @@ public abstract class Column<T, C> implements HasCell<T, C>, HasAlignment {
 
   /**
    * {@inheritDoc}
-   * 
-   * <p>
-   * The new horizontal alignment will apply the next time the table is
-   * rendered.
-   * </p>
+   *
+   * <p>The new horizontal alignment will apply the next time the table is rendered.
    */
   @Override
   public void setHorizontalAlignment(HorizontalAlignmentConstant align) {
@@ -223,9 +211,9 @@ public abstract class Column<T, C> implements HasCell<T, C>, HasAlignment {
   }
 
   /**
-   * Set whether or not the column can be sorted. The change will take effect
-   * the next time the table is redrawn.
-   * 
+   * Set whether or not the column can be sorted. The change will take effect the next time the
+   * table is redrawn.
+   *
    * @param sortable true to make sortable, false to make unsortable
    */
   public void setSortable(boolean sortable) {
@@ -234,10 +222,8 @@ public abstract class Column<T, C> implements HasCell<T, C>, HasAlignment {
 
   /**
    * {@inheritDoc}
-   * 
-   * <p>
-   * The new vertical alignment will apply the next time the table is rendered.
-   * </p>
+   *
+   * <p>The new vertical alignment will apply the next time the table is rendered.
    */
   @Override
   public void setVerticalAlignment(VerticalAlignmentConstant align) {

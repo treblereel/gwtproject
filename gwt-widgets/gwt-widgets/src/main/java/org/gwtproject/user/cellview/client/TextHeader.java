@@ -17,9 +17,7 @@ package org.gwtproject.user.cellview.client;
 
 import org.gwtproject.cell.client.TextCell;
 
-/**
- * A Header containing String data rendered by a {@link TextCell}.
- */
+/** A Header containing String data rendered by a {@link TextCell}. */
 public class TextHeader extends Header<String> {
 
   private String text;
@@ -34,9 +32,7 @@ public class TextHeader extends Header<String> {
     this.text = text;
   }
 
-  /**
-   * Return the header text.
-   */
+  /** Return the header text. */
   @Override
   public String getValue() {
     return text;

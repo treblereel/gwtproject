@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,14 +15,15 @@
  */
 package org.gwtproject.user.cellview.client;
 
-import org.gwtproject.editor.client.IsEditor;
-import org.gwtproject.editor.client.LeafValueEditor;
+import java.util.Set;
 import org.gwtproject.cell.client.Cell;
 import org.gwtproject.cell.client.Cell.Context;
 import org.gwtproject.cell.client.ValueUpdater;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.editor.client.IsEditor;
+import org.gwtproject.editor.client.LeafValueEditor;
 import org.gwtproject.editor.client.adapters.TakesValueEditor;
 import org.gwtproject.event.logical.shared.ValueChangeEvent;
 import org.gwtproject.event.logical.shared.ValueChangeHandler;
@@ -35,20 +36,18 @@ import org.gwtproject.user.client.ui.Widget;
 import org.gwtproject.view.client.HasKeyProvider;
 import org.gwtproject.view.client.ProvidesKey;
 
-import java.util.Set;
-
 /**
  * A {@link Widget} that wraps a {@link Cell}.
- * 
+ *
  * @param <C> the type that the Cell represents
  */
-public class CellWidget<C> extends Widget implements HasKeyProvider<C>, HasValue<C>,
-    IsEditor<LeafValueEditor<C>> {
+public class CellWidget<C> extends Widget
+    implements HasKeyProvider<C>, HasValue<C>, IsEditor<LeafValueEditor<C>> {
 
   /**
-   * Create the default element used to wrap the Cell. The default element is a
-   * div with display set to inline-block.
-   * 
+   * Create the default element used to wrap the Cell. The default element is a div with display set
+   * to inline-block.
+   *
    * @return the default wrapper element
    */
   private static Element createDefaultWrapperElement() {
@@ -57,41 +56,32 @@ public class CellWidget<C> extends Widget implements HasKeyProvider<C>, HasValue
     return div;
   }
 
-  /**
-   * The cell being wrapped.
-   */
+  /** The cell being wrapped. */
   private final Cell<C> cell;
 
-  /**
-   * For use with the editor framework.
-   */
+  /** For use with the editor framework. */
   private LeafValueEditor<C> editor;
 
-  /**
-   * The key provider for the value.
-   */
+  /** The key provider for the value. */
   private final ProvidesKey<C> keyProvider;
 
-  /**
-   * The current cell value.
-   */
+  /** The current cell value. */
   private C value;
 
-  /**
-   * The {@link ValueUpdater} used to trigger value update events.
-   */
-  private final ValueUpdater<C> valueUpdater = new ValueUpdater<C>() {
-    @Override
-    public void update(C value) {
-      // no need to redraw, the Cell took care of it
-      setValue(value, true, false);
-    }
-  };
+  /** The {@link ValueUpdater} used to trigger value update events. */
+  private final ValueUpdater<C> valueUpdater =
+      new ValueUpdater<C>() {
+        @Override
+        public void update(C value) {
+          // no need to redraw, the Cell took care of it
+          setValue(value, true, false);
+        }
+      };
 
   /**
-   * Construct a new {@link CellWidget} with the specified cell and an initial
-   * value of <code>null</code>.
-   * 
+   * Construct a new {@link CellWidget} with the specified cell and an initial value of <code>null
+   * </code>.
+   *
    * @param cell the cell to wrap
    */
   public CellWidget(Cell<C> cell) {
@@ -99,9 +89,9 @@ public class CellWidget<C> extends Widget implements HasKeyProvider<C>, HasValue
   }
 
   /**
-   * Construct a new {@link CellWidget} with the specified cell and key
-   * provider, and an initial value of <code>null</code>.
-   * 
+   * Construct a new {@link CellWidget} with the specified cell and key provider, and an initial
+   * value of <code>null</code>.
+   *
    * @param cell the cell to wrap
    * @param keyProvider the key provider used to get keys from values
    */
@@ -110,9 +100,8 @@ public class CellWidget<C> extends Widget implements HasKeyProvider<C>, HasValue
   }
 
   /**
-   * Construct a new {@link CellWidget} with the specified cell and initial
-   * value.
-   * 
+   * Construct a new {@link CellWidget} with the specified cell and initial value.
+   *
    * @param cell the cell to wrap
    * @param initialValue the initial value of the Cell
    */
@@ -121,9 +110,8 @@ public class CellWidget<C> extends Widget implements HasKeyProvider<C>, HasValue
   }
 
   /**
-   * Construct a new {@link CellWidget} with the specified cell, initial value,
-   * and key provider.
-   * 
+   * Construct a new {@link CellWidget} with the specified cell, initial value, and key provider.
+   *
    * @param cell the cell to wrap
    * @param initialValue the initial value of the Cell
    * @param keyProvider the key provider used to get keys from values
@@ -133,9 +121,9 @@ public class CellWidget<C> extends Widget implements HasKeyProvider<C>, HasValue
   }
 
   /**
-   * Creates a {@link CellWidget} with the specified cell, initial value, key
-   * provider, using the specified element as the wrapper around the cell.
-   * 
+   * Creates a {@link CellWidget} with the specified cell, initial value, key provider, using the
+   * specified element as the wrapper around the cell.
+   *
    * @param cell the cell to wrap
    * @param initialValue the initial value of the Cell
    * @param keyProvider the key provider used to get keys from values
@@ -171,7 +159,7 @@ public class CellWidget<C> extends Widget implements HasKeyProvider<C>, HasValue
 
   /**
    * Get the {@link Cell} wrapped by this widget.
-   * 
+   *
    * @return the {@link Cell} being wrapped
    */
   public Cell<C> getCell() {
@@ -201,9 +189,7 @@ public class CellWidget<C> extends Widget implements HasKeyProvider<C>, HasValue
     }
   }
 
-  /**
-   * Redraw the widget.
-   */
+  /** Redraw the widget. */
   public void redraw() {
     SafeHtmlBuilder sb = new SafeHtmlBuilder();
     cell.render(createContext(), value, sb);
@@ -223,10 +209,8 @@ public class CellWidget<C> extends Widget implements HasKeyProvider<C>, HasValue
 
   /**
    * {@inheritDoc}
-   * <p>
-   * This method will redraw the widget if the new value does not equal the
-   * existing value.
-   * </p>
+   *
+   * <p>This method will redraw the widget if the new value does not equal the existing value.
    */
   @Override
   public void setValue(C value) {
@@ -235,10 +219,8 @@ public class CellWidget<C> extends Widget implements HasKeyProvider<C>, HasValue
 
   /**
    * {@inheritDoc}
-   * <p>
-   * This method will redraw the widget if the new value does not equal the
-   * existing value.
-   * </p>
+   *
+   * <p>This method will redraw the widget if the new value does not equal the existing value.
    */
   @Override
   public void setValue(C value, boolean fireEvents) {
@@ -246,12 +228,11 @@ public class CellWidget<C> extends Widget implements HasKeyProvider<C>, HasValue
   }
 
   /**
-   * Sets this object's value and optionally redraw the widget. Fires
-   * {@link org.gwtproject.event.logical.shared.ValueChangeEvent} when
-   * fireEvents is true and the new value does not equal the existing value.
-   * Redraws the widget when redraw is true and the new value does not equal the
-   * existing value.
-   * 
+   * Sets this object's value and optionally redraw the widget. Fires {@link
+   * org.gwtproject.event.logical.shared.ValueChangeEvent} when fireEvents is true and the new value
+   * does not equal the existing value. Redraws the widget when redraw is true and the new value
+   * does not equal the existing value.
+   *
    * @param value the object's new value
    * @param fireEvents fire events if true and value is new
    * @param redraw redraw the widget if true and value is new
@@ -269,16 +250,14 @@ public class CellWidget<C> extends Widget implements HasKeyProvider<C>, HasValue
     }
   }
 
-  /**
-   * Get the {@link Context} for the cell.
-   */
+  /** Get the {@link Context} for the cell. */
   private Context createContext() {
     return new Context(0, 0, getKey(value));
   }
 
   /**
    * Get the key for the specified value.
-   * 
+   *
    * @param value the value
    * @return the key
    */

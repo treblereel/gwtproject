@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,21 +15,16 @@
  */
 package org.gwtproject.user.client.ui;
 
+import java.util.Iterator;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.DOM;
 
-import java.util.Iterator;
-
-/**
- * Abstract base class for panels that can contain multiple child widgets.
- */
+/** Abstract base class for panels that can contain multiple child widgets. */
 public abstract class ComplexPanel extends Panel implements IndexedPanel.ForIsWidget {
 
   private WidgetCollection children = new WidgetCollection(this);
 
-  /**
-   * The command used to orphan children. 
-   */
+  /** The command used to orphan children. */
   private AttachDetachException.Command orphanCommand;
 
   public Widget getWidget(int index) {
@@ -43,7 +38,7 @@ public abstract class ComplexPanel extends Panel implements IndexedPanel.ForIsWi
   public int getWidgetIndex(Widget child) {
     return getChildren().indexOf(child);
   }
-  
+
   public int getWidgetIndex(IsWidget child) {
     return getWidgetIndex(asWidgetOrNull(child));
   }
@@ -69,7 +64,7 @@ public abstract class ComplexPanel extends Panel implements IndexedPanel.ForIsWi
       // Physical detach.
       Element elem = w.getElement();
       DOM.getParent(elem).removeChild(elem);
-  
+
       // Logical detach.
       getChildren().remove(w);
     }
@@ -91,9 +86,9 @@ public abstract class ComplexPanel extends Panel implements IndexedPanel.ForIsWi
   }
 
   /**
-   * Adjusts beforeIndex to account for the possibility that the given widget is
-   * already a child of this panel.
-   * 
+   * Adjusts beforeIndex to account for the possibility that the given widget is already a child of
+   * this panel.
+   *
    * @param child the widget that might be an existing child
    * @param beforeIndex the index at which it will be added to this panel
    * @return the modified index
@@ -115,9 +110,9 @@ public abstract class ComplexPanel extends Panel implements IndexedPanel.ForIsWi
   }
 
   /**
-   * Checks that <code>index</code> is in the range [0, getWidgetCount()), which
-   * is the valid range on accessible indexes.
-   * 
+   * Checks that <code>index</code> is in the range [0, getWidgetCount()), which is the valid range
+   * on accessible indexes.
+   *
    * @param index the index being accessed
    */
   protected void checkIndexBoundsForAccess(int index) {
@@ -127,9 +122,9 @@ public abstract class ComplexPanel extends Panel implements IndexedPanel.ForIsWi
   }
 
   /**
-   * Checks that <code>index</code> is in the range [0, getWidgetCount()], which
-   * is the valid range for indexes on an insertion.
-   * 
+   * Checks that <code>index</code> is in the range [0, getWidgetCount()], which is the valid range
+   * for indexes on an insertion.
+   *
    * @param index the index where insertion will occur
    */
   protected void checkIndexBoundsForInsertion(int index) {
@@ -140,7 +135,7 @@ public abstract class ComplexPanel extends Panel implements IndexedPanel.ForIsWi
 
   /**
    * Gets the list of children contained in this panel.
-   * 
+   *
    * @return a collection of child widgets
    */
   protected WidgetCollection getChildren() {
@@ -148,22 +143,19 @@ public abstract class ComplexPanel extends Panel implements IndexedPanel.ForIsWi
   }
 
   /**
-   * Insert a new child Widget into this Panel at a specified index, attaching
-   * its Element to the specified container Element. The child Element will
-   * either be attached to the container at the same index, or simply appended
-   * to the container, depending on the value of <code>domInsert</code>.
+   * Insert a new child Widget into this Panel at a specified index, attaching its Element to the
+   * specified container Element. The child Element will either be attached to the container at the
+   * same index, or simply appended to the container, depending on the value of <code>domInsert
+   * </code>.
    *
    * @param child the child Widget to be added
-   * @param container the Element within which <code>child</code> will be
-   *          contained
-   * @param beforeIndex the index before which <code>child</code> will be
-   *          inserted
-   * @param domInsert if <code>true</code>, insert <code>child</code> into
-   *          <code>container</code> at <code>beforeIndex</code>; otherwise
-   *          append <code>child</code> to the end of <code>container</code>.
+   * @param container the Element within which <code>child</code> will be contained
+   * @param beforeIndex the index before which <code>child</code> will be inserted
+   * @param domInsert if <code>true</code>, insert <code>child</code> into <code>container</code> at
+   *     <code>beforeIndex</code>; otherwise append <code>child</code> to the end of <code>container
+   *     </code>.
    */
-  protected void insert(Widget child, Element container, int beforeIndex,
-      boolean domInsert) {
+  protected void insert(Widget child, Element container, int beforeIndex, boolean domInsert) {
     // Validate index; adjust if the widget is already a child of this panel.
     beforeIndex = adjustIndex(child, beforeIndex);
 
@@ -191,11 +183,12 @@ public abstract class ComplexPanel extends Panel implements IndexedPanel.ForIsWi
 
     // Only use one orphan command per panel to avoid object creation.
     if (orphanCommand == null) {
-      orphanCommand = new AttachDetachException.Command() {
-        public void execute(Widget w) {
-          orphan(w);
-        }
-      };
+      orphanCommand =
+          new AttachDetachException.Command() {
+            public void execute(Widget w) {
+              orphan(w);
+            }
+          };
     }
     try {
       AttachDetachException.tryCommand(this, orphanCommand);

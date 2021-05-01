@@ -15,6 +15,8 @@
  */
 package org.gwtproject.user.client.ui;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.gwtproject.animation.client.Animation;
 import org.gwtproject.aria.client.Roles;
 import org.gwtproject.dom.client.Element;
@@ -25,37 +27,29 @@ import org.gwtproject.safehtml.shared.SafeHtml;
 import org.gwtproject.safehtml.shared.annotations.IsSafeHtml;
 import org.gwtproject.user.client.DOM;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * An item that can be contained within a
- * {@link Tree}.
+ * An item that can be contained within a {@link Tree}.
  *
- * Each tree item is assigned a unique DOM id in order to support ARIA. See
- * {@link Accessibility} for more information.
+ * <p>Each tree item is assigned a unique DOM id in order to support ARIA. See {@link Accessibility}
+ * for more information.
  *
  * <p>
+ *
  * <h3>Example</h3>
+ *
  * {@example com.google.gwt.examples.TreeExample}
- * </p>
  */
-public class TreeItem extends UIObject implements IsTreeItem, HasTreeItems,
-    HasHTML, HasSafeHtml {
+public class TreeItem extends UIObject implements IsTreeItem, HasTreeItems, HasHTML, HasSafeHtml {
   /*
    * For compatibility with UiBinder interface HasTreeItems should be declared
    * before HasHTML, so that children items and widgets are processed before
    * interpreting HTML.
    */
 
-  /**
-   * The margin applied to child items.
-   */
+  /** The margin applied to child items. */
   private static final double CHILD_MARGIN = 16.0;
 
-  /**
-   * Implementation class for {@link TreeItem}.
-   */
+  /** Implementation class for {@link TreeItem}. */
   public static class TreeItemImpl {
     public TreeItemImpl() {
       initializeClonableElements();
@@ -77,9 +71,7 @@ public class TreeItem extends UIObject implements IsTreeItem, HasTreeItems,
       }
     }
 
-    /**
-     * Setup clonable elements.
-     */
+    /** Setup clonable elements. */
     void initializeClonableElements() {
       // Create the base table element that will be cloned.
       BASE_INTERNAL_ELEM = DOM.createTable();
@@ -108,25 +100,18 @@ public class TreeItem extends UIObject implements IsTreeItem, HasTreeItems,
   }
 
   /**
-   * An {@link Animation} used to open the child elements. If a {@link TreeItem}
-   * is in the process of opening, it will immediately be opened and the new
-   * {@link TreeItem} will use this animation.
+   * An {@link Animation} used to open the child elements. If a {@link TreeItem} is in the process
+   * of opening, it will immediately be opened and the new {@link TreeItem} will use this animation.
    */
   private static class TreeItemAnimation extends Animation {
 
-    /**
-     * The {@link TreeItem} currently being affected.
-     */
+    /** The {@link TreeItem} currently being affected. */
     private TreeItem curItem = null;
 
-    /**
-     * Whether the item is being opened or closed.
-     */
+    /** Whether the item is being opened or closed. */
     private boolean opening = true;
 
-    /**
-     * The target height of the child items.
-     */
+    /** The target height of the child items. */
     private int scrollHeight = 0;
 
     /**
@@ -143,8 +128,7 @@ public class TreeItem extends UIObject implements IsTreeItem, HasTreeItems,
       if (animate) {
         curItem = item;
         opening = item.open;
-        run(Math.min(ANIMATION_DURATION, ANIMATION_DURATION_PER_ITEM
-            * curItem.getChildCount()));
+        run(Math.min(ANIMATION_DURATION, ANIMATION_DURATION_PER_ITEM * curItem.getChildCount()));
       } else {
         UIObject.setVisible(item.childSpanElem, item.open);
       }
@@ -217,31 +201,21 @@ public class TreeItem extends UIObject implements IsTreeItem, HasTreeItems,
   // is supplied.
   static final int IMAGE_PAD = 7;
 
-  /**
-   * The duration of the animation.
-   */
+  /** The duration of the animation. */
   private static final int ANIMATION_DURATION = 200;
 
   /**
-   * The duration of the animation per child {@link TreeItem}. If the per item
-   * duration times the number of child items is less than the duration above,
-   * the smaller duration will be used.
+   * The duration of the animation per child {@link TreeItem}. If the per item duration times the
+   * number of child items is less than the duration above, the smaller duration will be used.
    */
   private static final int ANIMATION_DURATION_PER_ITEM = 75;
 
-  /**
-   * The static animation used to open {@link TreeItem TreeItems}.
-   */
+  /** The static animation used to open {@link TreeItem TreeItems}. */
   private static TreeItemAnimation itemAnimation = new TreeItemAnimation();
 
-  /**
-   * The structured table to hold images.
-   */
-
+  /** The structured table to hold images. */
   private static Element BASE_INTERNAL_ELEM;
-  /**
-   * The base tree item element that will be cloned.
-   */
+  /** The base tree item element that will be cloned. */
   private static Element BASE_BARE_ELEM;
 
   private static TreeItemImpl impl = new TreeItemImpl();
@@ -249,9 +223,7 @@ public class TreeItem extends UIObject implements IsTreeItem, HasTreeItems,
   private ArrayList<TreeItem> children;
   private Element contentElem, childSpanElem, imageHolder;
 
-  /**
-   * Indicates that this item is a root item in a tree.
-   */
+  /** Indicates that this item is a root item in a tree. */
   private boolean isRoot;
 
   private boolean open;
@@ -264,9 +236,7 @@ public class TreeItem extends UIObject implements IsTreeItem, HasTreeItems,
 
   private Widget widget;
 
-  /**
-   * Creates an empty tree item.
-   */
+  /** Creates an empty tree item. */
   public TreeItem() {
     this(false);
   }
@@ -384,7 +354,6 @@ public class TreeItem extends UIObject implements IsTreeItem, HasTreeItems,
    * @param index the index to be retrieved
    * @return the item at that index
    */
-
   public TreeItem getChild(int index) {
     if ((index < 0) || (index >= getChildCount())) {
       return null;
@@ -398,7 +367,6 @@ public class TreeItem extends UIObject implements IsTreeItem, HasTreeItems,
    *
    * @return this item's child count.
    */
-
   public int getChildCount() {
     if (children == null) {
       return 0;
@@ -412,7 +380,6 @@ public class TreeItem extends UIObject implements IsTreeItem, HasTreeItems,
    * @param child the child item to be found
    * @return the child's index, or <code>-1</code> if none is found
    */
-
   public int getChildIndex(TreeItem child) {
     if (children == null) {
       return -1;
@@ -486,16 +453,14 @@ public class TreeItem extends UIObject implements IsTreeItem, HasTreeItems,
   }
 
   /**
-   * Inserts a child tree item at the specified index containing the specified
-   * html.
+   * Inserts a child tree item at the specified index containing the specified html.
    *
    * @param beforeIndex the index where the item will be inserted
    * @param itemHtml the item's HTML
    * @return the item that was added
    * @throws IndexOutOfBoundsException if the index is out of range
    */
-  public TreeItem insertItem(int beforeIndex, SafeHtml itemHtml)
-      throws IndexOutOfBoundsException {
+  public TreeItem insertItem(int beforeIndex, SafeHtml itemHtml) throws IndexOutOfBoundsException {
     TreeItem ret = new TreeItem(itemHtml);
     insertItem(beforeIndex, ret);
     return ret;
@@ -508,8 +473,7 @@ public class TreeItem extends UIObject implements IsTreeItem, HasTreeItems,
    * @param item the item to be added
    * @throws IndexOutOfBoundsException if the index is out of range
    */
-  public void insertItem(int beforeIndex, TreeItem item)
-      throws IndexOutOfBoundsException {
+  public void insertItem(int beforeIndex, TreeItem item) throws IndexOutOfBoundsException {
     // Detach item from existing parent.
     maybeRemoveItemFromParent(item);
 
@@ -555,25 +519,22 @@ public class TreeItem extends UIObject implements IsTreeItem, HasTreeItems,
   }
 
   /**
-   * Inserts a child tree item at the specified index containing the specified
-   * widget.
+   * Inserts a child tree item at the specified index containing the specified widget.
    *
    * @param beforeIndex the index where the item will be inserted
    * @param widget the widget to be added
    * @return the item that was added
    * @throws IndexOutOfBoundsException if the index is out of range
    */
-  public TreeItem insertItem(int beforeIndex, Widget widget)
-      throws IndexOutOfBoundsException {
+  public TreeItem insertItem(int beforeIndex, Widget widget) throws IndexOutOfBoundsException {
     TreeItem ret = new TreeItem(widget);
     insertItem(beforeIndex, ret);
     return ret;
   }
 
   /**
-   * Inserts a child tree item at the specified index containing the specified
-   * text.
-   * 
+   * Inserts a child tree item at the specified index containing the specified text.
+   *
    * @param beforeIndex the index where the item will be inserted
    * @param itemText the item's text
    * @return the item that was added
@@ -595,9 +556,7 @@ public class TreeItem extends UIObject implements IsTreeItem, HasTreeItems,
     return selected;
   }
 
-  /**
-   * Removes this item from its tree.
-   */
+  /** Removes this item from its tree. */
   public void remove() {
     if (parent != null) {
       // If this item has a parent, remove self from it.
@@ -654,9 +613,7 @@ public class TreeItem extends UIObject implements IsTreeItem, HasTreeItems,
     }
   }
 
-  /**
-   * Removes all of this item's children.
-   */
+  /** Removes all of this item's children. */
   @Override
   public void removeItems() {
     while (getChildCount() > 0) {
@@ -678,8 +635,7 @@ public class TreeItem extends UIObject implements IsTreeItem, HasTreeItems,
   /**
    * Selects or deselects this item.
    *
-   * @param selected <code>true</code> to select the item, <code>false</code> to
-   *          deselect it
+   * @param selected <code>true</code> to select the item, <code>false</code> to deselect it
    */
   public void setSelected(boolean selected) {
     if (this.selected == selected) {
@@ -784,13 +740,12 @@ public class TreeItem extends UIObject implements IsTreeItem, HasTreeItems,
   }
 
   /**
-   * Returns a suggested {@link Focusable} instance to use when this tree item
-   * is selected. The tree maintains focus if this method returns null. By
-   * default, if the tree item contains a focusable widget, that widget is
-   * returned.
+   * Returns a suggested {@link Focusable} instance to use when this tree item is selected. The tree
+   * maintains focus if this method returns null. By default, if the tree item contains a focusable
+   * widget, that widget is returned.
    *
-   * Note, the {@link Tree} will ignore this value if the user clicked on an
-   * input element such as a button or text area when selecting this item.
+   * <p>Note, the {@link Tree} will ignore this value if the user clicked on an input element such
+   * as a button or text area when selecting this item.
    *
    * @return the focusable item
    */
@@ -807,9 +762,10 @@ public class TreeItem extends UIObject implements IsTreeItem, HasTreeItems,
 
   /**
    * <b>Affected Elements:</b>
+   *
    * <ul>
-   * <li>-content = The text or {@link Widget} next to the image.</li>
-   * <li>-child# = The child at the specified index.</li>
+   *   <li>-content = The text or {@link Widget} next to the image.
+   *   <li>-child# = The child at the specified index.
    * </ul>
    *
    * @see UIObject#onEnsureDebugId(String)

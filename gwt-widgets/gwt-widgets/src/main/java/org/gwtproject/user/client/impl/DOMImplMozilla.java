@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -17,9 +17,7 @@ package org.gwtproject.user.client.impl;
 
 import org.gwtproject.dom.client.Element;
 
-/**
- * Mozilla implementation of StandardBrowser.
- */
+/** Mozilla implementation of StandardBrowser. */
 class DOMImplMozilla extends DOMImplStandard {
 
   static {
@@ -27,7 +25,7 @@ class DOMImplMozilla extends DOMImplStandard {
   }
 
   private static void addMozillaCaptureEventDispatchers() {
-      throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException();
   }
 
   @Override
@@ -35,7 +33,6 @@ class DOMImplMozilla extends DOMImplStandard {
     super.sinkEvents(elem, bits);
     sinkEventsMozilla(elem, bits);
   }
-
 
   public void sinkEventsMozilla(Element elem, int bits) {
     throw new UnsupportedOperationException();

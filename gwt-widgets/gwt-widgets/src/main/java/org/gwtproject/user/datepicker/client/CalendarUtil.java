@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -18,9 +18,7 @@ package org.gwtproject.user.datepicker.client;
 
 import java.util.Date;
 
-/**
- * Useful utilities for creating views of a calendar.
- */
+/** Useful utilities for creating views of a calendar. */
 public class CalendarUtil {
 
   private static int firstDayOfWeekend;
@@ -29,7 +27,7 @@ public class CalendarUtil {
 
   /**
    * Adds the given number of days to a date.
-   * 
+   *
    * @param date the date
    * @param days number of days
    */
@@ -40,7 +38,7 @@ public class CalendarUtil {
 
   /**
    * Adds the given number of months to a date.
-   * 
+   *
    * @param date the date
    * @param months number of months
    */
@@ -61,7 +59,7 @@ public class CalendarUtil {
 
   /**
    * Copies a date.
-   * 
+   *
    * @param date the date
    * @return the copy
    */
@@ -76,7 +74,7 @@ public class CalendarUtil {
 
   /**
    * Returns the number of days between the two dates. Time is ignored.
-   * 
+   *
    * @param start starting date
    * @param finish ending date
    * @return the different
@@ -98,9 +96,9 @@ public class CalendarUtil {
   }
 
   /**
-   * Returns the day of the week on which week starts in the current locale. The
-   * range between 0 for Sunday and 6 for Saturday.
-   * 
+   * Returns the day of the week on which week starts in the current locale. The range between 0 for
+   * Sunday and 6 for Saturday.
+   *
    * @return the day of the week
    */
   public static int getStartingDayOfWeek() {
@@ -108,9 +106,8 @@ public class CalendarUtil {
   }
 
   /**
-   * Check if two dates represent the same date of the same year, even if they
-   * have different times.
-   * 
+   * Check if two dates represent the same date of the same year, even if they have different times.
+   *
    * @param date0 a date
    * @param date1 a second date
    * @return true if the dates are the same
@@ -125,9 +122,8 @@ public class CalendarUtil {
   }
 
   /**
-   * Sets a date object to be at the beginning of the month and no time
-   * specified.
-   * 
+   * Sets a date object to be at the beginning of the month and no time specified.
+   *
    * @param date the date
    */
   @SuppressWarnings("deprecation") // GWT requires Date
@@ -138,7 +134,7 @@ public class CalendarUtil {
 
   /**
    * Is a day in the week a weekend?
-   * 
+   *
    * @param dayOfWeek day of week
    * @return is the day of week a weekend?
    */

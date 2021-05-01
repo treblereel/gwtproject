@@ -18,9 +18,7 @@ package org.gwtproject.view.client;
 import org.gwtproject.event.shared.HandlerRegistration;
 import org.gwtproject.event.shared.HasHandlers;
 
-/**
- * Describes an object that displays a range of rows.
- */
+/** Describes an object that displays a range of rows. */
 public interface HasRows extends HasHandlers {
 
   /**
@@ -37,14 +35,12 @@ public interface HasRows extends HasHandlers {
    * @param handler the handler
    * @return a {@link HandlerRegistration} to remove the handler
    */
-  HandlerRegistration addRowCountChangeHandler(
-      RowCountChangeEvent.Handler handler);
+  HandlerRegistration addRowCountChangeHandler(RowCountChangeEvent.Handler handler);
 
   /**
    * Get the total count of all rows.
    *
    * @return the total row count
-   *
    * @see #setRowCount(int)
    */
   int getRowCount();
@@ -53,7 +49,6 @@ public interface HasRows extends HasHandlers {
    * Get the range of visible rows.
    *
    * @return the visible range
-   * 
    * @see #setVisibleRange(org.gwtproject.view.client.Range)
    * @see #setVisibleRange(int, int)
    */
@@ -67,18 +62,16 @@ public interface HasRows extends HasHandlers {
   boolean isRowCountExact();
 
   /**
-   * Set the exact total count of all rows. This method defers to
-   * {@link #setRowCount(int, boolean)}.
+   * Set the exact total count of all rows. This method defers to {@link #setRowCount(int,
+   * boolean)}.
    *
    * @param count the exact total count
-   *
    * @see #getRowCount()
    */
   void setRowCount(int count);
 
   /**
-   * Set the total count of all rows, specifying whether the count is exact or
-   * an estimate.
+   * Set the total count of all rows, specifying whether the count is exact or an estimate.
    *
    * @param count the total count
    * @param isExact true if the count is exact, false if an estimate
@@ -87,12 +80,11 @@ public interface HasRows extends HasHandlers {
   void setRowCount(int count, boolean isExact);
 
   /**
-   * Set the visible range or rows. This method defers to
-   * {@link #setVisibleRange(org.gwtproject.view.client.Range)}.
+   * Set the visible range or rows. This method defers to {@link
+   * #setVisibleRange(org.gwtproject.view.client.Range)}.
    *
    * @param start the start index
    * @param length the length
-   *
    * @see #getVisibleRange()
    */
   // TODO(jlabanca): Should we include setPageStart/Size as shortcut methods?
@@ -102,7 +94,6 @@ public interface HasRows extends HasHandlers {
    * Set the visible range or rows.
    *
    * @param range the visible range
-   *
    * @see #getVisibleRange()
    */
   void setVisibleRange(org.gwtproject.view.client.Range range);

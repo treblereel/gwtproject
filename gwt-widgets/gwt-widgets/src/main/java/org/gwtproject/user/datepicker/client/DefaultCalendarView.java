@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,29 +15,20 @@
  */
 package org.gwtproject.user.datepicker.client;
 
+import java.util.Date;
 import org.gwtproject.aria.client.Roles;
 import org.gwtproject.aria.client.SelectedValue;
 import org.gwtproject.user.client.ui.HTMLTable.CellFormatter;
 import org.gwtproject.user.datepicker.client.DefaultCalendarView.CellGrid.DateCell;
 
-import java.util.Date;
-
-/**
- * Simple calendar view. Not extensible as we wish to evolve it freely over
- * time.
- */
-
-@SuppressWarnings(/* Date manipulation required */{"deprecation"})
+/** Simple calendar view. Not extensible as we wish to evolve it freely over time. */
+@SuppressWarnings(/* Date manipulation required */ {"deprecation"})
 public final class DefaultCalendarView extends CalendarView {
 
-  /**
-   * Cell grid.
-   */
+  /** Cell grid. */
   // Javac bug requires that date be fully specified here.
   class CellGrid extends CellGridImpl<java.util.Date> {
-    /**
-     * A cell representing a date.
-     */
+    /** A cell representing a date. */
     class DateCell extends Cell {
       private String cellStyle;
       private String dateStyle;
@@ -142,8 +133,7 @@ public final class DefaultCalendarView extends CalendarView {
     }
 
     @Override
-    protected void onSelected(Cell lastSelected, Cell cell) {
-    }
+    protected void onSelected(Cell lastSelected, Cell cell) {}
   }
 
   private CellGrid grid = new CellGrid();
@@ -154,17 +144,20 @@ public final class DefaultCalendarView extends CalendarView {
 
   private DateCell ariaSelectedCell;
 
-  /**
-   * Constructor.
-   */
-  public DefaultCalendarView() {
-  }
+  /** Constructor. */
+  public DefaultCalendarView() {}
 
   @Override
   public void addStyleToDate(String styleName, Date date) {
-    assert getDatePicker().isDateVisible(date) : "You tried to add style " + styleName + " to "
-        + date + ". The calendar is currently showing " + getFirstDate()
-        + " to " + getLastDate();
+    assert getDatePicker().isDateVisible(date)
+        : "You tried to add style "
+            + styleName
+            + " to "
+            + date
+            + ". The calendar is currently showing "
+            + getFirstDate()
+            + " to "
+            + getLastDate();
     getCell(date).addStyleName(styleName);
   }
 
@@ -242,8 +235,10 @@ public final class DefaultCalendarView extends CalendarView {
     // Set up the day labels.
     for (int i = 0; i < CalendarModel.DAYS_IN_WEEK; i++) {
       int shift = CalendarUtil.getStartingDayOfWeek();
-      int dayIdx = i + shift < CalendarModel.DAYS_IN_WEEK ? i + shift : i
-          + shift - CalendarModel.DAYS_IN_WEEK;
+      int dayIdx =
+          i + shift < CalendarModel.DAYS_IN_WEEK
+              ? i + shift
+              : i + shift - CalendarModel.DAYS_IN_WEEK;
       grid.setText(0, i, getModel().formatDayOfWeek(dayIdx));
 
       if (CalendarUtil.isWeekend(dayIdx)) {
@@ -261,8 +256,8 @@ public final class DefaultCalendarView extends CalendarView {
     // Set up the calendar grid.
     for (int row = 1; row <= CalendarModel.WEEKS_IN_MONTH; row++) {
       for (int column = 0; column < CalendarModel.DAYS_IN_WEEK; column++) {
-        DateCell cell = grid.new DateCell(column == weekendStartColumn
-            || column == weekendEndColumn);
+        DateCell cell =
+            grid.new DateCell(column == weekendStartColumn || column == weekendEndColumn);
         grid.setWidget(row, column, cell);
       }
     }
@@ -278,8 +273,8 @@ public final class DefaultCalendarView extends CalendarView {
 
     DateCell cell = (DateCell) grid.getCell(index);
     if (cell.getValue().getDate() != d.getDate()) {
-      throw new IllegalStateException(d + " cannot be associated with cell "
-          + cell + " as it has date " + cell.getValue());
+      throw new IllegalStateException(
+          d + " cannot be associated with cell " + cell + " as it has date " + cell.getValue());
     }
     return cell;
   }

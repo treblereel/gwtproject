@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -29,51 +29,47 @@ import org.gwtproject.safehtml.shared.annotations.SuppressIsSafeHtmlCastCheck;
 import org.gwtproject.safehtml.shared.annotations.SuppressIsSafeUriCastCheck;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.Event;
-import org.gwtproject.user.history.client.History;
 import org.gwtproject.user.client.ui.impl.HyperlinkImpl;
+import org.gwtproject.user.history.client.History;
 
 /**
- * A widget that serves as an "internal" hyperlink. That is, it is a link to
- * another state of the running application. When clicked, it will create a new
- * history frame using {@link History#newItem}, but
- * without reloading the page.
- * 
- * <p>
- * If you want an HTML hyperlink (&lt;a&gt; tag) without interacting with the
- * history system, use {@link Anchor} instead.
- * </p>
- * 
- * <p>
- * Being a true hyperlink, it is also possible for the user to "right-click,
- * open link in new window", which will cause the application to be loaded in a
- * new window at the state specified by the hyperlink.
- * </p>
- * 
- * <p>
- * <h3>Built-in Bidi Text Support</h3>
- * This widget is capable of automatically adjusting its direction according to
- * its content. This feature is controlled by {@link #setDirectionEstimator} or
- * passing a DirectionEstimator parameter to the constructor, and is off by
- * default.
- * </p>
+ * A widget that serves as an "internal" hyperlink. That is, it is a link to another state of the
+ * running application. When clicked, it will create a new history frame using {@link
+ * History#newItem}, but without reloading the page.
+ *
+ * <p>If you want an HTML hyperlink (&lt;a&gt; tag) without interacting with the history system, use
+ * {@link Anchor} instead.
+ *
+ * <p>Being a true hyperlink, it is also possible for the user to "right-click, open link in new
+ * window", which will cause the application to be loaded in a new window at the state specified by
+ * the hyperlink.
  *
  * <p>
- * <img class='gallery' src='doc-files/Hyperlink.png'/>
- * </p>
- * 
+ *
+ * <h3>Built-in Bidi Text Support</h3>
+ *
+ * This widget is capable of automatically adjusting its direction according to its content. This
+ * feature is controlled by {@link #setDirectionEstimator} or passing a DirectionEstimator parameter
+ * to the constructor, and is off by default.
+ *
+ * <p><img class='gallery' src='doc-files/Hyperlink.png'/>
+ *
  * <h3>CSS Style Rules</h3>
+ *
  * <ul class='css'>
- * <li>.gwt-Hyperlink { }</li>
+ *   <li>.gwt-Hyperlink { }
  * </ul>
- * 
+ *
  * <p>
- * <h3>Example</h3> {@example com.google.gwt.examples.HistoryExample}
- * </p>
- * 
+ *
+ * <h3>Example</h3>
+ *
+ * {@example com.google.gwt.examples.HistoryExample}
+ *
  * @see Anchor
  */
-public class Hyperlink extends Widget implements HasHTML,
-    HasClickHandlers, HasDirectionEstimator, HasDirectionalSafeHtml {
+public class Hyperlink extends Widget
+    implements HasHTML, HasClickHandlers, HasDirectionEstimator, HasDirectionalSafeHtml {
 
   public static final DirectionEstimator DEFAULT_DIRECTION_ESTIMATOR =
       DirectionalTextHelper.DEFAULT_DIRECTION_ESTIMATOR;
@@ -84,9 +80,7 @@ public class Hyperlink extends Widget implements HasHTML,
   private final Element anchorElem = DOM.createAnchor();
   private String targetHistoryToken;
 
-  /**
-   * Creates an empty hyperlink.
-   */
+  /** Creates an empty hyperlink. */
   public Hyperlink() {
     this(DOM.createDiv());
   }
@@ -113,19 +107,18 @@ public class Hyperlink extends Widget implements HasHTML,
   public Hyperlink(SafeHtml html, Direction dir, String targetHistoryToken) {
     this(html.asString(), true, dir, targetHistoryToken);
   }
-  
+
   /**
    * Creates a hyperlink with its html and target history token specified.
    *
    * @param html the hyperlink's safe html
-   * @param directionEstimator A DirectionEstimator object used for automatic
-   *          direction adjustment. For convenience,
-   *          {@link #DEFAULT_DIRECTION_ESTIMATOR} can be used.
+   * @param directionEstimator A DirectionEstimator object used for automatic direction adjustment.
+   *     For convenience, {@link #DEFAULT_DIRECTION_ESTIMATOR} can be used.
    * @param targetHistoryToken the history token to which it will link
    * @see #setTargetHistoryToken
    */
-  public Hyperlink(SafeHtml html, DirectionEstimator directionEstimator,
-      String targetHistoryToken) {
+  public Hyperlink(
+      SafeHtml html, DirectionEstimator directionEstimator, String targetHistoryToken) {
     this(html.asString(), true, directionEstimator, targetHistoryToken);
   }
 
@@ -133,9 +126,8 @@ public class Hyperlink extends Widget implements HasHTML,
    * Creates a hyperlink with its text and target history token specified.
    *
    * @param text the hyperlink's text
-   * @param targetHistoryToken the history token to which it will link, which
-   *          may not be null (use {@link Anchor} instead if you don't need
-   *          history processing)
+   * @param targetHistoryToken the history token to which it will link, which may not be null (use
+   *     {@link Anchor} instead if you don't need history processing)
    */
   @SuppressIsSafeHtmlCastCheck
   public Hyperlink(String text, String targetHistoryToken) {
@@ -147,9 +139,8 @@ public class Hyperlink extends Widget implements HasHTML,
    *
    * @param text the hyperlink's text
    * @param dir the text's direction
-   * @param targetHistoryToken the history token to which it will link, which
-   *          may not be null (use {@link Anchor} instead if you don't need
-   *          history processing)
+   * @param targetHistoryToken the history token to which it will link, which may not be null (use
+   *     {@link Anchor} instead if you don't need history processing)
    */
   @SuppressIsSafeHtmlCastCheck
   public Hyperlink(String text, Direction dir, String targetHistoryToken) {
@@ -160,12 +151,10 @@ public class Hyperlink extends Widget implements HasHTML,
    * Creates a hyperlink with its text and target history token specified.
    *
    * @param text the hyperlink's text
-   * @param directionEstimator A DirectionEstimator object used for automatic
-   *          direction adjustment. For convenience,
-   *          {@link #DEFAULT_DIRECTION_ESTIMATOR} can be used.
-   * @param targetHistoryToken the history token to which it will link, which
-   *          may not be null (use {@link Anchor} instead if you don't need
-   *          history processing)
+   * @param directionEstimator A DirectionEstimator object used for automatic direction adjustment.
+   *     For convenience, {@link #DEFAULT_DIRECTION_ESTIMATOR} can be used.
+   * @param targetHistoryToken the history token to which it will link, which may not be null (use
+   *     {@link Anchor} instead if you don't need history processing)
    */
   @SuppressIsSafeHtmlCastCheck
   public Hyperlink(String text, DirectionEstimator directionEstimator, String targetHistoryToken) {
@@ -185,7 +174,7 @@ public class Hyperlink extends Widget implements HasHTML,
     directionalTextHelper.setTextOrHtml(text, asHTML);
     setTargetHistoryToken(targetHistoryToken);
   }
-  
+
   protected Hyperlink(Element elem) {
     if (elem == null) {
       setElement(anchorElem);
@@ -196,8 +185,7 @@ public class Hyperlink extends Widget implements HasHTML,
 
     sinkEvents(Event.ONCLICK);
     setStyleName("gwt-Hyperlink");
-    directionalTextHelper = new DirectionalTextHelper(anchorElem,
-        /* is inline */ true);
+    directionalTextHelper = new DirectionalTextHelper(anchorElem, /* is inline */ true);
   }
 
   /**
@@ -221,9 +209,8 @@ public class Hyperlink extends Widget implements HasHTML,
    *
    * @param text the hyperlink's text
    * @param asHTML <code>true</code> to treat the specified text as html
-   * @param directionEstimator A DirectionEstimator object used for automatic
-   *          direction adjustment. For convenience,
-   *          {@link #DEFAULT_DIRECTION_ESTIMATOR} can be used.
+   * @param directionEstimator A DirectionEstimator object used for automatic direction adjustment.
+   *     For convenience, {@link #DEFAULT_DIRECTION_ESTIMATOR} can be used.
    * @param targetHistoryToken the history token to which it will link
    * @see #setTargetHistoryToken
    */
@@ -239,9 +226,8 @@ public class Hyperlink extends Widget implements HasHTML,
   }
 
   /**
-   * @deprecated Use {@link Anchor#addClickHandler} instead and call
-   *     History.newItem from the handler if you need to process the
-   *     click before the history token is set.
+   * @deprecated Use {@link Anchor#addClickHandler} instead and call History.newItem from the
+   *     handler if you need to process the click before the history token is set.
    */
   @Deprecated
   public HandlerRegistration addClickHandler(ClickHandler handler) {
@@ -258,7 +244,7 @@ public class Hyperlink extends Widget implements HasHTML,
 
   /**
    * Gets the history token referenced by this hyperlink.
-   * 
+   *
    * @return the target history token
    * @see #setTargetHistoryToken
    */
@@ -285,8 +271,8 @@ public class Hyperlink extends Widget implements HasHTML,
 
   /**
    * {@inheritDoc}
-   * <p>
-   * See note at {@link #setDirectionEstimator(DirectionEstimator)}.
+   *
+   * <p>See note at {@link #setDirectionEstimator(DirectionEstimator)}.
    */
   public void setDirectionEstimator(boolean enabled) {
     directionalTextHelper.setDirectionEstimator(enabled);
@@ -294,12 +280,11 @@ public class Hyperlink extends Widget implements HasHTML,
 
   /**
    * {@inheritDoc}
-   * <p>
-   * Note: DirectionEstimator should be set before the widget has any content;
-   * it's highly recommended to set it using a constructor. Reason: if the
-   * widget already has non-empty content, this will update its direction
-   * according to the new estimator's result. This may cause flicker, and thus
-   * should be avoided.
+   *
+   * <p>Note: DirectionEstimator should be set before the widget has any content; it's highly
+   * recommended to set it using a constructor. Reason: if the widget already has non-empty content,
+   * this will update its direction according to the new estimator's result. This may cause flicker,
+   * and thus should be avoided.
    */
   public void setDirectionEstimator(DirectionEstimator directionEstimator) {
     directionalTextHelper.setDirectionEstimator(directionEstimator);
@@ -318,17 +303,16 @@ public class Hyperlink extends Widget implements HasHTML,
   }
 
   /**
-   * Sets the history token referenced by this hyperlink. This is the history
-   * token that will be passed to {@link History#newItem} when this link is
-   * clicked.
+   * Sets the history token referenced by this hyperlink. This is the history token that will be
+   * passed to {@link History#newItem} when this link is clicked.
    *
-   * @param targetHistoryToken the new history token, which may not be null (use
-   *          {@link Anchor} instead if you don't need history processing)
+   * @param targetHistoryToken the new history token, which may not be null (use {@link Anchor}
+   *     instead if you don't need history processing)
    */
-  @SuppressIsSafeUriCastCheck //TODO(bangert): Refactor setPropertyString
+  @SuppressIsSafeUriCastCheck // TODO(bangert): Refactor setPropertyString
   public void setTargetHistoryToken(String targetHistoryToken) {
     assert targetHistoryToken != null
-      : "targetHistoryToken must not be null, consider using Anchor instead";
+        : "targetHistoryToken must not be null, consider using Anchor instead";
     this.targetHistoryToken = targetHistoryToken;
     String hash = History.encodeHistoryToken(targetHistoryToken);
     anchorElem.setPropertyString("href", "#" + hash);
@@ -344,10 +328,11 @@ public class Hyperlink extends Widget implements HasHTML,
 
   /**
    * <b>Affected Elements:</b>
+   *
    * <ul>
-   * <li>-wrapper = the div around the link.</li>
+   *   <li>-wrapper = the div around the link.
    * </ul>
-   * 
+   *
    * @see UIObject#onEnsureDebugId(String)
    */
   @Override

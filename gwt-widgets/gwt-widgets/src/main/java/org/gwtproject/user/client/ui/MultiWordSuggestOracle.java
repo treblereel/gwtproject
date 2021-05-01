@@ -15,10 +15,6 @@
  */
 package org.gwtproject.user.client.ui;
 
-import org.gwtproject.safehtml.shared.SafeHtmlBuilder;
-import org.gwtproject.safehtml.shared.SafeHtmlUtils;
-import org.gwtproject.safehtml.shared.annotations.IsSafeHtml;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,17 +27,20 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.TreeSet;
+import org.gwtproject.safehtml.shared.SafeHtmlBuilder;
+import org.gwtproject.safehtml.shared.SafeHtmlUtils;
+import org.gwtproject.safehtml.shared.annotations.IsSafeHtml;
 
 /**
- * The default {@link SuggestOracle}. The default
- * oracle returns potential suggestions based on breaking the query into
- * separate words and looking for matches. It also modifies the returned text to
- * show which prefix matched the query term. The matching is case insensitive.
- * All suggestions are sorted before being passed into a response.
+ * The default {@link SuggestOracle}. The default oracle returns potential suggestions based on
+ * breaking the query into separate words and looking for matches. It also modifies the returned
+ * text to show which prefix matched the query term. The matching is case insensitive. All
+ * suggestions are sorted before being passed into a response.
+ *
+ * <p>Example Table
+ *
  * <p>
- * Example Table
- * </p>
- * <p>
+ *
  * <table width = "100%" border = "1">
  * <tr>
  * <td><b> All Suggestions </b></td>
@@ -64,35 +63,29 @@ import java.util.TreeSet;
  * <td>Georgia</td>
  * </tr>
  * </table>
- * </p>
  */
 public class MultiWordSuggestOracle extends SuggestOracle {
 
-  /**
-   * Suggestion class for {@link MultiWordSuggestOracle}.
-   */
+  /** Suggestion class for {@link MultiWordSuggestOracle}. */
   public static class MultiWordSuggestion implements Suggestion, Serializable {
     @IsSafeHtml private String displayString;
     private String replacementString;
 
-    /**
-     * Constructor used by RPC.
-     */
-    public MultiWordSuggestion() {
-    }
+    /** Constructor used by RPC. */
+    public MultiWordSuggestion() {}
 
     /**
      * Constructor for <code>MultiWordSuggestion</code>.
      *
-     * @param replacementString the string to enter into the SuggestBox's text
-     *          box if the suggestion is chosen
+     * @param replacementString the string to enter into the SuggestBox's text box if the suggestion
+     *     is chosen
      * @param displayString the display string
      */
     public MultiWordSuggestion(String replacementString, @IsSafeHtml String displayString) {
       this.replacementString = replacementString;
       this.displayString = displayString;
     }
-    
+
     @IsSafeHtml
     public String getDisplayString() {
       return displayString;
@@ -106,8 +99,8 @@ public class MultiWordSuggestOracle extends SuggestOracle {
   /**
    * A class reresenting the bounds of a word within a string.
    *
-   * The bounds are represented by a {@code startIndex} (inclusive) and
-   * an {@code endIndex} (exclusive).
+   * <p>The bounds are represented by a {@code startIndex} (inclusive) and an {@code endIndex}
+   * (exclusive).
    */
   private static class WordBounds implements Comparable<WordBounds> {
 
@@ -131,40 +124,28 @@ public class MultiWordSuggestOracle extends SuggestOracle {
   private static final char WHITESPACE_CHAR = ' ';
   private static final String WHITESPACE_STRING = " ";
 
-  /**
-   * Regular expression used to collapse all whitespace in a query string.
-   */
+  /** Regular expression used to collapse all whitespace in a query string. */
   private static final String NORMALIZE_TO_SINGLE_WHITE_SPACE = "\\s+";
 
-  /**
-   * Associates substrings with words.
-   */
+  /** Associates substrings with words. */
   private final PrefixTree tree = new PrefixTree();
 
-  /**
-   * Associates individual words with candidates.
-   */
+  /** Associates individual words with candidates. */
   private HashMap<String, Set<String>> toCandidates = new HashMap<String, Set<String>>();
 
   /**
-   * Associates candidates with their formatted suggestions. Multiple formatted
-   * suggestions could be normalized to the same candidate, e.g. both 'Mobile'
-   * and 'MOBILE' are normalized to 'mobile'.
+   * Associates candidates with their formatted suggestions. Multiple formatted suggestions could be
+   * normalized to the same candidate, e.g. both 'Mobile' and 'MOBILE' are normalized to 'mobile'.
    */
-  private HashMap<String, List<String>> toRealSuggestions =
-      new HashMap<>();
-  
+  private HashMap<String, List<String>> toRealSuggestions = new HashMap<>();
+
   /**
-   * Specifies whether all formatted suggestions should be returned per
-   * normalized candidate. Refer ro {@link #setSuggestAllMatchingWords}
-   * for more details.
+   * Specifies whether all formatted suggestions should be returned per normalized candidate. Refer
+   * ro {@link #setSuggestAllMatchingWords} for more details.
    */
   private boolean suggestAllMatchingWords = false;
 
-  /**
-   * The whitespace masks used to prevent matching and replacing of the given
-   * substrings.
-   */
+  /** The whitespace masks used to prevent matching and replacing of the given substrings. */
   private char[] whitespaceChars;
 
   private Response defaultResponse;
@@ -173,10 +154,10 @@ public class MultiWordSuggestOracle extends SuggestOracle {
    * Comparator used for sorting candidates from search.
    */
   private Comparator<String> comparator = null;
-  
+
   /**
-   * Constructor for <code>MultiWordSuggestOracle</code>. This uses a space as
-   * the whitespace character.
+   * Constructor for <code>MultiWordSuggestOracle</code>. This uses a space as the whitespace
+   * character.
    *
    * @see #MultiWordSuggestOracle(String)
    */
@@ -185,15 +166,13 @@ public class MultiWordSuggestOracle extends SuggestOracle {
   }
 
   /**
-   * Constructor for <code>MultiWordSuggestOracle</code> which takes in a set of
-   * whitespace chars that filter its input.
-   * <p>
-   * Example: If <code>".,"</code> is passed in as whitespace, then the string
-   * "foo.bar" would match the queries "foo", "bar", "foo.bar", "foo...bar", and
-   * "foo, bar". If the empty string is used, then all characters are used in
-   * matching. For example, the query "bar" would match "bar", but not "foo
-   * bar".
-   * </p>
+   * Constructor for <code>MultiWordSuggestOracle</code> which takes in a set of whitespace chars
+   * that filter its input.
+   *
+   * <p>Example: If <code>".,"</code> is passed in as whitespace, then the string "foo.bar" would
+   * match the queries "foo", "bar", "foo.bar", "foo...bar", and "foo, bar". If the empty string is
+   * used, then all characters are used in matching. For example, the query "bar" would match "bar",
+   * but not "foo bar".
    *
    * @param whitespaceChars the characters to treat as word separators
    */
@@ -244,9 +223,7 @@ public class MultiWordSuggestOracle extends SuggestOracle {
     }
   }
 
-  /**
-   * Removes all of the suggestions from the oracle.
-   */
+  /** Removes all of the suggestions from the oracle. */
   public void clear() {
     tree.clear();
     toCandidates.clear();
@@ -279,8 +256,7 @@ public class MultiWordSuggestOracle extends SuggestOracle {
       candidates.remove(i);
     }
     // Convert candidates to suggestions.
-    List<MultiWordSuggestion> suggestions =
-        convertToFormattedSuggestions(query, candidates);
+    List<MultiWordSuggestion> suggestions = convertToFormattedSuggestions(query, candidates);
     Response response = new Response(suggestions);
     response.setMoreSuggestionsCount(numberTruncated);
     callback.onSuggestionsReady(request, response);
@@ -307,41 +283,37 @@ public class MultiWordSuggestOracle extends SuggestOracle {
   /**
    * A convenience method to set default suggestions using plain text strings.
    *
-   * Note to use this method each default suggestion must be plain text.
+   * <p>Note to use this method each default suggestion must be plain text.
    *
    * @param suggestionList the default list of suggestions
    */
-  public final void setDefaultSuggestionsFromText(
-      Collection<String> suggestionList) {
+  public final void setDefaultSuggestionsFromText(Collection<String> suggestionList) {
     Collection<Suggestion> accum = new ArrayList<>();
     for (String candidate : suggestionList) {
       accum.add(createSuggestion(candidate, SafeHtmlUtils.htmlEscape(candidate)));
     }
     setDefaultSuggestions(accum);
   }
-  
+
   /**
-   * Sets the flag on whether to suggest all matching words. With words
-   * 'Mobile', 'MOBILE', 'mobile', 'MoBILE', typing 'm' will only build one
-   * suggestion for 'MoBILE' if {@code suggestAllMatchingWords} is
-   * {@code false}. However, it will build suggestions for all four words if
-   * {@code suggestAllMatchingWords} is {@code true}.
-   * 
-   * @param suggestAllMatchingWords true to return all formatted suggestions
-   *          per normalized candidate, false to return the last formatted
-   *          suggestions per normalized candidate.  
+   * Sets the flag on whether to suggest all matching words. With words 'Mobile', 'MOBILE',
+   * 'mobile', 'MoBILE', typing 'm' will only build one suggestion for 'MoBILE' if {@code
+   * suggestAllMatchingWords} is {@code false}. However, it will build suggestions for all four
+   * words if {@code suggestAllMatchingWords} is {@code true}.
+   *
+   * @param suggestAllMatchingWords true to return all formatted suggestions per normalized
+   *     candidate, false to return the last formatted suggestions per normalized candidate.
    */
   public final void setSuggestAllMatchingWords(boolean suggestAllMatchingWords) {
     this.suggestAllMatchingWords = suggestAllMatchingWords;
   }
-  
+
   /**
    * Creates the suggestion based on the given replacement and display strings.
    *
-   * @param replacementString the string to enter into the SuggestBox's text box
-   *          if the suggestion is chosen
+   * @param replacementString the string to enter into the SuggestBox's text box if the suggestion
+   *     is chosen
    * @param displayString the display string
-   *
    * @return the suggestion created
    */
   protected MultiWordSuggestion createSuggestion(
@@ -350,15 +322,14 @@ public class MultiWordSuggestOracle extends SuggestOracle {
   }
 
   /**
-   * Returns real suggestions with the given query in <code>strong</code> html
-   * font.
+   * Returns real suggestions with the given query in <code>strong</code> html font.
    *
    * @param query query string
    * @param candidates candidates
    * @return real suggestions
    */
-  private List<MultiWordSuggestion> convertToFormattedSuggestions(String query,
-      List<String> candidates) {
+  private List<MultiWordSuggestion> convertToFormattedSuggestions(
+      String query, List<String> candidates) {
     List<MultiWordSuggestion> suggestions = new ArrayList<MultiWordSuggestion>();
 
     for (int i = 0; i < candidates.size(); i++) {
@@ -388,11 +359,11 @@ public class MultiWordSuggestOracle extends SuggestOracle {
           if (wordBounds == null) {
             break;
           }
-          if (wordBounds.startIndex == 0 ||
-              WHITESPACE_CHAR == candidate.charAt(wordBounds.startIndex - 1)) {
+          if (wordBounds.startIndex == 0
+              || WHITESPACE_CHAR == candidate.charAt(wordBounds.startIndex - 1)) {
             String part1 = formattedSuggestion.substring(cursor, wordBounds.startIndex);
-            String part2 = formattedSuggestion.substring(wordBounds.startIndex,
-                wordBounds.endIndex);
+            String part2 =
+                formattedSuggestion.substring(wordBounds.startIndex, wordBounds.endIndex);
             cursor = wordBounds.endIndex;
             accum.appendEscaped(part1);
             accum.appendHtmlConstant("<strong>");
@@ -408,17 +379,15 @@ public class MultiWordSuggestOracle extends SuggestOracle {
         }
 
         accum.appendEscaped(formattedSuggestion.substring(cursor));
-        MultiWordSuggestion suggestion = createSuggestion(formattedSuggestion,
-            accum.toSafeHtml().asString());
+        MultiWordSuggestion suggestion =
+            createSuggestion(formattedSuggestion, accum.toSafeHtml().asString());
         suggestions.add(suggestion);
       }
     }
     return suggestions;
   }
 
-  /**
-   * Find the sorted list of candidates that are matches for the given query.
-   */
+  /** Find the sorted list of candidates that are matches for the given query. */
   private List<String> createCandidatesFromSearch(String query) {
     ArrayList<String> candidates = new ArrayList<>();
 
@@ -482,9 +451,8 @@ public class MultiWordSuggestOracle extends SuggestOracle {
   }
 
   /**
-   * Returns a {@link WordBounds} representing the first word in {@code
-   * searchWords} that is found in candidate starting at {@code indexToStartAt}
-   * or {@code null} if no words could be found.
+   * Returns a {@link WordBounds} representing the first word in {@code searchWords} that is found
+   * in candidate starting at {@code indexToStartAt} or {@code null} if no words could be found.
    */
   private WordBounds findNextWord(String candidate, String[] searchWords, int indexToStartAt) {
     WordBounds firstWord = null;
@@ -501,8 +469,8 @@ public class MultiWordSuggestOracle extends SuggestOracle {
   }
 
   /**
-   * Normalize the search key by making it lower case, removing multiple spaces,
-   * apply whitespace masks, and make it lower case.
+   * Normalize the search key by making it lower case, removing multiple spaces, apply whitespace
+   * masks, and make it lower case.
    */
   private String normalizeSearch(String search) {
     // Use the same whitespace masks and case normalization for the search
@@ -510,15 +478,14 @@ public class MultiWordSuggestOracle extends SuggestOracle {
     search = normalizeSuggestion(search);
 
     // Remove all excess whitespace from the search string.
-    search = search.replaceAll(NORMALIZE_TO_SINGLE_WHITE_SPACE,
-        WHITESPACE_STRING);
+    search = search.replaceAll(NORMALIZE_TO_SINGLE_WHITE_SPACE, WHITESPACE_STRING);
 
     return search.trim();
   }
 
   /**
-   * Takes the formatted suggestion, makes it lower case and blanks out any
-   * existing whitespace for searching.
+   * Takes the formatted suggestion, makes it lower case and blanks out any existing whitespace for
+   * searching.
    */
   private String normalizeSuggestion(String formattedSuggestion) {
     // Formatted suggestions should already have normalized whitespace. So we
@@ -531,8 +498,7 @@ public class MultiWordSuggestOracle extends SuggestOracle {
     if (whitespaceChars != null) {
       for (int i = 0; i < whitespaceChars.length; i++) {
         char ignore = whitespaceChars[i];
-        formattedSuggestion = formattedSuggestion.replace(ignore,
-            WHITESPACE_CHAR);
+        formattedSuggestion = formattedSuggestion.replace(ignore, WHITESPACE_CHAR);
       }
     }
     return formattedSuggestion;

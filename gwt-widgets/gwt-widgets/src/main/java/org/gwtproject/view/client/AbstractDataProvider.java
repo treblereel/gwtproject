@@ -15,50 +15,41 @@
  */
 package org.gwtproject.view.client;
 
+import java.util.*;
 import org.gwtproject.event.shared.HandlerRegistration;
 
-import java.util.*;
-
 /**
- * A base implementation of a data source for {@link org.gwtproject.view.client.HasData} implementations.
+ * A base implementation of a data source for {@link org.gwtproject.view.client.HasData}
+ * implementations.
  *
  * @param <T> the data type of records in the list
  */
 public abstract class AbstractDataProvider<T> implements org.gwtproject.view.client.ProvidesKey<T> {
 
-  private Set<org.gwtproject.view.client.HasData<T>> displays = new HashSet<org.gwtproject.view.client.HasData<T>>();
+  private Set<org.gwtproject.view.client.HasData<T>> displays =
+      new HashSet<org.gwtproject.view.client.HasData<T>>();
 
-  /**
-   * The provider of keys for list items.
-   */
+  /** The provider of keys for list items. */
   private final org.gwtproject.view.client.ProvidesKey<T> keyProvider;
 
-  /**
-   * The last row count.
-   */
+  /** The last row count. */
   private int lastRowCount = -1;
 
-  /**
-   * Indicates whether or not the last row count is exact.
-   */
+  /** Indicates whether or not the last row count is exact. */
   private boolean lastRowCountExact;
 
-  /**
-   * A mapping of {@link org.gwtproject.view.client.HasData}s to their handlers.
-   */
+  /** A mapping of {@link org.gwtproject.view.client.HasData}s to their handlers. */
   private Map<org.gwtproject.view.client.HasData<T>, HandlerRegistration> rangeChangeHandlers =
       new HashMap<org.gwtproject.view.client.HasData<T>, HandlerRegistration>();
-  
-  /**
-   * Construct an AbstractDataProvider without a key provider.
-   */
+
+  /** Construct an AbstractDataProvider without a key provider. */
   protected AbstractDataProvider() {
     this.keyProvider = null;
   }
-  
+
   /**
    * Construct an AbstractDataProvider with a given key provider.
-   * 
+   *
    * @param keyProvider a {@link org.gwtproject.view.client.ProvidesKey} object
    */
   protected AbstractDataProvider(org.gwtproject.view.client.ProvidesKey<T> keyProvider) {
@@ -66,8 +57,8 @@ public abstract class AbstractDataProvider<T> implements org.gwtproject.view.cli
   }
 
   /**
-   * Adds a data display to this adapter. The current range of interest of the
-   * display will be populated with data.
+   * Adds a data display to this adapter. The current range of interest of the display will be
+   * populated with data.
    *
    * @param display a {@link org.gwtproject.view.client.HasData}.
    */
@@ -83,12 +74,13 @@ public abstract class AbstractDataProvider<T> implements org.gwtproject.view.cli
     displays.add(display);
 
     // Add a handler to the display.
-    HandlerRegistration handler = display.addRangeChangeHandler(
-        new org.gwtproject.view.client.RangeChangeEvent.Handler() {
-          public void onRangeChange(org.gwtproject.view.client.RangeChangeEvent event) {
-            AbstractDataProvider.this.onRangeChanged(display);
-          }
-        });
+    HandlerRegistration handler =
+        display.addRangeChangeHandler(
+            new org.gwtproject.view.client.RangeChangeEvent.Handler() {
+              public void onRangeChange(org.gwtproject.view.client.RangeChangeEvent event) {
+                AbstractDataProvider.this.onRangeChanged(display);
+              }
+            });
     rangeChangeHandlers.put(display, handler);
 
     // Update the data size in the display.
@@ -110,8 +102,7 @@ public abstract class AbstractDataProvider<T> implements org.gwtproject.view.cli
   }
 
   /**
-   * Get the key for a list item. The default implementation returns the item
-   * itself.
+   * Get the key for a list item. The default implementation returns the item itself.
    *
    * @param item the list item
    * @return the key that represents the item
@@ -135,7 +126,8 @@ public abstract class AbstractDataProvider<T> implements org.gwtproject.view.cli
    * @return the ranges
    */
   public org.gwtproject.view.client.Range[] getRanges() {
-    org.gwtproject.view.client.Range[] ranges = new org.gwtproject.view.client.Range[displays.size()];
+    org.gwtproject.view.client.Range[] ranges =
+        new org.gwtproject.view.client.Range[displays.size()];
     int i = 0;
     for (org.gwtproject.view.client.HasData<T> display : displays) {
       ranges[i++] = display.getVisibleRange();
@@ -145,9 +137,8 @@ public abstract class AbstractDataProvider<T> implements org.gwtproject.view.cli
 
   /**
    * Remove the given data display.
-   * 
+   *
    * @param display a {@link org.gwtproject.view.client.HasData} instance
-   * 
    * @throws IllegalStateException if the display is not present
    */
   public void removeDataDisplay(org.gwtproject.view.client.HasData<T> display) {
@@ -202,7 +193,8 @@ public abstract class AbstractDataProvider<T> implements org.gwtproject.view.cli
    * @param start the start index
    * @param values the data values
    */
-  protected void updateRowData(org.gwtproject.view.client.HasData<T> display, int start, List<T> values) {
+  protected void updateRowData(
+      org.gwtproject.view.client.HasData<T> display, int start, List<T> values) {
     int end = start + values.size();
     org.gwtproject.view.client.Range range = display.getVisibleRange();
     int curStart = range.getStart();
@@ -214,8 +206,7 @@ public abstract class AbstractDataProvider<T> implements org.gwtproject.view.cli
       int realStart = curStart < start ? start : curStart;
       int realEnd = curEnd > end ? end : curEnd;
       int realLength = realEnd - realStart;
-      List<T> realValues = values.subList(
-          realStart - start, realStart - start + realLength);
+      List<T> realValues = values.subList(realStart - start, realStart - start + realLength);
       display.setRowData(realStart, realValues);
     }
   }

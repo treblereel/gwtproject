@@ -24,9 +24,9 @@ import org.gwtproject.user.client.ui.AbstractImagePrototype;
 import org.gwtproject.user.client.ui.Image;
 
 /**
- * Implementation of {@link AbstractImagePrototype} for a clipped image. This
- * class is used internally by the image bundle generator and is not intended
- * for general use. It is subject to change without warning.
+ * Implementation of {@link AbstractImagePrototype} for a clipped image. This class is used
+ * internally by the image bundle generator and is not intended for general use. It is subject to
+ * change without warning.
  */
 public class ClippedImagePrototype extends AbstractImagePrototype {
 

@@ -15,22 +15,15 @@
  */
 package org.gwtproject.view.client;
 
-
 import org.gwtproject.event.shared.Event;
 
-/**
- * Represents a row count change event.
- */
+/** Represents a row count change event. */
 public class RowCountChangeEvent extends Event<RowCountChangeEvent.Handler> {
 
-  /**
-   * Handler type.
-   */
+  /** Handler type. */
   private static Event.Type<Handler> TYPE;
 
-  /**
-   * Handler interface for {@link RowCountChangeEvent} events.
-   */
+  /** Handler interface for {@link RowCountChangeEvent} events. */
   public static interface Handler {
 
     /**
@@ -42,14 +35,15 @@ public class RowCountChangeEvent extends Event<RowCountChangeEvent.Handler> {
   }
 
   /**
-   * Fires a {@link RowCountChangeEvent} on all registered handlers in the
-   * handler manager. If no such handlers exist, this method will do nothing.
+   * Fires a {@link RowCountChangeEvent} on all registered handlers in the handler manager. If no
+   * such handlers exist, this method will do nothing.
    *
    * @param source the source of the handlers
    * @param rowCount the new rowCount
    * @param isExact true if rowCount is an exact count
    */
-  public static void fire(org.gwtproject.view.client.HasRows source, int rowCount, boolean isExact) {
+  public static void fire(
+      org.gwtproject.view.client.HasRows source, int rowCount, boolean isExact) {
     if (TYPE != null) {
       RowCountChangeEvent event = new RowCountChangeEvent(rowCount, isExact);
       source.fireEvent(event);

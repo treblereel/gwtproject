@@ -15,6 +15,8 @@
  */
 package org.gwtproject.user.client.ui;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.style.shared.Unit;
@@ -34,54 +36,51 @@ import org.gwtproject.safehtml.shared.SafeHtml;
 import org.gwtproject.safehtml.shared.annotations.IsSafeHtml;
 import org.gwtproject.safehtml.shared.annotations.SuppressIsSafeHtmlCastCheck;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
 /**
- * A panel that represents a tabbed set of pages, each of which contains another
- * widget. Its child widgets are shown as the user selects the various tabs
- * associated with them. The tabs can contain arbitrary text, HTML, or widgets.
+ * A panel that represents a tabbed set of pages, each of which contains another widget. Its child
+ * widgets are shown as the user selects the various tabs associated with them. The tabs can contain
+ * arbitrary text, HTML, or widgets.
  *
- * <p>
- * This widget will <em>only</em> work in standards mode, which requires that
- * the HTML page in which it is run have an explicit &lt;!DOCTYPE&gt;
- * declaration.
- * </p>
+ * <p>This widget will <em>only</em> work in standards mode, which requires that the HTML page in
+ * which it is run have an explicit &lt;!DOCTYPE&gt; declaration.
  *
  * <h3>CSS Style Rules</h3>
+ *
  * <dl>
- * <dt>.gwt-TabLayoutPanel
- * <dd>the panel itself
- * <dt>.gwt-TabLayoutPanel .gwt-TabLayoutPanelTabs
- * <dd>the tab bar element
- * <dt>.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab
- * <dd>an individual tab
- * <dt>.gwt-TabLayoutPanel .gwt-TabLayoutPanelTabInner
- * <dd>an element nested in each tab (useful for styling)
- * <dt>.gwt-TabLayoutPanel .gwt-TabLayoutPanelContent
- * <dd>applied to all child content widgets
+ *   <dt>.gwt-TabLayoutPanel
+ *   <dd>the panel itself
+ *   <dt>.gwt-TabLayoutPanel .gwt-TabLayoutPanelTabs
+ *   <dd>the tab bar element
+ *   <dt>.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab
+ *   <dd>an individual tab
+ *   <dt>.gwt-TabLayoutPanel .gwt-TabLayoutPanelTabInner
+ *   <dd>an element nested in each tab (useful for styling)
+ *   <dt>.gwt-TabLayoutPanel .gwt-TabLayoutPanelContent
+ *   <dd>applied to all child content widgets
  * </dl>
  *
  * <p>
+ *
  * <h3>Example</h3>
+ *
  * {@example com.google.gwt.examples.TabLayoutPanelExample}
  *
  * <h3>Use in UiBinder Templates</h3>
- * <p>
- * A TabLayoutPanel element in a {@link org.gwtproject.uibinder.client.UiBinder
- * UiBinder} template must have a <code>barHeight</code> attribute with a double
- * value, and may have a <code>barUnit</code> attribute with a
- * {@link Unit Style.Unit} value.
- * <code>barUnit</code> defaults to PX.
- * <p>
- * The children of a TabLayoutPanel element are laid out in &lt;g:tab>
- * elements. Each tab can have one widget child and one of two types of header
- * elements. A &lt;g:header> element can hold html, or a &lt;g:customHeader>
- * element can hold a widget. (Note that the tags of the header elements are
- * not capitalized. This is meant to signal that the head is not a runtime
- * object, and so cannot have a <code>ui:field</code> attribute.)
- * <p>
- * For example:<pre>
+ *
+ * <p>A TabLayoutPanel element in a {@link org.gwtproject.uibinder.client.UiBinder UiBinder}
+ * template must have a <code>barHeight</code> attribute with a double value, and may have a <code>
+ * barUnit</code> attribute with a {@link Unit Style.Unit} value. <code>barUnit</code> defaults to
+ * PX.
+ *
+ * <p>The children of a TabLayoutPanel element are laid out in &lt;g:tab> elements. Each tab can
+ * have one widget child and one of two types of header elements. A &lt;g:header> element can hold
+ * html, or a &lt;g:customHeader> element can hold a widget. (Note that the tags of the header
+ * elements are not capitalized. This is meant to signal that the head is not a runtime object, and
+ * so cannot have a <code>ui:field</code> attribute.)
+ *
+ * <p>For example:
+ *
+ * <pre>
  * &lt;g:TabLayoutPanel barUnit='EM' barHeight='3'>
  *  &lt;g:tab>
  *    &lt;g:header size='7'>&lt;b>HTML&lt;/b> header&lt;/g:header>
@@ -96,9 +95,13 @@ import java.util.Iterator;
  * &lt;/g:TabLayoutPanel>
  * </pre>
  */
-public class TabLayoutPanel extends ResizeComposite implements HasWidgets,
-    ProvidesResize, IndexedPanel.ForIsWidget, AnimatedLayout,
-    HasBeforeSelectionHandlers<Integer>, HasSelectionHandlers<Integer> {
+public class TabLayoutPanel extends ResizeComposite
+    implements HasWidgets,
+        ProvidesResize,
+        IndexedPanel.ForIsWidget,
+        AnimatedLayout,
+        HasBeforeSelectionHandlers<Integer>,
+        HasSelectionHandlers<Integer> {
 
   private class Tab extends SimplePanel {
     private Element inner;
@@ -160,17 +163,14 @@ public class TabLayoutPanel extends ResizeComposite implements HasWidgets,
   }
 
   /**
-   * This extension of DeckLayoutPanel overrides the public mutator methods to
-   * prevent external callers from adding to the state of the DeckPanel.
-   * <p>
-   * Removal of Widgets is supported so that WidgetCollection.WidgetIterator
-   * operates as expected.
-   * </p>
-   * <p>
-   * We ensure that the DeckLayoutPanel cannot become of of sync with its
-   * associated TabBar by delegating all mutations to the TabBar to this
-   * implementation of DeckLayoutPanel.
-   * </p>
+   * This extension of DeckLayoutPanel overrides the public mutator methods to prevent external
+   * callers from adding to the state of the DeckPanel.
+   *
+   * <p>Removal of Widgets is supported so that WidgetCollection.WidgetIterator operates as
+   * expected.
+   *
+   * <p>We ensure that the DeckLayoutPanel cannot become of of sync with its associated TabBar by
+   * delegating all mutations to the TabBar to this implementation of DeckLayoutPanel.
    */
   private class TabbedDeckLayoutPanel extends DeckLayoutPanel {
 
@@ -253,30 +253,22 @@ public class TabLayoutPanel extends ResizeComposite implements HasWidgets,
     setStyleName("gwt-TabLayoutPanel");
   }
 
-  /**
-   * Convenience overload to allow {@link IsWidget} to be used directly.
-   */
+  /** Convenience overload to allow {@link IsWidget} to be used directly. */
   public void add(IsWidget w) {
     add(asWidgetOrNull(w));
   }
 
-  /**
-   * Convenience overload to allow {@link IsWidget} to be used directly.
-   */
+  /** Convenience overload to allow {@link IsWidget} to be used directly. */
   public void add(IsWidget w, IsWidget tab) {
     add(asWidgetOrNull(w), asWidgetOrNull(tab));
   }
 
-  /**
-   * Convenience overload to allow {@link IsWidget} to be used directly.
-   */
+  /** Convenience overload to allow {@link IsWidget} to be used directly. */
   public void add(IsWidget w, String text) {
     add(asWidgetOrNull(w), text);
   }
 
-  /**
-   * Convenience overload to allow {@link IsWidget} to be used directly.
-   */
+  /** Convenience overload to allow {@link IsWidget} to be used directly. */
   public void add(IsWidget w, @IsSafeHtml String text, boolean asHtml) {
     add(asWidgetOrNull(w), text, asHtml);
   }
@@ -286,8 +278,8 @@ public class TabLayoutPanel extends ResizeComposite implements HasWidgets,
   }
 
   /**
-   * Adds a widget to the panel. If the Widget is already attached, it will be
-   * moved to the right-most index.
+   * Adds a widget to the panel. If the Widget is already attached, it will be moved to the
+   * right-most index.
    *
    * @param child the widget to be added
    * @param text the text to be shown on its tab
@@ -297,8 +289,8 @@ public class TabLayoutPanel extends ResizeComposite implements HasWidgets,
   }
 
   /**
-   * Adds a widget to the panel. If the Widget is already attached, it will be
-   * moved to the right-most index.
+   * Adds a widget to the panel. If the Widget is already attached, it will be moved to the
+   * right-most index.
    *
    * @param child the widget to be added
    * @param html the html to be shown on its tab
@@ -308,8 +300,8 @@ public class TabLayoutPanel extends ResizeComposite implements HasWidgets,
   }
 
   /**
-   * Adds a widget to the panel. If the Widget is already attached, it will be
-   * moved to the right-most index.
+   * Adds a widget to the panel. If the Widget is already attached, it will be moved to the
+   * right-most index.
    *
    * @param child the widget to be added
    * @param text the text to be shown on its tab
@@ -320,8 +312,8 @@ public class TabLayoutPanel extends ResizeComposite implements HasWidgets,
   }
 
   /**
-   * Adds a widget to the panel. If the Widget is already attached, it will be
-   * moved to the right-most index.
+   * Adds a widget to the panel. If the Widget is already attached, it will be moved to the
+   * right-most index.
    *
    * @param child the widget to be added
    * @param tab the widget to be placed in the associated tab
@@ -330,13 +322,11 @@ public class TabLayoutPanel extends ResizeComposite implements HasWidgets,
     insert(child, tab, getWidgetCount());
   }
 
-  public HandlerRegistration addBeforeSelectionHandler(
-      BeforeSelectionHandler<Integer> handler) {
+  public HandlerRegistration addBeforeSelectionHandler(BeforeSelectionHandler<Integer> handler) {
     return addHandler(handler, BeforeSelectionEvent.getType());
   }
 
-  public HandlerRegistration addSelectionHandler(
-      SelectionHandler<Integer> handler) {
+  public HandlerRegistration addSelectionHandler(SelectionHandler<Integer> handler) {
     return addHandler(handler, SelectionEvent.getType());
   }
 
@@ -362,7 +352,7 @@ public class TabLayoutPanel extends ResizeComposite implements HasWidgets,
 
   /**
    * Get the duration of the animated transition between tabs.
-   * 
+   *
    * @return the duration in milliseconds
    */
   public int getAnimationDuration() {
@@ -389,9 +379,7 @@ public class TabLayoutPanel extends ResizeComposite implements HasWidgets,
     return tabs.get(index).getWidget();
   }
 
-  /**
-   * Convenience overload to allow {@link IsWidget} to be used directly.
-   */
+  /** Convenience overload to allow {@link IsWidget} to be used directly. */
   public Widget getTabWidget(IsWidget child) {
     return getTabWidget(asWidgetOrNull(child));
   }
@@ -407,65 +395,49 @@ public class TabLayoutPanel extends ResizeComposite implements HasWidgets,
     return getTabWidget(getWidgetIndex(child));
   }
 
-  /**
-   * Returns the widget at the given index.
-   */
+  /** Returns the widget at the given index. */
   public Widget getWidget(int index) {
     return deckPanel.getWidget(index);
   }
 
-  /**
-   * Returns the number of tabs and widgets.
-   */
+  /** Returns the number of tabs and widgets. */
   public int getWidgetCount() {
     return deckPanel.getWidgetCount();
   }
 
-  /**
-   * Convenience overload to allow {@link IsWidget} to be used directly.
-   */
+  /** Convenience overload to allow {@link IsWidget} to be used directly. */
   public int getWidgetIndex(IsWidget child) {
     return getWidgetIndex(asWidgetOrNull(child));
   }
 
-  /**
-   * Returns the index of the given child, or -1 if it is not a child.
-   */
+  /** Returns the index of the given child, or -1 if it is not a child. */
   public int getWidgetIndex(Widget child) {
     return deckPanel.getWidgetIndex(child);
   }
 
-  /**
-   * Convenience overload to allow {@link IsWidget} to be used directly.
-   */
+  /** Convenience overload to allow {@link IsWidget} to be used directly. */
   public void insert(IsWidget child, int beforeIndex) {
     insert(asWidgetOrNull(child), beforeIndex);
   }
 
-  /**
-   * Convenience overload to allow {@link IsWidget} to be used directly.
-   */
+  /** Convenience overload to allow {@link IsWidget} to be used directly. */
   public void insert(IsWidget child, IsWidget tab, int beforeIndex) {
     insert(asWidgetOrNull(child), asWidgetOrNull(tab), beforeIndex);
   }
 
-  /**
-   * Convenience overload to allow {@link IsWidget} to be used directly.
-   */
+  /** Convenience overload to allow {@link IsWidget} to be used directly. */
   public void insert(IsWidget child, @IsSafeHtml String text, boolean asHtml, int beforeIndex) {
     insert(asWidgetOrNull(child), text, asHtml, beforeIndex);
   }
 
-  /**
-   * Convenience overload to allow {@link IsWidget} to be used directly.
-   */
+  /** Convenience overload to allow {@link IsWidget} to be used directly. */
   public void insert(IsWidget child, String text, int beforeIndex) {
     insert(asWidgetOrNull(child), text, beforeIndex);
   }
 
   /**
-   * Inserts a widget into the panel. If the Widget is already attached, it will
-   * be moved to the requested index.
+   * Inserts a widget into the panel. If the Widget is already attached, it will be moved to the
+   * requested index.
    *
    * @param child the widget to be added
    * @param beforeIndex the index before which it will be inserted
@@ -475,8 +447,8 @@ public class TabLayoutPanel extends ResizeComposite implements HasWidgets,
   }
 
   /**
-   * Inserts a widget into the panel. If the Widget is already attached, it will
-   * be moved to the requested index.
+   * Inserts a widget into the panel. If the Widget is already attached, it will be moved to the
+   * requested index.
    *
    * @param child the widget to be added
    * @param html the html to be shown on its tab
@@ -487,8 +459,8 @@ public class TabLayoutPanel extends ResizeComposite implements HasWidgets,
   }
 
   /**
-   * Inserts a widget into the panel. If the Widget is already attached, it will
-   * be moved to the requested index.
+   * Inserts a widget into the panel. If the Widget is already attached, it will be moved to the
+   * requested index.
    *
    * @param child the widget to be added
    * @param text the text to be shown on its tab
@@ -506,8 +478,8 @@ public class TabLayoutPanel extends ResizeComposite implements HasWidgets,
   }
 
   /**
-   * Inserts a widget into the panel. If the Widget is already attached, it will
-   * be moved to the requested index.
+   * Inserts a widget into the panel. If the Widget is already attached, it will be moved to the
+   * requested index.
    *
    * @param child the widget to be added
    * @param text the text to be shown on its tab
@@ -519,8 +491,8 @@ public class TabLayoutPanel extends ResizeComposite implements HasWidgets,
   }
 
   /**
-   * Inserts a widget into the panel. If the Widget is already attached, it will
-   * be moved to the requested index.
+   * Inserts a widget into the panel. If the Widget is already attached, it will be moved to the
+   * requested index.
    *
    * @param child the widget to be added
    * @param tab the widget to be placed in the associated tab
@@ -531,9 +503,8 @@ public class TabLayoutPanel extends ResizeComposite implements HasWidgets,
   }
 
   /**
-   * Check whether or not transitions slide in vertically or horizontally.
-   * Defaults to horizontally.
-   * 
+   * Check whether or not transitions slide in vertically or horizontally. Defaults to horizontally.
+   *
    * @return true for vertical transitions, false for horizontal
    */
   public boolean isAnimationVertical() {
@@ -605,8 +576,7 @@ public class TabLayoutPanel extends ResizeComposite implements HasWidgets,
     // Fire the before selection event, giving the recipients a chance to
     // cancel the selection.
     if (fireEvents) {
-      BeforeSelectionEvent<Integer> event = BeforeSelectionEvent.fire(this,
-          index);
+      BeforeSelectionEvent<Integer> event = BeforeSelectionEvent.fire(this, index);
       if ((event != null) && event.isCanceled()) {
         return;
       }
@@ -627,16 +597,12 @@ public class TabLayoutPanel extends ResizeComposite implements HasWidgets,
     }
   }
 
-  /**
-   * Convenience overload to allow {@link IsWidget} to be used directly.
-   */
+  /** Convenience overload to allow {@link IsWidget} to be used directly. */
   public void selectTab(IsWidget child) {
     selectTab(asWidgetOrNull(child));
   }
 
-  /**
-   * Convenience overload to allow {@link IsWidget} to be used directly.
-   */
+  /** Convenience overload to allow {@link IsWidget} to be used directly. */
   public void selectTab(IsWidget child, boolean fireEvents) {
     selectTab(asWidgetOrNull(child), fireEvents);
   }
@@ -662,7 +628,7 @@ public class TabLayoutPanel extends ResizeComposite implements HasWidgets,
 
   /**
    * Set the duration of the animated transition between tabs.
-   * 
+   *
    * @param duration the duration in milliseconds.
    */
   public void setAnimationDuration(int duration) {
@@ -671,7 +637,7 @@ public class TabLayoutPanel extends ResizeComposite implements HasWidgets,
 
   /**
    * Set whether or not transitions slide in vertically or horizontally.
-   * 
+   *
    * @param isVertical true for vertical transitions, false for horizontal
    */
   public void setAnimationVertical(boolean isVertical) {
@@ -681,10 +647,9 @@ public class TabLayoutPanel extends ResizeComposite implements HasWidgets,
   /**
    * Sets a tab's HTML contents.
    *
-   * Use care when setting an object's HTML; it is an easy way to expose
-   * script-based security problems. Consider using
-   * {@link #setTabHTML(int, SafeHtml)} or
-   * {@link #setTabText(int, String)} whenever possible.
+   * <p>Use care when setting an object's HTML; it is an easy way to expose script-based security
+   * problems. Consider using {@link #setTabHTML(int, SafeHtml)} or {@link #setTabText(int, String)}
+   * whenever possible.
    *
    * @param index the index of the tab whose HTML is to be set
    * @param html the tab's new HTML contents
@@ -740,11 +705,12 @@ public class TabLayoutPanel extends ResizeComposite implements HasWidgets,
     tabs.add(beforeIndex, tab);
 
     tabBar.insert(tab, beforeIndex);
-    tab.addClickHandler(new ClickHandler() {
-      public void onClick(ClickEvent event) {
-        selectTab(child);
-      }
-    });
+    tab.addClickHandler(
+        new ClickHandler() {
+          public void onClick(ClickEvent event) {
+            selectTab(child);
+          }
+        });
 
     child.addStyleName(CONTENT_STYLE);
 

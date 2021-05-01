@@ -21,13 +21,11 @@ import org.gwtproject.safehtml.shared.SafeHtmlBuilder;
 import org.gwtproject.safehtml.shared.SafeUri;
 
 /**
- * <p>
- * An {@link org.gwtproject.cell.client.AbstractCell} used to render an image by using a {@link SafeUri}.
- * </p>
- * <p>
- * If the images being displayed are static or available at compile time, using
- * {@link org.gwtproject.cell.client.ImageResourceCell} will usually be more efficient.
- * </p>
+ * An {@link org.gwtproject.cell.client.AbstractCell} used to render an image by using a {@link
+ * SafeUri}.
+ *
+ * <p>If the images being displayed are static or available at compile time, using {@link
+ * org.gwtproject.cell.client.ImageResourceCell} will usually be more efficient.
  *
  * @see org.gwtproject.cell.client.ImageCell
  * @see org.gwtproject.cell.client.ImageResourceCell
@@ -41,11 +39,8 @@ public class SafeImageCell extends org.gwtproject.cell.client.AbstractCell<SafeU
     SafeHtml img(SafeUri url);
   }
 
-  /**
-   * Construct a new SafeImageCell.
-   */
-  public SafeImageCell() {
-  }
+  /** Construct a new SafeImageCell. */
+  public SafeImageCell() {}
 
   @Override
   public void render(Context context, SafeUri value, SafeHtmlBuilder sb) {

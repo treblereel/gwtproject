@@ -15,6 +15,10 @@
  */
 package org.gwtproject.cell.client;
 
+import static org.gwtproject.dom.client.BrowserEvents.CLICK;
+import static org.gwtproject.dom.client.BrowserEvents.KEYDOWN;
+
+import java.util.Date;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.event.logical.shared.CloseEvent;
@@ -32,27 +36,20 @@ import org.gwtproject.user.client.ui.PopupPanel;
 import org.gwtproject.user.client.ui.PopupPanel.PositionCallback;
 import org.gwtproject.user.datepicker.client.DatePicker;
 
-import java.util.Date;
-
-import static org.gwtproject.dom.client.BrowserEvents.CLICK;
-import static org.gwtproject.dom.client.BrowserEvents.KEYDOWN;
-
 /**
- * A {@link org.gwtproject.cell.client.Cell} used to render and edit {@link Date}s. When a cell is selected
- * by clicking on it, a {@link DatePicker} is popped up. When a date is selected
- * using the {@link DatePicker}, the new date is passed to the
- * {@link org.gwtproject.cell.client.ValueUpdater#update update} method of the {@link org.gwtproject.cell.client.ValueUpdater} that
- * was passed to {@link #onBrowserEvent} for the click event. Note that this
- * means that the call to {@link org.gwtproject.cell.client.ValueUpdater#update} will occur after {@link
- * #onBrowserEvent} has returned. Pressing the 'escape' key dismisses the {@link
- * DatePicker} popup without calling {@link org.gwtproject.cell.client.ValueUpdater#update}.
- * 
- * <p>
- * Each {@link DatePickerCell} has a unique {@link DatePicker} popup associated
- * with it; thus, if a single {@link DatePickerCell} is used as the cell for a
- * column in a table, only one entry in that column will be editable at a given
- * time.
- * </p>
+ * A {@link org.gwtproject.cell.client.Cell} used to render and edit {@link Date}s. When a cell is
+ * selected by clicking on it, a {@link DatePicker} is popped up. When a date is selected using the
+ * {@link DatePicker}, the new date is passed to the {@link
+ * org.gwtproject.cell.client.ValueUpdater#update update} method of the {@link
+ * org.gwtproject.cell.client.ValueUpdater} that was passed to {@link #onBrowserEvent} for the click
+ * event. Note that this means that the call to {@link
+ * org.gwtproject.cell.client.ValueUpdater#update} will occur after {@link #onBrowserEvent} has
+ * returned. Pressing the 'escape' key dismisses the {@link DatePicker} popup without calling {@link
+ * org.gwtproject.cell.client.ValueUpdater#update}.
+ *
+ * <p>Each {@link DatePickerCell} has a unique {@link DatePicker} popup associated with it; thus, if
+ * a single {@link DatePickerCell} is used as the cell for a column in a table, only one entry in
+ * that column will be editable at a given time.
  */
 public class DatePickerCell extends org.gwtproject.cell.client.AbstractEditableCell<Date, Date> {
 
@@ -72,18 +69,16 @@ public class DatePickerCell extends org.gwtproject.cell.client.AbstractEditableC
   private org.gwtproject.cell.client.ValueUpdater<Date> valueUpdater;
 
   /**
-   * Constructs a new DatePickerCell that uses the date/time format given by
-   * {@link DateTimeFormat#getFullDateFormat}.
+   * Constructs a new DatePickerCell that uses the date/time format given by {@link
+   * DateTimeFormat#getFullDateFormat}.
    */
-
   public DatePickerCell() {
-    this(DateTimeFormat.getFullDateFormat(),
-        SimpleSafeHtmlRenderer.getInstance());
+    this(DateTimeFormat.getFullDateFormat(), SimpleSafeHtmlRenderer.getInstance());
   }
 
   /**
-   * Constructs a new DatePickerCell that uses the given date/time format and a
-   * {@link SimpleSafeHtmlRenderer}.
+   * Constructs a new DatePickerCell that uses the given date/time format and a {@link
+   * SimpleSafeHtmlRenderer}.
    *
    * @param format a {@link DateTimeFormat} instance
    */
@@ -92,10 +87,9 @@ public class DatePickerCell extends org.gwtproject.cell.client.AbstractEditableC
   }
 
   /**
-   * Constructs a new DatePickerCell that uses the date/time format given by
-   * {@link DateTimeFormat#getFullDateFormat} and the given
-   * {@link SafeHtmlRenderer}.
-   * 
+   * Constructs a new DatePickerCell that uses the date/time format given by {@link
+   * DateTimeFormat#getFullDateFormat} and the given {@link SafeHtmlRenderer}.
+   *
    * @param renderer a {@link SafeHtmlRenderer SafeHtmlRenderer<String>} instance
    */
   public DatePickerCell(SafeHtmlRenderer<String> renderer) {
@@ -103,8 +97,8 @@ public class DatePickerCell extends org.gwtproject.cell.client.AbstractEditableC
   }
 
   /**
-   * Constructs a new DatePickerCell that uses the given date/time format and
-   * {@link SafeHtmlRenderer}.
+   * Constructs a new DatePickerCell that uses the given date/time format and {@link
+   * SafeHtmlRenderer}.
    *
    * @param format a {@link DateTimeFormat} instance
    * @param renderer a {@link SafeHtmlRenderer SafeHtmlRenderer<String>} instance
@@ -121,58 +115,59 @@ public class DatePickerCell extends org.gwtproject.cell.client.AbstractEditableC
     this.renderer = renderer;
 
     this.datePicker = new DatePicker();
-    this.panel = new PopupPanel(true, true) {
-      @Override
-      protected void onPreviewNativeEvent(NativePreviewEvent event) {
-        if (Event.ONKEYUP == event.getTypeInt()) {
-          if (event.getNativeEvent().getKeyCode() == ESCAPE) {
-            // Dismiss when escape is pressed
-            panel.hide();
+    this.panel =
+        new PopupPanel(true, true) {
+          @Override
+          protected void onPreviewNativeEvent(NativePreviewEvent event) {
+            if (Event.ONKEYUP == event.getTypeInt()) {
+              if (event.getNativeEvent().getKeyCode() == ESCAPE) {
+                // Dismiss when escape is pressed
+                panel.hide();
+              }
+            }
           }
-        }
-      }
-    };
-    panel.addCloseHandler(new CloseHandler<PopupPanel>() {
-      public void onClose(CloseEvent<PopupPanel> event) {
-        lastKey = null;
-        lastValue = null;
-        lastIndex = -1;
-        lastColumn = -1;
-        if (lastParent != null && !event.isAutoClosed()) {
-          // Refocus on the containing cell after the user selects a value, but
-          // not if the popup is auto closed.
-          lastParent.focus();
-        }
-        lastParent = null;
-      }
-    });
+        };
+    panel.addCloseHandler(
+        new CloseHandler<PopupPanel>() {
+          public void onClose(CloseEvent<PopupPanel> event) {
+            lastKey = null;
+            lastValue = null;
+            lastIndex = -1;
+            lastColumn = -1;
+            if (lastParent != null && !event.isAutoClosed()) {
+              // Refocus on the containing cell after the user selects a value, but
+              // not if the popup is auto closed.
+              lastParent.focus();
+            }
+            lastParent = null;
+          }
+        });
     panel.add(datePicker);
 
     // Hide the panel and call valueUpdater.update when a date is selected
-    datePicker.addValueChangeHandler(new ValueChangeHandler<Date>() {
-      public void onValueChange(ValueChangeEvent<Date> event) {
-        // Remember the values before hiding the popup.
-        Element cellParent = lastParent;
-        Date oldValue = lastValue;
-        Object key = lastKey;
-        int index = lastIndex;
-        int column = lastColumn;
-        panel.hide();
+    datePicker.addValueChangeHandler(
+        new ValueChangeHandler<Date>() {
+          public void onValueChange(ValueChangeEvent<Date> event) {
+            // Remember the values before hiding the popup.
+            Element cellParent = lastParent;
+            Date oldValue = lastValue;
+            Object key = lastKey;
+            int index = lastIndex;
+            int column = lastColumn;
+            panel.hide();
 
-        // Update the cell and value updater.
-        Date date = event.getValue();
-        setViewData(key, date);
-        setValue(new Context(index, column, key), cellParent, oldValue);
-        if (valueUpdater != null) {
-          valueUpdater.update(date);
-        }
-      }
-    });
+            // Update the cell and value updater.
+            Date date = event.getValue();
+            setViewData(key, date);
+            setValue(new Context(index, column, key), cellParent, oldValue);
+            if (valueUpdater != null) {
+              valueUpdater.update(date);
+            }
+          }
+        });
   }
 
-  /**
-   * Returns the underlying {@link DatePicker} widget used by this cell.
-   */
+  /** Returns the underlying {@link DatePicker} widget used by this cell. */
   public DatePicker getDatePicker() {
     return datePicker;
   }
@@ -183,8 +178,12 @@ public class DatePickerCell extends org.gwtproject.cell.client.AbstractEditableC
   }
 
   @Override
-  public void onBrowserEvent(Context context, Element parent, Date value,
-                             NativeEvent event, org.gwtproject.cell.client.ValueUpdater<Date> valueUpdater) {
+  public void onBrowserEvent(
+      Context context,
+      Element parent,
+      Date value,
+      NativeEvent event,
+      org.gwtproject.cell.client.ValueUpdater<Date> valueUpdater) {
     super.onBrowserEvent(context, parent, value, event, valueUpdater);
     if (CLICK.equals(event.getType())) {
       onEnterKeyDown(context, parent, value, event, valueUpdater);
@@ -214,8 +213,12 @@ public class DatePickerCell extends org.gwtproject.cell.client.AbstractEditableC
   }
 
   @Override
-  protected void onEnterKeyDown(Context context, Element parent, Date value,
-                                NativeEvent event, org.gwtproject.cell.client.ValueUpdater<Date> valueUpdater) {
+  protected void onEnterKeyDown(
+      Context context,
+      Element parent,
+      Date value,
+      NativeEvent event,
+      org.gwtproject.cell.client.ValueUpdater<Date> valueUpdater) {
     this.lastKey = context.getKey();
     this.lastParent = parent;
     this.lastValue = value;
@@ -227,11 +230,12 @@ public class DatePickerCell extends org.gwtproject.cell.client.AbstractEditableC
     Date date = (viewData == null) ? lastValue : viewData;
     datePicker.setCurrentMonth(date);
     datePicker.setValue(date);
-    panel.setPopupPositionAndShow(new PositionCallback() {
-      public void setPosition(int offsetWidth, int offsetHeight) {
-        panel.setPopupPosition(lastParent.getAbsoluteLeft() + offsetX,
-            lastParent.getAbsoluteTop() + offsetY);
-      }
-    });
+    panel.setPopupPositionAndShow(
+        new PositionCallback() {
+          public void setPosition(int offsetWidth, int offsetHeight) {
+            panel.setPopupPosition(
+                lastParent.getAbsoluteLeft() + offsetX, lastParent.getAbsoluteTop() + offsetY);
+          }
+        });
   }
 }

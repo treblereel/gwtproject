@@ -78,43 +78,47 @@ import org.gwtproject.i18n.shared.DirectionEstimator;
 /**
  * A widget that contains arbitrary text, <i>not</i> interpreted as HTML.
  *
- * This widget uses a &lt;div&gt; element, causing it to be displayed with block
- * layout.
+ * <p>This widget uses a &lt;div&gt; element, causing it to be displayed with block layout.
  *
  * <p>
+ *
  * <h3>Built-in Bidi Text Support</h3>
- * This widget is capable of automatically adjusting its direction according to
- * its content. This feature is controlled by {@link #setDirectionEstimator} or
- * passing a DirectionEstimator parameter to the constructor, and is off by
- * default.
- * </p>
+ *
+ * This widget is capable of automatically adjusting its direction according to its content. This
+ * feature is controlled by {@link #setDirectionEstimator} or passing a DirectionEstimator parameter
+ * to the constructor, and is off by default.
  *
  * <h3>CSS Style Rules</h3>
+ *
  * <ul class='css'>
- * <li>.gwt-Label { }</li>
+ *   <li>.gwt-Label { }
  * </ul>
  *
  * <p>
+ *
  * <h3>Example</h3>
+ *
  * {@example com.google.gwt.examples.HTMLExample}
- * </p>
  */
-public class Label extends LabelBase<String> implements HasDirectionalText,
-    HasDirection, HasClickHandlers, HasDoubleClickHandlers,
-    HasAllDragAndDropHandlers, HasAllGestureHandlers,
-    HasAllMouseHandlers, HasAllTouchHandlers,
-    IsEditor<LeafValueEditor<String>> {
+public class Label extends LabelBase<String>
+    implements HasDirectionalText,
+        HasDirection,
+        HasClickHandlers,
+        HasDoubleClickHandlers,
+        HasAllDragAndDropHandlers,
+        HasAllGestureHandlers,
+        HasAllMouseHandlers,
+        HasAllTouchHandlers,
+        IsEditor<LeafValueEditor<String>> {
 
   public static final DirectionEstimator DEFAULT_DIRECTION_ESTIMATOR =
       DirectionalTextHelper.DEFAULT_DIRECTION_ESTIMATOR;
 
   /**
-   * Creates a Label widget that wraps an existing &lt;div&gt; or &lt;span&gt;
-   * element.
+   * Creates a Label widget that wraps an existing &lt;div&gt; or &lt;span&gt; element.
    *
-   * This element must already be attached to the document. If the element is
-   * removed from the document, you must call
-   * {@link RootPanel#detachNow(Widget)}.
+   * <p>This element must already be attached to the document. If the element is removed from the
+   * document, you must call {@link RootPanel#detachNow(Widget)}.
    *
    * @param element the element to be wrapped
    */
@@ -133,9 +137,7 @@ public class Label extends LabelBase<String> implements HasDirectionalText,
 
   private LeafValueEditor<String> editor;
 
-  /**
-   * Creates an empty label.
-   */
+  /** Creates an empty label. */
   public Label() {
     super(false);
     setStyleName("gwt-Label");
@@ -155,8 +157,8 @@ public class Label extends LabelBase<String> implements HasDirectionalText,
    * Creates a label with the specified text and direction.
    *
    * @param text the new label's text
-   * @param dir the text's direction. Note that {@code DEFAULT} means direction
-   *          should be inherited from the widget's parent element.
+   * @param dir the text's direction. Note that {@code DEFAULT} means direction should be inherited
+   *     from the widget's parent element.
    */
   public Label(String text, Direction dir) {
     this();
@@ -167,9 +169,8 @@ public class Label extends LabelBase<String> implements HasDirectionalText,
    * Creates a label with the specified text and a default direction estimator.
    *
    * @param text the new label's text
-   * @param directionEstimator A DirectionEstimator object used for automatic
-   *          direction adjustment. For convenience,
-   *          {@link #DEFAULT_DIRECTION_ESTIMATOR} can be used.
+   * @param directionEstimator A DirectionEstimator object used for automatic direction adjustment.
+   *     For convenience, {@link #DEFAULT_DIRECTION_ESTIMATOR} can be used.
    */
   public Label(String text, DirectionEstimator directionEstimator) {
     this();
@@ -189,8 +190,8 @@ public class Label extends LabelBase<String> implements HasDirectionalText,
   }
 
   /**
-   * This constructor may be used by subclasses to explicitly use an existing
-   * element. This element must be either a &lt;div&gt; or &lt;span&gt; element.
+   * This constructor may be used by subclasses to explicitly use an existing element. This element
+   * must be either a &lt;div&gt; or &lt;span&gt; element.
    *
    * @param element the element to be used
    */
@@ -295,6 +296,7 @@ public class Label extends LabelBase<String> implements HasDirectionalText,
 
   /**
    * Gets the widget element's direction.
+   *
    * @deprecated Use {@link #getTextDirection} instead
    */
   @Deprecated
@@ -312,8 +314,9 @@ public class Label extends LabelBase<String> implements HasDirectionalText,
 
   /**
    * Sets the widget element's direction.
-   * @deprecated Use {@link #setDirectionEstimator} and / or pass explicit
-   * direction to {@link #setText} instead
+   *
+   * @deprecated Use {@link #setDirectionEstimator} and / or pass explicit direction to {@link
+   *     #setText} instead
    */
   @Deprecated
   public void setDirection(Direction direction) {
@@ -323,11 +326,11 @@ public class Label extends LabelBase<String> implements HasDirectionalText,
 
   /**
    * Sets the label's content to the given text.
-   * <p>
-   * Doesn't change the widget's direction or horizontal alignment if {@code
-   * directionEstimator} is null. Otherwise, the widget's direction is set using
-   * the estimator, and its alignment may therefore change as described in
-   * {@link #setText(String, Direction) setText(String, Direction)}.
+   *
+   * <p>Doesn't change the widget's direction or horizontal alignment if {@code directionEstimator}
+   * is null. Otherwise, the widget's direction is set using the estimator, and its alignment may
+   * therefore change as described in {@link #setText(String, Direction) setText(String,
+   * Direction)}.
    *
    * @param text the widget's new text
    */
@@ -338,23 +341,22 @@ public class Label extends LabelBase<String> implements HasDirectionalText,
 
   /**
    * Sets the label's content to the given text, applying the given direction.
-   * <p>
-   * This will have the following effect on the horizontal alignment:
+   *
+   * <p>This will have the following effect on the horizontal alignment:
+   *
    * <ul>
-   * <li> If the automatic alignment setting is ALIGN_CONTENT_START or
-   * ALIGN_CONTENT_END, the horizontal alignment will be set to match the start
-   * or end edge, respectively, of the new direction (the {@code dir}
-   * parameter). If that is DEFAULT, the locale direction is used.
-   * <li> Otherwise, the horizontal alignment value is not changed, but the
-   * effective alignment may nevertheless change according to the usual HTML
-   * rules, i.e. it will match the start edge of the new direction if the widget
-   * element is a &lt;div&gt; and has no explicit alignment value even by
-   * inheritance.
+   *   <li>If the automatic alignment setting is ALIGN_CONTENT_START or ALIGN_CONTENT_END, the
+   *       horizontal alignment will be set to match the start or end edge, respectively, of the new
+   *       direction (the {@code dir} parameter). If that is DEFAULT, the locale direction is used.
+   *   <li>Otherwise, the horizontal alignment value is not changed, but the effective alignment may
+   *       nevertheless change according to the usual HTML rules, i.e. it will match the start edge
+   *       of the new direction if the widget element is a &lt;div&gt; and has no explicit alignment
+   *       value even by inheritance.
    * </ul>
    *
    * @param text the widget's new text
-   * @param dir the text's direction. Note: {@code Direction.DEFAULT} means
-   *        direction should be inherited from the widget's parent element.
+   * @param dir the text's direction. Note: {@code Direction.DEFAULT} means direction should be
+   *     inherited from the widget's parent element.
    */
   public void setText(String text, Direction dir) {
     directionalTextHelper.setText(text, dir);

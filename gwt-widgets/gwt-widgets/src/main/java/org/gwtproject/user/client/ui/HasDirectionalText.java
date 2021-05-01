@@ -17,9 +17,7 @@ package org.gwtproject.user.client.ui;
 
 import org.gwtproject.i18n.client.HasDirection.Direction;
 
-/**
- * An object that implements this interface contains text that has a direction.
- */
+/** An object that implements this interface contains text that has a direction. */
 public interface HasDirectionalText extends HasText {
 
   /**

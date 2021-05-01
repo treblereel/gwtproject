@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,9 +15,6 @@
  */
 package org.gwtproject.user.client.ui;
 
-import java.util.function.Consumer;
-
-import elemental2.dom.HTMLElement;
 import jsinterop.annotations.JsFunction;
 import jsinterop.base.JsPropertyMap;
 import org.gwtproject.core.client.Scheduler;
@@ -41,24 +38,16 @@ import org.gwtproject.user.client.EventListener;
 import org.gwtproject.user.client.ui.ResizeLayoutPanel.Impl.Delegate;
 
 /**
- * A simple panel that {@link ProvidesResize} to its one child, but does not
- * {@link RequiresResize}. Use this to embed layout panels in any location
- * within your application.
+ * A simple panel that {@link ProvidesResize} to its one child, but does not {@link RequiresResize}.
+ * Use this to embed layout panels in any location within your application.
  */
-public class ResizeLayoutPanel extends SimplePanel implements ProvidesResize,
-    HasResizeHandlers {
+public class ResizeLayoutPanel extends SimplePanel implements ProvidesResize, HasResizeHandlers {
 
-  /**
-   * Implementation of resize event.
-   */
+  /** Implementation of resize event. */
   abstract static class Impl {
-    /**
-     * Delegate event handler.
-     */
+    /** Delegate event handler. */
     abstract static interface Delegate {
-      /**
-       * Called when the element is resized.
-       */
+      /** Called when the element is resized. */
       void onResize();
     }
 
@@ -68,7 +57,7 @@ public class ResizeLayoutPanel extends SimplePanel implements ProvidesResize,
 
     /**
      * Initialize the implementation.
-     * 
+     *
      * @param elem the element to listen for resize
      * @param delegate the {@link Delegate} to inform when resize occurs
      */
@@ -77,23 +66,17 @@ public class ResizeLayoutPanel extends SimplePanel implements ProvidesResize,
       this.delegate = delegate;
     }
 
-    /**
-     * Called on attach.
-     */
+    /** Called on attach. */
     public void onAttach() {
       isAttached = true;
     }
 
-    /**
-     * Called on detach.
-     */
+    /** Called on detach. */
     public void onDetach() {
       isAttached = false;
     }
 
-    /**
-     * Handle a resize event.
-     */
+    /** Handle a resize event. */
     protected void handleResize() {
       if (isAttached && delegate != null) {
         delegate.onResize();
@@ -101,13 +84,10 @@ public class ResizeLayoutPanel extends SimplePanel implements ProvidesResize,
     }
   }
 
-  /**
-   * Implementation of resize event.
-   */
+  /** Implementation of resize event. */
   static class ImplStandard extends Impl implements EventListener {
     /**
-     * Chrome does not fire an onresize event if the dimensions are too small to
-     * render a scrollbar.
+     * Chrome does not fire an onresize event if the dimensions are too small to render a scrollbar.
      */
     private static final String MIN_SIZE = "20px";
 
@@ -184,11 +164,13 @@ public class ResizeLayoutPanel extends SimplePanel implements ProvidesResize,
        * Update the scrollables in a deferred command so the browser calculates
        * the offsetHeight/Width correctly.
        */
-      Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-        public void execute() {
-          resetScrollables();
-        }
-      });
+      Scheduler.get()
+          .scheduleDeferred(
+              new ScheduledCommand() {
+                public void execute() {
+                  resetScrollables();
+                }
+              });
     }
 
     public void onBrowserEvent(Event event) {
@@ -222,7 +204,7 @@ public class ResizeLayoutPanel extends SimplePanel implements ProvidesResize,
 
     /**
      * Reset the positions of the scrollable elements.
-     * 
+     *
      * @return true if the size changed, false if not
      */
     private boolean resetScrollables() {
@@ -264,9 +246,7 @@ public class ResizeLayoutPanel extends SimplePanel implements ProvidesResize,
     }
   }
 
-  /**
-   * Implementation of resize event used by IE.
-   */
+  /** Implementation of resize event used by IE. */
   // FIXME: Unused in deferred binding, but might be usable in all browsers?
   static class ImplTrident extends Impl {
 
@@ -289,45 +269,46 @@ public class ResizeLayoutPanel extends SimplePanel implements ProvidesResize,
     }
 
     /**
-     * Initialize the onresize listener. This method doesn't create a memory leak
-     * because we don't set a back reference to the Impl class until we attach
-     * to the DOM.
+     * Initialize the onresize listener. This method doesn't create a memory leak because we don't
+     * set a back reference to the Impl class until we attach to the DOM.
      */
-    private void initResizeEventListener(Element elem)  {
-      Fn func =  () -> {
-        if (((JsPropertyMap)elem).has("__resizeImpl")) {
-          ((ResizeLayoutPanel.Impl)((JsPropertyMap)elem).get("__resizeImpl")).handleResize();
-        }
-      };
-      ((FnVarArgs)((JsPropertyMap)elem).get("attachEvent")).onInvoke("onresize", func);
+    private void initResizeEventListener(Element elem) {
+      Fn func =
+          () -> {
+            if (((JsPropertyMap) elem).has("__resizeImpl")) {
+              ((ResizeLayoutPanel.Impl) ((JsPropertyMap) elem).get("__resizeImpl")).handleResize();
+            }
+          };
+      ((FnVarArgs) ((JsPropertyMap) elem).get("attachEvent")).onInvoke("onresize", func);
     }
 
-    /**
-     * Set the event listener that handles resize events.
-     */
+    /** Set the event listener that handles resize events. */
     private void setResizeEventListener(Element elem, Impl listener) {
-      ((JsPropertyMap)elem).set("__resizeImpl", listener);
+      ((JsPropertyMap) elem).set("__resizeImpl", listener);
     }
   }
 
   private final Impl impl = new ImplStandard();
   private Layer layer;
   private final Layout layout;
-  private final ScheduledCommand resizeCmd = new ScheduledCommand() {
-    public void execute() {
-      resizeCmdScheduled = false;
-      handleResize();
-    }
-  };
+  private final ScheduledCommand resizeCmd =
+      new ScheduledCommand() {
+        public void execute() {
+          resizeCmdScheduled = false;
+          handleResize();
+        }
+      };
   private boolean resizeCmdScheduled = false;
 
   public ResizeLayoutPanel() {
     layout = new Layout(getElement());
-    impl.init(getElement(), new Delegate() {
-      public void onResize() {
-        scheduleResize();
-      }
-    });
+    impl.init(
+        getElement(),
+        new Delegate() {
+          public void onResize() {
+            scheduleResize();
+          }
+        });
   }
 
   public HandlerRegistration addResizeHandler(ResizeHandler handler) {
@@ -419,9 +400,8 @@ public class ResizeLayoutPanel extends SimplePanel implements ProvidesResize,
   }
 
   /**
-   * Schedule a resize handler. We schedule the event so the DOM has time to
-   * update the offset sizes, and to avoid duplicate resize events from both a
-   * height and width resize.
+   * Schedule a resize handler. We schedule the event so the DOM has time to update the offset
+   * sizes, and to avoid duplicate resize events from both a height and width resize.
    */
   private void scheduleResize() {
     if (isAttached() && !resizeCmdScheduled) {

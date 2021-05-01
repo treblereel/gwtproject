@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,6 +15,11 @@
  */
 package org.gwtproject.user.cellview.client;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.gwtproject.event.shared.Event;
 import org.gwtproject.event.shared.HasHandlers;
 import org.gwtproject.view.client.AsyncDataProvider;
@@ -22,37 +27,25 @@ import org.gwtproject.view.client.HasData;
 import org.gwtproject.view.client.ListDataProvider;
 import org.gwtproject.view.client.Range;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-/**
- * Represents a column sort event.
- */
+/** Represents a column sort event. */
 public class ColumnSortEvent extends Event<ColumnSortEvent.Handler> {
 
-  /**
-   * Handler for {@link ColumnSortEvent}.
-   */
+  /** Handler for {@link ColumnSortEvent}. */
   public interface Handler {
 
     /**
      * Called when {@link ColumnSortEvent} is fired.
-     * 
+     *
      * @param event the {@link ColumnSortEvent} that was fired
      */
     void onColumnSort(ColumnSortEvent event);
   }
 
   /**
-   * A default handler used with views attached to asynchronous data providers
-   * such as {@link AsyncDataProvider AsyncDataProvider}.
-   * This handler calls
-   * {@link HasData#setVisibleRangeAndClearData(Range, boolean)},
-   * which clears the current data and triggers the data provider's range change
-   * handler.
+   * A default handler used with views attached to asynchronous data providers such as {@link
+   * AsyncDataProvider AsyncDataProvider}. This handler calls {@link
+   * HasData#setVisibleRangeAndClearData(Range, boolean)}, which clears the current data and
+   * triggers the data provider's range change handler.
    */
   public static class AsyncHandler implements Handler {
     private final HasData<?> hasData;
@@ -67,21 +60,16 @@ public class ColumnSortEvent extends Event<ColumnSortEvent.Handler> {
   }
 
   /**
-   * <p>
-   * A default handler used to sort a {@link List} backing a table. If the
-   * sorted column has an associated {@link Comparator}, the list is sorted
-   * using the comparator.
-   * </p>
-   * 
-   * <p>
-   * This can be used in conjunction with
-   * {@link ListDataProvider}.
-   * </p>
-   * 
+   * A default handler used to sort a {@link List} backing a table. If the sorted column has an
+   * associated {@link Comparator}, the list is sorted using the comparator.
+   *
+   * <p>This can be used in conjunction with {@link ListDataProvider}.
+   *
    * @param <T> the data type of the list
    */
   public static class ListHandler<T> implements Handler {
-    private final Map<Column<?, ?>, Comparator<T>> comparators = new HashMap<Column<?, ?>, Comparator<T>>();
+    private final Map<Column<?, ?>, Comparator<T>> comparators =
+        new HashMap<Column<?, ?>, Comparator<T>>();
     private List<T> list;
 
     public ListHandler(List<T> list) {
@@ -89,9 +77,9 @@ public class ColumnSortEvent extends Event<ColumnSortEvent.Handler> {
     }
 
     /**
-     * Returns the comparator that has been set for the specified column, or 
-     * null if no comparator has been set.
-     * 
+     * Returns the comparator that has been set for the specified column, or null if no comparator
+     * has been set.
+     *
      * @param column the {@link Column}
      */
     public Comparator<T> getComparator(Column<T, ?> column) {
@@ -119,17 +107,19 @@ public class ColumnSortEvent extends Event<ColumnSortEvent.Handler> {
       if (event.isSortAscending()) {
         Collections.sort(list, comparator);
       } else {
-        Collections.sort(list, new Comparator<T>() {
-          public int compare(T o1, T o2) {
-            return -comparator.compare(o1, o2);
-          }
-        });
+        Collections.sort(
+            list,
+            new Comparator<T>() {
+              public int compare(T o1, T o2) {
+                return -comparator.compare(o1, o2);
+              }
+            });
       }
     }
 
     /**
      * Set the comparator used to sort the specified column in ascending order.
-     * 
+     *
      * @param column the {@link Column}
      * @param comparator the {@link Comparator} to use for the {@link Column}
      */
@@ -138,20 +128,18 @@ public class ColumnSortEvent extends Event<ColumnSortEvent.Handler> {
     }
 
     public void setList(List<T> list) {
-      assert list != null : "list cannot be null"; 
+      assert list != null : "list cannot be null";
       this.list = list;
     }
   }
 
-  /**
-   * Handler type.
-   */
+  /** Handler type. */
   private static Type<Handler> TYPE;
 
   /**
-   * Fires a column sort event on all registered handlers in the handler
-   * manager. If no such handlers exist, this implementation will do nothing.
-   * 
+   * Fires a column sort event on all registered handlers in the handler manager. If no such
+   * handlers exist, this implementation will do nothing.
+   *
    * @param source the source of the event
    * @param sortList the {@link ColumnSortList} of sorted columns
    * @return the {@link ColumnSortEvent} that was fired
@@ -166,7 +154,7 @@ public class ColumnSortEvent extends Event<ColumnSortEvent.Handler> {
 
   /**
    * Gets the type associated with this event.
-   * 
+   *
    * @return returns the handler type
    */
   public static Type<Handler> getType() {
@@ -180,7 +168,7 @@ public class ColumnSortEvent extends Event<ColumnSortEvent.Handler> {
 
   /**
    * Construct a new {@link ColumnSortEvent}.
-   * 
+   *
    * @param sortList the {@link ColumnSortList}
    */
   protected ColumnSortEvent(ColumnSortList sortList) {
@@ -194,18 +182,16 @@ public class ColumnSortEvent extends Event<ColumnSortEvent.Handler> {
 
   /**
    * Get the {@link Column} that was sorted.
-   * 
+   *
    * @return the sorted {@link Column}, or null if not sorted
    */
   public Column<?, ?> getColumn() {
-    return (sortList == null || sortList.size() == 0) ? null
-        : sortList.get(0).getColumn();
+    return (sortList == null || sortList.size() == 0) ? null : sortList.get(0).getColumn();
   }
 
   /**
-   * Get the {@link ColumnSortList} that contains the ordered list of sorted
-   * columns.
-   * 
+   * Get the {@link ColumnSortList} that contains the ordered list of sorted columns.
+   *
    * @return the {@link ColumnSortList}
    */
   public ColumnSortList getColumnSortList() {
@@ -214,12 +200,11 @@ public class ColumnSortEvent extends Event<ColumnSortEvent.Handler> {
 
   /**
    * Check if the {@link Column} is sorted in ascending order.
-   * 
+   *
    * @return true if ascending, false if descending or not sorted
    */
   public boolean isSortAscending() {
-    return (sortList == null || sortList.size() == 0) ? false
-        : sortList.get(0).isAscending();
+    return (sortList == null || sortList.size() == 0) ? false : sortList.get(0).isAscending();
   }
 
   @Override

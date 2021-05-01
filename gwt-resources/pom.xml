@@ -4,9 +4,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>org.gwtproject</groupId>
+        <artifactId>gwt-parent</artifactId>
+        <version>dev</version>
+    </parent>
+
     <groupId>org.gwtproject.resources</groupId>
     <artifactId>gwt-resources-parent</artifactId>
-    <version>HEAD-SNAPSHOT</version>
+    <version>dev</version>
     <packaging>pom</packaging>
 
     <licenses>
@@ -28,7 +34,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.build.outputEncoding>UTF-8</project.build.outputEncoding>
         <gwt.version>2.9.0</gwt.version>
-        <gwtproject.version>1.0.0-RC1</gwtproject.version>
+        <gwtproject.version>dev</gwtproject.version>
         <commons.codec.version>1.11</commons.codec.version>
         <commons-text.version>1.7</commons-text.version>
         <commons-lang3.version>3.9</commons-lang3.version>
@@ -58,9 +64,9 @@
 
     <modules>
         <module>api</module>
-        <module>processor</module>
+<!--        <module>processor</module>
         <module>test-generators</module>
-        <module>gwt-resources-gwt2-tests</module>
+        <module>gwt-resources-gwt2-tests</module>-->
 <!--
         <module>gwt-resources-j2cl-tests</module>  //TODO CDLR TOO BIG
 -->
@@ -71,27 +77,27 @@
             <dependency>
                 <groupId>org.gwtproject.core</groupId>
                 <artifactId>gwt-core</artifactId>
-                <version>${gwtproject.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>org.gwtproject.safehtml</groupId>
                 <artifactId>gwt-safecss</artifactId>
-                <version>${gwtproject.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>org.gwtproject.safehtml</groupId>
                 <artifactId>gwt-safehtml</artifactId>
-                <version>${gwtproject.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>org.gwtproject.regexp</groupId>
                 <artifactId>gwt-regexp</artifactId>
-                <version>${gwtproject.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>org.gwtproject.dom</groupId>
                 <artifactId>gwt-dom</artifactId>
-                <version>${gwtproject.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>org.gwtproject.http</groupId>
@@ -101,12 +107,12 @@
             <dependency>
                 <groupId>org.gwtproject.timer</groupId>
                 <artifactId>gwt-timer</artifactId>
-                <version>${gwtproject.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>org.gwtproject.callback</groupId>
                 <artifactId>gwt-callback</artifactId>
-                <version>${gwtproject.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>

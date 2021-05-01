@@ -20,23 +20,17 @@ import org.gwtproject.safehtml.shared.SafeHtmlBuilder;
 import org.gwtproject.text.shared.SafeHtmlRenderer;
 import org.gwtproject.text.shared.SimpleSafeHtmlRenderer;
 
-/**
- * A {@link org.gwtproject.cell.client.Cell} used to render text.
- */
+/** A {@link org.gwtproject.cell.client.Cell} used to render text. */
 public class TextCell extends AbstractSafeHtmlCell<String> {
 
-  /**
-   * Constructs a TextCell that uses a {@link SimpleSafeHtmlRenderer} to render
-   * its text.
-   */
+  /** Constructs a TextCell that uses a {@link SimpleSafeHtmlRenderer} to render its text. */
   public TextCell() {
     super(SimpleSafeHtmlRenderer.getInstance());
   }
 
   /**
-   * Constructs a TextCell that uses the provided {@link SafeHtmlRenderer} to
-   * render its text.
-   * 
+   * Constructs a TextCell that uses the provided {@link SafeHtmlRenderer} to render its text.
+   *
    * @param renderer a {@link SafeHtmlRenderer SafeHtmlRenderer<String>} instance
    */
   public TextCell(SafeHtmlRenderer<String> renderer) {

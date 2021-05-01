@@ -15,34 +15,32 @@
  */
 package org.gwtproject.cell.client;
 
-import org.gwtproject.dom.client.Element;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import org.gwtproject.dom.client.Element;
 
 /**
- * A default implementation of the {@link org.gwtproject.cell.client.Cell} interface used for editable
- * cells that need to save view data state for specific values.
+ * A default implementation of the {@link org.gwtproject.cell.client.Cell} interface used for
+ * editable cells that need to save view data state for specific values.
  *
  * <p>
+ *
  * <h3>Example</h3>
+ *
  * {@example com.google.gwt.examples.cell.EditableCellExample}
- * </p>
  *
  * @param <C> the type that this Cell represents
  * @param <V> the data type of the view data state
  */
-public abstract class AbstractEditableCell<C, V> extends org.gwtproject.cell.client.AbstractCell<C> {
+public abstract class AbstractEditableCell<C, V>
+    extends org.gwtproject.cell.client.AbstractCell<C> {
 
-  /**
-   * The map of value keys to the associated view data.
-   */
+  /** The map of value keys to the associated view data. */
   private final Map<Object, V> viewDataMap = new HashMap<Object, V>();
 
   /**
-   * Construct a new {@link AbstractEditableCell} with the specified consumed
-   * events.
+   * Construct a new {@link AbstractEditableCell} with the specified consumed events.
    *
    * @param consumedEvents the events that this cell consumes
    */
@@ -51,8 +49,7 @@ public abstract class AbstractEditableCell<C, V> extends org.gwtproject.cell.cli
   }
 
   /**
-   * Construct a new {@link AbstractEditableCell} with the specified consumed
-   * events.
+   * Construct a new {@link AbstractEditableCell} with the specified consumed events.
    *
    * @param consumedEvents the events that this cell consumes
    */
@@ -83,10 +80,9 @@ public abstract class AbstractEditableCell<C, V> extends org.gwtproject.cell.cli
   }
 
   /**
-   * Returns true if the cell is currently editing the data identified by the
-   * given element and key. While a cell is editing, widgets containing the cell
-   * may choose to pass keystrokes directly to the cell rather than using them
-   * for navigation purposes.
+   * Returns true if the cell is currently editing the data identified by the given element and key.
+   * While a cell is editing, widgets containing the cell may choose to pass keystrokes directly to
+   * the cell rather than using them for navigation purposes.
    *
    * @param context the {@link Context} of the cell
    * @param parent the parent Element
@@ -97,8 +93,7 @@ public abstract class AbstractEditableCell<C, V> extends org.gwtproject.cell.cli
   public abstract boolean isEditing(Context context, Element parent, C value);
 
   /**
-   * Associate view data with the specified key. If the key is null, the view
-   * data will be ignored.
+   * Associate view data with the specified key. If the key is null, the view data will be ignored.
    *
    * @param key the key of the view data
    * @param viewData the view data to associate

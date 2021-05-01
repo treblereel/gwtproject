@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -19,17 +19,12 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * A simple collection of widgets to be used by
- * {@link Panel panels} and
- * {@link Composite composites}.
- * 
- * <p>
- * The main purpose of this specialized collection is to implement
- * {@link Iterator#remove()} in a way that delegates removal to its
- * panel. This makes it much easier for the panel to implement an
- * {@link HasWidgets#iterator() iterator} that
- * supports removal of widgets.
- * </p>
+ * A simple collection of widgets to be used by {@link Panel panels} and {@link Composite
+ * composites}.
+ *
+ * <p>The main purpose of this specialized collection is to implement {@link Iterator#remove()} in a
+ * way that delegates removal to its panel. This makes it much easier for the panel to implement an
+ * {@link HasWidgets#iterator() iterator} that supports removal of widgets.
  */
 public class WidgetCollection implements Iterable<Widget> {
 
@@ -72,9 +67,9 @@ public class WidgetCollection implements Iterable<Widget> {
 
   /**
    * Constructs a new widget collection.
-   * 
-   * @param parent the container whose {@link HasWidgets#remove(Widget)} will be
-   *          delegated to by the iterator's {@link Iterator#remove()} method.
+   *
+   * @param parent the container whose {@link HasWidgets#remove(Widget)} will be delegated to by the
+   *     iterator's {@link Iterator#remove()} method.
    */
   public WidgetCollection(HasWidgets parent) {
     this.parent = parent;
@@ -83,7 +78,7 @@ public class WidgetCollection implements Iterable<Widget> {
 
   /**
    * Adds a widget to the end of this collection.
-   * 
+   *
    * @param w the widget to be added
    */
   public void add(Widget w) {
@@ -92,7 +87,7 @@ public class WidgetCollection implements Iterable<Widget> {
 
   /**
    * Determines whether a given widget is contained in this collection.
-   * 
+   *
    * @param w the widget to be searched for
    * @return <code>true</code> if the widget is present
    */
@@ -102,7 +97,7 @@ public class WidgetCollection implements Iterable<Widget> {
 
   /**
    * Gets the widget at the given index.
-   * 
+   *
    * @param index the index to be retrieved
    * @return the widget at the specified index
    * @throws IndexOutOfBoundsException if the index is out of range
@@ -117,10 +112,9 @@ public class WidgetCollection implements Iterable<Widget> {
 
   /**
    * Gets the index of the specified index.
-   * 
+   *
    * @param w the widget to be found
-   * @return the index of the specified widget, or <code>-1</code> if it is
-   *         not found
+   * @return the index of the specified widget, or <code>-1</code> if it is not found
    */
   public int indexOf(Widget w) {
     for (int i = 0; i < size; ++i) {
@@ -134,11 +128,10 @@ public class WidgetCollection implements Iterable<Widget> {
 
   /**
    * Inserts a widget before the specified index.
-   * 
+   *
    * @param w the widget to be inserted
    * @param beforeIndex the index before which the widget will be inserted
-   * @throws IndexOutOfBoundsException if <code>beforeIndex</code> is out of
-   *           range
+   * @throws IndexOutOfBoundsException if <code>beforeIndex</code> is out of range
    */
   public void insert(Widget w, int beforeIndex) {
     if ((beforeIndex < 0) || (beforeIndex > size)) {
@@ -165,9 +158,9 @@ public class WidgetCollection implements Iterable<Widget> {
   }
 
   /**
-   * Gets an iterator on this widget collection. This iterator is guaranteed to
-   * implement remove() in terms of its containing {@link HasWidgets}.
-   * 
+   * Gets an iterator on this widget collection. This iterator is guaranteed to implement remove()
+   * in terms of its containing {@link HasWidgets}.
+   *
    * @return an iterator
    */
   public Iterator<Widget> iterator() {
@@ -176,7 +169,7 @@ public class WidgetCollection implements Iterable<Widget> {
 
   /**
    * Removes the widget at the specified index.
-   * 
+   *
    * @param index the index of the widget to be removed
    * @throws IndexOutOfBoundsException if <code>index</code> is out of range
    */
@@ -195,7 +188,7 @@ public class WidgetCollection implements Iterable<Widget> {
 
   /**
    * Removes the specified widget.
-   * 
+   *
    * @param w the widget to be removed
    * @throws NoSuchElementException if the widget is not present
    */
@@ -210,7 +203,7 @@ public class WidgetCollection implements Iterable<Widget> {
 
   /**
    * Gets the number of widgets in this collection.
-   * 
+   *
    * @return the number of widgets
    */
   public int size() {

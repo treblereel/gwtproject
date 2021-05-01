@@ -18,9 +18,7 @@ package org.gwtproject.user.cellview.client;
 import org.gwtproject.cell.client.SafeHtmlCell;
 import org.gwtproject.safehtml.shared.SafeHtml;
 
-/**
- * A Header containing safe HTML data rendered by a SafeHtmlCell.
- */
+/** A Header containing safe HTML data rendered by a SafeHtmlCell. */
 public class SafeHtmlHeader extends Header<SafeHtml> {
 
   private SafeHtml text;
@@ -35,9 +33,7 @@ public class SafeHtmlHeader extends Header<SafeHtml> {
     this.text = text;
   }
 
-  /**
-   * Return the {@link SafeHtml} text value.
-   */
+  /** Return the {@link SafeHtml} text value. */
   @Override
   public SafeHtml getValue() {
     return text;

@@ -17,7 +17,6 @@ package org.gwtproject.user.client.ui;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.gwtproject.aria.client.Id;
 import org.gwtproject.aria.client.Roles;
 import org.gwtproject.core.client.Scheduler;
@@ -44,80 +43,79 @@ import org.gwtproject.user.client.ui.PopupPanel.PositionCallback;
 import org.gwtproject.user.window.client.Window;
 
 /**
- * A standard menu bar widget. A menu bar can contain any number of menu items,
- * each of which can either fire a {@link ScheduledCommand} or
- * open a cascaded menu bar.
+ * A standard menu bar widget. A menu bar can contain any number of menu items, each of which can
+ * either fire a {@link ScheduledCommand} or open a cascaded menu bar.
  *
- * <p>
- * <img class='gallery' src='doc-files/MenuBar.png'/>
- * </p>
+ * <p><img class='gallery' src='doc-files/MenuBar.png'/>
  *
  * <h3>CSS Style Rules</h3>
+ *
  * <dl>
- * <dt>.gwt-MenuBar</dt>
- * <dd>the menu bar itself</dd>
- * <dt>.gwt-MenuBar-horizontal</dt>
- * <dd>dependent style applied to horizontal menu bars</dd>
- * <dt>.gwt-MenuBar-vertical</dt>
- * <dd>dependent style applied to vertical menu bars</dd>
- * <dt>.gwt-MenuBar .gwt-MenuItem</dt>
- * <dd>menu items</dd>
- * <dt>.gwt-MenuBar .gwt-MenuItem-selected</dt>
- * <dd>selected menu items</dd>
- * <dt>.gwt-MenuBar .gwt-MenuItemSeparator</dt>
- * <dd>section breaks between menu items</dd>
- * <dt>.gwt-MenuBar .gwt-MenuItemSeparator .menuSeparatorInner</dt>
- * <dd>inner component of section separators</dd>
- * <dt>.gwt-MenuBarPopup .menuPopupTopLeft</dt>
- * <dd>the top left cell</dd>
- * <dt>.gwt-MenuBarPopup .menuPopupTopLeftInner</dt>
- * <dd>the inner element of the cell</dd>
- * <dt>.gwt-MenuBarPopup .menuPopupTopCenter</dt>
- * <dd>the top center cell</dd>
- * <dt>.gwt-MenuBarPopup .menuPopupTopCenterInner</dt>
- * <dd>the inner element of the cell</dd>
- * <dt>.gwt-MenuBarPopup .menuPopupTopRight</dt>
- * <dd>the top right cell</dd>
- * <dt>.gwt-MenuBarPopup .menuPopupTopRightInner</dt>
- * <dd>the inner element of the cell</dd>
- * <dt>.gwt-MenuBarPopup .menuPopupMiddleLeft</dt>
- * <dd>the middle left cell</dd>
- * <dt>.gwt-MenuBarPopup .menuPopupMiddleLeftInner</dt>
- * <dd>the inner element of the cell</dd>
- * <dt>.gwt-MenuBarPopup .menuPopupMiddleCenter</dt>
- * <dd>the middle center cell</dd>
- * <dt>.gwt-MenuBarPopup .menuPopupMiddleCenterInner</dt>
- * <dd>the inner element of the cell</dd>
- * <dt>.gwt-MenuBarPopup .menuPopupMiddleRight</dt>
- * <dd>the middle right cell</dd>
- * <dt>.gwt-MenuBarPopup .menuPopupMiddleRightInner</dt>
- * <dd>the inner element of the cell</dd>
- * <dt>.gwt-MenuBarPopup .menuPopupBottomLeft</dt>
- * <dd>the bottom left cell</dd>
- * <dt>.gwt-MenuBarPopup .menuPopupBottomLeftInner</dt>
- * <dd>the inner element of the cell</dd>
- * <dt>.gwt-MenuBarPopup .menuPopupBottomCenter</dt>
- * <dd>the bottom center cell</dd>
- * <dt>.gwt-MenuBarPopup .menuPopupBottomCenterInner</dt>
- * <dd>the inner element of the cell</dd>
- * <dt>.gwt-MenuBarPopup .menuPopupBottomRight</dt>
- * <dd>the bottom right cell</dd>
- * <dt>.gwt-MenuBarPopup .menuPopupBottomRightInner</dt>
- * <dd>the inner element of the cell</dd>
+ *   <dt>.gwt-MenuBar
+ *   <dd>the menu bar itself
+ *   <dt>.gwt-MenuBar-horizontal
+ *   <dd>dependent style applied to horizontal menu bars
+ *   <dt>.gwt-MenuBar-vertical
+ *   <dd>dependent style applied to vertical menu bars
+ *   <dt>.gwt-MenuBar .gwt-MenuItem
+ *   <dd>menu items
+ *   <dt>.gwt-MenuBar .gwt-MenuItem-selected
+ *   <dd>selected menu items
+ *   <dt>.gwt-MenuBar .gwt-MenuItemSeparator
+ *   <dd>section breaks between menu items
+ *   <dt>.gwt-MenuBar .gwt-MenuItemSeparator .menuSeparatorInner
+ *   <dd>inner component of section separators
+ *   <dt>.gwt-MenuBarPopup .menuPopupTopLeft
+ *   <dd>the top left cell
+ *   <dt>.gwt-MenuBarPopup .menuPopupTopLeftInner
+ *   <dd>the inner element of the cell
+ *   <dt>.gwt-MenuBarPopup .menuPopupTopCenter
+ *   <dd>the top center cell
+ *   <dt>.gwt-MenuBarPopup .menuPopupTopCenterInner
+ *   <dd>the inner element of the cell
+ *   <dt>.gwt-MenuBarPopup .menuPopupTopRight
+ *   <dd>the top right cell
+ *   <dt>.gwt-MenuBarPopup .menuPopupTopRightInner
+ *   <dd>the inner element of the cell
+ *   <dt>.gwt-MenuBarPopup .menuPopupMiddleLeft
+ *   <dd>the middle left cell
+ *   <dt>.gwt-MenuBarPopup .menuPopupMiddleLeftInner
+ *   <dd>the inner element of the cell
+ *   <dt>.gwt-MenuBarPopup .menuPopupMiddleCenter
+ *   <dd>the middle center cell
+ *   <dt>.gwt-MenuBarPopup .menuPopupMiddleCenterInner
+ *   <dd>the inner element of the cell
+ *   <dt>.gwt-MenuBarPopup .menuPopupMiddleRight
+ *   <dd>the middle right cell
+ *   <dt>.gwt-MenuBarPopup .menuPopupMiddleRightInner
+ *   <dd>the inner element of the cell
+ *   <dt>.gwt-MenuBarPopup .menuPopupBottomLeft
+ *   <dd>the bottom left cell
+ *   <dt>.gwt-MenuBarPopup .menuPopupBottomLeftInner
+ *   <dd>the inner element of the cell
+ *   <dt>.gwt-MenuBarPopup .menuPopupBottomCenter
+ *   <dd>the bottom center cell
+ *   <dt>.gwt-MenuBarPopup .menuPopupBottomCenterInner
+ *   <dd>the inner element of the cell
+ *   <dt>.gwt-MenuBarPopup .menuPopupBottomRight
+ *   <dd>the bottom right cell
+ *   <dt>.gwt-MenuBarPopup .menuPopupBottomRightInner
+ *   <dd>the inner element of the cell
  * </dl>
  *
  * <p>
+ *
  * <h3>Example</h3>
+ *
  * {@example com.google.gwt.examples.MenuBarExample}
- * </p>
  *
  * <h3>Use in UiBinder Templates</h3>
- * <p>
- * MenuBar elements in UiBinder template files can have a <code>vertical</code>
- * boolean attribute (which defaults to false), and may have only MenuItem
- * elements as children. MenuItems may contain HTML and MenuBars.
- * <p>
- * For example:
+ *
+ * <p>MenuBar elements in UiBinder template files can have a <code>vertical</code> boolean attribute
+ * (which defaults to false), and may have only MenuItem elements as children. MenuItems may contain
+ * HTML and MenuBars.
+ *
+ * <p>For example:
  *
  * <pre>
  * &lt;g:MenuBar>
@@ -147,18 +145,14 @@ import org.gwtproject.user.window.client.Window;
  */
 // Nothing we can do about MenuBar implementing PopupListener until next
 // release.
-public class MenuBar extends Widget implements HasAnimation, CloseHandler<PopupPanel>,
-    HasCloseHandlers<PopupPanel> {
+public class MenuBar extends Widget
+    implements HasAnimation, CloseHandler<PopupPanel>, HasCloseHandlers<PopupPanel> {
 
-  /**
-   * A ClientBundle that contains the default resources for this widget.
-   */
+  /** A ClientBundle that contains the default resources for this widget. */
   public interface Resources extends ClientBundle {
 
     Resources INSTANCE = new MenuBar_ResourcesImpl();
-    /**
-     * An image indicating a {@link MenuItem} has an associated submenu.
-     */
+    /** An image indicating a {@link MenuItem} has an associated submenu. */
     @ImageOptions(flipRtl = true)
     ImageResource menuBarSubMenuIcon();
   }
@@ -269,14 +263,10 @@ public class MenuBar extends Widget implements HasAnimation, CloseHandler<PopupP
 
   private static final String STYLENAME_DEFAULT = "gwt-MenuBar";
 
-  /**
-   * List of all {@link MenuItem}s and {@link MenuItemSeparator}s.
-   */
+  /** List of all {@link MenuItem}s and {@link MenuItemSeparator}s. */
   private ArrayList<UIObject> allItems = new ArrayList<UIObject>();
 
-  /**
-   * List of {@link MenuItem}s, not including {@link MenuItemSeparator}s.
-   */
+  /** List of {@link MenuItem}s, not including {@link MenuItemSeparator}s. */
   private ArrayList<MenuItem> items = new ArrayList<MenuItem>();
 
   private Element body;
@@ -290,9 +280,7 @@ public class MenuBar extends Widget implements HasAnimation, CloseHandler<PopupP
   private boolean vertical, autoOpen;
   private boolean focusOnHover = true;
 
-  /**
-   * Creates an empty horizontal menu bar.
-   */
+  /** Creates an empty horizontal menu bar. */
   public MenuBar() {
     this(false);
   }
@@ -307,20 +295,17 @@ public class MenuBar extends Widget implements HasAnimation, CloseHandler<PopupP
   }
 
   /**
-   * Creates an empty menu bar that uses the specified ClientBundle for menu
-   * images.
+   * Creates an empty menu bar that uses the specified ClientBundle for menu images.
    *
    * @param vertical <code>true</code> to orient the menu bar vertically
    * @param resources a bundle that provides images for this menu
    */
   public MenuBar(boolean vertical, Resources resources) {
-    init(vertical,
-        AbstractImagePrototype.create(resources.menuBarSubMenuIcon()));
+    init(vertical, AbstractImagePrototype.create(resources.menuBarSubMenuIcon()));
   }
 
   /**
-   * Creates an empty horizontal menu bar that uses the specified ClientBundle
-   * for menu images.
+   * Creates an empty horizontal menu bar that uses the specified ClientBundle for menu images.
    *
    * @param resources a bundle that provides images for this menu
    */
@@ -344,8 +329,8 @@ public class MenuBar extends Widget implements HasAnimation, CloseHandler<PopupP
   }
 
   /**
-   * Adds a menu item to the bar containing SafeHtml, that will fire the given
-   * command when it is selected.
+   * Adds a menu item to the bar containing SafeHtml, that will fire the given command when it is
+   * selected.
    *
    * @param html the item's html text
    * @param cmd the command to be fired
@@ -356,8 +341,7 @@ public class MenuBar extends Widget implements HasAnimation, CloseHandler<PopupP
   }
 
   /**
-   * Adds a menu item to the bar, that will fire the given command when it is
-   * selected.
+   * Adds a menu item to the bar, that will fire the given command when it is selected.
    *
    * @param text the item's text
    * @param asHTML <code>true</code> to treat the specified text as html
@@ -369,8 +353,7 @@ public class MenuBar extends Widget implements HasAnimation, CloseHandler<PopupP
   }
 
   /**
-   * Adds a menu item to the bar, that will open the specified menu when it is
-   * selected.
+   * Adds a menu item to the bar, that will open the specified menu when it is selected.
    *
    * @param html the item's html text
    * @param popup the menu to be cascaded from it
@@ -381,8 +364,7 @@ public class MenuBar extends Widget implements HasAnimation, CloseHandler<PopupP
   }
 
   /**
-   * Adds a menu item to the bar, that will open the specified menu when it is
-   * selected.
+   * Adds a menu item to the bar, that will open the specified menu when it is selected.
    *
    * @param text the item's text
    * @param asHTML <code>true</code> to treat the specified text as html
@@ -394,8 +376,7 @@ public class MenuBar extends Widget implements HasAnimation, CloseHandler<PopupP
   }
 
   /**
-   * Adds a menu item to the bar, that will fire the given command when it is
-   * selected.
+   * Adds a menu item to the bar, that will fire the given command when it is selected.
    *
    * @param text the item's text
    * @param cmd the command to be fired
@@ -406,8 +387,7 @@ public class MenuBar extends Widget implements HasAnimation, CloseHandler<PopupP
   }
 
   /**
-   * Adds a menu item to the bar, that will open the specified menu when it is
-   * selected.
+   * Adds a menu item to the bar, that will open the specified menu when it is selected.
    *
    * @param text the item's text
    * @param popup the menu to be cascaded from it
@@ -418,8 +398,7 @@ public class MenuBar extends Widget implements HasAnimation, CloseHandler<PopupP
   }
 
   /**
-   * Adds a thin line to the {@link MenuBar} to separate sections of
-   * {@link MenuItem}s.
+   * Adds a thin line to the {@link MenuBar} to separate sections of {@link MenuItem}s.
    *
    * @return the {@link MenuItemSeparator} object created
    */
@@ -428,8 +407,7 @@ public class MenuBar extends Widget implements HasAnimation, CloseHandler<PopupP
   }
 
   /**
-   * Adds a thin line to the {@link MenuBar} to separate sections of
-   * {@link MenuItem}s.
+   * Adds a thin line to the {@link MenuBar} to separate sections of {@link MenuItem}s.
    *
    * @param separator the {@link MenuItemSeparator} to be added
    * @return the {@link MenuItemSeparator} object
@@ -438,9 +416,7 @@ public class MenuBar extends Widget implements HasAnimation, CloseHandler<PopupP
     return insertSeparator(separator, allItems.size());
   }
 
-  /**
-   * Removes all menu items from this menu bar.
-   */
+  /** Removes all menu items from this menu bar. */
   public void clearItems() {
     // Deselect the current item
     selectItem(null);
@@ -487,16 +463,13 @@ public class MenuBar extends Widget implements HasAnimation, CloseHandler<PopupP
     }
   }
 
-  /**
-   * Give this MenuBar focus.
-   */
+  /** Give this MenuBar focus. */
   public void focus() {
     FocusPanel.impl.focus(getElement());
   }
 
   /**
-   * Gets whether this menu bar's child menus will open when the mouse is moved
-   * over it.
+   * Gets whether this menu bar's child menus will open when the mouse is moved over it.
    *
    * @return <code>true</code> if child menus will auto-open
    */
@@ -516,8 +489,7 @@ public class MenuBar extends Widget implements HasAnimation, CloseHandler<PopupP
   /**
    * Get the index of a {@link MenuItemSeparator}.
    *
-   * @return the index of the separator, or -1 if it is not contained by this
-   *         MenuBar
+   * @return the index of the separator, or -1 if it is not contained by this MenuBar
    */
   public int getSeparatorIndex(MenuItemSeparator item) {
     return allItems.indexOf(item);
@@ -529,11 +501,9 @@ public class MenuBar extends Widget implements HasAnimation, CloseHandler<PopupP
    * @param item the item to be inserted
    * @param beforeIndex the index where the item should be inserted
    * @return the {@link MenuItem} object
-   * @throws IndexOutOfBoundsException if <code>beforeIndex</code> is out of
-   *           range
+   * @throws IndexOutOfBoundsException if <code>beforeIndex</code> is out of range
    */
-  public MenuItem insertItem(MenuItem item, int beforeIndex)
-      throws IndexOutOfBoundsException {
+  public MenuItem insertItem(MenuItem item, int beforeIndex) throws IndexOutOfBoundsException {
     // Check the bounds
     if (beforeIndex < 0 || beforeIndex > allItems.size()) {
       throw new IndexOutOfBoundsException();
@@ -558,30 +528,28 @@ public class MenuBar extends Widget implements HasAnimation, CloseHandler<PopupP
   }
 
   /**
-   * Adds a thin line to the {@link MenuBar} to separate sections of
-   * {@link MenuItem}s at the specified index.
+   * Adds a thin line to the {@link MenuBar} to separate sections of {@link MenuItem}s at the
+   * specified index.
    *
    * @param beforeIndex the index where the separator should be inserted
    * @return the {@link MenuItemSeparator} object
-   * @throws IndexOutOfBoundsException if <code>beforeIndex</code> is out of
-   *           range
+   * @throws IndexOutOfBoundsException if <code>beforeIndex</code> is out of range
    */
   public MenuItemSeparator insertSeparator(int beforeIndex) {
     return insertSeparator(new MenuItemSeparator(), beforeIndex);
   }
 
   /**
-   * Adds a thin line to the {@link MenuBar} to separate sections of
-   * {@link MenuItem}s at the specified index.
+   * Adds a thin line to the {@link MenuBar} to separate sections of {@link MenuItem}s at the
+   * specified index.
    *
    * @param separator the {@link MenuItemSeparator} to be inserted
    * @param beforeIndex the index where the separator should be inserted
    * @return the {@link MenuItemSeparator} object
-   * @throws IndexOutOfBoundsException if <code>beforeIndex</code> is out of
-   *           range
+   * @throws IndexOutOfBoundsException if <code>beforeIndex</code> is out of range
    */
-  public MenuItemSeparator insertSeparator(MenuItemSeparator separator,
-      int beforeIndex) throws IndexOutOfBoundsException {
+  public MenuItemSeparator insertSeparator(MenuItemSeparator separator, int beforeIndex)
+      throws IndexOutOfBoundsException {
     // Check the bounds
     if (beforeIndex < 0 || beforeIndex > allItems.size()) {
       throw new IndexOutOfBoundsException();
@@ -602,8 +570,7 @@ public class MenuBar extends Widget implements HasAnimation, CloseHandler<PopupP
   }
 
   /**
-   * Check whether or not this widget will steal keyboard focus when the mouse
-   * hovers over it.
+   * Check whether or not this widget will steal keyboard focus when the mouse hovers over it.
    *
    * @return true if enabled, false if disabled
    */
@@ -612,8 +579,8 @@ public class MenuBar extends Widget implements HasAnimation, CloseHandler<PopupP
   }
 
   /**
-   * Moves the menu selection down to the next item. If there is no selection,
-   * selects the first item. If there are no items at all, does nothing.
+   * Moves the menu selection down to the next item. If there is no selection, selects the first
+   * item. If there are no items at all, does nothing.
    */
   public void moveSelectionDown() {
     if (selectFirstItemIfNoneSelected()) {
@@ -641,8 +608,8 @@ public class MenuBar extends Widget implements HasAnimation, CloseHandler<PopupP
   }
 
   /**
-   * Moves the menu selection up to the previous item. If there is no selection,
-   * selects the first item. If there are no items at all, does nothing.
+   * Moves the menu selection up to the previous item. If there is no selection, selects the first
+   * item. If there are no items at all, does nothing.
    */
   public void moveSelectionUp() {
     if (selectFirstItemIfNoneSelected()) {
@@ -662,79 +629,82 @@ public class MenuBar extends Widget implements HasAnimation, CloseHandler<PopupP
   public void onBrowserEvent(Event event) {
     MenuItem item = findItem(DOM.eventGetTarget(event));
     switch (DOM.eventGetType(event)) {
-      case Event.ONCLICK: {
-        FocusPanel.impl.focus(getElement());
-        // Fire an item's command when the user clicks on it.
-        if (item != null) {
-          doItemAction(item, true, true);
+      case Event.ONCLICK:
+        {
+          FocusPanel.impl.focus(getElement());
+          // Fire an item's command when the user clicks on it.
+          if (item != null) {
+            doItemAction(item, true, true);
+          }
+          break;
         }
-        break;
-      }
 
-      case Event.ONMOUSEOVER: {
-        if (item != null) {
-          itemOver(item, true);
+      case Event.ONMOUSEOVER:
+        {
+          if (item != null) {
+            itemOver(item, true);
+          }
+          break;
         }
-        break;
-      }
 
-      case Event.ONMOUSEOUT: {
-        if (item != null) {
-          itemOver(null, false);
+      case Event.ONMOUSEOUT:
+        {
+          if (item != null) {
+            itemOver(null, false);
+          }
+          break;
         }
-        break;
-      }
 
-      case Event.ONFOCUS: {
-        selectFirstItemIfNoneSelected();
-        break;
-      }
+      case Event.ONFOCUS:
+        {
+          selectFirstItemIfNoneSelected();
+          break;
+        }
 
-      case Event.ONKEYDOWN: {
-        int keyCode = event.getKeyCode();
-        boolean isRtl = LocaleInfo.getCurrentLocale().isRTL();
-        keyCode = KeyCodes.maybeSwapArrowKeysForRtl(keyCode, isRtl);
-        switch (keyCode) {
-          case KeyCodes.KEY_LEFT:
-            moveToPrevItem();
-            eatEvent(event);
-            break;
-          case KeyCodes.KEY_RIGHT:
-            moveToNextItem();
-            eatEvent(event);
-            break;
-          case KeyCodes.KEY_UP:
-            moveSelectionUp();
-            eatEvent(event);
-            break;
-          case KeyCodes.KEY_DOWN:
-            moveSelectionDown();
-            eatEvent(event);
-            break;
-          case KeyCodes.KEY_ESCAPE:
-            closeAllParentsAndChildren();
-            eatEvent(event);
-            break;
-          case KeyCodes.KEY_TAB:
-            closeAllParentsAndChildren();
-            break;
-          case KeyCodes.KEY_ENTER:
-            if (!selectFirstItemIfNoneSelected()) {
-              doItemAction(selectedItem, true, true);
+      case Event.ONKEYDOWN:
+        {
+          int keyCode = event.getKeyCode();
+          boolean isRtl = LocaleInfo.getCurrentLocale().isRTL();
+          keyCode = KeyCodes.maybeSwapArrowKeysForRtl(keyCode, isRtl);
+          switch (keyCode) {
+            case KeyCodes.KEY_LEFT:
+              moveToPrevItem();
               eatEvent(event);
-            }
-            break;
-        } // end switch(keyCode)
+              break;
+            case KeyCodes.KEY_RIGHT:
+              moveToNextItem();
+              eatEvent(event);
+              break;
+            case KeyCodes.KEY_UP:
+              moveSelectionUp();
+              eatEvent(event);
+              break;
+            case KeyCodes.KEY_DOWN:
+              moveSelectionDown();
+              eatEvent(event);
+              break;
+            case KeyCodes.KEY_ESCAPE:
+              closeAllParentsAndChildren();
+              eatEvent(event);
+              break;
+            case KeyCodes.KEY_TAB:
+              closeAllParentsAndChildren();
+              break;
+            case KeyCodes.KEY_ENTER:
+              if (!selectFirstItemIfNoneSelected()) {
+                doItemAction(selectedItem, true, true);
+                eatEvent(event);
+              }
+              break;
+          } // end switch(keyCode)
 
-        break;
-      } // end case Event.ONKEYDOWN
+          break;
+        } // end case Event.ONKEYDOWN
     } // end switch (DOM.eventGetType(event))
     super.onBrowserEvent(event);
   }
 
-  /**
-   * Closes the menu bar.
-   */
+  /** Closes the menu bar. */
   @Override
   public void onClose(CloseEvent<PopupPanel> event) {
     PopupPanel sender = event.getTarget();
@@ -820,8 +790,8 @@ public class MenuBar extends Widget implements HasAnimation, CloseHandler<PopupP
         }
       }
 
-      Roles.getMenubarRole().setAriaActivedescendantProperty(getElement(),
-          Id.of(item.getElement()));
+      Roles.getMenubarRole()
+          .setAriaActivedescendantProperty(getElement(), Id.of(item.getElement()));
     }
 
     selectedItem = item;
@@ -833,8 +803,7 @@ public class MenuBar extends Widget implements HasAnimation, CloseHandler<PopupP
   }
 
   /**
-   * Sets whether this menu bar's child menus will open when the mouse is moved
-   * over it.
+   * Sets whether this menu bar's child menus will open when the mouse is moved over it.
    *
    * @param autoOpen <code>true</code> to cause child menus to auto-open
    */
@@ -843,10 +812,9 @@ public class MenuBar extends Widget implements HasAnimation, CloseHandler<PopupP
   }
 
   /**
-   * Enable or disable auto focus when the mouse hovers over the MenuBar. This
-   * allows the MenuBar to respond to keyboard events without the user having to
-   * click on it, but it will steal focus from other elements on the page.
-   * Enabled by default.
+   * Enable or disable auto focus when the mouse hovers over the MenuBar. This allows the MenuBar to
+   * respond to keyboard events without the user having to click on it, but it will steal focus from
+   * other elements on the page. Enabled by default.
    *
    * @param enabled true to enable, false to disable
    */
@@ -855,9 +823,8 @@ public class MenuBar extends Widget implements HasAnimation, CloseHandler<PopupP
   }
 
   /**
-   * Returns a list containing the <code>MenuItem</code> objects in the menu
-   * bar. If there are no items in the menu bar, then an empty <code>List</code>
-   * object will be returned.
+   * Returns a list containing the <code>MenuItem</code> objects in the menu bar. If there are no
+   * items in the menu bar, then an empty <code>List</code> object will be returned.
    *
    * @return a list containing the <code>MenuItem</code> objects in the menu bar
    */
@@ -866,12 +833,11 @@ public class MenuBar extends Widget implements HasAnimation, CloseHandler<PopupP
   }
 
   /**
-   * Returns the <code>MenuItem</code> that is currently selected (highlighted)
-   * by the user. If none of the items in the menu are currently selected, then
-   * <code>null</code> will be returned.
+   * Returns the <code>MenuItem</code> that is currently selected (highlighted) by the user. If none
+   * of the items in the menu are currently selected, then <code>null</code> will be returned.
    *
-   * @return the <code>MenuItem</code> that is currently selected, or
-   *         <code>null</code> if no items are currently selected
+   * @return the <code>MenuItem</code> that is currently selected, or <code>null</code> if no items
+   *     are currently selected
    */
   protected MenuItem getSelectedItem() {
     return this.selectedItem;
@@ -889,8 +855,9 @@ public class MenuBar extends Widget implements HasAnimation, CloseHandler<PopupP
 
   /**
    * <b>Affected Elements:</b>
+   *
    * <ul>
-   * <li>-item# = the {@link MenuItem} at the specified index.</li>
+   *   <li>-item# = the {@link MenuItem} at the specified index.
    * </ul>
    *
    * @see UIObject#onEnsureDebugId(String)
@@ -914,9 +881,7 @@ public class MenuBar extends Widget implements HasAnimation, CloseHandler<PopupP
     }
   }
 
-  /**
-   * Closes all parent and child menu popups.
-   */
+  /** Closes all parent and child menu popups. */
   void closeAllParentsAndChildren() {
     closeAllParents();
     // Ensure the popup is closed even if it has not been enetered
@@ -956,12 +921,14 @@ public class MenuBar extends Widget implements HasAnimation, CloseHandler<PopupP
       // Fire the item's command. The command must be fired in the same event
       // loop or popup blockers will prevent popups from opening.
       final ScheduledCommand cmd = item.getScheduledCommand();
-      Scheduler.get().scheduleFinally(new ScheduledCommand() {
-        @Override
-        public void execute() {
-          cmd.execute();
-        }
-      });
+      Scheduler.get()
+          .scheduleFinally(
+              new ScheduledCommand() {
+                @Override
+                public void execute() {
+                  cmd.execute();
+                }
+              });
 
       // hide any open submenus of this item
       if (shownChildMenu != null) {
@@ -994,9 +961,7 @@ public class MenuBar extends Widget implements HasAnimation, CloseHandler<PopupP
     }
   }
 
-  /**
-   * Visible for testing.
-   */
+  /** Visible for testing. */
   PopupPanel getPopup() {
     return popup;
   }
@@ -1004,7 +969,8 @@ public class MenuBar extends Widget implements HasAnimation, CloseHandler<PopupP
   void itemOver(MenuItem item, boolean focus) {
     if (item == null) {
       // Don't clear selection if the currently selected item's menu is showing.
-      if ((selectedItem != null) && shownChildMenu != null
+      if ((selectedItem != null)
+          && shownChildMenu != null
           && (shownChildMenu == selectedItem.getSubMenu())) {
         return;
       }
@@ -1082,8 +1048,8 @@ public class MenuBar extends Widget implements HasAnimation, CloseHandler<PopupP
   }
 
   /**
-   * Physically add the td element of a {@link MenuItem} or
-   * {@link MenuItemSeparator} to this {@link MenuBar}.
+   * Physically add the td element of a {@link MenuItem} or {@link MenuItemSeparator} to this {@link
+   * MenuBar}.
    *
    * @param beforeIndex the index where the separator should be inserted
    * @param tdElem the td element to be added
@@ -1155,8 +1121,8 @@ public class MenuBar extends Widget implements HasAnimation, CloseHandler<PopupP
 
     Roles.getMenubarRole().set(getElement());
 
-    sinkEvents(Event.ONCLICK | Event.ONMOUSEOVER | Event.ONMOUSEOUT
-        | Event.ONFOCUS | Event.ONKEYDOWN);
+    sinkEvents(
+        Event.ONCLICK | Event.ONMOUSEOVER | Event.ONMOUSEOUT | Event.ONFOCUS | Event.ONKEYDOWN);
 
     setStyleName(STYLENAME_DEFAULT);
     if (vertical) {
@@ -1172,14 +1138,16 @@ public class MenuBar extends Widget implements HasAnimation, CloseHandler<PopupP
     getElement().setAttribute("hideFocus", "true");
 
     // Deselect items when blurring without a child menu.
-    addDomHandler(new BlurHandler() {
-      @Override
-      public void onBlur(BlurEvent event) {
-        if (shownChildMenu == null) {
-          selectItem(null);
-        }
-      }
-    }, BlurEvent.getType());
+    addDomHandler(
+        new BlurHandler() {
+          @Override
+          public void onBlur(BlurEvent event) {
+            if (shownChildMenu == null) {
+              selectItem(null);
+            }
+          }
+        },
+        BlurEvent.getType());
   }
 
   private void moveToNextItem() {
@@ -1250,21 +1218,21 @@ public class MenuBar extends Widget implements HasAnimation, CloseHandler<PopupP
     popup = new MenuPopup();
     popup.setWidget(shownChildMenu);
     popup.addCloseHandler(this);
-    popup.setPopupPositionAndShow(new PositionCallback() {
-      @Override
-      public void setPosition(int offsetWidth, int offsetHeight) {
-        if (vertical) {
-          popup.positionNextTo(item);
-        } else {
-          popup.positionBelow(item);
-        }
-      }
-    });
+    popup.setPopupPositionAndShow(
+        new PositionCallback() {
+          @Override
+          public void setPosition(int offsetWidth, int offsetHeight) {
+            if (vertical) {
+              popup.positionNextTo(item);
+            } else {
+              popup.positionBelow(item);
+            }
+          }
+        });
   }
 
   /**
-   * Removes the specified item from the {@link MenuBar} and the physical DOM
-   * structure.
+   * Removes the specified item from the {@link MenuBar} and the physical DOM structure.
    *
    * @param item the item to be removed
    * @return true if the item was removed
@@ -1282,8 +1250,8 @@ public class MenuBar extends Widget implements HasAnimation, CloseHandler<PopupP
   }
 
   /**
-   * Selects the first item in the menu if no items are currently selected. Has
-   * no effect if there are no items.
+   * Selects the first item in the menu if no items are currently selected. Has no effect if there
+   * are no items.
    *
    * @return true if no item was previously selected, false otherwise
    */
@@ -1298,7 +1266,7 @@ public class MenuBar extends Widget implements HasAnimation, CloseHandler<PopupP
       return true;
     }
     return false;
- }
+  }
 
   private void selectNextItem() {
     if (selectedItem == null) {

@@ -22,31 +22,29 @@ import org.gwtproject.i18n.shared.DirectionEstimator;
 /**
  * A widget that contains arbitrary text, <i>not</i> interpreted as HTML.
  *
- * This widget uses a &lt;span&gt; element, causing it to be displayed with
- * inline layout.
+ * <p>This widget uses a &lt;span&gt; element, causing it to be displayed with inline layout.
  *
  * <p>
+ *
  * <h3>Built-in Bidi Text Support</h3>
- * This widget is capable of automatically adjusting its direction according to
- * its content. This feature is controlled by {@link #setDirectionEstimator} or
- * passing a DirectionEstimator parameter to the constructor, and is off by
- * default.
- * </p>
+ *
+ * This widget is capable of automatically adjusting its direction according to its content. This
+ * feature is controlled by {@link #setDirectionEstimator} or passing a DirectionEstimator parameter
+ * to the constructor, and is off by default.
  *
  * <h3>CSS Style Rules</h3>
+ *
  * <ul class='css'>
- * <li>.gwt-InlineLabel { }</li>
+ *   <li>.gwt-InlineLabel { }
  * </ul>
  */
 public class InlineLabel extends Label {
 
   /**
-   * Creates a InlineLabel widget that wraps an existing &lt;div&gt; or
-   * &lt;span&gt; element.
+   * Creates a InlineLabel widget that wraps an existing &lt;div&gt; or &lt;span&gt; element.
    *
-   * This element must already be attached to the document. If the element is
-   * removed from the document, you must call
-   * {@link RootPanel#detachNow(Widget)}.
+   * <p>This element must already be attached to the document. If the element is removed from the
+   * document, you must call {@link RootPanel#detachNow(Widget)}.
    *
    * @param element the element to be wrapped
    */
@@ -63,9 +61,7 @@ public class InlineLabel extends Label {
     return label;
   }
 
-  /**
-   * Creates an empty label.
-   */
+  /** Creates an empty label. */
   public InlineLabel() {
     super(Document.get().createSpanElement());
     setStyleName("gwt-InlineLabel");
@@ -85,8 +81,8 @@ public class InlineLabel extends Label {
    * Creates a label with the specified text and direction.
    *
    * @param text the new label's text
-   * @param dir the text's direction. Note: {@code Direction.DEFAULT} means
-   *        direction should be inherited from the widget's parent element.
+   * @param dir the text's direction. Note: {@code Direction.DEFAULT} means direction should be
+   *     inherited from the widget's parent element.
    */
   public InlineLabel(String text, Direction dir) {
     this();
@@ -97,9 +93,8 @@ public class InlineLabel extends Label {
    * Creates a label with the specified text and a default direction estimator.
    *
    * @param text the new label's text
-   * @param directionEstimator A DirectionEstimator object used for automatic
-   *          direction adjustment. For convenience,
-   *          {@link Label#DEFAULT_DIRECTION_ESTIMATOR} can be used.
+   * @param directionEstimator A DirectionEstimator object used for automatic direction adjustment.
+   *     For convenience, {@link Label#DEFAULT_DIRECTION_ESTIMATOR} can be used.
    */
   public InlineLabel(String text, DirectionEstimator directionEstimator) {
     this();
@@ -108,8 +103,8 @@ public class InlineLabel extends Label {
   }
 
   /**
-   * This constructor may be used by subclasses to explicitly use an existing
-   * element. This element must be either a &lt;div&gt; &lt;span&gt; element.
+   * This constructor may be used by subclasses to explicitly use an existing element. This element
+   * must be either a &lt;div&gt; &lt;span&gt; element.
    *
    * @param element the element to be used
    */

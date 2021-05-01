@@ -18,28 +18,27 @@ package org.gwtproject.user.client.ui;
 import org.gwtproject.dom.client.Element;
 
 /**
- * <p>Allows ARIA attributes to be added to widgets so that they can be
- * identified by assistive technologies.
+ * Allows ARIA attributes to be added to widgets so that they can be identified by assistive
+ * technologies.
  *
- * <p>A 'role' describes the role a widget plays in a page: i.e. a checkbox
- * widget is assigned a "checkbox" role.</p>
+ * <p>A 'role' describes the role a widget plays in a page: i.e. a checkbox widget is assigned a
+ * "checkbox" role.
  *
- * <p>A 'state' describes the current state of the widget. For example, a
- * checkbox widget has the state "checked", which is given a value of "true" or
- * "false" depending on whether it is currently checked or unchecked.</p>
+ * <p>A 'state' describes the current state of the widget. For example, a checkbox widget has the
+ * state "checked", which is given a value of "true" or "false" depending on whether it is currently
+ * checked or unchecked.
  *
- * <p>See <a href="http://developer.mozilla.org/en/docs/Accessible_DHTML">the
- * MDC page on Accessible DHTML</a> for more information.</p>
+ * <p>See <a href="http://developer.mozilla.org/en/docs/Accessible_DHTML">the MDC page on Accessible
+ * DHTML</a> for more information.
  *
- * <p>Note that although this API is public, the ARIA specification is still
- * somewhat in flux. As a result, this API is subject to change as the
- * specification stabilizes; we will do our best to keep the community
- * updated on changes.</p>
+ * <p>Note that although this API is public, the ARIA specification is still somewhat in flux. As a
+ * result, this API is subject to change as the specification stabilizes; we will do our best to
+ * keep the community updated on changes.
  *
- * @deprecated Use the new GWT ARIA library with the factory class for the ARIA roles
- * {@link org.gwtproject.aria.client.Roles}. There are getters for all ARIA roles. For each
- * role there are get/set/remove methods defined for all (own and inherited) supported states
- * and properties.
+ * @deprecated Use the new GWT ARIA library with the factory class for the ARIA roles {@link
+ *     org.gwtproject.aria.client.Roles}. There are getters for all ARIA roles. For each role there
+ *     are get/set/remove methods defined for all (own and inherited) supported states and
+ *     properties.
  */
 @Deprecated
 public final class Accessibility {
@@ -91,7 +90,7 @@ public final class Accessibility {
    * @param elem the element which has the specified state
    * @param stateName the name of the state to remove
    */
-  public static void removeState(Element elem, String stateName)  {
+  public static void removeState(Element elem, String stateName) {
     elem.removeAttribute(stateName);
   }
   /**
@@ -115,6 +114,5 @@ public final class Accessibility {
     elem.setAttribute(stateName, stateValue);
   }
 
-  private Accessibility() {
-  }
+  private Accessibility() {}
 }
