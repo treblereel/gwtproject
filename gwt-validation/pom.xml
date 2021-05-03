@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.gwtproject.validation</groupId>
+    <artifactId>gwt-validation-parent</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <repositories>
+        <repository>
+            <id>vertispan</id>
+            <name>Vertispan Public Repo</name>
+            <url>https://repo.vertispan.com/gwt-snapshot/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </repository>
+        <repository>
+            <id>google-snapshots</id>
+            <name>Google Snapshots Repo</name>
+            <url>https://oss.sonatype.org/content/repositories/google-snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>sonatype-public</id>
+            <name>Sonatype Public Snapshots Repo</name>
+            <url>https://oss.sonatype.org/content/repositories/public</url>
+        </repository>
+    </repositories>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.outputEncoding>UTF-8</project.build.outputEncoding>
+        <gwt.version>2.8.2</gwt.version>
+        <commons.codec.version>1.11</commons.codec.version>
+        <json.version>20180813</json.version>
+        <guava.version>27.0-jre</guava.version>
+        <sac.version>1.3</sac.version>
+        <closure-stylesheets.version>1.5.0</closure-stylesheets.version>
+        <auto.common.version>0.10</auto.common.version>
+        <auto.service.version>1.0-rc4</auto.service.version>
+        <commons-io.version>2.6</commons-io.version>
+        <jaxb-api.version>2.3.1</jaxb-api.version>
+        <junit.version>4.11</junit.version>
+        <maven.compiler.version>3.6.0</maven.compiler.version>
+        <maven.checkstyle.plugin>2.17</maven.checkstyle.plugin>
+        <maven.surefire.plugin>2.22.1</maven.surefire.plugin>
+        <maven.source.plugin>3.0.1</maven.source.plugin>
+        <maven.properties.plugin>1.0.0</maven.properties.plugin>
+        <maven.clean.plugin>3.1.0</maven.clean.plugin>
+        <maven.javadoc.plugin>3.0.1</maven.javadoc.plugin>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+
+    <modules>
+        <module>api</module>
+        <module>processor</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven.compiler.version}</version>
+                    <configuration>
+                        <source>${maven.compiler.source}</source>
+                        <target>${maven.compiler.target}</target>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <version>${maven.checkstyle.plugin}</version>
+                    <executions>
+                        <execution>
+                            <id>validate</id>
+                            <phase>validate</phase>
+                            <configuration>
+                                <encoding>UTF-8</encoding>
+                                <consoleOutput>true</consoleOutput>
+                                <failsOnError>true</failsOnError>
+                                <configLocation>gwt-checkstyle.xml</configLocation>
+                            </configuration>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+            </plugins>
+        </pluginManagement>
+    </build>
+</project>

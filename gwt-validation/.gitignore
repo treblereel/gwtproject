@@ -1,0 +1,8 @@
+target/
+.project
+.idea
+validation/.idea
+.classpath
+.settings/
+*.iml
+.idea/vcs.xml
