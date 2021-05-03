@@ -19,9 +19,7 @@ import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.view.client.HasRows;
 import org.gwtproject.view.client.MockHasData;
 
-/**
- * Tests for {@link PageSizePager}.
- */
+/** Tests for {@link PageSizePager}. */
 @J2clTestInput(PageSizePagerTest.class)
 public class PageSizePagerTest extends AbstractPagerTest {
 

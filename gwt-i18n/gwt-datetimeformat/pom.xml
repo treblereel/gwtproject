@@ -7,12 +7,12 @@
     <parent>
         <groupId>org.gwtproject.i18n</groupId>
         <artifactId>gwt-i18n-parent</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>dev</version>
     </parent>
 
     <artifactId>gwt-datetimeformat</artifactId>
     <packaging>gwt-lib</packaging>
-
+    <version>${revision}</version>
     <name>GWT DateTimeFormat</name>
 
     <dependencies>
@@ -38,6 +38,7 @@
         <dependency>
             <groupId>org.gwtproject.i18n</groupId>
             <artifactId>gwt-i18n</artifactId>
+            <version>${revision}</version>
         </dependency>
     </dependencies>
 
@@ -46,7 +47,6 @@
             <plugin>
                 <groupId>net.ltgt.gwt.maven</groupId>
                 <artifactId>gwt-maven-plugin</artifactId>
-                <version>1.0-rc-9</version>
                 <extensions>true</extensions>
                 <configuration>
                     <moduleName>org.gwtproject.i18n.DateTimeFormat</moduleName>

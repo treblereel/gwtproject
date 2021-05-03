@@ -16,6 +16,7 @@
 package org.gwtproject.cell.client;
 
 import com.google.gwt.junit.client.GWTTestCase;
+import java.util.Set;
 import org.gwtproject.cell.client.Cell.Context;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
@@ -24,8 +25,6 @@ import org.gwtproject.safehtml.shared.SafeHtmlBuilder;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.Event;
 import org.gwtproject.user.client.EventListener;
-
-import java.util.Set;
 
 /**
  * Base class for testing {@link org.gwtproject.cell.client.Cell}.
@@ -47,8 +46,7 @@ public abstract class CellTestBase<T> extends GWTTestCase {
     private Element lastParentElement;
     private final T updateValue;
 
-    public MockCell(boolean isSelectable, T updateValue,
-        String... consumedEvents) {
+    public MockCell(boolean isSelectable, T updateValue, String... consumedEvents) {
       super(consumedEvents);
       this.isSelectable = isSelectable;
       this.updateValue = updateValue;
@@ -61,7 +59,7 @@ public abstract class CellTestBase<T> extends GWTTestCase {
     public void assertLastParentElement(Element expected) {
       assertEquals(expected, lastParentElement);
     }
-    
+
     @Override
     public boolean dependsOnSelection() {
       return isSelectable;
@@ -77,8 +75,12 @@ public abstract class CellTestBase<T> extends GWTTestCase {
     }
 
     @Override
-    public void onBrowserEvent(Context context, Element parent, T value,
-        NativeEvent event, org.gwtproject.cell.client.ValueUpdater<T> valueUpdater) {
+    public void onBrowserEvent(
+        Context context,
+        Element parent,
+        T value,
+        NativeEvent event,
+        org.gwtproject.cell.client.ValueUpdater<T> valueUpdater) {
       lastContext = context;
       lastParentElement = parent;
       lastEventValue = value;
@@ -96,9 +98,7 @@ public abstract class CellTestBase<T> extends GWTTestCase {
     }
   }
 
-  /**
-   * A mock {@link org.gwtproject.cell.client.ValueUpdater} used for testing.
-   */
+  /** A mock {@link org.gwtproject.cell.client.ValueUpdater} used for testing. */
   class MockValueUpdater implements ValueUpdater<T> {
 
     private T lastValue;
@@ -116,9 +116,7 @@ public abstract class CellTestBase<T> extends GWTTestCase {
     }
   }
 
-  /**
-   * The default row value key used for all tests.
-   */
+  /** The default row value key used for all tests. */
   protected static final Object DEFAULT_KEY = new Object();
 
   public void testDependsOnSelection() {
@@ -142,9 +140,7 @@ public abstract class CellTestBase<T> extends GWTTestCase {
     assertFalse(createCell().handlesSelection());
   }
 
-  /**
-   * Test rendering the cell with a valid value and no view data.
-   */
+  /** Test rendering the cell with a valid value and no view data. */
   public void testRender() {
     org.gwtproject.cell.client.Cell<T> cell = createCell();
     T value = createCellValue();
@@ -154,9 +150,7 @@ public abstract class CellTestBase<T> extends GWTTestCase {
     assertEquals(getExpectedInnerHtml(), sb.toSafeHtml().asString());
   }
 
-  /**
-   * Test rendering the cell with a negative index is handled.
-   */
+  /** Test rendering the cell with a negative index is handled. */
   public void testRenderNegativeIndex() {
     Cell<T> cell = createCell();
     T value = createCellValue();
@@ -166,9 +160,7 @@ public abstract class CellTestBase<T> extends GWTTestCase {
     assertEquals(getExpectedInnerHtml(), sb.toSafeHtml().asString());
   }
 
-  /**
-   * Test rendering the cell with a null value and no view data.
-   */
+  /** Test rendering the cell with a null value and no view data. */
   public void testRenderNull() {
     org.gwtproject.cell.client.Cell<T> cell = createCell();
     SafeHtmlBuilder sb = new SafeHtmlBuilder();
@@ -213,47 +205,47 @@ public abstract class CellTestBase<T> extends GWTTestCase {
   protected abstract String getExpectedInnerHtml();
 
   /**
-   * Get the expected inner HTML value of the rendered cell when null is passed
-   * as the cell value.
+   * Get the expected inner HTML value of the rendered cell when null is passed as the cell value.
    *
    * @return the expected string
    */
   protected abstract String getExpectedInnerHtmlNull();
 
   /**
-   * Test
-   * {@link org.gwtproject.cell.client.Cell#onBrowserEvent(Element, Object, Object, NativeEvent, org.gwtproject.cell.client.ValueUpdater)}
-   * with the specified conditions.
-   * 
+   * Test {@link org.gwtproject.cell.client.Cell#onBrowserEvent(Element, Object, Object,
+   * NativeEvent, org.gwtproject.cell.client.ValueUpdater)} with the specified conditions.
+   *
    * @param startHtml the innerHTML of the cell before the test starts
    * @param event the event to fire
    * @param value the cell value
-   * @param expectedValue the expected value passed to the value updater, or
-   *          null if none expected
+   * @param expectedValue the expected value passed to the value updater, or null if none expected
    * @return the parent element
    */
-  protected Element testOnBrowserEvent(String startHtml, NativeEvent event, final T value,
-      T expectedValue) {
+  protected Element testOnBrowserEvent(
+      String startHtml, NativeEvent event, final T value, T expectedValue) {
     return testOnBrowserEvent(createCell(), startHtml, event, value, expectedValue, true);
   }
 
   /**
-   * Test
-   * {@link org.gwtproject.cell.client.Cell#onBrowserEvent(Element, Object, Object, NativeEvent, ValueUpdater)}
-   * with the specified conditions.
-   * 
+   * Test {@link org.gwtproject.cell.client.Cell#onBrowserEvent(Element, Object, Object,
+   * NativeEvent, ValueUpdater)} with the specified conditions.
+   *
    * @param cell the cell to use
    * @param startHtml the innerHTML of the cell before the test starts
    * @param event the event to fire
    * @param value the cell value
-   * @param expectedValue the expected value passed to the value updater, or
-   *          null if none expected
-   * @param dispatchToFirstChild true to dispatch to the first child of the
-   *          rendered parent element, if one is available
+   * @param expectedValue the expected value passed to the value updater, or null if none expected
+   * @param dispatchToFirstChild true to dispatch to the first child of the rendered parent element,
+   *     if one is available
    * @return the parent element
    */
-  protected Element testOnBrowserEvent(final Cell<T> cell, String startHtml, NativeEvent event,
-                                       final T value, T expectedValue, boolean dispatchToFirstChild) {
+  protected Element testOnBrowserEvent(
+      final Cell<T> cell,
+      String startHtml,
+      NativeEvent event,
+      final T value,
+      T expectedValue,
+      boolean dispatchToFirstChild) {
     // Setup the parent element.
     final Element parent = Document.get().createDivElement();
     parent.setInnerHTML(startHtml);
@@ -268,20 +260,22 @@ public abstract class CellTestBase<T> extends GWTTestCase {
 
     // Pass the event to the cell.
     final MockValueUpdater valueUpdater = new MockValueUpdater();
-    Event.setEventListener(parent, new EventListener() {
-      @Override
-      public void onBrowserEvent(Event event) {
-        try {
-          DOM.setEventListener(parent, null);
-          Context context = new Context(0, 0, DEFAULT_KEY);
-          cell.onBrowserEvent(context, parent, value, event, valueUpdater);
-          parent.removeFromParent();
-        } catch (Exception e) {
-          // We are in an event loop, so events may not propagate out to JUnit.
-          fail("An exception occured while handling the event: " + e.getMessage());
-        }
-      }
-    });
+    Event.setEventListener(
+        parent,
+        new EventListener() {
+          @Override
+          public void onBrowserEvent(Event event) {
+            try {
+              DOM.setEventListener(parent, null);
+              Context context = new Context(0, 0, DEFAULT_KEY);
+              cell.onBrowserEvent(context, parent, value, event, valueUpdater);
+              parent.removeFromParent();
+            } catch (Exception e) {
+              // We are in an event loop, so events may not propagate out to JUnit.
+              fail("An exception occured while handling the event: " + e.getMessage());
+            }
+          }
+        });
     Event.sinkEvents(target, Event.getTypeInt(event.getType()));
     target.dispatchEvent(event);
     assertNull(DOM.getEventListener(parent));

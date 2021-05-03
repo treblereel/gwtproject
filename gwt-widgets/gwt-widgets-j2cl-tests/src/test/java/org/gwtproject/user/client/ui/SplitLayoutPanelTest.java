@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -16,16 +16,13 @@
 package org.gwtproject.user.client.ui;
 
 import com.google.j2cl.junit.apt.J2clTestInput;
-import org.gwtproject.dom.client.Document;
-import org.gwtproject.dom.client.NativeEvent;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import org.gwtproject.dom.client.Document;
+import org.gwtproject.dom.client.NativeEvent;
 
-/**
- * Tests for {@link SplitLayoutPanel}.
- */
+/** Tests for {@link SplitLayoutPanel}. */
 @J2clTestInput(SplitLayoutPanelTest.class)
 public class SplitLayoutPanelTest extends DockLayoutPanelTest {
 
@@ -105,8 +102,8 @@ public class SplitLayoutPanelTest extends DockLayoutPanelTest {
     WidgetCollection children = p.getChildren();
 
     p.addWest(new Label("foo"), 64);
-    assertEquals("5px",
-        children.get(1).getElement().getStyle().getWidth().toLowerCase(Locale.ROOT));
+    assertEquals(
+        "5px", children.get(1).getElement().getStyle().getWidth().toLowerCase(Locale.ROOT));
   }
 
   public void testRemoveInsert() {
@@ -210,22 +207,21 @@ public class SplitLayoutPanelTest extends DockLayoutPanelTest {
     assertEquals(390, west.getOffsetWidth());
   }
 
-  /**
-   * Test that forcing layout will call onResize only once.
-   */
+  /** Test that forcing layout will call onResize only once. */
   public void testForceLayoutNoRedundantOnResize() {
     final List<Boolean> called = new ArrayList<>();
     SplitLayoutPanel panel = new SplitLayoutPanel();
-    SimpleLayoutPanel child = new SimpleLayoutPanel() {
-      @Override
-      public void onResize() {
-        super.onResize();
-        called.add(true);
-      }
-    };
-    panel.addWest(child,123.4);
+    SimpleLayoutPanel child =
+        new SimpleLayoutPanel() {
+          @Override
+          public void onResize() {
+            super.onResize();
+            called.add(true);
+          }
+        };
+    panel.addWest(child, 123.4);
     panel.forceLayout();
-    assertEquals(1,called.size());
+    assertEquals(1, called.size());
   }
 
   @Override
@@ -241,28 +237,49 @@ public class SplitLayoutPanelTest extends DockLayoutPanelTest {
     // positions shouldn't matter, only the relative movement since the mouse down event.
     //
     // This is important in some cases where the browser window is scrolled -- see issue 4755.
-    NativeEvent mouseDown = Document.get().createMouseDownEvent(
-        0, /* detail */
-        0, 0, /* screen X, Y */
-        0, 0, /* client X, Y */
-        false, false, false, false, /* modifier keys */
-        NativeEvent.BUTTON_LEFT);
+    NativeEvent mouseDown =
+        Document.get()
+            .createMouseDownEvent(
+                0, /* detail */
+                0,
+                0, /* screen X, Y */
+                0,
+                0, /* client X, Y */
+                false,
+                false,
+                false,
+                false, /* modifier keys */
+                NativeEvent.BUTTON_LEFT);
     splitter.getElement().dispatchEvent(mouseDown);
 
-    NativeEvent mouseMove = Document.get().createMouseMoveEvent(
-        0,
-        offsetX, offsetY,
-        offsetX, offsetY,
-        false, false, false, false,
-        NativeEvent.BUTTON_LEFT);
+    NativeEvent mouseMove =
+        Document.get()
+            .createMouseMoveEvent(
+                0,
+                offsetX,
+                offsetY,
+                offsetX,
+                offsetY,
+                false,
+                false,
+                false,
+                false,
+                NativeEvent.BUTTON_LEFT);
     splitter.getElement().dispatchEvent(mouseMove);
 
-    NativeEvent mouseUp = Document.get().createMouseUpEvent(
-        0,
-        offsetX, offsetY,
-        offsetX, offsetY,
-        false, false, false, false,
-        NativeEvent.BUTTON_LEFT);
+    NativeEvent mouseUp =
+        Document.get()
+            .createMouseUpEvent(
+                0,
+                offsetX,
+                offsetY,
+                offsetX,
+                offsetY,
+                false,
+                false,
+                false,
+                false,
+                NativeEvent.BUTTON_LEFT);
     splitter.getElement().dispatchEvent(mouseUp);
   }
 }

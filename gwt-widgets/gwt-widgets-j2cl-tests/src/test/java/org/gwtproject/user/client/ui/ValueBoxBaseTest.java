@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,26 +15,21 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
+import java.text.ParseException;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.event.logical.shared.ValueChangeEvent;
 import org.gwtproject.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.text.shared.Renderer;
 import org.gwtproject.text.shared.testing.PassthroughRenderer;
 
-import java.text.ParseException;
-
-/**
- * Testing ValueBoxBase.
- */
+/** Testing ValueBoxBase. */
 @J2clTestInput(ValueBoxBaseTest.class)
 public class ValueBoxBaseTest extends GWTTestCase {
 
-  /**
-   * Helper to check if the event is fired.
-   */
+  /** Helper to check if the event is fired. */
   private static class EventCounter implements ValueChangeHandler<String> {
     int counter = 0;
 
@@ -54,11 +49,9 @@ public class ValueBoxBaseTest extends GWTTestCase {
     Element elm = Document.get().createTextInputElement();
     Renderer<String> renderer = PassthroughRenderer.instance();
     MockParser parser = new MockParser();
-    
-    ValueBoxBase<String> valueBoxBase = 
-      new ValueBoxBase<String>(elm, renderer, parser) {
-    };
-    
+
+    ValueBoxBase<String> valueBoxBase = new ValueBoxBase<String>(elm, renderer, parser) {};
+
     parser.throwException = true;
     valueBoxBase.setText("");
     try {
@@ -77,11 +70,9 @@ public class ValueBoxBaseTest extends GWTTestCase {
     Element elm = Document.get().createTextInputElement();
     Renderer<String> renderer = PassthroughRenderer.instance();
     MockParser parser = new MockParser();
-    
-    ValueBoxBase<String> valueBoxBase = 
-      new ValueBoxBase<String>(elm, renderer, parser) {
-    };
-    
+
+    ValueBoxBase<String> valueBoxBase = new ValueBoxBase<String>(elm, renderer, parser) {};
+
     parser.throwException = true;
     valueBoxBase.setText("simple string");
     try {
@@ -100,11 +91,9 @@ public class ValueBoxBaseTest extends GWTTestCase {
     Element elm = Document.get().createTextInputElement();
     Renderer<String> renderer = PassthroughRenderer.instance();
     MockParser parser = new MockParser();
-    
-    ValueBoxBase<String> valueBoxBase = 
-      new ValueBoxBase<String>(elm, renderer, parser) {
-    };
-    
+
+    ValueBoxBase<String> valueBoxBase = new ValueBoxBase<String>(elm, renderer, parser) {};
+
     String text = "  two space padding test  ";
     valueBoxBase.setText(text);
     assertEquals(text, valueBoxBase.getValueOrThrow());
@@ -129,12 +118,13 @@ public class ValueBoxBaseTest extends GWTTestCase {
   // new value is equal to old value
   public void testValueChangeEventNotFired() {
     ValueBoxBase<String> valueBoxBase = createValueBoxBase("myvalue");
-    valueBoxBase.addValueChangeHandler(new ValueChangeHandler<String>() {
-      @Override
-      public void onValueChange(ValueChangeEvent<String> event) {
-        fail("Event should not have been fired");
-      }
-    });
+    valueBoxBase.addValueChangeHandler(
+        new ValueChangeHandler<String>() {
+          @Override
+          public void onValueChange(ValueChangeEvent<String> event) {
+            fail("Event should not have been fired");
+          }
+        });
 
     valueBoxBase.setValue("myvalue", true); // not fired because value is not changed
     valueBoxBase.setValue("aNewValue", false); // not fired because fireEvent is false
@@ -144,12 +134,13 @@ public class ValueBoxBaseTest extends GWTTestCase {
   // Test that ValueChangeEvent is not fired when an empty value is set
   public void testValueChangeEventWithEmptyString() {
     ValueBoxBase<String> valueBoxBase = createValueBoxBase("");
-    valueBoxBase.addValueChangeHandler(new ValueChangeHandler<String>() {
-      @Override
-      public void onValueChange(ValueChangeEvent<String> event) {
-        fail("Event should not have been fired");
-      }
-    });
+    valueBoxBase.addValueChangeHandler(
+        new ValueChangeHandler<String>() {
+          @Override
+          public void onValueChange(ValueChangeEvent<String> event) {
+            fail("Event should not have been fired");
+          }
+        });
 
     valueBoxBase.setValue("", true);
   }
@@ -158,7 +149,7 @@ public class ValueBoxBaseTest extends GWTTestCase {
     Element elm = Document.get().createTextInputElement();
     Renderer<String> renderer = PassthroughRenderer.instance();
     MockParser parser = new MockParser();
-    ValueBoxBase<String> box = new ValueBoxBase<String>(elm, renderer, parser) { };
+    ValueBoxBase<String> box = new ValueBoxBase<String>(elm, renderer, parser) {};
     box.setText(text);
     return box;
   }

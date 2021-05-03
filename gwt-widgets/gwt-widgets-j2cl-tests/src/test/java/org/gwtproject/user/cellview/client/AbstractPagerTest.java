@@ -23,19 +23,14 @@ import org.gwtproject.view.client.Range;
 import org.gwtproject.view.client.RangeChangeEvent;
 import org.gwtproject.view.client.RowCountChangeEvent;
 
-/**
- * Tests for {@link AbstractPager}.
- */
+/** Tests for {@link AbstractPager}. */
 @J2clTestInput(AbstractPagerTest.class)
 public class AbstractPagerTest extends GWTTestCase {
 
-  /**
-   * Mock {@link AbstractPager} used for testing.
-   */
+  /** Mock {@link AbstractPager} used for testing. */
   private class MockPager extends AbstractPager {
     @Override
-    protected void onRangeOrRowCountChanged() {
-    }
+    protected void onRangeOrRowCountChanged() {}
   }
 
   @Override
@@ -255,7 +250,7 @@ public class AbstractPagerTest extends GWTTestCase {
 
     /*
      * Set display to null.
-     * 
+     *
      * Verify that the handlers are removed.
      */
     pager.setDisplay(null);
@@ -267,7 +262,7 @@ public class AbstractPagerTest extends GWTTestCase {
 
     /*
      * Set display again.
-     * 
+     *
      * Verify that the handlers are re-added.
      */
     MockHasData<String> display1 = new MockHasData<String>();

@@ -15,16 +15,14 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.Element;
-import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.i18n.shared.cldr.LocaleInfo;
 import org.gwtproject.user.client.DOM;
 import org.junit.Ignore;
 
-/**
- * Tests standard DOM operations in the {@link DOM} class in RTL mode.
- */
+/** Tests standard DOM operations in the {@link DOM} class in RTL mode. */
 @Ignore
 @J2clTestInput(DOMRtlTest.class)
 public class DOMRtlTest extends GWTTestCase {
@@ -34,9 +32,8 @@ public class DOMRtlTest extends GWTTestCase {
   }
 
   /**
-   * Tests {@link DOM#getAbsoluteLeft(Element)} for consistency when the element
-   * contains children and has scrollbars.
-   * Failed in all modes due to HtmlUnit bug:
+   * Tests {@link DOM#getAbsoluteLeft(Element)} for consistency when the element contains children
+   * and has scrollbars. Failed in all modes due to HtmlUnit bug:
    * https://sourceforge.net/tracker/?func=detail&aid=2897532&group_id=47038&atid=448266
    */
   public void testGetAbsolutePositionWhenScrolled() {
@@ -78,5 +75,4 @@ public class DOMRtlTest extends GWTTestCase {
     // Cleanup test
     RootPanel.getBodyElement().removeChild(outer);
   }
-
 }

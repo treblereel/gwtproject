@@ -7,15 +7,40 @@
     <parent>
         <groupId>org.gwtproject.i18n</groupId>
         <artifactId>gwt-i18n-parent</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>dev</version>
     </parent>
 
     <artifactId>gwt-i18n</artifactId>
     <packaging>gwt-lib</packaging>
+    <version>${revision}</version>
 
     <name>GWT i18n</name>
 
     <dependencies>
+        <dependency>
+            <groupId>org.gwtproject.safehtml</groupId>
+            <artifactId>gwt-safehtml</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.gwtproject.regexp</groupId>
+            <artifactId>gwt-regexp</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.gwtproject.dom</groupId>
+            <artifactId>gwt-dom</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.elemental2</groupId>
+            <artifactId>elemental2-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.elemental2</groupId>
+            <artifactId>elemental2-dom</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-user</artifactId>
@@ -31,14 +56,6 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>com.google.elemental2</groupId>
-            <artifactId>elemental2-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.google.elemental2</groupId>
-            <artifactId>elemental2-dom</artifactId>
-        </dependency>
     </dependencies>
 
     <build>
@@ -46,7 +63,6 @@
             <plugin>
                 <groupId>net.ltgt.gwt.maven</groupId>
                 <artifactId>gwt-maven-plugin</artifactId>
-                <version>1.0-rc-9</version>
                 <extensions>true</extensions>
                 <configuration>
                     <moduleName>org.gwtproject.i18n</moduleName>

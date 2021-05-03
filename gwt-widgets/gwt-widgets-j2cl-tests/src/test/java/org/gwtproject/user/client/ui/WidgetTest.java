@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -24,26 +24,23 @@ import org.gwtproject.event.shared.HandlerManager;
 import org.gwtproject.event.shared.HandlerRegistration;
 import org.gwtproject.user.client.Event;
 
-/**
- * Tests the basic widget infrastructure.
- * 
- */
+/** Tests the basic widget infrastructure. */
 @J2clTestInput(WidgetTest.class)
 public class WidgetTest extends GWTTestCase {
 
-  ClickHandler handlerA = new ClickHandler() {
+  ClickHandler handlerA =
+      new ClickHandler() {
 
-    @Override
-    public void onClick(ClickEvent event) {
-    }
-  };
+        @Override
+        public void onClick(ClickEvent event) {}
+      };
 
-  ClickHandler handlerB = new ClickHandler() {
+  ClickHandler handlerB =
+      new ClickHandler() {
 
-    @Override
-    public void onClick(ClickEvent event) {
-    }
-  };
+        @Override
+        public void onClick(ClickEvent event) {}
+      };
 
   @Override
   public String getModuleName() {
@@ -52,16 +49,17 @@ public class WidgetTest extends GWTTestCase {
 
   public void testCreateHandlerManager() {
     final HandlerManager manager = new HandlerManager(null);
-    Widget w = new Widget() {
-      @Override
-      protected HandlerManager createHandlerManager() {
-        return manager;
-      }
-    };
+    Widget w =
+        new Widget() {
+          @Override
+          protected HandlerManager createHandlerManager() {
+            return manager;
+          }
+        };
     w.ensureHandlers();
     assertEquals(manager, w.getHandlerManager());
   }
-  
+
   public void testAsWidget() {
     Widget a = new Widget();
     assertSame(a, a.asWidget());
@@ -198,12 +196,13 @@ public class WidgetTest extends GWTTestCase {
 
   public void testUnsinkEventsIfWidgetHasNotBeenAttachedYet() {
     Button button = new Button();
-    button.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        fail("click event should not fire");
-      }
-    });
+    button.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(ClickEvent event) {
+            fail("click event should not fire");
+          }
+        });
 
     // unsink the event before attaching
     button.unsinkEvents(Event.ONCLICK);

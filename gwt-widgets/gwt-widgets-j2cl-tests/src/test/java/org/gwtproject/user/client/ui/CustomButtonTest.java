@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -16,33 +16,31 @@
 
 package org.gwtproject.user.client.ui;
 
+import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.event.dom.client.ClickHandler;
 import org.gwtproject.event.logical.shared.ValueChangeEvent;
 import org.gwtproject.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.safehtml.shared.SafeHtmlUtils;
 import org.gwtproject.user.client.Event;
 import org.gwtproject.user.client.ui.CustomButton.Face;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-
 /**
- * Test for <code>PushButton</code> as most of this widget's functionality is UI
- * based, the primary test will be in the new UI testing framework once it is
- * released.
+ * Test for <code>PushButton</code> as most of this widget's functionality is UI based, the primary
+ * test will be in the new UI testing framework once it is released.
  */
 @J2clTestInput(CustomButtonTest.class)
 public class CustomButtonTest extends GWTTestCase {
 
   private static class Handler implements ValueChangeHandler<Boolean> {
     Boolean received = null;
-    
+
     @Override
     public void onValueChange(ValueChangeEvent<Boolean> event) {
       received = event.getValue();
@@ -64,12 +62,16 @@ public class CustomButtonTest extends GWTTestCase {
     RootPanel.get().add(tb);
 
     // Synthesize mouse-over events to get both buttons into the 'hover' state.
-    pb.getElement().dispatchEvent(
-        Document.get().createMouseOverEvent(1, 0, 0, 0, 0, false, false, false,
-            false, Event.BUTTON_LEFT, null));
-    tb.getElement().dispatchEvent(
-        Document.get().createMouseOverEvent(1, 0, 0, 0, 0, false, false, false,
-            false, Event.BUTTON_LEFT, null));
+    pb.getElement()
+        .dispatchEvent(
+            Document.get()
+                .createMouseOverEvent(
+                    1, 0, 0, 0, 0, false, false, false, false, Event.BUTTON_LEFT, null));
+    tb.getElement()
+        .dispatchEvent(
+            Document.get()
+                .createMouseOverEvent(
+                    1, 0, 0, 0, 0, false, false, false, false, Event.BUTTON_LEFT, null));
     assertTrue(pb.isHovering());
     assertTrue(tb.isHovering());
 
@@ -129,13 +131,13 @@ public class CustomButtonTest extends GWTTestCase {
       String faceName = entry.getKey();
       f.setText(faceName);
     }
-    
+
     for (Map.Entry<String, Face> entry : faces.entrySet()) {
       Face f = entry.getValue();
       String faceName = entry.getKey();
       assertEquals(f.getText(), faceName);
     }
-    
+
     // Set all faces as HTML
     for (Map.Entry<String, Face> entry : faces.entrySet()) {
       Face f = entry.getValue();
@@ -147,15 +149,15 @@ public class CustomButtonTest extends GWTTestCase {
       Face f = entry.getValue();
       String faceName = entry.getKey();
       assertEquals(f.getText(), faceName);
-      assertEquals(f.getHTML().toLowerCase(Locale.ROOT), "<b>" + faceName.toLowerCase(Locale.ROOT)
-          + "</b>");
+      assertEquals(
+          f.getHTML().toLowerCase(Locale.ROOT), "<b>" + faceName.toLowerCase(Locale.ROOT) + "</b>");
     }
   }
 
   public void testSetSafeHtml() {
     PushButton button = new PushButton();
     button.setHTML(SafeHtmlUtils.fromSafeConstant(html));
-    
+
     assertEquals(html, button.getHTML().toLowerCase(Locale.ROOT));
   }
 
@@ -164,32 +166,38 @@ public class CustomButtonTest extends GWTTestCase {
     final ArrayList<String> events = new ArrayList<String>();
     Handler h = new Handler();
 
-    b.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        events.add(event.getNativeEvent().getType());
-      }
-    });
+    b.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(ClickEvent event) {
+            events.add(event.getNativeEvent().getType());
+          }
+        });
     b.addValueChangeHandler(h);
 
     RootPanel.get().add(b);
 
     // Synthesize over/down/up events, which should kick off CustomButton's
     // internal machinery to synthesize a click.
-    b.getElement().dispatchEvent(
-        Document.get().createMouseOverEvent(1, 0, 0, 0, 0, false, false, false,
-            false, Event.BUTTON_LEFT, null));
-    b.getElement().dispatchEvent(
-        Document.get().createMouseDownEvent(1, 0, 0, 0, 0, false, false, false,
-            false, Event.BUTTON_LEFT));
-    b.getElement().dispatchEvent(
-        Document.get().createMouseUpEvent(1, 0, 0, 0, 0, false, false, false,
-            false, Event.BUTTON_LEFT));
+    b.getElement()
+        .dispatchEvent(
+            Document.get()
+                .createMouseOverEvent(
+                    1, 0, 0, 0, 0, false, false, false, false, Event.BUTTON_LEFT, null));
+    b.getElement()
+        .dispatchEvent(
+            Document.get()
+                .createMouseDownEvent(
+                    1, 0, 0, 0, 0, false, false, false, false, Event.BUTTON_LEFT));
+    b.getElement()
+        .dispatchEvent(
+            Document.get()
+                .createMouseUpEvent(1, 0, 0, 0, 0, false, false, false, false, Event.BUTTON_LEFT));
     assertEquals("Expecting one click event", 1, events.size());
     assertEquals("Expecting one click event", "click", events.get(0));
     assertNotNull("Expecting a value change event", h.received);
   }
-  
+
   public void testTransitions() {
     ToggleButton b = new ToggleButton("transitions");
 

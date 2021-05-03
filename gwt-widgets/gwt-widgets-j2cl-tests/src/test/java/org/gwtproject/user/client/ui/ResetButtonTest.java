@@ -15,18 +15,15 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
+import java.util.Locale;
 import org.gwtproject.dom.client.EventTarget;
 import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.event.dom.client.ClickHandler;
-import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.safehtml.shared.SafeHtmlUtils;
 
-import java.util.Locale;
-
-/**
- * Tests for {@link ResetButton}.
- */
+/** Tests for {@link ResetButton}. */
 @J2clTestInput(ResetButtonTest.class)
 public class ResetButtonTest extends GWTTestCase {
 
@@ -50,15 +47,14 @@ public class ResetButtonTest extends GWTTestCase {
 
   public void testSetSafeHtmlConstructor() {
     ResetButton button = new ResetButton(SafeHtmlUtils.fromSafeConstant(html));
-    
+
     assertEquals(html, button.getHTML().toLowerCase(Locale.ROOT));
   }
 
   public void testSafeHtmlWithHandler() {
     H handler = new H();
-    ResetButton button = 
-      new ResetButton(SafeHtmlUtils.fromSafeConstant(html), handler);
-    
+    ResetButton button = new ResetButton(SafeHtmlUtils.fromSafeConstant(html), handler);
+
     assertEquals(html, button.getHTML().toLowerCase(Locale.ROOT));
   }
 }

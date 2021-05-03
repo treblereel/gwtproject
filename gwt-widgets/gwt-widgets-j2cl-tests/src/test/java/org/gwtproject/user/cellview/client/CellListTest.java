@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -16,6 +16,8 @@
 package org.gwtproject.user.cellview.client;
 
 import com.google.j2cl.junit.apt.J2clTestInput;
+import java.util.ArrayList;
+import java.util.List;
 import org.gwtproject.cell.client.Cell;
 import org.gwtproject.cell.client.TextCell;
 import org.gwtproject.dom.client.Document;
@@ -29,12 +31,7 @@ import org.gwtproject.user.client.ui.RootPanel;
 import org.gwtproject.view.client.ProvidesKey;
 import org.gwtproject.view.client.SingleSelectionModel;
 
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Tests for {@link CellList}.
- */
+/** Tests for {@link CellList}. */
 @J2clTestInput(CellListTest.class)
 public class CellListTest extends AbstractHasDataTestBase {
 
@@ -54,8 +51,7 @@ public class CellListTest extends AbstractHasDataTestBase {
     list.getPresenter().flush();
 
     // Trigger an event at index 5.
-    NativeEvent event = Document.get().createClickEvent(0, 0, 0, 0, 0, false,
-        false, false, false);
+    NativeEvent event = Document.get().createClickEvent(0, 0, 0, 0, 0, false, false, false, false);
     list.getRowElement(5).dispatchEvent(event);
     cell.assertLastBrowserEventIndex(5);
     cell.assertLastEditingIndex(5);
@@ -63,42 +59,40 @@ public class CellListTest extends AbstractHasDataTestBase {
     RootPanel.get().remove(list);
   }
 
-  /**
-   * Test that the correct values are sent to the Cell to be rendered.
-   */
+  /** Test that the correct values are sent to the Cell to be rendered. */
   public void testRenderWithKeyProvider() {
     // Create a cell that verifies the render args.
     final List<String> rendered = new ArrayList<String>();
-    final Cell<String> cell = new TextCell() {
-      @Override
-      public void render(Context context, SafeHtml data, SafeHtmlBuilder sb) {
-        int call = rendered.size();
-        rendered.add(data.asString());
-        assertTrue("render() called more than ten times", rendered.size() < 11);
+    final Cell<String> cell =
+        new TextCell() {
+          @Override
+          public void render(Context context, SafeHtml data, SafeHtmlBuilder sb) {
+            int call = rendered.size();
+            rendered.add(data.asString());
+            assertTrue("render() called more than ten times", rendered.size() < 11);
 
-        Object key = context.getKey();
-        assertEquals("test " + call, data.asString());
-        assertTrue(key instanceof Integer);
-        assertEquals(call, key);
-      }
-    };
+            Object key = context.getKey();
+            assertEquals("test " + call, data.asString());
+            assertTrue(key instanceof Integer);
+            assertEquals(call, key);
+          }
+        };
 
     // Create a model with only one level, and three values at that level.
-    ProvidesKey<String> keyProvider = new ProvidesKey<String>() {
-      @Override
-      public Object getKey(String item) {
-        return Integer.parseInt(item.substring(5));
-      }
-    };
+    ProvidesKey<String> keyProvider =
+        new ProvidesKey<String>() {
+          @Override
+          public Object getKey(String item) {
+            return Integer.parseInt(item.substring(5));
+          }
+        };
     CellList<String> cellList = new CellList<String>(cell, keyProvider);
     cellList.setRowData(createData(0, 10));
     cellList.getPresenter().flush();
     assertEquals(10, rendered.size());
   }
 
-  /**
-   * Test that clicking on the first item selects the item.
-   */
+  /** Test that clicking on the first item selects the item. */
   public void testSelectFirstItem() {
     IndexCell<String> cell = new IndexCell<String>();
     AbstractHasData<String> display = createAbstractHasData(cell);
@@ -126,7 +120,6 @@ public class CellListTest extends AbstractHasDataTestBase {
     // Cleanup.
     RootPanel.get().remove(display);
   }
-
 
   public void testSetEmptyListWidget() {
     CellList<String> cellList = createAbstractHasData(new TextCell());

@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -17,15 +17,11 @@ package org.gwtproject.user.client.ui;
 
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
-import junit.framework.TestCase;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * Demonstrates that IsWidget and related interfaces can be used in JRE tests.
- */
+/** Demonstrates that IsWidget and related interfaces can be used in JRE tests. */
 @J2clTestInput(IsWidgetTest.class)
 public class IsWidgetTest extends GWTTestCase {
 
@@ -52,7 +48,7 @@ public class IsWidgetTest extends GWTTestCase {
 
   static class MockPanel implements HasWidgets.ForIsWidget {
     List<IsWidget> children = new ArrayList<IsWidget>();
-    
+
     @Override
     public void add(Widget w) {
       throw new UnsupportedOperationException();
@@ -98,13 +94,13 @@ public class IsWidgetTest extends GWTTestCase {
     MockDisplay simple = new MockDisplay();
     simple.setWidget(view);
     assertSame(view, simple.w);
-    
+
     SomeViewMock view2 = new SomeViewMock();
     MockPanel panel = new MockPanel();
-    
+
     panel.add(view);
     panel.add(view2);
-    
+
     panel.clear();
     assertTrue(panel.children.isEmpty());
   }

@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.cellview.client;
 
+import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.cell.client.AbstractEditableCell;
 import org.gwtproject.cell.client.Cell.Context;
@@ -24,21 +25,15 @@ import org.gwtproject.cell.client.ValueUpdater;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.NativeEvent;
-import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.safehtml.shared.SafeHtmlBuilder;
 import org.gwtproject.timer.client.Timer;
 
-/**
- * Tests for {@link Column}.
- */
+/** Tests for {@link Column}. */
 @J2clTestInput(ColumnTest.class)
 public class ColumnTest extends GWTTestCase {
 
-  /**
-   * A mock cell used for testing.
-   */
-  private static class MockEditableCell extends
-      AbstractEditableCell<String, String> {
+  /** A mock cell used for testing. */
+  private static class MockEditableCell extends AbstractEditableCell<String, String> {
 
     MockEditableCell() {
       super();
@@ -99,36 +94,39 @@ public class ColumnTest extends GWTTestCase {
     return "org.gwtproject.user.cellview.CellView";
   }
 
-  /**
-   * Test that a cell can hold onto the {@link ValueUpdater} and update it
-   * later.
-   */
+  /** Test that a cell can hold onto the {@link ValueUpdater} and update it later. */
   public void testDelayedValueUpdaer() {
     final Element theElem = Document.get().createDivElement();
-    final NativeEvent theEvent = Document.get().createClickEvent(0, 0, 0, 0, 0,
-        false, false, false, false);
-    final MockEditableCell cell = new MockEditableCell() {
-      @Override
-      public void onBrowserEvent(Context context, Element parent, String value,
-          NativeEvent event, final ValueUpdater<String> valueUpdater) {
-        setViewData("test", "newViewData");
-        new Timer() {
+    final NativeEvent theEvent =
+        Document.get().createClickEvent(0, 0, 0, 0, 0, false, false, false, false);
+    final MockEditableCell cell =
+        new MockEditableCell() {
           @Override
-          public void run() {
-            valueUpdater.update("newValue");
+          public void onBrowserEvent(
+              Context context,
+              Element parent,
+              String value,
+              NativeEvent event,
+              final ValueUpdater<String> valueUpdater) {
+            setViewData("test", "newViewData");
+            new Timer() {
+              @Override
+              public void run() {
+                valueUpdater.update("newValue");
+              }
+            }.schedule(200);
           }
-        }.schedule(200);
-      }
-    };
+        };
     final Column<String, String> column = new IdentityColumn<>(cell);
-    final MockFieldUpdater<String, String> fieldUpdater = new MockFieldUpdater<String, String>() {
-      @Override
-      public void update(int index, String object, String value) {
-        assertEquals("newViewData", cell.getViewData("test"));
-        super.update(index, object, value);
-        finishTest();
-      }
-    };
+    final MockFieldUpdater<String, String> fieldUpdater =
+        new MockFieldUpdater<String, String>() {
+          @Override
+          public void update(int index, String object, String value) {
+            assertEquals("newViewData", cell.getViewData("test"));
+            super.update(index, object, value);
+            finishTest();
+          }
+        };
     column.setFieldUpdater(fieldUpdater);
 
     // Fire the event to the cell.
@@ -146,30 +144,36 @@ public class ColumnTest extends GWTTestCase {
 
   public void testOnBrowserEventWithFieldUpdater() {
     final Element theElem = Document.get().createDivElement();
-    final NativeEvent theEvent = Document.get().createClickEvent(0, 0, 0, 0, 0,
-        false, false, false, false);
-    final MockEditableCell cell = new MockEditableCell() {
-      @Override
-      public void onBrowserEvent(Context context, Element parent, String value,
-          NativeEvent event, ValueUpdater<String> valueUpdater) {
-        assertEquals(theElem, parent);
-        assertEquals("test", value);
-        assertEquals("oldViewData", getViewData("test"));
-        assertEquals(theEvent, event);
-        assertNotNull(valueUpdater);
-        setViewData("test", "newViewData");
-        valueUpdater.update("newValue");
-      }
-    };
+    final NativeEvent theEvent =
+        Document.get().createClickEvent(0, 0, 0, 0, 0, false, false, false, false);
+    final MockEditableCell cell =
+        new MockEditableCell() {
+          @Override
+          public void onBrowserEvent(
+              Context context,
+              Element parent,
+              String value,
+              NativeEvent event,
+              ValueUpdater<String> valueUpdater) {
+            assertEquals(theElem, parent);
+            assertEquals("test", value);
+            assertEquals("oldViewData", getViewData("test"));
+            assertEquals(theEvent, event);
+            assertNotNull(valueUpdater);
+            setViewData("test", "newViewData");
+            valueUpdater.update("newValue");
+          }
+        };
     final Column<String, String> column = new IdentityColumn<String>(cell);
-    final MockFieldUpdater<String, String> fieldUpdater = new MockFieldUpdater<String, String>() {
-      @Override
-      public void update(int index, String object, String value) {
-        // The new view data should already be set.
-        assertEquals("newViewData", cell.getViewData("test"));
-        super.update(index, object, value);
-      }
-    };
+    final MockFieldUpdater<String, String> fieldUpdater =
+        new MockFieldUpdater<String, String>() {
+          @Override
+          public void update(int index, String object, String value) {
+            // The new view data should already be set.
+            assertEquals("newViewData", cell.getViewData("test"));
+            super.update(index, object, value);
+          }
+        };
     column.setFieldUpdater(fieldUpdater);
 
     cell.setViewData("test", "oldViewData");
@@ -184,20 +188,25 @@ public class ColumnTest extends GWTTestCase {
 
   public void testOnBrowserEventWithoutFieldUpdater() {
     final Element theElem = Document.get().createDivElement();
-    final NativeEvent theEvent = Document.get().createClickEvent(0, 0, 0, 0, 0,
-        false, false, false, false);
-    final MockEditableCell cell = new MockEditableCell() {
-      @Override
-      public void onBrowserEvent(Context context, Element parent, String value,
-          NativeEvent event, ValueUpdater<String> valueUpdater) {
-        assertEquals(theElem, parent);
-        assertEquals("test", value);
-        assertEquals("oldViewData", getViewData("test"));
-        assertEquals(theEvent, event);
-        assertNull(valueUpdater);
-        setViewData("test", "newViewData");
-      }
-    };
+    final NativeEvent theEvent =
+        Document.get().createClickEvent(0, 0, 0, 0, 0, false, false, false, false);
+    final MockEditableCell cell =
+        new MockEditableCell() {
+          @Override
+          public void onBrowserEvent(
+              Context context,
+              Element parent,
+              String value,
+              NativeEvent event,
+              ValueUpdater<String> valueUpdater) {
+            assertEquals(theElem, parent);
+            assertEquals("test", value);
+            assertEquals("oldViewData", getViewData("test"));
+            assertEquals(theEvent, event);
+            assertNull(valueUpdater);
+            setViewData("test", "newViewData");
+          }
+        };
     Column<String, String> column = new IdentityColumn<String>(cell);
 
     cell.setViewData("test", "oldViewData");

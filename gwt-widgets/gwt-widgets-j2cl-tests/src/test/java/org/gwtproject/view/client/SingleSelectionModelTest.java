@@ -16,20 +16,17 @@
 package org.gwtproject.view.client;
 
 import com.google.j2cl.junit.apt.J2clTestInput;
+import java.util.Locale;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.timer.client.Timer;
 
-import java.util.Locale;
-
-/**
- * Tests for {@link SingleSelectionModel}.
- */
+/** Tests for {@link SingleSelectionModel}. */
 @J2clTestInput(SingleSelectionModelTest.class)
 public class SingleSelectionModelTest extends AbstractSelectionModelTest {
 
   /**
-   * Test that deselecting a value other than the pending selection does not
-   * cause the pending selection to be lost.
+   * Test that deselecting a value other than the pending selection does not cause the pending
+   * selection to be lost.
    */
   public void testDeselectWhileSelectionPending() {
     SingleSelectionModel<String> model = createSelectionModel(null);
@@ -71,14 +68,15 @@ public class SingleSelectionModelTest extends AbstractSelectionModelTest {
     // selection events fire at the end of current event loop (finally command)
     handler.assertEventFired(false);
 
-    Scheduler.get().scheduleDeferred(() -> {
-      handler.assertEventFired(true);
-      // No further selection events should be fired
-      model.addSelectionChangeHandler(new FailingSelectionChangeEventHandler());
-      model.setSelected("test", true);
-      model.setSelected("test", true);
-    });
-
+    Scheduler.get()
+        .scheduleDeferred(
+            () -> {
+              handler.assertEventFired(true);
+              // No further selection events should be fired
+              model.addSelectionChangeHandler(new FailingSelectionChangeEventHandler());
+              model.setSelected("test", true);
+              model.setSelected("test", true);
+            });
 
     new Timer() {
       @Override

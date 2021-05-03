@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,18 +15,15 @@
  */
 package org.gwtproject.user.client.ui;
 
-import com.google.j2cl.junit.apt.J2clTestInput;
-import org.gwtproject.dom.client.SelectElement;
 import com.google.gwt.junit.client.GWTTestCase;
+import com.google.j2cl.junit.apt.J2clTestInput;
+import java.util.Arrays;
+import org.gwtproject.dom.client.SelectElement;
 import org.gwtproject.text.shared.AbstractRenderer;
 import org.gwtproject.view.client.ProvidesKey;
 import org.gwtproject.view.client.SimpleKeyProvider;
 
-import java.util.Arrays;
-
-/**
- * Eponymous unit test.
- */
+/** Eponymous unit test. */
 @J2clTestInput(ValueListBoxTest.class)
 public class ValueListBoxTest extends GWTTestCase {
 
@@ -77,10 +74,10 @@ public class ValueListBoxTest extends GWTTestCase {
     assertFalse(subject.isEnabled());
   }
 
-  public void xx_testExtraValueSet() {  // TODO(rjrjr) Strange failures on firefox
+  public void xx_testExtraValueSet() { // TODO(rjrjr) Strange failures on firefox
     Foo[] values = new Foo[] {new Foo("able"), new Foo("baker")};
     Foo baz = new Foo("baz");
-    
+
     subject.setAcceptableValues(Arrays.asList(values));
     assertEquals(2, getSelect().getLength());
 
@@ -91,14 +88,14 @@ public class ValueListBoxTest extends GWTTestCase {
 
   public void testNakedSet() {
     assertNull(subject.getValue());
-    
+
     SelectElement elm = getSelect();
     assertEquals(0, elm.getLength());
 
     Foo barFoo = new Foo("bar");
 
     setAndCheck(barFoo);
-    
+
     assertEquals(1, elm.getLength());
     assertEquals(renderer.render(barFoo), elm.getValue());
   }
@@ -118,11 +115,11 @@ public class ValueListBoxTest extends GWTTestCase {
 
   public void xx_testNormalSetWithKeyProvider() { // TODO(rjrjr) Strange failures on firefox
     gwtTearDown(); // Tear down the usual test subject
-    
+
     KeyProvider keyProvider = new KeyProvider();
     subject = new ValueListBox<Foo>(renderer, keyProvider);
     RootPanel.get().add(subject);
-    
+
     Foo[] byReference = new Foo[] {new Foo("able"), new Foo("baker")};
     subject.setAcceptableValues(Arrays.asList(byReference));
     Foo[] byValue = new Foo[] {new Foo("able"), new Foo("baker")};
@@ -150,10 +147,11 @@ public class ValueListBoxTest extends GWTTestCase {
   protected void gwtTearDown() {
     RootPanel.get().remove(subject);
   }
-  
+
   private SelectElement getSelect() {
     return subject.getWidget().getElement().cast();
   }
+
   private void setAndCheck(Foo value) {
     setAndCheck(value, new SimpleKeyProvider<Foo>());
   }

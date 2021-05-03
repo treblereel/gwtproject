@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -16,27 +16,21 @@
 package org.gwtproject.user.client.ui;
 
 import com.google.j2cl.junit.apt.J2clTestInput;
+import java.util.ArrayList;
+import java.util.List;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.event.logical.shared.ResizeEvent;
 import org.gwtproject.event.logical.shared.ResizeHandler;
-import org.gwtproject.user.client.Command;
 import org.gwtproject.timer.client.Timer;
+import org.gwtproject.user.client.Command;
 
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Tests for {@link ResizeLayoutPanel}.
- */
+/** Tests for {@link ResizeLayoutPanel}. */
 @J2clTestInput(ResizeLayoutPanelTest.class)
-public class ResizeLayoutPanelTest extends
-    SimplePanelTestBase<ResizeLayoutPanel> {
+public class ResizeLayoutPanelTest extends SimplePanelTestBase<ResizeLayoutPanel> {
 
-  /**
-   * A custom implementation of {@link ResizeHandler} used for testing.
-   */
+  /** A custom implementation of {@link ResizeHandler} used for testing. */
   private static class CustomResizeHandler implements ResizeHandler {
 
     private boolean resizeFired;
@@ -58,9 +52,7 @@ public class ResizeLayoutPanelTest extends
     return "org.gwtproject.user.Widgets";
   }
 
-  /**
-   * Test that a resize event is fired on attach.
-   */
+  /** Test that a resize event is fired on attach. */
   public void testAttach() {
     final ResizeLayoutPanel panel = createPanel();
     panel.setWidget(new Label("hello world"));
@@ -70,19 +62,19 @@ public class ResizeLayoutPanelTest extends
 
     delayTestFinish(10000);
     RootPanel.get().add(panel);
-    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-      @Override
-      public void execute() {
-        handler.assertResizeFired(true);
-        panel.removeFromParent();
-        finishTest();
-      }
-    });
+    Scheduler.get()
+        .scheduleDeferred(
+            new ScheduledCommand() {
+              @Override
+              public void execute() {
+                handler.assertResizeFired(true);
+                panel.removeFromParent();
+                finishTest();
+              }
+            });
   }
 
-  /**
-   * Test that changing the font size triggers a resize event.
-   */
+  /** Test that changing the font size triggers a resize event. */
   public void testChangeFontSize() {
     // Create a panel and add a handler.
     ResizeLayoutPanel panel = createPanel();
@@ -103,162 +95,175 @@ public class ResizeLayoutPanelTest extends
 
     // Wait for the resize event from attaching.
     delayTestFinish(10000);
-    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-      @Override
-      public void execute() {
-        handler.assertResizeFired(true); // Triggered by attach.
-        handler.assertResizeFired(false);
+    Scheduler.get()
+        .scheduleDeferred(
+            new ScheduledCommand() {
+              @Override
+              public void execute() {
+                handler.assertResizeFired(true); // Triggered by attach.
+                handler.assertResizeFired(false);
 
-        // Change the font size.
-        container.getElement().getStyle().setFontSize(12, Unit.PT);
-        new Timer() {
-          @Override
-          public void run() {
-            handler.assertResizeFired(true);
-            container.removeFromParent();
-            finishTest();
-          }
-        }.schedule(250);
-      }
-    });
+                // Change the font size.
+                container.getElement().getStyle().setFontSize(12, Unit.PT);
+                new Timer() {
+                  @Override
+                  public void run() {
+                    handler.assertResizeFired(true);
+                    container.removeFromParent();
+                    finishTest();
+                  }
+                }.schedule(250);
+              }
+            });
   }
 
-  /**
-   * Test that resizing the outer container triggers a resize event.
-   */
+  /** Test that resizing the outer container triggers a resize event. */
   public void testEnlargeContainerHeight() {
     final SimplePanel container = new SimplePanel();
     container.setPixelSize(100, 100);
-    testResizeContainer(container, new Command() {
-      @Override
-      public void execute() {
-        container.setHeight("101px");
-      }
-    });
+    testResizeContainer(
+        container,
+        new Command() {
+          @Override
+          public void execute() {
+            container.setHeight("101px");
+          }
+        });
   }
 
-  /**
-   * Test that resizing the outer container triggers a resize event.
-   */
+  /** Test that resizing the outer container triggers a resize event. */
   public void testEnlargeContainerWidth() {
     final SimplePanel container = new SimplePanel();
     container.setPixelSize(100, 100);
-    testResizeContainer(container, new Command() {
-      @Override
-      public void execute() {
-        container.setWidth("101px");
-      }
-    });
+    testResizeContainer(
+        container,
+        new Command() {
+          @Override
+          public void execute() {
+            container.setWidth("101px");
+          }
+        });
   }
 
   /**
-   * Test that resizing the outer container triggers a resize event even if the
-   * dimensions are too small to render a scrollbar.
+   * Test that resizing the outer container triggers a resize event even if the dimensions are too
+   * small to render a scrollbar.
    */
   public void testEnlargeSmallContainerHeight() {
     final SimplePanel container = new SimplePanel();
     container.setPixelSize(20, 20);
-    testResizeContainer(container, new Command() {
-      @Override
-      public void execute() {
-        container.setHeight("21px");
-      }
-    });
+    testResizeContainer(
+        container,
+        new Command() {
+          @Override
+          public void execute() {
+            container.setHeight("21px");
+          }
+        });
   }
 
   /**
-   * Test that resizing the outer container triggers a resize event even if the
-   * dimensions are too small to render a scrollbar.
+   * Test that resizing the outer container triggers a resize event even if the dimensions are too
+   * small to render a scrollbar.
    */
   public void testEnlargeSmallContainerWidth() {
     final SimplePanel container = new SimplePanel();
     container.setPixelSize(20, 20);
-    testResizeContainer(container, new Command() {
-      @Override
-      public void execute() {
-        container.setWidth("21px");
-      }
-    });
+    testResizeContainer(
+        container,
+        new Command() {
+          @Override
+          public void execute() {
+            container.setWidth("21px");
+          }
+        });
   }
 
   public void testProvidesResize() {
     final List<String> resized = new ArrayList<String>();
     ResizeLayoutPanel panel = createPanel();
-    panel.setWidget(new LayoutPanel() {
-      @Override
-      public void onResize() {
-        super.onResize();
-        resized.add("resized");
-      }
-    });
+    panel.setWidget(
+        new LayoutPanel() {
+          @Override
+          public void onResize() {
+            super.onResize();
+            resized.add("resized");
+          }
+        });
 
     delayTestFinish(10000);
     RootPanel.get().add(panel);
-    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-      @Override
-      public void execute() {
-        assertEquals(1, resized.size());
-        finishTest();
-      }
-    });
+    Scheduler.get()
+        .scheduleDeferred(
+            new ScheduledCommand() {
+              @Override
+              public void execute() {
+                assertEquals(1, resized.size());
+                finishTest();
+              }
+            });
   }
 
-  /**
-   * Test that resizing the outer container triggers a resize event.
-   */
+  /** Test that resizing the outer container triggers a resize event. */
   public void testShrinkContainerHeight() {
     final SimplePanel container = new SimplePanel();
     container.setPixelSize(100, 100);
-    testResizeContainer(container, new Command() {
-      @Override
-      public void execute() {
-        container.setHeight("99px");
-      }
-    });
+    testResizeContainer(
+        container,
+        new Command() {
+          @Override
+          public void execute() {
+            container.setHeight("99px");
+          }
+        });
   }
 
-  /**
-   * Test that resizing the outer container triggers a resize event.
-   */
+  /** Test that resizing the outer container triggers a resize event. */
   public void testShrinkContainerWidth() {
     final SimplePanel container = new SimplePanel();
     container.setPixelSize(100, 100);
-    testResizeContainer(container, new Command() {
-      @Override
-      public void execute() {
-        container.setWidth("99px");
-      }
-    });
+    testResizeContainer(
+        container,
+        new Command() {
+          @Override
+          public void execute() {
+            container.setWidth("99px");
+          }
+        });
   }
 
   /**
-   * Test that resizing the outer container triggers a resize event even if the
-   * dimensions are too small to render a scrollbar.
+   * Test that resizing the outer container triggers a resize event even if the dimensions are too
+   * small to render a scrollbar.
    */
   public void testShrinkSmallContainerHeight() {
     final SimplePanel container = new SimplePanel();
     container.setPixelSize(21, 21);
-    testResizeContainer(container, new Command() {
-      @Override
-      public void execute() {
-        container.setHeight("20px");
-      }
-    });
+    testResizeContainer(
+        container,
+        new Command() {
+          @Override
+          public void execute() {
+            container.setHeight("20px");
+          }
+        });
   }
 
   /**
-   * Test that resizing the outer container triggers a resize event even if the
-   * dimensions are too small to render a scrollbar.
+   * Test that resizing the outer container triggers a resize event even if the dimensions are too
+   * small to render a scrollbar.
    */
   public void testShrinkSmallContainerWidth() {
     final SimplePanel container = new SimplePanel();
     container.setPixelSize(21, 21);
-    testResizeContainer(container, new Command() {
-      @Override
-      public void execute() {
-        container.setWidth("20px");
-      }
-    });
+    testResizeContainer(
+        container,
+        new Command() {
+          @Override
+          public void execute() {
+            container.setWidth("20px");
+          }
+        });
   }
 
   @Override
@@ -268,12 +273,11 @@ public class ResizeLayoutPanelTest extends
 
   /**
    * Test that resizing the outer container triggers a resize event.
-   * 
+   *
    * @param container the container that will hold the panel
    * @param resizeCommand the command that resizes the container
    */
-  private void testResizeContainer(final SimplePanel container,
-      final Command resizeCommand) {
+  private void testResizeContainer(final SimplePanel container, final Command resizeCommand) {
     // Create a panel and add a handler.
     ResizeLayoutPanel panel = createPanel();
     panel.setWidget(new Label("hello world"));
@@ -289,22 +293,24 @@ public class ResizeLayoutPanelTest extends
 
     // Wait for the resize event from attaching.
     delayTestFinish(10000);
-    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-      @Override
-      public void execute() {
-        handler.assertResizeFired(true); // Triggered by attach.
+    Scheduler.get()
+        .scheduleDeferred(
+            new ScheduledCommand() {
+              @Override
+              public void execute() {
+                handler.assertResizeFired(true); // Triggered by attach.
 
-        // Change the size of the container.
-        resizeCommand.execute();
-        new Timer() {
-          @Override
-          public void run() {
-            handler.assertResizeFired(true);
-            container.removeFromParent();
-            finishTest();
-          }
-        }.schedule(250);
-      }
-    });
+                // Change the size of the container.
+                resizeCommand.execute();
+                new Timer() {
+                  @Override
+                  public void run() {
+                    handler.assertResizeFired(true);
+                    container.removeFromParent();
+                    finishTest();
+                  }
+                }.schedule(250);
+              }
+            });
   }
 }

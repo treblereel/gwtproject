@@ -15,15 +15,12 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.event.logical.shared.ValueChangeEvent;
 import org.gwtproject.event.logical.shared.ValueChangeHandler;
 import org.gwtproject.i18n.client.HasDirection.Direction;
-import com.google.gwt.junit.client.GWTTestCase;
 
-/**
- * Abstract base test for {@link TextBox}, {@link TextArea}, and
- * {@link PasswordTextBox}.
- */
+/** Abstract base test for {@link TextBox}, {@link TextArea}, and {@link PasswordTextBox}. */
 public abstract class TextBoxBaseTestBase extends GWTTestCase {
 
   private static class Handler implements ValueChangeHandler<String> {
@@ -35,9 +32,7 @@ public abstract class TextBoxBaseTestBase extends GWTTestCase {
     }
   }
 
-  /**
-   * Tests various text selection methods in text area.
-   */
+  /** Tests various text selection methods in text area. */
   public void disabledTestSelection() {
     TextBoxBase area = createTextBoxBase();
     assertEquals("", area.getSelectedText());
@@ -80,9 +75,7 @@ public abstract class TextBoxBaseTestBase extends GWTTestCase {
     return "org.gwtproject.user.Widgets";
   }
 
-  /**
-   * Tests that auto-dir works correctly.
-   */
+  /** Tests that auto-dir works correctly. */
   public void testAutoDir() {
     TextBoxBase tb = createTextBoxBase();
     String rtlText = "\u05e0\u05e1";
@@ -111,10 +104,7 @@ public abstract class TextBoxBaseTestBase extends GWTTestCase {
         tb.getDirection());
   }
 
-  /**
-   * Tests that {@link TextArea#setCursorPos(int)} updates the cursor position
-   * correctly.
-   */
+  /** Tests that {@link TextArea#setCursorPos(int)} updates the cursor position correctly. */
   public void testMovingCursor() {
     TextBoxBase area = createTextBoxBase();
     RootPanel.get().add(area);
@@ -125,20 +115,14 @@ public abstract class TextBoxBaseTestBase extends GWTTestCase {
     }
   }
 
-  /**
-   * Tests that {@link TextArea#setText(String)} appropriately converts nulls to
-   * empty strings.
-   */
+  /** Tests that {@link TextArea#setText(String)} appropriately converts nulls to empty strings. */
   public void testNullMeansEmptyString() {
     TextBoxBase area = createTextBoxBase();
     area.setText(null);
-    assertEquals("setText(null) should result in empty string", "",
-        area.getText());
+    assertEquals("setText(null) should result in empty string", "", area.getText());
   }
 
-  /**
-   * Failed in all modes due to HtmlUnit bug.
-   */
+  /** Failed in all modes due to HtmlUnit bug. */
   public void testValueChangeEvent() {
     TextBoxBase tb = createTextBoxBase();
     // To work cross-platform, the tb must be added to the root panel.

@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -25,15 +25,13 @@ import org.gwtproject.view.client.SelectionModel;
 import org.gwtproject.view.client.SingleSelectionModel;
 import org.gwtproject.view.client.TreeViewModel;
 
-/**
- * Tests for {@link CellBrowser}.
- */
+/** Tests for {@link CellBrowser}. */
 @J2clTestInput(CellBrowserTest.class)
 public class CellBrowserTest extends AbstractCellTreeTestBase {
 
   /**
-   * A {@link TreeViewModel} used for testing. Every other top level node is a
-   * leaf node. The 0th top level node has children.
+   * A {@link TreeViewModel} used for testing. Every other top level node is a leaf node. The 0th
+   * top level node has children.
    */
   protected class MixedTreeViewModel implements TreeViewModel {
 
@@ -88,8 +86,8 @@ public class CellBrowserTest extends AbstractCellTreeTestBase {
   }
 
   /**
-   * Test that the CellBrowser correctly updates a shared SelectionModel if it
-   * is bound to selection.
+   * Test that the CellBrowser correctly updates a shared SelectionModel if it is bound to
+   * selection.
    */
   public void testBoundToSharedSelectionModel() {
     SingleSelectionModel<Object> selectionModel = new SingleSelectionModel<Object>();
@@ -138,9 +136,7 @@ public class CellBrowserTest extends AbstractCellTreeTestBase {
     assertTrue(selectionModel.isSelected(4));
   }
 
-  /**
-   * Verify that closing a leaf node sets the focused key to null.
-   */
+  /** Verify that closing a leaf node sets the focused key to null. */
   public void testCloseLeafNode() {
     CellBrowser browser = new CellBrowser(new MixedTreeViewModel(), null);
     TreeNode rootNode = browser.getRootTreeNode();
@@ -158,9 +154,7 @@ public class CellBrowserTest extends AbstractCellTreeTestBase {
     assertFalse(browser.treeNodes.get(0).isFocusedOpen());
   }
 
-  /**
-   * Verify that opening a leaf node closes other open nodes.
-   */
+  /** Verify that opening a leaf node closes other open nodes. */
   public void testOpenLeafNode() {
     CellBrowser browser = new CellBrowser(new MixedTreeViewModel(), null);
     TreeNode rootNode = browser.getRootTreeNode();
@@ -192,9 +186,8 @@ public class CellBrowserTest extends AbstractCellTreeTestBase {
   }
 
   /**
-   * Test that even when keyboard selection is bound to the selection model, we
-   * do not automatically select items in child lists until the child list is
-   * actually touched.
+   * Test that even when keyboard selection is bound to the selection model, we do not automatically
+   * select items in child lists until the child list is actually touched.
    */
   public void testSetKeyboardSelectionPolicyBound() {
     CellBrowser browser = (CellBrowser) tree;

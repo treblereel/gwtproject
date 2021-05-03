@@ -16,15 +16,10 @@
 package org.gwtproject.cell.client;
 
 import com.google.j2cl.junit.apt.J2clTestInput;
-import org.gwtproject.i18n.client.DateTimeFormat;
-import org.gwtproject.i18n.client.TimeZone;
+import java.util.Date;
 import org.junit.Ignore;
 
-import java.util.Date;
-
-/**
- * Tests for {@link org.gwtproject.cell.client.DateCell}.
- */
+/** Tests for {@link org.gwtproject.cell.client.DateCell}. */
 @Ignore
 @J2clTestInput(DateCellTest.class)
 public class DateCellTest extends CellTestBase<Date> {
@@ -34,8 +29,8 @@ public class DateCellTest extends CellTestBase<Date> {
 
     throw new NullPointerException();
     // Set format that shows all fields and timezone of GMT-7
-/*    return new DateCell(DateTimeFormat.getFormat("dd-MM-yyyy HH:mm:ss"),
-        TimeZone.createTimeZoneInMinutes(7 * 60));*/
+    /*    return new DateCell(DateTimeFormat.getFormat("dd-MM-yyyy HH:mm:ss"),
+    TimeZone.createTimeZoneInMinutes(7 * 60));*/
   }
 
   @Override
@@ -58,7 +53,7 @@ public class DateCellTest extends CellTestBase<Date> {
 
   @Override
   protected String getExpectedInnerHtml() {
-    return "01-01-1970 03:00:00";  // 10 - 7 == 3
+    return "01-01-1970 03:00:00"; // 10 - 7 == 3
   }
 
   @Override

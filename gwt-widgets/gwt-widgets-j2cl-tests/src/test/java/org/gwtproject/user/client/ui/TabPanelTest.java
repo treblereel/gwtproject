@@ -15,20 +15,17 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
+import java.util.Iterator;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.event.logical.shared.BeforeSelectionEvent;
 import org.gwtproject.event.logical.shared.BeforeSelectionHandler;
 import org.gwtproject.event.logical.shared.SelectionEvent;
 import org.gwtproject.event.logical.shared.SelectionHandler;
-import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.user.client.DOM;
 
-import java.util.Iterator;
-
-/**
- * Tests the TabPanel.
- */
+/** Tests the TabPanel. */
 @J2clTestInput(TabPanelTest.class)
 public class TabPanelTest extends GWTTestCase {
 
@@ -39,8 +36,8 @@ public class TabPanelTest extends GWTTestCase {
     }
   }
 
-  private class TestSelectionHandler implements
-      BeforeSelectionHandler<Integer>, SelectionHandler<Integer> {
+  private class TestSelectionHandler
+      implements BeforeSelectionHandler<Integer>, SelectionHandler<Integer> {
     private boolean onBeforeSelectionFired;
     private boolean onSelectionFired;
 
@@ -70,10 +67,7 @@ public class TabPanelTest extends GWTTestCase {
     return "org.gwtproject.user.DebugTest";
   }
 
-  /**
-   * Test that methods associated with animations delegate to the
-   * {@link DeckPanel}.
-   */
+  /** Test that methods associated with animations delegate to the {@link DeckPanel}. */
   public void testAnimationDelegation() {
     TabPanel tabPanel = createTabPanel();
     DeckPanel deck = tabPanel.getDeckPanel();
@@ -111,20 +105,16 @@ public class TabPanelTest extends GWTTestCase {
     panel.ensureDebugId("myPanel");
     UIObjectTest.assertDebugId("myPanel", panel.getElement());
     UIObjectTest.assertDebugId("myPanel-bar", panel.getTabBar().getElement());
-    UIObjectTest.assertDebugId("myPanel-bottom",
-        panel.getDeckPanel().getElement());
+    UIObjectTest.assertDebugId("myPanel-bottom", panel.getDeckPanel().getElement());
 
     // Check the tabs
     HorizontalPanel hPanel = (HorizontalPanel) panel.getTabBar().getWidget();
     Element tr = DOM.getFirstChild(hPanel.getBody());
-    UIObjectTest.assertDebugId("myPanel-bar-tab0",
-        DOM.getParent(tab0.getElement()));
+    UIObjectTest.assertDebugId("myPanel-bar-tab0", DOM.getParent(tab0.getElement()));
     UIObjectTest.assertDebugId("myPanel-bar-tab-wrapper0", DOM.getChild(tr, 1));
-    UIObjectTest.assertDebugId("myPanel-bar-tab1",
-        DOM.getParent(tab1.getElement()));
+    UIObjectTest.assertDebugId("myPanel-bar-tab1", DOM.getParent(tab1.getElement()));
     UIObjectTest.assertDebugId("myPanel-bar-tab-wrapper1", DOM.getChild(tr, 2));
-    UIObjectTest.assertDebugId("myPanel-bar-tab2",
-        DOM.getParent(tab2.getElement()));
+    UIObjectTest.assertDebugId("myPanel-bar-tab2", DOM.getParent(tab2.getElement()));
     UIObjectTest.assertDebugId("myPanel-bar-tab-wrapper2", DOM.getChild(tr, 3));
   }
 
@@ -176,9 +166,7 @@ public class TabPanelTest extends GWTTestCase {
     assertEquals(3, p.getWidgetCount());
   }
 
-  /**
-   * Tests to ensure that arbitrary widgets can be added/inserted effectively.
-   */
+  /** Tests to ensure that arbitrary widgets can be added/inserted effectively. */
   public void testInsertWithWidgets() {
     TabPanel p = createTabPanel();
 
@@ -369,9 +357,7 @@ public class TabPanelTest extends GWTTestCase {
     }
   }
 
-  /**
-   * Create a new, empty tab panel.
-   */
+  /** Create a new, empty tab panel. */
   protected TabPanel createTabPanel() {
     return new TabPanel();
   }

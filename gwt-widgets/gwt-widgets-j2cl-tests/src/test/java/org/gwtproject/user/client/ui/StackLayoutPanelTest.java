@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -16,6 +16,10 @@
 package org.gwtproject.user.client.ui;
 
 import com.google.j2cl.junit.apt.J2clTestInput;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.event.logical.shared.BeforeSelectionEvent;
 import org.gwtproject.event.logical.shared.BeforeSelectionHandler;
@@ -23,14 +27,7 @@ import org.gwtproject.event.logical.shared.SelectionEvent;
 import org.gwtproject.event.logical.shared.SelectionHandler;
 import org.gwtproject.safehtml.shared.SafeHtmlUtils;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-
-/**
- * Tests for {@link StackLayoutPanel}.
- */
+/** Tests for {@link StackLayoutPanel}. */
 @J2clTestInput(StackLayoutPanelTest.class)
 public class StackLayoutPanelTest extends WidgetTestBase {
   static class Adder implements HasWidgetsTester.WidgetAdder {
@@ -42,8 +39,8 @@ public class StackLayoutPanelTest extends WidgetTestBase {
 
   private static final String html = "<b>hello</b><i>world</i>";
 
-  private class TestSelectionHandler implements
-      BeforeSelectionHandler<Integer>, SelectionHandler<Integer> {
+  private class TestSelectionHandler
+      implements BeforeSelectionHandler<Integer>, SelectionHandler<Integer> {
     private boolean onBeforeSelectionFired;
     private boolean onSelectionFired;
 
@@ -68,9 +65,7 @@ public class StackLayoutPanelTest extends WidgetTestBase {
     }
   }
 
-  /**
-   * Tests {@link StackLayoutPanel#add(Widget, String, boolean, double)}.
-   */
+  /** Tests {@link StackLayoutPanel#add(Widget, String, boolean, double)}. */
   public void testAddWithTextHeader() {
     StackLayoutPanel panel = createStackLayoutPanel(Unit.EM);
     Widget widget = new Label("foo");
@@ -80,9 +75,7 @@ public class StackLayoutPanelTest extends WidgetTestBase {
     assertLogicalPaternityOfChild(panel, widget);
   }
 
-  /**
-   * Tests {@link StackLayoutPanel#add(IsWidget, String, boolean, double)}.
-   */
+  /** Tests {@link StackLayoutPanel#add(IsWidget, String, boolean, double)}. */
   public void testAddWithTextHeaderAsIsWidget() {
     StackLayoutPanel panel = createStackLayoutPanel(Unit.EM);
     Widget widget = new Label("foo");
@@ -93,9 +86,7 @@ public class StackLayoutPanelTest extends WidgetTestBase {
     assertLogicalPaternityOfChild(panel, widget);
   }
 
-  /**
-   * Tests {@link StackLayoutPanel#add(Widget, Widget, double)}.
-   */
+  /** Tests {@link StackLayoutPanel#add(Widget, Widget, double)}. */
   public void testAddWithWidgetHeader() {
     StackLayoutPanel panel = createStackLayoutPanel(Unit.EM);
     Widget header = new Label("foo");
@@ -107,9 +98,7 @@ public class StackLayoutPanelTest extends WidgetTestBase {
     assertLogicalPaternityOfHeader(panel, widget, header);
   }
 
-  /**
-   * Tests {@link StackLayoutPanel#add(IsWidget, IsWidget, double)}.
-   */
+  /** Tests {@link StackLayoutPanel#add(IsWidget, IsWidget, double)}. */
   public void testAddWithWidgetHeaderAsIsWidget() {
     StackLayoutPanel panel = createStackLayoutPanel(Unit.EM);
     Widget header = new Label("foo");
@@ -127,8 +116,8 @@ public class StackLayoutPanelTest extends WidgetTestBase {
     panel.add(new HTML("foo"), SafeHtmlUtils.fromSafeConstant(html), 1.0);
 
     assertEquals(1, panel.getWidgetCount());
-    assertEquals(html,
-        panel.getHeaderWidget(0).getElement().getInnerHTML().toLowerCase(Locale.ROOT));
+    assertEquals(
+        html, panel.getHeaderWidget(0).getElement().getInnerHTML().toLowerCase(Locale.ROOT));
   }
 
   public void testAttachDetachOrder() {
@@ -185,8 +174,8 @@ public class StackLayoutPanelTest extends WidgetTestBase {
     panel.insert(new HTML("foo"), SafeHtmlUtils.fromSafeConstant(html), 1.0, 0);
 
     assertEquals(1, panel.getWidgetCount());
-    assertEquals(html,
-        panel.getHeaderWidget(0).getElement().getInnerHTML().toLowerCase(Locale.ROOT));
+    assertEquals(
+        html, panel.getHeaderWidget(0).getElement().getInnerHTML().toLowerCase(Locale.ROOT));
   }
 
   public void testInsertWithHTML() {
@@ -198,9 +187,7 @@ public class StackLayoutPanelTest extends WidgetTestBase {
     assertEquals(3, p.getWidgetCount());
   }
 
-  /**
-   * Tests to ensure that arbitrary widgets can be added/inserted effectively.
-   */
+  /** Tests to ensure that arbitrary widgets can be added/inserted effectively. */
   public void testInsertWithWidgets() {
     StackLayoutPanel p = new StackLayoutPanel(Unit.EM);
 
@@ -221,7 +208,7 @@ public class StackLayoutPanelTest extends WidgetTestBase {
     // Insert before the visible widget.
     p.insert(contentA, wa, 1, 0);
 
-    // Check that the visible widget index has been incremented. 
+    // Check that the visible widget index has been incremented.
     assertEquals(2, p.getVisibleIndex());
 
     // Call these to ensure we don't throw an exception.
@@ -270,7 +257,7 @@ public class StackLayoutPanelTest extends WidgetTestBase {
     p.add(new Label("Content 2"), "Header 2", 1);
     p.showWidget(2);
     assertEquals(2, p.getVisibleIndex());
-    
+
     // Remove a widget before the selected index.
     p.remove(1);
     assertEquals(1, p.getVisibleIndex());
@@ -283,7 +270,7 @@ public class StackLayoutPanelTest extends WidgetTestBase {
     p.add(new Label("Content 2"), "Header 2", 1);
     p.showWidget(1);
     assertEquals(1, p.getVisibleIndex());
-    
+
     // Remove the selected widget.
     p.remove(1);
     assertEquals(0, p.getVisibleIndex());
@@ -331,18 +318,19 @@ public class StackLayoutPanelTest extends WidgetTestBase {
   }
 
   /**
-   * For legacy reasons, {@link StackLayoutPanel#showWidget(Widget)} should call
-   * {@link StackLayoutPanel#showWidget(int)}.
+   * For legacy reasons, {@link StackLayoutPanel#showWidget(Widget)} should call {@link
+   * StackLayoutPanel#showWidget(int)}.
    */
   public void testShowWidgetLegacy() {
     final List<Integer> called = new ArrayList<Integer>();
-    StackLayoutPanel panel = new StackLayoutPanel(Unit.PX) {
-      @Override
-      public void showWidget(int index) {
-        called.add(index);
-        super.showWidget(index);
-      }
-    };
+    StackLayoutPanel panel =
+        new StackLayoutPanel(Unit.PX) {
+          @Override
+          public void showWidget(int index) {
+            called.add(index);
+            super.showWidget(index);
+          }
+        };
     Label stack1 = new Label("Stack 1");
     panel.add(new Label("Stack 0"), "Stack 0", 100);
     panel.add(stack1, "Stack 1", 100);
@@ -387,49 +375,44 @@ public class StackLayoutPanelTest extends WidgetTestBase {
     assertEquals(l2, p.getVisibleWidget());
   }
 
-  /**
-   * Test that forcing layout will call onResize only once.
-   */
+  /** Test that forcing layout will call onResize only once. */
   public void testForceLayoutNoRedundantOnResize() {
     final List<Boolean> called = new ArrayList<>();
     StackLayoutPanel panel = new StackLayoutPanel(Unit.EM);
-    SimpleLayoutPanel child = new SimpleLayoutPanel() {
-      @Override
-      public void onResize() {
-        super.onResize();
-        called.add(true);
-      }
-    };
-    panel.add(child,"foo", 1);
+    SimpleLayoutPanel child =
+        new SimpleLayoutPanel() {
+          @Override
+          public void onResize() {
+            super.onResize();
+            called.add(true);
+          }
+        };
+    panel.add(child, "foo", 1);
     panel.forceLayout();
-    assertEquals(1,called.size());
+    assertEquals(1, called.size());
   }
 
   /**
-   * Asserts that <b>widget</b> is attached to <b>panel</b> as a child in the
-   * logical representation of <b>panel</b>.
-   * 
+   * Asserts that <b>widget</b> is attached to <b>panel</b> as a child in the logical representation
+   * of <b>panel</b>.
+   *
    * @param panel the parent panel
    * @param child a expected child of <b>panel</b>
    */
-  private void assertLogicalPaternityOfChild(StackLayoutPanel panel,
-      Widget child) {
-    assertTrue("The widget should be a child of the panel",
-        panel.getWidgetIndex(child) >= 0);
+  private void assertLogicalPaternityOfChild(StackLayoutPanel panel, Widget child) {
+    assertTrue("The widget should be a child of the panel", panel.getWidgetIndex(child) >= 0);
   }
 
   /**
-   * Asserts that <b>header</b> is attached to <b>panel</b> as a header of
-   * <b>widget</b> in the logical representation of <b>panel</b>.
-   * 
+   * Asserts that <b>header</b> is attached to <b>panel</b> as a header of <b>widget</b> in the
+   * logical representation of <b>panel</b>.
+   *
    * @param panel the parent panel
    * @param child the child whose header is being tested
    * @param header the expected header of <b>child</b>
    */
-  private void assertLogicalPaternityOfHeader(StackLayoutPanel panel,
-      Widget child, Widget header) {
-    assertSame("The header should be attached to the panel.", header,
-        panel.getHeaderWidget(child));
+  private void assertLogicalPaternityOfHeader(StackLayoutPanel panel, Widget child, Widget header) {
+    assertSame("The header should be attached to the panel.", header, panel.getHeaderWidget(child));
   }
 
   private StackLayoutPanel createStackLayoutPanel(Unit unit) {

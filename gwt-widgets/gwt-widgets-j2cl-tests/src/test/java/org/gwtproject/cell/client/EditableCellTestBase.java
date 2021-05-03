@@ -15,7 +15,8 @@
  */
 package org.gwtproject.cell.client;
 
-import elemental2.dom.DomGlobal;
+import static org.gwtproject.cell.client.Cell.*;
+
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.NativeEvent;
@@ -23,8 +24,6 @@ import org.gwtproject.safehtml.shared.SafeHtmlBuilder;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.Event;
 import org.gwtproject.user.client.EventListener;
-
-import static org.gwtproject.cell.client.Cell.*;
 
 /**
  * Base class for testing {@link AbstractEditableCell}s that can be modified.
@@ -34,9 +33,7 @@ import static org.gwtproject.cell.client.Cell.*;
  */
 public abstract class EditableCellTestBase<T, V> extends CellTestBase<T> {
 
-  /**
-   * Test rendering the cell with a valid value and view data.
-   */
+  /** Test rendering the cell with a valid value and view data. */
   public void testRenderViewData() {
     AbstractEditableCell<T, V> cell = createCell();
     T value = createCellValue();
@@ -60,29 +57,31 @@ public abstract class EditableCellTestBase<T, V> extends CellTestBase<T> {
   protected abstract V createCellViewData();
 
   /**
-   * Get the expected inner HTML value of the rendered cell when view data is
-   * present.
+   * Get the expected inner HTML value of the rendered cell when view data is present.
    *
    * @return the expected string
    */
   protected abstract String getExpectedInnerHtmlViewData();
 
   /**
-   * Test
-   * {@link Cell#onBrowserEvent(Element, Object, Object, NativeEvent, ValueUpdater)}
-   * with the specified conditions.
+   * Test {@link Cell#onBrowserEvent(Element, Object, Object, NativeEvent, ValueUpdater)} with the
+   * specified conditions.
    *
    * @param startHtml the innerHTML of the cell before the test starts
    * @param event the event to fire
    * @param value the cell value
    * @param viewData the initial view data
-   * @param expectedValue the expected value passed to the value updater, or
-   *          null if none expected
+   * @param expectedValue the expected value passed to the value updater, or null if none expected
    * @param expectedViewData the expected value of the view data after the event
    * @return the parent element
    */
-  protected Element testOnBrowserEvent(String startHtml, NativeEvent event,
-      final T value, V viewData, T expectedValue, V expectedViewData) {
+  protected Element testOnBrowserEvent(
+      String startHtml,
+      NativeEvent event,
+      final T value,
+      V viewData,
+      T expectedValue,
+      V expectedViewData) {
     // Setup the parent element.
     final Element parent = Document.get().createDivElement();
     parent.setInnerHTML(startHtml);
@@ -96,21 +95,22 @@ public abstract class EditableCellTestBase<T, V> extends CellTestBase<T> {
     final MockValueUpdater valueUpdater = new MockValueUpdater();
     final AbstractEditableCell<T, V> cell = createCell();
     cell.setViewData(DEFAULT_KEY, viewData);
-    Event.setEventListener(parent, new EventListener() {
-      @Override
-      public void onBrowserEvent(Event event) {
-        try {
-          DOM.setEventListener(parent, null);
-          Context context = new Context(0, 0, DEFAULT_KEY);
-          cell.onBrowserEvent(context, parent, value, event, valueUpdater);
-          parent.removeFromParent();
-        } catch (Exception e) {
-          // We are in an event loop, so events may not propagate out to JUnit.
-          fail("An exception occured while handling the event: "
-              + e.getMessage());
-        }
-      }
-    });
+    Event.setEventListener(
+        parent,
+        new EventListener() {
+          @Override
+          public void onBrowserEvent(Event event) {
+            try {
+              DOM.setEventListener(parent, null);
+              Context context = new Context(0, 0, DEFAULT_KEY);
+              cell.onBrowserEvent(context, parent, value, event, valueUpdater);
+              parent.removeFromParent();
+            } catch (Exception e) {
+              // We are in an event loop, so events may not propagate out to JUnit.
+              fail("An exception occured while handling the event: " + e.getMessage());
+            }
+          }
+        });
     Event.sinkEvents(target, Event.getTypeInt(event.getType()));
     target.dispatchEvent(event);
     assertNull(DOM.getEventListener(parent));

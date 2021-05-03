@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -16,22 +16,20 @@
 
 package org.gwtproject.user.client;
 
+import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.event.dom.client.*;
-import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.media.client.Audio;
 import org.gwtproject.media.client.Video;
 import org.gwtproject.user.client.ui.RootPanel;
 import org.gwtproject.user.client.ui.Widget;
 
-/**
- * Test Case for sinking of media events.
- */
+/** Test Case for sinking of media events. */
 @J2clTestInput(MediaEventsSinkTest.class)
 public class MediaEventsSinkTest extends GWTTestCase {
 
-  private static class CanPlayThroughHandlerImpl extends HandlerImpl implements
-      CanPlayThroughHandler {
+  private static class CanPlayThroughHandlerImpl extends HandlerImpl
+      implements CanPlayThroughHandler {
     @Override
     public void onCanPlayThrough(CanPlayThroughEvent event) {
       eventFired();
@@ -66,13 +64,13 @@ public class MediaEventsSinkTest extends GWTTestCase {
 
   /**
    * Interface to create a widget.
-   * 
+   *
    * @param <W> the widget type
    */
   private interface WidgetCreator<W extends Widget & HasAllMediaHandlers> {
     /**
      * Create a widget to test.
-     * 
+     *
      * @return the new widget
      */
     W createWidget();
@@ -89,12 +87,13 @@ public class MediaEventsSinkTest extends GWTTestCase {
       return;
     }
 
-    verifyMediaEventSink(new WidgetCreator<Audio>() {
-      @Override
-      public Audio createWidget() {
-        return Audio.createIfSupported();
-      }
-    });
+    verifyMediaEventSink(
+        new WidgetCreator<Audio>() {
+          @Override
+          public Audio createWidget() {
+            return Audio.createIfSupported();
+          }
+        });
   }
 
   public void testEventBitsUnmapped() throws Exception {
@@ -110,12 +109,13 @@ public class MediaEventsSinkTest extends GWTTestCase {
       return;
     }
 
-    verifyMediaEventSink(new WidgetCreator<Video>() {
-      @Override
-      public Video createWidget() {
-        return Video.createIfSupported();
-      }
-    });
+    verifyMediaEventSink(
+        new WidgetCreator<Video>() {
+          @Override
+          public Video createWidget() {
+            return Video.createIfSupported();
+          }
+        });
   }
 
   @Override
@@ -130,8 +130,7 @@ public class MediaEventsSinkTest extends GWTTestCase {
     w.addCanPlayThroughHandler(handler);
 
     assertFalse(handler.hasEventFired());
-    w.fireEvent(new CanPlayThroughEvent() {
-    });
+    w.fireEvent(new CanPlayThroughEvent() {});
     assertTrue(handler.hasEventFired());
   }
 
@@ -140,8 +139,7 @@ public class MediaEventsSinkTest extends GWTTestCase {
     w.addEndedHandler(handler);
 
     assertFalse(handler.hasEventFired());
-    w.fireEvent(new EndedEvent() {
-    });
+    w.fireEvent(new EndedEvent() {});
     assertTrue(handler.hasEventFired());
   }
 
@@ -158,8 +156,7 @@ public class MediaEventsSinkTest extends GWTTestCase {
     w.addProgressHandler(handler);
 
     assertFalse(handler.hasEventFired());
-    w.fireEvent(new ProgressEvent() {
-    });
+    w.fireEvent(new ProgressEvent() {});
     assertTrue(handler.hasEventFired());
   }
 }

@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,36 +15,31 @@
  */
 package org.gwtproject.user.client.ui;
 
-import org.gwtproject.user.client.DOM;
-
-import junit.framework.Assert;
-
 import java.util.Iterator;
 import java.util.Set;
+import junit.framework.Assert;
+import org.gwtproject.user.client.DOM;
 
 /**
- * All test cases for widgets that implement HasWidgets should derive from this
- * test case, and make sure to run all of its test templates.
+ * All test cases for widgets that implement HasWidgets should derive from this test case, and make
+ * sure to run all of its test templates.
  */
 public abstract class HasWidgetsTester {
 
   /**
-   * Used in test templates to allow the child class to specify how a widget
-   * will be added to its container. This is necessary because
-   * {@link HasWidgets#add(Widget)} is allowed to throw
-   * {@link UnsupportedOperationException}.
+   * Used in test templates to allow the child class to specify how a widget will be added to its
+   * container. This is necessary because {@link HasWidgets#add(Widget)} is allowed to throw {@link
+   * UnsupportedOperationException}.
    */
   interface WidgetAdder {
 
-    /**
-     * Adds the specified child to a container.
-     */
+    /** Adds the specified child to a container. */
     void addChild(HasWidgets container, Widget child);
   }
 
   /**
-   * Default implementation used by containers for which
-   * {@link HasWidgets#add(Widget)} will not throw an exception.
+   * Default implementation used by containers for which {@link HasWidgets#add(Widget)} will not
+   * throw an exception.
    */
   static class DefaultWidgetAdder implements WidgetAdder {
     @Override
@@ -75,10 +70,9 @@ public abstract class HasWidgetsTester {
   }
 
   /**
-   * Runs all tests for {@link HasWidgets}. It is recommended that tests call
-   * this method or {@link #testAll(HasWidgets, WidgetAdder} so that future
-   * tests are automatically included.
-   * 
+   * Runs all tests for {@link HasWidgets}. It is recommended that tests call this method or {@link
+   * #testAll(HasWidgets, WidgetAdder} so that future tests are automatically included.
+   *
    * @param container
    */
   static void testAll(HasWidgets container) {
@@ -86,10 +80,9 @@ public abstract class HasWidgetsTester {
   }
 
   /**
-   * Runs all tests for {@link HasWidgets}. It is recommended that tests call
-   * this method or {@link #testAll(HasWidgets, WidgetAdder)} so that future
-   * tests are automatically included.
-   * 
+   * Runs all tests for {@link HasWidgets}. It is recommended that tests call this method or {@link
+   * #testAll(HasWidgets, WidgetAdder)} so that future tests are automatically included.
+   *
    * @param container
    * @param adder
    */
@@ -98,16 +91,14 @@ public abstract class HasWidgetsTester {
   }
 
   /**
-   * Runs all tests for {@link HasWidgets}. It is recommended that tests call
-   * this method or {@link #testAll(HasWidgets, WidgetAdder)} so that future
-   * tests are automatically included.
-   * 
+   * Runs all tests for {@link HasWidgets}. It is recommended that tests call this method or {@link
+   * #testAll(HasWidgets, WidgetAdder)} so that future tests are automatically included.
+   *
    * @param container the container widget to test
    * @param adder the method of adding children
    * @param supportsMultipleWidgets true if container supports multiple children
    */
-  static void testAll(HasWidgets container, WidgetAdder adder,
-      boolean supportsMultipleWidgets) {
+  static void testAll(HasWidgets container, WidgetAdder adder, boolean supportsMultipleWidgets) {
     testAttachDetachOrder(container, adder);
     testRemovalOfNonExistantChild(container);
     testDoAttachChildrenWithError(container, adder, supportsMultipleWidgets);
@@ -115,24 +106,21 @@ public abstract class HasWidgetsTester {
   }
 
   /**
-   * Tests attach and detach order, assuming that the container's
-   * {@link HasWidgets#add(Widget)} method does not throw
-   * {@link UnsupportedOperationException}.
-   * 
+   * Tests attach and detach order, assuming that the container's {@link HasWidgets#add(Widget)}
+   * method does not throw {@link UnsupportedOperationException}.
+   *
    * @param test
    * @param container
-   * @see #testAttachDetachOrder(TestCase, HasWidgets,
-   *      WidgetAdder)
+   * @see #testAttachDetachOrder(TestCase, HasWidgets, WidgetAdder)
    */
   static void testAttachDetachOrder(HasWidgets container) {
     testAttachDetachOrder(container, new DefaultWidgetAdder());
   }
 
   /**
-   * Ensures that children are attached and detached in the proper order. This
-   * must result in the child's onLoad() method being called just *after* its
-   * element is attached to the DOM, and its onUnload method being called just
-   * *before* its element is detached from the DOM.
+   * Ensures that children are attached and detached in the proper order. This must result in the
+   * child's onLoad() method being called just *after* its element is attached to the DOM, and its
+   * onUnload method being called just *before* its element is detached from the DOM.
    */
   static void testAttachDetachOrder(HasWidgets container, WidgetAdder adder) {
     resetContainer(container);
@@ -155,15 +143,15 @@ public abstract class HasWidgetsTester {
   }
 
   /**
-   * Ensures that the physical and logical state of children are consistent even
-   * if one of the children throws an error in onLoad.
-   * 
+   * Ensures that the physical and logical state of children are consistent even if one of the
+   * children throws an error in onLoad.
+   *
    * @param container the container
    * @param adder the method of adding children
    * @param supportMultipleWidgets true if container supports multiple widgets
    */
-  static void testDoAttachChildrenWithError(HasWidgets container,
-      WidgetAdder adder, boolean supportMultipleWidgets) {
+  static void testDoAttachChildrenWithError(
+      HasWidgets container, WidgetAdder adder, boolean supportMultipleWidgets) {
     resetContainer(container);
 
     // Create a widget that will throw an exception onLoad.
@@ -193,8 +181,9 @@ public abstract class HasWidgetsTester {
       // Composites that use internal panels for layout (eg. TabPanel) will
       // throws the AttachDetachException from the inner panel instead of an
       // IllegalArgumentException from the bad widget
-      Assert.assertTrue(throwables[0] instanceof IllegalArgumentException
-          || throwables[0] instanceof AttachDetachException);
+      Assert.assertTrue(
+          throwables[0] instanceof IllegalArgumentException
+              || throwables[0] instanceof AttachDetachException);
     }
     Iterator<Widget> children = container.iterator();
     while (children.hasNext()) {
@@ -210,15 +199,15 @@ public abstract class HasWidgetsTester {
   }
 
   /**
-   * Ensures that the physical and logical state of children are consistent even
-   * if one of the children throws an error in onUnload.
-   * 
+   * Ensures that the physical and logical state of children are consistent even if one of the
+   * children throws an error in onUnload.
+   *
    * @param container the container
    * @param adder the method of adding children
    * @param supportMultipleWidgets true if container supports multiple widgets
    */
-  static void testDoDetachChildrenWithError(HasWidgets container,
-      WidgetAdder adder, boolean supportMultipleWidgets) {
+  static void testDoDetachChildrenWithError(
+      HasWidgets container, WidgetAdder adder, boolean supportMultipleWidgets) {
     resetContainer(container);
 
     // Create a widget that will throw an exception onUnload.
@@ -251,8 +240,9 @@ public abstract class HasWidgetsTester {
       // Composites that use internal panels for layout (eg. TabPanel) will
       // throws the AttachDetachException from the inner panel instead of an
       // IllegalArgumentException from the bad widget
-      Assert.assertTrue(throwables[0] instanceof IllegalArgumentException
-          || throwables[0] instanceof AttachDetachException);
+      Assert.assertTrue(
+          throwables[0] instanceof IllegalArgumentException
+              || throwables[0] instanceof AttachDetachException);
     }
     Iterator<Widget> children = container.iterator();
     while (children.hasNext()) {
@@ -264,9 +254,9 @@ public abstract class HasWidgetsTester {
   }
 
   /**
-   * Tests to ensure that {@link HasWidgets#remove(Widget)} is resilient to
-   * being called with a widget that is not present as a child in the container.
-   * 
+   * Tests to ensure that {@link HasWidgets#remove(Widget)} is resilient to being called with a
+   * widget that is not present as a child in the container.
+   *
    * @param container
    */
   static void testRemovalOfNonExistantChild(HasWidgets container) {
@@ -276,15 +266,13 @@ public abstract class HasWidgetsTester {
   }
 
   /**
-   * Assert that the container is a parent of the child. Some Panels are not the
-   * direct parent of their children, so we walk up the chain looking for a
-   * parent.
-   * 
+   * Assert that the container is a parent of the child. Some Panels are not the direct parent of
+   * their children, so we walk up the chain looking for a parent.
+   *
    * @param container
    * @param child
    */
-  private static void assertContainerIsOrHasChild(HasWidgets container,
-      Widget child) {
+  private static void assertContainerIsOrHasChild(HasWidgets container, Widget child) {
     boolean containerIsOrHasChild = false;
     Widget parent = child.getParent();
     while (parent != null && !containerIsOrHasChild) {
@@ -298,7 +286,7 @@ public abstract class HasWidgetsTester {
 
   /**
    * Reset the container between tests.
-   * 
+   *
    * @param container the container
    */
   private static void resetContainer(HasWidgets container) {

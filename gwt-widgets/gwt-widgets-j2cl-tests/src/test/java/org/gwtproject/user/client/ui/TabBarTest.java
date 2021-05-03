@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,26 +15,23 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
+import java.util.Locale;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.event.logical.shared.BeforeSelectionEvent;
 import org.gwtproject.event.logical.shared.BeforeSelectionHandler;
 import org.gwtproject.event.logical.shared.SelectionEvent;
 import org.gwtproject.event.logical.shared.SelectionHandler;
-import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.safehtml.shared.SafeHtmlUtils;
 import org.gwtproject.user.client.DOM;
 
-import java.util.Locale;
-
-/**
- * Tests the {@link TabBar} widget.
- */
+/** Tests the {@link TabBar} widget. */
 @J2clTestInput(TabBarTest.class)
 public class TabBarTest extends GWTTestCase {
 
-  private class TestSelectionHandler implements
-      BeforeSelectionHandler<Integer>, SelectionHandler<Integer> {
+  private class TestSelectionHandler
+      implements BeforeSelectionHandler<Integer>, SelectionHandler<Integer> {
     private boolean onBeforeSelectionFired;
     private boolean onSelectionFired;
 
@@ -72,7 +69,7 @@ public class TabBarTest extends GWTTestCase {
   public void testAddTab() {
     TabBar bar = createTabBar();
     bar.addTab(SafeHtmlUtils.fromSafeConstant(html));
-    
+
     assertEquals(html, bar.getTabHTML(0).toLowerCase(Locale.ROOT));
   }
 
@@ -115,7 +112,7 @@ public class TabBarTest extends GWTTestCase {
   public void testInsertTab() {
     TabBar bar = createTabBar();
     bar.insertTab(SafeHtmlUtils.fromSafeConstant(html), 0);
-    
+
     assertEquals(html, bar.getTabHTML(0).toLowerCase(Locale.ROOT));
   }
 
@@ -131,24 +128,26 @@ public class TabBarTest extends GWTTestCase {
     assertEquals(2, bar.getSelectedTab());
     bar.selectTab(-1);
     assertEquals(-1, bar.getSelectedTab());
-    BeforeSelectionHandler<Integer> beforeHandler = new BeforeSelectionHandler<Integer>() {
-      @Override
-      public void onBeforeSelection(BeforeSelectionEvent<Integer> event) {
-        int tabIndex = event.getItem();
-        beforeSelection = tabIndex;
-        if (tabIndex == 1) {
-          event.cancel();
-        }
-      }
-    };
+    BeforeSelectionHandler<Integer> beforeHandler =
+        new BeforeSelectionHandler<Integer>() {
+          @Override
+          public void onBeforeSelection(BeforeSelectionEvent<Integer> event) {
+            int tabIndex = event.getItem();
+            beforeSelection = tabIndex;
+            if (tabIndex == 1) {
+              event.cancel();
+            }
+          }
+        };
     bar.addBeforeSelectionHandler(beforeHandler);
 
-    SelectionHandler<Integer> selectionHandler = new SelectionHandler<Integer>() {
-      @Override
-      public void onSelection(SelectionEvent<Integer> event) {
-        selected = event.getSelectedItem();
-      }
-    };
+    SelectionHandler<Integer> selectionHandler =
+        new SelectionHandler<Integer>() {
+          @Override
+          public void onSelection(SelectionEvent<Integer> event) {
+            selected = event.getSelectedItem();
+          }
+        };
     bar.addSelectionHandler(selectionHandler);
 
     boolean result = bar.selectTab(-1);
@@ -202,7 +201,7 @@ public class TabBarTest extends GWTTestCase {
     TabBar bar = createTabBar();
     bar.insertTab("foo", 0);
     bar.setTabHTML(0, SafeHtmlUtils.fromSafeConstant(html));
-    
+
     assertEquals(html, bar.getTabHTML(0).toLowerCase(Locale.ROOT));
   }
 
@@ -244,8 +243,8 @@ public class TabBarTest extends GWTTestCase {
   }
 
   /**
-   * Verify that if a tab contains a widget, {@link TabBar#getTabHTML(int)}
-   * returns the HTML of the focusable element with the widget inside of it.
+   * Verify that if a tab contains a widget, {@link TabBar#getTabHTML(int)} returns the HTML of the
+   * focusable element with the widget inside of it.
    */
   public void testGetHTMLWithWidget() {
     TabBar bar = createTabBar();
@@ -253,13 +252,10 @@ public class TabBarTest extends GWTTestCase {
     bar.addTab(myButton);
 
     Widget focusablePanel = myButton.getParent();
-    assertEquals(focusablePanel.getElement().getParentElement().getInnerHTML(),
-        bar.getTabHTML(0));
+    assertEquals(focusablePanel.getElement().getParentElement().getInnerHTML(), bar.getTabHTML(0));
   }
 
-  /**
-   * Verify that wordWrap works when adding widgets that implement HasWordWrap.
-   */
+  /** Verify that wordWrap works when adding widgets that implement HasWordWrap. */
   public void testWordWrapWithSupport() {
     TabBar bar = createTabBar();
     Label tabContent0 = new Label("Tab 0", false);
@@ -294,10 +290,7 @@ public class TabBarTest extends GWTTestCase {
     }
   }
 
-  /**
-   * Verify that wordWrap works when adding widgets that do not implement
-   * HasWordWrap.
-   */
+  /** Verify that wordWrap works when adding widgets that do not implement HasWordWrap. */
   public void testWordWrapWithoutSupport() {
     TabBar bar = createTabBar();
     bar.addTab(new Button("Tab 0"));
@@ -322,9 +315,7 @@ public class TabBarTest extends GWTTestCase {
     }
   }
 
-  /**
-   * Create a new, empty tab bar.
-   */
+  /** Create a new, empty tab bar. */
   protected TabBar createTabBar() {
     return new TabBar();
   }

@@ -42,9 +42,7 @@ import org.gwtproject.user.client.ui.TextBox;
 import org.gwtproject.user.client.ui.ToggleButton;
 import org.gwtproject.user.client.ui.Widget;
 
-/**
- * Test Case for sinking of gesture events.
- */
+/** Test Case for sinking of gesture events. */
 @J2clTestInput(GestureEventSinkTest.class)
 public class GestureEventSinkTest extends GWTTestCase {
 
@@ -107,11 +105,9 @@ public class GestureEventSinkTest extends GWTTestCase {
     verifyGestureEndEventSinkOnAddHandler(new TextBox(), false);
     verifyGestureChangeEventSinkOnAddHandler(new TextBox(), false);
 
-    verifyGestureStartEventSinkOnAddHandler(
-        new SimpleRadioButton("foo"), false);
+    verifyGestureStartEventSinkOnAddHandler(new SimpleRadioButton("foo"), false);
     verifyGestureEndEventSinkOnAddHandler(new SimpleRadioButton("foo"), false);
-    verifyGestureChangeEventSinkOnAddHandler(
-        new SimpleRadioButton("foo"), false);
+    verifyGestureChangeEventSinkOnAddHandler(new SimpleRadioButton("foo"), false);
   }
 
   public void testGestureEventBitFieldsNotTriviallyZero() {
@@ -145,28 +141,41 @@ public class GestureEventSinkTest extends GWTTestCase {
     super.gwtTearDown();
   }
 
-  private <W extends Widget & HasAllGestureHandlers>
-      void assertNotSunkAfterAttach(W w, String eventName, boolean isSunk) {
+  private <W extends Widget & HasAllGestureHandlers> void assertNotSunkAfterAttach(
+      W w, String eventName, boolean isSunk) {
     assertFalse(
-        "Event should not be sunk on " + w.getClass().getName() + " until a "
-            + eventName + " handler has been added", isSunk);
+        "Event should not be sunk on "
+            + w.getClass().getName()
+            + " until a "
+            + eventName
+            + " handler has been added",
+        isSunk);
   }
 
-  private <W extends Widget & HasAllGestureHandlers>
-      void assertSunkAfterAddHandler(W w, String eventName, boolean isSunk) {
-    assertTrue("Event should have been sunk on " + w.getClass().getName()
-        + " once the widget has been attached and a " + eventName
-        + " handler has been added", isSunk);
+  private <W extends Widget & HasAllGestureHandlers> void assertSunkAfterAddHandler(
+      W w, String eventName, boolean isSunk) {
+    assertTrue(
+        "Event should have been sunk on "
+            + w.getClass().getName()
+            + " once the widget has been attached and a "
+            + eventName
+            + " handler has been added",
+        isSunk);
   }
 
   private <W extends Widget & HasAllGestureHandlers> void assertSunkAfterAttach(
       W w, String eventName, boolean isSunk) {
-    assertTrue("Event should have been sunk on " + w.getClass().getName()
-        + " once the widget has been attached", isSunk);
+    assertTrue(
+        "Event should have been sunk on "
+            + w.getClass().getName()
+            + " once the widget has been attached",
+        isSunk);
   }
 
   private boolean isGestureChangeEventSunk(Element e) {
-    return (org.gwtproject.user.client.DOM.getEventsSunk(e) & org.gwtproject.user.client.Event.ONGESTURECHANGE) != 0;
+    return (org.gwtproject.user.client.DOM.getEventsSunk(e)
+            & org.gwtproject.user.client.Event.ONGESTURECHANGE)
+        != 0;
   }
 
   private boolean isGestureEndEventSunk(Element e) {
@@ -177,89 +186,78 @@ public class GestureEventSinkTest extends GWTTestCase {
     return (org.gwtproject.user.client.DOM.getEventsSunk(e) & Event.ONGESTURESTART) != 0;
   }
 
-  private <W extends Widget & HasAllGestureHandlers>
-      void verifyGestureChangeEventSinkOnAddHandler(
-          W w, boolean allowEarlySink) {
+  private <W extends Widget & HasAllGestureHandlers> void verifyGestureChangeEventSinkOnAddHandler(
+      W w, boolean allowEarlySink) {
     verifyGestureChangeEventSinkOnAddHandler(w, w.getElement(), allowEarlySink);
   }
 
-  private <W extends Widget & HasAllGestureHandlers>
-      void verifyGestureChangeEventSinkOnAddHandler(
+  private <W extends Widget & HasAllGestureHandlers> void verifyGestureChangeEventSinkOnAddHandler(
       W w, Element e, boolean widgetSinksEventsOnAttach) {
     RootPanel.get().add(w);
 
     if (widgetSinksEventsOnAttach) {
-      assertSunkAfterAttach(w, GestureChangeEvent.getType().getName(),
-          isGestureChangeEventSunk(e));
+      assertSunkAfterAttach(w, GestureChangeEvent.getType().getName(), isGestureChangeEventSunk(e));
     } else {
-      assertNotSunkAfterAttach(w, GestureChangeEvent.getType().getName(),
-          isGestureChangeEventSunk(e));
+      assertNotSunkAfterAttach(
+          w, GestureChangeEvent.getType().getName(), isGestureChangeEventSunk(e));
     }
 
-    w.addGestureChangeHandler(new GestureChangeHandler() {
-      @Override
-      public void onGestureChange(GestureChangeEvent event) {
-      }
-    });
+    w.addGestureChangeHandler(
+        new GestureChangeHandler() {
+          @Override
+          public void onGestureChange(GestureChangeEvent event) {}
+        });
 
     assertSunkAfterAddHandler(
-            w, GestureChangeEvent.getType().getName(), isGestureChangeEventSunk(e));
+        w, GestureChangeEvent.getType().getName(), isGestureChangeEventSunk(e));
   }
 
-  private <W extends Widget & HasAllGestureHandlers>
-      void verifyGestureEndEventSinkOnAddHandler(W w, boolean allowEarlySink) {
+  private <W extends Widget & HasAllGestureHandlers> void verifyGestureEndEventSinkOnAddHandler(
+      W w, boolean allowEarlySink) {
     verifyGestureEndEventSinkOnAddHandler(w, w.getElement(), allowEarlySink);
   }
 
-  private <W extends Widget & HasAllGestureHandlers>
-      void verifyGestureEndEventSinkOnAddHandler(
+  private <W extends Widget & HasAllGestureHandlers> void verifyGestureEndEventSinkOnAddHandler(
       W w, Element e, boolean widgetSinksEventsOnAttach) {
     RootPanel.get().add(w);
 
     if (widgetSinksEventsOnAttach) {
-      assertSunkAfterAttach(
-          w, GestureEndEvent.getType().getName(), isGestureEndEventSunk(e));
+      assertSunkAfterAttach(w, GestureEndEvent.getType().getName(), isGestureEndEventSunk(e));
     } else {
-      assertNotSunkAfterAttach(
-          w, GestureEndEvent.getType().getName(), isGestureEndEventSunk(e));
+      assertNotSunkAfterAttach(w, GestureEndEvent.getType().getName(), isGestureEndEventSunk(e));
     }
 
-    w.addGestureEndHandler(new GestureEndHandler() {
-      @Override
-      public void onGestureEnd(GestureEndEvent event) {
-      }
-    });
+    w.addGestureEndHandler(
+        new GestureEndHandler() {
+          @Override
+          public void onGestureEnd(GestureEndEvent event) {}
+        });
 
-    assertSunkAfterAddHandler(
-        w, GestureEndEvent.getType().getName(), isGestureEndEventSunk(e));
+    assertSunkAfterAddHandler(w, GestureEndEvent.getType().getName(), isGestureEndEventSunk(e));
   }
 
-  private <W extends Widget & HasAllGestureHandlers>
-      void verifyGestureStartEventSinkOnAddHandler(
-          W w, boolean allowEarlySink) {
+  private <W extends Widget & HasAllGestureHandlers> void verifyGestureStartEventSinkOnAddHandler(
+      W w, boolean allowEarlySink) {
     verifyGestureStartEventSinkOnAddHandler(w, w.getElement(), allowEarlySink);
   }
 
-  private <W extends Widget & HasAllGestureHandlers>
-      void verifyGestureStartEventSinkOnAddHandler(
+  private <W extends Widget & HasAllGestureHandlers> void verifyGestureStartEventSinkOnAddHandler(
       W w, Element e, boolean widgetSinksEventsOnAttach) {
     RootPanel.get().add(w);
 
     if (widgetSinksEventsOnAttach) {
-      assertSunkAfterAttach(
-              w, GestureStartEvent.getType().getName(), isGestureStartEventSunk(e));
+      assertSunkAfterAttach(w, GestureStartEvent.getType().getName(), isGestureStartEventSunk(e));
     } else {
       assertNotSunkAfterAttach(
           w, GestureStartEvent.getType().getName(), isGestureStartEventSunk(e));
     }
 
-    w.addGestureStartHandler(new GestureStartHandler() {
-      @Override
-      public void onGestureStart(GestureStartEvent event) {
-      }
-    });
+    w.addGestureStartHandler(
+        new GestureStartHandler() {
+          @Override
+          public void onGestureStart(GestureStartEvent event) {}
+        });
 
-    assertSunkAfterAddHandler(
-        w, GestureStartEvent.getType().getName(), isGestureStartEventSunk(e));
+    assertSunkAfterAddHandler(w, GestureStartEvent.getType().getName(), isGestureStartEventSunk(e));
   }
 }

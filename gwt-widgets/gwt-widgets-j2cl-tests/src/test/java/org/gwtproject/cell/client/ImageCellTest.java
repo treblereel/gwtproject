@@ -17,9 +17,7 @@ package org.gwtproject.cell.client;
 
 import com.google.j2cl.junit.apt.J2clTestInput;
 
-/**
- * Tests for {@link TextCell}.
- */
+/** Tests for {@link TextCell}. */
 @J2clTestInput(ImageCellTest.class)
 public class ImageCellTest extends CellTestBase<String> {
 

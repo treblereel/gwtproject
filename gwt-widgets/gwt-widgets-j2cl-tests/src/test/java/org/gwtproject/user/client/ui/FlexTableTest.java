@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -18,9 +18,7 @@ package org.gwtproject.user.client.ui;
 import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.user.client.ui.FlexTable.FlexCellFormatter;
 
-/**
- * TODO: document me.
- */
+/** TODO: document me. */
 @J2clTestInput(FlexTableTest.class)
 public class FlexTableTest extends HTMLTableTestBase {
 
@@ -59,8 +57,8 @@ public class FlexTableTest extends HTMLTableTestBase {
           assertEquals(widget_1_2, widget);
         } else {
           if (widget != null) {
-            System.err.println("row: " + row + ", col: " + col + ", widget: "
-                + widget.getElement().getString());
+            System.err.println(
+                "row: " + row + ", col: " + col + ", widget: " + widget.getElement().getString());
           }
           assertNull(widget);
         }
@@ -98,15 +96,13 @@ public class FlexTableTest extends HTMLTableTestBase {
       t.setText(-1, 0, "hello");
       fail("IndexOutOfBoundsException should have been thrown");
     } catch (IndexOutOfBoundsException e) {
-      assertEquals("Cannot create a row with a negative index: -1",
-          e.getMessage());
+      assertEquals("Cannot create a row with a negative index: -1", e.getMessage());
     }
     try {
       t.setText(0, -1, "hello");
       fail("IndexOutOfBoundsException should have been thrown");
     } catch (IndexOutOfBoundsException e) {
-      assertEquals("Cannot create a column with a negative index: -1",
-          e.getMessage());
+      assertEquals("Cannot create a column with a negative index: -1", e.getMessage());
     }
     try {
       t.clearCell(3, 3);
@@ -152,5 +148,4 @@ public class FlexTableTest extends HTMLTableTestBase {
     cellFormatter.setHeight(3, 1, "300px");
     cellFormatter.setColSpan(3, 1, 2);
   }
-
 }

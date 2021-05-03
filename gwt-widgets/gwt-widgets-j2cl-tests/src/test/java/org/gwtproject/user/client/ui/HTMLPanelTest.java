@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,18 +15,15 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
+import java.util.Locale;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.Node;
-import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.safehtml.client.SafeHtmlTemplates;
 import org.gwtproject.safehtml.shared.SafeHtml;
 
-import java.util.Locale;
-
-/**
- * Tests the HTMLPanel widget.
- */
+/** Tests the HTMLPanel widget. */
 @J2clTestInput(HTMLPanelTest.class)
 public class HTMLPanelTest extends GWTTestCase {
   static class Adder implements HasWidgetsTester.WidgetAdder {
@@ -41,17 +38,13 @@ public class HTMLPanelTest extends GWTTestCase {
     return "org.gwtproject.user.Widgets";
   }
 
-  /**
-   * A SafeHtmlTemplates interface for testing.
-   */
+  /** A SafeHtmlTemplates interface for testing. */
   public interface TestTemplates extends SafeHtmlTemplates {
     @Template("<table><tr><td>{0} <span id='labelHere'></span></td></tr></table>")
     SafeHtml tableTemplate(String body);
   }
 
-  /**
-   * Tests {@link HTMLPanel#add(Widget)}.
-   */
+  /** Tests {@link HTMLPanel#add(Widget)}. */
   public void testAdd() {
     Label labelA = new Label("A");
     Label labelB = new Label("B");
@@ -66,9 +59,7 @@ public class HTMLPanelTest extends GWTTestCase {
     assertNull(labelB.getElement().getNextSiblingElement());
   }
 
-  /**
-   * Tests {@link HTMLPanel#add(Widget, String)}.
-   */
+  /** Tests {@link HTMLPanel#add(Widget, String)}. */
   public void testAddToElementWithId() {
     Label labelA = new Label("A"), labelB = new Label("B");
     HTMLPanel p = new HTMLPanel("<div id=\"a\"></div><div id=\"b\"></div>");
@@ -79,9 +70,7 @@ public class HTMLPanelTest extends GWTTestCase {
     assertEquals("b", labelB.getElement().getParentElement().getId());
   }
 
-  /**
-   * Tests {@link HTMLPanel#add(Widget, Element)}.
-   */
+  /** Tests {@link HTMLPanel#add(Widget, Element)}. */
   public void testAddToElement() {
     Label labelA = new Label("A"), labelB = new Label("B");
     HTMLPanel p = new HTMLPanel("<div class=\"a\"></div><div class=\"b\"></div>");
@@ -96,11 +85,10 @@ public class HTMLPanelTest extends GWTTestCase {
   }
 
   /**
-   * This is meant to catch an issue created by a faulty optimization. To
-   * optimize add() when the HTMLPanel is unattached, we would originally move
-   * its element to a hidden div so that getElementById() would work.
-   * Unfortunately, we didn't move it back to its original parent, causing a
-   * problem in the case described in this test.
+   * This is meant to catch an issue created by a faulty optimization. To optimize add() when the
+   * HTMLPanel is unattached, we would originally move its element to a hidden div so that
+   * getElementById() would work. Unfortunately, we didn't move it back to its original parent,
+   * causing a problem in the case described in this test.
    */
   public void testAddPartiallyAttached() {
     SimplePanel sp = new SimplePanel();
@@ -118,17 +106,15 @@ public class HTMLPanelTest extends GWTTestCase {
     assertTrue(sp.getElement().isOrHasChild(p.getElement()));
   }
 
-  /**
-   * Tests child attachment order using {@link HasWidgetsTester}.
-   */
+  /** Tests child attachment order using {@link HasWidgetsTester}. */
   public void testAttachDetachOrder() {
     HTMLPanel p = new HTMLPanel("<div id='w00t'></div>");
     HasWidgetsTester.testAll(p, new Adder(), true);
   }
 
   /**
-   * Ensures that attachToDomAndGetElement() puts the HTMLPanel back exactly
-   * where it was in the DOM originally.
+   * Ensures that attachToDomAndGetElement() puts the HTMLPanel back exactly where it was in the DOM
+   * originally.
    */
   public void testAttachDoesntMangleChildOrder() {
     FlowPanel fp = new FlowPanel();
@@ -150,8 +136,8 @@ public class HTMLPanelTest extends GWTTestCase {
   }
 
   /**
-   * Ensures that {@link HTMLPanel#addAndReplaceElement(Widget, String)} puts
-   * the widget in exactly the right place in the DOM.
+   * Ensures that {@link HTMLPanel#addAndReplaceElement(Widget, String)} puts the widget in exactly
+   * the right place in the DOM.
    */
   public void testAddAndReplaceElement() {
     HTMLPanel hp = new HTMLPanel("<div id='parent'>foo<span id='placeholder'></span>bar</div>");
@@ -164,10 +150,9 @@ public class HTMLPanelTest extends GWTTestCase {
   }
 
   /**
-   * Ensures that {@link HTMLPanel#addAndReplaceElement(Widget, Element)} puts
-   * the widget in exactly the right place in the DOM.
+   * Ensures that {@link HTMLPanel#addAndReplaceElement(Widget, Element)} puts the widget in exactly
+   * the right place in the DOM.
    */
-
   public void testAddAndReplaceElementForUserElement() {
     HTMLPanel hp = new HTMLPanel("<div id='parent'>foo<span id='placeholder'></span>bar</div>");
     RootPanel.get().add(hp);
@@ -181,8 +166,7 @@ public class HTMLPanelTest extends GWTTestCase {
   }
 
   /**
-   * Ensures that overloaded version of
-   * {@link HTMLPanel#addAndReplaceElement(IsWidget, Element)}
+   * Ensures that overloaded version of {@link HTMLPanel#addAndReplaceElement(IsWidget, Element)}
    * for IsWidget puts the widget in exactly the right place in the DOM.
    */
   public void testAddAndReplaceElementForUserElementAsIsWidget() {
@@ -200,8 +184,8 @@ public class HTMLPanelTest extends GWTTestCase {
   }
 
   /**
-   * Ensures that {@link HTMLPanel#addAndReplaceElement(Widget, Element)} puts
-   * the widget in exactly the right place in the DOM.
+   * Ensures that {@link HTMLPanel#addAndReplaceElement(Widget, Element)} puts the widget in exactly
+   * the right place in the DOM.
    */
   public void testAddAndReplaceElementForElement() {
     HTMLPanel hp = new HTMLPanel("<div id='parent'>foo<span id='placeholder'></span>bar</div>");
@@ -215,9 +199,7 @@ public class HTMLPanelTest extends GWTTestCase {
     assertIsBetweenSiblings(button, "foo", "bar");
   }
 
-  /**
-   * Tests {@link HTMLPanel#addAndReplaceElement(Widget, String)}.
-   */
+  /** Tests {@link HTMLPanel#addAndReplaceElement(Widget, String)}. */
   public void testAddAndReplaceElementById() {
     HTMLPanel hp = new HTMLPanel("<div id='parent'>foo<span id='placeholder'></span>bar</div>");
     RootPanel.get().add(hp);
@@ -229,9 +211,7 @@ public class HTMLPanelTest extends GWTTestCase {
     assertIsBetweenSiblings(button, "foo", "bar");
   }
 
-  /**
-   * Tests {@link HTMLPanel#addAndReplaceElement(IsWidget, String)}.
-   */
+  /** Tests {@link HTMLPanel#addAndReplaceElement(IsWidget, String)}. */
   public void testAddAndReplaceElementByIdAsIsWidget() {
     HTMLPanel hp = new HTMLPanel("<div id='parent'>foo<span id='placeholder'></span>bar</div>");
     RootPanel.get().add(hp);
@@ -245,11 +225,9 @@ public class HTMLPanelTest extends GWTTestCase {
   }
 
   /**
-   * Ensures that {@link HTMLPanel#addAndReplaceElement(Widget, Element)}
-   * correctly removes (physically and logically) the replaced element if the
-   * element is an ancestor of a widget.
+   * Ensures that {@link HTMLPanel#addAndReplaceElement(Widget, Element)} correctly removes
+   * (physically and logically) the replaced element if the element is an ancestor of a widget.
    */
-
   public void testAddAndReplaceElementLogicalDetachWidgetChildOfElement() {
     HTMLPanel hp = new HTMLPanel("<div id=\"container\"></div>");
     RootPanel.get().add(hp);
@@ -280,11 +258,10 @@ public class HTMLPanelTest extends GWTTestCase {
   }
 
   /**
-   * Ensures that {@link HTMLPanel#addAndReplaceElement(Widget, Element)}
-   * correctly removes (physically and logically) the replaced element if the
-   * element itself is a widget (but not the same as the replacement).
+   * Ensures that {@link HTMLPanel#addAndReplaceElement(Widget, Element)} correctly removes
+   * (physically and logically) the replaced element if the element itself is a widget (but not the
+   * same as the replacement).
    */
-
   public void testAddAndReplaceElementLogicalDetachWidgetIsElement() {
     HTMLPanel hp = new HTMLPanel("");
     RootPanel.get().add(hp);
@@ -311,11 +288,10 @@ public class HTMLPanelTest extends GWTTestCase {
   }
 
   /**
-   * Ensures that {@link HTMLPanel#addAndReplaceElement(Widget, Element)}
-   * correctly removes (physically and logically) and reattaches the replaced
-   * element if the element both the widget being replaced and the replacement.
+   * Ensures that {@link HTMLPanel#addAndReplaceElement(Widget, Element)} correctly removes
+   * (physically and logically) and reattaches the replaced element if the element both the widget
+   * being replaced and the replacement.
    */
-
   public void testAddAndReplaceElementSameWidget() {
     HTMLPanel hp = new HTMLPanel("");
     RootPanel.get().add(hp);
@@ -338,9 +314,7 @@ public class HTMLPanelTest extends GWTTestCase {
     assertEquals(hp, button1.getParent());
   }
 
-  /**
-   * Tests table root tag.
-   */
+  /** Tests table root tag. */
   public void testCustomRootTagAsTable() {
     HTMLPanel hp = new HTMLPanel("table", "<tr><td>Hello <span id='labelHere'></span></td></tr>");
     InlineLabel label = new InlineLabel("World");
@@ -360,9 +334,7 @@ public class HTMLPanelTest extends GWTTestCase {
     assertEquals("table", parent.getTagName().toLowerCase(Locale.ROOT));
   }
 
-  /**
-   * Tests h3 root tag with initially empty HTML contents.
-   */
+  /** Tests h3 root tag with initially empty HTML contents. */
   public void testCustomRootTagEmptyHtml() {
     HTMLPanel hp = new HTMLPanel("h3", "");
 
@@ -372,8 +344,8 @@ public class HTMLPanelTest extends GWTTestCase {
   }
 
   /**
-   * Ensure that {@link HTMLPanel#getElementById(String)} behaves properly in
-   * both attached and unattached states.
+   * Ensure that {@link HTMLPanel#getElementById(String)} behaves properly in both attached and
+   * unattached states.
    */
   public void testGetElementById() {
     HTMLPanel hp = new HTMLPanel("foo<div id='toFind'>bar</div>baz");
@@ -388,9 +360,8 @@ public class HTMLPanelTest extends GWTTestCase {
   }
 
   /**
-   * Tests that the HTMLPanel's element is not moved from its original location
-   * when {@link HTMLPanel#add(Widget, String)} is called on it while it is
-   * unattached.
+   * Tests that the HTMLPanel's element is not moved from its original location when {@link
+   * HTMLPanel#add(Widget, String)} is called on it while it is unattached.
    */
   public void testElementIsUnmoved() {
     HTMLPanel unattached = new HTMLPanel("<div id='unattached'></div>");
@@ -404,15 +375,17 @@ public class HTMLPanelTest extends GWTTestCase {
     unattached.add(new Button("unattached"), "unattached");
     attached.add(new Button("attached"), "attached");
 
-    assertEquals("Unattached's parent element should be unaffected", unattachedParentElem,
+    assertEquals(
+        "Unattached's parent element should be unaffected",
+        unattachedParentElem,
         unattached.getElement().getParentElement());
-    assertEquals("Unattached's parent element should be unaffected", attachedParentElem, attached
-        .getElement().getParentElement());
+    assertEquals(
+        "Unattached's parent element should be unaffected",
+        attachedParentElem,
+        attached.getElement().getParentElement());
   }
 
-  /**
-   * Tests SafeHtml constructor.
-   */
+  /** Tests SafeHtml constructor. */
   public void testSafeHtml() {
     TestTemplates templates = new HTMLPanelTest_TestTemplatesImpl();
     SafeHtml table = templates.tableTemplate("Hello");
@@ -441,10 +414,9 @@ public class HTMLPanelTest extends GWTTestCase {
 
   /**
    * Asserts that the widget w is between the given previous and next nodes.
-   * 
+   *
    * @param w the widget
-   * @param previous the expected previous node string representation of the
-   *          widget
+   * @param previous the expected previous node string representation of the widget
    * @param next the expected next node string representation of the widget
    */
   private void assertIsBetweenSiblings(Widget w, String previous, String next) {
@@ -457,7 +429,7 @@ public class HTMLPanelTest extends GWTTestCase {
 
   /**
    * Asserts that the parent id of the widget is the given one.
-   * 
+   *
    * @param w the widget
    * @param expected the expected parent id of w
    */

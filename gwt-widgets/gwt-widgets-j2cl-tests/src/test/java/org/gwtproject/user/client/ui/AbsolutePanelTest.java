@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -18,19 +18,15 @@ package org.gwtproject.user.client.ui;
 import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
-import org.gwtproject.user.client.EventTest;
 import org.gwtproject.user.window.client.Window;
 
-/**
- * Tests for {@link AbsolutePanel}.
- */
+/** Tests for {@link AbsolutePanel}. */
 @J2clTestInput(AbsolutePanelTest.class)
 public class AbsolutePanelTest extends PanelTestBase<AbsolutePanel> {
 
   /**
-   * AbsolutePanel once had a bug where calling
-   * {@link AbsolutePanel#add(Widget, int, int)} twice on the same child widget
-   * would throw an {@link IndexOutOfBoundsException}.
+   * AbsolutePanel once had a bug where calling {@link AbsolutePanel#add(Widget, int, int)} twice on
+   * the same child widget would throw an {@link IndexOutOfBoundsException}.
    */
   public void testDoubleAdd() {
     AbsolutePanel absolutePanel = createPanel();
@@ -40,9 +36,7 @@ public class AbsolutePanelTest extends PanelTestBase<AbsolutePanel> {
     absolutePanel.add(label, 10, 10);
   }
 
-  /**
-   * Ensures that add(Widget, int, int) adds the Widget as its child.
-   */
+  /** Ensures that add(Widget, int, int) adds the Widget as its child. */
   public void testAdd() {
     AbsolutePanel absolutePanel = createPanel();
     Label label = new Label("foo");
@@ -53,9 +47,7 @@ public class AbsolutePanelTest extends PanelTestBase<AbsolutePanel> {
     assertPhysicalPaternity(absolutePanel, label);
   }
 
-  /**
-   * Ensures that add(IsWidget, int, int) adds the Widget as its child.
-   */
+  /** Ensures that add(IsWidget, int, int) adds the Widget as its child. */
   public void testAddAsIsWidget() {
     AbsolutePanel absolutePanel = createPanel();
     Label label = new Label("foo");
@@ -67,10 +59,7 @@ public class AbsolutePanelTest extends PanelTestBase<AbsolutePanel> {
     assertPhysicalPaternity(absolutePanel, label);
   }
 
-  /**
-   * Failed in all modes with absolute positioning. TODO: (flin) File a new
-   * HtmlUnit bug.
-   */
+  /** Failed in all modes with absolute positioning. TODO: (flin) File a new HtmlUnit bug. */
   public void testPositioning() {
     // Make an absolute panel with a label at (3, 7).
     AbsolutePanel abs = createPanel();
@@ -101,9 +90,7 @@ public class AbsolutePanelTest extends PanelTestBase<AbsolutePanel> {
     int absY = lbl.getAbsoluteTop() - Document.get().getBodyOffsetTop();
     assertEquals(3, x);
     assertEquals(7, y);
-    assertEquals(
-        "absX should be 103. This will fail in WebKit if run headless",
-        3 + 100, absX);
+    assertEquals("absX should be 103. This will fail in WebKit if run headless", 3 + 100, absX);
     assertEquals(7 + 200, absY);
   }
 
@@ -114,32 +101,33 @@ public class AbsolutePanelTest extends PanelTestBase<AbsolutePanel> {
 
   /**
    * Asserts that <b>panel</b> is the logical parent of <b>expectedChild</b>.
-   * 
+   *
    * @param panel the parent panel
    * @param expectedChild the expected child of <b>panel</b>
    */
   private void assertLogicalPaternity(ComplexPanel panel, Widget expectedChild) {
-    assertSame("The parent and the panel must be the same", panel,
-        expectedChild.getParent());
-    assertTrue("The child must be in the childen collection of the panel",
+    assertSame("The parent and the panel must be the same", panel, expectedChild.getParent());
+    assertTrue(
+        "The child must be in the childen collection of the panel",
         panel.getChildren().contains(expectedChild));
   }
 
   /**
-   * Asserts that <b>expectedFirstChild</b> is the first physical child of
-   * <b>panel</b>.
-   * 
+   * Asserts that <b>expectedFirstChild</b> is the first physical child of <b>panel</b>.
+   *
    * @param panel the parent panel
    * @param expectedFirstChild the expected first child of <b>panel</b>
    */
-  private void assertPhysicalPaternity(ComplexPanel panel,
-      Widget expectedFirstChild) {
+  private void assertPhysicalPaternity(ComplexPanel panel, Widget expectedFirstChild) {
     Element panelElement = panel.getElement();
     Element childElement = expectedFirstChild.getElement();
-    assertSame("The parent's Element of the child must be the panel's Element",
-        panelElement, childElement.getParentElement());
+    assertSame(
+        "The parent's Element of the child must be the panel's Element",
+        panelElement,
+        childElement.getParentElement());
     assertSame(
         "The child's Element must be first child of the panel's Element",
-        childElement, panelElement.getFirstChildElement());
+        childElement,
+        panelElement.getFirstChildElement());
   }
 }

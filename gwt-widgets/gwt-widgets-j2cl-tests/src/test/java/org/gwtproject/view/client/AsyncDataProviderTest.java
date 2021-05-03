@@ -17,9 +17,7 @@ package org.gwtproject.view.client;
 
 import com.google.j2cl.junit.apt.J2clTestInput;
 
-/**
- * Test cases for {@link org.gwtproject.view.client.AsyncDataProvider}.
- */
+/** Test cases for {@link org.gwtproject.view.client.AsyncDataProvider}. */
 @J2clTestInput(AsyncDataProviderTest.class)
 public class AsyncDataProviderTest extends AbstractDataProviderTest {
 
@@ -27,8 +25,7 @@ public class AsyncDataProviderTest extends AbstractDataProviderTest {
   protected org.gwtproject.view.client.AsyncDataProvider<String> createDataProvider() {
     return new AsyncDataProvider<String>() {
       @Override
-      protected void onRangeChanged(HasData<String> display) {
-      }
+      protected void onRangeChanged(HasData<String> display) {}
     };
   }
 }

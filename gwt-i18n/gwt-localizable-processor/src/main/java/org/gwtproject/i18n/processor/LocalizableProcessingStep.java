@@ -162,8 +162,7 @@ public class LocalizableProcessingStep implements BasicAnnotationProcessor.Proce
       }
       TypeElement type = (TypeElement) check;
       typesToCheck.addAll(
-          type.getInterfaces()
-              .stream()
+          type.getInterfaces().stream()
               .map(m -> processingEnv.getTypeUtils().asElement(m))
               .collect(Collectors.toList()));
     }

@@ -16,11 +16,9 @@
 
 package org.gwtproject.user.datepicker.client;
 
-import java.util.Date;
-
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
-import junit.framework.TestCase;
+import java.util.Date;
 import org.gwtproject.event.logical.shared.ValueChangeEvent;
 import org.gwtproject.event.logical.shared.ValueChangeHandler;
 import org.gwtproject.event.shared.Event;
@@ -29,58 +27,55 @@ import org.gwtproject.event.shared.HandlerRegistration;
 import org.gwtproject.user.client.ui.DateValueChangeTester;
 import org.gwtproject.user.client.ui.HasValue;
 
-/**
- * Test the DateChangeEvent in isolation from GWT.
- */
+/** Test the DateChangeEvent in isolation from GWT. */
 @J2clTestInput(DateChangeEventTest.class)
 public class DateChangeEventTest extends GWTTestCase {
 
-    public void testValueChangeViaHasValue() {
-        new DateValueChangeTester(new MockWidget()).run();
+  public void testValueChangeViaHasValue() {
+    new DateValueChangeTester(new MockWidget()).run();
+  }
+
+  @Override
+  public String getModuleName() {
+    return "";
+  }
+
+  private static class MockWidget implements HasValue<Date> {
+
+    private final HandlerManager handlers = new HandlerManager(this);
+    private Date value;
+
+    @Override
+    public HandlerRegistration addValueChangeHandler(ValueChangeHandler<Date> handler) {
+      return handlers.addHandler(ValueChangeEvent.getType(), handler);
     }
 
     @Override
-    public String getModuleName() {
-        return "";
+    public void fireEvent(Event<?> event) {
+      handlers.fireEvent(event);
     }
 
-    private static class MockWidget implements HasValue<Date> {
-
-        private final HandlerManager handlers = new HandlerManager(this);
-        private Date value;
-
-        @Override
-        public HandlerRegistration addValueChangeHandler(
-                ValueChangeHandler<Date> handler) {
-            return handlers.addHandler(ValueChangeEvent.getType(), handler);
-        }
-
-        @Override
-        public void fireEvent(Event<?> event) {
-            handlers.fireEvent(event);
-        }
-
-        public HandlerManager getHandlers() {
-            return handlers;
-        }
-
-        @Override
-        public Date getValue() {
-            return value;
-        }
-
-        @Override
-        public void setValue(Date value) {
-            setValue(value, false);
-        }
-
-        @Override
-        public void setValue(Date value, boolean fireEvents) {
-            Date oldValue = this.value;
-            this.value = value;
-            if (fireEvents) {
-                DateChangeEvent.fireIfNotEqualDates(this, oldValue, value);
-            }
-        }
+    public HandlerManager getHandlers() {
+      return handlers;
     }
+
+    @Override
+    public Date getValue() {
+      return value;
+    }
+
+    @Override
+    public void setValue(Date value) {
+      setValue(value, false);
+    }
+
+    @Override
+    public void setValue(Date value, boolean fireEvents) {
+      Date oldValue = this.value;
+      this.value = value;
+      if (fireEvents) {
+        DateChangeEvent.fireIfNotEqualDates(this, oldValue, value);
+      }
+    }
+  }
 }

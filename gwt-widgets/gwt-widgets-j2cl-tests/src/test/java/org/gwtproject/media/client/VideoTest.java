@@ -26,23 +26,23 @@ import org.junit.Before;
 /**
  * Tests {@link org.gwtproject.media.client.Video}.
  *
- *  Because HtmlUnit does not support HTML5, you will need to run these tests
- * manually in order to have them run. To do that, go to "run configurations" or
- * "debug configurations", select the test you would like to run, and put this
- * line in the VM args under the arguments tab: -Dgwt.args="-runStyle Manual:1"
+ * <p>Because HtmlUnit does not support HTML5, you will need to run these tests manually in order to
+ * have them run. To do that, go to "run configurations" or "debug configurations", select the test
+ * you would like to run, and put this line in the VM args under the arguments tab:
+ * -Dgwt.args="-runStyle Manual:1"
  */
 @J2clTestInput(VideoTest.class)
 public class VideoTest extends MediaTest {
   protected org.gwtproject.media.client.Video video;
 
-  final static String posterUrl = "poster.jpg";
-  final static String videoUrlH264 = "smallh264.mp4";
-  final static String videoFormatH264 = "video/mp4; codecs=\"avc1.42E01E, mp4a.40.2\"";
-  final static String videoUrlOgv = "smalltheora.ogv";
-  final static String videoFormatOgv = "video/ogg; codecs=\"theora, vorbis\"";
+  static final String posterUrl = "poster.jpg";
+  static final String videoUrlH264 = "smallh264.mp4";
+  static final String videoFormatH264 = "video/mp4; codecs=\"avc1.42E01E, mp4a.40.2\"";
+  static final String videoUrlOgv = "smalltheora.ogv";
+  static final String videoFormatOgv = "video/ogg; codecs=\"theora, vorbis\"";
 
-  final static int videoWidth = 64;
-  final static int videoHeight = 36;
+  static final int videoWidth = 64;
+  static final int videoHeight = 36;
 
   @Override
   public MediaBase getMedia() {
@@ -78,7 +78,8 @@ public class VideoTest extends MediaTest {
       return; // don't continue if not supported
     }
 
-    org.gwtproject.media.client.Video video = new org.gwtproject.media.client.Video("http://google.com/video");
+    org.gwtproject.media.client.Video video =
+        new org.gwtproject.media.client.Video("http://google.com/video");
     assertNotNull(video);
     assertEquals("http://google.com/video", video.getSrc());
     video.setSrc("");
@@ -104,7 +105,7 @@ public class VideoTest extends MediaTest {
         }
         assertEquals(videoWidth, video.getVideoWidth());
         assertEquals(videoHeight, video.getVideoHeight());
-        //finishTest();
+        // finishTest();
       }
     }.schedule(15 * 1000);
 
@@ -113,7 +114,7 @@ public class VideoTest extends MediaTest {
 
   @Override
   public String getModuleName() {
-     return "org.gwtproject.media.MediaTest";
+    return "org.gwtproject.media.MediaTest";
   }
 
   @Before

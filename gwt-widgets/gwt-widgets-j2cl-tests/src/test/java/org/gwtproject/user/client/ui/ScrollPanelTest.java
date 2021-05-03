@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -20,9 +20,7 @@ import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import org.gwtproject.touch.client.TouchScroller;
 
-/**
- * Tests the ScrollPanel widget.
- */
+/** Tests the ScrollPanel widget. */
 @J2clTestInput(ScrollPanelTest.class)
 public class ScrollPanelTest extends SimplePanelTestBase<ScrollPanel> {
 
@@ -36,19 +34,21 @@ public class ScrollPanelTest extends SimplePanelTestBase<ScrollPanel> {
     scrollPanel.setWidget(content);
 
     delayTestFinish(3000);
-    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-      @Override
-      public void execute() {
-        int maxHorizontalPos = scrollPanel.getMaximumHorizontalScrollPosition();
-        int maxVerticalPos = scrollPanel.getMaximumVerticalScrollPosition();
+    Scheduler.get()
+        .scheduleDeferred(
+            new ScheduledCommand() {
+              @Override
+              public void execute() {
+                int maxHorizontalPos = scrollPanel.getMaximumHorizontalScrollPosition();
+                int maxVerticalPos = scrollPanel.getMaximumVerticalScrollPosition();
 
-        // Account for scrollbars up to 50 pixels.
-        assertTrue(maxHorizontalPos >= 300 && maxHorizontalPos < 350);
-        assertTrue(maxVerticalPos >= 400 && maxHorizontalPos < 450);
-        RootPanel.get().remove(scrollPanel);
-        finishTest();
-      }
-    });
+                // Account for scrollbars up to 50 pixels.
+                assertTrue(maxHorizontalPos >= 300 && maxHorizontalPos < 350);
+                assertTrue(maxVerticalPos >= 400 && maxHorizontalPos < 450);
+                RootPanel.get().remove(scrollPanel);
+                finishTest();
+              }
+            });
   }
 
   public void testScrollToPosition() {
@@ -59,36 +59,39 @@ public class ScrollPanelTest extends SimplePanelTestBase<ScrollPanel> {
     Label content = new Label("Hello World");
     content.setPixelSize(500, 700);
     scrollPanel.setWidget(content);
-    
+
     delayTestFinish(3000);
-    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-      @Override
-      public void execute() {
-        scrollPanel.scrollToBottom();
-        assertEquals(scrollPanel.getMaximumVerticalScrollPosition(), scrollPanel
-            .getVerticalScrollPosition());
+    Scheduler.get()
+        .scheduleDeferred(
+            new ScheduledCommand() {
+              @Override
+              public void execute() {
+                scrollPanel.scrollToBottom();
+                assertEquals(
+                    scrollPanel.getMaximumVerticalScrollPosition(),
+                    scrollPanel.getVerticalScrollPosition());
 
-        scrollPanel.scrollToTop();
-        assertEquals(0, scrollPanel.getVerticalScrollPosition());
+                scrollPanel.scrollToTop();
+                assertEquals(0, scrollPanel.getVerticalScrollPosition());
 
-        scrollPanel.scrollToRight();
-        assertEquals(scrollPanel.getMaximumHorizontalScrollPosition(), scrollPanel
-            .getHorizontalScrollPosition());
+                scrollPanel.scrollToRight();
+                assertEquals(
+                    scrollPanel.getMaximumHorizontalScrollPosition(),
+                    scrollPanel.getHorizontalScrollPosition());
 
-        scrollPanel.scrollToLeft();
-        assertEquals(0, scrollPanel.getHorizontalScrollPosition());
+                scrollPanel.scrollToLeft();
+                assertEquals(0, scrollPanel.getHorizontalScrollPosition());
 
-        finishTest();
-      }
-    });
+                finishTest();
+              }
+            });
   }
 
   public void testSetTouchScrollingDisabled() {
     ScrollPanel scrollPanel = createPanel();
 
     // Touch support is enabled by default for browsers that support it.
-    assertEquals(TouchScroller.isSupported(),
-                 !scrollPanel.isTouchScrollingDisabled());
+    assertEquals(TouchScroller.isSupported(), !scrollPanel.isTouchScrollingDisabled());
 
     // Disable touch support.
     scrollPanel.setTouchScrollingDisabled(true);
@@ -96,8 +99,7 @@ public class ScrollPanelTest extends SimplePanelTestBase<ScrollPanel> {
 
     // Enable touch support.
     scrollPanel.setTouchScrollingDisabled(false);
-    assertEquals(TouchScroller.isSupported(),
-        !scrollPanel.isTouchScrollingDisabled());
+    assertEquals(TouchScroller.isSupported(), !scrollPanel.isTouchScrollingDisabled());
   }
 
   @Override

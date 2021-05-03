@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,21 +15,18 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
+import java.util.Locale;
 import org.gwtproject.dom.client.EventTarget;
 import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.event.dom.client.ClickHandler;
-import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.safehtml.shared.SafeHtmlUtils;
 import org.gwtproject.timer.client.Timer;
 import org.gwtproject.user.client.ui.FormPanel.SubmitEvent;
 import org.gwtproject.user.client.ui.FormPanel.SubmitHandler;
 
-import java.util.Locale;
-
-/**
- * Tests for {@link Button}.
- */
+/** Tests for {@link Button}. */
 @J2clTestInput(ButtonTest.class)
 public class ButtonTest extends GWTTestCase {
 
@@ -87,9 +84,7 @@ public class ButtonTest extends GWTTestCase {
     assertEquals(b.getElement(), h.target);
   }
 
-  /**
-   * Tests issues 1585 and 3962: a button shouldn't submit a form.
-   */
+  /** Tests issues 1585 and 3962: a button shouldn't submit a form. */
   public void testPushButton() {
     FormPanel f = new FormPanel();
     f.setAction("javascript:''");
@@ -116,20 +111,20 @@ public class ButtonTest extends GWTTestCase {
   public void testSetSafeHtml() {
     Button button = new Button("hello");
     button.setHTML(SafeHtmlUtils.fromSafeConstant(html));
-    
+
     assertEquals(html, button.getHTML().toLowerCase(Locale.ROOT));
   }
 
   public void testSafeHtmlConstructor() {
     Button button = new Button(SafeHtmlUtils.fromSafeConstant(html));
-    
+
     assertEquals(html, button.getHTML().toLowerCase(Locale.ROOT));
   }
 
   public void testSafeHtmlWithHandler() {
     H handler = new H();
     Button button = new Button(SafeHtmlUtils.fromSafeConstant(html), handler);
-    
+
     assertEquals(html, button.getHTML().toLowerCase(Locale.ROOT));
   }
 }

@@ -16,15 +16,11 @@
 package org.gwtproject.user.client.ui;
 
 import com.google.j2cl.junit.apt.J2clTestInput;
+import java.util.Locale;
 import org.gwtproject.i18n.client.HasDirection.Direction;
 import org.gwtproject.safehtml.shared.SafeHtmlUtils;
 
-import java.util.Locale;
-
-/**
- * Tests {@link InlineHTML}.
- * Note: tests only the direction and alignment logic.
- */
+/** Tests {@link InlineHTML}. Note: tests only the direction and alignment logic. */
 @J2clTestInput(InlineHTMLTest.class)
 public class InlineHTMLTest extends LabelTest {
 
@@ -37,19 +33,16 @@ public class InlineHTMLTest extends LabelTest {
 
   // test that the SafeHtml constructor creates the HTML element correctly.
   public void testSafeHtmlConstructor() {
-    InlineHTML htmlElement = 
-      new InlineHTML(SafeHtmlUtils.fromSafeConstant(html));
-    
+    InlineHTML htmlElement = new InlineHTML(SafeHtmlUtils.fromSafeConstant(html));
+
     assertEquals(html, htmlElement.getHTML().toLowerCase(Locale.ROOT));
   }
 
   // test that the SafeHtml constructor creates the direction HTML.
   public void testSafeHtmlConstructorWithDirection() {
-    InlineHTML htmlElementLTR = 
-      new InlineHTML(SafeHtmlUtils.fromSafeConstant(html), Direction.LTR);
-    InlineHTML htmlElementRTL = 
-      new InlineHTML(SafeHtmlUtils.fromSafeConstant(html), Direction.RTL);
-    
+    InlineHTML htmlElementLTR = new InlineHTML(SafeHtmlUtils.fromSafeConstant(html), Direction.LTR);
+    InlineHTML htmlElementRTL = new InlineHTML(SafeHtmlUtils.fromSafeConstant(html), Direction.RTL);
+
     assertEquals(html, htmlElementRTL.getHTML().toLowerCase(Locale.ROOT));
     assertEquals(html, htmlElementLTR.getHTML().toLowerCase(Locale.ROOT));
     assertEquals(Direction.LTR, htmlElementLTR.getTextDirection());
@@ -59,7 +52,7 @@ public class InlineHTMLTest extends LabelTest {
   public void testSetSafeHtml() {
     InlineHTML htmlElement = new InlineHTML("<b>foo</b>");
     htmlElement.setHTML(SafeHtmlUtils.fromSafeConstant(html));
-    
+
     assertEquals(html, htmlElement.getHTML().toLowerCase(Locale.ROOT));
   }
 }

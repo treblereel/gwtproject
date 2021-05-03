@@ -16,17 +16,15 @@
 
 package org.gwtproject.user.client;
 
+import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLDivElement;
 import jsinterop.base.Js;
 import org.gwtproject.event.dom.client.*;
-import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.user.client.ui.*;
 
-/**
- * Test Case for sinking of drag and drop events.
- */
+/** Test Case for sinking of drag and drop events. */
 @J2clTestInput(DragAndDropEventsSinkTest.class)
 public class DragAndDropEventsSinkTest extends GWTTestCase {
 
@@ -121,12 +119,13 @@ public class DragAndDropEventsSinkTest extends GWTTestCase {
       return;
     }
 
-    verifyDragAndDropEventSink(new WidgetCreator<FocusPanel>() {
-      @Override
-      public FocusPanel createWidget() {
-        return new FocusPanel();
-      }
-    });
+    verifyDragAndDropEventSink(
+        new WidgetCreator<FocusPanel>() {
+          @Override
+          public FocusPanel createWidget() {
+            return new FocusPanel();
+          }
+        });
   }
 
   public void testFocusWidgetEventSink() {
@@ -135,12 +134,13 @@ public class DragAndDropEventsSinkTest extends GWTTestCase {
       return;
     }
 
-    verifyDragAndDropEventSink(new WidgetCreator<Anchor>() {
-      @Override
-      public Anchor createWidget() {
-        return new Anchor();
-      }
-    });
+    verifyDragAndDropEventSink(
+        new WidgetCreator<Anchor>() {
+          @Override
+          public Anchor createWidget() {
+            return new Anchor();
+          }
+        });
   }
 
   public void testHTMLTableEventSink() {
@@ -149,17 +149,19 @@ public class DragAndDropEventsSinkTest extends GWTTestCase {
       return;
     }
 
-    verifyDragAndDropEventSink(new WidgetCreator<Grid>() {
-      @Override
-      public Grid createWidget() {
-        return new Grid();
-      }
-    }, new WidgetCreator<FlexTable>() {
-      @Override
-      public FlexTable createWidget() {
-        return new FlexTable();
-      }
-    });
+    verifyDragAndDropEventSink(
+        new WidgetCreator<Grid>() {
+          @Override
+          public Grid createWidget() {
+            return new Grid();
+          }
+        },
+        new WidgetCreator<FlexTable>() {
+          @Override
+          public FlexTable createWidget() {
+            return new FlexTable();
+          }
+        });
   }
 
   public void testImageEventSink() {
@@ -168,12 +170,13 @@ public class DragAndDropEventsSinkTest extends GWTTestCase {
       return;
     }
 
-    verifyDragAndDropEventSink(new WidgetCreator<Image>() {
-      @Override
-      public Image createWidget() {
-        return new Image();
-      }
-    });
+    verifyDragAndDropEventSink(
+        new WidgetCreator<Image>() {
+          @Override
+          public Image createWidget() {
+            return new Image();
+          }
+        });
   }
 
   public void testLabelEventSink() {
@@ -182,12 +185,13 @@ public class DragAndDropEventsSinkTest extends GWTTestCase {
       return;
     }
 
-    verifyDragAndDropEventSink(new WidgetCreator<Label>() {
-      @Override
-      public Label createWidget() {
-        return new Label();
-      }
-    });
+    verifyDragAndDropEventSink(
+        new WidgetCreator<Label>() {
+          @Override
+          public Label createWidget() {
+            return new Label();
+          }
+        });
   }
 
   @Override
@@ -214,8 +218,7 @@ public class DragAndDropEventsSinkTest extends GWTTestCase {
     w.addDragEndHandler(handler);
 
     assertFalse(handler.hasEventFired());
-    w.fireEvent(new DragEndEvent() {
-    });
+    w.fireEvent(new DragEndEvent() {});
     assertTrue(handler.hasEventFired());
   }
 
@@ -224,8 +227,7 @@ public class DragAndDropEventsSinkTest extends GWTTestCase {
     w.addDragEnterHandler(handler);
 
     assertFalse(handler.hasEventFired());
-    w.fireEvent(new DragEnterEvent() {
-    });
+    w.fireEvent(new DragEnterEvent() {});
     assertTrue(handler.hasEventFired());
   }
 
@@ -234,8 +236,7 @@ public class DragAndDropEventsSinkTest extends GWTTestCase {
     w.addDragHandler(handler);
 
     assertFalse(handler.hasEventFired());
-    w.fireEvent(new DragEvent() {
-    });
+    w.fireEvent(new DragEvent() {});
     assertTrue(handler.hasEventFired());
   }
 
@@ -244,8 +245,7 @@ public class DragAndDropEventsSinkTest extends GWTTestCase {
     w.addDragLeaveHandler(handler);
 
     assertFalse(handler.hasEventFired());
-    w.fireEvent(new DragLeaveEvent() {
-    });
+    w.fireEvent(new DragLeaveEvent() {});
     assertTrue(handler.hasEventFired());
   }
 
@@ -254,8 +254,7 @@ public class DragAndDropEventsSinkTest extends GWTTestCase {
     w.addDragOverHandler(handler);
 
     assertFalse(handler.hasEventFired());
-    w.fireEvent(new DragOverEvent() {
-    });
+    w.fireEvent(new DragOverEvent() {});
     assertTrue(handler.hasEventFired());
   }
 
@@ -264,8 +263,7 @@ public class DragAndDropEventsSinkTest extends GWTTestCase {
     w.addDragStartHandler(handler);
 
     assertFalse(handler.hasEventFired());
-    w.fireEvent(new DragStartEvent() {
-    });
+    w.fireEvent(new DragStartEvent() {});
     assertTrue(handler.hasEventFired());
   }
 
@@ -274,8 +272,7 @@ public class DragAndDropEventsSinkTest extends GWTTestCase {
     w.addDropHandler(handler);
 
     assertFalse(handler.hasEventFired());
-    w.fireEvent(new DropEvent() {
-    });
+    w.fireEvent(new DropEvent() {});
     assertTrue(handler.hasEventFired());
   }
 }

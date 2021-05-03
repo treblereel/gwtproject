@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -16,6 +16,7 @@
 package org.gwtproject.user.client.ui;
 
 import com.google.j2cl.junit.apt.J2clTestInput;
+import java.util.Date;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.event.logical.shared.ValueChangeEvent;
@@ -27,11 +28,7 @@ import org.gwtproject.user.datepicker.client.DateBox;
 import org.gwtproject.user.datepicker.client.DateBox.Format;
 import org.gwtproject.user.datepicker.client.DatePicker;
 
-import java.util.Date;
-
-/**
- * Tests {@link DateBox}.
- */
+/** Tests {@link DateBox}. */
 @J2clTestInput(DateBoxTest.class)
 public class DateBoxTest extends WidgetTestBase {
   @Override
@@ -93,7 +90,7 @@ public class DateBoxTest extends WidgetTestBase {
       }
     }.run();
   }
-  
+
   private static class TimeStrippedValueChangeTester extends DateValueChangeTester {
 
     public TimeStrippedValueChangeTester(DateBox subject) {
@@ -141,7 +138,6 @@ public class DateBoxTest extends WidgetTestBase {
     }.run();
   }
 
-
   private static void enterViaTextBox(DateBox db, Date d) {
     // Intended use of higher resolution formatter to test normalization
     db.getTextBox().setText(DateTimeFormat.getFormat(PredefinedFormat.DATE_TIME_LONG).format(d));
@@ -166,25 +162,26 @@ public class DateBoxTest extends WidgetTestBase {
     @SuppressWarnings("unchecked")
     final ValueChangeEvent<Date>[] eventHolder = new ValueChangeEvent[1];
     final boolean[] wasCalled = new boolean[1];
-    db.addValueChangeHandler(new ValueChangeHandler<Date>() {
-      @Override
-      public void onValueChange(ValueChangeEvent<Date> event) {
-        wasCalled[0] = true;
-        eventHolder[0] = event;
-      }
-    });
+    db.addValueChangeHandler(
+        new ValueChangeHandler<Date>() {
+          @Override
+          public void onValueChange(ValueChangeEvent<Date> event) {
+            wasCalled[0] = true;
+            eventHolder[0] = event;
+          }
+        });
 
     // test that an empty string fires an event
-    db.setValue(new Date(1976,1,20));
+    db.setValue(new Date(1976, 1, 20));
     db.getTextBox().setText("");
     NativeEvent e = Document.get().createBlurEvent();
     db.getTextBox().getElement().dispatchEvent(e);
     assertTrue(wasCalled[0]);
     assertNull(eventHolder[0].getValue());
-    
+
     // test that an invalid date string fires an event, and leaves the text in
     // the textbox
-    db.setValue(new Date(1976,1,20));
+    db.setValue(new Date(1976, 1, 20));
     db.getTextBox().setText("abcd");
     e = Document.get().createBlurEvent();
     db.getTextBox().getElement().dispatchEvent(e);

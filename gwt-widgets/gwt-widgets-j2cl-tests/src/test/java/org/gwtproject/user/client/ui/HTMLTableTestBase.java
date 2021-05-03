@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,23 +15,20 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.gwt.junit.client.GWTTestCase;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.TableCellElement;
-import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.safehtml.shared.SafeHtmlUtils;
 import org.gwtproject.user.client.ui.HTMLTable.Cell;
 import org.gwtproject.user.client.ui.HTMLTable.CellFormatter;
 import org.gwtproject.user.client.ui.HTMLTable.ColumnFormatter;
 import org.gwtproject.user.client.ui.HTMLTable.RowFormatter;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-
-/**
- * Base test for HTMLTable derived classes.
- */
+/** Base test for HTMLTable derived classes. */
 public abstract class HTMLTableTestBase extends GWTTestCase {
   static class Adder implements HasWidgetsTester.WidgetAdder {
     private int row = -1;
@@ -51,9 +48,7 @@ public abstract class HTMLTableTestBase extends GWTTestCase {
     }
   }
 
-  /**
-   * Easy way to test what should be in a list.
-   */
+  /** Easy way to test what should be in a list. */
   protected static void assertEquals(Object[] array, List<?> target) {
     if (target.size() != array.length) {
       fail(target + " should be the same length as" + Arrays.toString(array));
@@ -84,9 +79,7 @@ public abstract class HTMLTableTestBase extends GWTTestCase {
     fail("should have throw an index out of bounds");
   }
 
-  /**
-   * Tests for {@link Cell}.
-   */
+  /** Tests for {@link Cell}. */
   public void testCell() {
     HTMLTable table = getTable(1, 4);
     table.setText(0, 3, "test");
@@ -231,9 +224,7 @@ public abstract class HTMLTableTestBase extends GWTTestCase {
     assertEquals(columnGroup, formatter.columnGroup);
   }
 
-  /**
-   * Tests {@link HTMLTable#setWidget(int, int, Widget)}.
-   */
+  /** Tests {@link HTMLTable#setWidget(int, int, Widget)}. */
   public void testSetWidget() {
     HTMLTable t = getTable(2, 2);
     Widget widget = new Label("foo");
@@ -244,9 +235,7 @@ public abstract class HTMLTableTestBase extends GWTTestCase {
     assertPhysicalPaternityInPosition(t, widget, 1, 1);
   }
 
-  /**
-   * Tests {@link HTMLTable#setWidget(int, int, IsWidget)}.
-   */
+  /** Tests {@link HTMLTable#setWidget(int, int, IsWidget)}. */
   public void testSetWidgetAsIsWidget() {
     HTMLTable t = getTable(2, 2);
     Widget widget = new Label("foo");
@@ -259,9 +248,9 @@ public abstract class HTMLTableTestBase extends GWTTestCase {
   }
 
   /**
-   * Ensures that {@link HTMLTable#setWidget(int, int, IsWidget)} does
-   * <b>NOT</b> throws a {@link NullPointerException} when the Widget argument
-   * is <code>null</code>, for compatibility with setWidget(Widget) foolishness.
+   * Ensures that {@link HTMLTable#setWidget(int, int, IsWidget)} does <b>NOT</b> throws a {@link
+   * NullPointerException} when the Widget argument is <code>null</code>, for compatibility with
+   * setWidget(Widget) foolishness.
    */
   public void testSetNullWidgetAsIsWidget() {
     HTMLTable t = getTable(2, 2);
@@ -296,10 +285,8 @@ public abstract class HTMLTableTestBase extends GWTTestCase {
 
     // Set the text cell to a null widget.
     t.setWidget(0, 0, null);
-    assertEquals("text should be cleared when the widget is set to null", "",
-        t.getText(0, 0));
-    assertEquals("widget should be cleared when set to null", content,
-        t.getWidget(0, 1));
+    assertEquals("text should be cleared when the widget is set to null", "", t.getText(0, 0));
+    assertEquals("widget should be cleared when set to null", content, t.getWidget(0, 1));
 
     // Set the widget cell to a null widget.
     t.setWidget(0, 1, null);
@@ -336,10 +323,9 @@ public abstract class HTMLTableTestBase extends GWTTestCase {
     assertEquals("newStyle", t.getRowFormatter().getStyleName(3));
   }
 
-  private void assertPhysicalPaternityInPosition(HTMLTable parent,
-      Widget child, int row, int column) {
-    assertSame("The child should be in te given position", child,
-        parent.getWidget(row, column));
+  private void assertPhysicalPaternityInPosition(
+      HTMLTable parent, Widget child, int row, int column) {
+    assertSame("The child should be in te given position", child, parent.getWidget(row, column));
   }
 
   private void assertLogicalPaternity(HTMLTable parent, Widget child) {

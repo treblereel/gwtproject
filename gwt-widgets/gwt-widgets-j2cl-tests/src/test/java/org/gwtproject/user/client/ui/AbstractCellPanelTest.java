@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -19,20 +19,17 @@ import org.gwtproject.dom.client.Element;
 
 /**
  * Base tests for {@link CellPanel}.
- * 
+ *
  * @param <T> the panel type
  */
-public abstract class AbstractCellPanelTest<T extends CellPanel> extends
-    PanelTestBase<T> {
+public abstract class AbstractCellPanelTest<T extends CellPanel> extends PanelTestBase<T> {
 
   @Override
   public String getModuleName() {
     return "org.gwtproject.user.DebugTest";
   }
 
-  /**
-   * Test {@link CellPanel#getWidgetTd(Widget)}.
-   */
+  /** Test {@link CellPanel#getWidgetTd(Widget)}. */
   public void testGetWidgetTd() {
     CellPanel panel = createCellPanel();
     Widget w = panel.getWidget(0);
@@ -40,11 +37,10 @@ public abstract class AbstractCellPanelTest<T extends CellPanel> extends
   }
 
   /**
-   * Tests
-   * {@link CellPanel#setCellVerticalAlignment(Widget, HasVerticalAlignment.VerticalAlignmentConstant)}
-   * and
-   * {@link CellPanel#setCellHorizontalAlignment(Widget, HasHorizontalAlignment.HorizontalAlignmentConstant)}
-   * .
+   * Tests {@link CellPanel#setCellVerticalAlignment(Widget,
+   * HasVerticalAlignment.VerticalAlignmentConstant)} and {@link
+   * CellPanel#setCellHorizontalAlignment(Widget,
+   * HasHorizontalAlignment.HorizontalAlignmentConstant)} .
    */
   public void testSetCellAlignment() {
     CellPanel panel = createCellPanel();
@@ -61,11 +57,10 @@ public abstract class AbstractCellPanelTest<T extends CellPanel> extends
   }
 
   /**
-   * Tests
-   * {@link CellPanel#setCellVerticalAlignment(IsWidget, HasVerticalAlignment.VerticalAlignmentConstant)}
-   * and
-   * {@link CellPanel#setCellHorizontalAlignment(IsWidget, HasHorizontalAlignment.HorizontalAlignmentConstant)}
-   * .
+   * Tests {@link CellPanel#setCellVerticalAlignment(IsWidget,
+   * HasVerticalAlignment.VerticalAlignmentConstant)} and {@link
+   * CellPanel#setCellHorizontalAlignment(IsWidget,
+   * HasHorizontalAlignment.HorizontalAlignmentConstant)} .
    */
   public void testSetCellAlignmentAsIsWidget() {
     CellPanel panel = createCellPanel();
@@ -74,24 +69,21 @@ public abstract class AbstractCellPanelTest<T extends CellPanel> extends
 
     // setCellVerticalAlignment
     // IsWidget cast to call the overloaded version
-    panel.setCellVerticalAlignment((IsWidget) w,
-        HasVerticalAlignment.ALIGN_BOTTOM);
+    panel.setCellVerticalAlignment((IsWidget) w, HasVerticalAlignment.ALIGN_BOTTOM);
     assertEquals("bottom", td.getStyle().getProperty("verticalAlign"));
 
     // setCellHorizontalAlignment
     // IsWidget reference to call the overloaded version
-    panel.setCellHorizontalAlignment((IsWidget) w,
-        HasHorizontalAlignment.ALIGN_RIGHT);
+    panel.setCellHorizontalAlignment((IsWidget) w, HasHorizontalAlignment.ALIGN_RIGHT);
     assertEquals("right", td.getPropertyString("align"));
   }
 
   /**
-   * Ensures that
-   * {@link CellPanel#setCellVerticalAlignment(Widget, HasVerticalAlignment.VerticalAlignmentConstant)}
-   * and
-   * {@link CellPanel#setCellHorizontalAlignment(Widget, HasHorizontalAlignment.HorizontalAlignmentConstant)}
-   * don't throw an Exception when the Widget argument is not a child of the
-   * panel.
+   * Ensures that {@link CellPanel#setCellVerticalAlignment(Widget,
+   * HasVerticalAlignment.VerticalAlignmentConstant)} and {@link
+   * CellPanel#setCellHorizontalAlignment(Widget,
+   * HasHorizontalAlignment.HorizontalAlignmentConstant)} don't throw an Exception when the Widget
+   * argument is not a child of the panel.
    */
   public void testSetCellAlignmentForNonChildWidget() {
     CellPanel panel = createCellPanel();
@@ -105,12 +97,11 @@ public abstract class AbstractCellPanelTest<T extends CellPanel> extends
   }
 
   /**
-   * Ensures that
-   * {@link CellPanel#setCellVerticalAlignment(IsWidget, HasVerticalAlignment.VerticalAlignmentConstant)}
-   * and
-   * {@link CellPanel#setCellHorizontalAlignment(IsWidget, HasHorizontalAlignment.HorizontalAlignmentConstant)}
-   * don't throw an Exception when the IsWidget argument is not a child of the
-   * panel.
+   * Ensures that {@link CellPanel#setCellVerticalAlignment(IsWidget,
+   * HasVerticalAlignment.VerticalAlignmentConstant)} and {@link
+   * CellPanel#setCellHorizontalAlignment(IsWidget,
+   * HasHorizontalAlignment.HorizontalAlignmentConstant)} don't throw an Exception when the IsWidget
+   * argument is not a child of the panel.
    */
   public void testSetCellAlignmentForNonChildWidgetAsIsWidget() {
     CellPanel panel = createCellPanel();
@@ -125,8 +116,8 @@ public abstract class AbstractCellPanelTest<T extends CellPanel> extends
   }
 
   /**
-   * Tests {@link CellPanel#setCellHeight(Widget, String)} and
-   * {@link CellPanel#setCellWidth(Widget, String)}.
+   * Tests {@link CellPanel#setCellHeight(Widget, String)} and {@link CellPanel#setCellWidth(Widget,
+   * String)}.
    */
   public void testSetCellSize() {
     CellPanel panel = createCellPanel();
@@ -143,8 +134,8 @@ public abstract class AbstractCellPanelTest<T extends CellPanel> extends
   }
 
   /**
-   * Tests {@link CellPanel#setCellHeight(IsWidget, String)} and
-   * {@link CellPanel#setCellWidth(IsWidget, String)}.
+   * Tests {@link CellPanel#setCellHeight(IsWidget, String)} and {@link
+   * CellPanel#setCellWidth(IsWidget, String)}.
    */
   public void testSetCellSizeAsIsWidget() {
     CellPanel panel = createCellPanel();
@@ -163,9 +154,9 @@ public abstract class AbstractCellPanelTest<T extends CellPanel> extends
   }
 
   /**
-   * Ensures that {@link CellPanel#setCellHeight(Widget, String)} and
-   * {@link CellPanel#setCellWidth(Widget, String)} don't throw an Exception
-   * when the Widget argument is not a child of the panel.
+   * Ensures that {@link CellPanel#setCellHeight(Widget, String)} and {@link
+   * CellPanel#setCellWidth(Widget, String)} don't throw an Exception when the Widget argument is
+   * not a child of the panel.
    */
   public void testSetCellSizeForNonChildWidget() {
     CellPanel panel = createCellPanel();
@@ -179,9 +170,9 @@ public abstract class AbstractCellPanelTest<T extends CellPanel> extends
   }
 
   /**
-   * Ensures that {@link CellPanel#setCellHeight(IsWidget, String)} and
-   * {@link CellPanel#setCellWidth(IsWidget, String)} don't throw an Exception
-   * when the IsWidget argument is not a child of the panel.
+   * Ensures that {@link CellPanel#setCellHeight(IsWidget, String)} and {@link
+   * CellPanel#setCellWidth(IsWidget, String)} don't throw an Exception when the IsWidget argument
+   * is not a child of the panel.
    */
   public void testSetCellSizeForNonChildWidgetAsIsWidget() {
     CellPanel panel = createCellPanel();
@@ -198,7 +189,7 @@ public abstract class AbstractCellPanelTest<T extends CellPanel> extends
 
   /**
    * Create a populated {@link CellPanel}.
-   * 
+   *
    * @return the {@link CellPanel}
    */
   protected abstract CellPanel createCellPanel();

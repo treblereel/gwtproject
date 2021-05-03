@@ -20,9 +20,7 @@ import org.gwtproject.cell.client.Cell.Context;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 
-/**
- * Tests for {@link org.gwtproject.cell.client.AbstractCell}.
- */
+/** Tests for {@link org.gwtproject.cell.client.AbstractCell}. */
 @J2clTestInput(AbstractCellTest.class)
 public class AbstractCellTest extends CellTestBase<String> {
 

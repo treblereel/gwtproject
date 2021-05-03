@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.DivElement;
 import org.gwtproject.dom.client.Document;
@@ -22,14 +23,12 @@ import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.SpanElement;
 import org.gwtproject.i18n.client.BidiUtils;
 import org.gwtproject.i18n.client.HasDirection.Direction;
-import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.user.client.ui.HasHorizontalAlignment.AutoHorizontalAlignmentConstant;
 import org.gwtproject.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
 
 /**
- * Tests {@link Label}.
- * Note: tests only the alignment logic. direction logic is tested at
- * {@link HTMLTest}, and other stuff remains currently untested.
+ * Tests {@link Label}. Note: tests only the alignment logic. direction logic is tested at {@link
+ * HTMLTest}, and other stuff remains currently untested.
  */
 @J2clTestInput(LabelTest.class)
 public class LabelTest extends GWTTestCase {
@@ -54,37 +53,40 @@ public class LabelTest extends GWTTestCase {
     label = Label.wrap(elem);
 
     label.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
-    assertAlign("horizontal alignment was set to left by " +
-        "setHorizontalAlignment, but is not",
+    assertAlign(
+        "horizontal alignment was set to left by " + "setHorizontalAlignment, but is not",
         HasHorizontalAlignment.ALIGN_LEFT);
 
     label.setAutoHorizontalAlignment(null);
-    assertEquals("text-align is not empty after " +
-        "setAutoHorizontalAlignment(null)", "",
+    assertEquals(
+        "text-align is not empty after " + "setAutoHorizontalAlignment(null)",
+        "",
         label.getElement().getStyle().getTextAlign());
 
     label.setAutoHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-    assertAlign("horizontal alignment was set to right by " +
-        "setAutoHorizontalAlignment, but is not",
+    assertAlign(
+        "horizontal alignment was set to right by " + "setAutoHorizontalAlignment, but is not",
         HasHorizontalAlignment.ALIGN_RIGHT);
 
     label.setText(IW_TEXT, Direction.RTL);
-    label.setAutoHorizontalAlignment(
-        HasAutoHorizontalAlignment.ALIGN_CONTENT_END);
-    assertAlign("automatic horizontal alignment was set to ALIGN_CONTENT_END," +
-        " content was declared RTL", HasHorizontalAlignment.ALIGN_LEFT,
+    label.setAutoHorizontalAlignment(HasAutoHorizontalAlignment.ALIGN_CONTENT_END);
+    assertAlign(
+        "automatic horizontal alignment was set to ALIGN_CONTENT_END,"
+            + " content was declared RTL",
+        HasHorizontalAlignment.ALIGN_LEFT,
         HasAutoHorizontalAlignment.ALIGN_CONTENT_END);
 
     label.setText(EN_TEXT);
-    assertAlign("automatic horizontal alignment was set to ALIGN_CONTENT_END," +
-        " content direction was reset to the original LTR after calling " +
-        "setText with no direction argument",
+    assertAlign(
+        "automatic horizontal alignment was set to ALIGN_CONTENT_END,"
+            + " content direction was reset to the original LTR after calling "
+            + "setText with no direction argument",
         HasHorizontalAlignment.ALIGN_RIGHT,
         HasAutoHorizontalAlignment.ALIGN_CONTENT_END);
 
     label.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_JUSTIFY);
-    assertAlign("horizontal alignment was set to justify by " +
-        "setHorizontalAlignment, but is not",
+    assertAlign(
+        "horizontal alignment was set to justify by " + "setHorizontalAlignment, but is not",
         HasHorizontalAlignment.ALIGN_JUSTIFY);
   }
 
@@ -95,33 +97,34 @@ public class LabelTest extends GWTTestCase {
     BidiUtils.setDirectionOnElement(elem, Direction.LTR);
     label = Label.wrap(elem);
 
-    label.setAutoHorizontalAlignment(
-        HasAutoHorizontalAlignment.ALIGN_CONTENT_END);
+    label.setAutoHorizontalAlignment(HasAutoHorizontalAlignment.ALIGN_CONTENT_END);
     label.setDirectionEstimator(true);
     label.setText(IW_TEXT);
-    assertAlign("automatic horizontal alignment was set to ALIGN_CONTENT_END," +
-        " and content is supposedly estimated as RTL",
+    assertAlign(
+        "automatic horizontal alignment was set to ALIGN_CONTENT_END,"
+            + " and content is supposedly estimated as RTL",
         HasHorizontalAlignment.ALIGN_LEFT,
         HasAutoHorizontalAlignment.ALIGN_CONTENT_END);
 
-    label.setAutoHorizontalAlignment(
-        HasAutoHorizontalAlignment.ALIGN_CONTENT_END);
-    assertAlign("automatic horizontal alignment was set (again) to " +
-        "ALIGN_CONTENT_END, and content is estimated as RTL",
+    label.setAutoHorizontalAlignment(HasAutoHorizontalAlignment.ALIGN_CONTENT_END);
+    assertAlign(
+        "automatic horizontal alignment was set (again) to "
+            + "ALIGN_CONTENT_END, and content is estimated as RTL",
         HasHorizontalAlignment.ALIGN_LEFT,
         HasAutoHorizontalAlignment.ALIGN_CONTENT_END);
 
-    label.setAutoHorizontalAlignment(
-        HasAutoHorizontalAlignment.ALIGN_CONTENT_START);
-    assertAlign("automatic horizontal alignment was set to " +
-        "ALIGN_CONTENT_START, content is estimated as RTL",
+    label.setAutoHorizontalAlignment(HasAutoHorizontalAlignment.ALIGN_CONTENT_START);
+    assertAlign(
+        "automatic horizontal alignment was set to "
+            + "ALIGN_CONTENT_START, content is estimated as RTL",
         HasHorizontalAlignment.ALIGN_RIGHT,
         HasAutoHorizontalAlignment.ALIGN_CONTENT_START);
 
     label.setDirectionEstimator(false);
-    assertAlign("horizontal alignment was supposed to be reset to the " +
-        "original ALIGN_LEFT after turning off direction estimator, and " +
-        "automatic horizontal alignment was to ALIGN_CONTENT_START",
+    assertAlign(
+        "horizontal alignment was supposed to be reset to the "
+            + "original ALIGN_LEFT after turning off direction estimator, and "
+            + "automatic horizontal alignment was to ALIGN_CONTENT_START",
         HasHorizontalAlignment.ALIGN_LEFT,
         HasAutoHorizontalAlignment.ALIGN_CONTENT_START);
   }
@@ -159,14 +162,21 @@ public class LabelTest extends GWTTestCase {
    * @param expected expected horizontal alignment
    * @param expectedAuto expected auto horizontal alignment
    */
-  private void assertAlign(String msg, HorizontalAlignmentConstant expected,
+  private void assertAlign(
+      String msg,
+      HorizontalAlignmentConstant expected,
       AutoHorizontalAlignmentConstant expectedAuto) {
-    assertEquals(msg + " (text-align property value is incorrect)",
+    assertEquals(
+        msg + " (text-align property value is incorrect)",
         expected.getTextAlignString(),
         label.getElement().getStyle().getTextAlign());
-    assertEquals(msg + " (getHorizontalAlignment return value is incorrect)",
-        expected, label.getHorizontalAlignment());
-    assertEquals(msg + " (getAutoHorizontalAlignment return value is incorrect)",
-        expectedAuto, label.getAutoHorizontalAlignment());
+    assertEquals(
+        msg + " (getHorizontalAlignment return value is incorrect)",
+        expected,
+        label.getHorizontalAlignment());
+    assertEquals(
+        msg + " (getAutoHorizontalAlignment return value is incorrect)",
+        expectedAuto,
+        label.getAutoHorizontalAlignment());
   }
 }

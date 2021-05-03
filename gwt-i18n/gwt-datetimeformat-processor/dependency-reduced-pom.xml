@@ -3,11 +3,12 @@
   <parent>
     <artifactId>gwt-i18n-parent</artifactId>
     <groupId>org.gwtproject.i18n</groupId>
-    <version>1.0-SNAPSHOT</version>
+    <version>dev</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>gwt-datetimeformat-processor</artifactId>
   <name>GWT datetimeformat Processor</name>
+  <version>${revision}</version>
   <build>
     <resources>
       <resource>
@@ -17,7 +18,6 @@
     <plugins>
       <plugin>
         <artifactId>maven-source-plugin</artifactId>
-        <version>${plugin.source.version}</version>
         <executions>
           <execution>
             <id>attach-sources</id>
@@ -59,11 +59,4 @@
       </plugin>
     </plugins>
   </build>
-  <properties>
-    <org.truth.version>0.23</org.truth.version>
-    <compile.testing.version>0.9</compile.testing.version>
-    <auto.common.version>0.8</auto.common.version>
-    <auto.service.version>1.0-rc2</auto.service.version>
-    <javapoet.version>1.4.0</javapoet.version>
-  </properties>
 </project>

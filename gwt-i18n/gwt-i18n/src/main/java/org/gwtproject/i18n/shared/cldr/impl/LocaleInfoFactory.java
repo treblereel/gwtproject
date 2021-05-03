@@ -1,5 +1,5 @@
 /*
- * Copyright © 2018 The GWT Authors
+ * Copyright © 2021 The GWT Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package org.gwtproject.i18n.shared.cldr.impl;
 
+import elemental2.dom.DomGlobal;
 import javax.annotation.Generated;
 import jsinterop.annotations.JsMethod;
 
@@ -23,16 +24,12 @@ import jsinterop.annotations.JsMethod;
     "gwt-cldr-importer : org.gwtproject.tools.cldr.LocalesNativeNamesProcessor, CLDR version : release-34")
 public class LocaleInfoFactory {
 
-  public static String locale = System.getProperty("locale");
-
   public static org.gwtproject.i18n.shared.cldr.LocaleInfoImpl create() {
+    String locale = System.getProperty("locale");
+    DomGlobal.console.log("Locale " + locale);
     return get(locale);
   }
 
   @JsMethod
-  @SuppressWarnings("unusable-by-js")
-  public static native org.gwtproject.i18n.shared.cldr.LocaleInfoImpl get(String locale)/*-{
-    var rez = @org.gwtproject.i18n.shared.cldr.impl._LocaleInfoImplFactory::get(Ljava/lang/String;)(locale);
-    return rez;
-  }-*/;
+  public static native org.gwtproject.i18n.shared.cldr.LocaleInfoImpl get(String locale);
 }

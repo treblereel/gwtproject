@@ -15,6 +15,9 @@
  */
 package org.gwtproject.user.cellview.client;
 
+import com.google.gwt.junit.client.GWTTestCase;
+import java.util.ArrayList;
+import java.util.List;
 import org.gwtproject.cell.client.Cell;
 import org.gwtproject.cell.client.TextCell;
 import org.gwtproject.core.client.Scheduler;
@@ -22,7 +25,6 @@ import org.gwtproject.event.logical.shared.CloseEvent;
 import org.gwtproject.event.logical.shared.CloseHandler;
 import org.gwtproject.event.logical.shared.OpenEvent;
 import org.gwtproject.event.logical.shared.OpenHandler;
-import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.safehtml.shared.SafeHtmlBuilder;
 import org.gwtproject.user.client.ui.RootPanel;
 import org.gwtproject.view.client.ListDataProvider;
@@ -30,41 +32,29 @@ import org.gwtproject.view.client.MultiSelectionModel;
 import org.gwtproject.view.client.ProvidesKey;
 import org.gwtproject.view.client.TreeViewModel;
 
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Base tests for subclasses of {@link AbstractCellTree}.
- */
+/** Base tests for subclasses of {@link AbstractCellTree}. */
 public abstract class AbstractCellTreeTestBase extends GWTTestCase {
 
-  /**
-   * The root value.
-   */
+  /** The root value. */
   private static final Object ROOT_VALUE = new Object();
 
   /**
-   * A mock {@link TreeViewModel} used for testing. Each child ads a character
-   * to the parent string. The longest string in the tree is 4 characters.
+   * A mock {@link TreeViewModel} used for testing. Each child ads a character to the parent string.
+   * The longest string in the tree is 4 characters.
    */
   protected class MockTreeViewModel implements TreeViewModel {
 
     private static final int MAX_DEPTH = 4;
 
-    /**
-     * The cell used to render all nodes in the tree.
-     */
+    /** The cell used to render all nodes in the tree. */
     private final Cell<String> cell = new TextCell();
 
-    /**
-     * The root data provider.
-     */
+    /** The root data provider. */
     private final ListDataProvider<String> rootDataProvider = createDataProvider("");
 
-    /**
-     * The selection models at each level of the tree.
-     */
-    private final List<MultiSelectionModel<String>> selectionModels = new ArrayList<MultiSelectionModel<String>>();
+    /** The selection models at each level of the tree. */
+    private final List<MultiSelectionModel<String>> selectionModels =
+        new ArrayList<MultiSelectionModel<String>>();
 
     public MockTreeViewModel() {
       for (int i = 0; i < MAX_DEPTH; i++) {
@@ -75,17 +65,16 @@ public abstract class AbstractCellTreeTestBase extends GWTTestCase {
     @Override
     public <T> NodeInfo<?> getNodeInfo(T value) {
       if (value == ROOT_VALUE) {
-        return new DefaultNodeInfo<String>(rootDataProvider, cell,
-            selectionModels.get(0), null);
+        return new DefaultNodeInfo<String>(rootDataProvider, cell, selectionModels.get(0), null);
       } else if (value instanceof String) {
         String prefix = (String) value;
         int depth = prefix.length();
         if (depth >= MAX_DEPTH) {
-          throw new IllegalStateException("Prefix should never exceed "
-              + MAX_DEPTH + " characters.");
+          throw new IllegalStateException(
+              "Prefix should never exceed " + MAX_DEPTH + " characters.");
         }
-        return new DefaultNodeInfo<String>(createDataProvider(prefix), cell,
-            selectionModels.get(depth), null);
+        return new DefaultNodeInfo<String>(
+            createDataProvider(prefix), cell, selectionModels.get(depth), null);
       }
       throw new IllegalArgumentException("Unrecognized value type");
     }
@@ -97,8 +86,7 @@ public abstract class AbstractCellTreeTestBase extends GWTTestCase {
       } else if (value instanceof String) {
         int depth = ((String) value).length();
         if (depth > MAX_DEPTH) {
-          throw new IllegalStateException(
-              "value should never exceed five characters.");
+          throw new IllegalStateException("value should never exceed five characters.");
         }
         return depth == MAX_DEPTH;
       }
@@ -136,9 +124,7 @@ public abstract class AbstractCellTreeTestBase extends GWTTestCase {
     }
   }
 
-  /**
-   * A mock {@link CloseHandler} used for testing.
-   */
+  /** A mock {@link CloseHandler} used for testing. */
   private class MockCloseHandler implements CloseHandler<TreeNode> {
 
     private CloseEvent<TreeNode> lastEvent;
@@ -156,9 +142,7 @@ public abstract class AbstractCellTreeTestBase extends GWTTestCase {
     }
   }
 
-  /**
-   * A mock {@link OpenHandler} used for testing.
-   */
+  /** A mock {@link OpenHandler} used for testing. */
   private class MockOpenHandler implements OpenHandler<TreeNode> {
 
     private OpenEvent<TreeNode> lastEvent;
@@ -176,19 +160,13 @@ public abstract class AbstractCellTreeTestBase extends GWTTestCase {
     }
   }
 
-  /**
-   * The model that backs the tree.
-   */
+  /** The model that backs the tree. */
   protected MockTreeViewModel model;
 
-  /**
-   * The current tree being tested.
-   */
+  /** The current tree being tested. */
   protected AbstractCellTree tree;
 
-  /**
-   * If true, the tree only supports opening a single path.
-   */
+  /** If true, the tree only supports opening a single path. */
   private final boolean singlePathOnly;
 
   /**
@@ -205,9 +183,7 @@ public abstract class AbstractCellTreeTestBase extends GWTTestCase {
     return "org.gwtproject.user.cellview.CellView";
   }
 
-  /**
-   * Issue 6677: Deleting the last element on a CellTree causes NPE in IE.
-   */
+  /** Issue 6677: Deleting the last element on a CellTree causes NPE in IE. */
   public void testDeleteLastNode() {
     // Remove all but the last tree node from the model.
     TreeNode root = tree.getRootTreeNode();
@@ -241,69 +217,68 @@ public abstract class AbstractCellTreeTestBase extends GWTTestCase {
     assertTrue(tree.isLeaf("abcd"));
   }
 
-  /**
-   * Test that the correct values are sent to the Cell to be rendered.
-   */
+  /** Test that the correct values are sent to the Cell to be rendered. */
   public void testRenderWithKeyProvider() {
     // Create a cell that verifies the render args.
     final List<String> rendered = new ArrayList<String>();
-    final AbstractHasDataTestBase.IndexCell<String> cell = new AbstractHasDataTestBase.IndexCell<String>() {
-      @Override
-      public void render(Context context, String data, SafeHtmlBuilder sb) {
-        super.render(context, data, sb);
-        int call = rendered.size();
-        rendered.add(data);
-        assertTrue("render() called more than thrice", rendered.size() < 4);
-
-        assertEquals(call + "value", data);
-        Object key = context.getKey();
-        assertTrue(key instanceof Integer);
-        assertEquals(call, key);
-      }
-    };
-
-    // Create a model with only one level, and three values at that level.
-    TreeViewModel model = new TreeViewModel() {
-      @Override
-      public NodeInfo<?> getNodeInfo(Object value) {
-        // The key provider returns the first char as an integer.
-        ProvidesKey<String> keyProvider = new ProvidesKey<String>() {
+    final AbstractHasDataTestBase.IndexCell<String> cell =
+        new AbstractHasDataTestBase.IndexCell<String>() {
           @Override
-          public Object getKey(String item) {
-            return Integer.parseInt(item.substring(0, 1));
+          public void render(Context context, String data, SafeHtmlBuilder sb) {
+            super.render(context, data, sb);
+            int call = rendered.size();
+            rendered.add(data);
+            assertTrue("render() called more than thrice", rendered.size() < 4);
+
+            assertEquals(call + "value", data);
+            Object key = context.getKey();
+            assertTrue(key instanceof Integer);
+            assertEquals(call, key);
           }
         };
-        ListDataProvider<String> dataProvider = new ListDataProvider<String>(
-            keyProvider);
-        dataProvider.getList().add("0value");
-        dataProvider.getList().add("1value");
-        dataProvider.getList().add("2value");
-        return new DefaultNodeInfo<String>(dataProvider, cell);
-      }
 
-      @Override
-      public boolean isLeaf(Object value) {
-        return value != null;
-      }
-    };
+    // Create a model with only one level, and three values at that level.
+    TreeViewModel model =
+        new TreeViewModel() {
+          @Override
+          public NodeInfo<?> getNodeInfo(Object value) {
+            // The key provider returns the first char as an integer.
+            ProvidesKey<String> keyProvider =
+                new ProvidesKey<String>() {
+                  @Override
+                  public Object getKey(String item) {
+                    return Integer.parseInt(item.substring(0, 1));
+                  }
+                };
+            ListDataProvider<String> dataProvider = new ListDataProvider<String>(keyProvider);
+            dataProvider.getList().add("0value");
+            dataProvider.getList().add("1value");
+            dataProvider.getList().add("2value");
+            return new DefaultNodeInfo<String>(dataProvider, cell);
+          }
+
+          @Override
+          public boolean isLeaf(Object value) {
+            return value != null;
+          }
+        };
 
     // Create a tree.
     createAbstractCellTree(model, null);
     delayTestFinish(5000);
-    Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-      @Override
-      public void execute() {
-        assertEquals("Cell#render() should be called exactly thrice", 3,
-            rendered.size());
-        cell.assertLastRenderIndex(2);
-        finishTest();
-      }
-    });
+    Scheduler.get()
+        .scheduleDeferred(
+            new Scheduler.ScheduledCommand() {
+              @Override
+              public void execute() {
+                assertEquals("Cell#render() should be called exactly thrice", 3, rendered.size());
+                cell.assertLastRenderIndex(2);
+                finishTest();
+              }
+            });
   }
 
-  /**
-   * Test that opening a sibling node works.
-   */
+  /** Test that opening a sibling node works. */
   public void testOpenSiblingNode() {
     MockOpenHandler openHandler = new MockOpenHandler();
     MockCloseHandler closeHandler = new MockCloseHandler();
@@ -329,8 +304,8 @@ public abstract class AbstractCellTreeTestBase extends GWTTestCase {
   }
 
   /**
-   * Test a {@link TreeNode} at the leaf. We access the leaf nodes with the
-   * {@link TreeNode} that is the parent of the leaf nodes.
+   * Test a {@link TreeNode} at the leaf. We access the leaf nodes with the {@link TreeNode} that is
+   * the parent of the leaf nodes.
    */
   public void testTreeNodeAtLeaf() {
     MockOpenHandler openHandler = new MockOpenHandler();
@@ -356,9 +331,7 @@ public abstract class AbstractCellTreeTestBase extends GWTTestCase {
     testTreeNode(bce, bc, 4, "bce", true);
   }
 
-  /**
-   * Test a {@link TreeNode} in the middle of the tree.
-   */
+  /** Test a {@link TreeNode} in the middle of the tree. */
   public void testTreeNodeAtMiddle() {
     MockOpenHandler openHandler = new MockOpenHandler();
     MockCloseHandler closeHandler = new MockCloseHandler();
@@ -376,9 +349,7 @@ public abstract class AbstractCellTreeTestBase extends GWTTestCase {
     testTreeNode(bc, b, 2, "bc", false);
   }
 
-  /**
-   * Test that closing a branch closes all open nodes recursively.
-   */
+  /** Test that closing a branch closes all open nodes recursively. */
   public void testTreeNodeCloseBranch() {
     MockOpenHandler openHandler = new MockOpenHandler();
     MockCloseHandler closeHandler = new MockCloseHandler();
@@ -406,16 +377,17 @@ public abstract class AbstractCellTreeTestBase extends GWTTestCase {
 
   public void testTreeNodeCloseChild() {
     MockOpenHandler openHandler = new MockOpenHandler();
-    MockCloseHandler closeHandler = new MockCloseHandler() {
-      @Override
-      public void onClose(CloseEvent<TreeNode> event) {
-        super.onClose(event);
+    MockCloseHandler closeHandler =
+        new MockCloseHandler() {
+          @Override
+          public void onClose(CloseEvent<TreeNode> event) {
+            super.onClose(event);
 
-        // The node should be destroyed when the close event is fired.
-        TreeNode node = event.getTarget();
-        assertTrue(node.isDestroyed());
-      }
-    };
+            // The node should be destroyed when the close event is fired.
+            TreeNode node = event.getTarget();
+            assertTrue(node.isDestroyed());
+          }
+        };
     tree.addOpenHandler(openHandler);
     tree.addCloseHandler(closeHandler);
     TreeNode root = tree.getRootTreeNode();
@@ -474,8 +446,8 @@ public abstract class AbstractCellTreeTestBase extends GWTTestCase {
   }
 
   /**
-   * Test that a tree node is destroyed if its associated data is lost when new
-   * data is provided to the node.
+   * Test that a tree node is destroyed if its associated data is lost when new data is provided to
+   * the node.
    */
   public void testTreeNodeDataLost() {
     MockOpenHandler openHandler = new MockOpenHandler();
@@ -502,10 +474,7 @@ public abstract class AbstractCellTreeTestBase extends GWTTestCase {
     assertNotNull(root.setChildOpen(0, true));
   }
 
-  /**
-   * Test that a tree node continues to exist when new data is pushed to the
-   * node.
-   */
+  /** Test that a tree node continues to exist when new data is pushed to the node. */
   public void testTreeNodeDataReplaced() {
     MockOpenHandler openHandler = new MockOpenHandler();
     MockCloseHandler closeHandler = new MockCloseHandler();
@@ -590,9 +559,7 @@ public abstract class AbstractCellTreeTestBase extends GWTTestCase {
     }
   }
 
-  /**
-   * Try to open a child that is already open.
-   */
+  /** Try to open a child that is already open. */
   public void testTreeNodeOpenChildAlreadyOpen() {
     MockOpenHandler openHandler = new MockOpenHandler();
     MockCloseHandler closeHandler = new MockCloseHandler();
@@ -626,8 +593,7 @@ public abstract class AbstractCellTreeTestBase extends GWTTestCase {
    * @param rootValue the root value
    * @return a new {@link AbstractCellTree}
    */
-  protected abstract <T> AbstractCellTree createAbstractCellTree(
-      TreeViewModel model, T rootValue);
+  protected abstract <T> AbstractCellTree createAbstractCellTree(TreeViewModel model, T rootValue);
 
   @Override
   protected void gwtSetUp() throws Exception {
@@ -650,8 +616,8 @@ public abstract class AbstractCellTreeTestBase extends GWTTestCase {
    * @param value the expected value
    * @param isChildLeaf true if the node only contains leaf nodes
    */
-  private void testTreeNode(TreeNode node, TreeNode parent, int index,
-      Object value, boolean isChildLeaf) {
+  private void testTreeNode(
+      TreeNode node, TreeNode parent, int index, Object value, boolean isChildLeaf) {
     assertEquals(10, node.getChildCount());
     assertEquals(index, node.getIndex());
     assertEquals(parent, node.getParent());

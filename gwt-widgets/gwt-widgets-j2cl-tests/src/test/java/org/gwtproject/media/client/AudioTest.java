@@ -24,19 +24,19 @@ import org.junit.Before;
 /**
  * Tests {@link Audio}.
  *
- *  Because HtmlUnit does not support HTML5, you will need to run these tests
- * manually in order to have them run. To do that, go to "run configurations" or
- * "debug configurations", select the test you would like to run, and put this
- * line in the VM args under the arguments tab: -Dgwt.args="-runStyle Manual:1"
+ * <p>Because HtmlUnit does not support HTML5, you will need to run these tests manually in order to
+ * have them run. To do that, go to "run configurations" or "debug configurations", select the test
+ * you would like to run, and put this line in the VM args under the arguments tab:
+ * -Dgwt.args="-runStyle Manual:1"
  */
 @J2clTestInput(AudioTest.class)
 public class AudioTest extends MediaTest {
   protected Audio audio;
 
-  final static String audioUrlMp3 = "smallmp3.mp3";
-  final static String audioFormatMp3 = "audio/mpeg";
-  final static String audioUrlOgg = "smallogg.ogg";
-  final static String audioFormatOgg = "audio/ogg";
+  static final String audioUrlMp3 = "smallmp3.mp3";
+  static final String audioFormatMp3 = "audio/mpeg";
+  static final String audioUrlOgg = "smallogg.ogg";
+  static final String audioFormatOgg = "audio/ogg";
 
   @Override
   public MediaBase getMedia() {
@@ -49,7 +49,7 @@ public class AudioTest extends MediaTest {
   }
 
   @Before
-  protected void gwtSetUp() throws Exception{
+  protected void gwtSetUp() throws Exception {
     audio = Audio.createIfSupported();
 
     if (audio == null) {

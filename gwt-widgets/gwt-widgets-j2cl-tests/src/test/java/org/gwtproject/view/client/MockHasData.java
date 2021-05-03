@@ -15,13 +15,12 @@
  */
 package org.gwtproject.view.client;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.gwtproject.event.shared.Event;
 import org.gwtproject.event.shared.HandlerManager;
 import org.gwtproject.event.shared.HandlerRegistration;
 import org.gwtproject.view.client.CellPreviewEvent.Handler;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A mock {@link org.gwtproject.view.client.HasData} used for testing.
@@ -32,11 +31,8 @@ public class MockHasData<T> implements HasData<T> {
 
   private static final int DEFAULT_PAGE_SIZE = 10;
 
-  /**
-   * A mock {@link RowCountChangeEvent.Handler} used for testing.
-   */
-  public static class MockRowCountChangeHandler
-      implements RowCountChangeEvent.Handler {
+  /** A mock {@link RowCountChangeEvent.Handler} used for testing. */
+  public static class MockRowCountChangeHandler implements RowCountChangeEvent.Handler {
 
     private int lastRowCount = -1;
     private boolean lastRowCountExact;
@@ -61,11 +57,8 @@ public class MockHasData<T> implements HasData<T> {
     }
   }
 
-  /**
-   * A mock {@link RangeChangeEvent.Handler} used for testing.
-   */
-  public static class MockRangeChangeHandler
-      implements RangeChangeEvent.Handler {
+  /** A mock {@link RangeChangeEvent.Handler} used for testing. */
+  public static class MockRangeChangeHandler implements RangeChangeEvent.Handler {
 
     private Range lastRange;
 
@@ -100,20 +93,16 @@ public class MockHasData<T> implements HasData<T> {
   }
 
   @Override
-  public HandlerRegistration addRangeChangeHandler(
-      RangeChangeEvent.Handler handler) {
+  public HandlerRegistration addRangeChangeHandler(RangeChangeEvent.Handler handler) {
     return handlerManager.addHandler(RangeChangeEvent.getType(), handler);
   }
 
   @Override
-  public HandlerRegistration addRowCountChangeHandler(
-      RowCountChangeEvent.Handler handler) {
+  public HandlerRegistration addRowCountChangeHandler(RowCountChangeEvent.Handler handler) {
     return handlerManager.addHandler(RowCountChangeEvent.getType(), handler);
   }
 
-  /**
-   * Clear the last data set by {@link #setRowData(int, List)}.
-   */
+  /** Clear the last data set by {@link #setRowData(int, List)}. */
   public void clearLastRowDataAndRange() {
     lastRowData = null;
     lastRange = null;
@@ -219,8 +208,7 @@ public class MockHasData<T> implements HasData<T> {
   }
 
   @Override
-  public void setVisibleRangeAndClearData(
-      Range range, boolean forceRangeChangeEvent) {
+  public void setVisibleRangeAndClearData(Range range, boolean forceRangeChangeEvent) {
     setVisibleRange(range, true, forceRangeChangeEvent);
   }
 
@@ -235,21 +223,17 @@ public class MockHasData<T> implements HasData<T> {
     // Add the new selection model.
     this.selectionModel = selectionModel;
     if (selectionModel != null) {
-      selectionHandler = selectionModel.addSelectionChangeHandler(
-              event -> {
-              });
+      selectionHandler = selectionModel.addSelectionChangeHandler(event -> {});
     }
   }
 
-  private void setVisibleRange(
-      Range range, boolean clearData, boolean forceRangeChangeEvent) {
+  private void setVisibleRange(Range range, boolean clearData, boolean forceRangeChangeEvent) {
     int start = range.getStart();
     int length = range.getLength();
     if (clearData) {
       lastRowData = null;
     }
-    if (!forceRangeChangeEvent && this.pageStart == start
-        && this.pageSize == length) {
+    if (!forceRangeChangeEvent && this.pageStart == start && this.pageSize == length) {
       return;
     }
     this.pageStart = start;

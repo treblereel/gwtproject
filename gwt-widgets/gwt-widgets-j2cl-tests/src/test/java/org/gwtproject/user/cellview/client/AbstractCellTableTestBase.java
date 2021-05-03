@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,7 +15,8 @@
  */
 package org.gwtproject.user.cellview.client;
 
-import elemental2.dom.DomGlobal;
+import java.util.ArrayList;
+import java.util.List;
 import org.gwtproject.cell.client.AbstractCell;
 import org.gwtproject.cell.client.Cell;
 import org.gwtproject.cell.client.Cell.Context;
@@ -39,31 +40,28 @@ import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.RootPanel;
 import org.gwtproject.view.client.Range;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Bases tests for subclasses of {@link AbstractCellTable}.
- * 
+ *
  * @param <T> the subclass type
  */
-public abstract class AbstractCellTableTestBase<T extends AbstractCellTable<String>> extends
-    AbstractHasDataTestBase {
+public abstract class AbstractCellTableTestBase<T extends AbstractCellTable<String>>
+    extends AbstractHasDataTestBase {
 
   /**
    * A concrete column that implements a getter that always returns null.
-   * 
+   *
    * @param <T> the row type
    * @param <C> the column type
    */
   private static class MockColumn<T, C> extends Column<T, C> {
 
     public MockColumn() {
-      super(new AbstractCell<C>() {
-        @Override
-        public void render(Context context, C value, SafeHtmlBuilder sb) {
-        }
-      });
+      super(
+          new AbstractCell<C>() {
+            @Override
+            public void render(Context context, C value, SafeHtmlBuilder sb) {}
+          });
     }
 
     @Override
@@ -72,62 +70,64 @@ public abstract class AbstractCellTableTestBase<T extends AbstractCellTable<Stri
     }
   }
 
-  /**
-   * Test that calls to addColumn results in only one redraw.
-   */
+  /** Test that calls to addColumn results in only one redraw. */
   public void testAddColumnSingleRedraw() {
     final List<LoadingState> loadingStates = new ArrayList<LoadingState>();
     T table = createAbstractHasData();
     table.setPageSize(10);
-    table.addLoadingStateChangeHandler(new LoadingStateChangeEvent.Handler() {
-      @Override
-      public void onLoadingStateChanged(LoadingStateChangeEvent event) {
-        if (LoadingState.LOADED == event.getLoadingState()) {
-          loadingStates.add(event.getLoadingState());
-        }
-      }
-    });
-    table.addColumn(new Column<String, String>(new TextCell()) {
-      @Override
-      public String getValue(String object) {
-        return object + "-3";
-      }
-    });
-    table.addColumn(new Column<String, String>(new TextCell()) {
-      @Override
-      public String getValue(String object) {
-        return object + "-4";
-      }
-    });
+    table.addLoadingStateChangeHandler(
+        new LoadingStateChangeEvent.Handler() {
+          @Override
+          public void onLoadingStateChanged(LoadingStateChangeEvent event) {
+            if (LoadingState.LOADED == event.getLoadingState()) {
+              loadingStates.add(event.getLoadingState());
+            }
+          }
+        });
+    table.addColumn(
+        new Column<String, String>(new TextCell()) {
+          @Override
+          public String getValue(String object) {
+            return object + "-3";
+          }
+        });
+    table.addColumn(
+        new Column<String, String>(new TextCell()) {
+          @Override
+          public String getValue(String object) {
+            return object + "-4";
+          }
+        });
     table.setRowData(0, createData(0, 10));
     table.getPresenter().flush();
     assertEquals(1, loadingStates.size());
   }
 
   /**
-   * Test that an error is thrown if the builder ends the table body element
-   * instead of the table row element.
+   * Test that an error is thrown if the builder ends the table body element instead of the table
+   * row element.
    */
   public void testBuildTooManyEnds() {
     final List<Integer> builtRows = new ArrayList<Integer>();
     T table = createAbstractHasData(new TextCell());
-    CellTableBuilder<String> builder = new DefaultCellTableBuilder<String>(table) {
-      @Override
-      public void buildRowImpl(String rowValue, int absRowIndex) {
-        builtRows.add(absRowIndex);
-        TableRowBuilder tr = startRow(rowValue);
-        tr.endTR(); // End the tr.
-        tr.end(); // Accidentally end the table section.
+    CellTableBuilder<String> builder =
+        new DefaultCellTableBuilder<String>(table) {
+          @Override
+          public void buildRowImpl(String rowValue, int absRowIndex) {
+            builtRows.add(absRowIndex);
+            TableRowBuilder tr = startRow(rowValue);
+            tr.endTR(); // End the tr.
+            tr.end(); // Accidentally end the table section.
 
-        // Try to start another row.
-        try {
-          startRow(rowValue);
-          fail("Expected IllegalStateException: tbody is already ended");
-        } catch (IllegalStateException e) {
-          // Expected.
-        }
-      }
-    };
+            // Try to start another row.
+            try {
+              startRow(rowValue);
+              fail("Expected IllegalStateException: tbody is already ended");
+            } catch (IllegalStateException e) {
+              // Expected.
+            }
+          }
+        };
     table.setTableBuilder(builder);
     table.setVisibleRange(0, 1);
     populateData(table);
@@ -137,26 +137,25 @@ public abstract class AbstractCellTableTestBase<T extends AbstractCellTable<Stri
     assertEquals(0, builtRows.get(0).intValue());
   }
 
-  /**
-   * Test that the table works if a row value is rendered into multiple rows.
-   */
+  /** Test that the table works if a row value is rendered into multiple rows. */
   public void testBuildMultipleRows() {
     T table = createAbstractHasData(new TextCell());
-    CellTableBuilder<String> builder = new DefaultCellTableBuilder<String>(table) {
-      @Override
-      public void buildRowImpl(String rowValue, int absRowIndex) {
-        super.buildRowImpl(rowValue, absRowIndex);
+    CellTableBuilder<String> builder =
+        new DefaultCellTableBuilder<String>(table) {
+          @Override
+          public void buildRowImpl(String rowValue, int absRowIndex) {
+            super.buildRowImpl(rowValue, absRowIndex);
 
-        // Add child rows to row five.
-        if (absRowIndex == 5) {
-          for (int i = 0; i < 4; i++) {
-            TableRowBuilder tr = startRow(rowValue);
-            tr.startTD().colSpan(2).text("child " + i).endTD();
-            tr.endTR();
+            // Add child rows to row five.
+            if (absRowIndex == 5) {
+              for (int i = 0; i < 4; i++) {
+                TableRowBuilder tr = startRow(rowValue);
+                tr.startTD().colSpan(2).text("child " + i).endTD();
+                tr.endTR();
+              }
+            }
           }
-        }
-      }
-    };
+        };
     table.setTableBuilder(builder);
     table.setVisibleRange(0, 10);
     populateData(table);
@@ -180,20 +179,19 @@ public abstract class AbstractCellTableTestBase<T extends AbstractCellTable<Stri
     assertEquals(10, table.getChildElement(6).getSectionRowIndex());
   }
 
-  /**
-   * Test that the table works if a row value is rendered into zero rows.
-   */
+  /** Test that the table works if a row value is rendered into zero rows. */
   public void testBuildZeroRows() {
     T table = createAbstractHasData(new TextCell());
-    CellTableBuilder<String> builder = new DefaultCellTableBuilder<String>(table) {
-      @Override
-      public void buildRowImpl(String rowValue, int absRowIndex) {
-        // Skip row index 5.
-        if (absRowIndex != 5) {
-          super.buildRowImpl(rowValue, absRowIndex);
-        }
-      }
-    };
+    CellTableBuilder<String> builder =
+        new DefaultCellTableBuilder<String>(table) {
+          @Override
+          public void buildRowImpl(String rowValue, int absRowIndex) {
+            // Skip row index 5.
+            if (absRowIndex != 5) {
+              super.buildRowImpl(rowValue, absRowIndex);
+            }
+          }
+        };
     table.setTableBuilder(builder);
     table.setVisibleRange(0, 10);
     populateData(table);
@@ -215,12 +213,13 @@ public abstract class AbstractCellTableTestBase<T extends AbstractCellTable<Stri
 
   public void testCellAlignment() {
     T table = createAbstractHasData(new TextCell());
-    Column<String, String> column = new Column<String, String>(new TextCell()) {
-      @Override
-      public String getValue(String object) {
-        return object;
-      }
-    };
+    Column<String, String> column =
+        new Column<String, String>(new TextCell()) {
+          @Override
+          public String getValue(String object) {
+            return object;
+          }
+        };
     table.addColumn(column);
 
     /*
@@ -264,7 +263,7 @@ public abstract class AbstractCellTableTestBase<T extends AbstractCellTable<Stri
   public void testCellEvent() {
     IndexCell<String> cell = new IndexCell<String>("click");
     T table = createAbstractHasData(cell);
-    
+
     RootPanel.get().add(table);
     table.setRowData(createData(0, 10));
     table.getPresenter().flush();
@@ -288,27 +287,29 @@ public abstract class AbstractCellTableTestBase<T extends AbstractCellTable<Stri
     T table = createAbstractHasData();
 
     // A column that return a static cell style.
-    TextColumn<String> col0 = new TextColumn<String>() {
-      @Override
-      public String getValue(String object) {
-        return object;
-      }
-    };
+    TextColumn<String> col0 =
+        new TextColumn<String>() {
+          @Override
+          public String getValue(String object) {
+            return object;
+          }
+        };
     col0.setCellStyleNames("col0");
     table.addColumn(col0);
 
     // A column that returns dynamic cell styles.
-    TextColumn<String> col1 = new TextColumn<String>() {
-      @Override
-      public String getCellStyleNames(Context context, String object) {
-        return object.replace(" ", "_");
-      }
+    TextColumn<String> col1 =
+        new TextColumn<String>() {
+          @Override
+          public String getCellStyleNames(Context context, String object) {
+            return object.replace(" ", "_");
+          }
 
-      @Override
-      public String getValue(String object) {
-        return object;
-      }
-    };
+          @Override
+          public String getValue(String object) {
+            return object;
+          }
+        };
     table.addColumn(col1);
 
     // Populate the table.
@@ -665,19 +666,20 @@ public abstract class AbstractCellTableTestBase<T extends AbstractCellTable<Stri
 
   public void testGetSubRowElement() {
     T table = createAbstractHasData(new TextCell());
-    CellTableBuilder<String> builder = new DefaultCellTableBuilder<String>(table) {
-      @Override
-      public void buildRowImpl(String rowValue, int absRowIndex) {
-        super.buildRowImpl(rowValue, absRowIndex);
+    CellTableBuilder<String> builder =
+        new DefaultCellTableBuilder<String>(table) {
+          @Override
+          public void buildRowImpl(String rowValue, int absRowIndex) {
+            super.buildRowImpl(rowValue, absRowIndex);
 
-        // Add some children.
-        for (int i = 0; i < 4; i++) {
-          TableRowBuilder tr = startRow(rowValue);
-          tr.startTD().colSpan(2).text("child " + absRowIndex + ":" + i).endTD();
-          tr.endTR();
-        }
-      }
-    };
+            // Add some children.
+            for (int i = 0; i < 4; i++) {
+              TableRowBuilder tr = startRow(rowValue);
+              tr.startTD().colSpan(2).text("child " + absRowIndex + ":" + i).endTD();
+              tr.endTR();
+            }
+          }
+        };
     table.setTableBuilder(builder);
     table.setVisibleRange(0, 5);
     populateData(table);
@@ -712,17 +714,19 @@ public abstract class AbstractCellTableTestBase<T extends AbstractCellTable<Stri
   public void testHeaderEvent() {
     T table = createAbstractHasData();
     IndexCell<String> cell = new IndexCell<String>("click");
-    table.addColumn(new TextColumn<String>() {
-      @Override
-      public String getValue(String object) {
-        return object;
-      }
-    }, new Header<String>(cell) {
-      @Override
-      public String getValue() {
-        return "header0";
-      }
-    });
+    table.addColumn(
+        new TextColumn<String>() {
+          @Override
+          public String getValue(String object) {
+            return object;
+          }
+        },
+        new Header<String>(cell) {
+          @Override
+          public String getValue() {
+            return "header0";
+          }
+        });
     RootPanel.get().add(table);
     table.setRowData(createData(0, 10));
     table.getPresenter().flush();
@@ -737,17 +741,18 @@ public abstract class AbstractCellTableTestBase<T extends AbstractCellTable<Stri
 
   public void testSetHeaderBuilder() {
     T table = createAbstractHasData();
-    HeaderBuilder<String> headerBuilder = new AbstractHeaderOrFooterBuilder<String>(table, false) {
-      @Override
-      protected boolean buildHeaderOrFooterImpl() {
-        TableRowBuilder tr = startRow();
-        tr.startTH().text("Col 0").endTH();
-        tr.startTH().text("Col 1").endTH();
-        tr.startTH().text("Col 2").endTH();
-        tr.endTR();
-        return true;
-      }
-    };
+    HeaderBuilder<String> headerBuilder =
+        new AbstractHeaderOrFooterBuilder<String>(table, false) {
+          @Override
+          protected boolean buildHeaderOrFooterImpl() {
+            TableRowBuilder tr = startRow();
+            tr.startTH().text("Col 0").endTH();
+            tr.startTH().text("Col 1").endTH();
+            tr.startTH().text("Col 2").endTH();
+            tr.endTR();
+            return true;
+          }
+        };
 
     // Change the header builder.
     table.setHeaderBuilder(headerBuilder);
@@ -766,17 +771,18 @@ public abstract class AbstractCellTableTestBase<T extends AbstractCellTable<Stri
 
   public void testSetFooterBuilder() {
     T table = createAbstractHasData();
-    FooterBuilder<String> footerBuilder = new AbstractHeaderOrFooterBuilder<String>(table, true) {
-      @Override
-      protected boolean buildHeaderOrFooterImpl() {
-        TableRowBuilder tr = startRow();
-        tr.startTH().text("Col 0").endTH();
-        tr.startTH().text("Col 1").endTH();
-        tr.startTH().text("Col 2").endTH();
-        tr.endTR();
-        return true;
-      }
-    };
+    FooterBuilder<String> footerBuilder =
+        new AbstractHeaderOrFooterBuilder<String>(table, true) {
+          @Override
+          protected boolean buildHeaderOrFooterImpl() {
+            TableRowBuilder tr = startRow();
+            tr.startTH().text("Col 0").endTH();
+            tr.startTH().text("Col 1").endTH();
+            tr.startTH().text("Col 2").endTH();
+            tr.endTR();
+            return true;
+          }
+        };
 
     // Change the header builder.
     table.setFooterBuilder(footerBuilder);
@@ -857,20 +863,22 @@ public abstract class AbstractCellTableTestBase<T extends AbstractCellTable<Stri
      */
     final List<String> log = new ArrayList<String>();
     Column<String, ?> col0 = new MockColumn<String, String>();
-    TextHeader header0 = new TextHeader("header0") {
-      @Override
-      public void render(Context context, SafeHtmlBuilder sb) {
-        super.render(context, sb);
-        log.add("header0 rendered");
-      }
-    };
-    TextHeader footer0 = new TextHeader("footer0") {
-      @Override
-      public void render(Context context, SafeHtmlBuilder sb) {
-        super.render(context, sb);
-        log.add("footer0 rendered");
-      }
-    };
+    TextHeader header0 =
+        new TextHeader("header0") {
+          @Override
+          public void render(Context context, SafeHtmlBuilder sb) {
+            super.render(context, sb);
+            log.add("header0 rendered");
+          }
+        };
+    TextHeader footer0 =
+        new TextHeader("footer0") {
+          @Override
+          public void render(Context context, SafeHtmlBuilder sb) {
+            super.render(context, sb);
+            log.add("footer0 rendered");
+          }
+        };
     table.addColumn(col0, header0, footer0);
     assertEquals(0, log.size()); // Headers are rendered asynchronously.
     table.getPresenter().flush(); // Force headers to render.
@@ -883,20 +891,22 @@ public abstract class AbstractCellTableTestBase<T extends AbstractCellTable<Stri
      * auto refresh is disabled.
      */
     Column<String, ?> col1 = new MockColumn<String, String>();
-    TextHeader header1 = new TextHeader("header1") {
-      @Override
-      public void render(Context context, SafeHtmlBuilder sb) {
-        super.render(context, sb);
-        log.add("header1 rendered");
-      }
-    };
-    TextHeader footer1 = new TextHeader("footer1") {
-      @Override
-      public void render(Context context, SafeHtmlBuilder sb) {
-        super.render(context, sb);
-        log.add("footer1 rendered");
-      }
-    };
+    TextHeader header1 =
+        new TextHeader("header1") {
+          @Override
+          public void render(Context context, SafeHtmlBuilder sb) {
+            super.render(context, sb);
+            log.add("header1 rendered");
+          }
+        };
+    TextHeader footer1 =
+        new TextHeader("footer1") {
+          @Override
+          public void render(Context context, SafeHtmlBuilder sb) {
+            super.render(context, sb);
+            log.add("footer1 rendered");
+          }
+        };
     table.addColumn(col1, header1, footer1);
     assertEquals(0, log.size()); // Headers are rendered asynchronously.
     table.getPresenter().flush(); // Force headers to render.
@@ -951,20 +961,22 @@ public abstract class AbstractCellTableTestBase<T extends AbstractCellTable<Stri
      */
     final List<String> log = new ArrayList<String>();
     Column<String, ?> col0 = new MockColumn<String, String>();
-    TextHeader header0 = new TextHeader("header0") {
-      @Override
-      public void render(Context context, SafeHtmlBuilder sb) {
-        super.render(context, sb);
-        log.add("header0 rendered");
-      }
-    };
-    TextHeader footer0 = new TextHeader("footer0") {
-      @Override
-      public void render(Context context, SafeHtmlBuilder sb) {
-        super.render(context, sb);
-        log.add("footer0 rendered");
-      }
-    };
+    TextHeader header0 =
+        new TextHeader("header0") {
+          @Override
+          public void render(Context context, SafeHtmlBuilder sb) {
+            super.render(context, sb);
+            log.add("header0 rendered");
+          }
+        };
+    TextHeader footer0 =
+        new TextHeader("footer0") {
+          @Override
+          public void render(Context context, SafeHtmlBuilder sb) {
+            super.render(context, sb);
+            log.add("footer0 rendered");
+          }
+        };
     table.addColumn(col0, header0, footer0);
     assertEquals(0, log.size()); // Headers are rendered asynchronously.
     table.getPresenter().flush(); // Force headers to render.
@@ -977,20 +989,22 @@ public abstract class AbstractCellTableTestBase<T extends AbstractCellTable<Stri
      * auto refresh is disabled.
      */
     Column<String, ?> col1 = new MockColumn<String, String>();
-    TextHeader header1 = new TextHeader("header1") {
-      @Override
-      public void render(Context context, SafeHtmlBuilder sb) {
-        super.render(context, sb);
-        log.add("header1 rendered");
-      }
-    };
-    TextHeader footer1 = new TextHeader("footer1") {
-      @Override
-      public void render(Context context, SafeHtmlBuilder sb) {
-        super.render(context, sb);
-        log.add("footer1 rendered");
-      }
-    };
+    TextHeader header1 =
+        new TextHeader("header1") {
+          @Override
+          public void render(Context context, SafeHtmlBuilder sb) {
+            super.render(context, sb);
+            log.add("header1 rendered");
+          }
+        };
+    TextHeader footer1 =
+        new TextHeader("footer1") {
+          @Override
+          public void render(Context context, SafeHtmlBuilder sb) {
+            super.render(context, sb);
+            log.add("footer1 rendered");
+          }
+        };
     table.addColumn(col1, header1, footer1);
     assertEquals(0, log.size()); // Headers are rendered asynchronously.
     table.getPresenter().flush(); // Force headers to render.
@@ -1052,10 +1066,7 @@ public abstract class AbstractCellTableTestBase<T extends AbstractCellTable<Stri
     assertNull(table.getColumnWidth(col0));
   }
 
-  /**
-   * Test that setting column widths using columns and column indexes works
-   * correctly.
-   */
+  /** Test that setting column widths using columns and column indexes works correctly. */
   public void testSetColumnWidthMixed() {
     AbstractCellTable<String> table = createAbstractHasData(new TextCell());
     Column<String, ?> col0 = new MockColumn<String, String>();
@@ -1148,13 +1159,14 @@ public abstract class AbstractCellTableTestBase<T extends AbstractCellTable<Stri
 
     // Add a column sort handler.
     final List<Column<?, ?>> lastSorted = new ArrayList<>();
-    table.addColumnSortHandler(new ColumnSortEvent.Handler() {
-      @Override
-      public void onColumnSort(ColumnSortEvent event) {
-        lastSorted.clear();
-        lastSorted.add(event.getColumn());
-      }
-    });
+    table.addColumnSortHandler(
+        new ColumnSortEvent.Handler() {
+          @Override
+          public void onColumnSort(ColumnSortEvent event) {
+            lastSorted.clear();
+            lastSorted.add(event.getColumn());
+          }
+        });
 
     // Default sort order is empty.
     ColumnSortList sortList = table.getColumnSortList();
@@ -1176,10 +1188,10 @@ public abstract class AbstractCellTableTestBase<T extends AbstractCellTable<Stri
     assertFalse(sortList.get(0).isAscending());
     assertEquals(1, lastSorted.size());
     lastSorted.clear();
-    
+
     // Sort the same column again, this time using the Enter key.
-    NativeEvent enter = Document.get().createKeyDownEvent(false, false, false, false,
-        KeyCodes.KEY_ENTER);
+    NativeEvent enter =
+        Document.get().createKeyDownEvent(false, false, false, false, KeyCodes.KEY_ENTER);
     getHeaderElement(table, 0).dispatchEvent(enter);
     assertEquals(1, sortList.size());
     assertEquals(table.getColumn(0), sortList.get(0).getColumn());
@@ -1206,32 +1218,34 @@ public abstract class AbstractCellTableTestBase<T extends AbstractCellTable<Stri
     RootPanel.get().remove(table);
   }
 
-  /**
-   * Create an empty cell table.
-   */
+  /** Create an empty cell table. */
   protected abstract T createAbstractHasData();
 
   @Override
   protected final T createAbstractHasData(Cell<String> cell) {
     T table = createAbstractHasData();
-    table.addColumn(new Column<String, String>(cell) {
-      @Override
-      public String getValue(String object) {
-        return object;
-      }
-    }, "Column 0");
-    table.addColumn(new Column<String, String>(new TextCell()) {
-      @Override
-      public String getValue(String object) {
-        return object + "-2";
-      }
-    }, "Column 1");
+    table.addColumn(
+        new Column<String, String>(cell) {
+          @Override
+          public String getValue(String object) {
+            return object;
+          }
+        },
+        "Column 0");
+    table.addColumn(
+        new Column<String, String>(new TextCell()) {
+          @Override
+          public String getValue(String object) {
+            return object + "-2";
+          }
+        },
+        "Column 1");
     return table;
   }
 
   /**
    * Get a td element from the table body.
-   * 
+   *
    * @param table the {@link CellTable}
    * @param row the row index
    * @param column the column index
@@ -1241,7 +1255,7 @@ public abstract class AbstractCellTableTestBase<T extends AbstractCellTable<Stri
 
   /**
    * Get the number of column headers in the table.
-   * 
+   *
    * @param table the {@link CellTable}
    * @return the number of column headers
    */
@@ -1249,7 +1263,7 @@ public abstract class AbstractCellTableTestBase<T extends AbstractCellTable<Stri
 
   /**
    * Get a column header from the table.
-   * 
+   *
    * @param table the {@link CellTable}
    * @param column the column index
    * @return the column header

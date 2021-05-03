@@ -33,8 +33,8 @@ dependencies {
 
     api("org.gwtproject.event:gwt-logical-event:1.0.0-RC1")
     implementation("org.gwtproject.user.window:gwt-window:1.0.0-RC2")
-    implementation("com.google.elemental2:elemental2-dom:1.0.0")
-    implementation("com.google.elemental2:elemental2-core:1.0.0")
+    implementation("com.google.elemental2:elemental2-dom:1.1.0")
+    implementation("com.google.elemental2:elemental2-core:1.1.0")
 
     testImplementation("junit:junit:4.13")
     testImplementation("com.google.gwt:gwt-user:2.9.0")

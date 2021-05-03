@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,7 +15,9 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
+import java.util.Locale;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.InputElement;
@@ -24,15 +26,10 @@ import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.event.dom.client.ClickHandler;
 import org.gwtproject.event.logical.shared.ValueChangeEvent;
 import org.gwtproject.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.safehtml.shared.SafeHtmlUtils;
 import org.gwtproject.user.client.DOM;
 
-import java.util.Locale;
-
-/**
- * Tests the CheckBox Widget.
- */
+/** Tests the CheckBox Widget. */
 @J2clTestInput(CheckBoxTest.class)
 public class CheckBoxTest extends GWTTestCase {
 
@@ -54,10 +51,7 @@ public class CheckBoxTest extends GWTTestCase {
     return "org.gwtproject.user.DebugTest";
   }
 
-  /**
-   * Test accessors.
-   */
-
+  /** Test accessors. */
   public void testAccessors() {
     cb.setHTML("test HTML");
     assertEquals("test HTML", cb.getHTML());
@@ -95,7 +89,7 @@ public class CheckBoxTest extends GWTTestCase {
 
   public void testConstructorInputElement() {
     InputElement elm = DOM.createInputCheck().cast();
-    CheckBox box = new CheckBox(elm.<Element> cast());
+    CheckBox box = new CheckBox(elm.<Element>cast());
     assertFalse(box.getValue());
     elm.setDefaultChecked(true);
     assertTrue(box.getValue());
@@ -117,12 +111,12 @@ public class CheckBoxTest extends GWTTestCase {
   }
 
   /**
-   * Tests that detaching and attaching a CheckBox widget retains the checked
-   * state of the element. This is known to be tricky on IE.
+   * Tests that detaching and attaching a CheckBox widget retains the checked state of the element.
+   * This is known to be tricky on IE.
    */
   public void testDetachment() {
     InputElement elm = DOM.createInputCheck().cast();
-    CheckBox box = new CheckBox(elm.<Element> cast());
+    CheckBox box = new CheckBox(elm.<Element>cast());
     RootPanel.get().add(box);
     elm.setChecked(true);
     RootPanel.get().remove(box);
@@ -151,21 +145,21 @@ public class CheckBoxTest extends GWTTestCase {
     check.replaceInputElement(newInput);
 
     check.setText("Burger");
-    check.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent arg0) {
-        clickCount[0]++;
-      }
-    });
+    check.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(ClickEvent arg0) {
+            clickCount[0]++;
+          }
+        });
     RootPanel.get().add(check);
 
-    NativeEvent e = Document.get().createClickEvent(0, 25, 25, 25, 25, false, 
-        false, false, false);
+    NativeEvent e = Document.get().createClickEvent(0, 25, 25, 25, 25, false, false, false, false);
 
     newInput.dispatchEvent(e);
     assertEquals(1, clickCount[0]);
   }
-  
+
   public void testReplaceInputElement() {
     cb.setValue(true);
     cb.setTabIndex(1234);
@@ -196,17 +190,16 @@ public class CheckBoxTest extends GWTTestCase {
 
   public void testSafeHtmlConstructor() {
     CheckBox box = new CheckBox(SafeHtmlUtils.fromSafeConstant(html));
-    
+
     assertEquals(html, box.getHTML().toLowerCase(Locale.ROOT));
   }
 
   public void testSetSafeHtml() {
     CheckBox box = new CheckBox("hello");
     box.setHTML(SafeHtmlUtils.fromSafeConstant(html));
-    
+
     assertEquals(html, box.getHTML().toLowerCase(Locale.ROOT));
   }
-
 
   public void testValueChangeEvent() {
     Handler h = new Handler();
@@ -229,10 +222,10 @@ public class CheckBoxTest extends GWTTestCase {
 
     cb.setValue(true, true);
     assertTrue(h.received);
-    
+
     // Note that we cannot test this with a simulated click, the way
     // we do for the click handlers. IE does not change the value of
-    // the native checkbox on simulated click event, and there's 
+    // the native checkbox on simulated click event, and there's
     // naught to be done about it.
   }
 

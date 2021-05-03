@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,16 +15,14 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.core.client.GWT;
 import org.gwtproject.dom.client.AnchorElement;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
-import com.google.gwt.junit.client.GWTTestCase;
 
-/**
- * Tests for various methods of the form {@link Button#wrap(Element)}.
- */
+/** Tests for various methods of the form {@link Button#wrap(Element)}. */
 @J2clTestInput(ElementWrappingTest.class)
 public class ElementWrappingTest extends GWTTestCase {
 
@@ -36,9 +34,7 @@ public class ElementWrappingTest extends GWTTestCase {
     return "org.gwtproject.user.UserTest";
   }
 
-  /**
-   * Tests {@link Anchor#wrap(Element)}.
-   */
+  /** Tests {@link Anchor#wrap(Element)}. */
   public void testAnchor() {
     ensureDiv().setInnerHTML("<a id='foo' href='" + TEST_URL + "'>myAnchor</a>");
     Anchor anchor = Anchor.wrap(Document.get().getElementById("foo"));
@@ -48,9 +44,7 @@ public class ElementWrappingTest extends GWTTestCase {
     assertEquals("myAnchor", anchor.getText());
   }
 
-  /**
-   * Tests {@link Button#wrap(Element)}.
-   */
+  /** Tests {@link Button#wrap(Element)}. */
   public void testButton() {
     ensureDiv().setInnerHTML("<button id='foo'>myButton</button>");
     Button button = Button.wrap(Document.get().getElementById("foo"));
@@ -59,18 +53,14 @@ public class ElementWrappingTest extends GWTTestCase {
     assertEquals("myButton", button.getText());
   }
 
-  /**
-   * Tests that {@link RootPanel#detachNow(Widget)} can only be called once per
-   * widget.
-   */
+  /** Tests that {@link RootPanel#detachNow(Widget)} can only be called once per widget. */
   public void testDetachNowTwiceFails() {
     // Testing hosted-mode-only assertion.
     if (!GWT.isScript()) {
       try {
         // Trying to pass the same widget to RootPanel.detachNow() twice
         // should fail an assertion.
-        ensureDiv().setInnerHTML(
-            "<a id='foo' href='" + TEST_URL + "'>myAnchor</a>");
+        ensureDiv().setInnerHTML("<a id='foo' href='" + TEST_URL + "'>myAnchor</a>");
         Anchor a = Anchor.wrap(Document.get().getElementById("foo"));
         RootPanel.detachNow(a); // pass
         RootPanel.detachNow(a); // fail
@@ -81,8 +71,7 @@ public class ElementWrappingTest extends GWTTestCase {
   }
 
   /**
-   * Tests that {@link RootPanel#detachOnWindowClose(Widget)} can only be called
-   * once per widget.
+   * Tests that {@link RootPanel#detachOnWindowClose(Widget)} can only be called once per widget.
    */
   public void testDetachOnWindowCloseTwiceFails() {
     // Testing hosted-mode-only assertion.
@@ -91,8 +80,7 @@ public class ElementWrappingTest extends GWTTestCase {
         // Trying to pass the same widget to RootPanel.detachOnUnload() twice
         // should fail an assertion (the first call is implicit through
         // Anchor.wrap()).
-        ensureDiv().setInnerHTML(
-            "<a id='foo' href='" + TEST_URL + "'>myAnchor</a>");
+        ensureDiv().setInnerHTML("<a id='foo' href='" + TEST_URL + "'>myAnchor</a>");
         Anchor a = Anchor.wrap(Document.get().getElementById("foo")); // pass
         RootPanel.detachOnWindowClose(a); // fail
         throw new Error("Expected assertion failure calling detachOnLoad() twice");
@@ -101,9 +89,7 @@ public class ElementWrappingTest extends GWTTestCase {
     }
   }
 
-  /**
-   * Tests {@link FileUpload#wrap(Element)}.
-   */
+  /** Tests {@link FileUpload#wrap(Element)}. */
   public void testFileUpload() {
     ensureDiv().setInnerHTML("<input type='file' id='foo'>myInput</input>");
     FileUpload upload = FileUpload.wrap(Document.get().getElementById("foo"));
@@ -111,9 +97,7 @@ public class ElementWrappingTest extends GWTTestCase {
     assertExistsAndAttached(upload);
   }
 
-  /**
-   * Tests {@link FormPanel#wrap(Element)}.
-   */
+  /** Tests {@link FormPanel#wrap(Element)}. */
   public void testFormPanel() {
     ensureDiv().setInnerHTML("<form id='foo'></form>");
     FormPanel formPanel = FormPanel.wrap(Document.get().getElementById("foo"));
@@ -121,9 +105,7 @@ public class ElementWrappingTest extends GWTTestCase {
     assertExistsAndAttached(formPanel);
   }
 
-  /**
-   * Tests {@link Frame#wrap(Element)}.
-   */
+  /** Tests {@link Frame#wrap(Element)}. */
   public void testFrame() {
     ensureDiv().setInnerHTML("<iframe id='foo'>myFrame</iframe>");
     Frame frame = Frame.wrap(Document.get().getElementById("foo"));
@@ -131,9 +113,7 @@ public class ElementWrappingTest extends GWTTestCase {
     assertExistsAndAttached(frame);
   }
 
-  /**
-   * Tests {@link Hidden#wrap(Element)}.
-   */
+  /** Tests {@link Hidden#wrap(Element)}. */
   public void testHidden() {
     ensureDiv().setInnerHTML("<input type='hidden' id='foo'></input>");
     Hidden hidden = Hidden.wrap(Document.get().getElementById("foo"));
@@ -141,9 +121,7 @@ public class ElementWrappingTest extends GWTTestCase {
     assertExistsAndAttached(hidden);
   }
 
-  /**
-   * Tests {@link HTML#wrap(Element)}.
-   */
+  /** Tests {@link HTML#wrap(Element)}. */
   public void testHTML() {
     ensureDiv().setInnerHTML("<div id='foo'>myHTML</div>");
     HTML html = HTML.wrap(Document.get().getElementById("foo"));
@@ -152,9 +130,7 @@ public class ElementWrappingTest extends GWTTestCase {
     assertEquals("myHTML", html.getHTML());
   }
 
-  /**
-   * Tests {@link HTMLPanel#wrap(Element)}.
-   */
+  /** Tests {@link HTMLPanel#wrap(Element)}. */
   public void testHTMLPanel() {
     ensureDiv().setInnerHTML("<div id='foo'>my<div id='bar'>HTML</div></div>");
     Element bar = Document.get().getElementById("bar");
@@ -162,11 +138,9 @@ public class ElementWrappingTest extends GWTTestCase {
 
     assertExistsAndAttached(html);
     assertTrue(html.getElement().isOrHasChild(bar));
-  }  
+  }
 
-  /**
-   * Tests {@link Image#wrap(Element)}.
-   */
+  /** Tests {@link Image#wrap(Element)}. */
   public void testImage() {
     ensureDiv().setInnerHTML("<img id='foo' src='" + IMG_URL + "'>");
     Image image = Image.wrap(Document.get().getElementById("foo"));
@@ -175,9 +149,7 @@ public class ElementWrappingTest extends GWTTestCase {
     assertEquals(IMG_URL, image.getUrl());
   }
 
-  /**
-   * Tests {@link InlineHTML#wrap(Element)}.
-   */
+  /** Tests {@link InlineHTML#wrap(Element)}. */
   public void testInlineHTML() {
     ensureDiv().setInnerHTML("<span id='foo'>myInlineHTML</span>");
     InlineHTML html = InlineHTML.wrap(Document.get().getElementById("foo"));
@@ -186,9 +158,7 @@ public class ElementWrappingTest extends GWTTestCase {
     assertEquals("myInlineHTML", html.getHTML());
   }
 
-  /**
-   * Tests {@link InlineLabel#wrap(Element)}.
-   */
+  /** Tests {@link InlineLabel#wrap(Element)}. */
   public void testInlineLabel() {
     ensureDiv().setInnerHTML("<span id='foo'>myInlineLabel</span>");
     InlineLabel label = InlineLabel.wrap(Document.get().getElementById("foo"));
@@ -197,9 +167,7 @@ public class ElementWrappingTest extends GWTTestCase {
     assertEquals("myInlineLabel", label.getText());
   }
 
-  /**
-   * Tests {@link Label#wrap(Element)}.
-   */
+  /** Tests {@link Label#wrap(Element)}. */
   public void testLabel() {
     ensureDiv().setInnerHTML("<div id='foo'>myLabel</div>");
     Label label = Label.wrap(Document.get().getElementById("foo"));
@@ -208,9 +176,7 @@ public class ElementWrappingTest extends GWTTestCase {
     assertEquals("myLabel", label.getText());
   }
 
-  /**
-   * Tests {@link ListBox#wrap(Element)}.
-   */
+  /** Tests {@link ListBox#wrap(Element)}. */
   public void testListBox() {
     ensureDiv().setInnerHTML("<select id='foo'></select>");
     ListBox listBox = ListBox.wrap(Document.get().getElementById("foo"));
@@ -219,17 +185,21 @@ public class ElementWrappingTest extends GWTTestCase {
   }
 
   /**
-   * Tests that all widgets passed to
-   * {@link RootPanel#detachOnWindowClose(Widget)} are cleaned up properly when
-   * the window is unloaded, regardless of whether their associated elements are
-   * still in the DOM or not.
+   * Tests that all widgets passed to {@link RootPanel#detachOnWindowClose(Widget)} are cleaned up
+   * properly when the window is unloaded, regardless of whether their associated elements are still
+   * in the DOM or not.
    */
   public void testOnUnloadDetachesAllWidgets() {
     // Testing hosted-mode-only assertion.
     if (!GWT.isScript()) {
-      ensureDiv().setInnerHTML(
-          "<a id='foo' href='" + TEST_URL + "'>myAnchor</a>"
-              + "<a id='bar' href='" + TEST_URL + "'>myOtherAnchor</a>");
+      ensureDiv()
+          .setInnerHTML(
+              "<a id='foo' href='"
+                  + TEST_URL
+                  + "'>myAnchor</a>"
+                  + "<a id='bar' href='"
+                  + TEST_URL
+                  + "'>myOtherAnchor</a>");
 
       // Wrap one widget that will be left in the DOM normally.
       Element fooElem = Document.get().getElementById("foo");
@@ -250,42 +220,31 @@ public class ElementWrappingTest extends GWTTestCase {
     }
   }
 
-  /**
-   * Tests {@link PasswordTextBox#wrap(Element)}.
-   */
+  /** Tests {@link PasswordTextBox#wrap(Element)}. */
   public void testPasswordTextBox() {
     ensureDiv().setInnerHTML("<input type='password' id='foo'></input>");
-    PasswordTextBox textBox = PasswordTextBox.wrap(Document.get().getElementById(
-        "foo"));
+    PasswordTextBox textBox = PasswordTextBox.wrap(Document.get().getElementById("foo"));
 
     assertExistsAndAttached(textBox);
   }
 
-  /**
-   * Tests {@link SimpleCheckBox#wrap(Element)}.
-   */
+  /** Tests {@link SimpleCheckBox#wrap(Element)}. */
   public void testSimpleCheckBox() {
     ensureDiv().setInnerHTML("<input type='checkbox' id='foo'></input>");
-    SimpleCheckBox checkBox = SimpleCheckBox.wrap(Document.get().getElementById(
-        "foo"));
+    SimpleCheckBox checkBox = SimpleCheckBox.wrap(Document.get().getElementById("foo"));
 
     assertExistsAndAttached(checkBox);
   }
 
-  /**
-   * Tests {@link SimpleRadioButton#wrap(Element)}.
-   */
+  /** Tests {@link SimpleRadioButton#wrap(Element)}. */
   public void testSimpleRadioButton() {
     ensureDiv().setInnerHTML("<input type='radio' id='foo'></input>");
-    SimpleRadioButton radio = SimpleRadioButton.wrap(Document.get().getElementById(
-        "foo"));
+    SimpleRadioButton radio = SimpleRadioButton.wrap(Document.get().getElementById("foo"));
 
     assertExistsAndAttached(radio);
   }
 
-  /**
-   * Tests {@link TextArea#wrap(Element)}.
-   */
+  /** Tests {@link TextArea#wrap(Element)}. */
   public void testTextArea() {
     ensureDiv().setInnerHTML("<textarea rows='1' cols='1' id='foo'></textarea>");
     TextArea textArea = TextArea.wrap(Document.get().getElementById("foo"));
@@ -293,9 +252,7 @@ public class ElementWrappingTest extends GWTTestCase {
     assertExistsAndAttached(textArea);
   }
 
-  /**
-   * Tests {@link TextBox#wrap(Element)}.
-   */
+  /** Tests {@link TextBox#wrap(Element)}. */
   public void testTextBox() {
     ensureDiv().setInnerHTML("<input type='text' id='foo'></input>");
     TextBox textBox = TextBox.wrap(Document.get().getElementById("foo"));
@@ -304,8 +261,7 @@ public class ElementWrappingTest extends GWTTestCase {
   }
 
   /**
-   * Tests that wrapping an element that is already a child of an existing
-   * widget's element fails.
+   * Tests that wrapping an element that is already a child of an existing widget's element fails.
    */
   public void testWrappingChildElementFails() {
     // Testing hosted-mode-only assertion.
@@ -327,10 +283,7 @@ public class ElementWrappingTest extends GWTTestCase {
     }
   }
 
-  /**
-   * Tests that wrap() may only be called on elements that are already attached
-   * to the DOM.
-   */
+  /** Tests that wrap() may only be called on elements that are already attached to the DOM. */
   public void testWrapUnattachedFails() {
     // Testing hosted-mode-only assertion.
     if (!GWT.isScript()) {

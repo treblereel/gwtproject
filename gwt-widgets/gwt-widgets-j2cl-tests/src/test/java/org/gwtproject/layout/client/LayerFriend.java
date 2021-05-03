@@ -19,9 +19,8 @@ import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.layout.client.Layout.Layer;
 
 /**
- * A helper class to gain access to the package protected internals of a
- * {@link Layout.Layer} from other packages. For testing purposes.
- *
+ * A helper class to gain access to the package protected internals of a {@link Layout.Layer} from
+ * other packages. For testing purposes.
  */
 public class LayerFriend {
 
@@ -78,5 +77,4 @@ public class LayerFriend {
   public Unit getWidthUnit() {
     return layer.widthUnit;
   }
-
 }

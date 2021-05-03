@@ -1,5 +1,5 @@
 /*
- * Copyright © 2018 The GWT Authors
+ * Copyright © 2021 The GWT Project Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,5 +27,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})
 public @interface I18N {
-  String[] value() default {};
+  String[] value();
 }

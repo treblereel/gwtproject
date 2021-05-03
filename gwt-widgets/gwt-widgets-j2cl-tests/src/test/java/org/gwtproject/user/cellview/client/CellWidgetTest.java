@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.cellview.client;
 
+import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
 import jsinterop.base.Js;
 import org.gwtproject.cell.client.AbstractCell;
@@ -27,20 +28,15 @@ import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.dom.client.Style;
 import org.gwtproject.event.logical.shared.ValueChangeEvent;
 import org.gwtproject.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.safehtml.shared.SafeHtmlBuilder;
 import org.gwtproject.user.client.Event;
 import org.gwtproject.view.client.ProvidesKey;
 
-/**
- * Tests for {@link CellWidget}.
- */
+/** Tests for {@link CellWidget}. */
 @J2clTestInput(CellWidgetTest.class)
 public class CellWidgetTest extends GWTTestCase {
 
-  /**
-   * A custom cell used for testing.
-   */
+  /** A custom cell used for testing. */
   private static class CustomCell extends AbstractCell<String> {
 
     private String lastEventValue;
@@ -67,7 +63,11 @@ public class CellWidgetTest extends GWTTestCase {
     }
 
     @Override
-    public void onBrowserEvent(Context context, Element parent, String value, NativeEvent event,
+    public void onBrowserEvent(
+        Context context,
+        Element parent,
+        String value,
+        NativeEvent event,
         ValueUpdater<String> valueUpdater) {
       lastEventValue = value;
       lastEventKey = context.getKey();
@@ -87,7 +87,7 @@ public class CellWidgetTest extends GWTTestCase {
 
   /**
    * A mock value change handler used for testing.
-   * 
+   *
    * @param <C> the data type
    */
   private static class MockValueChangeHandler<C> implements ValueChangeHandler<C> {
@@ -119,9 +119,7 @@ public class CellWidgetTest extends GWTTestCase {
     return "org.gwtproject.user.cellview.CellView";
   }
 
-  /**
-   * Tests that the cell widget will render correctly with an initial value of null.
-   */
+  /** Tests that the cell widget will render correctly with an initial value of null. */
   public void testInitialValueNull() {
     CustomCell cell = new CustomCell();
     CellWidget<String> cw = new CellWidget<String>(cell);
@@ -142,13 +140,14 @@ public class CellWidgetTest extends GWTTestCase {
   }
 
   public void testOnBrowserEventWithKeyProvider() {
-    ProvidesKey<String> keyProvider = new ProvidesKey<String>() {
-      @Override
-      public Object getKey(String item) {
-        // Return the first character as the key.
-        return (item == null) ? null : item.substring(0, 1);
-      }
-    };
+    ProvidesKey<String> keyProvider =
+        new ProvidesKey<String>() {
+          @Override
+          public Object getKey(String item) {
+            // Return the first character as the key.
+            return (item == null) ? null : item.substring(0, 1);
+          }
+        };
     CustomCell cell = new CustomCell();
     final CellWidget<String> cw = new CellWidget<String>(cell, "test", keyProvider);
     assertEquals("test", cw.getValue());
@@ -179,20 +178,18 @@ public class CellWidgetTest extends GWTTestCase {
     assertEquals("newValue", cw.getValue());
   }
 
-  /**
-   * Test that a cell that defines an HTML elment can be rendered.
-   */
+  /** Test that a cell that defines an HTML elment can be rendered. */
   public void testRedrawWithMultipleInnerChildren() {
-    Cell<String> cell = new AbstractCell<String>() {
-      @Override
-      public void render(Cell.Context context, String value,
-                         SafeHtmlBuilder sb) {
-        if (value != null) {
-          sb.appendHtmlConstant("<div>").appendEscaped(value).appendHtmlConstant("</div>");
-          sb.appendHtmlConstant("<div>child2</div>");
-        }
-      }
-    };
+    Cell<String> cell =
+        new AbstractCell<String>() {
+          @Override
+          public void render(Cell.Context context, String value, SafeHtmlBuilder sb) {
+            if (value != null) {
+              sb.appendHtmlConstant("<div>").appendEscaped(value).appendHtmlConstant("</div>");
+              sb.appendHtmlConstant("<div>child2</div>");
+            }
+          }
+        };
     CellWidget<String> cw = new CellWidget<String>(cell);
 
     // Set value without redrawing.
@@ -207,9 +204,7 @@ public class CellWidgetTest extends GWTTestCase {
     assertFalse(firstChildStyle.getWidth().matches("100(.0)?%"));
   }
 
-  /**
-   * Test that a cell that defines an HTML elment can be rendered.
-   */
+  /** Test that a cell that defines an HTML elment can be rendered. */
   public void testRedrawWithOneInnerChild() {
     CellWidget<String> cw = new CellWidget<String>(new TextButtonCell());
 
@@ -225,9 +220,7 @@ public class CellWidgetTest extends GWTTestCase {
     assertTrue(firstChildStyle.getWidth().matches("100(.0)?%"));
   }
 
-  /**
-   * Test that a cell that defines no HTML elments can be rendered.
-   */
+  /** Test that a cell that defines no HTML elments can be rendered. */
   public void testRedrawWithoutInnerChild() {
     CellWidget<String> cw = new CellWidget<String>(new CustomCell());
 

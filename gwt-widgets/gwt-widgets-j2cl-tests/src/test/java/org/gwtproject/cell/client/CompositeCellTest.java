@@ -15,10 +15,9 @@
  */
 package org.gwtproject.cell.client;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.NativeEvent;
@@ -26,219 +25,212 @@ import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.Event;
 import org.gwtproject.user.client.EventListener;
 
-/**
- * Tests for {@link CompositeCell}.
- */
+/** Tests for {@link CompositeCell}. */
 @J2clTestInput(CompositeCellTest.class)
 public class CompositeCellTest extends CellTestBase<String> {
 
-    /**
-     * Test dependsOnSelection and handlesSelection when one inner cell returns
-     * true for each of these.
-     */
-    public void testDependsOnSelectionTrue() {
-        // Add one cell that consumes events.
-        List<HasCell<String, ?>> cells = createHasCells(3);
-        final MockCell<String> mock = new MockCell<>(true, null);
-        addCell(mock, cells);
-        CompositeCell<String> cell = new CompositeCell<>(cells);
-        assertNull(cell.getConsumedEvents());
-        assertTrue(cell.dependsOnSelection());
-    }
+  /**
+   * Test dependsOnSelection and handlesSelection when one inner cell returns true for each of
+   * these.
+   */
+  public void testDependsOnSelectionTrue() {
+    // Add one cell that consumes events.
+    List<HasCell<String, ?>> cells = createHasCells(3);
+    final MockCell<String> mock = new MockCell<>(true, null);
+    addCell(mock, cells);
+    CompositeCell<String> cell = new CompositeCell<>(cells);
+    assertNull(cell.getConsumedEvents());
+    assertTrue(cell.dependsOnSelection());
+  }
 
-    /**
-     * Test getConsumedEvents when one inner cell consumes events.
-     */
-    public void testGetConsumedEventsTrue() {
-        // Add one cell that consumes events.
-        List<HasCell<String, ?>> cells = createHasCells(3);
-        final MockCell<String> mock = new MockCell<>(false, null, "click");
-        addCell(mock, cells);
-        CompositeCell<String> cell = new CompositeCell<>(cells);
-        assertEquals(1, cell.getConsumedEvents().size());
-        assertTrue(cell.getConsumedEvents().contains("click"));
-        assertFalse(cell.dependsOnSelection());
-    }
+  /** Test getConsumedEvents when one inner cell consumes events. */
+  public void testGetConsumedEventsTrue() {
+    // Add one cell that consumes events.
+    List<HasCell<String, ?>> cells = createHasCells(3);
+    final MockCell<String> mock = new MockCell<>(false, null, "click");
+    addCell(mock, cells);
+    CompositeCell<String> cell = new CompositeCell<>(cells);
+    assertEquals(1, cell.getConsumedEvents().size());
+    assertTrue(cell.getConsumedEvents().contains("click"));
+    assertFalse(cell.dependsOnSelection());
+  }
 
-    public void testIsEditingFalse() {
-        List<HasCell<String, ?>> cells = createHasCells(3);
-        CompositeCell<String> cell = new CompositeCell<>(cells);
-        Element parent = Document.get().createDivElement();
-        parent.setInnerHTML(getExpectedInnerHtml());
-        assertFalse(cell.isEditing(new Cell.Context(0, 0, null), parent, "test"));
-    }
+  public void testIsEditingFalse() {
+    List<HasCell<String, ?>> cells = createHasCells(3);
+    CompositeCell<String> cell = new CompositeCell<>(cells);
+    Element parent = Document.get().createDivElement();
+    parent.setInnerHTML(getExpectedInnerHtml());
+    assertFalse(cell.isEditing(new Cell.Context(0, 0, null), parent, "test"));
+  }
 
-    public void testIsEditingTrue() {
-        List<HasCell<String, ?>> cells = createHasCells(3);
-        // Add a cell that is being edited.
-        final MockCell<String> mock = new MockCell<String>(false, null) {
-            @Override
-            public boolean isEditing(Context context, Element parent, String value) {
-                return true;
-            }
+  public void testIsEditingTrue() {
+    List<HasCell<String, ?>> cells = createHasCells(3);
+    // Add a cell that is being edited.
+    final MockCell<String> mock =
+        new MockCell<String>(false, null) {
+          @Override
+          public boolean isEditing(Context context, Element parent, String value) {
+            return true;
+          }
         };
-        addCell(mock, cells);
-        CompositeCell<String> cell = new CompositeCell<>(cells);
-        Element parent = Document.get().createDivElement();
-        parent.setInnerHTML(getExpectedInnerHtml());
-        assertTrue(cell.isEditing(new Cell.Context(0, 0, null), parent, "test"));
-    }
+    addCell(mock, cells);
+    CompositeCell<String> cell = new CompositeCell<>(cells);
+    Element parent = Document.get().createDivElement();
+    parent.setInnerHTML(getExpectedInnerHtml());
+    assertTrue(cell.isEditing(new Cell.Context(0, 0, null), parent, "test"));
+  }
 
-    /**
-     * Fire an event to no cell in particular.
-     */
-    public void testOnBrowserEventNoCell() {
-        NativeEvent event = Document.get().createClickEvent(0, 0, 0, 0, 0, false,
-                                                            false, false, false);
-        testOnBrowserEvent(getExpectedInnerHtml(), event, "test", null);
-    }
+  /** Fire an event to no cell in particular. */
+  public void testOnBrowserEventNoCell() {
+    NativeEvent event = Document.get().createClickEvent(0, 0, 0, 0, 0, false, false, false, false);
+    testOnBrowserEvent(getExpectedInnerHtml(), event, "test", null);
+  }
 
-    /**
-     * Fire an event to a specific cell.
-     */
-    @SuppressWarnings("unchecked")
-    public void testOnBrowserEventCell() {
-        // Setup the parent element.
-        final Element parent = Document.get().createDivElement();
-        parent.setInnerHTML(getExpectedInnerHtml());
-        Document.get().getBody().appendChild(parent);
+  /** Fire an event to a specific cell. */
+  @SuppressWarnings("unchecked")
+  public void testOnBrowserEventCell() {
+    // Setup the parent element.
+    final Element parent = Document.get().createDivElement();
+    parent.setInnerHTML(getExpectedInnerHtml());
+    Document.get().getBody().appendChild(parent);
 
-        // Create the composite cell and updater.
-        List<HasCell<String, ?>> cells = createHasCells(2);
-        MockCell<String> innerCell = new MockCell<>(false, "fromCell2", "click");
-        addCell(innerCell, cells);
-        final CompositeCell<String> cell = new CompositeCell<String>(cells);
+    // Create the composite cell and updater.
+    List<HasCell<String, ?>> cells = createHasCells(2);
+    MockCell<String> innerCell = new MockCell<>(false, "fromCell2", "click");
+    addCell(innerCell, cells);
+    final CompositeCell<String> cell = new CompositeCell<String>(cells);
 
-        // Add an event listener.
-        EventListener listener = new EventListener() {
-            @Override
-            public void onBrowserEvent(Event event) {
-                Cell.Context context = new Cell.Context(3, 4, "key");
-                cell.onBrowserEvent(context, parent, "test-x", event, null);
-            }
+    // Add an event listener.
+    EventListener listener =
+        new EventListener() {
+          @Override
+          public void onBrowserEvent(Event event) {
+            Cell.Context context = new Cell.Context(3, 4, "key");
+            cell.onBrowserEvent(context, parent, "test-x", event, null);
+          }
         };
-        DOM.sinkEvents(parent, Event.ONCLICK);
-        DOM.setEventListener(parent, listener);
+    DOM.sinkEvents(parent, Event.ONCLICK);
+    DOM.setEventListener(parent, listener);
 
-        // Fire the event on one of the inner cells.
-        NativeEvent event = Document.get().createClickEvent(0, 0, 0, 0, 0, false,
-                                                            false, false, false);
-        Element.as(parent.getChild(2)).dispatchEvent(event);
-        innerCell.assertLastEventValue("test-x");
-        innerCell.assertLastParentElement(Element.as(parent.getChild(2)));
-        Cell.Context innerContext = innerCell.getLastContext();
-        assertEquals("key", innerContext.getKey());
-        assertEquals(3, innerContext.getIndex());
-        assertEquals(4, innerContext.getColumn());
+    // Fire the event on one of the inner cells.
+    NativeEvent event = Document.get().createClickEvent(0, 0, 0, 0, 0, false, false, false, false);
+    Element.as(parent.getChild(2)).dispatchEvent(event);
+    innerCell.assertLastEventValue("test-x");
+    innerCell.assertLastParentElement(Element.as(parent.getChild(2)));
+    Cell.Context innerContext = innerCell.getLastContext();
+    assertEquals("key", innerContext.getKey());
+    assertEquals(3, innerContext.getIndex());
+    assertEquals(4, innerContext.getColumn());
 
-        // Fire the event to another cell that doesn't consume this event. Shouldn't respond
-        // to the event
-        MockCell<String> innerCell2 = (MockCell<String>) cells.get(1).getCell();
-        Element.as(parent.getChild(1)).dispatchEvent(event);
-        innerCell2.assertLastEventValue(null);
+    // Fire the event to another cell that doesn't consume this event. Shouldn't respond
+    // to the event
+    MockCell<String> innerCell2 = (MockCell<String>) cells.get(1).getCell();
+    Element.as(parent.getChild(1)).dispatchEvent(event);
+    innerCell2.assertLastEventValue(null);
 
-        // Remove the element and event listener.
-        DOM.setEventListener(parent, null);
-        Document.get().getBody().removeChild(parent);
-    }
+    // Remove the element and event listener.
+    DOM.setEventListener(parent, null);
+    Document.get().getBody().removeChild(parent);
+  }
 
-    public void testSetValue() {
-        Cell<String> cell = createCell();
-        Element parent = Document.get().createDivElement();
-        parent.setInnerHTML(getExpectedInnerHtml());
-        Cell.Context context = new Cell.Context(0, 0, null);
-        cell.setValue(context, parent, "test");
+  public void testSetValue() {
+    Cell<String> cell = createCell();
+    Element parent = Document.get().createDivElement();
+    parent.setInnerHTML(getExpectedInnerHtml());
+    Cell.Context context = new Cell.Context(0, 0, null);
+    cell.setValue(context, parent, "test");
 
-        assertEquals(3, parent.getChildCount());
-        assertEquals("test-0", Element.as(parent.getChild(0)).getInnerHTML());
-        assertEquals("test-1", Element.as(parent.getChild(1)).getInnerHTML());
-        assertEquals("test-2", Element.as(parent.getChild(2)).getInnerHTML());
-    }
+    assertEquals(3, parent.getChildCount());
+    assertEquals("test-0", Element.as(parent.getChild(0)).getInnerHTML());
+    assertEquals("test-1", Element.as(parent.getChild(1)).getInnerHTML());
+    assertEquals("test-2", Element.as(parent.getChild(2)).getInnerHTML());
+  }
 
-    @Override
-    protected CompositeCell<String> createCell() {
-        return new CompositeCell<>(createHasCells(3));
-    }
+  @Override
+  protected CompositeCell<String> createCell() {
+    return new CompositeCell<>(createHasCells(3));
+  }
 
-    @Override
-    protected String createCellValue() {
-        return "helloworld";
-    }
+  @Override
+  protected String createCellValue() {
+    return "helloworld";
+  }
 
-    @Override
-    protected boolean dependsOnSelection() {
-        return false;
-    }
+  @Override
+  protected boolean dependsOnSelection() {
+    return false;
+  }
 
-    @Override
-    protected String[] getConsumedEvents() {
-        return null;
-    }
+  @Override
+  protected String[] getConsumedEvents() {
+    return null;
+  }
 
-    @Override
-    protected String getExpectedInnerHtml() {
-        return "<span>helloworld-0</span><span>helloworld-1</span><span>helloworld-2</span>";
-    }
+  @Override
+  protected String getExpectedInnerHtml() {
+    return "<span>helloworld-0</span><span>helloworld-1</span><span>helloworld-2</span>";
+  }
 
-    @Override
-    protected String getExpectedInnerHtmlNull() {
-        return "<span></span><span></span><span></span>";
-    }
+  @Override
+  protected String getExpectedInnerHtmlNull() {
+    return "<span></span><span></span><span></span>";
+  }
 
-    /**
-     * Add a cell to a {@link HasCell} list.
-     */
-    private void addCell(final Cell<String> cell, List<HasCell<String, ?>> cells) {
-        cells.add(new HasCell<String, String>() {
+  /** Add a cell to a {@link HasCell} list. */
+  private void addCell(final Cell<String> cell, List<HasCell<String, ?>> cells) {
+    cells.add(
+        new HasCell<String, String>() {
+          @Override
+          public Cell<String> getCell() {
+            return cell;
+          }
+
+          @Override
+          public FieldUpdater<String, String> getFieldUpdater() {
+            return null;
+          }
+
+          @Override
+          public String getValue(String object) {
+            return object;
+          }
+        });
+  }
+
+  /**
+   * Create an array of {@link HasCell}.
+   *
+   * @param count the number of cells to create
+   * @return the list of cells
+   */
+  private List<HasCell<String, ?>> createHasCells(int count) {
+    List<HasCell<String, ?>> cells = new ArrayList<>();
+    for (int i = 0; i < count; i++) {
+      final int index = i;
+      final MockCell<String> inner = new MockCell<>(false, "fromCell" + i);
+      cells.add(
+          new HasCell<String, String>() {
             @Override
             public Cell<String> getCell() {
-                return cell;
+              return inner;
             }
 
             @Override
             public FieldUpdater<String, String> getFieldUpdater() {
-                return null;
+              return null;
             }
 
             @Override
             public String getValue(String object) {
-                return object;
+              return object == null ? null : object + "-" + index;
             }
-        });
+          });
     }
+    return cells;
+  }
 
-    /**
-     * Create an array of {@link HasCell}.
-     * @param count the number of cells to create
-     * @return the list of cells
-     */
-    private List<HasCell<String, ?>> createHasCells(int count) {
-        List<HasCell<String, ?>> cells = new ArrayList<>();
-        for (int i = 0; i < count; i++) {
-            final int index = i;
-            final MockCell<String> inner = new MockCell<>(false, "fromCell" + i);
-            cells.add(new HasCell<String, String>() {
-                @Override
-                public Cell<String> getCell() {
-                    return inner;
-                }
-
-                @Override
-                public FieldUpdater<String, String> getFieldUpdater() {
-                    return null;
-                }
-
-                @Override
-                public String getValue(String object) {
-                    return object == null ? null : object + "-" + index;
-                }
-            });
-        }
-        return cells;
-    }
-
-    @Override
-    public String getModuleName() {
-        return "";
-    }
+  @Override
+  public String getModuleName() {
+    return "";
+  }
 }

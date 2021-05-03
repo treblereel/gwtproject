@@ -16,15 +16,11 @@
 package org.gwtproject.user.client.ui;
 
 import com.google.j2cl.junit.apt.J2clTestInput;
+import java.util.Locale;
 import org.gwtproject.i18n.client.HasDirection.Direction;
 import org.gwtproject.safehtml.shared.SafeHtmlUtils;
 
-import java.util.Locale;
-
-/**
- * Tests {@link HTML}.
- * Note: tests only the direction and alignment logic.
- */
+/** Tests {@link HTML}. Note: tests only the direction and alignment logic. */
 @J2clTestInput(HTMLTest.class)
 public class HTMLTest extends LabelTest {
 
@@ -45,20 +41,18 @@ public class HTMLTest extends LabelTest {
   // test that the SafeHtml constructor creates the HTML element correctly.
   public void testSafeHtmlConstructor() {
     HTML htmlElement = new HTML(SafeHtmlUtils.fromSafeConstant(html));
-    
+
     assertEquals(html, htmlElement.getHTML().toLowerCase(Locale.ROOT));
   }
 
   // test that the SafeHtml constructor creates the wordwrapped'ed HTML.
   public void testSafeHtmlConstructorWithDirection() {
-    HTML htmlElementLTR = new HTML(
-        SafeHtmlUtils.fromSafeConstant(html), Direction.LTR);
-    HTML htmlElementRTL = new HTML(
-        SafeHtmlUtils.fromSafeConstant(html), Direction.RTL);
-    
+    HTML htmlElementLTR = new HTML(SafeHtmlUtils.fromSafeConstant(html), Direction.LTR);
+    HTML htmlElementRTL = new HTML(SafeHtmlUtils.fromSafeConstant(html), Direction.RTL);
+
     assertEquals(html, htmlElementRTL.getHTML().toLowerCase(Locale.ROOT));
     assertEquals(html, htmlElementLTR.getHTML().toLowerCase(Locale.ROOT));
-    
+
     assertEquals(Direction.LTR, htmlElementLTR.getTextDirection());
     assertEquals(Direction.RTL, htmlElementRTL.getTextDirection());
   }
@@ -66,15 +60,14 @@ public class HTMLTest extends LabelTest {
   public void testSetSafeHtml() {
     HTML htmlElement = new HTML("<b>foo</b>");
     htmlElement.setHTML(SafeHtmlUtils.fromSafeConstant(html));
-    
+
     assertEquals(html, htmlElement.getHTML().toLowerCase(Locale.ROOT));
   }
-
 
   public void testSetSafeHtmlWithDirection() {
     HTML htmlElement = new HTML("<b>foo</b>");
     htmlElement.setHTML(SafeHtmlUtils.fromSafeConstant(html), Direction.LTR);
-    
+
     assertEquals(html, htmlElement.getHTML().toLowerCase(Locale.ROOT));
     assertEquals(Direction.LTR, htmlElement.getDirection());
   }
@@ -84,7 +77,7 @@ public class HTMLTest extends LabelTest {
     HTML html1 = new HTML();
     html1.setText("<b>test</b>");
     assertEquals("<b>test</b>", html1.getText());
-    
+
     // test that setting plain text with direction works
     HTML html2 = new HTML();
     html2.setText("<b>foo</b>", Direction.RTL);

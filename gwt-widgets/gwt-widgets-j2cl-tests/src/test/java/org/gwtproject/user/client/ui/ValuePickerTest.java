@@ -15,17 +15,14 @@
  */
 package org.gwtproject.user.client.ui;
 
-import com.google.j2cl.junit.apt.J2clTestInput;
-import org.gwtproject.cell.client.TextCell;
 import com.google.gwt.junit.client.GWTTestCase;
-import org.gwtproject.user.cellview.client.CellList;
-
+import com.google.j2cl.junit.apt.J2clTestInput;
 import java.util.Arrays;
 import java.util.List;
+import org.gwtproject.cell.client.TextCell;
+import org.gwtproject.user.cellview.client.CellList;
 
-/**
- * Tests for {@link ValuePicker}.
- */
+/** Tests for {@link ValuePicker}. */
 @J2clTestInput(ValuePickerTest.class)
 public class ValuePickerTest extends GWTTestCase {
 

@@ -16,17 +16,14 @@
 package org.gwtproject.view.client;
 
 import com.google.j2cl.junit.apt.J2clTestInput;
-import org.gwtproject.core.client.Scheduler;
-import org.gwtproject.core.client.Scheduler.ScheduledCommand;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 
-/**
- * Test cases for {@link org.gwtproject.view.client.ListDataProvider}.
- */
+/** Test cases for {@link org.gwtproject.view.client.ListDataProvider}. */
 @J2clTestInput(ListDataProviderTest.class)
 public class ListDataProviderTest extends AbstractDataProviderTest {
 
@@ -380,7 +377,7 @@ public class ListDataProviderTest extends AbstractDataProviderTest {
 
   public void testToArray() {
     List<String> list = createListDataProvider(3).getList();
-    String[] expected = new String[]{"test 0", "test 1", "test 2"};
+    String[] expected = new String[] {"test 0", "test 1", "test 2"};
 
     Object[] objects = list.toArray();
     String[] strings = list.toArray(new String[3]);
@@ -457,13 +454,15 @@ public class ListDataProviderTest extends AbstractDataProviderTest {
     // Verify that the old list doesn't trigger updates in the display.
     oldList.set(0, "newValue");
     delayTestFinish(2000);
-    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-      @Override
-      public void execute() {
-        assertNull(display.getLastRowData());
-        finishTest();
-      }
-    });
+    Scheduler.get()
+        .scheduleDeferred(
+            new ScheduledCommand() {
+              @Override
+              public void execute() {
+                assertNull(display.getLastRowData());
+                finishTest();
+              }
+            });
   }
 
   public void testSetListEmpty() {

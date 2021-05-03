@@ -18,15 +18,12 @@ package org.gwtproject.user.cellview.client;
 import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.view.client.TreeViewModel;
 
-/**
- * Tests for {@link CellTree} with animations enabled.
- */
+/** Tests for {@link CellTree} with animations enabled. */
 @J2clTestInput(AnimatedCellTreeTest.class)
 public class AnimatedCellTreeTest extends CellTreeTest {
 
   @Override
-  protected <T> CellTree createAbstractCellTree(
-      TreeViewModel model, T rootValue) {
+  protected <T> CellTree createAbstractCellTree(TreeViewModel model, T rootValue) {
     CellTree tree = super.createAbstractCellTree(model, rootValue);
     tree.setAnimationEnabled(true);
     return tree;

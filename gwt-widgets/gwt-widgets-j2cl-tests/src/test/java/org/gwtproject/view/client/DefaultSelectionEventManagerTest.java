@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,32 +15,25 @@
  */
 package org.gwtproject.view.client;
 
+import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
+import java.util.ArrayList;
+import java.util.List;
 import org.gwtproject.cell.client.Cell.Context;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.NativeEvent;
-import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.view.client.DefaultSelectionEventManager.BlacklistEventTranslator;
 import org.gwtproject.view.client.DefaultSelectionEventManager.SelectAction;
 import org.gwtproject.view.client.DefaultSelectionEventManager.WhitelistEventTranslator;
 
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Tests for {@link org.gwtproject.view.client.DefaultSelectionEventManager}.
- */
+/** Tests for {@link org.gwtproject.view.client.DefaultSelectionEventManager}. */
 @J2clTestInput(DefaultSelectionEventManagerTest.class)
 public class DefaultSelectionEventManagerTest extends GWTTestCase {
 
-  /**
-   * The mock display used in most tests.
-   */
+  /** The mock display used in most tests. */
   MockHasData<String> display;
 
-  /**
-   * The {@link org.gwtproject.view.client.DefaultSelectionEventManager} used in most tests.
-   */
+  /** The {@link org.gwtproject.view.client.DefaultSelectionEventManager} used in most tests. */
   org.gwtproject.view.client.DefaultSelectionEventManager<String> manager;
 
   @Override
@@ -49,8 +42,7 @@ public class DefaultSelectionEventManagerTest extends GWTTestCase {
   }
 
   public void testBlacklistEventTranslator() {
-    BlacklistEventTranslator<String> translator = new BlacklistEventTranslator<String>(
-        1, 3);
+    BlacklistEventTranslator<String> translator = new BlacklistEventTranslator<String>(1, 3);
     assertTrue(translator.isColumnBlacklisted(1));
     assertFalse(translator.isColumnBlacklisted(2));
     assertTrue(translator.isColumnBlacklisted(3));
@@ -72,7 +64,8 @@ public class DefaultSelectionEventManagerTest extends GWTTestCase {
   }
 
   public void testClearSelection() {
-    org.gwtproject.view.client.MultiSelectionModel<String> model = new org.gwtproject.view.client.MultiSelectionModel<String>();
+    org.gwtproject.view.client.MultiSelectionModel<String> model =
+        new org.gwtproject.view.client.MultiSelectionModel<String>();
     model.setSelected("foo", true);
     model.setSelected("bar", true);
     model.setSelected("baz", true);
@@ -83,7 +76,8 @@ public class DefaultSelectionEventManagerTest extends GWTTestCase {
   }
 
   public void testDoMultiSelection() {
-    org.gwtproject.view.client.MultiSelectionModel<String> model = new org.gwtproject.view.client.MultiSelectionModel<String>();
+    org.gwtproject.view.client.MultiSelectionModel<String> model =
+        new org.gwtproject.view.client.MultiSelectionModel<String>();
     display.setSelectionModel(model);
 
     // Select one value.
@@ -103,11 +97,10 @@ public class DefaultSelectionEventManagerTest extends GWTTestCase {
     assertSelected(model, "test 3");
   }
 
-  /**
-   * Test that the user can change the selected range based at an anchor point.
-   */
+  /** Test that the user can change the selected range based at an anchor point. */
   public void testDoMultiSelectionChangeRange() {
-    org.gwtproject.view.client.MultiSelectionModel<String> model = new org.gwtproject.view.client.MultiSelectionModel<String>();
+    org.gwtproject.view.client.MultiSelectionModel<String> model =
+        new org.gwtproject.view.client.MultiSelectionModel<String>();
     display.setSelectionModel(model);
 
     // Select the anchor.
@@ -140,37 +133,36 @@ public class DefaultSelectionEventManagerTest extends GWTTestCase {
   }
 
   public void testDoMultiSelectionDeselect() {
-    org.gwtproject.view.client.MultiSelectionModel<String> model = new org.gwtproject.view.client.MultiSelectionModel<String>();
+    org.gwtproject.view.client.MultiSelectionModel<String> model =
+        new org.gwtproject.view.client.MultiSelectionModel<String>();
     display.setSelectionModel(model);
 
     // Select one value.
-    manager.doMultiSelection(model, display, 0, "test 0", SelectAction.SELECT,
-        false, false);
+    manager.doMultiSelection(model, display, 0, "test 0", SelectAction.SELECT, false, false);
     assertSelected(model, "test 0");
 
     // Deselect another value.
-    manager.doMultiSelection(model, display, 3, "test 3",
-        SelectAction.DESELECT, false, false);
+    manager.doMultiSelection(model, display, 3, "test 3", SelectAction.DESELECT, false, false);
     assertSelected(model, "test 0");
 
     // Deselect the value.
-    manager.doMultiSelection(model, display, 0, "test 0",
-        SelectAction.DESELECT, false, false);
+    manager.doMultiSelection(model, display, 0, "test 0", SelectAction.DESELECT, false, false);
     assertSelected(model);
   }
 
   public void testDoMultiSelectionIgnore() {
-    org.gwtproject.view.client.MultiSelectionModel<String> model = new org.gwtproject.view.client.MultiSelectionModel<String>();
+    org.gwtproject.view.client.MultiSelectionModel<String> model =
+        new org.gwtproject.view.client.MultiSelectionModel<String>();
     display.setSelectionModel(model);
 
     // Select one value.
-    manager.doMultiSelection(model, display, 0, "test 0", SelectAction.IGNORE,
-        false, false);
+    manager.doMultiSelection(model, display, 0, "test 0", SelectAction.IGNORE, false, false);
     assertSelected(model);
   }
 
   public void testDoMultiSelectionRange() {
-    org.gwtproject.view.client.MultiSelectionModel<String> model = new org.gwtproject.view.client.MultiSelectionModel<String>();
+    org.gwtproject.view.client.MultiSelectionModel<String> model =
+        new org.gwtproject.view.client.MultiSelectionModel<String>();
     display.setSelectionModel(model);
 
     // Select range, but really only one value because nothing is selected.
@@ -187,13 +179,11 @@ public class DefaultSelectionEventManagerTest extends GWTTestCase {
 
     // Select a second range and do not clear.
     manager.doMultiSelection(model, display, 9, "test 9", null, true, false);
-    assertSelected(model, "test 3", "test 4", "test 5", "test 7", "test 8",
-        "test 9");
+    assertSelected(model, "test 3", "test 4", "test 5", "test 7", "test 8", "test 9");
 
     // Select a different value and do not clear.
     manager.doMultiSelection(model, display, 0, "test 0", null, false, false);
-    assertSelected(model, "test 0", "test 3", "test 4", "test 5", "test 7",
-        "test 8", "test 9");
+    assertSelected(model, "test 0", "test 3", "test 4", "test 5", "test 7", "test 8", "test 9");
 
     // Select an overlapping range and clear.
     manager.doMultiSelection(model, display, 4, "test 4", null, true, true);
@@ -204,11 +194,10 @@ public class DefaultSelectionEventManagerTest extends GWTTestCase {
     assertSelected(model, "test 3");
   }
 
-  /**
-   * Test that selecting a range works when the visible range doesn't start at index 0.
-   */
+  /** Test that selecting a range works when the visible range doesn't start at index 0. */
   public void testDoMultiSelectionRangeWithPaging() {
-    org.gwtproject.view.client.MultiSelectionModel<String> model = new org.gwtproject.view.client.MultiSelectionModel<String>();
+    org.gwtproject.view.client.MultiSelectionModel<String> model =
+        new org.gwtproject.view.client.MultiSelectionModel<String>();
     display.setVisibleRange(10, 10);
     display.setRowData(10, createData(10, 10));
     display.setSelectionModel(model);
@@ -223,45 +212,45 @@ public class DefaultSelectionEventManagerTest extends GWTTestCase {
   }
 
   public void testDoMultiSelectionSelect() {
-    org.gwtproject.view.client.MultiSelectionModel<String> model = new org.gwtproject.view.client.MultiSelectionModel<String>();
+    org.gwtproject.view.client.MultiSelectionModel<String> model =
+        new org.gwtproject.view.client.MultiSelectionModel<String>();
     display.setSelectionModel(model);
 
     // Select one value.
-    manager.doMultiSelection(model, display, 0, "test 0", SelectAction.SELECT,
-        false, false);
+    manager.doMultiSelection(model, display, 0, "test 0", SelectAction.SELECT, false, false);
     assertSelected(model, "test 0");
 
     // Add another value.
-    manager.doMultiSelection(model, display, 3, "test 3", SelectAction.SELECT,
-        false, false);
+    manager.doMultiSelection(model, display, 3, "test 3", SelectAction.SELECT, false, false);
     assertSelected(model, "test 0", "test 3");
   }
 
   public void testDoMultiSelectionToggle() {
-    org.gwtproject.view.client.MultiSelectionModel<String> model = new org.gwtproject.view.client.MultiSelectionModel<String>();
+    org.gwtproject.view.client.MultiSelectionModel<String> model =
+        new org.gwtproject.view.client.MultiSelectionModel<String>();
     display.setSelectionModel(model);
 
     // Toggle a deselected value.
-    manager.doMultiSelection(model, display, 0, "test 0", SelectAction.TOGGLE,
-        false, false);
+    manager.doMultiSelection(model, display, 0, "test 0", SelectAction.TOGGLE, false, false);
     assertSelected(model, "test 0");
 
     // Toggle a selected value.
-    manager.doMultiSelection(model, display, 0, "test 0", SelectAction.TOGGLE,
-        false, false);
+    manager.doMultiSelection(model, display, 0, "test 0", SelectAction.TOGGLE, false, false);
     assertSelected(model);
   }
 
   public void testHandleSelectionEvent() {
-    org.gwtproject.view.client.SingleSelectionModel<String> model = new org.gwtproject.view.client.SingleSelectionModel<String>();
+    org.gwtproject.view.client.SingleSelectionModel<String> model =
+        new org.gwtproject.view.client.SingleSelectionModel<String>();
     display.setSelectionModel(model);
     model.setSelected("test 0", true);
 
     // Select a different value.
-    NativeEvent nativeEvent = Document.get().createClickEvent(0, 0, 0, 0, 0,
-        false, false, false, false);
-    org.gwtproject.view.client.CellPreviewEvent<String> event = new org.gwtproject.view.client.CellPreviewEvent<String>(nativeEvent,
-        display, new Context(1, 0, null), "test 1", false, false);
+    NativeEvent nativeEvent =
+        Document.get().createClickEvent(0, 0, 0, 0, 0, false, false, false, false);
+    org.gwtproject.view.client.CellPreviewEvent<String> event =
+        new org.gwtproject.view.client.CellPreviewEvent<String>(
+            nativeEvent, display, new Context(1, 0, null), "test 1", false, false);
     manager.handleSelectionEvent(event, null, model);
     assertEquals("test 1", model.getSelectedObject());
 
@@ -270,18 +259,18 @@ public class DefaultSelectionEventManagerTest extends GWTTestCase {
     assertEquals("test 1", model.getSelectedObject());
 
     // Ctrl+Select the same value.
-    nativeEvent = Document.get().createClickEvent(0, 0, 0, 0, 0, true, false,
-        false, true);
-    event = new org.gwtproject.view.client.CellPreviewEvent<String>(nativeEvent, display, new Context(1,
-        0, null), "test 1", false, false);
+    nativeEvent = Document.get().createClickEvent(0, 0, 0, 0, 0, true, false, false, true);
+    event =
+        new org.gwtproject.view.client.CellPreviewEvent<String>(
+            nativeEvent, display, new Context(1, 0, null), "test 1", false, false);
     manager.handleSelectionEvent(event, null, model);
     assertNull(model.getSelectedObject());
 
     // Spacebar a different value.
-    nativeEvent = Document.get().createKeyUpEvent(false, false, false, false,
-        32);
-    event = new org.gwtproject.view.client.CellPreviewEvent<String>(nativeEvent, display, new Context(2,
-        0, null), "test 2", false, false);
+    nativeEvent = Document.get().createKeyUpEvent(false, false, false, false, 32);
+    event =
+        new org.gwtproject.view.client.CellPreviewEvent<String>(
+            nativeEvent, display, new Context(2, 0, null), "test 2", false, false);
     manager.handleSelectionEvent(event, null, model);
     assertEquals("test 2", model.getSelectedObject());
 
@@ -291,68 +280,78 @@ public class DefaultSelectionEventManagerTest extends GWTTestCase {
   }
 
   public void testHandleSelectionEventDeselect() {
-    org.gwtproject.view.client.SingleSelectionModel<String> model = new org.gwtproject.view.client.SingleSelectionModel<String>();
+    org.gwtproject.view.client.SingleSelectionModel<String> model =
+        new org.gwtproject.view.client.SingleSelectionModel<String>();
     display.setSelectionModel(model);
     model.setSelected("test 0", true);
 
     // Deselect a different value.
-    NativeEvent nativeEvent = Document.get().createClickEvent(0, 0, 0, 0, 0,
-        false, false, false, false);
-    org.gwtproject.view.client.CellPreviewEvent<String> event = new org.gwtproject.view.client.CellPreviewEvent<String>(nativeEvent,
-        display, new Context(1, 0, null), "test 1", false, false);
+    NativeEvent nativeEvent =
+        Document.get().createClickEvent(0, 0, 0, 0, 0, false, false, false, false);
+    org.gwtproject.view.client.CellPreviewEvent<String> event =
+        new org.gwtproject.view.client.CellPreviewEvent<String>(
+            nativeEvent, display, new Context(1, 0, null), "test 1", false, false);
     manager.handleSelectionEvent(event, SelectAction.DESELECT, model);
     assertEquals("test 0", model.getSelectedObject());
 
     // Deselect the same value.
-    event = new org.gwtproject.view.client.CellPreviewEvent<String>(nativeEvent, display, new Context(0,
-        0, null), "test 0", false, false);
+    event =
+        new org.gwtproject.view.client.CellPreviewEvent<String>(
+            nativeEvent, display, new Context(0, 0, null), "test 0", false, false);
     manager.handleSelectionEvent(event, SelectAction.DESELECT, model);
     assertNull(model.getSelectedObject());
   }
 
   public void testHandleSelectionEventIgnore() {
-    org.gwtproject.view.client.SingleSelectionModel<String> model = new org.gwtproject.view.client.SingleSelectionModel<String>();
+    org.gwtproject.view.client.SingleSelectionModel<String> model =
+        new org.gwtproject.view.client.SingleSelectionModel<String>();
     display.setSelectionModel(model);
     model.setSelected("test 0", true);
 
-    NativeEvent nativeEvent = Document.get().createClickEvent(0, 0, 0, 0, 0,
-        false, false, false, false);
-    org.gwtproject.view.client.CellPreviewEvent<String> event = new org.gwtproject.view.client.CellPreviewEvent<String>(nativeEvent,
-        display, new Context(3, 0, null), "test 3", false, false);
+    NativeEvent nativeEvent =
+        Document.get().createClickEvent(0, 0, 0, 0, 0, false, false, false, false);
+    org.gwtproject.view.client.CellPreviewEvent<String> event =
+        new org.gwtproject.view.client.CellPreviewEvent<String>(
+            nativeEvent, display, new Context(3, 0, null), "test 3", false, false);
     manager.handleSelectionEvent(event, SelectAction.IGNORE, model);
     assertEquals("test 0", model.getSelectedObject());
   }
 
   public void testHandleSelectionEventSelect() {
-    org.gwtproject.view.client.SingleSelectionModel<String> model = new org.gwtproject.view.client.SingleSelectionModel<String>();
+    org.gwtproject.view.client.SingleSelectionModel<String> model =
+        new org.gwtproject.view.client.SingleSelectionModel<String>();
     display.setSelectionModel(model);
     model.setSelected("test 0", true);
 
     // Select the same value.
-    NativeEvent nativeEvent = Document.get().createClickEvent(0, 0, 0, 0, 0,
-        false, false, false, false);
-    org.gwtproject.view.client.CellPreviewEvent<String> event = new org.gwtproject.view.client.CellPreviewEvent<String>(nativeEvent,
-        display, new Context(0, 0, null), "test 0", false, false);
+    NativeEvent nativeEvent =
+        Document.get().createClickEvent(0, 0, 0, 0, 0, false, false, false, false);
+    org.gwtproject.view.client.CellPreviewEvent<String> event =
+        new org.gwtproject.view.client.CellPreviewEvent<String>(
+            nativeEvent, display, new Context(0, 0, null), "test 0", false, false);
     manager.handleSelectionEvent(event, SelectAction.SELECT, model);
     assertEquals("test 0", model.getSelectedObject());
 
     // Select a different value.
-    event = new org.gwtproject.view.client.CellPreviewEvent<String>(nativeEvent, display, new Context(1,
-        0, null), "test 1", false, false);
+    event =
+        new org.gwtproject.view.client.CellPreviewEvent<String>(
+            nativeEvent, display, new Context(1, 0, null), "test 1", false, false);
     manager.handleSelectionEvent(event, SelectAction.SELECT, model);
     assertEquals("test 1", model.getSelectedObject());
   }
 
   public void testHandleSelectionEventToggle() {
-    org.gwtproject.view.client.SingleSelectionModel<String> model = new SingleSelectionModel<String>();
+    org.gwtproject.view.client.SingleSelectionModel<String> model =
+        new SingleSelectionModel<String>();
     display.setSelectionModel(model);
     model.setSelected("test 0", true);
 
     // Toggle a different value.
-    NativeEvent nativeEvent = Document.get().createClickEvent(0, 0, 0, 0, 0,
-        false, false, false, false);
-    org.gwtproject.view.client.CellPreviewEvent<String> event = new CellPreviewEvent<String>(nativeEvent,
-        display, new Context(1, 0, null), "test 1", false, false);
+    NativeEvent nativeEvent =
+        Document.get().createClickEvent(0, 0, 0, 0, 0, false, false, false, false);
+    org.gwtproject.view.client.CellPreviewEvent<String> event =
+        new CellPreviewEvent<String>(
+            nativeEvent, display, new Context(1, 0, null), "test 1", false, false);
     manager.handleSelectionEvent(event, SelectAction.TOGGLE, model);
     assertEquals("test 1", model.getSelectedObject());
 
@@ -362,7 +361,8 @@ public class DefaultSelectionEventManagerTest extends GWTTestCase {
   }
 
   public void testSelectOne() {
-    org.gwtproject.view.client.MultiSelectionModel<String> model = new org.gwtproject.view.client.MultiSelectionModel<String>();
+    org.gwtproject.view.client.MultiSelectionModel<String> model =
+        new org.gwtproject.view.client.MultiSelectionModel<String>();
     model.setSelected("foo", true);
     model.setSelected("bar", true);
     model.setSelected("baz", true);
@@ -373,7 +373,8 @@ public class DefaultSelectionEventManagerTest extends GWTTestCase {
   }
 
   public void testSelectOneAlreadySelected() {
-    org.gwtproject.view.client.MultiSelectionModel<String> model = new org.gwtproject.view.client.MultiSelectionModel<String>();
+    org.gwtproject.view.client.MultiSelectionModel<String> model =
+        new org.gwtproject.view.client.MultiSelectionModel<String>();
     model.setSelected("foo", true);
     model.setSelected("bar", true);
     model.setSelected("baz", true);
@@ -384,7 +385,8 @@ public class DefaultSelectionEventManagerTest extends GWTTestCase {
   }
 
   public void testSelectOneWithoutClearing() {
-    org.gwtproject.view.client.MultiSelectionModel<String> model = new org.gwtproject.view.client.MultiSelectionModel<String>();
+    org.gwtproject.view.client.MultiSelectionModel<String> model =
+        new org.gwtproject.view.client.MultiSelectionModel<String>();
     model.setSelected("foo", true);
     model.setSelected("bar", true);
     model.setSelected("baz", true);
@@ -395,7 +397,8 @@ public class DefaultSelectionEventManagerTest extends GWTTestCase {
   }
 
   public void testSetRangeSelection() {
-    org.gwtproject.view.client.MultiSelectionModel<String> model = new org.gwtproject.view.client.MultiSelectionModel<String>();
+    org.gwtproject.view.client.MultiSelectionModel<String> model =
+        new org.gwtproject.view.client.MultiSelectionModel<String>();
     display.setSelectionModel(model);
     model.setSelected("test 1", true);
     model.setSelected("test 2", true);
@@ -403,21 +406,24 @@ public class DefaultSelectionEventManagerTest extends GWTTestCase {
     assertSelected(model, "test 1", "test 2", "test 4");
 
     // Select a new range 6-7.
-    manager.setRangeSelection(model, display, new org.gwtproject.view.client.Range(6, 2), true, false);
+    manager.setRangeSelection(
+        model, display, new org.gwtproject.view.client.Range(6, 2), true, false);
     assertSelected(model, "test 1", "test 2", "test 4", "test 6", "test 7");
 
     // Select an overlap range 1-3.
-    manager.setRangeSelection(model, display, new org.gwtproject.view.client.Range(1, 3), true, false);
-    assertSelected(model, "test 1", "test 2", "test 3", "test 4", "test 6",
-        "test 7");
+    manager.setRangeSelection(
+        model, display, new org.gwtproject.view.client.Range(1, 3), true, false);
+    assertSelected(model, "test 1", "test 2", "test 3", "test 4", "test 6", "test 7");
 
     // Select an overlap range 2-5 and clear.
-    manager.setRangeSelection(model, display, new org.gwtproject.view.client.Range(2, 4), true, true);
+    manager.setRangeSelection(
+        model, display, new org.gwtproject.view.client.Range(2, 4), true, true);
     assertSelected(model, "test 2", "test 3", "test 4", "test 5");
   }
 
   public void testSetRangeSelectionDeselect() {
-    org.gwtproject.view.client.MultiSelectionModel<String> model = new org.gwtproject.view.client.MultiSelectionModel<String>();
+    org.gwtproject.view.client.MultiSelectionModel<String> model =
+        new org.gwtproject.view.client.MultiSelectionModel<String>();
     display.setSelectionModel(model);
     model.setSelected("test 1", true);
     model.setSelected("test 2", true);
@@ -430,8 +436,7 @@ public class DefaultSelectionEventManagerTest extends GWTTestCase {
   }
 
   public void testWhitelistEventTranslator() {
-    WhitelistEventTranslator<String> translator = new WhitelistEventTranslator<String>(
-        1, 3);
+    WhitelistEventTranslator<String> translator = new WhitelistEventTranslator<String>(1, 3);
     assertTrue(translator.isColumnWhitelisted(1));
     assertFalse(translator.isColumnWhitelisted(2));
     assertTrue(translator.isColumnWhitelisted(3));
@@ -453,9 +458,9 @@ public class DefaultSelectionEventManagerTest extends GWTTestCase {
   }
 
   /**
-   * Assert that the expected values are selected in the specified
-   * {@link org.gwtproject.view.client.MultiSelectionModel}.
-   * 
+   * Assert that the expected values are selected in the specified {@link
+   * org.gwtproject.view.client.MultiSelectionModel}.
+   *
    * @param <T> the data type
    * @param model the {@link org.gwtproject.view.client.MultiSelectionModel} to check
    * @param expected the expected values
@@ -469,7 +474,7 @@ public class DefaultSelectionEventManagerTest extends GWTTestCase {
 
   /**
    * Create a list of data for testing.
-   * 
+   *
    * @param start the start index
    * @param length the length
    * @return a list of data
@@ -486,7 +491,7 @@ public class DefaultSelectionEventManagerTest extends GWTTestCase {
   protected void gwtSetUp() {
     display = new MockHasData<String>();
     display.setRowData(0, createData(0, 10));
-    manager = DefaultSelectionEventManager.<String> createDefaultManager();
+    manager = DefaultSelectionEventManager.<String>createDefaultManager();
   }
 
   @Override

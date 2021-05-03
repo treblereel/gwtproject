@@ -15,18 +15,15 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
+import java.util.Locale;
 import org.gwtproject.dom.client.EventTarget;
 import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.event.dom.client.ClickHandler;
-import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.safehtml.shared.SafeHtmlUtils;
 
-import java.util.Locale;
-
-/**
- * Tests for {@link SubmitButton}.
- */
+/** Tests for {@link SubmitButton}. */
 @J2clTestInput(SubmitButtonTest.class)
 public class SubmitButtonTest extends GWTTestCase {
 
@@ -49,17 +46,15 @@ public class SubmitButtonTest extends GWTTestCase {
   }
 
   public void testSetSafeHtmlConstructor() {
-    SubmitButton button = 
-      new SubmitButton(SafeHtmlUtils.fromSafeConstant(html));
-    
+    SubmitButton button = new SubmitButton(SafeHtmlUtils.fromSafeConstant(html));
+
     assertEquals(html, button.getHTML().toLowerCase(Locale.ROOT));
   }
 
   public void testSafeHtmlWithHandler() {
     H handler = new H();
-    SubmitButton button = 
-      new SubmitButton(SafeHtmlUtils.fromSafeConstant(html), handler);
-    
+    SubmitButton button = new SubmitButton(SafeHtmlUtils.fromSafeConstant(html), handler);
+
     assertEquals(html, button.getHTML().toLowerCase(Locale.ROOT));
   }
 }

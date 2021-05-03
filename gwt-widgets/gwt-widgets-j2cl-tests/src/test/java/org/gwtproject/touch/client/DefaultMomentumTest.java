@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -17,21 +17,13 @@ package org.gwtproject.touch.client;
 
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
-import org.gwtproject.media.client.AudioTest;
 import org.gwtproject.touch.client.Momentum.State;
 
-import junit.framework.TestCase;
-
-/**
- * Tests for {@link DefaultMomentum}.
- */
+/** Tests for {@link DefaultMomentum}. */
 @J2clTestInput(DefaultMomentumTest.class)
 public class DefaultMomentumTest extends GWTTestCase {
 
-  /**
-   * Test updating the state before the acceleration falls below the minimum
-   * acceleration.
-   */
+  /** Test updating the state before the acceleration falls below the minimum acceleration. */
   public void testUpdateStateFast() {
     DefaultMomentum momentum = new DefaultMomentum();
     State state = momentum.createState(new Point(0.0, 0.0), new Point(1.0, 2.0));
@@ -52,10 +44,7 @@ public class DefaultMomentumTest extends GWTTestCase {
     assertEquals(10.1302, position.getY(), 0.0001); // .2 + v * 5ms5
   }
 
-  /**
-   * Test updating the state after the X acceleration falls below the minimum
-   * acceleration.
-   */
+  /** Test updating the state after the X acceleration falls below the minimum acceleration. */
   public void testUpdateStateSlowX() {
     DefaultMomentum momentum = new DefaultMomentum();
     State state = momentum.createState(new Point(0.0, 0.0), new Point(0.005, 1.0));
@@ -76,10 +65,7 @@ public class DefaultMomentumTest extends GWTTestCase {
     assertEquals(5.0651, position.getY(), 0.0001); // .1 + v * 5ms
   }
 
-  /**
-   * Test updating the state after the Y acceleration falls below the minimum
-   * acceleration.
-   */
+  /** Test updating the state after the Y acceleration falls below the minimum acceleration. */
   public void testUpdateStateSlowY() {
     DefaultMomentum momentum = new DefaultMomentum();
     State state = momentum.createState(new Point(0.0, 0.0), new Point(1.0, 0.005));
@@ -100,9 +86,7 @@ public class DefaultMomentumTest extends GWTTestCase {
     assertEquals(0.2125, position.getY(), 0.0001); // .2 + v * 5ms
   }
 
-  /**
-   * Test updating the state returns null when we reach the minimum velocity.
-   */
+  /** Test updating the state returns null when we reach the minimum velocity. */
   public void testUpdateStateMinimumVelociy() {
     DefaultMomentum momentum = new DefaultMomentum();
     State state = momentum.createState(new Point(0.0, 0.0), new Point(0.02, 0.02));

@@ -16,6 +16,7 @@
 package org.gwtproject.user.client.ui;
 
 import com.google.j2cl.junit.apt.J2clTestInput;
+import java.util.Locale;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import org.gwtproject.dom.client.Document;
@@ -35,19 +36,12 @@ import org.gwtproject.safehtml.shared.SafeHtmlUtils;
 import org.gwtproject.timer.client.Timer;
 import org.gwtproject.user.client.DOM;
 
-import java.util.Locale;
-
-/**
- * Unit test for {@link DialogBox}.
- */
+/** Unit test for {@link DialogBox}. */
 @J2clTestInput(DialogBoxTest.class)
 public class DialogBoxTest extends PopupTest {
 
-  /**
-   * An implementation of Caption which is used for testing.
-   */
-  private static class CaptionForTesting extends Composite implements
-      DialogBox.Caption, HasHTML {
+  /** An implementation of Caption which is used for testing. */
+  private static class CaptionForTesting extends Composite implements DialogBox.Caption, HasHTML {
 
     private FocusPanel panel = new FocusPanel();
     private HTML htmlWidget = new HTML();
@@ -120,9 +114,7 @@ public class DialogBoxTest extends PopupTest {
     return "org.gwtproject.user.DebugTest";
   }
 
-  /**
-   * Test the accessors.
-   */
+  /** Test the accessors. */
   @Override
   public void testAccessors() {
     super.testAccessors();
@@ -139,9 +131,7 @@ public class DialogBoxTest extends PopupTest {
     assertNull(box1.getWidget());
   }
 
-  /**
-   * Test getters and setters for the caption.
-   */
+  /** Test getters and setters for the caption. */
   public void testCaption() {
     DialogBox dialogBox = new DialogBox();
 
@@ -171,19 +161,19 @@ public class DialogBoxTest extends PopupTest {
 
     // Check the body ids
     UIObjectTest.assertDebugId("myDialogBox", dBox.getElement());
-    UIObjectTest.assertDebugId("myDialogBox-content",
-        DOM.getParent(content.getElement()));
+    UIObjectTest.assertDebugId("myDialogBox-content", DOM.getParent(content.getElement()));
 
     delayTestFinish(5000);
     // Check the header IDs
-    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-      @Override
-      public void execute() {
-        UIObjectTest.assertDebugIdContents("myDialogBox-caption",
-        "test caption");
-        finishTest();
-      }
-    });
+    Scheduler.get()
+        .scheduleDeferred(
+            new ScheduledCommand() {
+              @Override
+              public void execute() {
+                UIObjectTest.assertDebugIdContents("myDialogBox-caption", "test caption");
+                finishTest();
+              }
+            });
   }
 
   @Override
@@ -193,19 +183,20 @@ public class DialogBoxTest extends PopupTest {
     dependantPopup.setAnimationEnabled(true);
 
     // Create the primary popup
-    final DialogBox primaryPopup = new DialogBox(false, false) {
-      @Override
-      protected void onAttach() {
-        dependantPopup.show();
-        super.onAttach();
-      }
+    final DialogBox primaryPopup =
+        new DialogBox(false, false) {
+          @Override
+          protected void onAttach() {
+            dependantPopup.show();
+            super.onAttach();
+          }
 
-      @Override
-      protected void onDetach() {
-        dependantPopup.hide();
-        super.onDetach();
-      }
-    };
+          @Override
+          protected void onDetach() {
+            dependantPopup.hide();
+            super.onDetach();
+          }
+        };
     primaryPopup.setAnimationEnabled(true);
 
     testDependantPopupPanel(primaryPopup);
@@ -229,9 +220,11 @@ public class DialogBoxTest extends PopupTest {
     assertNotNull(autoHideBox.resizeHandlerRegistration);
 
     // trigger auto hide with mouse down
-    NativeEvent mouseDownEvent = dialogBox.getElement()
-        .getOwnerDocument().createMouseDownEvent(
-        0, 0, 0, 0, 0, false, false, false, false, 0);
+    NativeEvent mouseDownEvent =
+        dialogBox
+            .getElement()
+            .getOwnerDocument()
+            .createMouseDownEvent(0, 0, 0, 0, 0, false, false, false, false, 0);
     Document.get().getBody().dispatchEvent(mouseDownEvent);
     // handler should be gone
     new Timer() {
@@ -249,9 +242,7 @@ public class DialogBoxTest extends PopupTest {
     assertEquals(html, box.getHTML().toLowerCase(Locale.ROOT));
   }
 
-  /**
-   * Test setting the caption.
-   */
+  /** Test setting the caption. */
   public void testSetCaption() {
     CaptionForTesting caption = new CaptionForTesting();
     DialogBox dialogBox = new DialogBox(caption);
@@ -269,12 +260,13 @@ public class DialogBoxTest extends PopupTest {
   public void testSimpleCloseButtonOnModalDialog() {
     final DialogBox dialogBox = new DialogBox(false, true);
     Button button = new Button();
-    button.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        dialogBox.hide();
-      }
-    });
+    button.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(ClickEvent event) {
+            dialogBox.hide();
+          }
+        });
     dialogBox.add(button);
     dialogBox.show();
     button.click();

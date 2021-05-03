@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,20 +15,17 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
-import jsinterop.base.Js;
 import org.gwtproject.aria.client.State;
 import org.gwtproject.debug.client.DebugInfo;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.SpanElement;
 import org.gwtproject.dom.client.Style;
-import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.user.client.DOM;
 
-/**
- * Tests UIObject. Currently, focuses on style name behaviors.
- */
+/** Tests UIObject. Currently, focuses on style name behaviors. */
 @J2clTestInput(UIObjectTest.class)
 public class UIObjectTest extends GWTTestCase {
   static class MyObject extends UIObject {
@@ -48,7 +45,7 @@ public class UIObjectTest extends GWTTestCase {
 
   /**
    * Verify that an element has the specified debug id.
-   * 
+   *
    * @param debugID the debug ID
    * @param elem the {@link Element} that should have the id
    */
@@ -58,13 +55,12 @@ public class UIObjectTest extends GWTTestCase {
   }
 
   /**
-   * Verify that the contents of an element match the expected contents. This
-   * method is useful to test debug IDs of private, inaccessible members of a
-   * Widget. Note that this method requires that the Widget is added to the
-   * {@link RootPanel} and should be called from a
-   * {@link org.gwtproject.core.client.Scheduler.ScheduledCommand} to give the browser
-   * enough time to register the ID.
-   * 
+   * Verify that the contents of an element match the expected contents. This method is useful to
+   * test debug IDs of private, inaccessible members of a Widget. Note that this method requires
+   * that the Widget is added to the {@link RootPanel} and should be called from a {@link
+   * org.gwtproject.core.client.Scheduler.ScheduledCommand} to give the browser enough time to
+   * register the ID.
+   *
    * @param debugID the debug ID of the element
    * @param contents the contents expected in the inner HTML
    */
@@ -78,10 +74,9 @@ public class UIObjectTest extends GWTTestCase {
   public String getModuleName() {
     return "org.gwtproject.user.DebugTest";
   }
-  
+
   public void testToString() {
-    UIObject u = new UIObject() {
-    };
+    UIObject u = new UIObject() {};
     assertEquals("(null handle)", u.toString());
     SpanElement span = Document.get().createSpanElement();
     u.setElement(span);
@@ -196,8 +191,8 @@ public class UIObjectTest extends GWTTestCase {
     Element oElem = o.getElement();
     o.ensureDebugId("test");
     assertEquals(DebugInfo.DEFAULT_DEBUG_ID_PREFIX + "test", oElem.getAttribute("debugid"));
-    assertEquals(DebugInfo.DEFAULT_DEBUG_ID_PREFIX + "test-subElem", o.subElement
-        .getAttribute("debugid"));
+    assertEquals(
+        DebugInfo.DEFAULT_DEBUG_ID_PREFIX + "test-subElem", o.subElement.getAttribute("debugid"));
 
     // Reset the old attribute.
     DebugInfo.setDebugIdAttribute(oldAttribute, asProperty);
@@ -324,8 +319,7 @@ public class UIObjectTest extends GWTTestCase {
 
   public void testMissingElementAssertion() {
     try {
-      Widget w = new Widget() {
-      };
+      Widget w = new Widget() {};
 
       w.getElement();
       if (UIObjectTest.class.desiredAssertionStatus()) {
@@ -336,8 +330,7 @@ public class UIObjectTest extends GWTTestCase {
     }
 
     try {
-      Composite c = new Composite() {
-      };
+      Composite c = new Composite() {};
 
       c.getElement();
       if (UIObjectTest.class.desiredAssertionStatus()) {
@@ -349,11 +342,12 @@ public class UIObjectTest extends GWTTestCase {
   }
 
   public void testSetElementTwiceFails() {
-    UIObject o = new UIObject() {
-      {
-        setElement(DOM.createDiv());
-      }
-    };
+    UIObject o =
+        new UIObject() {
+          {
+            setElement(DOM.createDiv());
+          }
+        };
 
     try {
       o.setElement(DOM.createSpan());
@@ -368,13 +362,11 @@ public class UIObjectTest extends GWTTestCase {
   private void assertPrimaryStyleNameEquals(UIObject o, String className) {
     String attr = o.getElement().getPropertyString("className");
     assertTrue(attr.indexOf(className) == 0);
-    assertTrue(attr.length() == className.length()
-        || attr.charAt(className.length()) == ' ');
+    assertTrue(attr.length() == className.length() || attr.charAt(className.length()) == ' ');
   }
 
   private boolean containsClass(UIObject o, String className) {
-    String[] classes = o.getElement().getPropertyString("className").split(
-        "\\s+");
+    String[] classes = o.getElement().getPropertyString("className").split("\\s+");
     for (int i = 0; i < classes.length; i++) {
       if (className.equals(classes[i])) {
         return true;

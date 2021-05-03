@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,18 +15,14 @@
  */
 package org.gwtproject.view.client;
 
-
 import com.google.j2cl.junit.apt.J2clTestInput;
-import org.gwtproject.core.client.Scheduler;
-import org.gwtproject.timer.client.Timer;
-
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.timer.client.Timer;
 
-/**
- * Tests for {@link org.gwtproject.view.client.MultiSelectionModel}.
- */
+/** Tests for {@link org.gwtproject.view.client.MultiSelectionModel}. */
 @J2clTestInput(MultiSelectionModelTest.class)
 public class MultiSelectionModelTest extends AbstractSelectionModelTest {
 
@@ -53,8 +49,8 @@ public class MultiSelectionModelTest extends AbstractSelectionModelTest {
   }
 
   /**
-   * Clearing an empty {@link org.gwtproject.view.client.MultiSelectionModel} should not fire an event,
-   * even if there are pending changes.
+   * Clearing an empty {@link org.gwtproject.view.client.MultiSelectionModel} should not fire an
+   * event, even if there are pending changes.
    */
   public void testClearWhenEmpty() {
     MultiSelectionModel<String> model = createSelectionModel(null);
@@ -71,8 +67,8 @@ public class MultiSelectionModelTest extends AbstractSelectionModelTest {
   }
 
   /**
-   * Pending changes should apply after the list is cleared. An event should not
-   * be fired if all selected values are reselected.
+   * Pending changes should apply after the list is cleared. An event should not be fired if all
+   * selected values are reselected.
    */
   public void testClearAndReselect() {
     MultiSelectionModel<String> model = createSelectionModel(null);
@@ -132,12 +128,14 @@ public class MultiSelectionModelTest extends AbstractSelectionModelTest {
     // selection events fire at the end of current event loop (finally command)
     handler.assertEventFired(false);
 
-    Scheduler.get().scheduleDeferred(() -> {
-      handler.assertEventFired(true);
-      model.addSelectionChangeHandler(new FailingSelectionChangeEventHandler());
-      model.setSelected("test", true);
-      model.setSelected("test", true);
-    });
+    Scheduler.get()
+        .scheduleDeferred(
+            () -> {
+              handler.assertEventFired(true);
+              model.addSelectionChangeHandler(new FailingSelectionChangeEventHandler());
+              model.setSelected("test", true);
+              model.setSelected("test", true);
+            });
 
     new Timer() {
       @Override
@@ -167,10 +165,7 @@ public class MultiSelectionModelTest extends AbstractSelectionModelTest {
     }.schedule(1000);
   }
 
-  /**
-   * Tests that reselecting the same key from a different item does not fire a
-   * change event.
-   */
+  /** Tests that reselecting the same key from a different item does not fire a change event. */
   public void testNoDuplicateChangeEventWithKeyProvider() {
     delayTestFinish(2000);
     ProvidesKey<String> keyProvider = item -> item.toUpperCase(Locale.ROOT);
@@ -212,9 +207,7 @@ public class MultiSelectionModelTest extends AbstractSelectionModelTest {
     assertTrue(model.isSelected("test0"));
   }
 
-  /**
-   * Tests that items with the same key share the same selection state.
-   */
+  /** Tests that items with the same key share the same selection state. */
   public void testSetSelectedSameKey() {
     ProvidesKey<String> keyProvider = item -> item.toUpperCase(Locale.ROOT);
     MultiSelectionModel<String> model = createSelectionModel(keyProvider);

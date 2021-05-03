@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.gwtproject</groupId>
+        <artifactId>gwt-parent</artifactId>
+        <version>dev</version>
+    </parent>
+
+    <groupId>org.gwtproject.event</groupId>
+    <artifactId>gwt-event-parent</artifactId>
+
+    <version>dev</version>
+
+    <packaging>pom</packaging>
+
+    <name>GWT EVENT Parent</name>
+    <description></description>
+    <url>https://github.com/org.gwtproject/gwt-event</url>
+
+    <organization>
+        <name>The GWT Project Authors</name>
+        <url>https://github.com/org.gwtproject</url>
+    </organization>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>The GWT Project Authors</name>
+            <organization>The GWT Project Authors</organization>
+            <url>https://github.com/org.gwtproject</url>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/org.gwtproject/gwt-event.git</connection>
+        <developerConnection>scm:git:ssh://github.com/org.gwtproject/gwt-event.git</developerConnection>
+        <url>https://github.com/org.gwtproject/gwt-event/tree/master</url>
+    </scm>
+
+    <inceptionYear>2019</inceptionYear>
+
+    <modules>
+        <module>gwt-event</module>
+        <module>gwt-event-dom</module>
+        <module>gwt-event-compat</module>
+<!--        <module>gwt-event-c</module>
+        <module>gwt-event</module>
+        <module>gwt-event</module>-->
+    </modules>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <configuration>
+                    <flattenMode>oss</flattenMode>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>${maven.compiler.source}</source>
+                        <target>${maven.compiler.target}</target>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+</project>

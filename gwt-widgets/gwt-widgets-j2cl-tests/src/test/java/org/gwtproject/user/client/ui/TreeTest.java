@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,17 +15,14 @@
  */
 package org.gwtproject.user.client.ui;
 
-import org.gwtproject.dom.client.Element;
 import com.google.gwt.junit.client.GWTTestCase;
+import java.util.Iterator;
+import java.util.Locale;
+import org.gwtproject.dom.client.Element;
 import org.gwtproject.safehtml.shared.SafeHtmlUtils;
 import org.gwtproject.user.client.DOM;
 
-import java.util.Iterator;
-import java.util.Locale;
-
-/**
- * Tests the Tree widget.
- */
+/** Tests the Tree widget. */
 public class TreeTest extends GWTTestCase {
 
   private static final String html = "<b>hello</b><i>world</i>";
@@ -42,9 +39,7 @@ public class TreeTest extends GWTTestCase {
     return "org.gwtproject.user.DebugTest";
   }
 
-  /**
-   * Test for {@link Tree#add(IsWidget)}.
-   */
+  /** Test for {@link Tree#add(IsWidget)}. */
   public void testAddAsIsWidget() {
     Tree t = createTree();
     Widget widget = new Label("foo");
@@ -55,24 +50,21 @@ public class TreeTest extends GWTTestCase {
     assertEquals("The number of items should be 1", 1, t.getItemCount());
     assertSame(widget, t.getItem(0).getWidget());
   }
-  
+
   /**
-   * Ensures that {@link Tree#add(Widget)} does <b>NOT</b> throws a
-   * {@link NullPointerException} when the Widget argument is <code>null</code>,
-   * for stupidity consistency with add(Widget).
+   * Ensures that {@link Tree#add(Widget)} does <b>NOT</b> throws a {@link NullPointerException}
+   * when the Widget argument is <code>null</code>, for stupidity consistency with add(Widget).
    */
   public void testAddNullAsIsWidget() {
     Tree t = createTree();
     // IsWidget reference to call the overload version
     IsWidget widget = null;
-    
+
     t.add(widget);
     // ta da...
   }
 
-  /**
-   * Test for {@link Tree#addItem(IsTreeItem)}.
-   */
+  /** Test for {@link Tree#addItem(IsTreeItem)}. */
   public void testAddItemIsTreeItem() {
     Tree t = createTree();
     TreeItem item = new TreeItem(SafeHtmlUtils.fromSafeConstant("hello"));
@@ -87,9 +79,7 @@ public class TreeTest extends GWTTestCase {
     assertEquals(html, item.getHTML().toLowerCase(Locale.ROOT));
   }
 
-  /**
-   * Test for {@link Tree#addTextItem(String)}.
-   */
+  /** Test for {@link Tree#addTextItem(String)}. */
   public void testAddTextItem() {
     Tree t = createTree();
     String text = "Some<br>text";
@@ -145,19 +135,14 @@ public class TreeTest extends GWTTestCase {
     UIObjectTest.assertDebugId("myTree-root-child1", top1.getElement());
     UIObjectTest.assertDebugId("myTree-root-child2", top2.getElement());
     UIObjectTest.assertDebugId("myTree-root-child3", top3.getElement());
-    UIObjectTest.assertDebugId("myTree-root-child3-child0",
-        bottom0.getElement());
-    UIObjectTest.assertDebugId("myTree-root-child3-child1",
-        bottom1.getElement());
-    UIObjectTest.assertDebugId("myTree-root-child3-child2",
-        bottom2.getElement());
+    UIObjectTest.assertDebugId("myTree-root-child3-child0", bottom0.getElement());
+    UIObjectTest.assertDebugId("myTree-root-child3-child1", bottom1.getElement());
+    UIObjectTest.assertDebugId("myTree-root-child3-child2", bottom2.getElement());
 
     // Check tree item sub elements
-    UIObjectTest.assertDebugId("myTree-root-child0-content",
-        top0.getContentElem());
+    UIObjectTest.assertDebugId("myTree-root-child0-content", top0.getContentElem());
 
-    UIObjectTest.assertDebugId("myTree-root-child3-image",
-        top3.getImageHolderElement());
+    UIObjectTest.assertDebugId("myTree-root-child3-image", top3.getImageHolderElement());
   }
 
   public void testInsertSameItemRepeatedly() {
@@ -249,9 +234,7 @@ public class TreeTest extends GWTTestCase {
     assertFalse(iter2.hasNext());
   }
 
-  /**
-   * Test for {@link Tree#removeItem(IsTreeItem)}.
-   */
+  /** Test for {@link Tree#removeItem(IsTreeItem)}. */
   public void testRemoveIsTreeItem() {
     Tree t = createTree();
     TreeItem itemA = t.addItem(SafeHtmlUtils.fromSafeConstant("a"));
@@ -268,9 +251,7 @@ public class TreeTest extends GWTTestCase {
     t.removeItem((IsTreeItem) null);
   }
 
-  /**
-   * Test for {@link Tree#removeItems()}.
-   */
+  /** Test for {@link Tree#removeItems()}. */
   public void testRemoveItems() {
     Tree t = createTree();
     TreeItem itemA = t.addItem(SafeHtmlUtils.fromSafeConstant("a"));
@@ -378,7 +359,7 @@ public class TreeTest extends GWTTestCase {
     ScrollPanel panel = new ScrollPanel();
     RootPanel.get().add(panel);
     panel.setWidget(tree);
-    
+
     // Set a size that is smaller than the content to allow scrolling
     panel.setPixelSize(40, 90);
 

@@ -16,15 +16,13 @@
 
 package org.gwtproject.user.client;
 
+import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.event.dom.client.*;
-import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.user.client.ui.*;
 
-/**
- * Test Case for sinking of touch events.
- */
+/** Test Case for sinking of touch events. */
 @J2clTestInput(TouchEventSinkTest.class)
 public class TouchEventSinkTest extends GWTTestCase {
 
@@ -141,32 +139,47 @@ public class TouchEventSinkTest extends GWTTestCase {
     super.gwtTearDown();
   }
 
-  private <W extends Widget & HasAllTouchHandlers>
-      void assertNotSunkAfterAttach(W w, String eventName, boolean isSunk) {
+  private <W extends Widget & HasAllTouchHandlers> void assertNotSunkAfterAttach(
+      W w, String eventName, boolean isSunk) {
     assertFalse(
-        "Event should not be sunk on " + w.getClass().getName() + " until a "
-            + eventName + " handler has been added", isSunk);
+        "Event should not be sunk on "
+            + w.getClass().getName()
+            + " until a "
+            + eventName
+            + " handler has been added",
+        isSunk);
   }
 
-  private <W extends Widget & HasAllTouchHandlers>
-      void assertSunkAfterAddHandler(W w, String eventName, boolean isSunk) {
-    assertTrue("Event should have been sunk on " + w.getClass().getName()
-        + " once the widget has been attached and a " + eventName
-        + " handler has been added", isSunk);
+  private <W extends Widget & HasAllTouchHandlers> void assertSunkAfterAddHandler(
+      W w, String eventName, boolean isSunk) {
+    assertTrue(
+        "Event should have been sunk on "
+            + w.getClass().getName()
+            + " once the widget has been attached and a "
+            + eventName
+            + " handler has been added",
+        isSunk);
   }
 
   private <W extends Widget & HasAllTouchHandlers> void assertSunkAfterAttach(
       W w, String eventName, boolean isSunk) {
-    assertTrue("Event should have been sunk on " + w.getClass().getName()
-        + " once the widget has been attached", isSunk);
+    assertTrue(
+        "Event should have been sunk on "
+            + w.getClass().getName()
+            + " once the widget has been attached",
+        isSunk);
   }
 
   private boolean isTouchCancelEventSunk(Element e) {
-    return (org.gwtproject.user.client.DOM.getEventsSunk(e) & org.gwtproject.user.client.Event.ONTOUCHCANCEL) != 0;
+    return (org.gwtproject.user.client.DOM.getEventsSunk(e)
+            & org.gwtproject.user.client.Event.ONTOUCHCANCEL)
+        != 0;
   }
 
   private boolean isTouchEndEventSunk(Element e) {
-    return (org.gwtproject.user.client.DOM.getEventsSunk(e) & org.gwtproject.user.client.Event.ONTOUCHEND) != 0;
+    return (org.gwtproject.user.client.DOM.getEventsSunk(e)
+            & org.gwtproject.user.client.Event.ONTOUCHEND)
+        != 0;
   }
 
   private boolean isTouchMoveEventSunk(Element e) {
@@ -177,116 +190,100 @@ public class TouchEventSinkTest extends GWTTestCase {
     return (DOM.getEventsSunk(e) & org.gwtproject.user.client.Event.ONTOUCHSTART) != 0;
   }
 
-  private <W extends Widget & HasAllTouchHandlers>
-      void verifyTouchCancelEventSinkOnAddHandler(W w, boolean allowEarlySink) {
+  private <W extends Widget & HasAllTouchHandlers> void verifyTouchCancelEventSinkOnAddHandler(
+      W w, boolean allowEarlySink) {
     verifyTouchCancelEventSinkOnAddHandler(w, w.getElement(), allowEarlySink);
   }
 
-  private <W extends Widget & HasAllTouchHandlers>
-      void verifyTouchCancelEventSinkOnAddHandler(
+  private <W extends Widget & HasAllTouchHandlers> void verifyTouchCancelEventSinkOnAddHandler(
       W w, Element e, boolean widgetSinksEventsOnAttach) {
     RootPanel.get().add(w);
 
     if (widgetSinksEventsOnAttach) {
-      assertSunkAfterAttach(
-          w, TouchCancelEvent.getType().getName(), isTouchCancelEventSunk(e));
+      assertSunkAfterAttach(w, TouchCancelEvent.getType().getName(), isTouchCancelEventSunk(e));
     } else {
-      assertNotSunkAfterAttach(
-          w, TouchCancelEvent.getType().getName(), isTouchCancelEventSunk(e));
+      assertNotSunkAfterAttach(w, TouchCancelEvent.getType().getName(), isTouchCancelEventSunk(e));
     }
 
-    w.addTouchCancelHandler(new TouchCancelHandler() {
-      @Override
-      public void onTouchCancel(TouchCancelEvent event) {
-      }
-    });
+    w.addTouchCancelHandler(
+        new TouchCancelHandler() {
+          @Override
+          public void onTouchCancel(TouchCancelEvent event) {}
+        });
 
-    assertSunkAfterAddHandler(
-        w, TouchCancelEvent.getType().getName(), isTouchCancelEventSunk(e));
+    assertSunkAfterAddHandler(w, TouchCancelEvent.getType().getName(), isTouchCancelEventSunk(e));
   }
 
-  private <W extends Widget & HasAllTouchHandlers>
-      void verifyTouchEndEventSinkOnAddHandler(W w, boolean allowEarlySink) {
+  private <W extends Widget & HasAllTouchHandlers> void verifyTouchEndEventSinkOnAddHandler(
+      W w, boolean allowEarlySink) {
     verifyTouchEndEventSinkOnAddHandler(w, w.getElement(), allowEarlySink);
   }
 
-  private <W extends Widget & HasAllTouchHandlers>
-      void verifyTouchEndEventSinkOnAddHandler(
+  private <W extends Widget & HasAllTouchHandlers> void verifyTouchEndEventSinkOnAddHandler(
       W w, Element e, boolean widgetSinksEventsOnAttach) {
     RootPanel.get().add(w);
 
     if (widgetSinksEventsOnAttach) {
-      assertSunkAfterAttach(
-          w, TouchEndEvent.getType().getName(), isTouchEndEventSunk(e));
+      assertSunkAfterAttach(w, TouchEndEvent.getType().getName(), isTouchEndEventSunk(e));
     } else {
-      assertNotSunkAfterAttach(
-          w, TouchEndEvent.getType().getName(), isTouchEndEventSunk(e));
+      assertNotSunkAfterAttach(w, TouchEndEvent.getType().getName(), isTouchEndEventSunk(e));
     }
 
-    w.addTouchEndHandler(new TouchEndHandler() {
-      @Override
-      public void onTouchEnd(TouchEndEvent event) {
-      }
-    });
+    w.addTouchEndHandler(
+        new TouchEndHandler() {
+          @Override
+          public void onTouchEnd(TouchEndEvent event) {}
+        });
 
-    assertSunkAfterAddHandler(
-        w, TouchEndEvent.getType().getName(), isTouchEndEventSunk(e));
+    assertSunkAfterAddHandler(w, TouchEndEvent.getType().getName(), isTouchEndEventSunk(e));
   }
 
-  private <W extends Widget & HasAllTouchHandlers>
-      void verifyTouchMoveEventSinkOnAddHandler(W w, boolean allowEarlySink) {
+  private <W extends Widget & HasAllTouchHandlers> void verifyTouchMoveEventSinkOnAddHandler(
+      W w, boolean allowEarlySink) {
     verifyTouchMoveEventSinkOnAddHandler(w, w.getElement(), allowEarlySink);
   }
 
-  private <W extends Widget & HasAllTouchHandlers>
-      void verifyTouchMoveEventSinkOnAddHandler(
+  private <W extends Widget & HasAllTouchHandlers> void verifyTouchMoveEventSinkOnAddHandler(
       W w, Element e, boolean widgetSinksEventsOnAttach) {
     RootPanel.get().add(w);
 
     if (widgetSinksEventsOnAttach) {
-      assertSunkAfterAttach(
-          w, TouchMoveEvent.getType().getName(), isTouchMoveEventSunk(e));
+      assertSunkAfterAttach(w, TouchMoveEvent.getType().getName(), isTouchMoveEventSunk(e));
     } else {
-      assertNotSunkAfterAttach(
-          w, TouchMoveEvent.getType().getName(), isTouchMoveEventSunk(e));
+      assertNotSunkAfterAttach(w, TouchMoveEvent.getType().getName(), isTouchMoveEventSunk(e));
     }
 
-    w.addTouchMoveHandler(new TouchMoveHandler() {
+    w.addTouchMoveHandler(
+        new TouchMoveHandler() {
 
-      @Override
-      public void onTouchMove(TouchMoveEvent event) {
-      }
-    });
+          @Override
+          public void onTouchMove(TouchMoveEvent event) {}
+        });
 
-    assertSunkAfterAddHandler(
-        w, TouchMoveEvent.getType().getName(), isTouchMoveEventSunk(e));
+    assertSunkAfterAddHandler(w, TouchMoveEvent.getType().getName(), isTouchMoveEventSunk(e));
   }
 
-  private <W extends Widget & HasAllTouchHandlers>
-      void verifyTouchStartEventSinkOnAddHandler(W w, boolean allowEarlySink) {
+  private <W extends Widget & HasAllTouchHandlers> void verifyTouchStartEventSinkOnAddHandler(
+      W w, boolean allowEarlySink) {
     verifyTouchStartEventSinkOnAddHandler(w, w.getElement(), allowEarlySink);
   }
 
-  private <W extends Widget & HasAllTouchHandlers>
-      void verifyTouchStartEventSinkOnAddHandler(
+  private <W extends Widget & HasAllTouchHandlers> void verifyTouchStartEventSinkOnAddHandler(
       W w, Element e, boolean widgetSinksEventsOnAttach) {
     RootPanel.get().add(w);
 
     if (widgetSinksEventsOnAttach) {
-      assertSunkAfterAttach(
-          w, TouchStartEvent.getType().getName(), isTouchStartEventSunk(e));
+      assertSunkAfterAttach(w, TouchStartEvent.getType().getName(), isTouchStartEventSunk(e));
     } else {
-      assertNotSunkAfterAttach(
-          w, TouchStartEvent.getType().getName(), isTouchStartEventSunk(e));
+      assertNotSunkAfterAttach(w, TouchStartEvent.getType().getName(), isTouchStartEventSunk(e));
     }
 
-    w.addTouchStartHandler(new TouchStartHandler() {
-      @Override
-      public void onTouchStart(TouchStartEvent event) {
-      }
-    });
+    w.addTouchStartHandler(
+        new TouchStartHandler() {
+          @Override
+          public void onTouchStart(TouchStartEvent event) {}
+        });
 
-    assertSunkAfterAddHandler(
-        w, TouchStartEvent.getType().getName(), isTouchStartEventSunk(e));
+    assertSunkAfterAddHandler(w, TouchStartEvent.getType().getName(), isTouchStartEventSunk(e));
   }
 }

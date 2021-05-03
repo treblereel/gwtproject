@@ -3,10 +3,11 @@
   <parent>
     <artifactId>gwt-i18n-parent</artifactId>
     <groupId>org.gwtproject.i18n</groupId>
-    <version>1.0-SNAPSHOT</version>
+    <version>dev</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>gwt-i18n-processor</artifactId>
+  <version>${revision}</version>
   <developers>
     <developer>
       <id>treblereel</id>
@@ -33,7 +34,7 @@
     <plugins>
       <plugin>
         <artifactId>maven-source-plugin</artifactId>
-        <version>${plugin.source.version}</version>
+        <version>${maven.source.plugin}</version>
         <executions>
           <execution>
             <id>attach-sources</id>

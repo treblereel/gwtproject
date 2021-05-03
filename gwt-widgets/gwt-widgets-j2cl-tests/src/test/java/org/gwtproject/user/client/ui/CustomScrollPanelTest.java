@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -20,15 +20,11 @@ import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.style.shared.Overflow;
 import org.gwtproject.timer.client.Timer;
 
-/**
- * Tests the ScrollPanel widget.
- */
+/** Tests the ScrollPanel widget. */
 @J2clTestInput(CustomScrollPanelTest.class)
 public class CustomScrollPanelTest extends ScrollPanelTest {
 
-  /**
-   * The time to wait for a scroll event to fire, in milliseconds.
-   */
+  /** The time to wait for a scroll event to fire, in milliseconds. */
   private static final int SCROLL_EVENT_TIMEOUT = 1000;
 
   private Widget content;
@@ -39,8 +35,8 @@ public class CustomScrollPanelTest extends ScrollPanelTest {
   private CustomScrollPanel panel;
 
   /**
-   * Test that both the horizontal scrollbar and vertical scrollbar appear when
-   * the content flows in both directions.
+   * Test that both the horizontal scrollbar and vertical scrollbar appear when the content flows in
+   * both directions.
    */
   public void testOnResizeBothScrollbars() {
     // Scrollbar not needed.
@@ -60,10 +56,7 @@ public class CustomScrollPanelTest extends ScrollPanelTest {
     assertTrue(vScrollbarContainer.getOffsetHeight() < 490);
   }
 
-  /**
-   * Test that the horizontal scrollbar appears/disappears when the widget is
-   * resized.
-   */
+  /** Test that the horizontal scrollbar appears/disappears when the widget is resized. */
   public void testOnResizeHorizontally() {
     // Scrollbar not needed.
     content.setPixelSize(400, 400);
@@ -85,10 +78,7 @@ public class CustomScrollPanelTest extends ScrollPanelTest {
     assertTrue(hScrollbarContainer.getOffsetHeight() > 0);
   }
 
-  /**
-   * Test that the vertical scrollbar appears/disappears when the widget is
-   * resized.
-   */
+  /** Test that the vertical scrollbar appears/disappears when the widget is resized. */
   public void testOnResizeVertically() {
     // Scrollbar not needed.
     content.setPixelSize(400, 400);
@@ -154,10 +144,7 @@ public class CustomScrollPanelTest extends ScrollPanelTest {
     panel.onResize();
   }
 
-  /**
-   * Test that the horizontal scrollbar appears/disappears when the content is
-   * resized.
-   */
+  /** Test that the horizontal scrollbar appears/disappears when the content is resized. */
   public void testResizeContentHorizontally() {
     delayTestFinish(SCROLL_EVENT_TIMEOUT * 5);
 
@@ -194,10 +181,7 @@ public class CustomScrollPanelTest extends ScrollPanelTest {
     }.schedule(SCROLL_EVENT_TIMEOUT);
   }
 
-  /**
-   * Test that the vertical scrollbar appears/disappears when the content is
-   * resized.
-   */
+  /** Test that the vertical scrollbar appears/disappears when the content is resized. */
   public void testResizeContentVertically() {
     delayTestFinish(SCROLL_EVENT_TIMEOUT * 5);
 

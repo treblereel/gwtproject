@@ -16,31 +16,25 @@
 package org.gwtproject.cell.client;
 
 import com.google.j2cl.junit.apt.J2clTestInput;
+import java.util.Date;
 import org.gwtproject.i18n.client.DateTimeFormat;
 import org.gwtproject.i18n.client.DateTimeFormat.PredefinedFormat;
 
-import java.util.Date;
-
-/**
- * Tests for {@link org.gwtproject.cell.client.DatePickerCell}.
- */
+/** Tests for {@link org.gwtproject.cell.client.DatePickerCell}. */
 @J2clTestInput(DatePickerCellTest.class)
 public class DatePickerCellTest extends EditableCellTestBase<Date, Date> {
 
   @Override
   protected org.gwtproject.cell.client.DatePickerCell createCell() {
-    return new DatePickerCell(
-        DateTimeFormat.getFormat(PredefinedFormat.DATE_MEDIUM));
+    return new DatePickerCell(DateTimeFormat.getFormat(PredefinedFormat.DATE_MEDIUM));
   }
 
   @Override
-
   protected Date createCellValue() {
     return new Date(2010 - 1900, 0, 1);
   }
 
   @Override
-
   protected Date createCellViewData() {
     return new Date(2010 - 1900, 0, 3);
   }
@@ -52,15 +46,14 @@ public class DatePickerCellTest extends EditableCellTestBase<Date, Date> {
 
   @Override
   protected String[] getConsumedEvents() {
-    return new String[]{"click", "keydown"};
+    return new String[] {"click", "keydown"};
   }
 
-
-  //TODO for en_US Jan 1, 2010, must redone when i18n ll be finished
+  // TODO for en_US Jan 1, 2010, must redone when i18n ll be finished
   @Override
   protected String getExpectedInnerHtml() {
-    return "2010 Jan 1";  // for default locale
-    //return "Jan 1, 2010";
+    return "2010 Jan 1"; // for default locale
+    // return "Jan 1, 2010";
   }
 
   @Override
@@ -68,11 +61,11 @@ public class DatePickerCellTest extends EditableCellTestBase<Date, Date> {
     return "";
   }
 
-  //TODO for en_US Jan 3, 2010, must redone when i18n ll be finished
+  // TODO for en_US Jan 3, 2010, must redone when i18n ll be finished
   @Override
   protected String getExpectedInnerHtmlViewData() {
     return "2010 Jan 3"; // for default locale
-    //return "Jan 3, 2010";
+    // return "Jan 3, 2010";
   }
 
   @Override

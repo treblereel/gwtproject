@@ -15,20 +15,17 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
+import java.util.Locale;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.i18n.client.BidiUtils;
 import org.gwtproject.i18n.client.HasDirection.Direction;
 import org.gwtproject.i18n.shared.AnyRtlDirectionEstimator;
-import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.i18n.shared.cldr.LocaleInfo;
 
-import java.util.Locale;
-
-/**
- * Tests {@link DirectionalTextHelper}.
- */
+/** Tests {@link DirectionalTextHelper}. */
 @J2clTestInput(DirectionalTextHelperTest.class)
 public class DirectionalTextHelperTest extends GWTTestCase {
 
@@ -47,62 +44,71 @@ public class DirectionalTextHelperTest extends GWTTestCase {
   // setDirection is deprecated; this only assures backwards compatibility.
   public void testSetDirection() {
     element = Document.get().createSpanElement();
-    directionalTextHelper = new DirectionalTextHelper(element,
-        /* is inline? */ true);
+    directionalTextHelper = new DirectionalTextHelper(element, /* is inline? */ true);
 
     directionalTextHelper.setDirection(Direction.RTL);
-    assertDirection("element's direction is incorrect after setDirection",
-        Direction.RTL);
+    assertDirection("element's direction is incorrect after setDirection", Direction.RTL);
 
     directionalTextHelper.setTextOrHtml(EN_TEXT, Direction.LTR, false);
-    assertDirection("target's direction is incorrect after setText with a" +
-        "specific direction", Direction.LTR);
+    assertDirection(
+        "target's direction is incorrect after setText with a" + "specific direction",
+        Direction.LTR);
 
     directionalTextHelper.setTextOrHtml(EN_TEXT, false);
-    assertDirection("target's direction wasn't reverted to the direction set" +
-        "by last setDirection when calling setText with no direction argument" +
-        "and without a directionEstimator", Direction.RTL);
+    assertDirection(
+        "target's direction wasn't reverted to the direction set"
+            + "by last setDirection when calling setText with no direction argument"
+            + "and without a directionEstimator",
+        Direction.RTL);
 
     // We also specifically assert that the direction of the topmost element
     // matches the last setDirection. (this is needed only for inline elements).
-    assertEquals("element's direction does not match the direction set by " +
-        "last setDirection when calling setText with no direction argument " +
-        "and without a directionEstimator", Direction.RTL,
+    assertEquals(
+        "element's direction does not match the direction set by "
+            + "last setDirection when calling setText with no direction argument "
+            + "and without a directionEstimator",
+        Direction.RTL,
         BidiUtils.getDirectionOnElement(element));
   }
 
   public void testSetDirectionEstimator() {
     element = Document.get().createSpanElement();
     BidiUtils.setDirectionOnElement(element, Direction.LTR);
-    directionalTextHelper = new DirectionalTextHelper(element,
-        /* is inline? */ true);
+    directionalTextHelper = new DirectionalTextHelper(element, /* is inline? */ true);
     directionalTextHelper.setDirectionEstimator(true);
-    
+
     // If the element is span-wrapped, a redundant refresh occurred.
-    assertFalse("setDirectionEstimator(true) refreshed appearance before text" +
-        "had been received", isSpanWrapped());
-    
+    assertFalse(
+        "setDirectionEstimator(true) refreshed appearance before text" + "had been received",
+        isSpanWrapped());
+
     directionalTextHelper.setDirectionEstimator(false);
     directionalTextHelper.setTextOrHtml(IW_TEXT, false);
-    assertDirection("Original element's direction (LTR) was modified with no" +
-        "apparent reason", Direction.LTR);
+    assertDirection(
+        "Original element's direction (LTR) was modified with no" + "apparent reason",
+        Direction.LTR);
 
     directionalTextHelper.setDirectionEstimator(true);
-    assertDirection("Direction was not refreshed on " +
-        "setDirectionEstimator(true) after receiving text with no explicit " +
-        "direction", Direction.RTL);
-    
+    assertDirection(
+        "Direction was not refreshed on "
+            + "setDirectionEstimator(true) after receiving text with no explicit "
+            + "direction",
+        Direction.RTL);
+
     directionalTextHelper.setTextOrHtml(IW_TEXT, Direction.LTR, false);
-    directionalTextHelper.setDirectionEstimator(
-        AnyRtlDirectionEstimator.get());
-    assertDirection("Direction was refreshed on setDirectionEstimator after " +
-        "receiving text with explicit direction", Direction.LTR);
-    
+    directionalTextHelper.setDirectionEstimator(AnyRtlDirectionEstimator.get());
+    assertDirection(
+        "Direction was refreshed on setDirectionEstimator after "
+            + "receiving text with explicit direction",
+        Direction.LTR);
+
     directionalTextHelper.setTextOrHtml(IW_TEXT, false);
     directionalTextHelper.setDirectionEstimator(false);
-    assertDirection("Direction was not reset to the initial element direction" +
-        " on turning off direction estimation when last call to setTextOrHtml" +
-        " did not declare explicit direction.", Direction.LTR);
+    assertDirection(
+        "Direction was not reset to the initial element direction"
+            + " on turning off direction estimation when last call to setTextOrHtml"
+            + " did not declare explicit direction.",
+        Direction.LTR);
   }
 
   public void testSetDirectionEstimatorAndSetHtml() {
@@ -115,37 +121,38 @@ public class DirectionalTextHelperTest extends GWTTestCase {
 
   public void testSetText() {
     element = Document.get().createDivElement();
-    directionalTextHelper = new DirectionalTextHelper(element,
-        /* is inline? */ false);
+    directionalTextHelper = new DirectionalTextHelper(element, /* is inline? */ false);
     directionalTextHelper.setText(EN_TEXT);
     assertEquals(EN_TEXT, directionalTextHelper.getText());
   }
 
   public void testSetHtml() {
     element = Document.get().createDivElement();
-    directionalTextHelper = new DirectionalTextHelper(element,
-        /* is inline? */ false);
+    directionalTextHelper = new DirectionalTextHelper(element, /* is inline? */ false);
     directionalTextHelper.setHtml(EN_HTML);
     assertEquals(EN_HTML, directionalTextHelper.getHtml());
   }
 
   /**
-   * Asserts that both the {@link HasDirectionalText#getTextDirection} and the
-   * physical dir attribute match the expected direction.
+   * Asserts that both the {@link HasDirectionalText#getTextDirection} and the physical dir
+   * attribute match the expected direction.
    *
    * @param message Assertion message
    * @param expected Expected direction
    */
   private void assertDirection(String message, Direction expected) {
-    assertTrue("dir attribute mismatch: " + message,
-        expected == getElementDirection() ||
-        /* For inline elements, empty dir attribute is acceptable if LTR is
-         * expected and the locale is not RTL. */
-        isSpanWrapped() && getElementDirection() == Direction.DEFAULT &&
-        (expected == Direction.RTL) == LocaleInfo.getCurrentLocale().isRTL());
+    assertTrue(
+        "dir attribute mismatch: " + message,
+        expected == getElementDirection()
+            ||
+            /* For inline elements, empty dir attribute is acceptable if LTR is
+             * expected and the locale is not RTL. */
+            isSpanWrapped()
+                && getElementDirection() == Direction.DEFAULT
+                && (expected == Direction.RTL) == LocaleInfo.getCurrentLocale().isRTL());
 
-    assertEquals("textDir mismatch: " + message, expected,
-        directionalTextHelper.getTextDirection());
+    assertEquals(
+        "textDir mismatch: " + message, expected, directionalTextHelper.getTextDirection());
   }
 
   private Direction getElementDirection() {
@@ -166,47 +173,58 @@ public class DirectionalTextHelperTest extends GWTTestCase {
     for (int i = 0; i < 2; i++) {
       boolean isDiv = i == 0;
       String id = isDiv ? "div widget: " : "span widget: ";
-      element = isDiv ? Document.get().createDivElement() :
-          Document.get().createSpanElement();
-      directionalTextHelper = new DirectionalTextHelper(element,
-          /* is inline? */ !isDiv);
+      element = isDiv ? Document.get().createDivElement() : Document.get().createSpanElement();
+      directionalTextHelper = new DirectionalTextHelper(element, /* is inline? */ !isDiv);
 
       directionalTextHelper.setTextOrHtml(enContent, isHtml);
-      assertDirection(id + "widget's direction is not DEFAULT upon " +
-          "standard initialization", Direction.DEFAULT);
-
-      directionalTextHelper.setTextOrHtml(iwContent, Direction.RTL, isHtml);
-      assertDirection(id + "widget's direction is not RTL after it was" +
-          " explicitly set to RTL", Direction.RTL);
-
-      directionalTextHelper.setTextOrHtml(enContent, isHtml);
-      assertDirection(id + "widget's direction was not specified, and no" +
-          " estimator specified, thus should return to initial value (DEFAULT)",
+      assertDirection(
+          id + "widget's direction is not DEFAULT upon " + "standard initialization",
           Direction.DEFAULT);
 
-      // Toggling on direction estimation from now on.    
-      directionalTextHelper.setDirectionEstimator(true);
-      
-      assertDirection(id + "widget's direction wasn't instantly updated" +
-          " to LTR on switching direction estimation on", Direction.LTR);
-
-      directionalTextHelper.setTextOrHtml(iwContent, isHtml);
-      assertDirection(id + "widget's direction wasn't estimated as RTL",
+      directionalTextHelper.setTextOrHtml(iwContent, Direction.RTL, isHtml);
+      assertDirection(
+          id + "widget's direction is not RTL after it was" + " explicitly set to RTL",
           Direction.RTL);
 
+      directionalTextHelper.setTextOrHtml(enContent, isHtml);
+      assertDirection(
+          id
+              + "widget's direction was not specified, and no"
+              + " estimator specified, thus should return to initial value (DEFAULT)",
+          Direction.DEFAULT);
+
+      // Toggling on direction estimation from now on.
+      directionalTextHelper.setDirectionEstimator(true);
+
+      assertDirection(
+          id
+              + "widget's direction wasn't instantly updated"
+              + " to LTR on switching direction estimation on",
+          Direction.LTR);
+
+      directionalTextHelper.setTextOrHtml(iwContent, isHtml);
+      assertDirection(id + "widget's direction wasn't estimated as RTL", Direction.RTL);
+
       directionalTextHelper.setTextOrHtml(iwContent, Direction.LTR, isHtml);
-      assertDirection(id + "widget's direction is not LTR after it was" +
-          " explicitly set to LTR (direction estimation is on)", Direction.LTR);
+      assertDirection(
+          id
+              + "widget's direction is not LTR after it was"
+              + " explicitly set to LTR (direction estimation is on)",
+          Direction.LTR);
 
       directionalTextHelper.setTextOrHtml(iwContent, Direction.DEFAULT, isHtml);
-      assertDirection(id + "widget's direction is not DEFAULT after it" +
-          " was explicitly set to DEFAULT (direction estimation is on)",
+      assertDirection(
+          id
+              + "widget's direction is not DEFAULT after it"
+              + " was explicitly set to DEFAULT (direction estimation is on)",
           Direction.DEFAULT);
 
       // TODO(jlabanca): Need a cross-browser way to test innerHTML.
       // assertEquals(id + "retreived html is incorrect", iwContent,
       //     directionalTextHelper.getTextOrHtml(true).toLowerCase());
-      assertEquals(id + "retreived text is incorrect", IW_TEXT,
+      assertEquals(
+          id + "retreived text is incorrect",
+          IW_TEXT,
           directionalTextHelper.getTextOrHtml(false).toLowerCase(Locale.ROOT));
     }
   }

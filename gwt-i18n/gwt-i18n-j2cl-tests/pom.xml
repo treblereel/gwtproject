@@ -5,21 +5,24 @@
 
   <groupId>org.gwtproject.i18n</groupId>
   <artifactId>gwt-i18n-j2cl-tests</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>${revision}</version>
 
   <name>GWT I18N - J2CL Tests</name>
   <description>Test cases for the J2Cl tests</description>
   <url>https://github.com/gwtproject/gwt-storage</url>
 
   <properties>
-    <maven.j2cl.plugin>0.16-SNAPSHOT</maven.j2cl.plugin>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+
+    <maven.j2cl.plugin>0.17-SNAPSHOT</maven.j2cl.plugin>
     <plugin.surfire.version>3.0.0-M1</plugin.surfire.version>
 
     <!-- CI -->
     <vertispan.j2cl.repo.url>https://repo.vertispan.com/j2cl/</vertispan.j2cl.repo.url>
 
-    <gwt.timer.version>1.0.0-RC1</gwt.timer.version>
-    <j2cl.version>0.8-SNAPSHOT</j2cl.version>
+    <gwt.timer.version>HEAD-SNAPSHOT</gwt.timer.version>
+    <j2cl.version>0.9-SNAPSHOT</j2cl.version>
   </properties>
 
   <dependencies>
@@ -56,54 +59,52 @@
       <groupId>org.gwtproject.core</groupId>
       <artifactId>gwt-core</artifactId>
       <scope>test</scope>
-      <version>1.0.0-RC1</version>
+      <version>HEAD-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>org.gwtproject.safehtml</groupId>
       <artifactId>gwt-safehtml</artifactId>
       <scope>test</scope>
-      <version>1.0.0-RC1</version>
+      <version>HEAD-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>org.gwtproject.i18n</groupId>
       <artifactId>gwt-i18n</artifactId>
       <scope>test</scope>
-      <version>1.0-SNAPSHOT</version>
+      <version>HEAD-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.gwtproject.i18n</groupId>
       <artifactId>gwt-datetimeformat</artifactId>
       <scope>test</scope>
-      <version>1.0-SNAPSHOT</version>
+      <version>HEAD-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.gwtproject.i18n</groupId>
       <artifactId>gwt-numberformat</artifactId>
       <scope>test</scope>
-      <version>1.0-SNAPSHOT</version>
+      <version>HEAD-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.gwtproject.i18n</groupId>
       <artifactId>gwt-i18n-processor</artifactId>
       <scope>provided</scope>
-      <version>1.0-SNAPSHOT</version>
+      <version>HEAD-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.gwtproject.i18n</groupId>
       <artifactId>gwt-localizable-processor</artifactId>
       <scope>provided</scope>
-      <version>1.0-SNAPSHOT</version>
+      <version>HEAD-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.gwtproject.i18n</groupId>
       <artifactId>gwt-datetimeformat-processor</artifactId>
       <scope>provided</scope>
-      <version>1.0-SNAPSHOT</version>
+      <version>HEAD-SNAPSHOT</version>
     </dependency>
-
-
   </dependencies>
 
   <build>

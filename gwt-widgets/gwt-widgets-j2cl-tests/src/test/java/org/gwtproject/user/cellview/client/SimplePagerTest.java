@@ -25,13 +25,11 @@ import org.gwtproject.user.cellview.client.SimplePager.ImageButtonsConstants;
 import org.gwtproject.view.client.HasRows;
 import org.gwtproject.view.client.MockHasData;
 
-/**
- * Tests for {@link SimplePager}.
- */
+/** Tests for {@link SimplePager}. */
 @J2clTestInput(SimplePagerTest.class)
 public class SimplePagerTest extends AbstractPagerTest {
-  private ImageButtonsConstants imageButtonConstants; 
-  
+  private ImageButtonsConstants imageButtonConstants;
+
   @Override
   protected void gwtSetUp() throws Exception {
     super.gwtSetUp();
@@ -46,19 +44,19 @@ public class SimplePagerTest extends AbstractPagerTest {
       assertEquals(Roles.getButtonRole().getName(), imgElem.getAttribute("role"));
       String label = imgElem.getAttribute(Property.LABEL.getName());
       assertNotNull(label);
-      if (label.equals(imageButtonConstants.firstPage()) 
-          || label.equals(imageButtonConstants.prevPage()) 
+      if (label.equals(imageButtonConstants.firstPage())
+          || label.equals(imageButtonConstants.prevPage())
           || label.equals(imageButtonConstants.nextPage())) {
-        assertEquals("true", imgElem.getAttribute(State.DISABLED.getName()));  
+        assertEquals("true", imgElem.getAttribute(State.DISABLED.getName()));
       } else {
         assertEquals("", imgElem.getAttribute(State.DISABLED.getName()));
       }
     }
   }
-  
+
   public void testNextButtonsDisabled() {
     SimplePager pager = createPager();
-    
+
     // Buttons are disabled by default.
     assertTrue(pager.isPreviousButtonDisabled());
     assertTrue(pager.isNextButtonDisabled());

@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.DivElement;
 import org.gwtproject.dom.client.Document;
@@ -23,14 +24,13 @@ import org.gwtproject.event.dom.client.ErrorEvent;
 import org.gwtproject.event.dom.client.ErrorHandler;
 import org.gwtproject.event.dom.client.LoadEvent;
 import org.gwtproject.event.dom.client.LoadHandler;
-import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.resources.client.impl.ImageResourcePrototype;
 import org.gwtproject.timer.client.Timer;
 
 /**
- * Tests for the Image widget. Images in both clipped mode and unclipped mode
- * are tested, along with the transitions between the two modes.
+ * Tests for the Image widget. Images in both clipped mode and unclipped mode are tested, along with
+ * the transitions between the two modes.
  */
 @J2clTestInput(ImageTest.class)
 public class ImageTest extends GWTTestCase {
@@ -66,50 +66,42 @@ public class ImageTest extends GWTTestCase {
       return image;
     }
   }
-  
+
   private abstract static class TestLoadHandler implements LoadHandler {
     private boolean finished = false;
 
-    /**
-     * Mark the test as finished.
-     */
+    /** Mark the test as finished. */
     public void finish() {
       finished = true;
     }
 
-    /**
-     * Returns true if the test has finished.
-     */
+    /** Returns true if the test has finished. */
     public boolean isFinished() {
       return finished;
     }
   }
 
   /**
-   * The default timeout of asynchronous tests. This should be larger than
-   * LOAD_EVENT_TIMEOUT and SYNTHETIC_LOAD_EVENT_TIMEOUT.
+   * The default timeout of asynchronous tests. This should be larger than LOAD_EVENT_TIMEOUT and
+   * SYNTHETIC_LOAD_EVENT_TIMEOUT.
    */
   private static final int DEFAULT_TEST_TIMEOUT = 10000;
 
-  /**
-   * The amount of time to wait for a load event to fire in milliseconds.
-   */
+  /** The amount of time to wait for a load event to fire in milliseconds. */
   private static final int LOAD_EVENT_TIMEOUT = 7000;
 
   /**
-   * The amount of time to wait for a clipped image to fire a synthetic load
-   * event in milliseconds.
+   * The amount of time to wait for a clipped image to fire a synthetic load event in milliseconds.
    */
   private static final int SYNTHETIC_LOAD_EVENT_TIMEOUT = 1000;
 
   /**
-   * Helper method that allows us to 'peek' at the private <code>state</code>
-   * field in the Image object, and call the <code>state.getStateName()</code>
-   * method.
+   * Helper method that allows us to 'peek' at the private <code>state</code> field in the Image
+   * object, and call the <code>state.getStateName()</code> method.
    *
    * @param image The image instance
-   * @return "unclipped" if image is in the unclipped state, or "clipped" if the
-   *         image is in the clipped state
+   * @return "unclipped" if image is in the unclipped state, or "clipped" if the image is in the
+   *     clipped state
    */
   public static String getCurrentImageStateName(Image image) {
     Image.State state = image.state;
@@ -136,10 +128,7 @@ public class ImageTest extends GWTTestCase {
     assertEquals("", image.getAltText());
   }
 
-  /**
-   * Test that attaching and immediately detaching an element does not cause an
-   * error.
-   */
+  /** Test that attaching and immediately detaching an element does not cause an error. */
   public void testAttachDetach() {
 
     final Image image = new Image("counting-forwards.png");
@@ -157,72 +146,69 @@ public class ImageTest extends GWTTestCase {
     }.schedule(SYNTHETIC_LOAD_EVENT_TIMEOUT);
   }
 
-  /**
-   * Tests the transition from the clipped state to the unclipped state.
-   */
+  /** Tests the transition from the clipped state to the unclipped state. */
   public void testChangeClippedImageToUnclipped() {
     final Image image = new Image("counting-forwards.png", 12, 13, 8, 8);
     assertEquals("clipped", getCurrentImageStateName(image));
 
     delayTestFinish(DEFAULT_TEST_TIMEOUT);
     image.addErrorHandler(new TestErrorHandler(image));
-    image.addLoadHandler(new LoadHandler() {
-      private int onLoadEventCount = 0;
+    image.addLoadHandler(
+        new LoadHandler() {
+          private int onLoadEventCount = 0;
 
-      @Override
-      public void onLoad(LoadEvent event) {
-        ++onLoadEventCount;
-        if (onLoadEventCount == 1) { // Set the url after the first image loads
-          image.setUrl("counting-forwards.png");
-        } else if (onLoadEventCount == 2) {
-          assertEquals(0, image.getOriginLeft());
-          assertEquals(0, image.getOriginTop());
-          assertEquals(32, image.getWidth());
-          assertEquals(32, image.getHeight());
-          assertEquals("unclipped", getCurrentImageStateName(image));
-          finishTest();
-        }
-      }
-    });
+          @Override
+          public void onLoad(LoadEvent event) {
+            ++onLoadEventCount;
+            if (onLoadEventCount == 1) { // Set the url after the first image loads
+              image.setUrl("counting-forwards.png");
+            } else if (onLoadEventCount == 2) {
+              assertEquals(0, image.getOriginLeft());
+              assertEquals(0, image.getOriginTop());
+              assertEquals(32, image.getWidth());
+              assertEquals(32, image.getHeight());
+              assertEquals("unclipped", getCurrentImageStateName(image));
+              finishTest();
+            }
+          }
+        });
 
     RootPanel.get().add(image);
   }
 
-  /**
-   * Tests the transition from the unclipped state to the clipped state.
-   */
+  /** Tests the transition from the unclipped state to the clipped state. */
   public void testChangeImageToClipped() {
     final Image image = new Image("counting-forwards.png");
     assertEquals("unclipped", getCurrentImageStateName(image));
 
     delayTestFinish(DEFAULT_TEST_TIMEOUT);
     image.addErrorHandler(new TestErrorHandler(image));
-    image.addLoadHandler(new LoadHandler() {
-      private int onLoadEventCount = 0;
+    image.addLoadHandler(
+        new LoadHandler() {
+          private int onLoadEventCount = 0;
 
-      @Override
-      public void onLoad(LoadEvent event) {
-        if (getCurrentImageStateName(image).equals("unclipped")) {
-          image.setVisibleRect(12, 13, 8, 8);
-        }
+          @Override
+          public void onLoad(LoadEvent event) {
+            if (getCurrentImageStateName(image).equals("unclipped")) {
+              image.setVisibleRect(12, 13, 8, 8);
+            }
 
-        if (++onLoadEventCount == 2) {
-          assertEquals(12, image.getOriginLeft());
-          assertEquals(13, image.getOriginTop());
-          assertEquals(8, image.getWidth());
-          assertEquals(8, image.getHeight());
-          assertEquals("clipped", getCurrentImageStateName(image));
-          finishTest();
-        }
-      }
-    });
+            if (++onLoadEventCount == 2) {
+              assertEquals(12, image.getOriginLeft());
+              assertEquals(13, image.getOriginTop());
+              assertEquals(8, image.getWidth());
+              assertEquals(8, image.getHeight());
+              assertEquals("clipped", getCurrentImageStateName(image));
+              finishTest();
+            }
+          }
+        });
 
     RootPanel.get().add(image);
   }
 
   /**
-   * Tests the transition from the unclipped state to the clipped state
-   * before a load event fires.
+   * Tests the transition from the unclipped state to the clipped state before a load event fires.
    */
   public void testChangeImageToClippedSynchronously() {
 
@@ -230,21 +216,22 @@ public class ImageTest extends GWTTestCase {
     assertEquals("unclipped", getCurrentImageStateName(image));
 
     image.addErrorHandler(new TestErrorHandler(image));
-    final TestLoadHandler loadHandler = new TestLoadHandler() {
-      @Override
-      public void onLoad(LoadEvent event) {
-        if (isFinished()) {
-          fail("LoadHandler fired twice. Expected it to fire only once.");
-        }
+    final TestLoadHandler loadHandler =
+        new TestLoadHandler() {
+          @Override
+          public void onLoad(LoadEvent event) {
+            if (isFinished()) {
+              fail("LoadHandler fired twice. Expected it to fire only once.");
+            }
 
-        assertEquals("clipped", getCurrentImageStateName(image));
-        assertEquals(12, image.getOriginLeft());
-        assertEquals(13, image.getOriginTop());
-        assertEquals(8, image.getWidth());
-        assertEquals(8, image.getHeight());
-        finish();
-      }
-    };
+            assertEquals("clipped", getCurrentImageStateName(image));
+            assertEquals(12, image.getOriginLeft());
+            assertEquals(13, image.getOriginTop());
+            assertEquals(8, image.getWidth());
+            assertEquals(8, image.getHeight());
+            finish();
+          }
+        };
     image.addLoadHandler(loadHandler);
 
     /*
@@ -267,26 +254,25 @@ public class ImageTest extends GWTTestCase {
     }.schedule(SYNTHETIC_LOAD_EVENT_TIMEOUT);
   }
 
-  /**
-   * Tests the creation of an image in unclipped mode.
-   */
+  /** Tests the creation of an image in unclipped mode. */
   public void testCreateImage() {
     final Image image = new Image("counting-forwards.png");
 
     delayTestFinish(DEFAULT_TEST_TIMEOUT);
     image.addErrorHandler(new TestErrorHandler(image));
-    image.addLoadHandler(new LoadHandler() {
-      private int onLoadEventCount = 0;
+    image.addLoadHandler(
+        new LoadHandler() {
+          private int onLoadEventCount = 0;
 
-      @Override
-      public void onLoad(LoadEvent event) {
-        if (++onLoadEventCount == 1) {
-          assertEquals(32, image.getWidth());
-          assertEquals(32, image.getHeight());
-          finishTest();
-        }
-      }
-    });
+          @Override
+          public void onLoad(LoadEvent event) {
+            if (++onLoadEventCount == 1) {
+              assertEquals(32, image.getWidth());
+              assertEquals(32, image.getHeight());
+              finishTest();
+            }
+          }
+        });
 
     RootPanel.get().add(image);
     assertEquals(0, image.getOriginLeft());
@@ -294,60 +280,59 @@ public class ImageTest extends GWTTestCase {
     assertEquals("unclipped", getCurrentImageStateName(image));
   }
 
-  /**
-   * Tests the creation of an image that does not exist.
-   */
+  /** Tests the creation of an image that does not exist. */
   public void testCreateImageWithError() {
     final Image image = new Image("imageDoesNotExist.png");
 
     delayTestFinish(DEFAULT_TEST_TIMEOUT);
-    image.addErrorHandler(new ErrorHandler() {
-      @Override
-      public void onError(ErrorEvent event) {
-        finishTest();
-      }
-    });
-    image.addLoadHandler(new LoadHandler() {
-      @Override
-      public void onLoad(LoadEvent event) {
-        fail("The image " + image.getUrl() + " should have failed to load.");
-      }
-    });
+    image.addErrorHandler(
+        new ErrorHandler() {
+          @Override
+          public void onError(ErrorEvent event) {
+            finishTest();
+          }
+        });
+    image.addLoadHandler(
+        new LoadHandler() {
+          @Override
+          public void onLoad(LoadEvent event) {
+            fail("The image " + image.getUrl() + " should have failed to load.");
+          }
+        });
 
     RootPanel.get().add(image);
   }
 
   /**
-   * Tests the firing of onload events when
-   * {@link Image#setUrl(String)} is called on an
-   * unclipped image.
+   * Tests the firing of onload events when {@link Image#setUrl(String)} is called on an unclipped
+   * image.
    */
   public void testSetUrlAndLoadEventsOnUnclippedImage() {
     final Image image = new Image();
 
     delayTestFinish(DEFAULT_TEST_TIMEOUT);
     image.addErrorHandler(new TestErrorHandler(image));
-    image.addLoadHandler(new LoadHandler() {
-      private int onLoadEventCount = 0;
+    image.addLoadHandler(
+        new LoadHandler() {
+          private int onLoadEventCount = 0;
 
-      @Override
-      public void onLoad(LoadEvent event) {
-        if (++onLoadEventCount == 2) {
-          finishTest();
-        } else {
-          image.setUrl("counting-forwards.png");
-        }
-      }
-    });
+          @Override
+          public void onLoad(LoadEvent event) {
+            if (++onLoadEventCount == 2) {
+              finishTest();
+            } else {
+              image.setUrl("counting-forwards.png");
+            }
+          }
+        });
 
     RootPanel.get().add(image);
     image.setUrl("counting-backwards.png");
   }
 
   /**
-   * Tests the behavior of
-   * <code>setUrlAndVisibleRect(String, int, int, int, int)</code> method on an
-   * unclipped image, which causes a state transition to the clipped state.
+   * Tests the behavior of <code>setUrlAndVisibleRect(String, int, int, int, int)</code> method on
+   * an unclipped image, which causes a state transition to the clipped state.
    */
   public void testSetUrlAndVisibleRectOnUnclippedImage() {
     final Image image = new Image("counting-backwards.png");
@@ -355,50 +340,49 @@ public class ImageTest extends GWTTestCase {
 
     delayTestFinish(DEFAULT_TEST_TIMEOUT);
     image.addErrorHandler(new TestErrorHandler(image));
-    image.addLoadHandler(new LoadHandler() {
-      private int onLoadEventCount = 0;
+    image.addLoadHandler(
+        new LoadHandler() {
+          private int onLoadEventCount = 0;
 
-      @Override
-      public void onLoad(LoadEvent event) {
-        if (getCurrentImageStateName(image).equals("unclipped")) {
-          image.setUrlAndVisibleRect("counting-forwards.png", 0, 16, 16, 16);
-        }
+          @Override
+          public void onLoad(LoadEvent event) {
+            if (getCurrentImageStateName(image).equals("unclipped")) {
+              image.setUrlAndVisibleRect("counting-forwards.png", 0, 16, 16, 16);
+            }
 
-        if (++onLoadEventCount == 2) {
-          assertEquals(0, image.getOriginLeft());
-          assertEquals(16, image.getOriginTop());
-          assertEquals(16, image.getWidth());
-          assertEquals(16, image.getHeight());
-          assertEquals("clipped", getCurrentImageStateName(image));
-          finishTest();
-        }
-      }
-    });
+            if (++onLoadEventCount == 2) {
+              assertEquals(0, image.getOriginLeft());
+              assertEquals(16, image.getOriginTop());
+              assertEquals(16, image.getWidth());
+              assertEquals(16, image.getHeight());
+              assertEquals("clipped", getCurrentImageStateName(image));
+              finishTest();
+            }
+          }
+        });
 
     RootPanel.get().add(image);
   }
 
-  /**
-   * Tests the creation of an image in clipped mode.
-   */
-
+  /** Tests the creation of an image in clipped mode. */
   public void testCreateClippedImage() {
     final Image image = new Image("counting-forwards.png", 16, 16, 16, 16);
 
     delayTestFinish(DEFAULT_TEST_TIMEOUT);
 
-    image.addLoadHandler(new LoadHandler() {
-      private int onLoadEventCount = 0;
+    image.addLoadHandler(
+        new LoadHandler() {
+          private int onLoadEventCount = 0;
 
-      @Override
-      public void onLoad(LoadEvent event) {
-        if (++onLoadEventCount == 1) {
-          assertEquals(16, image.getWidth());
-          assertEquals(16, image.getHeight());
-          finishTest();
-        }
-      }
-    });
+          @Override
+          public void onLoad(LoadEvent event) {
+            if (++onLoadEventCount == 1) {
+              assertEquals(16, image.getWidth());
+              assertEquals(16, image.getHeight());
+              finishTest();
+            }
+          }
+        });
     image.addErrorHandler(new TestErrorHandler(image));
 
     RootPanel.get().add(image);
@@ -407,51 +391,53 @@ public class ImageTest extends GWTTestCase {
     assertEquals("clipped", getCurrentImageStateName(image));
   }
 
-
   public void testLoadListenerWiring() {
     Image im = new Image();
 
-    im.addLoadHandler(new LoadHandler() {
-      @Override
-      public void onLoad(LoadEvent event) {
-        ++firedLoad;
-      }
-    });
+    im.addLoadHandler(
+        new LoadHandler() {
+          @Override
+          public void onLoad(LoadEvent event) {
+            ++firedLoad;
+          }
+        });
 
-    im.addErrorHandler(new ErrorHandler() {
-      @Override
-      public void onError(ErrorEvent event) {
-        ++firedError;
-      }
-    });
+    im.addErrorHandler(
+        new ErrorHandler() {
+          @Override
+          public void onError(ErrorEvent event) {
+            ++firedError;
+          }
+        });
 
-    im.fireEvent(new LoadEvent() {
-      // Replaced by Joel's event firing when possible.
-    });
+    im.fireEvent(
+        new LoadEvent() {
+          // Replaced by Joel's event firing when possible.
+        });
     assertEquals(1, firedLoad);
     assertEquals(0, firedError);
-    im.fireEvent(new ErrorEvent() {
-      // Replaced by Joel's event firing when possible.
-    });
+    im.fireEvent(
+        new ErrorEvent() {
+          // Replaced by Joel's event firing when possible.
+        });
     assertEquals(1, firedLoad);
     assertEquals(1, firedError);
   }
 
-  /**
-   * Test that attaching an image multiple times results in only one load event.
-   */
+  /** Test that attaching an image multiple times results in only one load event. */
   public void testMultipleAttach() {
     final Image image = new Image("counting-forwards.png");
 
-    final TestLoadHandler loadHandler = new TestLoadHandler() {
-      @Override
-      public void onLoad(LoadEvent event) {
-        if (isFinished()) {
-          fail("LoadHandler fired multiple times.");
-        }
-        finish();
-      }
-    };
+    final TestLoadHandler loadHandler =
+        new TestLoadHandler() {
+          @Override
+          public void onLoad(LoadEvent event) {
+            if (isFinished()) {
+              fail("LoadHandler fired multiple times.");
+            }
+            finish();
+          }
+        };
     image.addErrorHandler(new TestErrorHandler(image));
     image.addLoadHandler(loadHandler);
 
@@ -474,29 +460,30 @@ public class ImageTest extends GWTTestCase {
   }
 
   /**
-   * Verify that detaching and reattaching an image in a handler does not fire a
-   * second onload event.
+   * Verify that detaching and reattaching an image in a handler does not fire a second onload
+   * event.
    */
   public void testNoEventOnReattachInHandler() {
     final Image image = new Image("counting-forwards.png");
 
     delayTestFinish(DEFAULT_TEST_TIMEOUT);
     image.addErrorHandler(new TestErrorHandler(image));
-    image.addLoadHandler(new LoadHandler() {
-      private int onLoadEventCount = 0;
+    image.addLoadHandler(
+        new LoadHandler() {
+          private int onLoadEventCount = 0;
 
-      @Override
-      public void onLoad(LoadEvent event) {
-        if (++onLoadEventCount == 1) {
-          RootPanel.get().remove(image);
-          RootPanel.get().add(image);
-          // The extra onLoad would will fire synchronously before finishTest().
-          finishTest();
-        } else {
-          fail("onLoad fired on reattach.");
-        }
-      }
-    });
+          @Override
+          public void onLoad(LoadEvent event) {
+            if (++onLoadEventCount == 1) {
+              RootPanel.get().remove(image);
+              RootPanel.get().add(image);
+              // The extra onLoad would will fire synchronously before finishTest().
+              finishTest();
+            } else {
+              fail("onLoad fired on reattach.");
+            }
+          }
+        });
 
     RootPanel.get().add(image);
   }
@@ -504,15 +491,16 @@ public class ImageTest extends GWTTestCase {
   public void testOneEventOnly() {
     final Image image = new Image("counting-forwards.png");
 
-    final TestLoadHandler loadHandler = new TestLoadHandler() {
-      @Override
-      public void onLoad(LoadEvent event) {
-        if (isFinished()) {
-          fail("LoadHandler fired multiple times.");
-        }
-        finish();
-      }
-    };
+    final TestLoadHandler loadHandler =
+        new TestLoadHandler() {
+          @Override
+          public void onLoad(LoadEvent event) {
+            if (isFinished()) {
+              fail("LoadHandler fired multiple times.");
+            }
+            finish();
+          }
+        };
     image.addErrorHandler(new TestErrorHandler(image));
     image.addLoadHandler(loadHandler);
 
@@ -530,15 +518,16 @@ public class ImageTest extends GWTTestCase {
   public void testOneEventOnlyClippedImage() {
     final Image image = new Image("counting-forwards.png", 12, 13, 8, 8);
 
-    final TestLoadHandler loadHandler = new TestLoadHandler() {
-      @Override
-      public void onLoad(LoadEvent event) {
-        if (isFinished()) {
-          fail("LoadHandler fired multiple times.");
-        }
-        finish();
-      }
-    };
+    final TestLoadHandler loadHandler =
+        new TestLoadHandler() {
+          @Override
+          public void onLoad(LoadEvent event) {
+            if (isFinished()) {
+              fail("LoadHandler fired multiple times.");
+            }
+            finish();
+          }
+        };
     image.addErrorHandler(new TestErrorHandler(image));
     image.addLoadHandler(loadHandler);
 
@@ -551,9 +540,9 @@ public class ImageTest extends GWTTestCase {
         finishTest();
       }
     }.schedule(LOAD_EVENT_TIMEOUT);
-   }
+  }
 
-/*  @WithProperties({
+  /*  @WithProperties({
     @Property(name = "ClientBundle.enableInlining", value = "false")
   })*/
   public void testResourceConstructor() {
@@ -564,7 +553,7 @@ public class ImageTest extends GWTTestCase {
     assertEquals("clipped", getCurrentImageStateName(image));
   }
 
-/*  @WithProperties({
+  /*  @WithProperties({
     @Property(name = "ClientBundle.enableInlining", value = "false")
   })*/
   public void testSetResource() {
@@ -597,28 +586,27 @@ public class ImageTest extends GWTTestCase {
   }
 
   /**
-   * Tests the behavior of
-   * {@link Image#setUrlAndVisibleRect(String,int,int,int,int)}
-   * on a clipped image.
+   * Tests the behavior of {@link Image#setUrlAndVisibleRect(String,int,int,int,int)} on a clipped
+   * image.
    */
-
   public void testSetUrlAndVisibleRectOnClippedImage() {
     final Image image = new Image("counting-backwards.png", 12, 12, 12, 12);
 
-    final TestLoadHandler loadHandler = new TestLoadHandler() {
-      @Override
-      public void onLoad(LoadEvent event) {
-        if (isFinished()) {
-          fail("LoadHandler fired twice. Expected it to fire only once.");
-        }
-        assertEquals(0, image.getOriginLeft());
-        assertEquals(16, image.getOriginTop());
-        assertEquals(16, image.getWidth());
-        assertEquals(16, image.getHeight());
-        assertEquals("clipped", getCurrentImageStateName(image));
-        finish();
-      }
-    };
+    final TestLoadHandler loadHandler =
+        new TestLoadHandler() {
+          @Override
+          public void onLoad(LoadEvent event) {
+            if (isFinished()) {
+              fail("LoadHandler fired twice. Expected it to fire only once.");
+            }
+            assertEquals(0, image.getOriginLeft());
+            assertEquals(16, image.getOriginTop());
+            assertEquals(16, image.getWidth());
+            assertEquals(16, image.getHeight());
+            assertEquals("clipped", getCurrentImageStateName(image));
+            finish();
+          }
+        };
     image.addLoadHandler(loadHandler);
     image.addErrorHandler(new TestErrorHandler(image));
 
@@ -643,23 +631,22 @@ public class ImageTest extends GWTTestCase {
   }
 
   /**
-   * Tests the firing of onload events when calling
-   * {@link Image#setVisibleRect(int,int,int,int)}
-   * on a clipped image.
+   * Tests the firing of onload events when calling {@link Image#setVisibleRect(int,int,int,int)} on
+   * a clipped image.
    */
-
   public void testSetVisibleRectAndLoadEventsOnClippedImage() {
     final Image image = new Image("counting-backwards.png", 16, 16, 16, 16);
 
-    final TestLoadHandler loadHandler = new TestLoadHandler() {
-      @Override
-      public void onLoad(LoadEvent event) {
-        if (isFinished()) {
-          fail("LoadHandler fired twice. Expected it to fire only once.");
-        }
-        finish();
-      }
-    };
+    final TestLoadHandler loadHandler =
+        new TestLoadHandler() {
+          @Override
+          public void onLoad(LoadEvent event) {
+            if (isFinished()) {
+              fail("LoadHandler fired twice. Expected it to fire only once.");
+            }
+            finish();
+          }
+        };
     image.addLoadHandler(loadHandler);
     image.addErrorHandler(new TestErrorHandler(image));
 
@@ -685,9 +672,7 @@ public class ImageTest extends GWTTestCase {
     }.schedule(SYNTHETIC_LOAD_EVENT_TIMEOUT);
   }
 
-  /**
-   * Tests that it is possible to make a subclass of Image that can be wrapped.
-   */
+  /** Tests that it is possible to make a subclass of Image that can be wrapped. */
   public void testWrapOfSubclass() {
     String uid = Document.get().createUniqueId();
     DivElement div = Document.get().createDivElement();
@@ -702,15 +687,11 @@ public class ImageTest extends GWTTestCase {
     RootPanel.detachNow(image);
   }
 
-  /**
-   * Tests that wrapping an existing DOM element works if you call
-   * setUrlAndVisibleRect() on it.
-   */
+  /** Tests that wrapping an existing DOM element works if you call setUrlAndVisibleRect() on it. */
   public void testWrapThenSetUrlAndVisibleRect() {
     String uid = Document.get().createUniqueId();
     DivElement div = Document.get().createDivElement();
-    div.setInnerHTML("<img id='" + uid
-        + "' src='counting-backwards.png' width='16' height='16'>");
+    div.setInnerHTML("<img id='" + uid + "' src='counting-backwards.png' width='16' height='16'>");
     Document.get().getBody().appendChild(div);
     final Image image = Image.wrap(Document.get().getElementById(uid));
 

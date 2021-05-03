@@ -29,13 +29,9 @@ public final class GWT {
     void onUncaughtException(Throwable e);
   }
 
-  public GWT() {
-  }
+  public GWT() {}
 
-
-  public static void setUncaughtExceptionHandler(UncaughtExceptionHandler handler) {
-
-  }
+  public static void setUncaughtExceptionHandler(UncaughtExceptionHandler handler) {}
 
   /** @deprecated */
   @Deprecated
@@ -63,28 +59,24 @@ public final class GWT {
 
   /** @deprecated */
   @Deprecated
-  public static void log(String msg) {
-
-  }
+  public static void log(String msg) {}
 
   /** @deprecated */
   @Deprecated
-  public static void log(String msg, Exception e) {
-
-  }
+  public static void log(String msg, Exception e) {}
 
   /** @deprecated */
   @Deprecated
   public static void reportUncaughtException(Throwable e) {
-    DomGlobal.setTimeout((ignore) -> {
-      throw_(e);
-    }, 0.0D, new Object[0]);
+    DomGlobal.setTimeout(
+        (ignore) -> {
+          throw_(e);
+        },
+        0.0D,
+        new Object[0]);
   }
 
-  @JsMethod(
-      namespace = "<window>",
-      name = "throw"
-  )
+  @JsMethod(namespace = "<window>", name = "throw")
   private static native void throw_(Object var0);
 
   public static boolean isScript() {

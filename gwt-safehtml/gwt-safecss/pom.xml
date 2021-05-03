@@ -46,24 +46,16 @@
 
   <inceptionYear>2019</inceptionYear>
 
-  <properties>
-    <maven.gwt.plugin>1.0.0</maven.gwt.plugin>
-
-    <dom.version>1.0.0-RC1</dom.version>
-
-    <deploy.skip>false</deploy.skip>
-  </properties>
-
   <dependencies>
     <dependency>
       <groupId>org.gwtproject.dom</groupId>
       <artifactId>gwt-dom-style-definitions</artifactId>
-      <version>${dom.version}</version>
+      <version>${revision}</version>
     </dependency>
     <dependency>
       <groupId>org.gwtproject.safehtml</groupId>
       <artifactId>gwt-safehtml</artifactId>
-      <version>${project.version}</version>
+      <version>${revision}</version>
     </dependency>
   </dependencies>
 

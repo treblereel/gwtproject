@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,26 +15,22 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.DivElement;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.event.logical.shared.CloseEvent;
 import org.gwtproject.event.logical.shared.CloseHandler;
-import com.google.gwt.junit.client.GWTTestCase;
-import org.gwtproject.user.history.client.History;
 import org.gwtproject.timer.client.Timer;
+import org.gwtproject.user.history.client.History;
 import org.gwtproject.user.window.client.Window;
 
-/**
- * Tests for {@link PopupPanel}.
- */
+/** Tests for {@link PopupPanel}. */
 @J2clTestInput(PopupTest.class)
 public class PopupTest extends GWTTestCase {
 
-  /**
-   * The Widget adder used to set the widget in a {@link PopupPanel}.
-   */
+  /** The Widget adder used to set the widget in a {@link PopupPanel}. */
   private static class Adder implements HasWidgetsTester.WidgetAdder {
     @Override
     public void addChild(HasWidgets container, Widget child) {
@@ -42,9 +38,7 @@ public class PopupTest extends GWTTestCase {
     }
   }
 
-  /**
-   * Expose otherwise private or protected methods.
-   */
+  /** Expose otherwise private or protected methods. */
   private static class TestablePopupPanel extends PopupPanel {
     private int onLoadCount;
 
@@ -69,9 +63,7 @@ public class PopupTest extends GWTTestCase {
     return "org.gwtproject.user.Widgets";
   }
 
-  /**
-   * Test the basic accessors.
-   */
+  /** Test the basic accessors. */
   public void testAccessors() {
     PopupPanel popup = createPopupPanel();
 
@@ -145,8 +137,8 @@ public class PopupTest extends GWTTestCase {
   }
 
   /**
-   * Tests that a large PopupPanel is not positioned off the top or left edges
-   * of the browser window, making part of the panel unreachable.
+   * Tests that a large PopupPanel is not positioned off the top or left edges of the browser
+   * window, making part of the panel unreachable.
    */
   public void testCenterLargePopup() {
     PopupPanel popup = new PopupPanel();
@@ -159,11 +151,10 @@ public class PopupTest extends GWTTestCase {
   }
 
   /**
-   * Issue 2463: If a {@link PopupPanel} contains a dependent {@link PopupPanel}
-   * that is hidden or shown in the onDetach or onAttach method, we could run
-   * into conflicts with the animations. The {@link MenuBar} exhibits this
-   * behavior because, when we detach a {@link MenuBar} from the page, it closes
-   * all of its sub menus, each located in a different {@link PopupPanel}.
+   * Issue 2463: If a {@link PopupPanel} contains a dependent {@link PopupPanel} that is hidden or
+   * shown in the onDetach or onAttach method, we could run into conflicts with the animations. The
+   * {@link MenuBar} exhibits this behavior because, when we detach a {@link MenuBar} from the page,
+   * it closes all of its sub menus, each located in a different {@link PopupPanel}.
    */
   public void testDependantPopupPanel() {
     // Create the dependent popup
@@ -171,19 +162,20 @@ public class PopupTest extends GWTTestCase {
     dependantPopup.setAnimationEnabled(true);
 
     // Create the primary popup
-    final PopupPanel primaryPopup = new PopupPanel(false, false) {
-      @Override
-      protected void onAttach() {
-        dependantPopup.show();
-        super.onAttach();
-      }
+    final PopupPanel primaryPopup =
+        new PopupPanel(false, false) {
+          @Override
+          protected void onAttach() {
+            dependantPopup.show();
+            super.onAttach();
+          }
 
-      @Override
-      protected void onDetach() {
-        dependantPopup.hide();
-        super.onDetach();
-      }
-    };
+          @Override
+          protected void onDetach() {
+            dependantPopup.hide();
+            super.onDetach();
+          }
+        };
     primaryPopup.setAnimationEnabled(true);
 
     testDependantPopupPanel(primaryPopup);
@@ -264,10 +256,7 @@ public class PopupTest extends GWTTestCase {
     popup.hide();
   }
 
-  /**
-   * Test the hiding a popup while it is showing will not result in an illegal
-   * state.
-   */
+  /** Test the hiding a popup while it is showing will not result in an illegal state. */
   public void testHideWhileShowing() {
     PopupPanel popup = createPopupPanel();
 
@@ -281,9 +270,7 @@ public class PopupTest extends GWTTestCase {
     assertFalse(popup.isShowing());
   }
 
-  /**
-   * Test that the onLoad method is only called once when showing the popup.
-   */
+  /** Test that the onLoad method is only called once when showing the popup. */
   public void testOnLoad() {
     TestablePopupPanel popup = new TestablePopupPanel();
 
@@ -337,10 +324,8 @@ public class PopupTest extends GWTTestCase {
 
     // DecoratorPanel adds width and height because it wraps the content in a
     // 3x3 table.
-    assertTrue("Expected >= 384, got " + popup.getOffsetWidth(),
-        popup.getOffsetWidth() >= 384);
-    assertTrue("Expected >= 128, got " + popup.getOffsetHeight(),
-        popup.getOffsetHeight() >= 128);
+    assertTrue("Expected >= 384, got " + popup.getOffsetWidth(), popup.getOffsetWidth() >= 384);
+    assertTrue("Expected >= 128, got " + popup.getOffsetHeight(), popup.getOffsetHeight() >= 128);
     assertEquals(128, popup.getPopupLeft());
     assertEquals(64, popup.getPopupTop());
 
@@ -366,18 +351,17 @@ public class PopupTest extends GWTTestCase {
 
     // Ensure that hiding the popup fires the appropriate events.
     delayTestFinish(1000);
-    popup.addCloseHandler(new CloseHandler<PopupPanel>() {
-      @Override
-      public void onClose(CloseEvent<PopupPanel> event) {
-        finishTest();
-      }
-    });
+    popup.addCloseHandler(
+        new CloseHandler<PopupPanel>() {
+          @Override
+          public void onClose(CloseEvent<PopupPanel> event) {
+            finishTest();
+          }
+        });
     popup.hide();
   }
 
-  /**
-   * Issue 4720: Glass is not removed when removeFromParent is called.
-   */
+  /** Issue 4720: Glass is not removed when removeFromParent is called. */
   public void testRemoveFromParent() {
     PopupPanel popup = createPopupPanel();
     popup.setGlassEnabled(true);
@@ -399,9 +383,8 @@ public class PopupTest extends GWTTestCase {
   }
 
   /**
-   * Issue 2481: Try to set the contents of the popup while the popup is
-   * attached. When we hide the popup, this should not leave the popup in an
-   * invalid attach state.
+   * Issue 2481: Try to set the contents of the popup while the popup is attached. When we hide the
+   * popup, this should not leave the popup in an invalid attach state.
    */
   public void testSetWidgetWhileAttached() {
     PopupPanel popup = createPopupPanel();
@@ -430,10 +413,7 @@ public class PopupTest extends GWTTestCase {
     popup.hide();
   }
 
-  /**
-   * Test that showing a popup while it is attached does not put it in an
-   * invalid state.
-   */
+  /** Test that showing a popup while it is attached does not put it in an invalid state. */
   public void testShowWhileAttached() {
     PopupPanel popup = createPopupPanel();
     RootPanel.get().add(popup);
@@ -446,10 +426,7 @@ public class PopupTest extends GWTTestCase {
     assertFalse(popup.isShowing());
   }
 
-  /**
-   * Test that showing a popup while it is hiding will not result in an illegal
-   * state.
-   */
+  /** Test that showing a popup while it is hiding will not result in an illegal state. */
   public void testShowWhileHiding() {
     PopupPanel popup = createPopupPanel();
 
@@ -468,9 +445,7 @@ public class PopupTest extends GWTTestCase {
     assertTrue(popup.isShowing());
   }
 
-  /**
-   * Create a new PopupPanel.
-   */
+  /** Create a new PopupPanel. */
   protected PopupPanel createPopupPanel() {
     return new PopupPanel();
   }
@@ -480,9 +455,7 @@ public class PopupTest extends GWTTestCase {
     RootPanel.get().clear();
   }
 
-  /**
-   * @see #testDependantPopupPanel()
-   */
+  /** @see #testDependantPopupPanel() */
   protected void testDependantPopupPanel(final PopupPanel primaryPopup) {
     // Show the popup
     primaryPopup.show();

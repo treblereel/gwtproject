@@ -64,10 +64,27 @@
         <dependency>
             <groupId>org.gwtproject.user.window</groupId>
             <artifactId>gwt-window</artifactId>
+            <version>1.0.0-RC2</version>
         </dependency>
         <dependency>
             <groupId>org.gwtproject.editor</groupId>
             <artifactId>gwt-editor</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.gwtproject.i18n</groupId>
+            <artifactId>gwt-i18n</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.gwtproject.i18n</groupId>
+            <artifactId>gwt-i18n-processor</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.gwtproject.i18n</groupId>
+            <artifactId>gwt-datetimeformat</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.gwtproject.i18n</groupId>
+            <artifactId>gwt-numberformat</artifactId>
         </dependency>
         <dependency>
             <groupId>org.gwtproject.resources</groupId>

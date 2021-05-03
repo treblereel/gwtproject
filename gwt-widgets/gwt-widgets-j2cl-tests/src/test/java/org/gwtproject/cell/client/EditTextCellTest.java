@@ -25,9 +25,7 @@ import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.event.dom.client.KeyCodes;
 import org.gwtproject.safehtml.shared.SafeHtmlBuilder;
 
-/**
- * Tests for {@link org.gwtproject.cell.client.EditTextCell}.
- */
+/** Tests for {@link org.gwtproject.cell.client.EditTextCell}. */
 @J2clTestInput(EditTextCellTest.class)
 public class EditTextCellTest extends EditableCellTestBase<String, ViewData> {
 
@@ -48,28 +46,29 @@ public class EditTextCellTest extends EditableCellTestBase<String, ViewData> {
     assertEquals("newValue", input.getValue());
   }
 
-  /**
-   * Cancel and switch to read only mode.
-   */
+  /** Cancel and switch to read only mode. */
   public void testOnBrowserEventCancel() {
-    NativeEvent event = Document.get().createKeyUpEvent(
-        false, false, false, false, KeyCodes.KEY_ESCAPE);
+    NativeEvent event =
+        Document.get().createKeyUpEvent(false, false, false, false, KeyCodes.KEY_ESCAPE);
     ViewData viewData = new ViewData("originalValue");
     viewData.setText("newValue");
-    Element parent = testOnBrowserEvent(
-        "<input type='text' value='newValue'></input>", event, "originalValue",
-        viewData, null, null);
+    Element parent =
+        testOnBrowserEvent(
+            "<input type='text' value='newValue'></input>",
+            event,
+            "originalValue",
+            viewData,
+            null,
+            null);
 
     // Verify the input element is gone.
     assertEquals("originalValue", parent.getInnerHTML());
   }
 
-  /**
-   * Cancel and switch to read only mode after committing once.
-   */
+  /** Cancel and switch to read only mode after committing once. */
   public void testOnBrowserEventCancelSecondEdit() {
-    NativeEvent event = Document.get().createKeyUpEvent(
-        false, false, false, false, KeyCodes.KEY_ESCAPE);
+    NativeEvent event =
+        Document.get().createKeyUpEvent(false, false, false, false, KeyCodes.KEY_ESCAPE);
     ViewData viewData = new ViewData("originalValue");
     viewData.setText("newValue");
     viewData.setEditing(false); // commit.
@@ -77,9 +76,14 @@ public class EditTextCellTest extends EditableCellTestBase<String, ViewData> {
     assertEquals("newValue", viewData.getOriginal());
     assertEquals("newValue", viewData.getText());
     viewData.setText("newValue2");
-    Element parent = testOnBrowserEvent(
-        "<input type='text' value='newValue2'></input>", event, "originalValue",
-        viewData, null, viewData);
+    Element parent =
+        testOnBrowserEvent(
+            "<input type='text' value='newValue2'></input>",
+            event,
+            "originalValue",
+            viewData,
+            null,
+            viewData);
     assertEquals("newValue", viewData.getOriginal());
     assertEquals("newValue", viewData.getText());
     assertFalse(viewData.isEditing());
@@ -88,33 +92,33 @@ public class EditTextCellTest extends EditableCellTestBase<String, ViewData> {
     assertEquals("newValue", parent.getInnerHTML());
   }
 
-  /**
-   * Commit and switch to read only mode.
-   */
+  /** Commit and switch to read only mode. */
   public void testOnBrowserEventCommit() {
-    NativeEvent event = Document.get().createKeyUpEvent(
-        false, false, false, false, KeyCodes.KEY_ENTER);
+    NativeEvent event =
+        Document.get().createKeyUpEvent(false, false, false, false, KeyCodes.KEY_ENTER);
     ViewData viewData = new ViewData("originalValue");
     viewData.setText("newValue");
     assertTrue(viewData.isEditing());
-    Element parent = testOnBrowserEvent(
-        "<input type='text' value='newValue'></input>", event, "originalValue",
-        viewData, "newValue", viewData);
+    Element parent =
+        testOnBrowserEvent(
+            "<input type='text' value='newValue'></input>",
+            event,
+            "originalValue",
+            viewData,
+            "newValue",
+            viewData);
     assertFalse(viewData.isEditing());
 
     // Verify the input element is gone.
     assertEquals("newValue", parent.getInnerHTML());
   }
 
-  /**
-   * Test switching into edit mode from onBrowserEvent.
-   */
+  /** Test switching into edit mode from onBrowserEvent. */
   public void testOnBrowserEventEdit() {
-    NativeEvent event = Document.get().createClickEvent(
-        0, 0, 0, 0, 0, false, false, false, false);
+    NativeEvent event = Document.get().createClickEvent(0, 0, 0, 0, 0, false, false, false, false);
     ViewData expectedViewData = new ViewData("editing");
-    Element parent = testOnBrowserEvent(
-        "helloWorld", event, "editing", null, null, expectedViewData);
+    Element parent =
+        testOnBrowserEvent("helloWorld", event, "editing", null, null, expectedViewData);
 
     // Verify the input element.
     Element child = parent.getFirstChildElement();
@@ -123,10 +127,7 @@ public class EditTextCellTest extends EditableCellTestBase<String, ViewData> {
     assertEquals("editing", input.getValue());
   }
 
-  /**
-   * Test rendering the cell with a valid value and view data, but without
-   * editing.
-   */
+  /** Test rendering the cell with a valid value and view data, but without editing. */
   public void testRenderViewDataDoneEditing() {
     EditTextCell cell = createCell();
     ViewData viewData = new ViewData("originalValue");
@@ -139,9 +140,7 @@ public class EditTextCellTest extends EditableCellTestBase<String, ViewData> {
     assertEquals("newValue", sb.toSafeHtml().asString());
   }
 
-  /**
-   * Test rendering the cell with a malicious value.
-   */
+  /** Test rendering the cell with a malicious value. */
   public void testRenderUnsafeHtml() {
     EditTextCell cell = createCell();
     SafeHtmlBuilder sb = new SafeHtmlBuilder();
@@ -150,9 +149,7 @@ public class EditTextCellTest extends EditableCellTestBase<String, ViewData> {
     assertEquals("&lt;script&gt;malicious&lt;/script&gt;", sb.toSafeHtml().asString());
   }
 
-  /**
-   * Test rendering the cell with a malicious value in edit mode.
-   */
+  /** Test rendering the cell with a malicious value in edit mode. */
   public void testRenderUnsafeHtmlWhenEditing() {
     EditTextCell cell = createCell();
     ViewData viewData = new ViewData("originalValue");
@@ -162,8 +159,10 @@ public class EditTextCellTest extends EditableCellTestBase<String, ViewData> {
     SafeHtmlBuilder sb = new SafeHtmlBuilder();
     Context context = new Context(0, 0, DEFAULT_KEY);
     cell.render(context, "<script>malicious</script>", sb);
-    assertEquals("<input type=\"text\" value=\"&lt;script&gt;malicious&lt;/script&gt;\" "
-        + "tabindex=\"-1\"></input>", sb.toSafeHtml().asString());
+    assertEquals(
+        "<input type=\"text\" value=\"&lt;script&gt;malicious&lt;/script&gt;\" "
+            + "tabindex=\"-1\"></input>",
+        sb.toSafeHtml().asString());
   }
 
   public void testViewData() {
@@ -218,7 +217,7 @@ public class EditTextCellTest extends EditableCellTestBase<String, ViewData> {
 
   @Override
   protected String[] getConsumedEvents() {
-    return new String[]{"click", "keyup", "keydown", "blur"};
+    return new String[] {"click", "keyup", "keydown", "blur"};
   }
 
   @Override

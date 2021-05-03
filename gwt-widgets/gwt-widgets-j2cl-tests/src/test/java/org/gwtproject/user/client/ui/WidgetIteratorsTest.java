@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -17,19 +17,14 @@ package org.gwtproject.user.client.ui;
 
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
-
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-/**
- * Tests {@link WidgetIterators}.
- */
+/** Tests {@link WidgetIterators}. */
 @J2clTestInput(WidgetIteratorsTest.class)
 public class WidgetIteratorsTest extends GWTTestCase {
 
-  /**
-   * Provides a class from which to construct mock containers in this test.
-   */
+  /** Provides a class from which to construct mock containers in this test. */
   private static class MockWidget implements HasWidgets {
     @Override
     public void add(Widget w) {
@@ -59,34 +54,30 @@ public class WidgetIteratorsTest extends GWTTestCase {
     return "org.gwtproject.user.Widgets";
   }
 
-  /**
-   * Tests that empty arrays operate properly.
-   */
+  /** Tests that empty arrays operate properly. */
   public void testEmptyArray() {
-    final Iterator<Widget> subject = WidgetIterators.createWidgetIterator(
-        new MockWidget(), new Widget[] {null, null});
+    final Iterator<Widget> subject =
+        WidgetIterators.createWidgetIterator(new MockWidget(), new Widget[] {null, null});
     assertFalse(subject.hasNext());
     assertNextFails(subject);
     assertRemoveFails(subject);
   }
 
-  /**
-   * Tests that remove operates properly on an array of widgets that includes
-   * <code>null</code>.
-   */
+  /** Tests that remove operates properly on an array of widgets that includes <code>null</code>. */
   public void testRemove() {
     final int[] expectedRemoveIndex = new int[1];
 
-    final Widget[] widgets = new Widget[] {
-        null, createTestWidget(), null, createTestWidget(), null, null};
+    final Widget[] widgets =
+        new Widget[] {null, createTestWidget(), null, createTestWidget(), null, null};
 
-    final MockWidget mock = new MockWidget() {
-      @Override
-      public boolean remove(Widget w) {
-        assertEquals(widgets[expectedRemoveIndex[0]], w);
-        return true;
-      }
-    };
+    final MockWidget mock =
+        new MockWidget() {
+          @Override
+          public boolean remove(Widget w) {
+            assertEquals(widgets[expectedRemoveIndex[0]], w);
+            return true;
+          }
+        };
 
     final Iterator<Widget> subject = WidgetIterators.createWidgetIterator(mock, widgets);
 
@@ -107,13 +98,13 @@ public class WidgetIteratorsTest extends GWTTestCase {
   }
 
   /**
-   * Tests that the common iteration pattern works on an array of widgets that
-   * contains <code>null</code>.
+   * Tests that the common iteration pattern works on an array of widgets that contains <code>null
+   * </code>.
    */
   public void testStandardIteration() {
     final MockWidget mock = new MockWidget();
-    final Widget[] widgets = new Widget[] {
-        null, createTestWidget(), null, createTestWidget(), null, null};
+    final Widget[] widgets =
+        new Widget[] {null, createTestWidget(), null, createTestWidget(), null, null};
     final Iterator<Widget> subject = WidgetIterators.createWidgetIterator(mock, widgets);
 
     assertTrue(subject.hasNext());

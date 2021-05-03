@@ -21,34 +21,26 @@ import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.safehtml.shared.SafeHtmlBuilder;
 
-/**
- * Tests for {@link TextInputCell}.
- */
+/** Tests for {@link TextInputCell}. */
 @J2clTestInput(TextInputCellTest.class)
-public class TextInputCellTest extends
-    EditableCellTestBase<String, TextInputCell.ViewData> {
+public class TextInputCellTest extends EditableCellTestBase<String, TextInputCell.ViewData> {
 
   public void testOnBrowserEventChange() {
     NativeEvent event = Document.get().createChangeEvent();
     TextInputCell.ViewData expected = new TextInputCell.ViewData("oldValue");
     expected.setLastValue("hello");
     expected.setCurrentValue("hello");
-    testOnBrowserEvent(getExpectedInnerHtml(), event, "oldValue", null,
-        "hello", expected);
+    testOnBrowserEvent(getExpectedInnerHtml(), event, "oldValue", null, "hello", expected);
   }
 
   public void testOnBrowserEventKeyUp() {
-    NativeEvent event = Document.get().createKeyUpEvent(false, false, false,
-        false, 0);
+    NativeEvent event = Document.get().createKeyUpEvent(false, false, false, false, 0);
     TextInputCell.ViewData expected = new TextInputCell.ViewData("oldValue");
     expected.setCurrentValue("hello");
-    testOnBrowserEvent(getExpectedInnerHtml(), event, "oldValue", null, null,
-        expected);
+    testOnBrowserEvent(getExpectedInnerHtml(), event, "oldValue", null, null, expected);
   }
 
-  /**
-   * Test rendering the cell with a malicious value.
-   */
+  /** Test rendering the cell with a malicious value. */
   public void testRenderUnsafeHtml() {
     Cell<String> cell = createCell();
     SafeHtmlBuilder sb = new SafeHtmlBuilder();
@@ -56,7 +48,8 @@ public class TextInputCellTest extends
     cell.render(context, "<script>malicious</script>", sb);
     assertEquals(
         "<input type=\"text\" value=\"&lt;script&gt;malicious&lt;/script&gt;\" tabindex=\"-1\">"
-            + "</input>", sb.toSafeHtml().asString());
+            + "</input>",
+        sb.toSafeHtml().asString());
   }
 
   @Override
@@ -81,7 +74,7 @@ public class TextInputCellTest extends
 
   @Override
   protected String[] getConsumedEvents() {
-    return new String[]{"change", "keyup", "keydown", "focus", "blur"};
+    return new String[] {"change", "keyup", "keydown", "focus", "blur"};
   }
 
   @Override

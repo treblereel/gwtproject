@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
-import org.gwtproject.i18n.shared.cldr.impl.CurrencyListFactory;
+import org.gwtproject.i18n.shared.cldr.impl.CurrencyList_factory;
 
 /**
  * Generated class containing all the CurrencyImpl instances. This is just the fallback in case the
@@ -28,9 +28,21 @@ import org.gwtproject.i18n.shared.cldr.impl.CurrencyListFactory;
  */
 public class CurrencyList implements Iterable<CurrencyData> {
 
+  /**
+   * Inner class to avoid CurrencyList.clinit calls and allow this to be completely removed from the
+   * generated code if instance isn't referenced (such as when all you call is
+   * CurrencyList.get().getDefault() ).
+   */
+  private static class CurrencyListInstance {
+    // TODO Create the instance using the APT generated factory
+    //        private static CurrencyList instance = GWT.create(CurrencyList.class);
+
+    private static CurrencyList instance = CurrencyList_factory.create();
+  }
+
   /** Return the singleton instance of CurrencyList. */
   public static CurrencyList get() {
-    return CurrencyListFactory.create();
+    return CurrencyListInstance.instance;
   }
 
   /** Map of currency codes to CurrencyData. */
@@ -48,7 +60,7 @@ public class CurrencyList implements Iterable<CurrencyData> {
    * <p>Deprecated currencies will not be included.
    */
   @Override
-  public Iterator<CurrencyData> iterator() {
+  public final Iterator<CurrencyData> iterator() {
     return iterator(false);
   }
 
@@ -57,7 +69,7 @@ public class CurrencyList implements Iterable<CurrencyData> {
    *
    * @param includeDeprecated true if deprecated currencies should be included
    */
-  public Iterator<CurrencyData> iterator(boolean includeDeprecated) {
+  public final Iterator<CurrencyData> iterator(boolean includeDeprecated) {
     ensureCurrencyMap();
     ArrayList<CurrencyData> collection = new ArrayList<CurrencyData>();
 
@@ -82,7 +94,7 @@ public class CurrencyList implements Iterable<CurrencyData> {
    * @param currencyCode ISO4217 currency code
    * @return currency data, or null if code not found
    */
-  public CurrencyData lookup(String currencyCode) {
+  public final CurrencyData lookup(String currencyCode) {
     ensureCurrencyMap();
     return dataMap.get(currencyCode);
   }
@@ -93,7 +105,7 @@ public class CurrencyList implements Iterable<CurrencyData> {
    * @param currencyCode ISO4217 currency code
    * @return name of the currency, or null if code not found
    */
-  public String lookupName(String currencyCode) {
+  public final String lookupName(String currencyCode) {
     ensureNamesMap();
     String result = namesMap.get(currencyCode);
     return (result == null) ? currencyCode : result;
@@ -105,7 +117,7 @@ public class CurrencyList implements Iterable<CurrencyData> {
    * <p>Generated implementations override this method.
    */
   public CurrencyData getDefault() {
-    return CurrencyListFactory.create().getDefault();
+    return new CurrencyDataImpl("USD", "$", 2, "US$", "$");
   }
 
   /**

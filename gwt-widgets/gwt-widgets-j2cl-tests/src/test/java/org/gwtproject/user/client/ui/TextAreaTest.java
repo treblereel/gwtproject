@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -18,17 +18,14 @@ package org.gwtproject.user.client.ui;
 
 import com.google.j2cl.junit.apt.J2clTestInput;
 
-/**
- * Tests a {@link TextArea}.
- */
+/** Tests a {@link TextArea}. */
 @J2clTestInput(TextAreaTest.class)
 public class TextAreaTest extends TextBoxBaseTestBase {
 
   /**
-   * Most browsers strip \r from newlines, but IE adds them in. IE's TextRange
-   * also truncates the \r\n from the end of the selected range. This test is
-   * designed to work on all browsers and verifies that the newlines are
-   * accounted for in all browsers.
+   * Most browsers strip \r from newlines, but IE adds them in. IE's TextRange also truncates the
+   * \r\n from the end of the selected range. This test is designed to work on all browsers and
+   * verifies that the newlines are accounted for in all browsers.
    */
   public void testNewline() {
     testNewline("Hello World\r\n\r\n\r\n\r\n\r\n", 15, 6, 15);
@@ -44,14 +41,13 @@ public class TextAreaTest extends TextBoxBaseTestBase {
 
   /**
    * Test the handling of newline characters.
-   * 
+   *
    * @param text the text to test
    * @param cursorPos the cursor position within the newlines
    * @param startRange the start of a range that includes newlines
    * @param endRange the end of a range that includes newlines
    */
-  private void testNewline(String text, int cursorPos, int startRange,
-      int endRange) {
+  private void testNewline(String text, int cursorPos, int startRange, int endRange) {
     TextBoxBase box = createTextBoxBase();
     RootPanel.get().add(box);
 

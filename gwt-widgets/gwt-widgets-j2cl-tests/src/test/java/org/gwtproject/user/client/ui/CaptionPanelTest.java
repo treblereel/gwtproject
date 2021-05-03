@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,17 +15,14 @@
  */
 package org.gwtproject.user.client.ui;
 
-import com.google.j2cl.junit.apt.J2clTestInput;
-import org.gwtproject.dom.client.Element;
 import com.google.gwt.junit.client.GWTTestCase;
+import com.google.j2cl.junit.apt.J2clTestInput;
+import java.util.Locale;
+import org.gwtproject.dom.client.Element;
 import org.gwtproject.safehtml.shared.SafeHtmlUtils;
 import org.gwtproject.user.client.ui.HasWidgetsTester.WidgetAdder;
 
-import java.util.Locale;
-
-/**
- * Tests {@link CaptionPanel}.
- */
+/** Tests {@link CaptionPanel}. */
 @J2clTestInput(CaptionPanelTest.class)
 public class CaptionPanelTest extends GWTTestCase {
 
@@ -36,29 +33,27 @@ public class CaptionPanelTest extends GWTTestCase {
     return "org.gwtproject.user.Widgets";
   }
 
-  /**
-   * Tests {@link CaptionPanel#add(IsWidget)}.
-   */
+  /** Tests {@link CaptionPanel#add(IsWidget)}. */
   public void testAddAsIsWidget() {
-      CaptionPanel panel = createEmptyCaptionPanel();
+    CaptionPanel panel = createEmptyCaptionPanel();
     Widget widget = new Label("foo");
-    
+
     // IsWidget cast to call the overloaded version
     panel.add((IsWidget) widget);
-    
-    assertSame(widget,panel.getContentWidget());
+
+    assertSame(widget, panel.getContentWidget());
   }
-  
+
   /**
-   * Ensures that {@link CaptionPanel#add(IsWidget)} does <b>NOT</b> fail
-   * when the IsWidget argument is <code>null</code>. Not that this is
-   * a great thing, but it works in the add(Widget) case so...
+   * Ensures that {@link CaptionPanel#add(IsWidget)} does <b>NOT</b> fail when the IsWidget argument
+   * is <code>null</code>. Not that this is a great thing, but it works in the add(Widget) case
+   * so...
    */
   public void testAddNullAsIsWidget() {
     CaptionPanel panel = createEmptyCaptionPanel();
     // IsWidget reference to call the overloaded version
     IsWidget widget = null;
-    
+
     panel.add(widget);
     // ta da...
   }
@@ -73,8 +68,8 @@ public class CaptionPanelTest extends GWTTestCase {
     HasWidgetsTester.testAll(new CaptionPanel("some text"), adder, false);
 
     // With a complex HTML caption.
-    HasWidgetsTester.testAll(new CaptionPanel(
-        "<legend>not the <i>actual</i> legend<legend>", true), adder, false);
+    HasWidgetsTester.testAll(
+        new CaptionPanel("<legend>not the <i>actual</i> legend<legend>", true), adder, false);
   }
 
   public void testCaptionAcceptsEmptyStringAndRemovesLegendElement() {
@@ -175,10 +170,9 @@ public class CaptionPanelTest extends GWTTestCase {
   }
 
   /**
-   * Browsers all seem escape text differently, so we use this function to deal
-   * with cases where we can't say exactly *what* reading element HTML will
-   * return, but we can say for sure that at least it's different somehow than
-   * some original text (due to escaping).
+   * Browsers all seem escape text differently, so we use this function to deal with cases where we
+   * can't say exactly *what* reading element HTML will return, but we can say for sure that at
+   * least it's different somehow than some original text (due to escaping).
    */
   private void assertNotEquals(String mustNotBe, String actual) {
     assertFalse(mustNotBe != null ? mustNotBe.equals(actual) : actual == null);

@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,30 +15,25 @@
  */
 package org.gwtproject.user.client.ui;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.gwtproject.user.client.ui.SuggestBox.SuggestionCallback;
 import org.gwtproject.user.client.ui.SuggestBox.SuggestionDisplay;
 import org.gwtproject.user.client.ui.SuggestOracle.Suggestion;
 
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Base tests for {@link SuggestionDisplay}.
- */
+/** Base tests for {@link SuggestionDisplay}. */
 public abstract class SuggestionDisplayTestBase extends WidgetTestBase {
 
-  /**
-   * A no-op callback used for testing.
-   */
-  protected static final SuggestionCallback NULL_CALLBACK = new SuggestionCallback() {
-    @Override
-    public void onSuggestionSelected(Suggestion suggestion) {
-    }
-  };
+  /** A no-op callback used for testing. */
+  protected static final SuggestionCallback NULL_CALLBACK =
+      new SuggestionCallback() {
+        @Override
+        public void onSuggestionSelected(Suggestion suggestion) {}
+      };
 
   /**
-   * A simple {@link Suggestion} implementation that uses a single string for
-   * both the display and replacement string.
+   * A simple {@link Suggestion} implementation that uses a single string for both the display and
+   * replacement string.
    */
   private static class SimpleSuggestion implements Suggestion {
 
@@ -65,8 +60,7 @@ public abstract class SuggestionDisplayTestBase extends WidgetTestBase {
     SuggestOracle oracle = box.getSuggestOracle();
 
     // Show some suggestions.
-    List<Suggestion> suggestions = createSuggestions("test0", "test1", "test2",
-        "test3");
+    List<Suggestion> suggestions = createSuggestions("test0", "test1", "test2", "test3");
     display.showSuggestions(box, suggestions, false, false, NULL_CALLBACK);
     assertNull(display.getCurrentSelection());
 
@@ -110,7 +104,7 @@ public abstract class SuggestionDisplayTestBase extends WidgetTestBase {
 
   /**
    * Create a list of {@link Suggestion}.
-   * 
+   *
    * @param items the items to add to the list
    * @return the list of suggestions
    */
@@ -124,14 +118,14 @@ public abstract class SuggestionDisplayTestBase extends WidgetTestBase {
 
   /**
    * Create a new {@link SuggestionDisplay} to test.
-   * 
+   *
    * @return the {@link SuggestionDisplay}
    */
   protected abstract SuggestionDisplay createSuggestionDisplay();
 
   /**
    * Create a new {@link SuggestBox}.
-   * 
+   *
    * @return the {@link SuggestBox}
    */
   protected SuggestBox createSuggestBox() {

@@ -41,7 +41,6 @@
 
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <elemental2version>1.0.0-RC1</elemental2version>
   </properties>
 
   <dependencies>
@@ -72,12 +71,10 @@
     <dependency>
       <groupId>com.google.elemental2</groupId>
       <artifactId>elemental2-webstorage</artifactId>
-      <version>${elemental2version}</version>
     </dependency>
     <dependency>
       <groupId>com.google.jsinterop</groupId>
       <artifactId>base</artifactId>
-      <version>1.0.0-RC1</version>
     </dependency>
   </dependencies>
 

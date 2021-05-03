@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,6 +15,7 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.event.dom.client.BlurEvent;
@@ -22,13 +23,10 @@ import org.gwtproject.event.dom.client.BlurHandler;
 import org.gwtproject.event.dom.client.FocusEvent;
 import org.gwtproject.event.dom.client.FocusHandler;
 import org.gwtproject.event.logical.shared.AttachEvent;
-import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.Event;
 
-/**
- * Tests for {@link Composite}.
- */
+/** Tests for {@link Composite}. */
 @J2clTestInput(CompositeTest.class)
 public class CompositeTest extends GWTTestCase {
 
@@ -46,23 +44,24 @@ public class CompositeTest extends GWTTestCase {
     boolean domFocusFired;
     boolean domBlurFired;
 
-
     public EventTestComposite() {
       initWidget(tb);
       sinkEvents(Event.FOCUSEVENTS);
 
-      tb.addFocusHandler(new FocusHandler() {
-        @Override
-        public void onFocus(FocusEvent event) {
-          widgetFocusHandlerFired = true;
-        }
-      });
-      tb.addBlurHandler(new BlurHandler() {
-        @Override
-        public void onBlur(BlurEvent event) {
-          widgetBlurHandlerFired = true;
-        }
-      });
+      tb.addFocusHandler(
+          new FocusHandler() {
+            @Override
+            public void onFocus(FocusEvent event) {
+              widgetFocusHandlerFired = true;
+            }
+          });
+      tb.addBlurHandler(
+          new BlurHandler() {
+            @Override
+            public void onBlur(BlurEvent event) {
+              widgetBlurHandlerFired = true;
+            }
+          });
     }
 
     @Override
@@ -94,38 +93,41 @@ public class CompositeTest extends GWTTestCase {
     // Focus, then blur, the composite's text box. This has to be done in
     // deferred commands, because focus events usually require the event loop
     // to be pumped in order to fire.
-    Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-      @Override
-      public void execute() {
-        Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-          @Override
-          public void execute() {
-            // Ensure all events fired as expected.
-            assertTrue(c.domFocusFired);
-            assertTrue(c.domBlurFired);
-            assertTrue(c.widgetBlurHandlerFired);
+    Scheduler.get()
+        .scheduleDeferred(
+            new Scheduler.ScheduledCommand() {
+              @Override
+              public void execute() {
+                Scheduler.get()
+                    .scheduleDeferred(
+                        new Scheduler.ScheduledCommand() {
+                          @Override
+                          public void execute() {
+                            // Ensure all events fired as expected.
+                            assertTrue(c.domFocusFired);
+                            assertTrue(c.domBlurFired);
+                            assertTrue(c.widgetBlurHandlerFired);
 
-            // Ensure that the widget's focus event was eaten by the
-            // composite's implementation of onBrowserEvent().
-            assertFalse(c.widgetFocusHandlerFired);
-            finishTest();
-          }
-        });
+                            // Ensure that the widget's focus event was eaten by the
+                            // composite's implementation of onBrowserEvent().
+                            assertFalse(c.widgetFocusHandlerFired);
+                            finishTest();
+                          }
+                        });
 
-        c.tb.setFocus(false);
-      }
-    });
+                c.tb.setFocus(false);
+              }
+            });
 
     c.tb.setFocus(true);
   }
 
   /**
    * This test is here to prevent a "No tests found" warning in Junit.
-   * 
-   * TODO: Remove this when testBrowserEvents is enabled
+   *
+   * <p>TODO: Remove this when testBrowserEvents is enabled
    */
-  public void testNothing() {
-  }
+  public void testNothing() {}
 
   public void testAttachAndDetachOrder() {
     class TestAttachHandler implements AttachEvent.Handler {

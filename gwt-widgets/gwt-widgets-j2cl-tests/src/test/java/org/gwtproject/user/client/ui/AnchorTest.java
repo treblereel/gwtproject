@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -16,6 +16,7 @@
 package org.gwtproject.user.client.ui;
 
 import com.google.j2cl.junit.apt.J2clTestInput;
+import java.util.Locale;
 import junit.framework.TestCase;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.event.dom.client.ClickEvent;
@@ -24,11 +25,7 @@ import org.gwtproject.i18n.client.HasDirection;
 import org.gwtproject.safehtml.shared.SafeHtmlUtils;
 import org.gwtproject.user.client.DOM;
 
-import java.util.Locale;
-
-/**
- * Tests for {@link Anchor}.
- */
+/** Tests for {@link Anchor}. */
 @J2clTestInput(AnchorTest.class)
 public class AnchorTest extends TestCase {
   private static final class TestClickHandler implements ClickHandler {
@@ -89,8 +86,7 @@ public class AnchorTest extends TestCase {
     assertEquals("A", DOM.getChild(p.getElement(), 0).getTagName());
     assertEquals(0, DOM.getChildCount(anchor.getElement()));
 
-    final String[] attrs = new String[] {
-        "href", "name", "id", "rel", "ref", "target"};
+    final String[] attrs = new String[] {"href", "name", "id", "rel", "ref", "target"};
     for (String attribute : attrs) {
       assertAttributeNotPresent(attribute, anchor.getElement());
     }
@@ -100,12 +96,11 @@ public class AnchorTest extends TestCase {
     String href = "http://example.com/example.png";
     String target = "_blank";
     Anchor anchor1 = new Anchor(SafeHtmlUtils.fromSafeConstant(html));
-    
+
     assertEquals(html.toLowerCase(Locale.ROOT), anchor1.getHTML().toLowerCase(Locale.ROOT));
-    
-    Anchor anchor2 = new Anchor(
-        SafeHtmlUtils.fromSafeConstant(html), href, target);
-    
+
+    Anchor anchor2 = new Anchor(SafeHtmlUtils.fromSafeConstant(html), href, target);
+
     assertEquals(html, anchor2.getHTML().toLowerCase(Locale.ROOT));
     assertEquals(href, anchor2.getHref());
     assertEquals(target, anchor2.getTarget());
@@ -114,7 +109,7 @@ public class AnchorTest extends TestCase {
   public void testSetSafeHtml() {
     Anchor anchor = new Anchor("hello");
     anchor.setHTML(SafeHtmlUtils.fromSafeConstant(html));
-    
+
     assertEquals(html, anchor.getHTML().toLowerCase(Locale.ROOT));
   }
 
@@ -182,8 +177,7 @@ public class AnchorTest extends TestCase {
   }
 
   public void testLinkWithHTML() {
-    Anchor anchor = new Anchor("<span>Foo</span>", true,
-        "http://still.nowhere.org/");
+    Anchor anchor = new Anchor("<span>Foo</span>", true, "http://still.nowhere.org/");
 
     Panel p = getTestPanel();
     p.add(anchor);
@@ -193,8 +187,7 @@ public class AnchorTest extends TestCase {
     assertEquals("SPAN", DOM.getChild(anchor.getElement(), 0).getTagName());
     assertTrue("<span>Foo</span>".equalsIgnoreCase(anchor.getHTML()));
 
-    assertAttributeHasValue("http://still.nowhere.org/", anchor.getElement(),
-        "href");
+    assertAttributeHasValue("http://still.nowhere.org/", anchor.getElement(), "href");
 
     for (String attribute : new String[] {"name", "id", "rel", "ref", "target"}) {
       assertAttributeNotPresent(attribute, anchor.getElement());
@@ -202,8 +195,7 @@ public class AnchorTest extends TestCase {
   }
 
   public void testLinkWithTarget() {
-    Anchor anchor = new Anchor("Click me!",
-        "http://and.now.a.word.from.our.sponsor.org/", "popup");
+    Anchor anchor = new Anchor("Click me!", "http://and.now.a.word.from.our.sponsor.org/", "popup");
 
     Panel p = getTestPanel();
     p.add(anchor);
@@ -211,8 +203,8 @@ public class AnchorTest extends TestCase {
     assertEquals(1, DOM.getChildCount(p.getElement()));
     assertEquals("A", DOM.getChild(p.getElement(), 0).getTagName());
     assertEquals("Click me!", anchor.getText());
-    assertAttributeHasValue("http://and.now.a.word.from.our.sponsor.org/",
-        anchor.getElement(), "href");
+    assertAttributeHasValue(
+        "http://and.now.a.word.from.our.sponsor.org/", anchor.getElement(), "href");
     assertAttributeHasValue("popup", anchor.getElement(), "target");
 
     for (String attribute : new String[] {"name", "id", "rel", "ref"}) {
@@ -221,8 +213,7 @@ public class AnchorTest extends TestCase {
   }
 
   public void testLinkWithHTMLAndTarget() {
-    Anchor anchor = new Anchor("<span>Foo</span>", true,
-        "http://more.ads.com/", "_blank");
+    Anchor anchor = new Anchor("<span>Foo</span>", true, "http://more.ads.com/", "_blank");
 
     Panel p = getTestPanel();
     p.add(anchor);
@@ -240,16 +231,13 @@ public class AnchorTest extends TestCase {
     }
   }
 
-  /**
-   * Tests that the getters interact with the generic setter correctly.
-   */
+  /** Tests that the getters interact with the generic setter correctly. */
   public void testGetterRoundtrip() {
     Anchor anchor = new Anchor();
     Panel p = getTestPanel();
     p.add(anchor);
 
-    anchor.getElement().setAttribute("href",
-        "http://yet.another.made.up.url.org/");
+    anchor.getElement().setAttribute("href", "http://yet.another.made.up.url.org/");
     assertEquals("http://yet.another.made.up.url.org/", anchor.getHref());
 
     anchor.getElement().setAttribute("target", "_blank");
@@ -262,17 +250,14 @@ public class AnchorTest extends TestCase {
     assertEquals(23, anchor.getTabIndex());
   }
 
-  /**
-   * Tests that the setters interact with the generic getter correctly.
-   */
+  /** Tests that the setters interact with the generic getter correctly. */
   public void testSetterRoundtrip() {
     Anchor anchor = new Anchor();
     Panel p = getTestPanel();
     p.add(anchor);
 
     anchor.setHref("http://duh.no.more.ideas.net/");
-    assertEquals("http://duh.no.more.ideas.net/",
-        anchor.getElement().getAttribute("href"));
+    assertEquals("http://duh.no.more.ideas.net/", anchor.getElement().getAttribute("href"));
 
     anchor.setTarget("_top");
     assertEquals("_top", anchor.getElement().getAttribute("target"));
@@ -289,7 +274,7 @@ public class AnchorTest extends TestCase {
 
   /**
    * Constructs a simple panel for testing.
-   * 
+   *
    * @return Panel, attached to the root panel.
    */
   private Panel getTestPanel() {
@@ -300,35 +285,32 @@ public class AnchorTest extends TestCase {
 
   /**
    * Asserts that a given attribute is not present on an element.
-   * 
+   *
    * @param element The element to check.
    * @param attribute The attribute to check.
    */
-  private static void assertAttributeNotPresent(String attribute,
-      Element element) {
+  private static void assertAttributeNotPresent(String attribute, Element element) {
     String value = element.getPropertyString(attribute);
-    assertTrue(attribute + " not present", (value == null)
-        || (value.equals("")));
+    assertTrue(attribute + " not present", (value == null) || (value.equals("")));
   }
 
   /**
    * Asserts that a given attribute has the expected valued.
-   * 
+   *
    * @param expected Expected value for the attribute.
    * @param element Element to check on.
    * @param attribute Attribute to check.
    */
-  private static void assertAttributeHasValue(String expected, Element element,
-      String attribute) {
-    assertEquals("Attribute " + attribute + " has value '" + expected + "'",
-        expected, element.getPropertyString(attribute));
+  private static void assertAttributeHasValue(String expected, Element element, String attribute) {
+    assertEquals(
+        "Attribute " + attribute + " has value '" + expected + "'",
+        expected,
+        element.getPropertyString(attribute));
   }
 
-  /**
-   * Triggers a click event on the given element.
-   */
+  /** Triggers a click event on the given element. */
   private void triggerClickOnElement(Element element) {
-    element.dispatchEvent(element.getOwnerDocument().createClickEvent(
-        0, 0, 0, 0, 0, false, false, false, false));
+    element.dispatchEvent(
+        element.getOwnerDocument().createClickEvent(0, 0, 0, 0, 0, false, false, false, false));
   }
 }

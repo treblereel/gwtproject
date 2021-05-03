@@ -26,13 +26,18 @@ public class LocaleInfo {
   //   * is a static.  In the future, we would need a hash map from locale names
   //   * to LocaleInfo instances.
   //   */
-    private static LocaleInfo instance  = new LocaleInfo(LocaleInfoFactory.create());
+  //  private static LocaleInfo instance  = new LocaleInfo(
   //      (LocaleInfoImpl) GWT.create(LocaleInfoImpl.class),
   //      (CldrImpl) GWT.create(CldrImpl.class));
   /**
    * Currently we only support getting the currently running locale, so this is a static. In the
    * future, we would need a hash map from locale names to LocaleInfo instances.
    */
+  // TODO replace with generated implementations
+  private static LocaleInfo instance =
+      new LocaleInfo(LocaleInfoFactory.get(System.getProperty("locale")));
+
+  /** Returns a LocaleInfo instance for the current locale. */
   public static final LocaleInfo getCurrentLocale() {
     /*
      * In the future, we could make additional static methods which returned a
@@ -64,14 +69,6 @@ public class LocaleInfo {
    */
   private LocaleInfo(LocaleInfoImpl impl) {
     this.infoImpl = impl;
-  }
-
-  public static boolean hasAnyRTL() {
-    return false;
-  }
-
-  public static String[] getAvailableLocaleNames() {
-    return null;
   }
 
   /** Returns a DateTimeConstants instance for this locale. */
@@ -111,13 +108,5 @@ public class LocaleInfo {
     if (numberConstants == null) {
       numberConstants = infoImpl.getNumberConstants();
     }
-  }
-
-  public String getLocaleCookieName() {
-    return null;
-  }
-
-  public String getLocaleQueryParam() {
-    return null;
   }
 }

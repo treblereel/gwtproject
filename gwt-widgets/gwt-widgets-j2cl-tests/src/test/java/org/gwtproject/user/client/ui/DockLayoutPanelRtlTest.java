@@ -20,9 +20,7 @@ import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.user.client.ui.DockLayoutPanel.Direction;
 import org.junit.Ignore;
 
-/**
- * Tests for {@link DockLayoutPanel}.
- */
+/** Tests for {@link DockLayoutPanel}. */
 @Ignore
 @J2clTestInput(DockLayoutPanelRtlTest.class)
 public class DockLayoutPanelRtlTest extends WidgetTestBase {
@@ -34,10 +32,8 @@ public class DockLayoutPanelRtlTest extends WidgetTestBase {
 
   public void testGetResolvedDirection() {
     DockLayoutPanel panel = createDockLayoutPanel();
-    assertEquals(
-        Direction.EAST, panel.getResolvedDirection(Direction.LINE_START));
-    assertEquals(
-        Direction.WEST, panel.getResolvedDirection(Direction.LINE_END));
+    assertEquals(Direction.EAST, panel.getResolvedDirection(Direction.LINE_START));
+    assertEquals(Direction.WEST, panel.getResolvedDirection(Direction.LINE_END));
   }
 
   protected DockLayoutPanel createDockLayoutPanel() {

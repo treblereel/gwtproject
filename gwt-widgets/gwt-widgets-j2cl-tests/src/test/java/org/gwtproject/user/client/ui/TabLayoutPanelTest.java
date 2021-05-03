@@ -17,6 +17,10 @@ package org.gwtproject.user.client.ui;
 
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.event.logical.shared.BeforeSelectionEvent;
@@ -25,14 +29,7 @@ import org.gwtproject.event.logical.shared.SelectionEvent;
 import org.gwtproject.event.logical.shared.SelectionHandler;
 import org.gwtproject.timer.client.Timer;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-
-/**
- * Tests for {@link TabLayoutPanel}.
- */
+/** Tests for {@link TabLayoutPanel}. */
 @J2clTestInput(TabLayoutPanelTest.class)
 public class TabLayoutPanelTest extends GWTTestCase {
 
@@ -43,8 +40,8 @@ public class TabLayoutPanelTest extends GWTTestCase {
     }
   }
 
-  private class TestSelectionHandler implements
-      BeforeSelectionHandler<Integer>, SelectionHandler<Integer> {
+  private class TestSelectionHandler
+      implements BeforeSelectionHandler<Integer>, SelectionHandler<Integer> {
     private boolean onBeforeSelectionFired;
     private boolean onSelectionFired;
 
@@ -79,8 +76,8 @@ public class TabLayoutPanelTest extends GWTTestCase {
   }
 
   /**
-   * Ensures that hidden children are layed out properly when their tabs are
-   * selected. This has been a problem on IE6 (see issue 4596).
+   * Ensures that hidden children are layed out properly when their tabs are selected. This has been
+   * a problem on IE6 (see issue 4596).
    */
   public void testHiddenChildLayout() {
     final TabLayoutPanel p = new TabLayoutPanel(32, Unit.PX);
@@ -93,29 +90,32 @@ public class TabLayoutPanelTest extends GWTTestCase {
     p.add(bar, new Label("bar"));
 
     delayTestFinish(2000);
-    Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-      @Override
-      public void execute() {
-        assertEquals(128, foo.getOffsetWidth());
-        assertEquals(128 - 32, foo.getOffsetHeight());
+    Scheduler.get()
+        .scheduleDeferred(
+            new Scheduler.ScheduledCommand() {
+              @Override
+              public void execute() {
+                assertEquals(128, foo.getOffsetWidth());
+                assertEquals(128 - 32, foo.getOffsetHeight());
 
-        p.selectTab(1);
-        Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-          @Override
-          public void execute() {
-            assertEquals(128, bar.getOffsetWidth());
-            assertEquals(128 - 32, bar.getOffsetHeight());
-            finishTest();
-          }
-        });
-      }
-    });
+                p.selectTab(1);
+                Scheduler.get()
+                    .scheduleDeferred(
+                        new Scheduler.ScheduledCommand() {
+                          @Override
+                          public void execute() {
+                            assertEquals(128, bar.getOffsetWidth());
+                            assertEquals(128 - 32, bar.getOffsetHeight());
+                            finishTest();
+                          }
+                        });
+              }
+            });
   }
 
   /**
-   * Ensures that hidden children are layed out properly when their tabs are
-   * selected, when they're sized in EM units. This has been a problem on IE8
-   * (see issue 4694).
+   * Ensures that hidden children are layed out properly when their tabs are selected, when they're
+   * sized in EM units. This has been a problem on IE8 (see issue 4694).
    */
   public void testHiddenChildLayoutEM() {
     final TabLayoutPanel p = new TabLayoutPanel(2, Unit.EM);
@@ -135,25 +135,29 @@ public class TabLayoutPanelTest extends GWTTestCase {
     p.add(inner, new Label("bar"));
 
     delayTestFinish(2000);
-    Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-      @Override
-      public void execute() {
-        p.selectTab(1);
-        Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-          @Override
-          public void execute() {
-            // Assert that the 'bar' label is of non-zero size on both axes.
-            // The problem fixed in issue 4694 was causing its height to be
-            // zero on IE8, because the EM units weren't being calculated
-            // properly when it was initially hidden.
-            assertTrue(bar.getOffsetWidth() > 0);
-            assertTrue(bar.getOffsetHeight() > 0);
+    Scheduler.get()
+        .scheduleDeferred(
+            new Scheduler.ScheduledCommand() {
+              @Override
+              public void execute() {
+                p.selectTab(1);
+                Scheduler.get()
+                    .scheduleDeferred(
+                        new Scheduler.ScheduledCommand() {
+                          @Override
+                          public void execute() {
+                            // Assert that the 'bar' label is of non-zero size on both axes.
+                            // The problem fixed in issue 4694 was causing its height to be
+                            // zero on IE8, because the EM units weren't being calculated
+                            // properly when it was initially hidden.
+                            assertTrue(bar.getOffsetWidth() > 0);
+                            assertTrue(bar.getOffsetHeight() > 0);
 
-            finishTest();
-          }
-        });
-      }
-    });
+                            finishTest();
+                          }
+                        });
+              }
+            });
   }
 
   public void testInsertBeforeSelected() {
@@ -212,9 +216,7 @@ public class TabLayoutPanelTest extends GWTTestCase {
     assertEquals(3, p.getWidgetCount());
   }
 
-  /**
-   * Tests to ensure that arbitrary widgets can be added/inserted effectively.
-   */
+  /** Tests to ensure that arbitrary widgets can be added/inserted effectively. */
   public void testInsertWithWidgets() {
     TabLayoutPanel p = new TabLayoutPanel(2, Unit.EM);
 
@@ -272,13 +274,13 @@ public class TabLayoutPanelTest extends GWTTestCase {
 
     assertEquals("", p.getTabWidget(insert).getElement().getInnerHTML());
     assertEquals("", p.getTabWidget(add).getElement().getInnerHTML());
-    assertEquals("inserted text",
-        p.getTabWidget(insText).getElement().getInnerHTML());
-    assertEquals("added text",
-        p.getTabWidget(addText).getElement().getInnerHTML());
-    assertEquals("<b>inserted html</b>",
+    assertEquals("inserted text", p.getTabWidget(insText).getElement().getInnerHTML());
+    assertEquals("added text", p.getTabWidget(addText).getElement().getInnerHTML());
+    assertEquals(
+        "<b>inserted html</b>",
         p.getTabWidget(insHtml).getElement().getInnerHTML().toLowerCase(Locale.ROOT));
-    assertEquals("<b>added html</b>",
+    assertEquals(
+        "<b>added html</b>",
         p.getTabWidget(addHtml).getElement().getInnerHTML().toLowerCase(Locale.ROOT));
     assertEquals(inserted.w, p.getTabWidget(insWidget));
     assertEquals(added.w, p.getTabWidget(addWidget));
@@ -334,9 +336,7 @@ public class TabLayoutPanelTest extends GWTTestCase {
     assertTrue(p.getWidget(1) == baz);
   }
 
-  /**
-   * Test that removing a widget removes the associated tab.
-   */
+  /** Test that removing a widget removes the associated tab. */
   public void testRemoveWidgetFromParent() {
     TabLayoutPanel p = new TabLayoutPanel(2, Unit.EM);
 
@@ -407,9 +407,7 @@ public class TabLayoutPanelTest extends GWTTestCase {
     handler.assertOnSelectionFired(false);
   }
 
-  /**
-   * Issue 6034: setTabText() removes the tab.
-   */
+  /** Issue 6034: setTabText() removes the tab. */
   public void testSetTabText() {
     TabLayoutPanel p = new TabLayoutPanel(1, Unit.EM);
     Label[] labels = new Label[3];
@@ -425,8 +423,8 @@ public class TabLayoutPanelTest extends GWTTestCase {
   }
 
   /**
-   * Test that {@link TabLayoutPanel} calls widget.setVisible(true/false) on
-   * each widget, when it is shown/hidden.
+   * Test that {@link TabLayoutPanel} calls widget.setVisible(true/false) on each widget, when it is
+   * shown/hidden.
    */
   public void testSetWidgetVisible() {
     TabLayoutPanel p = new TabLayoutPanel(1, Unit.EM);
@@ -459,18 +457,19 @@ public class TabLayoutPanelTest extends GWTTestCase {
   }
 
   /**
-   * For legacy reasons, {@link TabLayoutPanel#selectTab(Widget)} should call
-   * {@link TabLayoutPanel#selectTab(int)}.
+   * For legacy reasons, {@link TabLayoutPanel#selectTab(Widget)} should call {@link
+   * TabLayoutPanel#selectTab(int)}.
    */
   public void testSelectTabLegacy() {
     final List<Integer> called = new ArrayList<Integer>();
-    TabLayoutPanel panel = new TabLayoutPanel(100.0, Unit.PX) {
-      @Override
-      public void selectTab(int index) {
-        called.add(index);
-        super.selectTab(index);
-      }
-    };
+    TabLayoutPanel panel =
+        new TabLayoutPanel(100.0, Unit.PX) {
+          @Override
+          public void selectTab(int index) {
+            called.add(index);
+            super.selectTab(index);
+          }
+        };
     Label tab1 = new Label("Tab 1");
     panel.add(new Label("Tab 0"), "Tab 0");
     panel.add(tab1, "Tab 1");
@@ -482,9 +481,7 @@ public class TabLayoutPanelTest extends GWTTestCase {
     assertEquals(1, called.get(0).intValue());
   }
 
-  /**
-   * Tests that tabs actually line up properly (see issue 4447).
-   */
+  /** Tests that tabs actually line up properly (see issue 4447). */
   public void testTabLayout() {
     final TabLayoutPanel p = new TabLayoutPanel(2, Unit.EM);
     RootPanel.get().add(p);
@@ -497,31 +494,30 @@ public class TabLayoutPanelTest extends GWTTestCase {
 
       @Override
       public void run() {
-        assertEquals(p.getTabWidget(0).getElement().getOffsetTop(),
+        assertEquals(
+            p.getTabWidget(0).getElement().getOffsetTop(),
             p.getTabWidget(1).getElement().getOffsetTop());
         finishTest();
       }
-
     }.schedule(100);
 
     delayTestFinish(200);
   }
 
-  /**
-   * Test that forcing layout will call onResize only once.
-   */
+  /** Test that forcing layout will call onResize only once. */
   public void testForceLayoutNoRedundantOnResize() {
     final List<Boolean> called = new ArrayList<>();
     final TabLayoutPanel panel = new TabLayoutPanel(2, Unit.EM);
-    SimpleLayoutPanel child = new SimpleLayoutPanel() {
-      @Override
-      public void onResize() {
-        super.onResize();
-        called.add(true);
-      }
-    };
-    panel.add(child,"Tab1");
+    SimpleLayoutPanel child =
+        new SimpleLayoutPanel() {
+          @Override
+          public void onResize() {
+            super.onResize();
+            called.add(true);
+          }
+        };
+    panel.add(child, "Tab1");
     panel.forceLayout();
-    assertEquals(1,called.size());
+    assertEquals(1, called.size());
   }
 }

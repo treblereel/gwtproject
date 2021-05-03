@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -17,28 +17,21 @@ package org.gwtproject.user.client.ui;
 
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
-import org.gwtproject.user.client.ui.FiniteWidgetIterator.WidgetProvider;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import org.gwtproject.user.client.ui.FiniteWidgetIterator.WidgetProvider;
 
-/**
- * Test cases for {@link FiniteWidgetIterator}.
- */
+/** Test cases for {@link FiniteWidgetIterator}. */
 @J2clTestInput(FiniteWidgetIteratorTest.class)
 public class FiniteWidgetIteratorTest extends GWTTestCase {
 
-  /**
-   * Implementation of {@link WidgetProvider}.
-   */
+  /** Implementation of {@link WidgetProvider}. */
   private static class WidgetProviderImpl implements WidgetProvider {
 
     private final Map<Integer, Widget> widgets = new HashMap<Integer, Widget>();
 
-    /**
-     * Construct a new {@link WidgetProviderImpl} with the specified widgets.
-     */
+    /** Construct a new {@link WidgetProviderImpl} with the specified widgets. */
     public WidgetProviderImpl(Widget... widgets) {
       if (widgets != null) {
         for (int i = 0; i < widgets.length; i++) {
@@ -49,7 +42,7 @@ public class FiniteWidgetIteratorTest extends GWTTestCase {
 
     /**
      * Set the widget at the specified index.
-     * 
+     *
      * @param index the index
      * @param w the widget
      */
@@ -106,9 +99,7 @@ public class FiniteWidgetIteratorTest extends GWTTestCase {
     }
   }
 
-  /**
-   * Test that the iterator skips null widgets at the start of the list.
-   */
+  /** Test that the iterator skips null widgets at the start of the list. */
   public void testNullWidgetStart() {
     Widget w1 = new Widget();
     Widget w2 = new Widget();
@@ -124,9 +115,7 @@ public class FiniteWidgetIteratorTest extends GWTTestCase {
     assertFalse(iterator.hasNext());
   }
 
-  /**
-   * Test that the iterator skips null widgets at the end of the list.
-   */
+  /** Test that the iterator skips null widgets at the end of the list. */
   public void testNullWidgetEnd() {
     Widget w0 = new Widget();
     Widget w1 = new Widget();
@@ -142,9 +131,7 @@ public class FiniteWidgetIteratorTest extends GWTTestCase {
     assertFalse(iterator.hasNext());
   }
 
-  /**
-   * Test that the iterator skips null widgets in the middle of the list.
-   */
+  /** Test that the iterator skips null widgets in the middle of the list. */
   public void testNullWidgetMiddle() {
     Widget w0 = new Widget();
     Widget w2 = new Widget();

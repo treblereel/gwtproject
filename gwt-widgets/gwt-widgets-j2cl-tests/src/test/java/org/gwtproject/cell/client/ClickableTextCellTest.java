@@ -19,15 +19,12 @@ import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.NativeEvent;
 
-/**
- * Tests for {@link org.gwtproject.cell.client.ClickableTextCell}.
- */
+/** Tests for {@link org.gwtproject.cell.client.ClickableTextCell}. */
 @J2clTestInput(ClickableTextCellTest.class)
 public class ClickableTextCellTest extends CellTestBase<String> {
 
   public void testOnBrowserEvent() {
-    NativeEvent event = Document.get().createClickEvent(0, 0, 0, 0, 0, false,
-        false, false, false);
+    NativeEvent event = Document.get().createClickEvent(0, 0, 0, 0, 0, false, false, false, false);
     testOnBrowserEvent(getExpectedInnerHtml(), event, "value", "value");
   }
 
@@ -48,7 +45,7 @@ public class ClickableTextCellTest extends CellTestBase<String> {
 
   @Override
   protected String[] getConsumedEvents() {
-    return new String[]{"click", "keydown"};
+    return new String[] {"click", "keydown"};
   }
 
   @Override

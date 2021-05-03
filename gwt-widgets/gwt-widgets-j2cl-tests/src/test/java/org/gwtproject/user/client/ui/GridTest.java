@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -20,9 +20,7 @@ import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.HTMLTable.ColumnFormatter;
 
-/**
- * Tests for {@link Grid}.
- */
+/** Tests for {@link Grid}. */
 @J2clTestInput(GridTest.class)
 public class GridTest extends HTMLTableTestBase {
 
@@ -37,15 +35,13 @@ public class GridTest extends HTMLTableTestBase {
       t.setText(-1, 0, "hello");
       fail("IndexOutOfBoundsException should have been thrown");
     } catch (IndexOutOfBoundsException e) {
-      assertEquals("Cannot access a row with a negative index: -1",
-          e.getMessage());
+      assertEquals("Cannot access a row with a negative index: -1", e.getMessage());
     }
     try {
       t.setText(0, -1, "hello");
       fail("IndexOutOfBoundsException should have been thrown");
     } catch (IndexOutOfBoundsException e) {
-      assertEquals("Cannot access a column with a negative index: -1",
-          e.getMessage());
+      assertEquals("Cannot access a column with a negative index: -1", e.getMessage());
     }
     try {
       t.clearCell(3, 3);
@@ -123,9 +119,7 @@ public class GridTest extends HTMLTableTestBase {
     }
   }
 
-  /**
-   * Verify that rows can be inserted.
-   */
+  /** Verify that rows can be inserted. */
   public void testInsertion() {
     Grid r = new Grid(4, 3);
     assertEquals(4, r.getRowCount());
@@ -139,9 +133,7 @@ public class GridTest extends HTMLTableTestBase {
     assertEquals(3, r.getDOMCellCount(2));
   }
 
-  /**
-   * Ensures row and column counts stay in sync during resizing.
-   */
+  /** Ensures row and column counts stay in sync during resizing. */
   public void testResizing() {
     {
       // Resize using resize/resizeRows/resizeColumns

@@ -21,9 +21,7 @@ import org.gwtproject.user.client.ui.ImageResourceRenderer;
 import org.gwtproject.user.client.ui.ImageTestBundle;
 import org.gwtproject.user.client.ui.ImageTestBundleImpl;
 
-/**
- * Tests for {@link org.gwtproject.cell.client.ImageResourceCell}.
- */
+/** Tests for {@link org.gwtproject.cell.client.ImageResourceCell}. */
 @J2clTestInput(ImageResourceCellTest.class)
 public class ImageResourceCellTest extends CellTestBase<ImageResource> {
 

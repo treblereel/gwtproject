@@ -16,6 +16,11 @@
 package org.gwtproject.user.client.ui;
 
 import com.google.j2cl.junit.apt.J2clTestInput;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.NativeEvent;
@@ -29,21 +34,11 @@ import org.gwtproject.user.client.ui.SuggestBox.SuggestionCallback;
 import org.gwtproject.user.client.ui.SuggestOracle.Response;
 import org.gwtproject.user.client.ui.SuggestOracle.Suggestion;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
-/**
- * Tests for {@link SuggestBoxTest}.
- */
+/** Tests for {@link SuggestBoxTest}. */
 @J2clTestInput(SuggestBoxTest.class)
 public class SuggestBoxTest extends WidgetTestBase {
 
-  /**
-   * A SuggestOracle used for testing.
-   */
+  /** A SuggestOracle used for testing. */
   private static class TestOracle extends SuggestOracle {
     private Request request;
     private Callback callback;
@@ -55,20 +50,20 @@ public class SuggestBoxTest extends WidgetTestBase {
     }
   }
 
-  /**
-   * A SuggestionDisplay used for testing.
-   */
+  /** A SuggestionDisplay used for testing. */
   private static class TestSuggestionDisplay extends DefaultSuggestionDisplay {
 
     private List<? extends Suggestion> suggestions;
 
     @Override
-    protected void showSuggestions(SuggestBox suggestBox,
+    protected void showSuggestions(
+        SuggestBox suggestBox,
         Collection<? extends Suggestion> suggestions,
-        boolean isDisplayStringHTML, boolean isAutoSelectEnabled,
+        boolean isDisplayStringHTML,
+        boolean isAutoSelectEnabled,
         SuggestionCallback callback) {
-      super.showSuggestions(suggestBox, suggestions, isDisplayStringHTML,
-          isAutoSelectEnabled, callback);
+      super.showSuggestions(
+          suggestBox, suggestions, isDisplayStringHTML, isAutoSelectEnabled, callback);
       this.suggestions = new ArrayList<Suggestion>(suggestions);
     }
 
@@ -83,8 +78,7 @@ public class SuggestBoxTest extends WidgetTestBase {
     }
 
     /**
-     * Get the number of suggestions that are currently showing. Used for
-     * testing.
+     * Get the number of suggestions that are currently showing. Used for testing.
      *
      * @return the number of suggestions currently showing, 0 if there are none
      */
@@ -98,10 +92,7 @@ public class SuggestBoxTest extends WidgetTestBase {
     return "org.gwtproject.user.Widgets";
   }
 
-  /**
-   * Test the basic accessors.
-   */
-
+  /** Test the basic accessors. */
   public void testAccessors() {
     SuggestBox box = createSuggestBox();
 
@@ -124,24 +115,26 @@ public class SuggestBoxTest extends WidgetTestBase {
   public void testGettextShouldBeCalledWhenOverrided() {
 
     // Verify that the query matches the overridden getText.
-    SuggestOracle oracle = new SuggestOracle() {
-      @Override
-      public void requestSuggestions(Request request, Callback callback) {
-        if ("override".equals(request.getQuery())) {
-          finishTest();
-        } else {
-          fail("Expected query: override");
-        }
-      }
-    };
+    SuggestOracle oracle =
+        new SuggestOracle() {
+          @Override
+          public void requestSuggestions(Request request, Callback callback) {
+            if ("override".equals(request.getQuery())) {
+              finishTest();
+            } else {
+              fail("Expected query: override");
+            }
+          }
+        };
 
     // Create a customized SuggestBox which overrides getText.
-    SuggestBox box = new SuggestBox(oracle) {
-      @Override
-      public String getText() {
-        return "override";
-      }
-    };
+    SuggestBox box =
+        new SuggestBox(oracle) {
+          @Override
+          public String getText() {
+            return "override";
+          }
+        };
 
     // Attach the box.
     RootPanel.get().add(box);
@@ -162,7 +155,8 @@ public class SuggestBoxTest extends WidgetTestBase {
     box.showSuggestionList();
     assertTrue(display.isSuggestionListShowing());
     assertEquals(1, display.getSuggestionCount());
-    assertEquals("<strong>He</strong>&#39;ll <strong>help</strong> me wont <strong>he</strong>",
+    assertEquals(
+        "<strong>He</strong>&#39;ll <strong>help</strong> me wont <strong>he</strong>",
         display.getSuggestion(0).getDisplayString());
   }
 
@@ -180,11 +174,14 @@ public class SuggestBoxTest extends WidgetTestBase {
     box.showSuggestionList();
     assertTrue(display.isSuggestionListShowing());
     assertEquals(3, display.getSuggestionCount());
-    assertEquals("<strong>Hark</strong>, Shark and <strong>Herald</strong>",
+    assertEquals(
+        "<strong>Hark</strong>, Shark and <strong>Herald</strong>",
         display.getSuggestion(0).getDisplayString());
-    assertEquals("<strong>Hark</strong>! The <strong>Herald</strong> Angels Sing",
+    assertEquals(
+        "<strong>Hark</strong>! The <strong>Herald</strong> Angels Sing",
         display.getSuggestion(1).getDisplayString());
-    assertEquals("<strong>Herald</strong>ings and <strong>Hark</strong>ings",
+    assertEquals(
+        "<strong>Herald</strong>ings and <strong>Hark</strong>ings",
         display.getSuggestion(2).getDisplayString());
   }
 
@@ -203,11 +200,14 @@ public class SuggestBoxTest extends WidgetTestBase {
     box.showSuggestionList();
     assertTrue(display.isSuggestionListShowing());
     assertEquals(3, display.getSuggestionCount());
-    assertEquals("<strong>Herald</strong>ings and <strong>Hark</strong>ings",
+    assertEquals(
+        "<strong>Herald</strong>ings and <strong>Hark</strong>ings",
         display.getSuggestion(0).getDisplayString());
-    assertEquals("<strong>Hark</strong>! The <strong>Herald</strong> Angels Sing",
+    assertEquals(
+        "<strong>Hark</strong>! The <strong>Herald</strong> Angels Sing",
         display.getSuggestion(1).getDisplayString());
-    assertEquals("<strong>Hark</strong>, Shark and <strong>Herald</strong>",
+    assertEquals(
+        "<strong>Hark</strong>, Shark and <strong>Herald</strong>",
         display.getSuggestion(2).getDisplayString());
   }
 
@@ -225,8 +225,7 @@ public class SuggestBoxTest extends WidgetTestBase {
     box.showSuggestionList();
     assertTrue(display.isSuggestionListShowing());
     assertEquals(1, display.getSuggestionCount());
-    assertEquals("<strong>m</strong>obile",
-        display.getSuggestion(0).getDisplayString());
+    assertEquals("<strong>m</strong>obile", display.getSuggestion(0).getDisplayString());
   }
 
   public void testMultipleSuggestionsWithSameNormalizedCandidateSuggestAllMatchingWords() {
@@ -244,16 +243,11 @@ public class SuggestBoxTest extends WidgetTestBase {
     box.showSuggestionList();
     assertTrue(display.isSuggestionListShowing());
     assertEquals(4, display.getSuggestionCount());
-    assertEquals("<strong>M</strong>OBILE",
-        display.getSuggestion(0).getDisplayString());
-    assertEquals("<strong>M</strong>oBiLe",
-        display.getSuggestion(1).getDisplayString());
-    assertEquals("<strong>M</strong>obile",
-        display.getSuggestion(2).getDisplayString());
-    assertEquals("<strong>m</strong>obile",
-        display.getSuggestion(3).getDisplayString());
+    assertEquals("<strong>M</strong>OBILE", display.getSuggestion(0).getDisplayString());
+    assertEquals("<strong>M</strong>oBiLe", display.getSuggestion(1).getDisplayString());
+    assertEquals("<strong>M</strong>obile", display.getSuggestion(2).getDisplayString());
+    assertEquals("<strong>m</strong>obile", display.getSuggestion(3).getDisplayString());
   }
-
 
   public void testShowAndHide() {
     SuggestBox box = createSuggestBox();
@@ -417,37 +411,35 @@ public class SuggestBoxTest extends WidgetTestBase {
     assertTrue(b.getParent() == box);
   }
 
-  /**
-   * See https://code.google.com/p/google-web-toolkit/issues/detail?id=3533
-   */
+  /** See https://code.google.com/p/google-web-toolkit/issues/detail?id=3533 */
   public void testKeyDownEvent() {
     final int[] eventFireCount = {0};
     SuggestBox box = new SuggestBox();
     RootPanel.get().add(box);
-    box.addKeyDownHandler(new KeyDownHandler() {
-      @Override
-      public void onKeyDown(KeyDownEvent event) {
-        eventFireCount[0]++;
-      }
-    });
+    box.addKeyDownHandler(
+        new KeyDownHandler() {
+          @Override
+          public void onKeyDown(KeyDownEvent event) {
+            eventFireCount[0]++;
+          }
+        });
     NativeEvent e = Document.get().createKeyDownEvent(false, false, false, false, 'g');
     box.getElement().dispatchEvent(e);
     assertEquals(1, eventFireCount[0]);
   }
 
-  /**
-   * See https://code.google.com/p/google-web-toolkit/issues/detail?id=3533
-   */
+  /** See https://code.google.com/p/google-web-toolkit/issues/detail?id=3533 */
   public void testKeyUpEvent() {
     final int[] eventFireCount = {0};
     SuggestBox box = new SuggestBox();
     RootPanel.get().add(box);
-    box.addKeyUpHandler(new KeyUpHandler() {
-      @Override
-      public void onKeyUp(KeyUpEvent event) {
-        eventFireCount[0]++;
-      }
-    });
+    box.addKeyUpHandler(
+        new KeyUpHandler() {
+          @Override
+          public void onKeyUp(KeyUpEvent event) {
+            eventFireCount[0]++;
+          }
+        });
     NativeEvent e = Document.get().createKeyUpEvent(false, false, false, false, 'g');
     box.getElement().dispatchEvent(e);
     assertEquals(1, eventFireCount[0]);

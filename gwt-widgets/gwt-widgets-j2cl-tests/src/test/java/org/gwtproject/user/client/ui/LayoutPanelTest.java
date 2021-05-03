@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -16,6 +16,8 @@
 package org.gwtproject.user.client.ui;
 
 import com.google.j2cl.junit.apt.J2clTestInput;
+import java.util.ArrayList;
+import java.util.List;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import org.gwtproject.dom.client.Document;
@@ -24,22 +26,17 @@ import org.gwtproject.layout.client.LayerFriend;
 import org.gwtproject.layout.client.Layout.AnimationCallback;
 import org.gwtproject.layout.client.Layout.Layer;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * Tests for {@link LayoutPanel}. Note that this only tests LayoutPanel-specific
- * behavior, not general layout correctness, which is covered by
- * {@link org.gwtproject.layout.client.LayoutTest}.
+ * Tests for {@link LayoutPanel}. Note that this only tests LayoutPanel-specific behavior, not
+ * general layout correctness, which is covered by {@link org.gwtproject.layout.client.LayoutTest}.
  */
 @J2clTestInput(LayoutPanelTest.class)
 public class LayoutPanelTest extends WidgetTestBase {
 
   /**
-   * Tests for a bug in LayoutCommand, which caused an animate() call, just
-   * before an unnecessary forceLayout(), to get stuck. See issue 4360.
+   * Tests for a bug in LayoutCommand, which caused an animate() call, just before an unnecessary
+   * forceLayout(), to get stuck. See issue 4360.
    */
-
   public void testRedundantForceLayout() {
     final LayoutPanel p = new LayoutPanel();
     Label l = new Label("foo");
@@ -50,30 +47,31 @@ public class LayoutPanelTest extends WidgetTestBase {
 
     delayTestFinish(5000);
     // Fully qualified to avoid the deprecation warning in the import section
-    Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-      @Override
-      public void execute() {
-        p.animate(100, new AnimationCallback() {
-          @Override
-          public void onLayout(Layer layer, double progress) {
-          }
+    Scheduler.get()
+        .scheduleDeferred(
+            new Scheduler.ScheduledCommand() {
+              @Override
+              public void execute() {
+                p.animate(
+                    100,
+                    new AnimationCallback() {
+                      @Override
+                      public void onLayout(Layer layer, double progress) {}
 
-          @Override
-          public void onAnimationComplete() {
-            // If LayoutCommand is broken, this will never happen.
-            finishTest();
-          }
-        });
-      }
-    });
+                      @Override
+                      public void onAnimationComplete() {
+                        // If LayoutCommand is broken, this will never happen.
+                        finishTest();
+                      }
+                    });
+              }
+            });
   }
 
   /**
-   * Ensures that the popup implementation doesn't interfere with layout. This
-   * cropped up on IE7 as a result of CSS expressions used in PopupImplIE6, as
-   * described in issue 4532.
+   * Ensures that the popup implementation doesn't interfere with layout. This cropped up on IE7 as
+   * a result of CSS expressions used in PopupImplIE6, as described in issue 4532.
    */
-
   public void testWeirdPopupInteraction() {
     assertTrue(Document.get().isCSS1Compat());
 
@@ -86,23 +84,21 @@ public class LayoutPanelTest extends WidgetTestBase {
 
     delayTestFinish(2000);
     // Fully qualified to avoid the deprecation warning in the import section
-    Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-      @Override
-      public void execute() {
-        int offsetWidth = lp.getOffsetWidth();
-        int offsetHeight = lp.getOffsetHeight();
-        assertTrue(offsetWidth > 0);
-        assertTrue(offsetHeight > 0);
-        finishTest();
-      }
-    });
+    Scheduler.get()
+        .scheduleDeferred(
+            new Scheduler.ScheduledCommand() {
+              @Override
+              public void execute() {
+                int offsetWidth = lp.getOffsetWidth();
+                int offsetHeight = lp.getOffsetHeight();
+                assertTrue(offsetWidth > 0);
+                assertTrue(offsetHeight > 0);
+                finishTest();
+              }
+            });
   }
 
-  /**
-   * Tests
-   * {@link LayoutPanel#setWidgetBottomHeight(Widget, double, Unit, double, Unit)}
-   * .
-   */
+  /** Tests {@link LayoutPanel#setWidgetBottomHeight(Widget, double, Unit, double, Unit)} . */
   public void testSetWidgetBottomHeight() {
     LayoutPanel layoutPanel = createLayoutPanel();
     Widget label = createLabelInPanel(layoutPanel);
@@ -111,34 +107,23 @@ public class LayoutPanelTest extends WidgetTestBase {
 
     assertLayerProperties(
         label,
-        new LayerProperties().bottom(1.5).bottomUnit(Unit.EM).height(2.0).heightUnit(
-            Unit.EM));
+        new LayerProperties().bottom(1.5).bottomUnit(Unit.EM).height(2.0).heightUnit(Unit.EM));
   }
 
-  /**
-   * Tests
-   * {@link LayoutPanel#setWidgetBottomHeight(IsWidget, double, Unit, double, Unit)}
-   * .
-   */
+  /** Tests {@link LayoutPanel#setWidgetBottomHeight(IsWidget, double, Unit, double, Unit)} . */
   public void testSetWidgetBottomHeightAsIsWidget() {
     LayoutPanel layoutPanel = createLayoutPanel();
     Widget label = createLabelInPanel(layoutPanel);
 
     // IsWidget cast to call the overloaded version
-    layoutPanel.setWidgetBottomHeight((IsWidget) label, 10.0, Unit.PX, 15.0,
-        Unit.PX);
+    layoutPanel.setWidgetBottomHeight((IsWidget) label, 10.0, Unit.PX, 15.0, Unit.PX);
 
     assertLayerProperties(
         label,
-        new LayerProperties().bottom(10.0).bottomUnit(Unit.PX).height(15.0).heightUnit(
-            Unit.PX));
+        new LayerProperties().bottom(10.0).bottomUnit(Unit.PX).height(15.0).heightUnit(Unit.PX));
   }
 
-  /**
-   * Tests
-   * {@link LayoutPanel#setWidgetLeftRight(Widget, double, Unit, double, Unit)}
-   * .
-   */
+  /** Tests {@link LayoutPanel#setWidgetLeftRight(Widget, double, Unit, double, Unit)} . */
   public void testSetWidgetLeftRight() {
     LayoutPanel layoutPanel = createLayoutPanel();
     Widget label = createLabelInPanel(layoutPanel);
@@ -146,35 +131,22 @@ public class LayoutPanelTest extends WidgetTestBase {
     layoutPanel.setWidgetLeftRight(label, 10.0, Unit.PX, 20.0, Unit.PX);
 
     assertLayerProperties(
-        label,
-        new LayerProperties().left(10.0).leftUnit(Unit.PX).right(20.0).rightUnit(
-            Unit.PX));
+        label, new LayerProperties().left(10.0).leftUnit(Unit.PX).right(20.0).rightUnit(Unit.PX));
   }
 
-  /**
-   * Tests
-   * {@link LayoutPanel#setWidgetLeftRight(IsWidget, double, Unit, double, Unit)}
-   * .
-   */
+  /** Tests {@link LayoutPanel#setWidgetLeftRight(IsWidget, double, Unit, double, Unit)} . */
   public void testSetWidgetLeftRightAsIsWidget() {
     LayoutPanel layoutPanel = createLayoutPanel();
     Widget label = createLabelInPanel(layoutPanel);
 
     // IsWidget cast to call the overloaded version
-    layoutPanel.setWidgetLeftRight((IsWidget) label, 10.0, Unit.PX, 15.0,
-        Unit.PX);
+    layoutPanel.setWidgetLeftRight((IsWidget) label, 10.0, Unit.PX, 15.0, Unit.PX);
 
     assertLayerProperties(
-        label,
-        new LayerProperties().left(10.0).leftUnit(Unit.PX).right(15.0).rightUnit(
-            Unit.PX));
+        label, new LayerProperties().left(10.0).leftUnit(Unit.PX).right(15.0).rightUnit(Unit.PX));
   }
 
-  /**
-   * Tests
-   * {@link LayoutPanel#setWidgetLeftWidth(Widget, double, Unit, double, Unit)}
-   * .
-   */
+  /** Tests {@link LayoutPanel#setWidgetLeftWidth(Widget, double, Unit, double, Unit)} . */
   public void testSetWidgetLeftWidth() {
     LayoutPanel layoutPanel = createLayoutPanel();
     Widget label = createLabelInPanel(layoutPanel);
@@ -182,35 +154,22 @@ public class LayoutPanelTest extends WidgetTestBase {
     layoutPanel.setWidgetLeftWidth(label, 10.0, Unit.PX, 20.0, Unit.PX);
 
     assertLayerProperties(
-        label,
-        new LayerProperties().left(10.0).leftUnit(Unit.PX).width(20.0).widthUnit(
-            Unit.PX));
+        label, new LayerProperties().left(10.0).leftUnit(Unit.PX).width(20.0).widthUnit(Unit.PX));
   }
 
-  /**
-   * Tests
-   * {@link LayoutPanel#setWidgetLeftWidth(IsWidget, double, Unit, double, Unit)}
-   * .
-   */
+  /** Tests {@link LayoutPanel#setWidgetLeftWidth(IsWidget, double, Unit, double, Unit)} . */
   public void testSetWidgetLeftWidthAsIsWidget() {
     LayoutPanel layoutPanel = createLayoutPanel();
     Widget label = createLabelInPanel(layoutPanel);
 
     // IsWidget cast to call the overloaded version
-    layoutPanel.setWidgetLeftWidth((IsWidget) label, 10.0, Unit.PX, 15.0,
-        Unit.PX);
+    layoutPanel.setWidgetLeftWidth((IsWidget) label, 10.0, Unit.PX, 15.0, Unit.PX);
 
     assertLayerProperties(
-        label,
-        new LayerProperties().left(10.0).leftUnit(Unit.PX).width(15.0).widthUnit(
-            Unit.PX));
+        label, new LayerProperties().left(10.0).leftUnit(Unit.PX).width(15.0).widthUnit(Unit.PX));
   }
 
-  /**
-   * Tests
-   * {@link LayoutPanel#setWidgetRightWidth(Widget, double, Unit, double, Unit)}
-   * .
-   */
+  /** Tests {@link LayoutPanel#setWidgetRightWidth(Widget, double, Unit, double, Unit)} . */
   public void testSetWidgetRightWidth() {
     LayoutPanel layoutPanel = createLayoutPanel();
     Widget label = createLabelInPanel(layoutPanel);
@@ -218,35 +177,22 @@ public class LayoutPanelTest extends WidgetTestBase {
     layoutPanel.setWidgetRightWidth(label, 10.0, Unit.PX, 20.0, Unit.PX);
 
     assertLayerProperties(
-        label,
-        new LayerProperties().right(10.0).rightUnit(Unit.PX).width(20.0).widthUnit(
-            Unit.PX));
+        label, new LayerProperties().right(10.0).rightUnit(Unit.PX).width(20.0).widthUnit(Unit.PX));
   }
 
-  /**
-   * Tests
-   * {@link LayoutPanel#setWidgetRightWidth(IsWidget, double, Unit, double, Unit)}
-   * .
-   */
+  /** Tests {@link LayoutPanel#setWidgetRightWidth(IsWidget, double, Unit, double, Unit)} . */
   public void testSetWidgetRightWidthAsIsWidget() {
     LayoutPanel layoutPanel = createLayoutPanel();
     Widget label = createLabelInPanel(layoutPanel);
 
     // IsWidget cast to call the overloaded version
-    layoutPanel.setWidgetRightWidth((IsWidget) label, 10.0, Unit.PX, 15.0,
-        Unit.PX);
+    layoutPanel.setWidgetRightWidth((IsWidget) label, 10.0, Unit.PX, 15.0, Unit.PX);
 
     assertLayerProperties(
-        label,
-        new LayerProperties().right(10.0).rightUnit(Unit.PX).width(15.0).widthUnit(
-            Unit.PX));
+        label, new LayerProperties().right(10.0).rightUnit(Unit.PX).width(15.0).widthUnit(Unit.PX));
   }
 
-  /**
-   * Tests
-   * {@link LayoutPanel#setWidgetTopBottom(Widget, double, Unit, double, Unit)}
-   * .
-   */
+  /** Tests {@link LayoutPanel#setWidgetTopBottom(Widget, double, Unit, double, Unit)} . */
   public void testSetWidgetTopBottom() {
     LayoutPanel layoutPanel = createLayoutPanel();
     Widget label = createLabelInPanel(layoutPanel);
@@ -254,35 +200,22 @@ public class LayoutPanelTest extends WidgetTestBase {
     layoutPanel.setWidgetTopBottom(label, 10.0, Unit.PX, 20.0, Unit.PX);
 
     assertLayerProperties(
-        label,
-        new LayerProperties().top(10.0).topUnit(Unit.PX).bottom(20.0).bottomUnit(
-            Unit.PX));
+        label, new LayerProperties().top(10.0).topUnit(Unit.PX).bottom(20.0).bottomUnit(Unit.PX));
   }
 
-  /**
-   * Tests
-   * {@link LayoutPanel#setWidgetTopBottom(IsWidget, double, Unit, double, Unit)}
-   * .
-   */
+  /** Tests {@link LayoutPanel#setWidgetTopBottom(IsWidget, double, Unit, double, Unit)} . */
   public void testSetWidgetTopBottomAsIsWidget() {
     LayoutPanel layoutPanel = createLayoutPanel();
     Widget label = createLabelInPanel(layoutPanel);
 
     // IsWidget cast to call the overloaded version
-    layoutPanel.setWidgetTopBottom((IsWidget) label, 10.0, Unit.PX, 15.0,
-        Unit.PX);
+    layoutPanel.setWidgetTopBottom((IsWidget) label, 10.0, Unit.PX, 15.0, Unit.PX);
 
     assertLayerProperties(
-        label,
-        new LayerProperties().top(10.0).topUnit(Unit.PX).bottom(15.0).bottomUnit(
-            Unit.PX));
+        label, new LayerProperties().top(10.0).topUnit(Unit.PX).bottom(15.0).bottomUnit(Unit.PX));
   }
 
-  /**
-   * Tests
-   * {@link LayoutPanel#setWidgetTopHeight(Widget, double, Unit, double, Unit)}
-   * .
-   */
+  /** Tests {@link LayoutPanel#setWidgetTopHeight(Widget, double, Unit, double, Unit)} . */
   public void testSetWidgetTopHeight() {
     LayoutPanel layoutPanel = createLayoutPanel();
     Widget label = createLabelInPanel(layoutPanel);
@@ -290,46 +223,36 @@ public class LayoutPanelTest extends WidgetTestBase {
     layoutPanel.setWidgetTopHeight(label, 10.0, Unit.PX, 20.0, Unit.PX);
 
     assertLayerProperties(
-        label,
-        new LayerProperties().top(10.0).topUnit(Unit.PX).height(20.0).heightUnit(
-            Unit.PX));
+        label, new LayerProperties().top(10.0).topUnit(Unit.PX).height(20.0).heightUnit(Unit.PX));
   }
 
-  /**
-   * Tests
-   * {@link LayoutPanel#setWidgetTopHeight(IsWidget, double, Unit, double, Unit)}
-   * .
-   */
+  /** Tests {@link LayoutPanel#setWidgetTopHeight(IsWidget, double, Unit, double, Unit)} . */
   public void testSetWidgetTopHeightAsIsWidget() {
     LayoutPanel layoutPanel = createLayoutPanel();
     Widget label = createLabelInPanel(layoutPanel);
 
     // IsWidget cast to call the overloaded version
-    layoutPanel.setWidgetTopHeight((IsWidget) label, 10.0, Unit.PX, 15.0,
-        Unit.PX);
+    layoutPanel.setWidgetTopHeight((IsWidget) label, 10.0, Unit.PX, 15.0, Unit.PX);
 
     assertLayerProperties(
-        label,
-        new LayerProperties().top(10.0).topUnit(Unit.PX).height(15.0).heightUnit(
-            Unit.PX));
+        label, new LayerProperties().top(10.0).topUnit(Unit.PX).height(15.0).heightUnit(Unit.PX));
   }
 
-  /**
-   * Test that forcing layout will call onResize only once.
-   */
+  /** Test that forcing layout will call onResize only once. */
   public void testForceLayoutNoRedundantOnResize() {
     final List<Boolean> called = new ArrayList<>();
     LayoutPanel layoutPanel = new LayoutPanel();
-    SimpleLayoutPanel child = new SimpleLayoutPanel() {
-      @Override
-      public void onResize() {
-        super.onResize();
-        called.add(true);
-      }
-    };
+    SimpleLayoutPanel child =
+        new SimpleLayoutPanel() {
+          @Override
+          public void onResize() {
+            super.onResize();
+            called.add(true);
+          }
+        };
     layoutPanel.add(child);
     layoutPanel.forceLayout();
-    assertEquals(1,called.size());
+    assertEquals(1, called.size());
   }
 
   protected LayoutPanel createLayoutPanel() {
@@ -343,34 +266,32 @@ public class LayoutPanelTest extends WidgetTestBase {
   }
 
   /**
-   * <p>
-   * Parameter class that hold a set of properties of a {@link Layer}. The
-   * default value for all the six properties (top, right, bottom, left, height
-   * and width) is 0.0, value that matches the default values for this
-   * properties in the actual {@link Layer}. The default values for the
+   * Parameter class that hold a set of properties of a {@link Layer}. The default value for all the
+   * six properties (top, right, bottom, left, height and width) is 0.0, value that matches the
+   * default values for this properties in the actual {@link Layer}. The default values for the
    * units also match the default values in {@link Layer}: <br>
-   * <code>topUnit = rightUnit = bottomUnit = leftUnit = {@link Unit#PX}</code>
-   * <br>
-   * <code>heigthUnit = widthUnit = null</code>
-   * </p>
-   * This class must be used as a parameter of
-   * {@link LayoutPanelTest#assertLayerProperties(Widget, LayerProperties)}, and
-   * was thought to be used as a builder in order to improve readability and
-   * reduce errors with the parameters of
-   * {@link LayoutPanelTest#assertLayerProperties(Widget, LayerProperties)}.
-   * </p>
-   * 
+   * <code>topUnit = rightUnit = bottomUnit = leftUnit = {@link Unit#PX}</code> <br>
+   * <code>heigthUnit = widthUnit = null</code> This class must be used as a parameter of {@link
+   * LayoutPanelTest#assertLayerProperties(Widget, LayerProperties)}, and was thought to be used as
+   * a builder in order to improve readability and reduce errors with the parameters of {@link
+   * LayoutPanelTest#assertLayerProperties(Widget, LayerProperties)}.
+   *
    * <p>
+   *
    * <h3>Example:</h3>
+   *
    * <code>assertLayerProperties(label,
    *    new LayerProperties().bottom(10.0).bottomUnit(Unit.PX)
    *    .height(15.0).heightUnit(Unit.PX);</code>
-   * </p>
    */
   static class LayerProperties {
     private double top, right, bottom, left, height, width;
-    private Unit topUnit = Unit.PX, rightUnit = Unit.PX, bottomUnit = Unit.PX,
-        leftUnit = Unit.PX, heightUnit, widthUnit;
+    private Unit topUnit = Unit.PX,
+        rightUnit = Unit.PX,
+        bottomUnit = Unit.PX,
+        leftUnit = Unit.PX,
+        heightUnit,
+        widthUnit;
 
     LayerProperties top(double top) {
       this.top = top;
@@ -480,51 +401,50 @@ public class LayoutPanelTest extends WidgetTestBase {
       return widthUnit;
     }
   }
-  
+
   /**
-   * <p>
    * Asserts that the layer properties of the <b>widget</b> are the given ones.
-   * </p>
-   * 
+   *
    * @param widget the widget being tested
    * @param expectedLayerProperties the expected properties of <b>widget</b>
    */
-  private void assertLayerProperties(final Widget widget,
-      final LayerProperties expectedLayerProperties) {
+  private void assertLayerProperties(
+      final Widget widget, final LayerProperties expectedLayerProperties) {
     delayTestFinish(2000);
-    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+    Scheduler.get()
+        .scheduleDeferred(
+            new ScheduledCommand() {
 
-      @Override
-      public void execute() {
-        Layer layer = (Layer) widget.getLayoutData();
-        LayerFriend helper = new LayerFriend(layer);
+              @Override
+              public void execute() {
+                Layer layer = (Layer) widget.getLayoutData();
+                LayerFriend helper = new LayerFriend(layer);
 
-        assertEquals("Top", expectedLayerProperties.getTop(), helper.getTop());
-        assertEquals("Right", expectedLayerProperties.getRight(),
-            helper.getRight());
-        assertEquals("Bottom", expectedLayerProperties.getBottom(),
-            helper.getBottom());
-        assertEquals("Left", expectedLayerProperties.getLeft(),
-            helper.getLeft());
-        assertEquals("Height", expectedLayerProperties.getHeight(),
-            helper.getHeight());
-        assertEquals("Width", expectedLayerProperties.getWidth(),
-            helper.getWidth());
+                assertEquals("Top", expectedLayerProperties.getTop(), helper.getTop());
+                assertEquals("Right", expectedLayerProperties.getRight(), helper.getRight());
+                assertEquals("Bottom", expectedLayerProperties.getBottom(), helper.getBottom());
+                assertEquals("Left", expectedLayerProperties.getLeft(), helper.getLeft());
+                assertEquals("Height", expectedLayerProperties.getHeight(), helper.getHeight());
+                assertEquals("Width", expectedLayerProperties.getWidth(), helper.getWidth());
 
-        assertEquals("Top Units", expectedLayerProperties.getTopUnit(),
-            helper.getTopUnit());
-        assertEquals("Right Units", expectedLayerProperties.getRightUnit(),
-            helper.getRightUnit());
-        assertEquals("Bottom Units", expectedLayerProperties.getBottomUnit(),
-            helper.getBottomUnit());
-        assertEquals("Left Units", expectedLayerProperties.getLeftUnit(),
-            helper.getLeftUnit());
-        assertEquals("Height Units", expectedLayerProperties.getHeightUnit(),
-            helper.getHeightUnit());
-        assertEquals("Width Units", expectedLayerProperties.getWidthUnit(),
-            helper.getWidthUnit());
-        finishTest();
-      }
-    });
+                assertEquals(
+                    "Top Units", expectedLayerProperties.getTopUnit(), helper.getTopUnit());
+                assertEquals(
+                    "Right Units", expectedLayerProperties.getRightUnit(), helper.getRightUnit());
+                assertEquals(
+                    "Bottom Units",
+                    expectedLayerProperties.getBottomUnit(),
+                    helper.getBottomUnit());
+                assertEquals(
+                    "Left Units", expectedLayerProperties.getLeftUnit(), helper.getLeftUnit());
+                assertEquals(
+                    "Height Units",
+                    expectedLayerProperties.getHeightUnit(),
+                    helper.getHeightUnit());
+                assertEquals(
+                    "Width Units", expectedLayerProperties.getWidthUnit(), helper.getWidthUnit());
+                finishTest();
+              }
+            });
   }
 }

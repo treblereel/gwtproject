@@ -16,23 +16,20 @@
 package org.gwtproject.cell.client;
 
 import com.google.j2cl.junit.apt.J2clTestInput;
-import org.gwtproject.canvas.client.CanvasTest;
 import org.gwtproject.cell.client.ActionCell.Delegate;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.NativeEvent;
 
-/**
- * Tests for {@link org.gwtproject.cell.client.ActionCell}.
- */
+/** Tests for {@link org.gwtproject.cell.client.ActionCell}. */
 @J2clTestInput(ActionCellTest.class)
 public class ActionCellTest extends CellTestBase<String> {
 
-    @Override
-    public String getModuleName() {
-        return "";
-    }
+  @Override
+  public String getModuleName() {
+    return "";
+  }
 
-    /**
+  /**
    * A mock {@link Delegate} used for testing.
    *
    * @param <T> the value type
@@ -53,18 +50,18 @@ public class ActionCellTest extends CellTestBase<String> {
 
   public void testOnBrowserEvent() {
     MockDelegate<String> delegate = new MockDelegate<String>();
-    org.gwtproject.cell.client.ActionCell<String> cell = new org.gwtproject.cell.client.ActionCell<String>("hello", delegate);
+    org.gwtproject.cell.client.ActionCell<String> cell =
+        new org.gwtproject.cell.client.ActionCell<String>("hello", delegate);
     NativeEvent event = Document.get().createClickEvent(0, 0, 0, 0, 0, false, false, false, false);
     testOnBrowserEvent(cell, getExpectedInnerHtml(), event, "test", null, true);
     delegate.assertLastObject("test");
   }
 
-  /**
-   * Test that events outside of the button element are ignored.
-   */
+  /** Test that events outside of the button element are ignored. */
   public void testOnBrowserEventOutsideButton() {
     MockDelegate<String> delegate = new MockDelegate<String>();
-    org.gwtproject.cell.client.ActionCell<String> cell = new org.gwtproject.cell.client.ActionCell<String>("hello", delegate);
+    org.gwtproject.cell.client.ActionCell<String> cell =
+        new org.gwtproject.cell.client.ActionCell<String>("hello", delegate);
     NativeEvent event = Document.get().createClickEvent(0, 0, 0, 0, 0, false, false, false, false);
     testOnBrowserEvent(cell, getExpectedInnerHtml(), event, "test", null, false);
     delegate.assertLastObject(null);
@@ -88,7 +85,7 @@ public class ActionCellTest extends CellTestBase<String> {
 
   @Override
   protected String[] getConsumedEvents() {
-    return new String[]{"click", "keydown"};
+    return new String[] {"click", "keydown"};
   }
 
   @Override

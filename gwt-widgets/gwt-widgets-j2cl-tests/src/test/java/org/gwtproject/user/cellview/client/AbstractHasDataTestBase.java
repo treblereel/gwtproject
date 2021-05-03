@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,13 +15,16 @@
  */
 package org.gwtproject.user.cellview.client;
 
+import com.google.gwt.junit.client.GWTTestCase;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import org.gwtproject.cell.client.AbstractCell;
 import org.gwtproject.cell.client.Cell;
 import org.gwtproject.cell.client.TextCell;
 import org.gwtproject.cell.client.ValueUpdater;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.NativeEvent;
-import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.regexp.shared.MatchResult;
 import org.gwtproject.regexp.shared.RegExp;
 import org.gwtproject.safehtml.shared.SafeHtmlBuilder;
@@ -31,18 +34,12 @@ import org.gwtproject.user.window.client.Window;
 import org.gwtproject.view.client.ListDataProvider;
 import org.gwtproject.view.client.Range;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-/**
- * Base tests for {@link AbstractHasData}.
- */
+/** Base tests for {@link AbstractHasData}. */
 public abstract class AbstractHasDataTestBase extends GWTTestCase {
 
   /**
    * A mock cell that tests the index specified in each method.
-   * 
+   *
    * @param <C> the cell type
    */
   protected static class IndexCell<C> extends AbstractCell<C> {
@@ -78,8 +75,8 @@ public abstract class AbstractHasDataTestBase extends GWTTestCase {
     }
 
     @Override
-    public void onBrowserEvent(Context context, Element parent, C value,
-        NativeEvent event, ValueUpdater<C> valueUpdater) {
+    public void onBrowserEvent(
+        Context context, Element parent, C value, NativeEvent event, ValueUpdater<C> valueUpdater) {
       this.lastBrowserEventIndex = context.getIndex();
     }
 
@@ -103,8 +100,7 @@ public abstract class AbstractHasDataTestBase extends GWTTestCase {
 
   public void testGetVisibleItem() {
     AbstractHasData<String> display = createAbstractHasData(new TextCell());
-    ListDataProvider<String> provider = new ListDataProvider<String>(
-        createData(0, 13));
+    ListDataProvider<String> provider = new ListDataProvider<String>(createData(0, 13));
     provider.addDataDisplay(display);
     display.setVisibleRange(10, 10);
 
@@ -148,9 +144,7 @@ public abstract class AbstractHasDataTestBase extends GWTTestCase {
     assertEquals("test 12", items.get(2));
   }
 
-  /**
-   * Test that we don't get any errors when keyboard selection is disabled.
-   */
+  /** Test that we don't get any errors when keyboard selection is disabled. */
   public void testKeyboardSelectionPolicyDisabled() {
     AbstractHasData<String> display = createAbstractHasData(new TextCell());
     display.setRowData(createData(0, 10));
@@ -225,8 +219,7 @@ public abstract class AbstractHasDataTestBase extends GWTTestCase {
     }
 
     AbstractHasData<String> display = createAbstractHasData(new TextCell());
-    ListDataProvider<String> provider = new ListDataProvider<String>(
-        createData(0, 10));
+    ListDataProvider<String> provider = new ListDataProvider<String>(createData(0, 10));
     provider.addDataDisplay(display);
     display.getPresenter().flush();
 
@@ -249,15 +242,16 @@ public abstract class AbstractHasDataTestBase extends GWTTestCase {
   public void testRenderedEvent() {
     final Counter counter = new Counter();
     AbstractHasData<String> hasData = createAbstractHasData(new TextCell());
-    hasData.addRedrawHandler(new Handler() {
-      @Override
-      public void onRedraw() {
-        counter.increment();
-      }
-    });
+    hasData.addRedrawHandler(
+        new Handler() {
+          @Override
+          public void onRedraw() {
+            counter.increment();
+          }
+        });
 
     // Cause redraw by changing the data.
-    hasData.setRowData(Arrays.asList(new String[]{"a", "b", "c"}));
+    hasData.setRowData(Arrays.asList(new String[] {"a", "b", "c"}));
     hasData.getPresenter().flush();
     assertEquals(1, counter.getCount());
 
@@ -278,12 +272,11 @@ public abstract class AbstractHasDataTestBase extends GWTTestCase {
    * @param cell the cell to use
    * @return the widget to test
    */
-  protected abstract AbstractHasData<String> createAbstractHasData(
-      Cell<String> cell);
+  protected abstract AbstractHasData<String> createAbstractHasData(Cell<String> cell);
 
   /**
    * Create a list of data for testing.
-   * 
+   *
    * @param start the start index
    * @param length the length
    * @return a list of data
@@ -296,9 +289,7 @@ public abstract class AbstractHasDataTestBase extends GWTTestCase {
     return toRet;
   }
 
-  /**
-   * Populate the entire range of a view.
-   */
+  /** Populate the entire range of a view. */
   protected void populateData(AbstractHasData<String> view) {
     Range range = view.getVisibleRange();
     int start = range.getStart();
@@ -306,9 +297,7 @@ public abstract class AbstractHasDataTestBase extends GWTTestCase {
     view.setRowData(start, createData(start, length));
   }
 
-  /**
-   * A mutable number, so that we can modify the value from within anonymous classes.
-   */
+  /** A mutable number, so that we can modify the value from within anonymous classes. */
   protected static final class Counter {
     private int number = 0;
 

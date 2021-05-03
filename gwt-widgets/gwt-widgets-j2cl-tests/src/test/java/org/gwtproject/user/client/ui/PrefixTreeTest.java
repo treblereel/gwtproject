@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -17,13 +17,10 @@ package org.gwtproject.user.client.ui;
 
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
-
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * TODO(bobv): comment me.
- */
+/** TODO(bobv): comment me. */
 @J2clTestInput(PrefixTreeTest.class)
 public class PrefixTreeTest extends GWTTestCase {
   @Override
@@ -32,17 +29,16 @@ public class PrefixTreeTest extends GWTTestCase {
   }
 
   /**
-   * Ensure that names of functions declared on the Object prototype are valid
-   * data to insert into the PrefixTree (<a
-   * href="http://code.google.com/p/google-web-toolkit/issues/detail?id=631">issue
-   * #631)</a>.
+   * Ensure that names of functions declared on the Object prototype are valid data to insert into
+   * the PrefixTree (<a
+   * href="http://code.google.com/p/google-web-toolkit/issues/detail?id=631">issue #631)</a>.
    */
   public void testBug631Prefixes() {
     // Set the prefix length large enough so that we ensure prefixes are
     // appropriately tested
     final String[] prototypeNames = {
-        "__proto__", "constructor", "eval", "prototype", "toString",
-        "toSource", "unwatch", "valueOf",};
+      "__proto__", "constructor", "eval", "prototype", "toString", "toSource", "unwatch", "valueOf",
+    };
 
     for (int i = 0; i < prototypeNames.length; i++) {
       final String name = prototypeNames[i] + "AAAAAAAAAAAAAAAAAAAA";
@@ -51,22 +47,18 @@ public class PrefixTreeTest extends GWTTestCase {
       assertFalse("Incorrectly found " + name, tree.contains(name));
 
       assertTrue("First add() didn't return true: " + name, tree.add(name));
-      assertFalse("Second add() of duplicate entry didn't return false: "
-          + name, tree.add(name));
+      assertFalse("Second add() of duplicate entry didn't return false: " + name, tree.add(name));
 
-      assertTrue("contains() didn't find added word: " + name,
-          tree.contains(name));
+      assertTrue("contains() didn't find added word: " + name, tree.contains(name));
 
       testSizeByIterator(tree);
-      assertTrue("PrefixTree doesn't contain the desired word",
-          1 == tree.size());
+      assertTrue("PrefixTree doesn't contain the desired word", 1 == tree.size());
     }
   }
 
   /**
-   * Ensure that names of functions declared on the Object prototype are valid
-   * data to insert into the PrefixTree(<a
-   * href="http://code.google.com/p/google-web-toolkit/issues/detail?id=631">issue
+   * Ensure that names of functions declared on the Object prototype are valid data to insert into
+   * the PrefixTree(<a href="http://code.google.com/p/google-web-toolkit/issues/detail?id=631">issue
    * #631)</a>.
    */
   public void testBug631Suffixes() {
@@ -74,8 +66,8 @@ public class PrefixTreeTest extends GWTTestCase {
     // appropriately tested
     final PrefixTree tree = new PrefixTree(100);
     final String[] prototypeNames = {
-        "__proto__", "constructor", "eval", "prototype", "toString",
-        "toSource", "unwatch", "valueOf",};
+      "__proto__", "constructor", "eval", "prototype", "toString", "toSource", "unwatch", "valueOf",
+    };
 
     for (int i = 0; i < prototypeNames.length; i++) {
       final String name = prototypeNames[i];
@@ -83,21 +75,18 @@ public class PrefixTreeTest extends GWTTestCase {
       assertFalse("Incorrectly found " + name, tree.contains(name));
 
       assertTrue("First add() didn't return true: " + name, tree.add(name));
-      assertFalse("Second add() of duplicate entry didn't return false: "
-          + name, tree.add(name));
+      assertFalse("Second add() of duplicate entry didn't return false: " + name, tree.add(name));
 
-      assertTrue("contains() didn't find added word: " + name,
-          tree.contains(name));
+      assertTrue("contains() didn't find added word: " + name, tree.contains(name));
     }
 
     testSizeByIterator(tree);
-    assertTrue("PrefixTree doesn't contain all of the desired words",
+    assertTrue(
+        "PrefixTree doesn't contain all of the desired words",
         prototypeNames.length == tree.size());
   }
 
-  /**
-   * Tests adding multiple prefixes and clearing the contents.
-   */
+  /** Tests adding multiple prefixes and clearing the contents. */
   public void testMultipleAddsAndClear() {
     final PrefixTree tree = new PrefixTree();
 
@@ -110,8 +99,7 @@ public class PrefixTreeTest extends GWTTestCase {
     testSizeByIterator(tree);
 
     tree.clear();
-    assertFalse("Expecting cleared tree to not hasNext()",
-        tree.iterator().hasNext());
+    assertFalse("Expecting cleared tree to not hasNext()", tree.iterator().hasNext());
     assertTrue("Clear did not set size to 0", tree.size() == 0);
   }
 
@@ -120,13 +108,10 @@ public class PrefixTreeTest extends GWTTestCase {
     assertTrue("Newly-created tree had non-zero size", tree.size() == 0);
     testSizeByIterator(tree);
 
-    assertFalse("Newly-created tree had iterator with a next element",
-        tree.iterator().hasNext());
+    assertFalse("Newly-created tree had iterator with a next element", tree.iterator().hasNext());
   }
 
-  /**
-   * Tests newly constructed prefix tree assumptions.
-   */
+  /** Tests newly constructed prefix tree assumptions. */
   public void testPlaysWellWithOthers() {
     final List<String> l = new ArrayList<String>();
     for (int i = 0; i < 100; i++) {
@@ -139,16 +124,12 @@ public class PrefixTreeTest extends GWTTestCase {
     assertTrue("Not all elements copied", tree.size() == l.size());
     testSizeByIterator(tree);
 
-    assertTrue("Original list does not contain all of the tree",
-        l.containsAll(tree));
+    assertTrue("Original list does not contain all of the tree", l.containsAll(tree));
 
-    assertTrue("The tree does not contain the original list",
-        tree.containsAll(l));
+    assertTrue("The tree does not contain the original list", tree.containsAll(l));
   }
 
-  /**
-   * Test whether the prefix tree works appropriately with collections.
-   */
+  /** Test whether the prefix tree works appropriately with collections. */
   public void testSuggestions() {
     final PrefixTree tree = new PrefixTree();
 
@@ -201,15 +182,13 @@ public class PrefixTreeTest extends GWTTestCase {
 
   protected void assertAllStartWith(List<String> l, String prefix) {
     for (String test : l) {
-      assertTrue(test + " does not start with " + prefix,
-          test.startsWith(prefix));
+      assertTrue(test + " does not start with " + prefix, test.startsWith(prefix));
     }
   }
 
   /**
-   * Ensure that size() reports the same number of items that the iterator
-   * produces.
-   * 
+   * Ensure that size() reports the same number of items that the iterator produces.
+   *
    * @param tree the tree to test
    */
   protected void testSizeByIterator(PrefixTree tree) {
@@ -218,7 +197,7 @@ public class PrefixTreeTest extends GWTTestCase {
       count++;
     }
 
-    assertTrue("Iteration count " + count + " did not match size "
-        + tree.size(), count == tree.size());
+    assertTrue(
+        "Iteration count " + count + " did not match size " + tree.size(), count == tree.size());
   }
 }

@@ -15,23 +15,20 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
+import java.util.Locale;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.event.logical.shared.ValueChangeEvent;
 import org.gwtproject.event.logical.shared.ValueChangeHandler;
 import org.gwtproject.event.shared.HandlerRegistration;
-import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.safehtml.shared.SafeHtmlUtils;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.history.client.History;
 
-import java.util.Locale;
-
-/**
- * Tests {@link HyperlinkTest}.
- */
+/** Tests {@link HyperlinkTest}. */
 @J2clTestInput(HyperlinkTest.class)
 public class HyperlinkTest extends GWTTestCase {
 
@@ -69,7 +66,7 @@ public class HyperlinkTest extends GWTTestCase {
   public void testLinkHrefProperty() {
     Hyperlink link = new Hyperlink("foobar", TEST_HISTORY_TOKEN);
     Element element = link.getElement();
-    Element anchorElement = (Element)element.getFirstChildElement();
+    Element anchorElement = (Element) element.getFirstChildElement();
     String propertyString = anchorElement.getPropertyString("href");
     int index = propertyString.indexOf('#');
     assertFalse(index == -1);
@@ -84,13 +81,15 @@ public class HyperlinkTest extends GWTTestCase {
     HandlerRegistration registration = null;
     try {
       RootPanel.get().add(link);
-      registration = History.addValueChangeHandler(new ValueChangeHandler<String>() {
-        @Override
-        public void onValueChange(ValueChangeEvent<String> event) {
-          assertEquals(testHistoryToken, event.getValue());
-          assertEquals(testHistoryToken, History.getToken());
-        }
-      });
+      registration =
+          History.addValueChangeHandler(
+              new ValueChangeHandler<String>() {
+                @Override
+                public void onValueChange(ValueChangeEvent<String> event) {
+                  assertEquals(testHistoryToken, event.getValue());
+                  assertEquals(testHistoryToken, History.getToken());
+                }
+              });
       Document document = Document.get();
       NativeEvent event = document.createClickEvent(1, 0, 0, 0, 0, false, false, false, false);
       link.getElement().dispatchEvent(event);

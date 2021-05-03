@@ -50,7 +50,9 @@
     <module>gwt-dom</module>
     <module>gwt-dom-style-definitions</module>
     <module>gwt-editor</module>
-    <module>gwt-event-dom</module>
+<!--
+    <module>gwt-event</module>
+-->
     <module>gwt-geolocation</module>
     <module>gwt-json</module>
     <module>gwt-jsonp</module>
@@ -63,6 +65,7 @@
     <module>gwt-xml</module>
     <module>gwt-resources</module>
     <module>gwt-widgets</module>
+    <module>gwt-i18n</module>
   </modules>
 
   <properties>
@@ -89,6 +92,7 @@
     <maven.failsafe.plugin>3.0.0-M5</maven.failsafe.plugin>
     <maven.j2cl.plugin>0.17-SNAPSHOT</maven.j2cl.plugin>
 
+    <javaparser.core.version>3.20.2</javaparser.core.version>
     <revision>HEAD-SNAPSHOT</revision>
     <auto.common.version>0.10</auto.common.version>
     <auto.service.version>1.0-rc6</auto.service.version>
@@ -103,6 +107,7 @@
 
     <gwt.version>2.9.0</gwt.version>
     <javax.validation.version>1.0.0.GA</javax.validation.version>
+    <javax.annotation.api.version>1.3.1</javax.annotation.api.version>
 
     <elemental2.version>1.1.0</elemental2.version>
     <com.google.jsinterop.base>1.0.0</com.google.jsinterop.base>
@@ -138,16 +143,36 @@
       <dependency>
         <groupId>org.gwtproject.event</groupId>
         <artifactId>gwt-event-dom</artifactId>
-        <version>${revision}</version>
+        <version>1.0.0-RC1</version>
       </dependency>
       <dependency>
         <groupId>org.gwtproject.event</groupId>
         <artifactId>gwt-event-legacy</artifactId>
-        <version>${revision}</version>
+        <version>1.0.0-RC1</version>
+      </dependency>
+      <dependency>
+        <groupId>org.gwtproject.event</groupId>
+        <artifactId>gwt-logical-event</artifactId>
+        <version>1.0.0-RC1</version>
+      </dependency>
+      <dependency>
+        <groupId>org.gwtproject.event</groupId>
+        <artifactId>gwt-event-compat</artifactId>
+        <version>1.0.0-RC1</version>
       </dependency>
       <dependency>
         <groupId>org.gwtproject.timer</groupId>
         <artifactId>gwt-timer</artifactId>
+        <version>${revision}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.gwtproject.regexp</groupId>
+        <artifactId>gwt-regexp</artifactId>
+        <version>${revision}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.gwtproject.resources</groupId>
+        <artifactId>gwt-resources-api</artifactId>
         <version>${revision}</version>
       </dependency>
       <dependency>
@@ -171,19 +196,19 @@
         <version>${revision}</version>
       </dependency>
       <dependency>
-        <groupId>org.gwtproject.history</groupId>
+        <groupId>org.gwtproject.user.history</groupId>
         <artifactId>gwt-history</artifactId>
         <version>1.0.0-RC1</version>
       </dependency>
       <dependency>
         <groupId>org.gwtproject.http</groupId>
         <artifactId>gwt-http</artifactId>
-        <version>1.0.0-RC1</version>
+        <version>${revision}</version>
       </dependency>
       <dependency>
-        <groupId>org.gwtproject.regexp</groupId>
-        <artifactId>gwt-regexp</artifactId>
-        <version>${revision}</version>
+        <groupId>org.gwtproject.uibinder</groupId>
+        <artifactId>gwt-uibinder-client</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.gwtproject.json</groupId>
@@ -203,6 +228,11 @@
       <dependency>
         <groupId>org.gwtproject.safehtml</groupId>
         <artifactId>gwt-safehtml</artifactId>
+        <version>${revision}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.gwtproject.safehtml</groupId>
+        <artifactId>gwt-safehtml-processor</artifactId>
         <version>${revision}</version>
       </dependency>
       <dependency>
@@ -231,9 +261,9 @@
         <version>${revision}</version>
       </dependency>
       <dependency>
-        <groupId>org.gwtproject.window</groupId>
+        <groupId>org.gwtproject.user.window</groupId>
         <artifactId>gwt-window</artifactId>
-        <version>1.0.0-RC1</version>
+        <version>1.0.0-RC2</version>
       </dependency>
       <dependency>
         <groupId>org.gwtproject.xhr</groupId>
@@ -243,6 +273,26 @@
       <dependency>
         <groupId>org.gwtproject.xml</groupId>
         <artifactId>gwt-xml</artifactId>
+        <version>${revision}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.gwtproject.i18n</groupId>
+        <artifactId>gwt-i18n</artifactId>
+        <version>${revision}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.gwtproject.i18n</groupId>
+        <artifactId>gwt-i18n-processor</artifactId>
+        <version>${revision}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.gwtproject.i18n</groupId>
+        <artifactId>gwt-datetimeformat</artifactId>
+        <version>${revision}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.gwtproject.i18n</groupId>
+        <artifactId>gwt-numberformat</artifactId>
         <version>${revision}</version>
       </dependency>
       <dependency>
@@ -323,6 +373,11 @@
         <version>${commons.io.version}</version>
       </dependency>
       <dependency>
+        <groupId>javax.annotation</groupId>
+        <artifactId>javax.annotation-api</artifactId>
+        <version>${javax.annotation.api.version}</version>
+      </dependency>
+      <dependency>
         <groupId>com.vertispan.j2cl</groupId>
         <artifactId>junit-annotations</artifactId>
         <version>${j2cl.version}</version>
@@ -354,6 +409,11 @@
         <artifactId>junit</artifactId>
         <version>${junit.version}</version>
       </dependency>
+      <dependency>
+        <groupId>com.github.javaparser</groupId>
+        <artifactId>javaparser-core</artifactId>
+        <version>${javaparser.core.version}</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -369,6 +429,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-source-plugin</artifactId>
+          <version>${maven.source.plugin}</version>
         </plugin>
         <plugin>
           <groupId>com.mycila</groupId>

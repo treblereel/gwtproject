@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,16 +15,14 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.DivElement;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
-import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.user.client.DOM;
 
-/**
- * Tests {@link RootPanel}.
- */
+/** Tests {@link RootPanel}. */
 @J2clTestInput(RootPanelTest.class)
 public class RootPanelTest extends GWTTestCase {
 
@@ -119,9 +117,7 @@ public class RootPanelTest extends GWTTestCase {
     assertFalse(RootPanel.isInDetachList(bad1));
   }
 
-  /**
-   * Ensures that {@link RootPanel#get(String)} behaves properly.
-   */
+  /** Ensures that {@link RootPanel#get(String)} behaves properly. */
   public void testGetById() {
     Document doc = Document.get();
     DivElement div = doc.createDivElement();
@@ -136,10 +132,12 @@ public class RootPanelTest extends GWTTestCase {
 
     assertSame(
         "RootPanel.get() should return the same instancefor the same id",
-        aRoot, RootPanel.get("a"));
+        aRoot,
+        RootPanel.get("a"));
     assertSame(
         "RootPanel.get() should return the same instancefor the same id",
-        bRoot, RootPanel.get("b"));
+        bRoot,
+        RootPanel.get("b"));
     assertNotSame("RootPanels a and b should be different", aRoot, bRoot);
 
     // If a RootPanel's element is replaced in the DOM, you should get a
@@ -176,7 +174,7 @@ public class RootPanelTest extends GWTTestCase {
 
   /**
    * Create a div and attach it to the {@link RootPanel}.
-   * 
+   *
    * @return the new div
    */
   private Element createAttachedDivElement() {

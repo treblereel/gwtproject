@@ -18,12 +18,9 @@ package org.gwtproject.user.client.ui;
 import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.client.Element;
-import org.gwtproject.user.client.Command;
 import org.gwtproject.user.client.DOM;
 
-/**
- * Test cases for {@link StackPanel}.
- */
+/** Test cases for {@link StackPanel}. */
 @J2clTestInput(StackPanelTest.class)
 public class StackPanelTest extends PanelTestBase<StackPanel> {
 
@@ -71,43 +68,37 @@ public class StackPanelTest extends PanelTestBase<StackPanel> {
 
     // Check the body ids
     UIObjectTest.assertDebugId("myStack", p.getElement());
-    UIObjectTest.assertDebugId("myStack-content0",
-        DOM.getParent(a.getElement()));
-    UIObjectTest.assertDebugId("myStack-content1",
-        DOM.getParent(b.getElement()));
-    UIObjectTest.assertDebugId("myStack-content2",
-        DOM.getParent(c.getElement()));
+    UIObjectTest.assertDebugId("myStack-content0", DOM.getParent(a.getElement()));
+    UIObjectTest.assertDebugId("myStack-content1", DOM.getParent(b.getElement()));
+    UIObjectTest.assertDebugId("myStack-content2", DOM.getParent(c.getElement()));
 
     delayTestFinish(5000);
 
     // Check the header IDs
-    Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-      @Override
-      public void execute() {
-        UIObjectTest.assertDebugIdContents("myStack-text0", "header a");
-        UIObjectTest.assertDebugIdContents("myStack-text1", "header b");
-        UIObjectTest.assertDebugIdContents("myStack-text2", "header c");
+    Scheduler.get()
+        .scheduleDeferred(
+            new Scheduler.ScheduledCommand() {
+              @Override
+              public void execute() {
+                UIObjectTest.assertDebugIdContents("myStack-text0", "header a");
+                UIObjectTest.assertDebugIdContents("myStack-text1", "header b");
+                UIObjectTest.assertDebugIdContents("myStack-text2", "header c");
 
-        Element td0 = DOM.getElementById("gwt-debug-myStack-text-wrapper0");
-        Element td1 = DOM.getElementById("gwt-debug-myStack-text-wrapper1");
-        Element td2 = DOM.getElementById("gwt-debug-myStack-text-wrapper2");
+                Element td0 = DOM.getElementById("gwt-debug-myStack-text-wrapper0");
+                Element td1 = DOM.getElementById("gwt-debug-myStack-text-wrapper1");
+                Element td2 = DOM.getElementById("gwt-debug-myStack-text-wrapper2");
 
-        assertEquals(p.getElement(),
-            DOM.getParent(DOM.getParent(DOM.getParent(td0))));
-        assertEquals(p.getElement(),
-            DOM.getParent(DOM.getParent(DOM.getParent(td1))));
-        assertEquals(p.getElement(),
-            DOM.getParent(DOM.getParent(DOM.getParent(td2))));
+                assertEquals(p.getElement(), DOM.getParent(DOM.getParent(DOM.getParent(td0))));
+                assertEquals(p.getElement(), DOM.getParent(DOM.getParent(DOM.getParent(td1))));
+                assertEquals(p.getElement(), DOM.getParent(DOM.getParent(DOM.getParent(td2))));
 
-        RootPanel.get().remove(p);
-        finishTest();
-      }
-    });
+                RootPanel.get().remove(p);
+                finishTest();
+              }
+            });
   }
 
-  /**
-   * Tests getSelectedStack.
-   */
+  /** Tests getSelectedStack. */
   public void testGetSelectedStack() {
     StackPanel p = createStackPanel();
     assertEquals(-1, p.getSelectedIndex());
@@ -126,9 +117,7 @@ public class StackPanelTest extends PanelTestBase<StackPanel> {
     assertEquals(2, p.getSelectedIndex());
   }
 
-  /**
-   * Tests new remove implementation for StackPanel.
-   */
+  /** Tests new remove implementation for StackPanel. */
   public void testRemove() {
     StackPanel p = createStackPanel();
     Label a = new Label("a");
@@ -161,9 +150,7 @@ public class StackPanelTest extends PanelTestBase<StackPanel> {
     assertEquals("d", curContents(p));
   }
 
-  /**
-   * Tests adding and removing class names from header row elements.
-   */
+  /** Tests adding and removing class names from header row elements. */
   public void testAddAndRemoveHeaderStyleName() {
     final String firstStyleName = "className";
     final String secondStyleName = "secondClassName";
@@ -202,18 +189,18 @@ public class StackPanelTest extends PanelTestBase<StackPanel> {
   }
 
   private static void assertContainsStyleName(Element element, String styleName) {
-    assertTrue("Style name '" + styleName + "' was not found in '" + element.getClassName() + "'",
+    assertTrue(
+        "Style name '" + styleName + "' was not found in '" + element.getClassName() + "'",
         element.hasClassName(styleName));
   }
 
   private static void assertDoesNotContainStyleName(Element element, String styleName) {
-    assertFalse("Style name '" + styleName + "' was found in '" + element.getClassName() + "'",
+    assertFalse(
+        "Style name '" + styleName + "' was found in '" + element.getClassName() + "'",
         element.hasClassName(styleName));
   }
 
-  /**
-   * Create a new stack panel.
-   */
+  /** Create a new stack panel. */
   protected StackPanel createStackPanel() {
     return new StackPanel();
   }

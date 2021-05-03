@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,19 +15,20 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.core.client.GWT;
 import org.gwtproject.dom.client.Document;
-import com.google.gwt.junit.client.GWTTestCase;
 
 /**
- * A series of tests to ensure that widgets with a wrap() method properly assert
- * their element types.
+ * A series of tests to ensure that widgets with a wrap() method properly assert their element
+ * types.
  */
 @J2clTestInput(WidgetSubclassingTest.class)
 public class WidgetSubclassingTest extends GWTTestCase {
 
-  private static final String ASSERTION_ERROR = "Should have received an assertion error trying to use the wrong element type";
+  private static final String ASSERTION_ERROR =
+      "Should have received an assertion error trying to use the wrong element type";
 
   @Override
   public String getModuleName() {

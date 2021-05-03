@@ -16,17 +16,14 @@
 package org.gwtproject.cell.client;
 
 import com.google.j2cl.junit.apt.J2clTestInput;
+import java.util.Locale;
 import org.gwtproject.cell.client.Cell.Context;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.ImageElement;
 import org.gwtproject.safehtml.shared.SafeHtmlBuilder;
 
-import java.util.Locale;
-
-/**
- * Tests for {@link TextCell}.
- */
+/** Tests for {@link TextCell}. */
 @J2clTestInput(ImageLoadingCellTest.class)
 public class ImageLoadingCellTest extends CellTestBase<String> {
 
@@ -57,7 +54,7 @@ public class ImageLoadingCellTest extends CellTestBase<String> {
     SafeHtmlBuilder sb = new SafeHtmlBuilder();
     Context context = new Context(-1, -1, null);
     cell.render(context, value, sb);
- 
+
     // Render the html.
     Element elem = Document.get().createDivElement();
     elem.setInnerSafeHtml(sb.toSafeHtml());
@@ -87,7 +84,7 @@ public class ImageLoadingCellTest extends CellTestBase<String> {
 
   @Override
   protected String[] getConsumedEvents() {
-    return new String[]{"load", "error"};
+    return new String[] {"load", "error"};
   }
 
   @Override

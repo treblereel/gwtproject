@@ -27,16 +27,11 @@ import org.gwtproject.user.client.ui.FormPanel.SubmitCompleteHandler;
 import org.gwtproject.user.client.ui.FormPanel.SubmitEvent;
 import org.gwtproject.user.client.ui.FormPanel.SubmitHandler;
 
-/**
- * Tests the FormPanel.
- *
- */
+/** Tests the FormPanel. */
 @J2clTestInput(FormPanelTest.class)
 public class FormPanelTest extends SimplePanelTestBase<FormPanel> {
 
-  /**
-   * The maximum amount of time to wait for a test to finish.
-   */
+  /** The maximum amount of time to wait for a test to finish. */
   private static final int TEST_DELAY = 15000;
 
   public static boolean clicked = false;
@@ -54,18 +49,20 @@ public class FormPanelTest extends SimplePanelTestBase<FormPanel> {
     form.setWidget(tb);
     form.setAction("http://www.google.com/search");
 
-    form.addSubmitHandler(new SubmitHandler() {
-      @Override
-      public void onSubmit(SubmitEvent event) {
-        event.cancel();
-      }
-    });
-    form.addSubmitCompleteHandler(new SubmitCompleteHandler() {
-      @Override
-      public void onSubmitComplete(SubmitCompleteEvent event) {
-        fail("Form was canceled and should not have been submitted");
-      }
-    });
+    form.addSubmitHandler(
+        new SubmitHandler() {
+          @Override
+          public void onSubmit(SubmitEvent event) {
+            event.cancel();
+          }
+        });
+    form.addSubmitCompleteHandler(
+        new SubmitCompleteHandler() {
+          @Override
+          public void onSubmitComplete(SubmitCompleteEvent event) {
+            fail("Form was canceled and should not have been submitted");
+          }
+        });
 
     form.submit();
   }
@@ -84,22 +81,24 @@ public class FormPanelTest extends SimplePanelTestBase<FormPanel> {
     RootPanel.get().add(form);
 
     delayTestFinish(TEST_DELAY);
-    form.addSubmitCompleteHandler(new SubmitCompleteHandler() {
-      @Override
-      public void onSubmitComplete(SubmitCompleteEvent event) {
-        // The server just echoes the contents of the request. The following
-        // string should have been present in it.
-        assertTrue(event.getResults().indexOf(
-            "Content-Disposition: form-data; name=\"file0\";") != -1);
-        finishTest();
-      }
-    });
+    form.addSubmitCompleteHandler(
+        new SubmitCompleteHandler() {
+          @Override
+          public void onSubmitComplete(SubmitCompleteEvent event) {
+            // The server just echoes the contents of the request. The following
+            // string should have been present in it.
+            assertTrue(
+                event.getResults().indexOf("Content-Disposition: form-data; name=\"file0\";")
+                    != -1);
+            finishTest();
+          }
+        });
     form.submit();
   }
 
   /**
-   * Tests submitting using url-encoded get, with all form widgets (other than
-   * FileUpload, which requires post/multipart.
+   * Tests submitting using url-encoded get, with all form widgets (other than FileUpload, which
+   * requires post/multipart.
    */
   public void testMethodGet() {
     final FormPanel form = new FormPanel();
@@ -152,16 +151,20 @@ public class FormPanelTest extends SimplePanelTestBase<FormPanel> {
 
     delayTestFinish(TEST_DELAY);
 
-    form.addSubmitCompleteHandler(new SubmitCompleteHandler() {
-      @Override
-      public void onSubmitComplete(SubmitCompleteEvent event) {
-        // The server just echoes the query string. This is what it should look
-        // like.
-        assertTrue(event.getResults().equals(
-            "tb=text&amp;ptb=password&amp;cb1=on&amp;rb0=on&amp;lb=value1&amp;h=v"));
-        finishTest();
-      }
-    });
+    form.addSubmitCompleteHandler(
+        new SubmitCompleteHandler() {
+          @Override
+          public void onSubmitComplete(SubmitCompleteEvent event) {
+            // The server just echoes the query string. This is what it should look
+            // like.
+            assertTrue(
+                event
+                    .getResults()
+                    .equals(
+                        "tb=text&amp;ptb=password&amp;cb1=on&amp;rb0=on&amp;lb=value1&amp;h=v"));
+            finishTest();
+          }
+        });
 
     form.submit();
   }
@@ -172,11 +175,17 @@ public class FormPanelTest extends SimplePanelTestBase<FormPanel> {
     String iframeName = Document.get().createUniqueId();
     final Element container = Document.get().createDivElement();
     container.setInnerHTML(
-        "<form method='post' target='" + iframeName + "' action='"
+        "<form method='post' target='"
+            + iframeName
+            + "' action='"
             + "formHandler?sendHappyHtml'>"
             + "<input type='submit' id='submitBtn'></input></form>"
-            + "<iframe src=\"javascript:\'\'\" id='" + iframeId + "' "
-            + "name='" + iframeName + "'></iframe>");
+            + "<iframe src=\"javascript:\'\'\" id='"
+            + iframeId
+            + "' "
+            + "name='"
+            + iframeName
+            + "'></iframe>");
     Document.get().getBody().appendChild(container);
 
     // Wrap the form and make sure its target frame is intact.
@@ -188,12 +197,13 @@ public class FormPanelTest extends SimplePanelTestBase<FormPanel> {
 
     // Submit the form using the submit button and make sure the submit event fires.
     delayTestFinish(TEST_DELAY);
-    form.addSubmitHandler(new SubmitHandler() {
-      @Override
-      public void onSubmit(SubmitEvent event) {
-        finishTest();
-      }
-    });
+    form.addSubmitHandler(
+        new SubmitHandler() {
+          @Override
+          public void onSubmit(SubmitEvent event) {
+            finishTest();
+          }
+        });
 
     Document.get().getElementById("submitBtn").<InputElement>cast().click();
   }
@@ -226,25 +236,24 @@ public class FormPanelTest extends SimplePanelTestBase<FormPanel> {
     dlg.show();
 
     delayTestFinish(TEST_DELAY);
-    form.addSubmitCompleteHandler(new SubmitCompleteHandler() {
-      @Override
-      public void onSubmitComplete(SubmitCompleteEvent event) {
-        // Make sure we get our results back.
-        assertTrue(event.getResults().equals("tb=text"));
-        finishTest();
+    form.addSubmitCompleteHandler(
+        new SubmitCompleteHandler() {
+          @Override
+          public void onSubmitComplete(SubmitCompleteEvent event) {
+            // Make sure we get our results back.
+            assertTrue(event.getResults().equals("tb=text"));
+            finishTest();
 
-        // Hide the dialog on submit complete. This was causing problems at one
-        // point because hiding the dialog detached the form and iframe.
-        dlg.hide();
-      }
-    });
+            // Hide the dialog on submit complete. This was causing problems at one
+            // point because hiding the dialog detached the form and iframe.
+            dlg.hide();
+          }
+        });
 
     form.submit();
   }
 
-  /**
-   * Tests submitting an alternate frame.
-   */
+  /** Tests submitting an alternate frame. */
   public void testSubmitFrame() {
     final NamedFrame frame = new NamedFrame("myFrame");
     FormPanel form = new FormPanel(frame);
@@ -255,14 +264,15 @@ public class FormPanelTest extends SimplePanelTestBase<FormPanel> {
 
     delayTestFinish(TEST_DELAY);
     form.submit();
-    Timer t = new Timer() {
-      @Override
-      public void run() {
-        // Make sure the frame got the contents we expected.
-        assertTrue(isHappyDivPresent(frame.getElement()));
-        finishTest();
-      }
-    };
+    Timer t =
+        new Timer() {
+          @Override
+          public void run() {
+            // Make sure the frame got the contents we expected.
+            assertTrue(isHappyDivPresent(frame.getElement()));
+            finishTest();
+          }
+        };
 
     // Wait 5 seconds before checking the results.
     t.schedule(TEST_DELAY - 2000);
@@ -274,11 +284,17 @@ public class FormPanelTest extends SimplePanelTestBase<FormPanel> {
     final String iframeName = Document.get().createUniqueId();
     final Element container = Document.get().createDivElement();
     container.setInnerHTML(
-        "<form method='post' target='" + iframeName + "' action='"
+        "<form method='post' target='"
+            + iframeName
+            + "' action='"
             + "formHandler?sendHappyHtml'>"
             + "<input type='hidden' name='foo' value='bar'></input></form>"
-            + "<iframe src=\"javascript:\'\'\" id='" + iframeId + "' "
-            + "name='" + iframeName + "'></iframe>");
+            + "<iframe src=\"javascript:\'\'\" id='"
+            + iframeId
+            + "' "
+            + "name='"
+            + iframeName
+            + "'></iframe>");
     Document.get().getBody().appendChild(container);
 
     // Wrap the form and make sure its target frame is intact.
@@ -306,17 +322,17 @@ public class FormPanelTest extends SimplePanelTestBase<FormPanel> {
 
   public void testWrappedFormTargetAssertion() {
     // Testing a dev-mode-only assertion.
-      // Create a form element with the target attribute already set.
-      final Element container = Document.get().createDivElement();
-      container.setInnerHTML("<form target='foo'></form>");
-      Document.get().getBody().appendChild(container);
+    // Create a form element with the target attribute already set.
+    final Element container = Document.get().createDivElement();
+    container.setInnerHTML("<form target='foo'></form>");
+    Document.get().getBody().appendChild(container);
 
-      try {
-        // Attempt to wrap it, requesting that an iframe be created.
-        FormPanel.wrap(container.getFirstChildElement(), true);
-        fail("Assertion expected wrapping a form with the target set");
-      } catch (AssertionError e) {
-        assertTrue(e.getMessage().contains("target is already set"));
+    try {
+      // Attempt to wrap it, requesting that an iframe be created.
+      FormPanel.wrap(container.getFirstChildElement(), true);
+      fail("Assertion expected wrapping a form with the target set");
+    } catch (AssertionError e) {
+      assertTrue(e.getMessage().contains("target is already set"));
     }
   }
 
@@ -325,9 +341,9 @@ public class FormPanelTest extends SimplePanelTestBase<FormPanel> {
     final Element container = Document.get().createDivElement();
     container.setInnerHTML(
         "<form method='get' "
-        + "encoding='application/x-www-form-urlencoded' action='"
-        + "formHandler'>"
-        + "<input type='text' name='tb' value='text'></input></form>");
+            + "encoding='application/x-www-form-urlencoded' action='"
+            + "formHandler'>"
+            + "<input type='text' name='tb' value='text'></input></form>");
     Document.get().getBody().appendChild(container);
 
     // Wrap the form, asking for an iframe to be created.
@@ -335,14 +351,15 @@ public class FormPanelTest extends SimplePanelTestBase<FormPanel> {
 
     // Give the submit 5s to complete.
     delayTestFinish(TEST_DELAY);
-    form.addSubmitCompleteHandler(new SubmitCompleteHandler() {
-      @Override
-      public void onSubmitComplete(SubmitCompleteEvent event) {
-        // Make sure we get our results back.
-        assertTrue(event.getResults().equals("tb=text"));
-        finishTest();
-      }
-    });
+    form.addSubmitCompleteHandler(
+        new SubmitCompleteHandler() {
+          @Override
+          public void onSubmitComplete(SubmitCompleteEvent event) {
+            // Make sure we get our results back.
+            assertTrue(event.getResults().equals("tb=text"));
+            finishTest();
+          }
+        });
 
     form.submit();
   }
@@ -354,7 +371,8 @@ public class FormPanelTest extends SimplePanelTestBase<FormPanel> {
 
   private boolean isHappyDivPresent(Element iframe) {
     HTMLIFrameElement _iframe = Js.uncheckedCast(iframe);
-    elemental2.dom.Document doc = Js.uncheckedCast(Js.asPropertyMap(_iframe.contentWindow).get("document"));
+    elemental2.dom.Document doc =
+        Js.uncheckedCast(Js.asPropertyMap(_iframe.contentWindow).get("document"));
     return doc.getElementById(":)") != null;
   }
 }

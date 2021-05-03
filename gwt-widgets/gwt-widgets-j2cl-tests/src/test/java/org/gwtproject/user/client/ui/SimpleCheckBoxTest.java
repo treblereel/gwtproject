@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,15 +15,13 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.ButtonElement;
 import org.gwtproject.event.logical.shared.ValueChangeEvent;
 import org.gwtproject.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.junit.client.GWTTestCase;
 
-/**
- * Tests for {@link SimpleCheckBox}.
- */
+/** Tests for {@link SimpleCheckBox}. */
 @J2clTestInput(SimpleCheckBoxTest.class)
 public class SimpleCheckBoxTest extends GWTTestCase {
 
@@ -40,7 +38,6 @@ public class SimpleCheckBoxTest extends GWTTestCase {
   public String getModuleName() {
     return "org.gwtproject.user.UserTest";
   }
-
 
   public void testProperties() {
     SimpleCheckBox checkbox = new SimpleCheckBox();
@@ -65,7 +62,6 @@ public class SimpleCheckBoxTest extends GWTTestCase {
     RootPanel.get().remove(checkbox);
     assertEquals(true, checkbox.isChecked());
   }
-
 
   public void testValueChangeEvent() {
     SimpleCheckBox cb = new SimpleCheckBox();
@@ -92,7 +88,7 @@ public class SimpleCheckBoxTest extends GWTTestCase {
     cb.setValue(true, true);
     assertTrue(h.received);
 
-    cb.getElement().<ButtonElement> cast().click();
+    cb.getElement().<ButtonElement>cast().click();
     assertFalse(h.received);
   }
 }

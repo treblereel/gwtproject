@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -17,13 +17,10 @@ package org.gwtproject.user.client.ui;
 
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
+import java.util.Locale;
 import org.gwtproject.safehtml.shared.SafeHtmlUtils;
 
-import java.util.Locale;
-
-/**
- * Tests the {@link TreeItem}.
- */
+/** Tests the {@link TreeItem}. */
 @J2clTestInput(TreeItemTest.class)
 public class TreeItemTest extends GWTTestCase {
 
@@ -50,10 +47,8 @@ public class TreeItemTest extends GWTTestCase {
     assertEquals(b, item.getChild(0));
     assertEquals(a, item.getChild(1));
   }
-  
-  /**
-   * Test for {@link TreeItem#addItem(IsTreeItem)}.
-   */
+
+  /** Test for {@link TreeItem#addItem(IsTreeItem)}. */
   public void testAddItemIsTreeItem() {
     TreeItem root = new TreeItem(SafeHtmlUtils.fromSafeConstant("foo"));
     TreeItem item = new TreeItem(SafeHtmlUtils.fromSafeConstant("hello"));
@@ -67,10 +62,8 @@ public class TreeItemTest extends GWTTestCase {
     TreeItem child = item.addItem(SafeHtmlUtils.fromSafeConstant(HTML));
     assertEquals(HTML, child.getHTML().toLowerCase(Locale.ROOT));
   }
-  
-  /**
-   * Test for {@link Tree#addTextItem(String)}.
-   */
+
+  /** Test for {@link Tree#addTextItem(String)}. */
   public void testAddTextItem() {
     TreeItem root = new TreeItem(SafeHtmlUtils.fromSafeConstant("foo"));
     String text = "Some<br>text";
@@ -80,7 +73,7 @@ public class TreeItemTest extends GWTTestCase {
     String html = item.getHTML().replace(">", "&gt;");
     assertEquals("Some&lt;br&gt;text", html);
   }
-  
+
   public void testAsTreeItem() {
     TreeItem item = new TreeItem(SafeHtmlUtils.fromSafeConstant("foo"));
     assertSame(item, item.asTreeItem());
@@ -119,9 +112,7 @@ public class TreeItemTest extends GWTTestCase {
     assertEquals(b.getElement().getNextSiblingElement(), c.getElement());
   }
 
-  /**
-   * Make sure that we can reinsert a child item into its tree.
-   */
+  /** Make sure that we can reinsert a child item into its tree. */
   public void testInsertIntoSameItem() {
     TreeItem item = new TreeItem();
     TreeItem a = item.addItem(SafeHtmlUtils.fromSafeConstant("a"));
@@ -174,9 +165,7 @@ public class TreeItemTest extends GWTTestCase {
     assertEquals("Some&lt;br&gt;text", html);
   }
 
-  /**
-   * Test for {@link TreeItem#removeItem(IsTreeItem)}.
-   */
+  /** Test for {@link TreeItem#removeItem(IsTreeItem)}. */
   public void testRemoveIsTreeItem() {
     TreeItem root = new TreeItem(SafeHtmlUtils.fromSafeConstant("root"));
     TreeItem itemA = root.addItem(SafeHtmlUtils.fromSafeConstant("a"));
@@ -192,10 +181,8 @@ public class TreeItemTest extends GWTTestCase {
     // ignore null
     root.removeItem((IsTreeItem) null);
   }
-  
-  /**
-   * Test for {@link TreeItem#removeItems()}.
-   */
+
+  /** Test for {@link TreeItem#removeItems()}. */
   public void testRemoveItems() {
     TreeItem root = new TreeItem(SafeHtmlUtils.fromSafeConstant("root"));
     TreeItem itemA = root.addItem(SafeHtmlUtils.fromSafeConstant("a"));
@@ -211,7 +198,7 @@ public class TreeItemTest extends GWTTestCase {
 
   public void testSafeHtmlConstructor() {
     TreeItem item = new TreeItem(SafeHtmlUtils.fromSafeConstant(HTML));
-    
+
     assertEquals(HTML, item.getHTML().toLowerCase(Locale.ROOT));
   }
 
@@ -222,8 +209,8 @@ public class TreeItemTest extends GWTTestCase {
   }
 
   /**
-   * Test that setting the widget to null does not modify the widget. See issue
-   * 2297 for more details.
+   * Test that setting the widget to null does not modify the widget. See issue 2297 for more
+   * details.
    */
   public void testSetWidgetToNull() {
     Label widget = new Label("Test");

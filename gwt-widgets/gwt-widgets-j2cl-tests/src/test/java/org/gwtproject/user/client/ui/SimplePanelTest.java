@@ -17,9 +17,7 @@ package org.gwtproject.user.client.ui;
 
 import com.google.j2cl.junit.apt.J2clTestInput;
 
-/**
- * Eponymous unit test.
- */
+/** Eponymous unit test. */
 @J2clTestInput(SimplePanelTest.class)
 public class SimplePanelTest extends SimplePanelTestBase<SimplePanel> {
 

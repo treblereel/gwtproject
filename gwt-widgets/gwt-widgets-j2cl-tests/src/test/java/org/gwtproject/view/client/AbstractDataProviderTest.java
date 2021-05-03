@@ -17,16 +17,13 @@ package org.gwtproject.view.client;
 
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-/**
- * Test cases for {@link AbstractDataProvider}.
- */
+/** Test cases for {@link AbstractDataProvider}. */
 @J2clTestInput(AbstractDataProviderTest.class)
 public class AbstractDataProviderTest extends GWTTestCase {
 
@@ -38,7 +35,7 @@ public class AbstractDataProviderTest extends GWTTestCase {
   static class MockDataProvider<T> extends AbstractDataProvider<T> {
 
     private HasData<T> lastChanged;
-    
+
     public MockDataProvider(ProvidesKey<T> keyProvider) {
       super(keyProvider);
     }
@@ -125,7 +122,8 @@ public class AbstractDataProviderTest extends GWTTestCase {
       MockHasData<String> display2 = new MockHasData<String>();
       display2.setVisibleRange(30, 35);
       provider.addDataDisplay(display2);
-      Set<org.gwtproject.view.client.Range> ranges = new HashSet<org.gwtproject.view.client.Range>();
+      Set<org.gwtproject.view.client.Range> ranges =
+          new HashSet<org.gwtproject.view.client.Range>();
       for (org.gwtproject.view.client.Range range : provider.getRanges()) {
         ranges.add(range);
       }
@@ -163,14 +161,15 @@ public class AbstractDataProviderTest extends GWTTestCase {
     assertNull(provider.getKeyProvider());
     assertEquals("test", provider.getKey("test"));
     assertEquals(null, provider.getKey(null));
-    
+
     // Set a key provider
-    org.gwtproject.view.client.ProvidesKey<String> keyProvider = new org.gwtproject.view.client.ProvidesKey<String>() {
-      @Override
-      public Object getKey(String item) {
-        return item == null ? item : item.toUpperCase(Locale.ROOT);
-      }
-    };
+    org.gwtproject.view.client.ProvidesKey<String> keyProvider =
+        new org.gwtproject.view.client.ProvidesKey<String>() {
+          @Override
+          public Object getKey(String item) {
+            return item == null ? item : item.toUpperCase(Locale.ROOT);
+          }
+        };
     provider = createDataProvider(keyProvider);
     assertEquals(keyProvider, provider.getKeyProvider());
     assertEquals("TEST", provider.getKey("test"));

@@ -21,9 +21,7 @@ import org.gwtproject.dom.style.shared.Display;
 import org.gwtproject.user.client.ui.FocusPanel;
 import org.gwtproject.user.client.ui.RootPanel;
 
-/**
- * Test FocusImpl.
- */
+/** Test FocusImpl. */
 @J2clTestInput(FocusImplTest.class)
 public class FocusImplTest extends GWTTestCase {
 

@@ -46,6 +46,14 @@
     <dependencies>
         <!-- test dependencies -->
         <dependency>
+            <groupId>org.gwtproject.i18n</groupId>
+            <artifactId>gwt-i18n</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.gwtproject.i18n</groupId>
+            <artifactId>gwt-i18n-processor</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.gwtproject.resources</groupId>
             <artifactId>gwt-resources-api</artifactId>
         </dependency>
@@ -106,6 +114,12 @@
                 <configuration>
                     <!-- support htmlunit, which can't handle es2016 classes -->
                     <compilationLevel>ADVANCED</compilationLevel>
+                    <defines>
+                        <gwt.enableDebugId>true</gwt.enableDebugId>
+                        <gwt.cspCompatModeEnabled>true</gwt.cspCompatModeEnabled>
+                        <gwt.cspCompatModeEnabled>true</gwt.cspCompatModeEnabled>
+                        <gwt.strictCspTestingEnabled>true</gwt.strictCspTestingEnabled>
+                    </defines>
                 </configuration>
                 <executions>
                     <execution>

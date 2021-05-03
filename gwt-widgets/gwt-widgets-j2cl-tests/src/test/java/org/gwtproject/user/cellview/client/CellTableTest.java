@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -16,6 +16,7 @@
 package org.gwtproject.user.cellview.client;
 
 import com.google.j2cl.junit.apt.J2clTestInput;
+import java.util.Locale;
 import org.gwtproject.cell.client.TextCell;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.TableCellElement;
@@ -31,17 +32,11 @@ import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.RootPanel;
 import org.gwtproject.user.client.ui.Widget;
 
-import java.util.Locale;
-
-/**
- * Tests for {@link CellTable}.
- */
+/** Tests for {@link CellTable}. */
 @J2clTestInput(CellTableTest.class)
 public class CellTableTest extends AbstractCellTableTestBase<CellTable<String>> {
 
-  /**
-   * Test headers that span multiple columns.
-   */
+  /** Test headers that span multiple columns. */
   public void testMultiColumnHeader() {
     Resources res = new CellTable_ResourcesImpl();
     CellTable<String> table = new CellTable<>(10, res);
@@ -59,12 +54,14 @@ public class CellTableTest extends AbstractCellTableTestBase<CellTable<String>> 
     assertEquals(0, getHeaderCount(table));
 
     // Single column.
-    table.addColumn(new TextColumn<String>() {
-      @Override
-      public String getValue(String object) {
-        return null;
-      }
-    }, header);
+    table.addColumn(
+        new TextColumn<String>() {
+          @Override
+          public String getValue(String object) {
+            return null;
+          }
+        },
+        header);
     table.getPresenter().flush();
     assertEquals(1, getHeaderCount(table));
     assertEquals(1, getHeaderElement(table, 0).getColSpan());
@@ -73,12 +70,14 @@ public class CellTableTest extends AbstractCellTableTestBase<CellTable<String>> 
     assertTrue(getHeaderElement(table, 0).getClassName().contains(styleLastColumn));
 
     // Header spans both columns.
-    table.addColumn(new TextColumn<String>() {
-      @Override
-      public String getValue(String object) {
-        return null;
-      }
-    }, header);
+    table.addColumn(
+        new TextColumn<String>() {
+          @Override
+          public String getValue(String object) {
+            return null;
+          }
+        },
+        header);
     table.getPresenter().flush();
     assertEquals(1, getHeaderCount(table));
     assertEquals(2, getHeaderElement(table, 0).getColSpan());
@@ -87,12 +86,14 @@ public class CellTableTest extends AbstractCellTableTestBase<CellTable<String>> 
     assertTrue(getHeaderElement(table, 0).getClassName().contains(styleLastColumn));
 
     // Header spans all three columns.
-    table.addColumn(new TextColumn<String>() {
-      @Override
-      public String getValue(String object) {
-        return null;
-      }
-    }, header);
+    table.addColumn(
+        new TextColumn<String>() {
+          @Override
+          public String getValue(String object) {
+            return null;
+          }
+        },
+        header);
     table.getPresenter().flush();
     assertEquals(1, getHeaderCount(table));
     assertEquals(3, getHeaderElement(table, 0).getColSpan());
@@ -101,12 +102,14 @@ public class CellTableTest extends AbstractCellTableTestBase<CellTable<String>> 
     assertTrue(getHeaderElement(table, 0).getClassName().contains(styleLastColumn));
 
     // New header at fourth column.
-    table.addColumn(new TextColumn<String>() {
-      @Override
-      public String getValue(String object) {
-        return null;
-      }
-    }, "New Header");
+    table.addColumn(
+        new TextColumn<String>() {
+          @Override
+          public String getValue(String object) {
+            return null;
+          }
+        },
+        "New Header");
     table.getPresenter().flush();
     assertEquals(2, getHeaderCount(table));
     assertEquals(3, getHeaderElement(table, 0).getColSpan());
@@ -117,18 +120,22 @@ public class CellTableTest extends AbstractCellTableTestBase<CellTable<String>> 
     assertTrue(getHeaderElement(table, 1).getClassName().contains(styleLastColumn));
 
     // Two separate spans of same header: HHHXHH.
-    table.addColumn(new TextColumn<String>() {
-      @Override
-      public String getValue(String object) {
-        return null;
-      }
-    }, header);
-    table.addColumn(new TextColumn<String>() {
-      @Override
-      public String getValue(String object) {
-        return null;
-      }
-    }, header);
+    table.addColumn(
+        new TextColumn<String>() {
+          @Override
+          public String getValue(String object) {
+            return null;
+          }
+        },
+        header);
+    table.addColumn(
+        new TextColumn<String>() {
+          @Override
+          public String getValue(String object) {
+            return null;
+          }
+        },
+        header);
     table.getPresenter().flush();
     assertEquals(3, getHeaderCount(table));
     assertEquals(3, getHeaderElement(table, 0).getColSpan());
@@ -143,93 +150,92 @@ public class CellTableTest extends AbstractCellTableTestBase<CellTable<String>> 
 
   public void testNullLoadingImage() {
     // Create a Resources instance that does not include a loading image.
-    CellTable.Resources resources = new CellTable.Resources() {
-      private final CellTable.Resources defaultRes = new CellTable_ResourcesImpl();
+    CellTable.Resources resources =
+        new CellTable.Resources() {
+          private final CellTable.Resources defaultRes = new CellTable_ResourcesImpl();
 
-      @Override
-      public ImageResource cellTableFooterBackground() {
-        return defaultRes.cellTableFooterBackground();
-      }
+          @Override
+          public ImageResource cellTableFooterBackground() {
+            return defaultRes.cellTableFooterBackground();
+          }
 
-      @Override
-      public ImageResource cellTableHeaderBackground() {
-        return defaultRes.cellTableHeaderBackground();
-      }
+          @Override
+          public ImageResource cellTableHeaderBackground() {
+            return defaultRes.cellTableHeaderBackground();
+          }
 
-      @Override
-      public ImageResource cellTableLoading() {
-        return null;
-      }
+          @Override
+          public ImageResource cellTableLoading() {
+            return null;
+          }
 
-      @Override
-      public ImageResource cellTableSelectedBackground() {
-        return defaultRes.cellTableSelectedBackground();
-      }
+          @Override
+          public ImageResource cellTableSelectedBackground() {
+            return defaultRes.cellTableSelectedBackground();
+          }
 
-      @Override
-      public ImageResource cellTableSortAscending() {
-        return defaultRes.cellTableSortAscending();
-      }
+          @Override
+          public ImageResource cellTableSortAscending() {
+            return defaultRes.cellTableSortAscending();
+          }
 
-      @Override
-      public ImageResource cellTableSortDescending() {
-        return defaultRes.cellTableSortDescending();
-      }
+          @Override
+          public ImageResource cellTableSortDescending() {
+            return defaultRes.cellTableSortDescending();
+          }
 
-      @Override
-      public Style cellTableStyle() {
-        return defaultRes.cellTableStyle();
-      }
-    };
+          @Override
+          public Style cellTableStyle() {
+            return defaultRes.cellTableStyle();
+          }
+        };
 
     CellTable<String> table = new CellTable<String>(25, resources);
     assertNull(table.getLoadingIndicator());
   }
 
-  /**
-   * Using a null sort icon should not cause any errors if none of the columns
-   * are sortable.
-   */
+  /** Using a null sort icon should not cause any errors if none of the columns are sortable. */
   public void testNullSortIcons() {
     // Create a Resources instance that does not include sort images.
-    CellTable.Resources resources = new CellTable.Resources() {
-      private final CellTable.Resources defaultRes = new CellTable_ResourcesImpl();
+    CellTable.Resources resources =
+        new CellTable.Resources() {
+          private final CellTable.Resources defaultRes = new CellTable_ResourcesImpl();
 
-      @Override
-      public ImageResource cellTableFooterBackground() {
-        return defaultRes.cellTableFooterBackground();
-      }
+          @Override
+          public ImageResource cellTableFooterBackground() {
+            return defaultRes.cellTableFooterBackground();
+          }
 
-      @Override
-      public ImageResource cellTableHeaderBackground() {
-        return defaultRes.cellTableHeaderBackground();
-      }
+          @Override
+          public ImageResource cellTableHeaderBackground() {
+            return defaultRes.cellTableHeaderBackground();
+          }
 
-      @Override
-      public ImageResource cellTableLoading() {
-        return defaultRes.cellTableLoading();
-      }
+          @Override
+          public ImageResource cellTableLoading() {
+            return defaultRes.cellTableLoading();
+          }
 
-      @Override
-      public ImageResource cellTableSelectedBackground() {
-        return defaultRes.cellTableSelectedBackground();
-      }
+          @Override
+          public ImageResource cellTableSelectedBackground() {
+            return defaultRes.cellTableSelectedBackground();
+          }
 
-      @Override
-      public ImageResource cellTableSortAscending() {
-        return null;
-      }
+          @Override
+          public ImageResource cellTableSortAscending() {
+            return null;
+          }
 
-      @Override
-      public ImageResource cellTableSortDescending() {
-        return null;
-      }
+          @Override
+          public ImageResource cellTableSortDescending() {
+            return null;
+          }
 
-      @Override
-      public Style cellTableStyle() {
-        return defaultRes.cellTableStyle();
-      }
-    };
+          @Override
+          public Style cellTableStyle() {
+            return defaultRes.cellTableStyle();
+          }
+        };
 
     CellTable<String> table = new CellTable<String>(10, resources);
     populateData(table);
@@ -238,60 +244,58 @@ public class CellTableTest extends AbstractCellTableTestBase<CellTable<String>> 
 
   /**
    * CellTable should not throw any errors if all of the icons are null.
-   * 
-   * Sort icons are only used if a column is sorted. Background icons are not
-   * used in the default styles, and are optional. The sorting icon is specially
-   * handled.
+   *
+   * <p>Sort icons are only used if a column is sorted. Background icons are not used in the default
+   * styles, and are optional. The sorting icon is specially handled.
    */
   public void testNullIcons() {
     // Create a Resources instance that does not include sort images.
-    CellTable.Resources resources = new CellTable.Resources() {
-      private final CellTable.Resources defaultRes = new CellTable_ResourcesImpl();
+    CellTable.Resources resources =
+        new CellTable.Resources() {
+          private final CellTable.Resources defaultRes = new CellTable_ResourcesImpl();
 
-      @Override
-      public ImageResource cellTableFooterBackground() {
-        return null;
-      }
+          @Override
+          public ImageResource cellTableFooterBackground() {
+            return null;
+          }
 
-      @Override
-      public ImageResource cellTableHeaderBackground() {
-        return null;
-      }
+          @Override
+          public ImageResource cellTableHeaderBackground() {
+            return null;
+          }
 
-      @Override
-      public ImageResource cellTableLoading() {
-        return null;
-      }
+          @Override
+          public ImageResource cellTableLoading() {
+            return null;
+          }
 
-      @Override
-      public ImageResource cellTableSelectedBackground() {
-        return null;
-      }
+          @Override
+          public ImageResource cellTableSelectedBackground() {
+            return null;
+          }
 
-      @Override
-      public ImageResource cellTableSortAscending() {
-        return null;
-      }
+          @Override
+          public ImageResource cellTableSortAscending() {
+            return null;
+          }
 
-      @Override
-      public ImageResource cellTableSortDescending() {
-        return null;
-      }
+          @Override
+          public ImageResource cellTableSortDescending() {
+            return null;
+          }
 
-      @Override
-      public Style cellTableStyle() {
-        return defaultRes.cellTableStyle();
-      }
-    };
+          @Override
+          public Style cellTableStyle() {
+            return defaultRes.cellTableStyle();
+          }
+        };
 
     CellTable<String> table = new CellTable<String>(10, resources);
     populateData(table);
     table.getPresenter().flush();
   }
 
-  /**
-   * Test that removing a column sets its width to zero and the display to none.
-   */
+  /** Test that removing a column sets its width to zero and the display to none. */
   public void testRemoveColumnWithWidth_withRemoveColumnsOnHideEnabled() {
     CellTable<String> table = createAbstractHasData(new TextCell());
     table.setRemoveColumnsOnHide(true);
@@ -394,9 +398,7 @@ public class CellTableTest extends AbstractCellTableTestBase<CellTable<String>> 
     assertNotSame("fixed", table.getElement().getStyle().getTableLayout());
   }
 
-  /**
-   * Test if the tableWidget style is applied.
-   */
+  /** Test if the tableWidget style is applied. */
   public void testTableWidgetStyle() {
     Resources res = new CellTable_ResourcesImpl();
     CellTable<String> table = new CellTable<String>(10, res);
@@ -410,12 +412,13 @@ public class CellTableTest extends AbstractCellTableTestBase<CellTable<String>> 
   public void testTableRenderedEvent() {
     final Counter counter = new Counter();
     CellTable<String> table = createAbstractHasData(new TextCell());
-    table.addRedrawHandler(new Handler() {
-      @Override
-      public void onRedraw() {
-        counter.increment();
-      }
-    });
+    table.addRedrawHandler(
+        new Handler() {
+          @Override
+          public void onRedraw() {
+            counter.increment();
+          }
+        });
 
     // Cause table to redraw by removing a column.
     Column<String, ?> column1 = table.getColumn(1);

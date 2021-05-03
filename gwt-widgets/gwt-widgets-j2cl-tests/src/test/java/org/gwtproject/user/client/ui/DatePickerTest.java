@@ -15,16 +15,8 @@
  */
 package org.gwtproject.user.client.ui;
 
-import com.google.j2cl.junit.apt.J2clTestInput;
-import org.gwtproject.dom.client.Document;
-import org.gwtproject.dom.client.Element;
-import org.gwtproject.dom.client.NativeEvent;
 import com.google.gwt.junit.client.GWTTestCase;
-import org.gwtproject.user.datepicker.client.CalendarModel;
-import org.gwtproject.user.datepicker.client.CalendarView;
-import org.gwtproject.user.datepicker.client.DatePicker;
-import org.gwtproject.user.datepicker.client.DefaultMonthSelector;
-
+import com.google.j2cl.junit.apt.J2clTestInput;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -32,10 +24,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.gwtproject.dom.client.Document;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.client.NativeEvent;
+import org.gwtproject.user.datepicker.client.CalendarModel;
+import org.gwtproject.user.datepicker.client.CalendarView;
+import org.gwtproject.user.datepicker.client.DatePicker;
+import org.gwtproject.user.datepicker.client.DefaultMonthSelector;
 
-/**
- * Tests DatePicker's public api.
- */
+/** Tests DatePicker's public api. */
 @SuppressWarnings("deprecation")
 // Due to Date
 @J2clTestInput(DatePickerTest.class)
@@ -56,8 +53,8 @@ public class DatePickerTest extends GWTTestCase {
     }
   }
   /**
-   * Mock calendar view pretends to show datesVisibleList from the first of the month to
-   * the 30th day after that.
+   * Mock calendar view pretends to show datesVisibleList from the first of the month to the 30th
+   * day after that.
    */
   private static class MockCalendarView extends CalendarView {
     Map<Date, Set<String>> dateStyles = new HashMap<Date, Set<String>>();
@@ -95,8 +92,7 @@ public class DatePickerTest extends GWTTestCase {
     }
 
     @Override
-    public void refresh() {
-    }
+    public void refresh() {}
 
     @Override
     public void removeStyleFromDate(String styleName, Date date) {
@@ -115,8 +111,7 @@ public class DatePickerTest extends GWTTestCase {
     }
 
     @Override
-    protected void setup() {
-    }
+    protected void setup() {}
   }
 
   private static final String STYLE_LATER = "styleLater";
@@ -133,26 +128,23 @@ public class DatePickerTest extends GWTTestCase {
   private final Date dateVisible5 = new Date(65, 6, 16);
   private final List<Date> datesVisibleList = new ArrayList<Date>();
   private final Date dateLater1 =
-      new Date(dateVisible1.getYear(), dateVisible1.getMonth() + 1,
-          dateVisible1.getDay());
+      new Date(dateVisible1.getYear(), dateVisible1.getMonth() + 1, dateVisible1.getDay());
 
   private final Date dateLater2 =
-      new Date(dateVisible2.getYear(), dateVisible2.getMonth() + 1,
-          dateVisible2.getDay());
+      new Date(dateVisible2.getYear(), dateVisible2.getMonth() + 1, dateVisible2.getDay());
   private final Date dateLater3 =
-      new Date(dateVisible1.getYear(), dateVisible3.getMonth() + 1,
-          dateVisible3.getDay());
+      new Date(dateVisible1.getYear(), dateVisible3.getMonth() + 1, dateVisible3.getDay());
   private final Date dateLater4 =
-      new Date(dateVisible2.getYear(), dateVisible4.getMonth() + 1,
-          dateVisible4.getDay());
+      new Date(dateVisible2.getYear(), dateVisible4.getMonth() + 1, dateVisible4.getDay());
   private final Date dateLater5 =
-      new Date(dateVisible1.getYear(), dateVisible5.getMonth() + 1,
-          dateVisible5.getDay());
+      new Date(dateVisible1.getYear(), dateVisible5.getMonth() + 1, dateVisible5.getDay());
   private final List<Date> datesLaterList = new ArrayList<Date>();
+
   {
     datesVisibleList.add(dateVisible4);
     datesVisibleList.add(dateVisible5);
   }
+
   {
     datesLaterList.add(dateLater4);
     datesLaterList.add(dateLater5);
@@ -174,8 +166,7 @@ public class DatePickerTest extends GWTTestCase {
 
   public void testDisabling() {
     mockedDatePicker.setTransientEnabledOnDates(false, dateVisible1);
-    mockedDatePicker.setTransientEnabledOnDates(false, dateVisible2,
-        dateVisible3);
+    mockedDatePicker.setTransientEnabledOnDates(false, dateVisible2, dateVisible3);
     mockedDatePicker.setTransientEnabledOnDates(false, datesVisibleList);
 
     assertTrue(view.disabledDates.contains(dateVisible1));
@@ -185,8 +176,7 @@ public class DatePickerTest extends GWTTestCase {
     assertTrue(view.disabledDates.contains(dateVisible5));
 
     mockedDatePicker.setTransientEnabledOnDates(true, dateVisible1);
-    mockedDatePicker.setTransientEnabledOnDates(true, dateVisible2,
-        dateVisible3);
+    mockedDatePicker.setTransientEnabledOnDates(true, dateVisible2, dateVisible3);
     mockedDatePicker.setTransientEnabledOnDates(true, datesVisibleList);
 
     assertFalse(view.disabledDates.contains(dateVisible1));
@@ -201,8 +191,8 @@ public class DatePickerTest extends GWTTestCase {
     RootPanel.get().add(dp);
 
     Date actualDate = new Date(dp.getCalendarModel().getCurrentMonth().getTime());
-    Date dateAfterOneMonth = new Date(actualDate.getYear(), actualDate.getMonth() + 1,
-        actualDate.getDate());
+    Date dateAfterOneMonth =
+        new Date(actualDate.getYear(), actualDate.getMonth() + 1, actualDate.getDate());
 
     clickOnNavigationElement(dp.getDefaultMonthSelector().getForwardButtonElement());
 
@@ -224,7 +214,7 @@ public class DatePickerTest extends GWTTestCase {
     Date actualDate = new Date(dp.getCalendarModel().getCurrentMonth().getTime());
 
     ListBox monthSelect = dp.getDefaultMonthSelector().getMonthSelectListBox();
-    int newMonth  = (monthSelect.getSelectedIndex() + 6) % 12;
+    int newMonth = (monthSelect.getSelectedIndex() + 6) % 12;
     monthSelect.setSelectedIndex(newMonth);
     monthSelect.getElement().dispatchEvent(Document.get().createChangeEvent());
 
@@ -283,8 +273,7 @@ public class DatePickerTest extends GWTTestCase {
 
   public void testTransientStyles() {
     mockedDatePicker.addTransientStyleToDates(STYLE, dateVisible1);
-    mockedDatePicker.addTransientStyleToDates(STYLE, dateVisible2,
-        dateVisible3);
+    mockedDatePicker.addTransientStyleToDates(STYLE, dateVisible2, dateVisible3);
     mockedDatePicker.addTransientStyleToDates(STYLE, datesVisibleList);
     assertViewHasStyleOnVisibleDates(STYLE);
     assertPickerLacksStyleOnVisibleDates();
@@ -320,8 +309,8 @@ public class DatePickerTest extends GWTTestCase {
     RootPanel.get().add(dp);
 
     Date actualDate = new Date(dp.getCalendarModel().getCurrentMonth().getTime());
-    Date dateAfterOneYear = new Date(actualDate.getYear() + 1, actualDate.getMonth(),
-        actualDate.getDate());
+    Date dateAfterOneYear =
+        new Date(actualDate.getYear() + 1, actualDate.getMonth(), actualDate.getDate());
 
     clickOnNavigationElement(dp.getDefaultMonthSelector().getYearForwardButtonElement());
 
@@ -343,11 +332,12 @@ public class DatePickerTest extends GWTTestCase {
     Date actualDate = new Date(dp.getCalendarModel().getCurrentMonth().getTime());
 
     ListBox yearSelect = dp.getDefaultMonthSelector().getYearSelectListBox();
-    int newYear  = yearSelect.getSelectedIndex() + 5;
+    int newYear = yearSelect.getSelectedIndex() + 5;
     yearSelect.setSelectedIndex(newYear);
     yearSelect.getElement().dispatchEvent(Document.get().createChangeEvent());
 
-    Date dateAfter = new Date(actualDate.getYear() + 5, actualDate.getMonth(), actualDate.getDate());
+    Date dateAfter =
+        new Date(actualDate.getYear() + 5, actualDate.getMonth(), actualDate.getDate());
     Date currentlyDisplayedDate = dp.getCalendarModel().getCurrentMonth();
 
     assertEquals(dateAfter.getMonth(), currentlyDisplayedDate.getMonth());
@@ -420,29 +410,19 @@ public class DatePickerTest extends GWTTestCase {
   }
 
   private void assertPickerHasStyleOnVisibleDates(String style) {
-    assertTrue(mockedDatePicker.getStyleOfDate(dateVisible1).contains(
-        style));
-    assertTrue(mockedDatePicker.getStyleOfDate(dateVisible2).contains(
-        style));
-    assertTrue(mockedDatePicker.getStyleOfDate(dateVisible3).contains(
-        style));
-    assertTrue(mockedDatePicker.getStyleOfDate(dateVisible4).contains(
-        style));
-    assertTrue(mockedDatePicker.getStyleOfDate(dateVisible5).contains(
-        style));
+    assertTrue(mockedDatePicker.getStyleOfDate(dateVisible1).contains(style));
+    assertTrue(mockedDatePicker.getStyleOfDate(dateVisible2).contains(style));
+    assertTrue(mockedDatePicker.getStyleOfDate(dateVisible3).contains(style));
+    assertTrue(mockedDatePicker.getStyleOfDate(dateVisible4).contains(style));
+    assertTrue(mockedDatePicker.getStyleOfDate(dateVisible5).contains(style));
   }
 
   private void assertPickerLacksStyleOnHiddenDates(String styleLater) {
-    assertTrue(mockedDatePicker.getStyleOfDate(dateLater1).contains(
-        styleLater));
-    assertTrue(mockedDatePicker.getStyleOfDate(dateLater2).contains(
-        styleLater));
-    assertTrue(mockedDatePicker.getStyleOfDate(dateLater3).contains(
-        styleLater));
-    assertTrue(mockedDatePicker.getStyleOfDate(dateLater4).contains(
-        styleLater));
-    assertTrue(mockedDatePicker.getStyleOfDate(dateLater5).contains(
-        styleLater));
+    assertTrue(mockedDatePicker.getStyleOfDate(dateLater1).contains(styleLater));
+    assertTrue(mockedDatePicker.getStyleOfDate(dateLater2).contains(styleLater));
+    assertTrue(mockedDatePicker.getStyleOfDate(dateLater3).contains(styleLater));
+    assertTrue(mockedDatePicker.getStyleOfDate(dateLater4).contains(styleLater));
+    assertTrue(mockedDatePicker.getStyleOfDate(dateLater5).contains(styleLater));
   }
 
   private void assertPickerLacksStyleOnVisibleDates() {
@@ -478,11 +458,17 @@ public class DatePickerTest extends GWTTestCase {
   }
 
   private void clickOnNavigationElement(Element e) {
-    e.dispatchEvent(Document.get().createMouseOverEvent(1, 0, 0, 0, 0, false, false, false,
-        false, NativeEvent.BUTTON_LEFT, null));
-    e.dispatchEvent(Document.get().createMouseDownEvent(1, 0, 0, 0, 0, false, false, false,
-        false, NativeEvent.BUTTON_LEFT));
-    e.dispatchEvent(Document.get().createMouseUpEvent(1, 0, 0, 0, 0, false, false, false, false,
-        NativeEvent.BUTTON_LEFT));
+    e.dispatchEvent(
+        Document.get()
+            .createMouseOverEvent(
+                1, 0, 0, 0, 0, false, false, false, false, NativeEvent.BUTTON_LEFT, null));
+    e.dispatchEvent(
+        Document.get()
+            .createMouseDownEvent(
+                1, 0, 0, 0, 0, false, false, false, false, NativeEvent.BUTTON_LEFT));
+    e.dispatchEvent(
+        Document.get()
+            .createMouseUpEvent(
+                1, 0, 0, 0, 0, false, false, false, false, NativeEvent.BUTTON_LEFT));
   }
 }

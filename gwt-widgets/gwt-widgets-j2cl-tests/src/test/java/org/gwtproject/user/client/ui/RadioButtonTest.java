@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,7 +15,9 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
+import java.util.Locale;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.InputElement;
@@ -23,15 +25,10 @@ import org.gwtproject.dom.client.LabelElement;
 import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.event.logical.shared.ValueChangeEvent;
 import org.gwtproject.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.safehtml.shared.SafeHtmlUtils;
 import org.gwtproject.user.client.DOM;
 
-import java.util.Locale;
-
-/**
- * Tests the RadioButton class.
- */
+/** Tests the RadioButton class. */
 @J2clTestInput(RadioButtonTest.class)
 public class RadioButtonTest extends GWTTestCase {
 
@@ -53,10 +50,9 @@ public class RadioButtonTest extends GWTTestCase {
   }
 
   /**
-   * TODO: Re-enable when we figure out how to make them work properly on IE
-   * (which has the unfortunate property of not passing synthesized events on to
-   * native controls, keeping the clicks created by these tests from actually
-   * affecting the radio buttons' states).
+   * TODO: Re-enable when we figure out how to make them work properly on IE (which has the
+   * unfortunate property of not passing synthesized events on to native controls, keeping the
+   * clicks created by these tests from actually affecting the radio buttons' states).
    */
   public void disabledTestValueChangeViaClick() {
     RadioButton r1 = new RadioButton("group1", "Radio 1");
@@ -90,10 +86,9 @@ public class RadioButtonTest extends GWTTestCase {
   }
 
   /**
-   * TODO: Re-enable when we figure out how to make them work properly on IE
-   * (which has the unfortunate property of not passing synthesized events on to
-   * native controls, keeping the clicks created by these tests from actually
-   * affecting the radio buttons' states).
+   * TODO: Re-enable when we figure out how to make them work properly on IE (which has the
+   * unfortunate property of not passing synthesized events on to native controls, keeping the
+   * clicks created by these tests from actually affecting the radio buttons' states).
    */
   public void disabledTestValueChangeViaLabelClick() {
     RadioButton r1 = new RadioButton("group1", "Radio 1");
@@ -145,9 +140,7 @@ public class RadioButtonTest extends GWTTestCase {
     UIObjectTest.assertDebugIdContents("myRadio-label", "myLabel");
   }
 
-  /**
-   * Test the name and grouping methods.
-   */
+  /** Test the name and grouping methods. */
   public void testGrouping() {
     // Create some radio buttons
     RadioButton r1 = new RadioButton("group1", "Radio 1");
@@ -178,10 +171,7 @@ public class RadioButtonTest extends GWTTestCase {
     assertTrue(r3.getValue());
   }
 
-  /**
-   * Test the name and grouping methods via deprecated calls.
-   */
-
+  /** Test the name and grouping methods via deprecated calls. */
   public void testGroupingDeprecated() {
     // Create some radio buttons
     RadioButton r1 = new RadioButton("group1", "Radio 1");
@@ -212,10 +202,7 @@ public class RadioButtonTest extends GWTTestCase {
     assertTrue(r3.getValue());
   }
 
-  /**
-   * Ensures that the element order doesn't get reversed when the radio's name
-   * is changed.
-   */
+  /** Ensures that the element order doesn't get reversed when the radio's name is changed. */
   public void testOrderAfterSetName() {
     RadioButton radio = new RadioButton("oldName");
     assertEquals("oldName", radio.getName());
@@ -231,34 +218,36 @@ public class RadioButtonTest extends GWTTestCase {
   }
 
   public void testSafeHtml() {
-    RadioButton radio = 
-      new RadioButton("radio", SafeHtmlUtils.fromSafeConstant(html1));
-    
+    RadioButton radio = new RadioButton("radio", SafeHtmlUtils.fromSafeConstant(html1));
+
     assertEquals("radio", radio.getName());
     assertEquals(html1, radio.getHTML().toLowerCase(Locale.ROOT));
-    
+
     radio.setHTML(SafeHtmlUtils.fromSafeConstant(html2));
-    
+
     assertEquals(html2, radio.getHTML().toLowerCase(Locale.ROOT));
   }
 
   private void doClick(Element elm) {
-    NativeEvent e = Document.get().createMouseDownEvent(0, 25, 25, 25, 25,
-        false, false, false, false, NativeEvent.BUTTON_LEFT);
+    NativeEvent e =
+        Document.get()
+            .createMouseDownEvent(
+                0, 25, 25, 25, 25, false, false, false, false, NativeEvent.BUTTON_LEFT);
     elm.dispatchEvent(e);
 
-    e = Document.get().createMouseUpEvent(0, 25, 25, 25, 25, false, false,
-        false, false, NativeEvent.BUTTON_LEFT);
+    e =
+        Document.get()
+            .createMouseUpEvent(
+                0, 25, 25, 25, 25, false, false, false, false, NativeEvent.BUTTON_LEFT);
     elm.dispatchEvent(e);
 
-    e = Document.get().createClickEvent(0, 25, 25, 25, 25, false, false, false,
-        false);
+    e = Document.get().createClickEvent(0, 25, 25, 25, 25, false, false, false, false);
     elm.dispatchEvent(e);
   }
 
   private LabelElement getLabelElement(RadioButton radioButton) {
-    LabelElement r1Label = LabelElement.as(Element.as(getRadioElement(
-        radioButton).getNextSiblingElement()));
+    LabelElement r1Label =
+        LabelElement.as(Element.as(getRadioElement(radioButton).getNextSiblingElement()));
     return r1Label;
   }
 

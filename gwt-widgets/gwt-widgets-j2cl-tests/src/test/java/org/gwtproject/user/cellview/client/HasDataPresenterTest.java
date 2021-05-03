@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,13 +15,15 @@
  */
 package org.gwtproject.user.cellview.client;
 
+import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
+import java.util.ArrayList;
+import java.util.List;
 import org.gwtproject.core.client.JavaScriptObject;
 import org.gwtproject.core.client.JsArrayInteger;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.event.shared.Event;
 import org.gwtproject.event.shared.HandlerRegistration;
-import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.user.cellview.client.HasDataPresenter.View;
 import org.gwtproject.user.cellview.client.HasKeyboardPagingPolicy.KeyboardPagingPolicy;
 import org.gwtproject.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
@@ -39,26 +41,18 @@ import org.gwtproject.view.client.SelectionChangeEvent.Handler;
 import org.gwtproject.view.client.SelectionModel;
 import org.gwtproject.view.client.SingleSelectionModel;
 
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Tests for {@link HasDataPresenter}.
- */
+/** Tests for {@link HasDataPresenter}. */
 @J2clTestInput(HasDataPresenterTest.class)
 public class HasDataPresenterTest extends GWTTestCase {
 
-  /**
-   * A mock {@link SelectionChangeEvent.Handler} used for testing.
-   */
+  /** A mock {@link SelectionChangeEvent.Handler} used for testing. */
   private static class MockSelectionChangeHandler implements SelectionChangeEvent.Handler {
 
     private boolean eventFired;
 
     /**
-     * Assert that a {@link SelectionChangeEvent} was fired and clear the
-     * boolean.
-     * 
+     * Assert that a {@link SelectionChangeEvent} was fired and clear the boolean.
+     *
      * @param expected the expected value
      */
     public void assertEventFired(boolean expected) {
@@ -74,9 +68,8 @@ public class HasDataPresenterTest extends GWTTestCase {
   }
 
   /**
-   * A mock {@link SelectionModel} used for testing without used any GWT client
-   * code.
-   * 
+   * A mock {@link SelectionModel} used for testing without used any GWT client code.
+   *
    * @param <T> the selection type
    */
   private class MockSingleSelectionModel<T> extends SingleSelectionModel<T> {
@@ -93,14 +86,12 @@ public class HasDataPresenterTest extends GWTTestCase {
 
   /**
    * A mock view used for testing.
-   * 
+   *
    * @param <T> the data type
    */
   private static class MockView<T> implements View<T> {
 
-    /**
-     * A call to replacement.
-     */
+    /** A call to replacement. */
     private static class Replacement {
       private final boolean isReplaceAll;
       private final int size;
@@ -126,7 +117,7 @@ public class HasDataPresenterTest extends GWTTestCase {
 
     /**
      * Assert the value of the oldest keyboard selected row and pop it.
-     * 
+     *
      * @param row the row index
      * @param selected true if selected, false if not
      */
@@ -137,9 +128,7 @@ public class HasDataPresenterTest extends GWTTestCase {
       assertEquals(selected, actualSelected);
     }
 
-    /**
-     * Assert that the keyboard selected row queue is empty.
-     */
+    /** Assert that the keyboard selected row queue is empty. */
     public void assertKeyboardSelectedRowEmpty() {
       assertEquals(0, keyboardSelectedRow.size());
     }
@@ -172,22 +161,21 @@ public class HasDataPresenterTest extends GWTTestCase {
     }
 
     @Override
-    public void replaceAllChildren(List<T> values, SelectionModel<? super T> selectionModel,
-        boolean stealFocus) {
+    public void replaceAllChildren(
+        List<T> values, SelectionModel<? super T> selectionModel, boolean stealFocus) {
       childCount = values.size();
       lastReplacement.add(new Replacement(true, -1, values.size()));
     }
 
     @Override
-    public void replaceChildren(List<T> values, int start,
-        SelectionModel<? super T> selectionModel, boolean stealFocus) {
+    public void replaceChildren(
+        List<T> values, int start, SelectionModel<? super T> selectionModel, boolean stealFocus) {
       childCount = Math.max(childCount, start + values.size());
       lastReplacement.add(new Replacement(false, start, values.size()));
     }
 
     @Override
-    public void resetFocus() {
-    }
+    public void resetFocus() {}
 
     @Override
     public void setKeyboardSelected(int index, boolean selected, boolean stealFocus) {
@@ -282,35 +270,35 @@ public class HasDataPresenterTest extends GWTTestCase {
   }
 
   /**
-   * Test that the presenter can gracefully handle a view that throws exceptions
-   * when rendering the content.
+   * Test that the presenter can gracefully handle a view that throws exceptions when rendering the
+   * content.
    */
   public void testBadViewSelectionModel() {
-    SelectionModel<String> badModel = new SelectionModel<String>() {
-      @Override
-      public void fireEvent(Event<?> event) {
-      }
+    SelectionModel<String> badModel =
+        new SelectionModel<String>() {
+          @Override
+          public void fireEvent(Event<?> event) {}
 
-      @Override
-      public Object getKey(String item) {
-        return null;
-      }
+          @Override
+          public Object getKey(String item) {
+            return null;
+          }
 
-      @Override
-      public HandlerRegistration addSelectionChangeHandler(Handler handler) {
-        return null;
-      }
+          @Override
+          public HandlerRegistration addSelectionChangeHandler(Handler handler) {
+            return null;
+          }
 
-      @Override
-      public boolean isSelected(String object) {
-        throw new NullPointerException();
-      }
+          @Override
+          public boolean isSelected(String object) {
+            throw new NullPointerException();
+          }
 
-      @Override
-      public void setSelected(String object, boolean selected) {
-        throw new NullPointerException();
-      }
-    };
+          @Override
+          public void setSelected(String object, boolean selected) {
+            throw new NullPointerException();
+          }
+        };
 
     // Use the bad view in a presenter.
     MockView<String> view = new MockView<String>();
@@ -322,23 +310,29 @@ public class HasDataPresenterTest extends GWTTestCase {
   }
 
   /**
-   * Test that the presenter can gracefully handle a view that throws exceptions
-   * when rendering the children.
+   * Test that the presenter can gracefully handle a view that throws exceptions when rendering the
+   * children.
    */
   public void testBadViewReplaceChildren() {
-    MockView<String> badView = new MockView<String>() {
-      @Override
-      public void replaceAllChildren(List<String> values,
-          SelectionModel<? super String> selectionModel, boolean stealFocus) {
-        throw new NullPointerException();
-      }
+    MockView<String> badView =
+        new MockView<String>() {
+          @Override
+          public void replaceAllChildren(
+              List<String> values,
+              SelectionModel<? super String> selectionModel,
+              boolean stealFocus) {
+            throw new NullPointerException();
+          }
 
-      @Override
-      public void replaceChildren(List<String> values, int start,
-          SelectionModel<? super String> selectionModel, boolean stealFocus) {
-        throw new NullPointerException();
-      }
-    };
+          @Override
+          public void replaceChildren(
+              List<String> values,
+              int start,
+              SelectionModel<? super String> selectionModel,
+              boolean stealFocus) {
+            throw new NullPointerException();
+          }
+        };
 
     // Use the bad view in a presenter.
     HasData<String> listView = new MockHasData<String>();
@@ -372,14 +366,14 @@ public class HasDataPresenterTest extends GWTTestCase {
     // Disjoint rows. Should return two ranges.
     rows.push(10);
     rows.push(11);
-    assertListContains(presenter.calculateModifiedRanges(rows, 0, 20), new Range(5, 4), new Range(
-        10, 2));
+    assertListContains(
+        presenter.calculateModifiedRanges(rows, 0, 20), new Range(5, 4), new Range(10, 2));
 
     // Multiple gaps. The largest gap should be between the two ranges.
     rows.push(15);
     rows.push(17);
-    assertListContains(presenter.calculateModifiedRanges(rows, 0, 20), new Range(5, 7), new Range(
-        15, 3));
+    assertListContains(
+        presenter.calculateModifiedRanges(rows, 0, 20), new Range(5, 7), new Range(15, 3));
   }
 
   public void testClearSelectionModel() {
@@ -417,9 +411,7 @@ public class HasDataPresenterTest extends GWTTestCase {
     assertEquals(new Range(0, 10), presenter.getVisibleRange());
   }
 
-  /**
-   * Test that keyboard selection moves if its value moves.
-   */
+  /** Test that keyboard selection moves if its value moves. */
   public void testFindIndexOfBestMatch() {
     HasData<String> listView = new MockHasData<String>();
     MockView<String> view = new MockView<String>();
@@ -498,23 +490,24 @@ public class HasDataPresenterTest extends GWTTestCase {
   }
 
   /**
-   * Test that we can detect an infinite loop caused by user code updating the
-   * presenter every time we try to resolve state.
+   * Test that we can detect an infinite loop caused by user code updating the presenter every time
+   * we try to resolve state.
    */
   public void testLoopDetection() {
     HasData<String> listView = new MockHasData<String>();
     final MockView<String> view = new MockView<String>();
     final HasDataPresenter<String> presenter =
         new HasDataPresenter<String>(listView, view, 10, null);
-    presenter.setSelectionModel(new SingleSelectionModel<String>() {
-      @Override
-      public boolean isSelected(String object) {
-        // This selection model triggers a selection change event every time it
-        // is accessed, which puts the presenter in a pending state.
-        SelectionChangeEvent.fire(this);
-        return super.isSelected(object);
-      }
-    });
+    presenter.setSelectionModel(
+        new SingleSelectionModel<String>() {
+          @Override
+          public boolean isSelected(String object) {
+            // This selection model triggers a selection change event every time it
+            // is accessed, which puts the presenter in a pending state.
+            SelectionChangeEvent.fire(this);
+            return super.isSelected(object);
+          }
+        });
 
     populatePresenter(presenter);
     try {
@@ -525,9 +518,7 @@ public class HasDataPresenterTest extends GWTTestCase {
     }
   }
 
-  /**
-   * Test that pending command execute in a finally loop.
-   */
+  /** Test that pending command execute in a finally loop. */
   public void testPendingCommand() {
     HasData<String> listView = new MockHasData<String>();
     final MockView<String> view = new MockView<String>();
@@ -541,14 +532,16 @@ public class HasDataPresenterTest extends GWTTestCase {
 
     // The pending command is scheduled. Wait for it to execute.
     delayTestFinish(5000);
-    Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-      @Override
-      public void execute() {
-        assertFalse(presenter.hasPendingState());
-        view.assertReplaceAllChildrenCalled(10);
-        finishTest();
-      }
-    });
+    Scheduler.get()
+        .scheduleDeferred(
+            new Scheduler.ScheduledCommand() {
+              @Override
+              public void execute() {
+                assertFalse(presenter.hasPendingState());
+                view.assertReplaceAllChildrenCalled(10);
+                finishTest();
+              }
+            });
   }
 
   public void testRedraw() {
@@ -629,9 +622,7 @@ public class HasDataPresenterTest extends GWTTestCase {
     assertTrue(model.isSelected("test 10"));
   }
 
-  /**
-   * Test that programmatically deselecting a row works.
-   */
+  /** Test that programmatically deselecting a row works. */
   public void testSetKeyboardSelectedRowBoundWithDeselect() {
     HasData<String> listView = new MockHasData<String>();
     MockView<String> view = new MockView<String>();
@@ -664,9 +655,7 @@ public class HasDataPresenterTest extends GWTTestCase {
     assertTrue(model.isSelected("test 1"));
   }
 
-  /**
-   * Test that we only get one selection event when keyboard selection changes.
-   */
+  /** Test that we only get one selection event when keyboard selection changes. */
   public void testSetKeyboardSelectedRowFiresOneSelectionEvent() {
     HasData<String> listView = new MockHasData<String>();
     MockView<String> view = new MockView<String>();
@@ -1070,9 +1059,7 @@ public class HasDataPresenterTest extends GWTTestCase {
     view.assertLoadingState(LoadingState.LOADED);
   }
 
-  /**
-   * Setting data outside of the data size should update the data size.
-   */
+  /** Setting data outside of the data size should update the data size. */
   public void testSetRowValuesChangesDataSize() {
     HasData<String> listView = new MockHasData<String>();
     MockView<String> view = new MockView<String>();
@@ -1095,10 +1082,7 @@ public class HasDataPresenterTest extends GWTTestCase {
     view.assertLoadingState(LoadingState.LOADED);
   }
 
-  /**
-   * Setting an empty list that starts on the page start should pass through to
-   * the view.
-   */
+  /** Setting an empty list that starts on the page start should pass through to the view. */
   public void testSetRowValuesEmptySet() {
     HasData<String> listView = new MockHasData<String>();
     MockView<String> view = new MockView<String>();
@@ -1148,9 +1132,7 @@ public class HasDataPresenterTest extends GWTTestCase {
     view.assertLoadingState(LoadingState.LOADED);
   }
 
-  /**
-   * Test that modifying more than 30% of the rows forces a full redraw.
-   */
+  /** Test that modifying more than 30% of the rows forces a full redraw. */
   public void testSetRowValuesRequiresRedraw() {
     HasData<String> listView = new MockHasData<String>();
     MockView<String> view = new MockView<String>();
@@ -1184,9 +1166,9 @@ public class HasDataPresenterTest extends GWTTestCase {
   }
 
   /**
-   * As an optimization, the presenter does not replace the rendered string if
-   * the rendered string is identical to the previously rendered string. This is
-   * useful for tables that refresh on an interval.
+   * As an optimization, the presenter does not replace the rendered string if the rendered string
+   * is identical to the previously rendered string. This is useful for tables that refresh on an
+   * interval.
    */
   public void testSetRowValuesSameContents() {
     HasData<String> listView = new MockHasData<String>();
@@ -1208,9 +1190,7 @@ public class HasDataPresenterTest extends GWTTestCase {
     view.assertLoadingState(LoadingState.LOADED);
   }
 
-  /**
-   * Set data at the end of the page only.
-   */
+  /** Set data at the end of the page only. */
   public void testSetRowValuesSparse() {
     HasData<String> listView = new MockHasData<String>();
     MockView<String> view = new MockView<String>();
@@ -1308,12 +1288,13 @@ public class HasDataPresenterTest extends GWTTestCase {
 
     // Add a range change handler.
     final List<Range> events = new ArrayList<Range>();
-    listView.addRangeChangeHandler(new RangeChangeEvent.Handler() {
-      @Override
-      public void onRangeChange(RangeChangeEvent event) {
-        events.add(event.getNewRange());
-      }
-    });
+    listView.addRangeChangeHandler(
+        new RangeChangeEvent.Handler() {
+          @Override
+          public void onRangeChange(RangeChangeEvent event) {
+            events.add(event.getNewRange());
+          }
+        });
 
     // Set some initial data.
     presenter.setVisibleRange(new Range(5, 10));
@@ -1342,12 +1323,13 @@ public class HasDataPresenterTest extends GWTTestCase {
 
     // Add a range change handler.
     final List<Range> events = new ArrayList<Range>();
-    listView.addRangeChangeHandler(new RangeChangeEvent.Handler() {
-      @Override
-      public void onRangeChange(RangeChangeEvent event) {
-        events.add(event.getNewRange());
-      }
-    });
+    listView.addRangeChangeHandler(
+        new RangeChangeEvent.Handler() {
+          @Override
+          public void onRangeChange(RangeChangeEvent event) {
+            events.add(event.getNewRange());
+          }
+        });
 
     // Set some initial data.
     presenter.setRowData(0, createData(0, 10));
@@ -1375,12 +1357,13 @@ public class HasDataPresenterTest extends GWTTestCase {
 
     // Add a range change handler.
     final List<Range> events = new ArrayList<Range>();
-    listView.addRangeChangeHandler(new RangeChangeEvent.Handler() {
-      @Override
-      public void onRangeChange(RangeChangeEvent event) {
-        events.add(event.getNewRange());
-      }
-    });
+    listView.addRangeChangeHandler(
+        new RangeChangeEvent.Handler() {
+          @Override
+          public void onRangeChange(RangeChangeEvent event) {
+            events.add(event.getNewRange());
+          }
+        });
 
     // Set some initial data.
     presenter.setRowData(0, createData(0, 10));
@@ -1517,8 +1500,8 @@ public class HasDataPresenterTest extends GWTTestCase {
   }
 
   /**
-   * Test that the view is correctly updated if we move the page start back and
-   * forth in the same render loop.
+   * Test that the view is correctly updated if we move the page start back and forth in the same
+   * render loop.
    */
   public void testSetVisibleRangeResetPageStart() {
     HasData<String> listView = new MockHasData<String>();
@@ -1538,9 +1521,9 @@ public class HasDataPresenterTest extends GWTTestCase {
   }
 
   /**
-   * Assert that the expected List of values matches the row data in the
-   * specified {@link HasDataPresenter}.
-   * 
+   * Assert that the expected List of values matches the row data in the specified {@link
+   * HasDataPresenter}.
+   *
    * @param <T> the data type
    * @param expected the expected values
    * @param presenter the presenter
@@ -1554,7 +1537,7 @@ public class HasDataPresenterTest extends GWTTestCase {
 
   /**
    * Assert that the specified set contains specified values in order.
-   * 
+   *
    * @param <T> the data type
    * @param list the list to check
    * @param values the expected values
@@ -1568,7 +1551,7 @@ public class HasDataPresenterTest extends GWTTestCase {
 
   /**
    * Create a list of data for testing.
-   * 
+   *
    * @param start the start index
    * @param length the length
    * @return a list of data
@@ -1583,7 +1566,7 @@ public class HasDataPresenterTest extends GWTTestCase {
 
   /**
    * Populate the entire range of a presenter.
-   * 
+   *
    * @param presenter the presenter
    */
   private void populatePresenter(HasDataPresenter<String> presenter) {
@@ -1594,9 +1577,9 @@ public class HasDataPresenterTest extends GWTTestCase {
   }
 
   /**
-   * Test that the presenter can gracefully handle a view or
-   * {@link SelectionModel} that throws an exception.
-   * 
+   * Test that the presenter can gracefully handle a view or {@link SelectionModel} that throws an
+   * exception.
+   *
    * @param presenter the presenter to test
    */
   private void testPresenterWithBadUserCode(HasDataPresenter<String> presenter) {

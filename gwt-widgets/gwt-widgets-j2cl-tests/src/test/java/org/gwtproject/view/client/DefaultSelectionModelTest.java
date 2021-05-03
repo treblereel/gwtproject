@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,28 +15,23 @@
  */
 package org.gwtproject.view.client;
 
-
 import com.google.j2cl.junit.apt.J2clTestInput;
-import org.gwtproject.core.client.Scheduler;
-import org.gwtproject.timer.client.Timer;
-
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.timer.client.Timer;
 
-/**
- * Tests for {@link org.gwtproject.view.client.DefaultSelectionModel}.
- */
+/** Tests for {@link org.gwtproject.view.client.DefaultSelectionModel}. */
 @J2clTestInput(DefaultSelectionModelTest.class)
 public class DefaultSelectionModelTest extends AbstractSelectionModelTest {
 
   /**
-   * A mock {@link org.gwtproject.view.client.DefaultSelectionModel} used for testing. By default, all
-   * strings that start with "selected" are selected.
+   * A mock {@link org.gwtproject.view.client.DefaultSelectionModel} used for testing. By default,
+   * all strings that start with "selected" are selected.
    */
-  private static class MockDefaultSelectionModel extends
-      DefaultSelectionModel<String> {
-    
+  private static class MockDefaultSelectionModel extends DefaultSelectionModel<String> {
+
     public MockDefaultSelectionModel(ProvidesKey<String> keyProvider) {
       super(keyProvider);
     }
@@ -57,12 +52,13 @@ public class DefaultSelectionModelTest extends AbstractSelectionModelTest {
 
   public void testSelectedChangeEvent() {
     DefaultSelectionModel<String> model = createSelectionModel(null);
-    org.gwtproject.view.client.SelectionChangeEvent.Handler handler = new org.gwtproject.view.client.SelectionChangeEvent.Handler() {
-      @Override
-      public void onSelectionChange(org.gwtproject.view.client.SelectionChangeEvent event) {
-        finishTest();
-      }
-    };
+    org.gwtproject.view.client.SelectionChangeEvent.Handler handler =
+        new org.gwtproject.view.client.SelectionChangeEvent.Handler() {
+          @Override
+          public void onSelectionChange(org.gwtproject.view.client.SelectionChangeEvent event) {
+            finishTest();
+          }
+        };
     model.addSelectionChangeHandler(handler);
 
     delayTestFinish(2000);
@@ -79,16 +75,18 @@ public class DefaultSelectionModelTest extends AbstractSelectionModelTest {
     // selection events fire at the end of current event loop (finally command)
     handler.assertEventFired(false);
 
-    Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-      @Override
-      public void execute() {
-        handler.assertEventFired(true);
-        // No further selection events should be fired
-        model.addSelectionChangeHandler(new FailingSelectionChangeEventHandler());
-        model.setSelected("selected999", false);
-        model.setSelected("selected999", false);
-      }
-    });
+    Scheduler.get()
+        .scheduleDeferred(
+            new Scheduler.ScheduledCommand() {
+              @Override
+              public void execute() {
+                handler.assertEventFired(true);
+                // No further selection events should be fired
+                model.addSelectionChangeHandler(new FailingSelectionChangeEventHandler());
+                model.setSelected("selected999", false);
+                model.setSelected("selected999", false);
+              }
+            });
 
     new Timer() {
       @Override
@@ -144,16 +142,15 @@ public class DefaultSelectionModelTest extends AbstractSelectionModelTest {
     assertTrue(model.isSelected("selected0"));
   }
 
-  /**
-   * Tests that items with the same key share the same selection state.
-   */
+  /** Tests that items with the same key share the same selection state. */
   public void testSetSelectedSameKey() {
-    ProvidesKey<String> keyProvider = new ProvidesKey<String>() {
-        @Override
-      public Object getKey(String item) {
-        return item.toUpperCase(Locale.ROOT);
-      }
-    };
+    ProvidesKey<String> keyProvider =
+        new ProvidesKey<String>() {
+          @Override
+          public Object getKey(String item) {
+            return item.toUpperCase(Locale.ROOT);
+          }
+        };
     DefaultSelectionModel<String> model = createSelectionModel(keyProvider);
     assertFalse(model.isSelected("test0"));
 
@@ -171,12 +168,13 @@ public class DefaultSelectionModelTest extends AbstractSelectionModelTest {
 
   public void testSetSelectedWithKeyProvider() {
     Map<Object, Boolean> exceptions = new HashMap<Object, Boolean>();
-    ProvidesKey<String> keyProvider = new ProvidesKey<String>() {
-      @Override
-      public Object getKey(String item) {
-        return item.toUpperCase(Locale.ROOT);
-      }
-    };
+    ProvidesKey<String> keyProvider =
+        new ProvidesKey<String>() {
+          @Override
+          public Object getKey(String item) {
+            return item.toUpperCase(Locale.ROOT);
+          }
+        };
     DefaultSelectionModel<String> model = createSelectionModel(keyProvider);
     assertFalse(model.isSelected("test"));
     assertTrue(model.isSelected("selected0"));

@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -17,11 +17,10 @@ package org.gwtproject.user.client.ui;
 
 /**
  * Base tests for classes that extends {@link SimplePanel}.
- * 
+ *
  * @param <T> the panel type
  */
-public abstract class SimplePanelTestBase<T extends SimplePanel> extends
-    PanelTestBase<T> {
+public abstract class SimplePanelTestBase<T extends SimplePanel> extends PanelTestBase<T> {
 
   public void testAddArmor() {
     T panel = createPanel();
@@ -57,7 +56,7 @@ public abstract class SimplePanelTestBase<T extends SimplePanel> extends
     HasOneWidget panel = createPanel();
     IsWidgetImpl liw = new IsWidgetImpl(new Label("L"));
     IsWidgetImpl liw2 = new IsWidgetImpl(new Label("L2"));
-    
+
     assertNull(panel.getWidget());
 
     panel.setWidget(liw);
@@ -69,7 +68,7 @@ public abstract class SimplePanelTestBase<T extends SimplePanel> extends
     panel.setWidget(null);
     assertNull(panel.getWidget());
   }
-  
+
   public void testRemoveAndClear() {
     T panel = createPanel();
     Label l = new Label("L");

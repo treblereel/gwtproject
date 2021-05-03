@@ -17,6 +17,8 @@ package org.gwtproject.user.client.ui;
 
 import com.google.j2cl.junit.apt.J2clTestInput;
 import elemental2.dom.DomGlobal;
+import java.util.List;
+import java.util.Locale;
 import jsinterop.base.Js;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
@@ -27,44 +29,32 @@ import org.gwtproject.event.dom.client.KeyCodes;
 import org.gwtproject.safehtml.shared.SafeHtmlUtils;
 import org.gwtproject.user.client.Command;
 
-import java.util.List;
-import java.util.Locale;
-
-/**
- * Tests the DockPanel widget.
- */
+/** Tests the DockPanel widget. */
 @J2clTestInput(MenuBarTest.class)
 public class MenuBarTest extends WidgetTestBase {
 
   private static final String html = "<b>hello</b><i>world</i>";
 
-  /**
-   * A blank command.
-   */
-  private static final Command BLANK_COMMAND = new Command() {
-    @Override
-    public void execute() {
-    }
-  };
+  /** A blank command. */
+  private static final Command BLANK_COMMAND =
+      new Command() {
+        @Override
+        public void execute() {}
+      };
 
-  /**
-   * A blank scheduled command.
-   */
-  private static final ScheduledCommand BLANK_SCHEDULED_COMMAND = new ScheduledCommand() {
-    @Override
-    public void execute() {
-    }
-  };
+  /** A blank scheduled command. */
+  private static final ScheduledCommand BLANK_SCHEDULED_COMMAND =
+      new ScheduledCommand() {
+        @Override
+        public void execute() {}
+      };
 
   @Override
   public String getModuleName() {
     return "org.gwtproject.user.DebugTest";
   }
 
-  /**
-   * Test adding and removing {@link MenuItem}s and {@link MenuItemSeparator}s
-   * from a menu.
-   */
+  /** Test adding and removing {@link MenuItem}s and {@link MenuItemSeparator}s from a menu. */
   public void testAddRemoveItemsWithCommand() {
     // Create a menu bar
     MenuBar bar = new MenuBar(true);
@@ -117,10 +107,7 @@ public class MenuBarTest extends WidgetTestBase {
     assertNull(separator3.getParentMenu());
   }
 
-  /**
-   * Test adding and removing {@link MenuItem}s and {@link MenuItemSeparator}s
-   * from a menu.
-   */
+  /** Test adding and removing {@link MenuItem}s and {@link MenuItemSeparator}s from a menu. */
   public void testAddRemoveItemsWithScheduledCommand() {
     // Create a menu bar
     MenuBar bar = new MenuBar(true);
@@ -249,13 +236,15 @@ public class MenuBarTest extends WidgetTestBase {
     assertFocused(focusOwner.getElement());
     menu.itemOver(item0, true);
     // Using deferred command since focus will be set on next tick in FocusImplSafari
-    Scheduler.get().scheduleDeferred(new Command() {
-      @Override
-      public void execute() {
-        assertFocused(menu.getElement());
-        finishTest();
-      }
-    });
+    Scheduler.get()
+        .scheduleDeferred(
+            new Command() {
+              @Override
+              public void execute() {
+                assertFocused(menu.getElement());
+                finishTest();
+              }
+            });
   }
 
   public void testSetFocusOnHoverDisabled() {
@@ -289,7 +278,7 @@ public class MenuBarTest extends WidgetTestBase {
     assertTrue(isFocused(element));
   }
 
-  //TODO
+  // TODO
   private static boolean isFocused(Element element) {
     return Js.asPropertyMap(DomGlobal.document).get("activeElement").equals(element);
   }
@@ -339,19 +328,21 @@ public class MenuBarTest extends WidgetTestBase {
     UIObjectTest.assertDebugId("myMenu", bar.getElement());
 
     delayTestFinish(5000);
-    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-      @Override
-      public void execute() {
-        UIObjectTest.assertDebugIdContents("myMenu-item0", "top0");
-        UIObjectTest.assertDebugIdContents("myMenu-item1", "top1");
-        UIObjectTest.assertDebugIdContents("myMenu-item2", "top2");
+    Scheduler.get()
+        .scheduleDeferred(
+            new ScheduledCommand() {
+              @Override
+              public void execute() {
+                UIObjectTest.assertDebugIdContents("myMenu-item0", "top0");
+                UIObjectTest.assertDebugIdContents("myMenu-item1", "top1");
+                UIObjectTest.assertDebugIdContents("myMenu-item2", "top2");
 
-        UIObjectTest.assertDebugIdContents("myMenu-item2-item0", "sub0");
-        UIObjectTest.assertDebugIdContents("myMenu-item2-item1", "sub1");
-        UIObjectTest.assertDebugIdContents("myMenu-item2-item2", "sub2");
-        finishTest();
-      }
-    });
+                UIObjectTest.assertDebugIdContents("myMenu-item2-item0", "sub0");
+                UIObjectTest.assertDebugIdContents("myMenu-item2-item1", "sub1");
+                UIObjectTest.assertDebugIdContents("myMenu-item2-item2", "sub2");
+                finishTest();
+              }
+            });
   }
 
   public void testDisabledItem() {
@@ -397,18 +388,15 @@ public class MenuBarTest extends WidgetTestBase {
     assertEquals(item1, l1.getSelectedItem());
 
     // Escape from the menu.
-    NativeEvent event = Document.get().createKeyDownEvent(
-        false, false, false, false, KeyCodes.KEY_ESCAPE);
+    NativeEvent event =
+        Document.get().createKeyDownEvent(false, false, false, false, KeyCodes.KEY_ESCAPE);
     l1.getElement().dispatchEvent(event);
-/*    assertNull(l0.getPopup());
+    /*    assertNull(l0.getPopup());
     assertNull(l0.getSelectedItem());
     assertNull(l1.getPopup());*/
   }
 
-  /**
-   * Test inserting {@link MenuItem}s and {@link MenuItemSeparator}s into the
-   * menu.
-   */
+  /** Test inserting {@link MenuItem}s and {@link MenuItemSeparator}s into the menu. */
   public void testInsertItems() {
     // Create a menu bar
     MenuBar bar = new MenuBar(true);
@@ -454,8 +442,8 @@ public class MenuBarTest extends WidgetTestBase {
   }
 
   /**
-   * Test inserting {@link MenuItem}s and {@link MenuItemSeparator}s into the
-   * menu at indexes that are out of bounds.
+   * Test inserting {@link MenuItem}s and {@link MenuItemSeparator}s into the menu at indexes that
+   * are out of bounds.
    */
   public void testInsertItemsOutOfBounds() {
     // Create a menu bar
@@ -487,8 +475,7 @@ public class MenuBarTest extends WidgetTestBase {
     MenuBar bar = new MenuBar(true);
 
     // ensure safehtml passes through when a command is set.
-    MenuItem item1 =
-      bar.addItem(SafeHtmlUtils.fromSafeConstant(html), BLANK_COMMAND);
+    MenuItem item1 = bar.addItem(SafeHtmlUtils.fromSafeConstant(html), BLANK_COMMAND);
     assertEquals(html, item1.getHTML().toLowerCase(Locale.ROOT));
     assertEquals(BLANK_COMMAND, item1.getCommand());
     assertEquals(bar, item1.getParentMenu());
@@ -505,8 +492,7 @@ public class MenuBarTest extends WidgetTestBase {
     MenuBar bar = new MenuBar(true);
 
     // ensure safehtml passes through when a command is set.
-    MenuItem item1 =
-      bar.addItem(SafeHtmlUtils.fromSafeConstant(html), BLANK_SCHEDULED_COMMAND);
+    MenuItem item1 = bar.addItem(SafeHtmlUtils.fromSafeConstant(html), BLANK_SCHEDULED_COMMAND);
     assertEquals(html, item1.getHTML().toLowerCase(Locale.ROOT));
     assertEquals(BLANK_SCHEDULED_COMMAND, item1.getScheduledCommand());
     assertEquals(bar, item1.getParentMenu());
@@ -519,9 +505,7 @@ public class MenuBarTest extends WidgetTestBase {
     assertEquals(foo, item2.getParentMenu());
   }
 
-  /**
-   * Test that the selected item points to the correct item.
-   */
+  /** Test that the selected item points to the correct item. */
   public void testSelectedItem() {
     // Create a menu bar
     MenuBar bar = new MenuBar(true);
@@ -556,13 +540,13 @@ public class MenuBarTest extends WidgetTestBase {
     MenuItem item1 = bar.addItem("item1", BLANK_COMMAND);
     RootPanel.get().add(bar);
 
-
     bar.itemOver(item1, true);
     assertNotNull(bar.getSelectedItem());
 
     bar.itemOver(null, false);
     assertNull(bar.getSelectedItem());
   }
+
   public void testSelectItem() {
     MenuBar bar = new MenuBar(false);
     MenuItem item1 = new MenuItem("item1", BLANK_COMMAND);
@@ -604,11 +588,11 @@ public class MenuBarTest extends WidgetTestBase {
     assertEquals(item1, l1.getSelectedItem());
 
     // Tab away from the menu.
-    NativeEvent event = Document.get().createKeyDownEvent(
-        false, false, false, false, KeyCodes.KEY_TAB);
-    //l1.getElement().dispatchEvent(event);
-    //assertNull(l0.getPopup());
-    //assertNull(l0.getSelectedItem());
-    //assertNull(l1.getPopup());
+    NativeEvent event =
+        Document.get().createKeyDownEvent(false, false, false, false, KeyCodes.KEY_TAB);
+    // l1.getElement().dispatchEvent(event);
+    // assertNull(l0.getPopup());
+    // assertNull(l0.getSelectedItem());
+    // assertNull(l1.getPopup());
   }
 }

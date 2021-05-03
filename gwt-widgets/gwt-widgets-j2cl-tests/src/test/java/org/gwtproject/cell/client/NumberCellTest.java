@@ -18,9 +18,7 @@ package org.gwtproject.cell.client;
 import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.i18n.client.NumberFormat;
 
-/**
- * Tests for {@link ButtonCell}.
- */
+/** Tests for {@link ButtonCell}. */
 @J2clTestInput(NumberCellTest.class)
 public class NumberCellTest extends CellTestBase<Number> {
 

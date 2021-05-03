@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -17,6 +17,9 @@ package org.gwtproject.user.cellview.client;
 
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import org.gwtproject.cell.client.TextCell;
 import org.gwtproject.user.cellview.client.ColumnSortEvent.AsyncHandler;
 import org.gwtproject.user.cellview.client.ColumnSortEvent.ListHandler;
@@ -25,15 +28,7 @@ import org.gwtproject.view.client.MockHasData;
 import org.gwtproject.view.client.Range;
 import org.gwtproject.view.client.RangeChangeEvent;
 
-import junit.framework.TestCase;
-
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-
-/**
- * Tests for {@link ColumnSortEvent}.
- */
+/** Tests for {@link ColumnSortEvent}. */
 @J2clTestInput(ColumnSortEventTest.class)
 public class ColumnSortEventTest extends GWTTestCase {
 
@@ -53,12 +48,13 @@ public class ColumnSortEventTest extends GWTTestCase {
   public void testAsyncHandler() {
     MockHasData<String> hasData = new MockHasData<String>();
     final List<Range> events = new ArrayList<Range>();
-    hasData.addRangeChangeHandler(new RangeChangeEvent.Handler() {
-      @Override
-      public void onRangeChange(RangeChangeEvent event) {
-        events.add(event.getNewRange());
-      }
-    });
+    hasData.addRangeChangeHandler(
+        new RangeChangeEvent.Handler() {
+          @Override
+          public void onRangeChange(RangeChangeEvent event) {
+            events.add(event.getNewRange());
+          }
+        });
     AsyncHandler handler = new AsyncHandler(hasData);
     assertEquals(0, events.size());
 
@@ -78,12 +74,13 @@ public class ColumnSortEventTest extends GWTTestCase {
     // Create a handler for the list of values.
     ListHandler<String> handler = new ListHandler<String>(values);
     IdentityColumn<String> col0 = new IdentityColumn<String>(new TextCell());
-    Comparator<String> col0Comparator = new Comparator<String>() {
-      @Override
-      public int compare(String o1, String o2) {
-        return o1.compareTo(o2);
-      }
-    };
+    Comparator<String> col0Comparator =
+        new Comparator<String>() {
+          @Override
+          public int compare(String o1, String o2) {
+            return o1.compareTo(o2);
+          }
+        };
     handler.setComparator(col0, col0Comparator);
     IdentityColumn<String> col1 = new IdentityColumn<String>(new TextCell());
     handler.setComparator(col1, null);
@@ -108,22 +105,21 @@ public class ColumnSortEventTest extends GWTTestCase {
     assertEquals("c", values.get(0));
     assertEquals("b", values.get(1));
     assertEquals("a", values.get(2));
-    
+
     // Retrieve the comparators.
     assertEquals(col0Comparator, handler.getComparator(col0));
     assertNull(handler.getComparator(col1));
-    assertNull(handler.getComparator(new IdentityColumn<String>(
-        new TextCell())));
-    
+    assertNull(handler.getComparator(new IdentityColumn<String>(new TextCell())));
+
     // Create some new unsorted values.
     List<String> newValues = new ArrayList<String>();
     newValues.add("e");
     newValues.add("d");
     newValues.add("f");
-    
+
     // Update the handler to be for the new list of values.
     handler.setList(newValues);
-    
+
     // Sort the new list in ascending order.
     sortList.push(col0);
     handler.onColumnSort(new ColumnSortEvent(sortList));

@@ -5,11 +5,12 @@
   <parent>
     <groupId>org.gwtproject.i18n</groupId>
     <artifactId>gwt-i18n-parent</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>dev</version>
   </parent>
 
   <artifactId>gwt-i18n-processor</artifactId>
   <packaging>jar</packaging>
+  <version>${revision}</version>
 
   <developers>
     <developer>
@@ -31,33 +32,28 @@
     <dependency>
       <groupId>com.google.auto</groupId>
       <artifactId>auto-common</artifactId>
-      <version>${auto.common.version}</version>
     </dependency>
     <dependency>
       <groupId>com.google.auto.service</groupId>
       <artifactId>auto-service</artifactId>
-      <version>${auto.service.version}</version>
     </dependency>
     <dependency>
       <groupId>com.github.javaparser</groupId>
       <artifactId>javaparser-core</artifactId>
-      <version>${javaparser.core.version}</version>
     </dependency>
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
-      <version>2.6</version>
     </dependency>
 
     <dependency>
       <groupId>org.gwtproject.i18n</groupId>
       <artifactId>gwt-i18n</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <version>${revision}</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.13.1</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -75,7 +71,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
-        <version>${plugin.source.version}</version>
+        <version>${maven.source.plugin}</version>
         <executions>
           <execution>
             <id>attach-sources</id>

@@ -16,22 +16,18 @@
 package org.gwtproject.cell.client;
 
 import com.google.j2cl.junit.apt.J2clTestInput;
+import java.util.ArrayList;
+import java.util.List;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.NativeEvent;
 
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Tests for {@link org.gwtproject.cell.client.SelectionCell}.
- */
+/** Tests for {@link org.gwtproject.cell.client.SelectionCell}. */
 @J2clTestInput(SelectionCellTest.class)
 public class SelectionCellTest extends EditableCellTestBase<String, String> {
 
   public void testOnBrowser() {
     NativeEvent event = Document.get().createChangeEvent();
-    testOnBrowserEvent(getExpectedInnerHtml(), event, "option 0", null,
-        "option 1", "option 1");
+    testOnBrowserEvent(getExpectedInnerHtml(), event, "option 0", null, "option 1", "option 1");
   }
 
   @Override
@@ -60,7 +56,7 @@ public class SelectionCellTest extends EditableCellTestBase<String, String> {
 
   @Override
   protected String[] getConsumedEvents() {
-    return new String[]{"change", "keydown", "focus", "blur"};
+    return new String[] {"change", "keydown", "focus", "blur"};
   }
 
   @Override
@@ -84,8 +80,8 @@ public class SelectionCellTest extends EditableCellTestBase<String, String> {
         + "<option value=\"option 2\" selected=\"selected\">option 2</option></select>";
   }
 
-    @Override
-    public String getModuleName() {
-        return "";
-    }
+  @Override
+  public String getModuleName() {
+    return "";
+  }
 }

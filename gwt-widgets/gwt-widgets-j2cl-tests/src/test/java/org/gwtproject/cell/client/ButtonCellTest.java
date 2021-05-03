@@ -19,9 +19,7 @@ import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.NativeEvent;
 
-/**
- * Tests for {@link org.gwtproject.cell.client.ButtonCell}.
- */
+/** Tests for {@link org.gwtproject.cell.client.ButtonCell}. */
 @J2clTestInput(ButtonCellTest.class)
 public class ButtonCellTest extends CellTestBase<String> {
 
@@ -30,9 +28,7 @@ public class ButtonCellTest extends CellTestBase<String> {
     testOnBrowserEvent(getExpectedInnerHtml(), event, "clickme", "clickme");
   }
 
-  /**
-   * Test that events outside of the button element are ignored.
-   */
+  /** Test that events outside of the button element are ignored. */
   public void testOnBrowserEventOutsideButton() {
     NativeEvent event = Document.get().createClickEvent(0, 0, 0, 0, 0, false, false, false, false);
     testOnBrowserEvent(createCell(), getExpectedInnerHtml(), event, "clickme", null, false);
@@ -55,7 +51,7 @@ public class ButtonCellTest extends CellTestBase<String> {
 
   @Override
   protected String[] getConsumedEvents() {
-    return new String[]{"click", "keydown"};
+    return new String[] {"click", "keydown"};
   }
 
   @Override
@@ -68,8 +64,8 @@ public class ButtonCellTest extends CellTestBase<String> {
     return "<button type=\"button\" tabindex=\"-1\"></button>";
   }
 
-    @Override
-    public String getModuleName() {
-        return "";
-    }
+  @Override
+  public String getModuleName() {
+    return "";
+  }
 }

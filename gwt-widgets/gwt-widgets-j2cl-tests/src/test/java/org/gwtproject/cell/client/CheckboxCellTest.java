@@ -19,92 +19,89 @@ import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.NativeEvent;
 
-/**
- * Tests for {@link CheckboxCell}.
- */
+/** Tests for {@link CheckboxCell}. */
 @J2clTestInput(CheckboxCellTest.class)
 public class CheckboxCellTest extends EditableCellTestBase<Boolean, Boolean> {
 
-    public void testConstructor() {
-        {
-            CheckboxCell cell = new CheckboxCell(true);
-            assertTrue(cell.dependsOnSelection());
-            assertTrue(cell.handlesSelection());
-        }
-
-        {
-            CheckboxCell cell = new CheckboxCell(false);
-            assertFalse(cell.dependsOnSelection());
-            assertFalse(cell.handlesSelection());
-        }
-
-        {
-            CheckboxCell cell = new CheckboxCell(true, false);
-            assertTrue(cell.dependsOnSelection());
-            assertFalse(cell.handlesSelection());
-        }
-
-        {
-            CheckboxCell cell = new CheckboxCell(false, true);
-            assertFalse(cell.dependsOnSelection());
-            assertTrue(cell.handlesSelection());
-        }
+  public void testConstructor() {
+    {
+      CheckboxCell cell = new CheckboxCell(true);
+      assertTrue(cell.dependsOnSelection());
+      assertTrue(cell.handlesSelection());
     }
 
-    public void testOnBrowserEventChecked() {
-        NativeEvent event = Document.get().createChangeEvent();
-        testOnBrowserEvent("<input type=\"checkbox\" checked/>", event, false,
-                           null, Boolean.TRUE, true);
+    {
+      CheckboxCell cell = new CheckboxCell(false);
+      assertFalse(cell.dependsOnSelection());
+      assertFalse(cell.handlesSelection());
     }
 
-    public void testOnBrowserEventUnchecked() {
-        NativeEvent event = Document.get().createChangeEvent();
-        testOnBrowserEvent("<input type=\"checkbox\"/>", event, true, null,
-                           Boolean.FALSE, false);
+    {
+      CheckboxCell cell = new CheckboxCell(true, false);
+      assertTrue(cell.dependsOnSelection());
+      assertFalse(cell.handlesSelection());
     }
 
-    @Override
-    protected CheckboxCell createCell() {
-        return new CheckboxCell();
+    {
+      CheckboxCell cell = new CheckboxCell(false, true);
+      assertFalse(cell.dependsOnSelection());
+      assertTrue(cell.handlesSelection());
     }
+  }
 
-    @Override
-    protected Boolean createCellValue() {
-        return true;
-    }
+  public void testOnBrowserEventChecked() {
+    NativeEvent event = Document.get().createChangeEvent();
+    testOnBrowserEvent(
+        "<input type=\"checkbox\" checked/>", event, false, null, Boolean.TRUE, true);
+  }
 
-    @Override
-    protected Boolean createCellViewData() {
-        return false;
-    }
+  public void testOnBrowserEventUnchecked() {
+    NativeEvent event = Document.get().createChangeEvent();
+    testOnBrowserEvent("<input type=\"checkbox\"/>", event, true, null, Boolean.FALSE, false);
+  }
 
-    @Override
-    protected boolean dependsOnSelection() {
-        return false;
-    }
+  @Override
+  protected CheckboxCell createCell() {
+    return new CheckboxCell();
+  }
 
-    @Override
-    protected String[] getConsumedEvents() {
-        return new String[]{"change", "keydown"};
-    }
+  @Override
+  protected Boolean createCellValue() {
+    return true;
+  }
 
-    @Override
-    protected String getExpectedInnerHtml() {
-        return "<input type=\"checkbox\" tabindex=\"-1\" checked/>";
-    }
+  @Override
+  protected Boolean createCellViewData() {
+    return false;
+  }
 
-    @Override
-    protected String getExpectedInnerHtmlNull() {
-        return "<input type=\"checkbox\" tabindex=\"-1\"/>";
-    }
+  @Override
+  protected boolean dependsOnSelection() {
+    return false;
+  }
 
-    @Override
-    protected String getExpectedInnerHtmlViewData() {
-        return "<input type=\"checkbox\" tabindex=\"-1\"/>";
-    }
+  @Override
+  protected String[] getConsumedEvents() {
+    return new String[] {"change", "keydown"};
+  }
 
-    @Override
-    public String getModuleName() {
-        return "";
-    }
+  @Override
+  protected String getExpectedInnerHtml() {
+    return "<input type=\"checkbox\" tabindex=\"-1\" checked/>";
+  }
+
+  @Override
+  protected String getExpectedInnerHtmlNull() {
+    return "<input type=\"checkbox\" tabindex=\"-1\"/>";
+  }
+
+  @Override
+  protected String getExpectedInnerHtmlViewData() {
+    return "<input type=\"checkbox\" tabindex=\"-1\"/>";
+  }
+
+  @Override
+  public String getModuleName() {
+    return "";
+  }
 }

@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -17,11 +17,10 @@ package org.gwtproject.user.client.ui;
 
 /**
  * Tests both {@link HorizontalSplitPanel} and {@link VerticalSplitPanel}.
- * 
+ *
  * @param <T> the panel type
  */
-public abstract class SplitPanelTestBase<T extends SplitPanel> extends
-    PanelTestBase<T> {
+public abstract class SplitPanelTestBase<T extends SplitPanel> extends PanelTestBase<T> {
 
   private static Widget createMockWidget() {
     final Label label = new Label();
@@ -37,13 +36,10 @@ public abstract class SplitPanelTestBase<T extends SplitPanel> extends
 
   @Override
   public void testAttachDetachOrder() {
-    HasWidgetsTester.testAll(createPanel(),
-        new HasWidgetsTester.DefaultWidgetAdder(), false);
+    HasWidgetsTester.testAll(createPanel(), new HasWidgetsTester.DefaultWidgetAdder(), false);
   }
 
-  /**
-   * Tests creation, widget assignment, null assignment.
-   */
+  /** Tests creation, widget assignment, null assignment. */
   public void testSplitPanelCreate() {
     final T panel = createPanel();
     final Widget widgetA = createMockWidget();
@@ -83,7 +79,7 @@ public abstract class SplitPanelTestBase<T extends SplitPanel> extends
 
   /**
    * Get the widget at the end of the line.
-   * 
+   *
    * @param split the {@link SplitPanel}
    * @return the widget
    */
@@ -91,7 +87,7 @@ public abstract class SplitPanelTestBase<T extends SplitPanel> extends
 
   /**
    * Get the widget at the start of the line.
-   * 
+   *
    * @param split the {@link SplitPanel}
    * @return the widget
    */
@@ -99,7 +95,7 @@ public abstract class SplitPanelTestBase<T extends SplitPanel> extends
 
   /**
    * Set the widget at the end of the line.
-   * 
+   *
    * @param split the {@link SplitPanel}
    * @param w the widget to set
    */
@@ -107,7 +103,7 @@ public abstract class SplitPanelTestBase<T extends SplitPanel> extends
 
   /**
    * Set the widget at the start of the line.
-   * 
+   *
    * @param split the {@link SplitPanel}
    * @param w the widget to set
    */

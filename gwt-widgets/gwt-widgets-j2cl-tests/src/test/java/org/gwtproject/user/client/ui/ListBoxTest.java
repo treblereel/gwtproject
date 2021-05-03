@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,24 +15,23 @@
  */
 package org.gwtproject.user.client.ui;
 
+import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.client.SelectElement;
 import org.gwtproject.i18n.client.HasDirection.Direction;
 import org.gwtproject.i18n.shared.BidiFormatter;
-import com.google.gwt.junit.client.GWTTestCase;
 
-/**
- * Tests {@link ListBox}. Needs many, many more tests.
- */
+/** Tests {@link ListBox}. Needs many, many more tests. */
 @J2clTestInput(ListBoxTest.class)
 public class ListBoxTest extends GWTTestCase {
 
-  private final String RTL_TEXT = "\u05e0 \u05e0\u05e0\u05e0\u05e0\u05e0" +
-      "\u05e0\u05e0\u05e0 \u05e0\u05e0\u05e0\u05e0\u05e0 \u05e0\u05e0\u05e0" +
-      "\u05e0\u05e0\u05e0 \u05e0\u05e0\u05e0 \u05e0\u05e0\u05e0";
-  private final String LTR_TEXT = "The quick brown fox jumps over the" +
-      "lazy dog. The lazy dog seems quite amused.";
+  private final String RTL_TEXT =
+      "\u05e0 \u05e0\u05e0\u05e0\u05e0\u05e0"
+          + "\u05e0\u05e0\u05e0 \u05e0\u05e0\u05e0\u05e0\u05e0 \u05e0\u05e0\u05e0"
+          + "\u05e0\u05e0\u05e0 \u05e0\u05e0\u05e0 \u05e0\u05e0\u05e0";
+  private final String LTR_TEXT =
+      "The quick brown fox jumps over the" + "lazy dog. The lazy dog seems quite amused.";
 
   @Override
   public String getModuleName() {
@@ -60,16 +59,18 @@ public class ListBoxTest extends GWTTestCase {
     UIObjectTest.assertDebugId("myList", list.getElement());
 
     delayTestFinish(5000);
-    Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-      @Override
-      public void execute() {
-        UIObjectTest.assertDebugIdContents("myList-item0", "option0");
-        UIObjectTest.assertDebugIdContents("myList-item1", "option1");
-        UIObjectTest.assertDebugIdContents("myList-item2", "option2");
-        UIObjectTest.assertDebugIdContents("myList-item3", "option3");
-        finishTest();
-      }
-    });
+    Scheduler.get()
+        .scheduleDeferred(
+            new Scheduler.ScheduledCommand() {
+              @Override
+              public void execute() {
+                UIObjectTest.assertDebugIdContents("myList-item0", "option0");
+                UIObjectTest.assertDebugIdContents("myList-item1", "option1");
+                UIObjectTest.assertDebugIdContents("myList-item2", "option2");
+                UIObjectTest.assertDebugIdContents("myList-item3", "option3");
+                finishTest();
+              }
+            });
   }
 
   public void testInsert() {
@@ -125,38 +126,54 @@ public class ListBoxTest extends GWTTestCase {
       ListBox lb = new ListBox();
       lb.insertItem(RTL_TEXT, Direction.RTL, 0);
       assertEquals(RTL_TEXT, lb.getItemText(0));
-      assertOptionText(BidiFormatter.getInstanceForCurrentLocale().unicodeWrap(
-          RTL_TEXT, false /* isHtml */, false /* dirReset */), lb, 0);
+      assertOptionText(
+          BidiFormatter.getInstanceForCurrentLocale()
+              .unicodeWrap(RTL_TEXT, false /* isHtml */, false /* dirReset */),
+          lb,
+          0);
       lb.insertItem(LTR_TEXT, Direction.LTR, 0);
       assertEquals(LTR_TEXT, lb.getItemText(0));
-      assertOptionText(BidiFormatter.getInstanceForCurrentLocale().unicodeWrap(
-          LTR_TEXT, false /* isHtml */, false /* dirReset */), lb, 0);
+      assertOptionText(
+          BidiFormatter.getInstanceForCurrentLocale()
+              .unicodeWrap(LTR_TEXT, false /* isHtml */, false /* dirReset */),
+          lb,
+          0);
       lb.clear();
 
       // Direction estimation
       lb.setDirectionEstimator(true);
       lb.addItem(RTL_TEXT);
       assertEquals(RTL_TEXT, lb.getItemText(0));
-      assertOptionText(BidiFormatter.getInstanceForCurrentLocale().unicodeWrap(
-          RTL_TEXT, false /* isHtml */, false /* dirReset */), lb, 0);
+      assertOptionText(
+          BidiFormatter.getInstanceForCurrentLocale()
+              .unicodeWrap(RTL_TEXT, false /* isHtml */, false /* dirReset */),
+          lb,
+          0);
       lb.addItem(LTR_TEXT);
       assertEquals(LTR_TEXT, lb.getItemText(1));
-      assertOptionText(BidiFormatter.getInstanceForCurrentLocale().unicodeWrap(
-          LTR_TEXT, false /* isHtml */, false /* dirReset */), lb, 1);
+      assertOptionText(
+          BidiFormatter.getInstanceForCurrentLocale()
+              .unicodeWrap(LTR_TEXT, false /* isHtml */, false /* dirReset */),
+          lb,
+          1);
 
       // Explicit direction which is opposite to the estimated direction
       lb.insertItem(RTL_TEXT, Direction.LTR, 0);
       assertEquals(RTL_TEXT, lb.getItemText(0));
       assertOptionText(
-          BidiFormatter.getInstanceForCurrentLocale().unicodeWrapWithKnownDir(
-          Direction.LTR, RTL_TEXT, false /* isHtml */, false /* dirReset */),
-          lb, 0);
+          BidiFormatter.getInstanceForCurrentLocale()
+              .unicodeWrapWithKnownDir(
+                  Direction.LTR, RTL_TEXT, false /* isHtml */, false /* dirReset */),
+          lb,
+          0);
       lb.insertItem(LTR_TEXT, Direction.RTL, 1);
       assertEquals(LTR_TEXT, lb.getItemText(1));
       assertOptionText(
-          BidiFormatter.getInstanceForCurrentLocale().unicodeWrapWithKnownDir(
-          Direction.RTL, LTR_TEXT, false /* isHtml */, false /* dirReset */),
-          lb, 1);
+          BidiFormatter.getInstanceForCurrentLocale()
+              .unicodeWrapWithKnownDir(
+                  Direction.RTL, LTR_TEXT, false /* isHtml */, false /* dirReset */),
+          lb,
+          1);
     }
   }
 
@@ -279,37 +296,53 @@ public class ListBoxTest extends GWTTestCase {
       // Explicit direction, no direction estimation
       lb.insertItem(RTL_TEXT, Direction.RTL, 0);
       assertEquals(RTL_TEXT, lb.getItemText(0));
-      assertOptionText(BidiFormatter.getInstanceForCurrentLocale().unicodeWrap(
-          RTL_TEXT, false /* isHtml */, false /* dirReset */), lb, 0);
+      assertOptionText(
+          BidiFormatter.getInstanceForCurrentLocale()
+              .unicodeWrap(RTL_TEXT, false /* isHtml */, false /* dirReset */),
+          lb,
+          0);
       lb.insertItem(LTR_TEXT, Direction.LTR, 0);
       assertEquals(LTR_TEXT, lb.getItemText(0));
-      assertOptionText(BidiFormatter.getInstanceForCurrentLocale().unicodeWrap(
-          LTR_TEXT, false /* isHtml */, false /* dirReset */), lb, 0);
+      assertOptionText(
+          BidiFormatter.getInstanceForCurrentLocale()
+              .unicodeWrap(LTR_TEXT, false /* isHtml */, false /* dirReset */),
+          lb,
+          0);
 
       // Direction estimation
       lb.setDirectionEstimator(true);
       lb.setItemText(0, RTL_TEXT);
       assertEquals(RTL_TEXT, lb.getItemText(0));
-      assertOptionText(BidiFormatter.getInstanceForCurrentLocale().unicodeWrap(
-          RTL_TEXT, false /* isHtml */, false /* dirReset */), lb, 0);
+      assertOptionText(
+          BidiFormatter.getInstanceForCurrentLocale()
+              .unicodeWrap(RTL_TEXT, false /* isHtml */, false /* dirReset */),
+          lb,
+          0);
       lb.setItemText(0, LTR_TEXT);
       assertEquals(LTR_TEXT, lb.getItemText(0));
-      assertOptionText(BidiFormatter.getInstanceForCurrentLocale().unicodeWrap(
-          LTR_TEXT, false /* isHtml */, false /* dirReset */), lb, 0);
+      assertOptionText(
+          BidiFormatter.getInstanceForCurrentLocale()
+              .unicodeWrap(LTR_TEXT, false /* isHtml */, false /* dirReset */),
+          lb,
+          0);
 
       // Explicit direction which is opposite to the estimated direction
       lb.setItemText(0, LTR_TEXT, Direction.RTL);
       assertEquals(LTR_TEXT, lb.getItemText(0));
       assertOptionText(
-          BidiFormatter.getInstanceForCurrentLocale().unicodeWrapWithKnownDir(
-          Direction.RTL, LTR_TEXT, false /* isHtml */, false /* dirReset */),
-          lb, 0);
+          BidiFormatter.getInstanceForCurrentLocale()
+              .unicodeWrapWithKnownDir(
+                  Direction.RTL, LTR_TEXT, false /* isHtml */, false /* dirReset */),
+          lb,
+          0);
       lb.setItemText(0, RTL_TEXT, Direction.LTR);
       assertEquals(RTL_TEXT, lb.getItemText(0));
       assertOptionText(
-          BidiFormatter.getInstanceForCurrentLocale().unicodeWrapWithKnownDir(
-          Direction.LTR, RTL_TEXT, false /* isHtml */, false /* dirReset */),
-          lb, 0);
+          BidiFormatter.getInstanceForCurrentLocale()
+              .unicodeWrapWithKnownDir(
+                  Direction.LTR, RTL_TEXT, false /* isHtml */, false /* dirReset */),
+          lb,
+          0);
     }
 
     try {

@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,27 +15,22 @@
  */
 package org.gwtproject.user.client;
 
+import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
-import elemental2.dom.DomGlobal;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.event.dom.client.*;
 import org.gwtproject.event.shared.HandlerRegistration;
-import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.user.client.Event.NativePreviewEvent;
 import org.gwtproject.user.client.Event.NativePreviewHandler;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.RootPanel;
 
-/**
- * Test Case for {@link Event}.
- */
+/** Test Case for {@link Event}. */
 @J2clTestInput(EventTest.class)
 public class EventTest extends GWTTestCase {
 
-  /**
-   * A NativePreviewHandler used for testing.
-   */
+  /** A NativePreviewHandler used for testing. */
   private static class TestNativePreviewHandler implements NativePreviewHandler {
     private boolean doCancel;
     private boolean doPreventCancel;
@@ -69,20 +64,15 @@ public class EventTest extends GWTTestCase {
     }
   }
 
-  /**
-   * A custom {@link Label} used for testing.
-   */
-  private static class TestLabel extends Label implements
-      HasDoubleClickHandlers {
+  /** A custom {@link Label} used for testing. */
+  private static class TestLabel extends Label implements HasDoubleClickHandlers {
     @Override
     public HandlerRegistration addDoubleClickHandler(DoubleClickHandler handler) {
       return addDomHandler(handler, DoubleClickEvent.getType());
     }
   }
 
-  /**
-   * Debug information used to test events.
-   */
+  /** Debug information used to test events. */
   private static class EventInfo {
     private int fireCount = 0;
   }
@@ -93,26 +83,24 @@ public class EventTest extends GWTTestCase {
   }
 
   /**
-   * Test that concurrent removal of a {@link NativePreviewHandler} does not
-   * trigger an exception. The handler should not actually be removed until the
-   * end of the event loop.
+   * Test that concurrent removal of a {@link NativePreviewHandler} does not trigger an exception.
+   * The handler should not actually be removed until the end of the event loop.
    */
   public void testConcurrentRemovalOfNativePreviewHandler() {
     // Add handler0
-    final TestNativePreviewHandler handler0 = new TestNativePreviewHandler(
-        false, false);
+    final TestNativePreviewHandler handler0 = new TestNativePreviewHandler(false, false);
     final HandlerRegistration reg0 = Event.addNativePreviewHandler(handler0);
 
     // Add handler 1
-    final TestNativePreviewHandler handler1 = new TestNativePreviewHandler(
-        false, false) {
-      @Override
-      public void onPreviewNativeEvent(NativePreviewEvent event) {
-        super.onPreviewNativeEvent(event);
-        handler0.assertIsFired(false);
-        reg0.removeHandler();
-      }
-    };
+    final TestNativePreviewHandler handler1 =
+        new TestNativePreviewHandler(false, false) {
+          @Override
+          public void onPreviewNativeEvent(NativePreviewEvent event) {
+            super.onPreviewNativeEvent(event);
+            handler0.assertIsFired(false);
+            reg0.removeHandler();
+          }
+        };
     HandlerRegistration reg1 = Event.addNativePreviewHandler(handler1);
     assertTrue(Event.fireNativePreviewEvent(null));
 
@@ -123,8 +111,8 @@ public class EventTest extends GWTTestCase {
   }
 
   /**
-   * Test that a double click results in exactly one simulated click event in
-   * IE. See issue 3392 for more info.
+   * Test that a double click results in exactly one simulated click event in IE. See issue 3392 for
+   * more info.
    */
   public void testDoubleClickEvent() {
     TestLabel label = new TestLabel();
@@ -137,11 +125,11 @@ public class EventTest extends GWTTestCase {
     label.addDoubleClickHandler(event -> dblclickInfo.fireCount++);
 
     // Fire a click event
-    NativeEvent clickEvent = Document.get().createClickEvent(0, 0, 0, 0, 0,
-        false, false, false, false);
+    NativeEvent clickEvent =
+        Document.get().createClickEvent(0, 0, 0, 0, 0, false, false, false, false);
     label.getElement().dispatchEvent(clickEvent);
-    NativeEvent dblclickEvent = Document.get().createDblClickEvent(0, 0, 0, 0,
-        0, false, false, false, false);
+    NativeEvent dblclickEvent =
+        Document.get().createDblClickEvent(0, 0, 0, 0, 0, false, false, false, false);
     label.getElement().dispatchEvent(dblclickEvent);
 
     // Verify the results
@@ -151,14 +139,12 @@ public class EventTest extends GWTTestCase {
   }
 
   /**
-   * Test that {@link Event#fireNativePreviewEvent(NativeEvent)} returns the
-   * correct value if the native event is canceled.
+   * Test that {@link Event#fireNativePreviewEvent(NativeEvent)} returns the correct value if the
+   * native event is canceled.
    */
   public void testFireNativePreviewEventCancel() {
-    TestNativePreviewHandler handler0 = new TestNativePreviewHandler(true,
-        false);
-    TestNativePreviewHandler handler1 = new TestNativePreviewHandler(true,
-        false);
+    TestNativePreviewHandler handler0 = new TestNativePreviewHandler(true, false);
+    TestNativePreviewHandler handler1 = new TestNativePreviewHandler(true, false);
     HandlerRegistration reg0 = Event.addNativePreviewHandler(handler0);
     HandlerRegistration reg1 = Event.addNativePreviewHandler(handler1);
     assertFalse(Event.fireNativePreviewEvent(null));
@@ -169,15 +155,12 @@ public class EventTest extends GWTTestCase {
   }
 
   /**
-   * Test that {@link Event#fireNativePreviewEvent(NativeEvent)} returns the
-   * correct value if the native event is prevented from being canceled, even if
-   * another handler cancels the event.
+   * Test that {@link Event#fireNativePreviewEvent(NativeEvent)} returns the correct value if the
+   * native event is prevented from being canceled, even if another handler cancels the event.
    */
   public void testFireNativePreviewEventPreventCancel() {
-    TestNativePreviewHandler handler0 = new TestNativePreviewHandler(false,
-        true);
-    TestNativePreviewHandler handler1 = new TestNativePreviewHandler(true,
-        false);
+    TestNativePreviewHandler handler0 = new TestNativePreviewHandler(false, true);
+    TestNativePreviewHandler handler1 = new TestNativePreviewHandler(true, false);
     HandlerRegistration reg0 = Event.addNativePreviewHandler(handler0);
     HandlerRegistration reg1 = Event.addNativePreviewHandler(handler1);
     assertTrue(Event.fireNativePreviewEvent(null));
@@ -188,50 +171,48 @@ public class EventTest extends GWTTestCase {
   }
 
   /**
-   * Test that {@link Event#fireNativePreviewEvent(NativeEvent)} fires handlers
-   * in reverse order, and that the legacy EventPreview fires only if it is at
-   * the top of the stack.
+   * Test that {@link Event#fireNativePreviewEvent(NativeEvent)} fires handlers in reverse order,
+   * and that the legacy EventPreview fires only if it is at the top of the stack.
    */
-
   public void testFireNativePreviewEventReverseOrder() {
-    final TestNativePreviewHandler handler0 = new TestNativePreviewHandler(
-        false, false) {
-      @Override
-      public void onPreviewNativeEvent(NativePreviewEvent event) {
-        super.onPreviewNativeEvent(event);
-        assertFalse(event.isFirstHandler());
-      }
-    };
-    final TestNativePreviewHandler handler1 = new TestNativePreviewHandler(
-        false, false) {
-      @Override
-      public void onPreviewNativeEvent(NativePreviewEvent event) {
-        super.onPreviewNativeEvent(event);
-        handler0.assertIsFired(false);
-        assertFalse(event.isFirstHandler());
-      }
-    };
-    final TestNativePreviewHandler handler2 = new TestNativePreviewHandler(
-        false, false) {
-      @Override
-      public void onPreviewNativeEvent(NativePreviewEvent event) {
-        super.onPreviewNativeEvent(event);
-        handler0.assertIsFired(false);
-        handler1.assertIsFired(false);
-        assertFalse(event.isFirstHandler());
-      }
-    };
-    final TestNativePreviewHandler handler3 = new TestNativePreviewHandler(
-        false, false) {
-      @Override
-      public void onPreviewNativeEvent(NativePreviewEvent event) {
-        super.onPreviewNativeEvent(event);
-        handler0.assertIsFired(false);
-        handler1.assertIsFired(false);
-        handler2.assertIsFired(false);
-        assertTrue(event.isFirstHandler());
-      }
-    };
+    final TestNativePreviewHandler handler0 =
+        new TestNativePreviewHandler(false, false) {
+          @Override
+          public void onPreviewNativeEvent(NativePreviewEvent event) {
+            super.onPreviewNativeEvent(event);
+            assertFalse(event.isFirstHandler());
+          }
+        };
+    final TestNativePreviewHandler handler1 =
+        new TestNativePreviewHandler(false, false) {
+          @Override
+          public void onPreviewNativeEvent(NativePreviewEvent event) {
+            super.onPreviewNativeEvent(event);
+            handler0.assertIsFired(false);
+            assertFalse(event.isFirstHandler());
+          }
+        };
+    final TestNativePreviewHandler handler2 =
+        new TestNativePreviewHandler(false, false) {
+          @Override
+          public void onPreviewNativeEvent(NativePreviewEvent event) {
+            super.onPreviewNativeEvent(event);
+            handler0.assertIsFired(false);
+            handler1.assertIsFired(false);
+            assertFalse(event.isFirstHandler());
+          }
+        };
+    final TestNativePreviewHandler handler3 =
+        new TestNativePreviewHandler(false, false) {
+          @Override
+          public void onPreviewNativeEvent(NativePreviewEvent event) {
+            super.onPreviewNativeEvent(event);
+            handler0.assertIsFired(false);
+            handler1.assertIsFired(false);
+            handler2.assertIsFired(false);
+            assertTrue(event.isFirstHandler());
+          }
+        };
     HandlerRegistration reg0 = Event.addNativePreviewHandler(handler0);
     HandlerRegistration reg1 = Event.addNativePreviewHandler(handler1);
     HandlerRegistration reg2 = Event.addNativePreviewHandler(handler2);
@@ -247,14 +228,10 @@ public class EventTest extends GWTTestCase {
     reg3.removeHandler();
   }
 
-  /**
-   * Test removal of a {@link NativePreviewHandler} works.
-   */
+  /** Test removal of a {@link NativePreviewHandler} works. */
   public void testFireNativePreviewEventRemoval() {
-    TestNativePreviewHandler handler0 = new TestNativePreviewHandler(false,
-        false);
-    TestNativePreviewHandler handler1 = new TestNativePreviewHandler(false,
-        false);
+    TestNativePreviewHandler handler0 = new TestNativePreviewHandler(false, false);
+    TestNativePreviewHandler handler1 = new TestNativePreviewHandler(false, false);
     HandlerRegistration reg0 = Event.addNativePreviewHandler(handler0);
     HandlerRegistration reg1 = Event.addNativePreviewHandler(handler1);
     reg1.removeHandler();
@@ -265,37 +242,35 @@ public class EventTest extends GWTTestCase {
   }
 
   /**
-   * Test that {@link Event#fireNativePreviewEvent(NativeEvent)} returns the
-   * correct value even if another event is fired while handling the current
-   * event.
+   * Test that {@link Event#fireNativePreviewEvent(NativeEvent)} returns the correct value even if
+   * another event is fired while handling the current event.
    */
   public void testFireNativePreviewEventWithInterupt() {
-    NativePreviewHandler handler = new NativePreviewHandler() {
-      private boolean first = true;
+    NativePreviewHandler handler =
+        new NativePreviewHandler() {
+          private boolean first = true;
 
-      @Override
-      public void onPreviewNativeEvent(NativePreviewEvent event) {
-        if (first) {
-          event.cancel();
-          first = false;
-          assertTrue(Event.fireNativePreviewEvent(null));
-          assertTrue(event.isCanceled());
-        }
-      }
-    };
+          @Override
+          public void onPreviewNativeEvent(NativePreviewEvent event) {
+            if (first) {
+              event.cancel();
+              first = false;
+              assertTrue(Event.fireNativePreviewEvent(null));
+              assertTrue(event.isCanceled());
+            }
+          }
+        };
     HandlerRegistration reg = Event.addNativePreviewHandler(handler);
     reg.removeHandler();
   }
 
   /**
-   * Test that {@link Event#fireNativePreviewEvent(NativeEvent)} returns the
-   * correct value if the native event is not canceled.
+   * Test that {@link Event#fireNativePreviewEvent(NativeEvent)} returns the correct value if the
+   * native event is not canceled.
    */
   public void testFireNativePreviewEventWithoutCancel() {
-    TestNativePreviewHandler handler0 = new TestNativePreviewHandler(false,
-        false);
-    TestNativePreviewHandler handler1 = new TestNativePreviewHandler(false,
-        false);
+    TestNativePreviewHandler handler0 = new TestNativePreviewHandler(false, false);
+    TestNativePreviewHandler handler1 = new TestNativePreviewHandler(false, false);
     HandlerRegistration reg0 = Event.addNativePreviewHandler(handler0);
     HandlerRegistration reg1 = Event.addNativePreviewHandler(handler1);
     assertTrue(Event.fireNativePreviewEvent(null));
@@ -306,8 +281,8 @@ public class EventTest extends GWTTestCase {
   }
 
   /**
-   * Test that {@link Event#fireNativePreviewEvent(NativeEvent)} returns the
-   * correct value if no handlers are present.
+   * Test that {@link Event#fireNativePreviewEvent(NativeEvent)} returns the correct value if no
+   * handlers are present.
    */
   public void testFireNativePreviewEventWithoutHandlers() {
     assertTrue(Event.fireNativePreviewEvent(null));
@@ -331,9 +306,7 @@ public class EventTest extends GWTTestCase {
     assertEquals(-1, Event.getTypeInt("undefined"));
   }
 
-  /**
-   * Test the accessors in {@link NativePreviewEvent}.
-   */
+  /** Test the accessors in {@link NativePreviewEvent}. */
   public void testNativePreviewEventAccessors() {
     // cancelNativeEvent
     {
@@ -364,10 +337,7 @@ public class EventTest extends GWTTestCase {
     }
   }
 
-  /**
-   * Test that the singleton instance of {@link NativePreviewEvent} is revived
-   * correctly.
-   */
+  /** Test that the singleton instance of {@link NativePreviewEvent} is revived correctly. */
   public void testReviveNativePreviewEvent() {
     // Fire the event and cancel it
     TestNativePreviewHandler handler0 = new TestNativePreviewHandler(true, true);
@@ -377,20 +347,19 @@ public class EventTest extends GWTTestCase {
     reg0.removeHandler();
 
     // Fire the event again, but don't cancel it
-    TestNativePreviewHandler handler1 = new TestNativePreviewHandler(false,
-        false) {
-      @Override
-      public void onPreviewNativeEvent(NativePreviewEvent event) {
-        assertFalse(event.isCanceled());
-        assertFalse(event.isConsumed());
-        assertTrue(event.isFirstHandler());
-        super.onPreviewNativeEvent(event);
-      }
-    };
+    TestNativePreviewHandler handler1 =
+        new TestNativePreviewHandler(false, false) {
+          @Override
+          public void onPreviewNativeEvent(NativePreviewEvent event) {
+            assertFalse(event.isCanceled());
+            assertFalse(event.isConsumed());
+            assertTrue(event.isFirstHandler());
+            super.onPreviewNativeEvent(event);
+          }
+        };
     HandlerRegistration reg1 = Event.addNativePreviewHandler(handler1);
     assertTrue(Event.fireNativePreviewEvent(null));
     handler1.assertIsFired(true);
     reg1.removeHandler();
   }
-
 }

@@ -15,12 +15,12 @@
  */
 package org.gwtproject.user.client.ui.impl;
 
+import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
 import org.gwtproject.event.dom.client.ErrorEvent;
 import org.gwtproject.event.dom.client.ErrorHandler;
 import org.gwtproject.event.dom.client.LoadEvent;
 import org.gwtproject.event.dom.client.LoadHandler;
-import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.safehtml.shared.UriUtils;
 import org.gwtproject.timer.client.Timer;
 import org.gwtproject.user.client.ui.Image;
@@ -28,12 +28,11 @@ import org.gwtproject.user.client.ui.ImageTest;
 import org.gwtproject.user.client.ui.RootPanel;
 
 /**
- * Tests for the ClippedImagePrototype implementation. Tests are done to ensure
- * that clipped images are generated which match the prototype's specification,
- * and that applications of the prototype to existing images in both
- * clipped/unclipped mode change the image so that it matches the prototype.
- * Tests are also done to ensure that load events fire correctly after the
- * application of the prototype to the image.
+ * Tests for the ClippedImagePrototype implementation. Tests are done to ensure that clipped images
+ * are generated which match the prototype's specification, and that applications of the prototype
+ * to existing images in both clipped/unclipped mode change the image so that it matches the
+ * prototype. Tests are also done to ensure that load events fire correctly after the application of
+ * the prototype to the image.
  */
 @J2clTestInput(ClippedImagePrototypeTest.class)
 public class ClippedImagePrototypeTest extends GWTTestCase {
@@ -56,12 +55,10 @@ public class ClippedImagePrototypeTest extends GWTTestCase {
   }
 
   /**
-   * Tests that a clipped image can be transformed to match a given prototype.
-   * Also checks to make sure that a load event is fired on when
-   * {@link ClippedImagePrototype#applyTo(Image)}
-   * is called.
+   * Tests that a clipped image can be transformed to match a given prototype. Also checks to make
+   * sure that a load event is fired on when {@link ClippedImagePrototype#applyTo(Image)} is called.
    *
-   * TODO(jlabanca): Enable this test when issue 863 is fixed
+   * <p>TODO(jlabanca): Enable this test when issue 863 is fixed
    */
   public void disabledTestApplyToClippedImage() {
     final Image image = new Image("counting-backwards.png", 12, 13, 8, 8);
@@ -72,51 +69,54 @@ public class ClippedImagePrototypeTest extends GWTTestCase {
     assertEquals(8, image.getHeight());
     assertEquals("clipped", ImageTest.getCurrentImageStateName(image));
 
-    final TestLoadHandler handler = new TestLoadHandler() {
-      @Override
-      public void onLoad(LoadEvent event) {
-        super.onLoad(event);
+    final TestLoadHandler handler =
+        new TestLoadHandler() {
+          @Override
+          public void onLoad(LoadEvent event) {
+            super.onLoad(event);
 
-        if (image.getOriginLeft() == 12 && image.getOriginTop() == 13) {
-          ClippedImagePrototype clippedImagePrototype = new ClippedImagePrototype(
-              UriUtils.fromString("counting-forwards.png"), 16, 16, 16, 16);
+            if (image.getOriginLeft() == 12 && image.getOriginTop() == 13) {
+              ClippedImagePrototype clippedImagePrototype =
+                  new ClippedImagePrototype(
+                      UriUtils.fromString("counting-forwards.png"), 16, 16, 16, 16);
 
-          clippedImagePrototype.applyTo(image);
+              clippedImagePrototype.applyTo(image);
 
-          assertEquals(16, image.getOriginLeft());
-          assertEquals(16, image.getOriginTop());
-          assertEquals(16, image.getWidth());
-          assertEquals(16, image.getHeight());
-          assertEquals("clipped", ImageTest.getCurrentImageStateName(image));
-        }
-      }
-    };
+              assertEquals(16, image.getOriginLeft());
+              assertEquals(16, image.getOriginTop());
+              assertEquals(16, image.getWidth());
+              assertEquals(16, image.getHeight());
+              assertEquals("clipped", ImageTest.getCurrentImageStateName(image));
+            }
+          }
+        };
     image.addLoadHandler(handler);
-    image.addErrorHandler(new ErrorHandler() {
-      @Override
-      public void onError(ErrorEvent event) {
-        fail("The image " + image.getUrl() + " failed to load.");
-      }
-    });
+    image.addErrorHandler(
+        new ErrorHandler() {
+          @Override
+          public void onError(ErrorEvent event) {
+            fail("The image " + image.getUrl() + " failed to load.");
+          }
+        });
 
     RootPanel.get().add(image);
     delayTestFinish(2000);
 
-    Timer t = new Timer() {
-      @Override
-      public void run() {
-        assertEquals(2, handler.getOnloadEventFireCount());
-        finishTest();
-      }
-    };
+    Timer t =
+        new Timer() {
+          @Override
+          public void run() {
+            assertEquals(2, handler.getOnloadEventFireCount());
+            finishTest();
+          }
+        };
 
     t.schedule(1000);
   }
 
   /**
-   * Tests that an unclipped image can be transformed to match a given
-   * prototype. Also checks to make sure that a load event is fired on when
-   * <code>applyTo(Image)</code> is called.
+   * Tests that an unclipped image can be transformed to match a given prototype. Also checks to
+   * make sure that a load event is fired on when <code>applyTo(Image)</code> is called.
    */
   /*
    * This test has been commented out because of issue #863
@@ -160,12 +160,12 @@ public class ClippedImagePrototypeTest extends GWTTestCase {
    */
 
   /**
-   * Tests that new clipped images can be generated from a prototype by calling
-   * {@link ClippedImagePrototype#createImage()}.
+   * Tests that new clipped images can be generated from a prototype by calling {@link
+   * ClippedImagePrototype#createImage()}.
    */
   public void testGenerateNewImage() {
-    ClippedImagePrototype clippedImagePrototype = new ClippedImagePrototype(
-        UriUtils.fromString("counting-forwards.png"), 16, 16, 16, 16);
+    ClippedImagePrototype clippedImagePrototype =
+        new ClippedImagePrototype(UriUtils.fromString("counting-forwards.png"), 16, 16, 16, 16);
 
     Image image = clippedImagePrototype.createImage();
 
@@ -179,12 +179,10 @@ public class ClippedImagePrototypeTest extends GWTTestCase {
     assertEquals("clipped", ImageTest.getCurrentImageStateName(image));
   }
 
-  /**
-   * Tests that making clipped images draggable works as intended.
-   */
+  /** Tests that making clipped images draggable works as intended. */
   public void testMakingClippedImagesDraggable() {
-    ClippedImagePrototype clippedImage = new ClippedImagePrototype(
-        UriUtils.fromString("test.png"), 0, 0, 0, 0);
+    ClippedImagePrototype clippedImage =
+        new ClippedImagePrototype(UriUtils.fromString("test.png"), 0, 0, 0, 0);
 
     // check that at first the outputted HTML does not contain draggable='true'
     assertFalse(clippedImage.getSafeHtml().asString().contains("draggable"));

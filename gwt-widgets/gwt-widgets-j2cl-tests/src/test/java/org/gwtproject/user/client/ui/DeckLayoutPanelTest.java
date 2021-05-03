@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -16,21 +16,15 @@
 
 package org.gwtproject.user.client.ui;
 
+import com.google.j2cl.junit.apt.J2clTestInput;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.j2cl.junit.apt.J2clTestInput;
-
-/**
- * Test for {@link DeckLayoutPanel}.
- */
+/** Test for {@link DeckLayoutPanel}. */
 @J2clTestInput(DeckLayoutPanelTest.class)
 public class DeckLayoutPanelTest extends PanelTestBase<DeckLayoutPanel> {
 
-  /**
-   * Test that forcing layout without changing the widget doesn't cause the
-   * widget to disappear.
-   */
+  /** Test that forcing layout without changing the widget doesn't cause the widget to disappear. */
   public void testForceLayoutSameWidget() {
     DeckLayoutPanel deck = createPanel();
     Label[] labels = new Label[2];
@@ -55,22 +49,21 @@ public class DeckLayoutPanelTest extends PanelTestBase<DeckLayoutPanel> {
     assertTrue(labels[1].isVisible());
   }
 
-  /**
-   * Test that forcing layout will call onResize only once.
-   */
+  /** Test that forcing layout will call onResize only once. */
   public void testForceLayoutNoRedundantOnResize() {
     final List<Boolean> called = new ArrayList<>();
     DeckLayoutPanel deck = createPanel();
-    SimpleLayoutPanel child = new SimpleLayoutPanel() {
-      @Override
-      public void onResize() {
-        super.onResize();
-        called.add(true);
-      }
-    };
+    SimpleLayoutPanel child =
+        new SimpleLayoutPanel() {
+          @Override
+          public void onResize() {
+            super.onResize();
+            called.add(true);
+          }
+        };
     deck.add(child);
     deck.forceLayout();
-    assertEquals(1,called.size());
+    assertEquals(1, called.size());
   }
 
   public void testSetWidget() {
@@ -115,8 +108,8 @@ public class DeckLayoutPanelTest extends PanelTestBase<DeckLayoutPanel> {
   }
 
   /**
-   * Tests both {@link DeckLayoutPanel#showWidget(int)} and
-   * {@link DeckLayoutPanel#showWidget(Widget)}.
+   * Tests both {@link DeckLayoutPanel#showWidget(int)} and {@link
+   * DeckLayoutPanel#showWidget(Widget)}.
    */
   public void testShowWidget() {
     DeckLayoutPanel deck = createPanel();
@@ -146,8 +139,8 @@ public class DeckLayoutPanelTest extends PanelTestBase<DeckLayoutPanel> {
   }
 
   /**
-   * Test that toggling a widget out and back in within the same event loop
-   * doesn't cause the widget to be hidden.
+   * Test that toggling a widget out and back in within the same event loop doesn't cause the widget
+   * to be hidden.
    */
   public void testShowWidgetToggle() {
     DeckLayoutPanel deck = createPanel();

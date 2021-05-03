@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -18,12 +18,10 @@ package org.gwtproject.user.client.ui;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
 
-/**
- * Tests {@link LazyPanel}.
- */
+/** Tests {@link LazyPanel}. */
 @J2clTestInput(LazyPanelTest.class)
 public class LazyPanelTest extends GWTTestCase {
-  private final static class MyLazyPanel extends LazyPanel {
+  private static final class MyLazyPanel extends LazyPanel {
     final Widget widgetToCreate;
     boolean createWasCalled;
 
@@ -54,11 +52,11 @@ public class LazyPanelTest extends GWTTestCase {
 
     p.setVisible(true);
     assertWidgetIsChildOf(w, p);
-    
+
     p.createWasCalled = false;
     p.setVisible(false);
     assertFalse(p.createWasCalled);
-    
+
     p.setVisible(true);
     assertFalse("Should not call createWidget again", p.createWasCalled);
   }
@@ -66,7 +64,7 @@ public class LazyPanelTest extends GWTTestCase {
   public void testEnsureWidget() {
     Widget w = new Label();
     MyLazyPanel p = new MyLazyPanel(w);
-    
+
     p.ensureWidget();
     assertWidgetIsChildOf(w, p);
     assertEquals(w, p.getWidget());
@@ -82,11 +80,11 @@ public class LazyPanelTest extends GWTTestCase {
     }
     assertEquals("Expect w to be child of p", p, parentCursor);
   }
-  
+
   public void testInDeckPanel() {
-    // There are separate paths for the first widget displayed 
+    // There are separate paths for the first widget displayed
     // and for succeeding, so test both (see DeckPanel#showWidget)
-    
+
     DeckPanel deck = new DeckPanel();
 
     Widget w0 = new Label();
@@ -97,7 +95,7 @@ public class LazyPanelTest extends GWTTestCase {
     deck.insert(new MyLazyPanel(w1), 1);
     assertNull(w0.getParent());
     assertNull(w1.getParent());
-    
+
     deck.showWidget(0);
     assertWidgetIsChildOf(w0, deck);
     assertNull(w1.getParent());
@@ -105,7 +103,7 @@ public class LazyPanelTest extends GWTTestCase {
     deck.showWidget(1);
     assertWidgetIsChildOf(w1, deck);
   }
-  
+
   public void testInStackPanel() {
     StackPanel stack = new StackPanel();
     stack.add(new Label(), "Able");
@@ -113,22 +111,22 @@ public class LazyPanelTest extends GWTTestCase {
     Widget w = new Label();
     stack.add(new MyLazyPanel(w), "Baker");
     assertNull(w.getParent());
-    
+
     stack.showStack(1);
     assertWidgetIsChildOf(w, stack);
   }
-  
+
   public void testInDisclosurePanel() {
     Widget w = new Label();
     DisclosurePanel dp = new DisclosurePanel();
 
     dp.add(new MyLazyPanel(w));
     assertNull(w.getParent());
-    
+
     dp.setOpen(true);
     assertWidgetIsChildOf(w, dp);
   }
-  
+
   public void testInAnimatedDisclosurePanel() {
     Widget w = new Label();
     DisclosurePanel dp = new DisclosurePanel();
@@ -136,7 +134,7 @@ public class LazyPanelTest extends GWTTestCase {
 
     dp.add(new MyLazyPanel(w));
     assertNull(w.getParent());
-    
+
     dp.setOpen(true);
     assertWidgetIsChildOf(w, dp);
   }

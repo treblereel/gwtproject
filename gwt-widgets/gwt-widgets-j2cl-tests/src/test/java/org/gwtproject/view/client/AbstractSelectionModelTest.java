@@ -17,20 +17,15 @@ package org.gwtproject.view.client;
 
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
+import java.util.Locale;
 import org.gwtproject.timer.client.Timer;
 import org.gwtproject.view.client.SelectionModel.AbstractSelectionModel;
 
-import java.util.Locale;
-
-/**
- * Tests for {@link AbstractSelectionModel}.
- */
+/** Tests for {@link AbstractSelectionModel}. */
 @J2clTestInput(AbstractSelectionModelTest.class)
 public class AbstractSelectionModelTest extends GWTTestCase {
 
-  /**
-   * A mock {@link org.gwtproject.view.client.SelectionChangeEvent.Handler} used for testing.
-   */
+  /** A mock {@link org.gwtproject.view.client.SelectionChangeEvent.Handler} used for testing. */
   static class MockSelectionChangeHandler
       implements org.gwtproject.view.client.SelectionChangeEvent.Handler {
 
@@ -39,7 +34,7 @@ public class AbstractSelectionModelTest extends GWTTestCase {
     /**
      * Assert that a {@link org.gwtproject.view.client.SelectionChangeEvent} was fired and clear the
      * boolean.
-     * 
+     *
      * @param expected the expected value
      */
     public void assertEventFired(boolean expected) {
@@ -81,7 +76,7 @@ public class AbstractSelectionModelTest extends GWTTestCase {
     public MockSelectionModel(org.gwtproject.view.client.ProvidesKey<T> keyProvider) {
       super(keyProvider);
     }
-    
+
     @Override
     public boolean isSelected(T object) {
       return false;
@@ -108,9 +103,7 @@ public class AbstractSelectionModelTest extends GWTTestCase {
     handler.assertEventFired(true);
   }
 
-  /**
-   * Test that resolving changes doesn't prevent an event from firing.
-   */
+  /** Test that resolving changes doesn't prevent an event from firing. */
   public void testResolveChanges() {
     AbstractSelectionModel<String> model = createSelectionModel(null);
     final MockSelectionChangeHandler handler = new MockSelectionChangeHandler();
@@ -168,12 +161,13 @@ public class AbstractSelectionModelTest extends GWTTestCase {
     assertEquals(null, model.getKey(null));
 
     // Defer to the key provider if one is set.
-    org.gwtproject.view.client.ProvidesKey<String> keyProvider = new org.gwtproject.view.client.ProvidesKey<String>() {
-      @Override
-      public Object getKey(String item) {
-        return item == null ? item : item.toUpperCase(Locale.ROOT);
-      }
-    };
+    org.gwtproject.view.client.ProvidesKey<String> keyProvider =
+        new org.gwtproject.view.client.ProvidesKey<String>() {
+          @Override
+          public Object getKey(String item) {
+            return item == null ? item : item.toUpperCase(Locale.ROOT);
+          }
+        };
     model = createSelectionModel(keyProvider);
     assertEquals(keyProvider, model.getKeyProvider());
     assertEquals("TEST", model.getKey("test"));

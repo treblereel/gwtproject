@@ -89,9 +89,7 @@ public class CustomDateTimeFormatProcessingStep extends AbstractProcessingStep {
                   .addModifiers(Modifier.PUBLIC)
                   .addSuperinterface(TypeName.get(element.asType()));
 
-          element
-              .getEnclosedElements()
-              .stream()
+          element.getEnclosedElements().stream()
               .filter(e -> ElementKind.METHOD.equals(e.getKind()))
               .map(e -> (ExecutableElement) e)
               .forEach(

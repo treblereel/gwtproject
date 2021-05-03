@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -16,16 +16,13 @@
 package org.gwtproject.user.client.ui;
 
 import com.google.j2cl.junit.apt.J2clTestInput;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import org.gwtproject.timer.client.Timer;
 
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-
-/**
- * Tests for {@link HeaderPanel}.
- */
+/** Tests for {@link HeaderPanel}. */
 @J2clTestInput(HeaderPanelTest.class)
 public class HeaderPanelTest extends PanelTestBase<HeaderPanel> {
 
@@ -150,23 +147,26 @@ public class HeaderPanelTest extends PanelTestBase<HeaderPanel> {
     panel.setFooterWidget(footer);
 
     delayTestFinish(5000);
-    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-      @Override
-      public void execute() {
-        assertEquals(300, content.getOffsetHeight());
+    Scheduler.get()
+        .scheduleDeferred(
+            new ScheduledCommand() {
+              @Override
+              public void execute() {
+                assertEquals(300, content.getOffsetHeight());
 
-        // Resize the footer.
-        footer.setHeight("75px");
-        new Timer() {
-          @Override
-          public void run() {
-            assertEquals(275, content.getOffsetHeight());
-            RootPanel.get().remove(panel);
-            finishTest();
-          }
-        }.schedule(250);;
-      }
-    });
+                // Resize the footer.
+                footer.setHeight("75px");
+                new Timer() {
+                  @Override
+                  public void run() {
+                    assertEquals(275, content.getOffsetHeight());
+                    RootPanel.get().remove(panel);
+                    finishTest();
+                  }
+                }.schedule(250);
+                ;
+              }
+            });
   }
 
   public void testResizeHeader() {
@@ -187,23 +187,26 @@ public class HeaderPanelTest extends PanelTestBase<HeaderPanel> {
     panel.setFooterWidget(footer);
 
     delayTestFinish(5000);
-    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-      @Override
-      public void execute() {
-        assertEquals(300, content.getOffsetHeight());
+    Scheduler.get()
+        .scheduleDeferred(
+            new ScheduledCommand() {
+              @Override
+              public void execute() {
+                assertEquals(300, content.getOffsetHeight());
 
-        // Resize the header.
-        header.setHeight("75px");
-        new Timer() {
-          @Override
-          public void run() {
-            assertEquals(275, content.getOffsetHeight());
-            RootPanel.get().remove(panel);
-            finishTest();
-          }
-        }.schedule(250);;
-      }
-    });
+                // Resize the header.
+                header.setHeight("75px");
+                new Timer() {
+                  @Override
+                  public void run() {
+                    assertEquals(275, content.getOffsetHeight());
+                    RootPanel.get().remove(panel);
+                    finishTest();
+                  }
+                }.schedule(250);
+                ;
+              }
+            });
   }
 
   public void testSetContentWidget() {
@@ -215,8 +218,8 @@ public class HeaderPanelTest extends PanelTestBase<HeaderPanel> {
     // Test for issue 7037
     widget = new Label("hello world 2");
     panel.setContentWidget(widget);
-    assertTrue("Issue 7037", UIObject.isVisible(
-        panel.getContentWidget().getElement().getParentElement()));
+    assertTrue(
+        "Issue 7037", UIObject.isVisible(panel.getContentWidget().getElement().getParentElement()));
 
     panel.remove(widget);
     assertNull(panel.getContentWidget());

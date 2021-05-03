@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -23,55 +23,53 @@ import org.gwtproject.dom.client.TableSectionElement;
 import org.gwtproject.user.cellview.client.DataGrid.Resources;
 import org.gwtproject.user.client.ui.RootPanel;
 
-/**
- * Tests for {@link DataGrid}.
- */
+/** Tests for {@link DataGrid}. */
 @J2clTestInput(DataGridTest.class)
 public class DataGridTest extends AbstractCellTableTestBase<DataGrid<String>> {
-  
-  /**
-   * Test if the dataGridWidget style is applied.
-   */
+
+  /** Test if the dataGridWidget style is applied. */
   public void testDataGridWidgetStyle() {
     Resources res = new DataGrid_ResourcesImpl();
     DataGrid<String> dataGrid = new DataGrid<String>(20, res);
-    
+
     String dataGridWidgetStyle = res.dataGridStyle().dataGridWidget();
-    
+
     TableElement tableElem = dataGrid.getElement().cast();
     assertTrue(tableElem.getClassName().contains(dataGridWidgetStyle));
   }
-  
-  /**
-   * Test that if a header builder does not add any rows, the header is hidden.
-   */
+
+  /** Test that if a header builder does not add any rows, the header is hidden. */
   public void testHeaderBuilderEmpty() {
     DataGrid<String> table = createAbstractHasData();
     RootPanel.get().add(table);
-    HeaderBuilder<String> emptyHeader = new AbstractHeaderOrFooterBuilder<String>(table, false) {
-      @Override
-      protected boolean buildHeaderOrFooterImpl() {
-        return false;
-      }
-    };
-    HeaderBuilder<String> notEmptyHeader = new AbstractHeaderOrFooterBuilder<String>(table, false) {
-      @Override
-      protected boolean buildHeaderOrFooterImpl() {
-        return true;
-      }
-    };
-    FooterBuilder<String> emptyFooter = new AbstractHeaderOrFooterBuilder<String>(table, true) {
-      @Override
-      protected boolean buildHeaderOrFooterImpl() {
-        return false;
-      }
-    };
-    FooterBuilder<String> notEmptyFooter = new AbstractHeaderOrFooterBuilder<String>(table, true) {
-      @Override
-      protected boolean buildHeaderOrFooterImpl() {
-        return true;
-      }
-    };
+    HeaderBuilder<String> emptyHeader =
+        new AbstractHeaderOrFooterBuilder<String>(table, false) {
+          @Override
+          protected boolean buildHeaderOrFooterImpl() {
+            return false;
+          }
+        };
+    HeaderBuilder<String> notEmptyHeader =
+        new AbstractHeaderOrFooterBuilder<String>(table, false) {
+          @Override
+          protected boolean buildHeaderOrFooterImpl() {
+            return true;
+          }
+        };
+    FooterBuilder<String> emptyFooter =
+        new AbstractHeaderOrFooterBuilder<String>(table, true) {
+          @Override
+          protected boolean buildHeaderOrFooterImpl() {
+            return false;
+          }
+        };
+    FooterBuilder<String> notEmptyFooter =
+        new AbstractHeaderOrFooterBuilder<String>(table, true) {
+          @Override
+          protected boolean buildHeaderOrFooterImpl() {
+            return true;
+          }
+        };
 
     // Header is empty, footer is not.
     table.setHeaderBuilder(emptyHeader);
