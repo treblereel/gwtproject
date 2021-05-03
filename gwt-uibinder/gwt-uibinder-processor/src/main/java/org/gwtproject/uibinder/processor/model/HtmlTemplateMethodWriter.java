@@ -15,6 +15,8 @@
  */
 package org.gwtproject.uibinder.processor.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.gwtproject.uibinder.processor.AptUtil;
 import org.gwtproject.uibinder.processor.FieldReference;
 import org.gwtproject.uibinder.processor.IndentedWriter;
@@ -25,24 +27,15 @@ import org.gwtproject.uibinder.processor.UiBinderApiPackage;
 import org.gwtproject.uibinder.processor.XMLElement;
 import org.gwtproject.uibinder.processor.attributeparsers.SafeUriAttributeParser;
 
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Models an individual SafeHtmlTemplates method in an {@link HtmlTemplatesWriter}.
- */
+/** Models an individual SafeHtmlTemplates method in an {@link HtmlTemplatesWriter}. */
 public class HtmlTemplateMethodWriter {
 
   private class Argument {
 
     final XMLElement source;
-    /**
-     * Type of the parameter.
-     */
+    /** Type of the parameter. */
     final ArgumentType type;
-    /**
-     * The expression to fill this parameter when the template method is called.
-     */
+    /** The expression to fill this parameter when the template method is called. */
     final String expression;
 
     Argument(XMLElement source, ArgumentType type, String expression) {
@@ -67,7 +60,9 @@ public class HtmlTemplateMethodWriter {
   }
 
   private enum ArgumentType {
-    STRING("String"), HTML("SafeHtml"), URI("SafeUri");
+    STRING("String"),
+    HTML("SafeHtml"),
+    URI("SafeUri");
 
     final String typeString;
 
@@ -107,9 +102,7 @@ public class HtmlTemplateMethodWriter {
     return String.format("template.%s(%s)", methodName, getTemplateCallArguments());
   }
 
-  /**
-   * Returns an expression that will return the results of a call to this method.
-   */
+  /** Returns an expression that will return the results of a call to this method. */
   public String getIndirectTemplateCall() {
     return "template_" + methodName + "()";
   }
@@ -117,18 +110,19 @@ public class HtmlTemplateMethodWriter {
   public boolean isStringReference(Argument arg) {
     FieldReference fieldReference = arg.getFieldReference();
     return fieldReference != null
-        && "String".equals(
-        AptUtil.asQualifiedNameable(fieldReference.getReturnType()).getSimpleName().toString());
+        && "String"
+            .equals(
+                AptUtil.asQualifiedNameable(fieldReference.getReturnType())
+                    .getSimpleName()
+                    .toString());
   }
 
-  /**
-   * Creates the template method invocation.
-   */
+  /** Creates the template method invocation. */
   public void writeTemplateCaller(IndentedWriter w) {
     ensureArgumentsResolved();
 
-    w.write("%s template_%s() {", UiBinderApiPackage.current().getSafeHtmlInterfaceFqn(),
-        methodName);
+    w.write(
+        "%s template_%s() {", UiBinderApiPackage.current().getSafeHtmlInterfaceFqn(), methodName);
     w.indent();
     w.write("return %s;", getDirectTemplateCall());
     w.outdent();
@@ -147,9 +141,7 @@ public class HtmlTemplateMethodWriter {
     }
   }
 
-  /**
-   * Creates the argument string for the generated SafeHtmlTemplate function.
-   */
+  /** Creates the argument string for the generated SafeHtmlTemplate function. */
   private String addTemplateParameters() {
     StringBuilder b = new StringBuilder();
     int i = 0;
@@ -171,13 +163,16 @@ public class HtmlTemplateMethodWriter {
    * @return the rendering string, with tokens replaced by {} placeholders
    */
   private String addTemplatePlaceholders(String html) {
-    String rtn = Tokenator.detokenate(html, new Resolver() {
-      int tokenId = 0;
+    String rtn =
+        Tokenator.detokenate(
+            html,
+            new Resolver() {
+              int tokenId = 0;
 
-      public String resolveToken(String token) {
-        return "{" + tokenId++ + "}";
-      }
-    });
+              public String resolveToken(String token) {
+                return "{" + tokenId++ + "}";
+              }
+            });
     return rtn;
   }
 
@@ -213,16 +208,18 @@ public class HtmlTemplateMethodWriter {
 
     strings.add("@Template(\"" + addTemplatePlaceholders(html) + "\")");
     strings.add(
-        UiBinderApiPackage.current().getSafeHtmlInterfaceFqn() + " " + methodName + "("
-            + addTemplateParameters() + ");");
+        UiBinderApiPackage.current().getSafeHtmlInterfaceFqn()
+            + " "
+            + methodName
+            + "("
+            + addTemplateParameters()
+            + ");");
     strings.add(" ");
 
     argumentsResolved = true;
   }
 
-  /**
-   * Retrieves the arguments for SafeHtml template function call from the {@link Tokenator}.
-   */
+  /** Retrieves the arguments for SafeHtml template function call from the {@link Tokenator}. */
   private String getTemplateCallArguments() {
     StringBuilder b = new StringBuilder();
 
@@ -242,8 +239,8 @@ public class HtmlTemplateMethodWriter {
     String raw = arg.expression;
     if (arg.type == ArgumentType.URI) {
       if (isStringReference(arg)) {
-        return SafeUriAttributeParser.wrapUnsafeStringAndWarn(templates.getLogger(),
-            arg.getSource(), raw);
+        return SafeUriAttributeParser.wrapUnsafeStringAndWarn(
+            templates.getLogger(), arg.getSource(), raw);
       }
     }
     return raw;

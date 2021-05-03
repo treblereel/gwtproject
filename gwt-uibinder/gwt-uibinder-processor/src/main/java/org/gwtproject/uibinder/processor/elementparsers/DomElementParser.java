@@ -15,13 +15,12 @@
  */
 package org.gwtproject.uibinder.processor.elementparsers;
 
+import javax.lang.model.type.TypeMirror;
 import org.gwtproject.uibinder.processor.AptUtil;
 import org.gwtproject.uibinder.processor.UiBinderApiPackage;
 import org.gwtproject.uibinder.processor.UiBinderWriter;
 import org.gwtproject.uibinder.processor.XMLElement;
 import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
-
-import javax.lang.model.type.TypeMirror;
 
 /**
  * Parses a dom element and all of its children. Note that this parser does not make recursive calls
@@ -31,22 +30,24 @@ import javax.lang.model.type.TypeMirror;
  */
 public class DomElementParser implements ElementParser {
 
-  public void parse(XMLElement elem, String fieldName, TypeMirror type,
-      UiBinderWriter writer) throws UnableToCompleteException {
-    HtmlInterpreter interpreter = new HtmlInterpreter(writer, fieldName,
-        new HtmlMessageInterpreter(writer, fieldName));
+  public void parse(XMLElement elem, String fieldName, TypeMirror type, UiBinderWriter writer)
+      throws UnableToCompleteException {
+    HtmlInterpreter interpreter =
+        new HtmlInterpreter(writer, fieldName, new HtmlMessageInterpreter(writer, fieldName));
 
     interpreter.interpretElement(elem);
 
     writer.beginAttachedSection(fieldName);
-    String html = elem.consumeOpeningTag() + elem.consumeInnerHtml(interpreter)
-        + elem.getClosingTag();
+    String html =
+        elem.consumeOpeningTag() + elem.consumeInnerHtml(interpreter) + elem.getClosingTag();
     writer.endAttachedSection();
 
-    writer.setFieldInitializer(fieldName, String.format(
-        "(%1$s) %3$s.fromHtml(%2$s)",
-        AptUtil.asQualifiedNameable(type).getQualifiedName(),
-        writer.declareTemplateCall(html, fieldName),
-        UiBinderApiPackage.current().getUiBinderUtilFqn()));
+    writer.setFieldInitializer(
+        fieldName,
+        String.format(
+            "(%1$s) %3$s.fromHtml(%2$s)",
+            AptUtil.asQualifiedNameable(type).getQualifiedName(),
+            writer.declareTemplateCall(html, fieldName),
+            UiBinderApiPackage.current().getUiBinderUtilFqn()));
   }
 }

@@ -24,8 +24,9 @@ import org.gwtproject.uibinder.processor.messages.PlaceholderInterpreter;
 
 /**
  * The interpreter of choice for calls to {@link XMLElement#consumeInnerText}. It handles
- * &lt;m:msg/&gt; elements, replacing them with references to Messages interface calls. <P> Calls to
- * {@link XMLElement#consumeInnerHtml} should instead use {@link HtmlInterpreter}
+ * &lt;m:msg/&gt; elements, replacing them with references to Messages interface calls.
+ *
+ * <p>Calls to {@link XMLElement#consumeInnerHtml} should instead use {@link HtmlInterpreter}
  */
 public class TextInterpreter implements XMLElement.Interpreter<String> {
 
@@ -35,8 +36,7 @@ public class TextInterpreter implements XMLElement.Interpreter<String> {
     this.writer = writer;
   }
 
-  public String interpretElement(XMLElement elem)
-      throws UnableToCompleteException {
+  public String interpretElement(XMLElement elem) throws UnableToCompleteException {
     MessagesWriter messages = writer.getMessages();
     if (messages.isMessage(elem)) {
       String messageInvocation = consumeAsTextMessage(elem, messages);
@@ -53,8 +53,7 @@ public class TextInterpreter implements XMLElement.Interpreter<String> {
     }
 
     MessageWriter message = messages.newMessage(elem);
-    PlaceholderInterpreter interpreter =
-        new TextPlaceholderInterpreter(writer, message);
+    PlaceholderInterpreter interpreter = new TextPlaceholderInterpreter(writer, message);
     message.setDefaultMessage(elem.consumeInnerText(interpreter));
     return messages.declareMessage(message);
   }

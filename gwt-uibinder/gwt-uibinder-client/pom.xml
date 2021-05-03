@@ -7,12 +7,13 @@
   <parent>
     <groupId>org.gwtproject.uibinder</groupId>
     <artifactId>gwt-uibinder</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>dev</version>
   </parent>
 
 
   <artifactId>gwt-uibinder-client</artifactId>
   <name>GWT UiBinder Client</name>
+  <version>${revision}</version>
 
   <packaging>gwt-lib</packaging>
 
@@ -31,10 +32,10 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
       </plugin>
-      <plugin>
+<!--      <plugin>
         <groupId>com.mycila</groupId>
         <artifactId>license-maven-plugin</artifactId>
-      </plugin>
+      </plugin>-->
       <plugin>
         <groupId>net.ltgt.gwt.maven</groupId>
         <artifactId>gwt-maven-plugin</artifactId>
@@ -54,12 +55,10 @@
     <dependency>
       <groupId>org.gwtproject.event</groupId>
       <artifactId>gwt-event</artifactId>
-      <version>HEAD-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.gwtproject.event</groupId>
       <artifactId>gwt-event-dom</artifactId>
-      <version>1.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>com.google.gwt</groupId>

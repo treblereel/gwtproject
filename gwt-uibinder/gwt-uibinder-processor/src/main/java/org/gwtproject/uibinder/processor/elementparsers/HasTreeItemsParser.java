@@ -15,6 +15,8 @@
  */
 package org.gwtproject.uibinder.processor.elementparsers;
 
+import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.TypeMirror;
 import org.gwtproject.uibinder.processor.AptUtil;
 import org.gwtproject.uibinder.processor.FieldWriter;
 import org.gwtproject.uibinder.processor.UiBinderApiPackage;
@@ -22,25 +24,20 @@ import org.gwtproject.uibinder.processor.UiBinderWriter;
 import org.gwtproject.uibinder.processor.XMLElement;
 import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
 
-import javax.lang.model.element.TypeElement;
-import javax.lang.model.type.TypeMirror;
-
-/**
- * Parses Tree widgets.
- */
+/** Parses Tree widgets. */
 public class HasTreeItemsParser implements ElementParser {
 
   static final String BAD_CHILD = "Only TreeItem or Widget subclasses are valid children";
 
-  public void parse(XMLElement elem, String fieldName, TypeMirror type,
-      UiBinderWriter writer) throws UnableToCompleteException {
+  public void parse(XMLElement elem, String fieldName, TypeMirror type, UiBinderWriter writer)
+      throws UnableToCompleteException {
     // Prepare base types.
-    TypeElement itemType = AptUtil.getElementUtils()
-        .getTypeElement(UiBinderApiPackage.current().getTreeItemFqn());
-    TypeElement widgetType = AptUtil.getElementUtils()
-        .getTypeElement(UiBinderApiPackage.current().getWidgetFqn());
-    TypeElement isWidgetType = AptUtil.getElementUtils()
-        .getTypeElement(UiBinderApiPackage.current().getIsWidgetFqn());
+    TypeElement itemType =
+        AptUtil.getElementUtils().getTypeElement(UiBinderApiPackage.current().getTreeItemFqn());
+    TypeElement widgetType =
+        AptUtil.getElementUtils().getTypeElement(UiBinderApiPackage.current().getWidgetFqn());
+    TypeElement isWidgetType =
+        AptUtil.getElementUtils().getTypeElement(UiBinderApiPackage.current().getIsWidgetFqn());
 
     // Parse children.
     for (XMLElement child : elem.consumeChildElements()) {
@@ -49,8 +46,7 @@ public class HasTreeItemsParser implements ElementParser {
       // TreeItem+
       if (AptUtil.isAssignableFrom(itemType.asType(), childType)) {
         FieldWriter childField = writer.parseElementToField(child);
-        writer.addStatement("%1$s.addItem(%2$s);", fieldName,
-            childField.getNextReference());
+        writer.addStatement("%1$s.addItem(%2$s);", fieldName, childField.getNextReference());
         continue;
       }
 
@@ -58,8 +54,7 @@ public class HasTreeItemsParser implements ElementParser {
       if (AptUtil.isAssignableFrom(widgetType.asType(), childType)
           || AptUtil.isAssignableFrom(isWidgetType.asType(), childType)) {
         FieldWriter childField = writer.parseElementToField(child);
-        writer.addStatement("%1$s.addItem(%2$s);", fieldName,
-            childField.getNextReference());
+        writer.addStatement("%1$s.addItem(%2$s);", fieldName, childField.getNextReference());
         continue;
       }
 

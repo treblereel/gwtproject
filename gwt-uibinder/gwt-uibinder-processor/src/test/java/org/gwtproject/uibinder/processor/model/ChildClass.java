@@ -15,9 +15,7 @@
  */
 package org.gwtproject.uibinder.processor.model;
 
-/**
- *
- */
+/** */
 public class ChildClass extends ParentClass implements HasData<DetailData> {
 
   private DetailData data;
@@ -27,9 +25,7 @@ public class ChildClass extends ParentClass implements HasData<DetailData> {
     super.setText("Child: " + text);
   }
 
-  /**
-   * This causes the ambiguity.  Parent has setNumber(Integer) which is the same rank as Long
-   */
+  /** This causes the ambiguity. Parent has setNumber(Integer) which is the same rank as Long */
   public void setNumber(Long number) {
     super.setNumber(number);
   }

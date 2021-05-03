@@ -15,10 +15,9 @@
  */
 package org.gwtproject.uibinder.processor.messages;
 
-import org.gwtproject.uibinder.processor.IndentedWriter;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.gwtproject.uibinder.processor.IndentedWriter;
 
 /**
  * Represents a method in a Messages interface. Can write both the method declaration and its
@@ -26,9 +25,7 @@ import java.util.List;
  */
 public class MessageWriter {
 
-  /**
-   * Escapes ' and { chars, which have special meaning to Messages interfaces.
-   */
+  /** Escapes ' and { chars, which have special meaning to Messages interfaces. */
   public static String escapeMessageFormat(String messageFormatStyleText) {
     StringBuilder b = new StringBuilder();
     for (int i = 0; i < messageFormatStyleText.length(); i++) {
@@ -52,8 +49,7 @@ public class MessageWriter {
 
   private final String meaning;
 
-  MessageWriter(String description, String key, String meaning,
-      String name) {
+  MessageWriter(String description, String key, String meaning, String name) {
     this.description = description;
     this.key = key;
     this.meaning = meaning;

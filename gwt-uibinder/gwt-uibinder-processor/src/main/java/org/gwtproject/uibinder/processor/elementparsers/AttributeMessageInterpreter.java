@@ -26,13 +26,15 @@ import org.gwtproject.uibinder.processor.messages.MessagesWriter;
  * attributes of the examine with references to the translatable messages created.
  *
  * <p>That is, when examining element foo in
+ *
  * <pre>
  *   &lt;foo bar="baz"&gt;
  *     &lt;ui:attr name="baz"&gt;
  *   &lt;/foo&gt;</pre>
+ *
  * consume the ui:attr element, and declare a method on the Messages interface with
  *
- * {@code @Default("baz")}
+ * <p>{@code @Default("baz")}
  */
 class AttributeMessageInterpreter implements XMLElement.Interpreter<String> {
 
@@ -42,8 +44,7 @@ class AttributeMessageInterpreter implements XMLElement.Interpreter<String> {
     this.writer = writer;
   }
 
-  public String interpretElement(XMLElement elem)
-      throws UnableToCompleteException {
+  public String interpretElement(XMLElement elem) throws UnableToCompleteException {
     MessagesWriter messages = writer.getMessages();
     for (AttributeMessage am : messages.consumeAttributeMessages(elem)) {
       String message = am.getMessageUnescaped();
@@ -54,8 +55,7 @@ class AttributeMessageInterpreter implements XMLElement.Interpreter<String> {
          */
         message += ".replaceAll(\"&\", \"&amp;\").replaceAll(\"'\", \"&#39;\")";
       }
-      elem.setAttribute(am.getAttribute(),
-          writer.tokenForStringExpression(elem, message));
+      elem.setAttribute(am.getAttribute(), writer.tokenForStringExpression(elem, message));
     }
 
     /*

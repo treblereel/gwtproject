@@ -19,20 +19,14 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Target;
 
-/**
- * Indicates the template from which to generate a {@link UiBinder}.
- */
+/** Indicates the template from which to generate a {@link UiBinder}. */
 @Documented
 @Target(ElementType.TYPE)
 public @interface UiTemplate {
 
-  /**
-   * Returns the template name.
-   */
+  /** Returns the template name. */
   String value() default "";
 
-  /**
-   * Determines if legacy widgets should be used.
-   */
+  /** Determines if legacy widgets should be used. */
   boolean legacyWidgets() default false;
 }

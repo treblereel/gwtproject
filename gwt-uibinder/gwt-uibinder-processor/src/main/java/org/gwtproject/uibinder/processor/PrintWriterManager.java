@@ -15,22 +15,18 @@
  */
 package org.gwtproject.uibinder.processor;
 
-import org.gwtproject.uibinder.processor.ext.MyTreeLogger;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic.Kind;
 import javax.tools.JavaFileObject;
+import org.gwtproject.uibinder.processor.ext.MyTreeLogger;
 
-/**
- * Factory for printwriters creating source files in a particular package.
- */
+/** Factory for printwriters creating source files in a particular package. */
 public class PrintWriterManager {
 
   private final ProcessingEnvironment processingEnv;
@@ -38,17 +34,14 @@ public class PrintWriterManager {
   private final String packageName;
   private final Set<PrintWriter> writers = new HashSet<>();
 
-  PrintWriterManager(ProcessingEnvironment processingEnv, MyTreeLogger logger,
-      String packageName) {
+  PrintWriterManager(ProcessingEnvironment processingEnv, MyTreeLogger logger, String packageName) {
 
     this.processingEnv = processingEnv;
     this.logger = logger;
     this.packageName = packageName;
   }
 
-  /**
-   * Commit all writers we have vended.
-   */
+  /** Commit all writers we have vended. */
   void commit() {
     for (PrintWriter writer : writers) {
       // TODO
@@ -64,8 +57,7 @@ public class PrintWriterManager {
   PrintWriter makePrintWriterFor(String name) {
     PrintWriter writer = tryToMakePrintWriterFor(name);
     if (writer == null) {
-      throw new RuntimeException(String.format("Tried to write %s.%s twice.",
-          packageName, name));
+      throw new RuntimeException(String.format("Tried to write %s.%s twice.", packageName, name));
     }
 
     return writer;
@@ -74,7 +66,7 @@ public class PrintWriterManager {
   /**
    * @param name classname
    * @param originatingElements type or package elements causally associated with the creation of
-   * this file, may be elided or null
+   *     this file, may be elided or null
    * @return the printwriter, or null if this class has already been written
    */
   PrintWriter tryToMakePrintWriterFor(String name, Element... originatingElements) {
@@ -104,8 +96,8 @@ public class PrintWriterManager {
     */
 
     try {
-      JavaFileObject sourceFile = processingEnv.getFiler()
-          .createSourceFile(typeName, originatingElements);
+      JavaFileObject sourceFile =
+          processingEnv.getFiler().createSourceFile(typeName, originatingElements);
       return new PrintWriter(sourceFile.openWriter()) {
         @Override
         public void println() {

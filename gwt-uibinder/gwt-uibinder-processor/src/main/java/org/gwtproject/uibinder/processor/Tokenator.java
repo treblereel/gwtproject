@@ -29,17 +29,13 @@ import java.util.Map;
  */
 public class Tokenator {
 
-  /**
-   * Resolves a token to its literal value.
-   */
+  /** Resolves a token to its literal value. */
   public interface Resolver {
 
     String resolveToken(String token);
   }
 
-  /**
-   * Return values for {@link Tokenator#getOrderedValues(String)}.
-   */
+  /** Return values for {@link Tokenator#getOrderedValues(String)}. */
   public static class ValueAndInfo {
 
     public final String value;
@@ -90,11 +86,13 @@ public class Tokenator {
    * with the tokens replaced by the original strings.
    */
   public String detokenate(String betokened) {
-    return detokenate(betokened, new Resolver() {
-      public String resolveToken(String token) {
-        return tokenToResolved.get(token);
-      }
-    });
+    return detokenate(
+        betokened,
+        new Resolver() {
+          public String resolveToken(String token) {
+            return tokenToResolved.get(token);
+          }
+        });
   }
 
   /**
@@ -102,11 +100,13 @@ public class Tokenator {
    * corresponding to them.
    */
   public List<ValueAndInfo> getOrderedValues(String betokened) {
-    return getOrderedValues(betokened, new Resolver() {
-      public String resolveToken(String token) {
-        return tokenToResolved.get(token);
-      }
-    });
+    return getOrderedValues(
+        betokened,
+        new Resolver() {
+          public String resolveToken(String token) {
+            return tokenToResolved.get(token);
+          }
+        });
   }
 
   /**
@@ -115,7 +115,7 @@ public class Tokenator {
    *
    * @param info An arbitrary object to associate with this token. Mmm, metadata
    * @param resolved The value to replace this token with in later calls to {@link
-   * #detokenate(String)}
+   *     #detokenate(String)}
    * @return the token
    */
   public String nextToken(Object info, final String resolved) {
@@ -125,9 +125,7 @@ public class Tokenator {
     return token;
   }
 
-  /**
-   * Like {@link #nextToken(String)} with no info.
-   */
+  /** Like {@link #nextToken(String)} with no info. */
   public String nextToken(String resolved) {
     return nextToken(null, resolved);
   }

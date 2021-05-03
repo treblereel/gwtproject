@@ -15,26 +15,20 @@
  */
 package org.gwtproject.uibinder.processor.attributeparsers;
 
+import java.util.HashMap;
+import java.util.Locale;
+import javax.lang.model.type.TypeMirror;
 import org.gwtproject.uibinder.processor.MortalLogger;
 import org.gwtproject.uibinder.processor.UiBinderApiPackage;
 import org.gwtproject.uibinder.processor.XMLElement;
 import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
 
-import java.util.HashMap;
-import java.util.Locale;
-
-import javax.lang.model.type.TypeMirror;
-
-/**
- * Parses a TextBoxBase.TextAlignConstant.
- */
+/** Parses a TextBoxBase.TextAlignConstant. */
 class TextAlignConstantParser extends StrictAttributeParser {
-
 
   private final HashMap<String, String> values = new HashMap<>();
 
-  TextAlignConstantParser(FieldReferenceConverter converter, TypeMirror type,
-      MortalLogger logger) {
+  TextAlignConstantParser(FieldReferenceConverter converter, TypeMirror type, MortalLogger logger) {
     super(converter, logger, type);
 
     final String prefix = UiBinderApiPackage.current().getTextBoxBaseFqn() + ".ALIGN_";

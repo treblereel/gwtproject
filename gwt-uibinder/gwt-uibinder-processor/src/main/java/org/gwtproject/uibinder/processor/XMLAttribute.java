@@ -17,12 +17,9 @@ package org.gwtproject.uibinder.processor;
 
 import org.gwtproject.uibinder.processor.attributeparsers.FieldReferenceConverter;
 import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
-
 import org.w3c.dom.Attr;
 
-/**
- * Like {@link XMLElement}, a wrapper around {@link Attr} to keep parser writers out of trouble.
- */
+/** Like {@link XMLElement}, a wrapper around {@link Attr} to keep parser writers out of trouble. */
 public class XMLAttribute {
 
   private XMLElement xmlElem;
@@ -41,9 +38,7 @@ public class XMLAttribute {
     return xmlElem.consumeSafeHtmlAttribute(w3cAttr.getName());
   }
 
-  /**
-   * Consumes this attribute as either a SafeUri or a String. Used in HTML contexts.
-   */
+  /** Consumes this attribute as either a SafeUri or a String. Used in HTML contexts. */
   public String consumeSafeUriOrStringAttribute() throws UnableToCompleteException {
     return xmlElem.consumeSafeUriOrStringAttribute(w3cAttr.getName());
   }
@@ -82,8 +77,8 @@ public class XMLAttribute {
 
   @Override
   public String toString() {
-    return String.format("<%s:%s ... %s=%s ...>", xmlElem.getPrefix(), xmlElem.getLocalName(),
-        w3cAttr.getName(), w3cAttr.getValue());
+    return String.format(
+        "<%s:%s ... %s=%s ...>",
+        xmlElem.getPrefix(), xmlElem.getLocalName(), w3cAttr.getName(), w3cAttr.getValue());
   }
-
 }

@@ -17,7 +17,6 @@ package org.gwtproject.uibinder.processor;
 
 import org.gwtproject.uibinder.processor.XMLElement.Interpreter;
 import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
-
 import org.w3c.dom.Element;
 
 class GetInnerHtmlVisitor extends GetInnerTextVisitor {
@@ -27,15 +26,14 @@ class GetInnerHtmlVisitor extends GetInnerTextVisitor {
    * into the given StringBuffer. Applies the interpreter to each descendant, and uses the writer to
    * report errors.
    */
-  public static void getEscapedInnerHtml(Element elem, StringBuffer buffer,
-      Interpreter<String> interpreter, XMLElementProvider writer)
+  public static void getEscapedInnerHtml(
+      Element elem, StringBuffer buffer, Interpreter<String> interpreter, XMLElementProvider writer)
       throws UnableToCompleteException {
-    new ChildWalker().accept(elem, new GetInnerHtmlVisitor(buffer, interpreter,
-        writer));
+    new ChildWalker().accept(elem, new GetInnerHtmlVisitor(buffer, interpreter, writer));
   }
 
-  private GetInnerHtmlVisitor(StringBuffer buffer,
-      Interpreter<String> interpreter, XMLElementProvider writer) {
+  private GetInnerHtmlVisitor(
+      StringBuffer buffer, Interpreter<String> interpreter, XMLElementProvider writer) {
     super(buffer, interpreter, writer);
   }
 

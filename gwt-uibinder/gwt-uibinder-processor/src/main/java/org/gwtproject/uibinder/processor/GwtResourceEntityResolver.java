@@ -17,21 +17,18 @@ package org.gwtproject.uibinder.processor;
 
 import static java.util.stream.Collectors.toSet;
 
-import org.gwtproject.uibinder.processor.ext.MyTreeLogger;
-
-import org.xml.sax.EntityResolver;
-import org.xml.sax.InputSource;
-
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Set;
-
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.tools.Diagnostic.Kind;
 import javax.tools.FileObject;
 import javax.tools.StandardLocation;
+import org.gwtproject.uibinder.processor.ext.MyTreeLogger;
+import org.xml.sax.EntityResolver;
+import org.xml.sax.InputSource;
 
 /**
  * Makes the sax xml parser use the {@link javax.annotation.processing.ProcessingEnvironment}.
@@ -43,11 +40,15 @@ import javax.tools.StandardLocation;
  */
 public class GwtResourceEntityResolver implements EntityResolver {
 
-  private static final Set<String> EXTERNAL_PREFIXES = Collections
-      .unmodifiableSet(Arrays.stream(new String[]{
-          "http://google-web-toolkit.googlecode.com/files/",
-          "http://dl.google.com/gwt/DTD/", "https://dl-ssl.google.com/gwt/DTD/"
-      }).collect(toSet()));
+  private static final Set<String> EXTERNAL_PREFIXES =
+      Collections.unmodifiableSet(
+          Arrays.stream(
+                  new String[] {
+                    "http://google-web-toolkit.googlecode.com/files/",
+                    "http://dl.google.com/gwt/DTD/",
+                    "https://dl-ssl.google.com/gwt/DTD/"
+                  })
+              .collect(toSet()));
 
   private static final String RESOURCES = "org.gwtproject.uibinder.resources";
 
@@ -56,8 +57,8 @@ public class GwtResourceEntityResolver implements EntityResolver {
   private final ProcessingEnvironment processingEnvironment;
   private final MyTreeLogger logger;
 
-  public GwtResourceEntityResolver(MyTreeLogger logger, ProcessingEnvironment processingEnvironment,
-      String pathBase) {
+  public GwtResourceEntityResolver(
+      MyTreeLogger logger, ProcessingEnvironment processingEnvironment, String pathBase) {
     this.logger = logger;
     this.processingEnvironment = processingEnvironment;
     this.pathBase = pathBase;
@@ -71,9 +72,13 @@ public class GwtResourceEntityResolver implements EntityResolver {
     if (matchingPrefix != null) {
 
       try {
-        resource = processingEnvironment.getFiler()
-            .getResource(StandardLocation.CLASS_PATH, RESOURCES,
-                systemId.substring(matchingPrefix.length()));
+        resource =
+            processingEnvironment
+                .getFiler()
+                .getResource(
+                    StandardLocation.CLASS_PATH,
+                    RESOURCES,
+                    systemId.substring(matchingPrefix.length()));
       } catch (IOException e) {
         // empty catch
       }
@@ -81,8 +86,10 @@ public class GwtResourceEntityResolver implements EntityResolver {
 
     if (resource == null) {
       try {
-        resource = processingEnvironment.getFiler()
-            .getResource(StandardLocation.CLASS_OUTPUT, pathBase, systemId);
+        resource =
+            processingEnvironment
+                .getFiler()
+                .getResource(StandardLocation.CLASS_OUTPUT, pathBase, systemId);
       } catch (IOException e) {
         // empty catch
       }

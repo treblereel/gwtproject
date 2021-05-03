@@ -22,11 +22,8 @@ import org.gwtproject.uibinder.processor.XMLElement;
 import org.gwtproject.uibinder.processor.XMLElement.PostProcessingInterpreter;
 import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
 
-/**
- * Abstract class performs the heavy lifting for processing ph children of a msg element.
- */
-public abstract class PlaceholderInterpreter implements
-    PostProcessingInterpreter<String> {
+/** Abstract class performs the heavy lifting for processing ph children of a msg element. */
+public abstract class PlaceholderInterpreter implements PostProcessingInterpreter<String> {
 
   protected final UiBinderWriter uiWriter;
   protected final MessageWriter message;
@@ -37,8 +34,7 @@ public abstract class PlaceholderInterpreter implements
     this.message = message;
   }
 
-  public String interpretElement(XMLElement elem)
-      throws UnableToCompleteException {
+  public String interpretElement(XMLElement elem) throws UnableToCompleteException {
     if (isPlaceholderElement(elem)) {
       /*
        * The innerHTML or innerText of the <ui:ph> will be provided as the value
@@ -91,8 +87,10 @@ public abstract class PlaceholderInterpreter implements
 
   /**
    * Called by various {@link XMLElement} consumeInner*() methods after all elements have been
-   * handed to {@link #interpretElement}. <p> Performs escaping on the consumed text to make it safe
-   * for use as a Messages {@literal @}Default value
+   * handed to {@link #interpretElement}.
+   *
+   * <p>Performs escaping on the consumed text to make it safe for use as a Messages
+   * {@literal @}Default value
    */
   @SuppressWarnings("unused")
   public String postProcess(String consumed) throws UnableToCompleteException {
@@ -117,18 +115,20 @@ public abstract class PlaceholderInterpreter implements
      * hide the placeholder from the escaping step, and postProcess resolves the
      * tokens when the escaping is done.
      */
-    String placeholder = String.format("{%d}",
-        message.getPlaceholderCount() - 1);
+    String placeholder = String.format("{%d}", message.getPlaceholderCount() - 1);
 
     return tokenator.nextToken(placeholder);
   }
 
   protected String stripTokens(String value) {
-    String rtn = Tokenator.detokenate(value, new Resolver() {
-      public String resolveToken(String token) {
-        return "";
-      }
-    });
+    String rtn =
+        Tokenator.detokenate(
+            value,
+            new Resolver() {
+              public String resolveToken(String token) {
+                return "";
+              }
+            });
     return rtn;
   }
 
@@ -137,7 +137,6 @@ public abstract class PlaceholderInterpreter implements
   }
 
   private boolean isPlaceholderElement(XMLElement elem) {
-    return getMessagesWriter().isMessagePrefixed(elem)
-        && "ph".equals(elem.getLocalName());
+    return getMessagesWriter().isMessagePrefixed(elem) && "ph".equals(elem.getLocalName());
   }
 }

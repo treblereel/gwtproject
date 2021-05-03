@@ -15,15 +15,6 @@
  */
 package org.gwtproject.uibinder.processor.messages;
 
-import org.gwtproject.uibinder.processor.AptUtil;
-import org.gwtproject.uibinder.processor.IndentedWriter;
-import org.gwtproject.uibinder.processor.MortalLogger;
-import org.gwtproject.uibinder.processor.UiBinderApiPackage;
-import org.gwtproject.uibinder.processor.UiBinderWriter;
-import org.gwtproject.uibinder.processor.XMLAttribute;
-import org.gwtproject.uibinder.processor.XMLElement;
-import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
-
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -33,13 +24,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
+import org.gwtproject.uibinder.processor.AptUtil;
+import org.gwtproject.uibinder.processor.IndentedWriter;
+import org.gwtproject.uibinder.processor.MortalLogger;
+import org.gwtproject.uibinder.processor.UiBinderApiPackage;
+import org.gwtproject.uibinder.processor.UiBinderWriter;
+import org.gwtproject.uibinder.processor.XMLAttribute;
+import org.gwtproject.uibinder.processor.XMLElement;
+import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
 
-/**
- * TemplateWriter for messages.
- */
+/** TemplateWriter for messages. */
 public class MessagesWriter {
 
   public static final String ATTRIBUTE = "attribute";
@@ -62,8 +58,12 @@ public class MessagesWriter {
 
   private Map<XMLElement, Collection<AttributeMessage>> elemToAttributeMessages = new HashMap<>();
 
-  public MessagesWriter(String nameSpaceUri, MortalLogger mortalLogger, String generatedFrom,
-      String packageName, String uiBinderImplClassName) {
+  public MessagesWriter(
+      String nameSpaceUri,
+      MortalLogger mortalLogger,
+      String generatedFrom,
+      String packageName,
+      String uiBinderImplClassName) {
     this.messagesNamespaceURI = nameSpaceUri;
     this.generatedFrom = generatedFrom;
     this.packageName = packageName;
@@ -84,8 +84,7 @@ public class MessagesWriter {
    */
   public void consumeAndStoreMessageAttributesFor(XMLElement elem)
       throws UnableToCompleteException {
-    Collection<AttributeMessage> attributeMessages =
-        consumeAttributeMessages(elem);
+    Collection<AttributeMessage> attributeMessages = consumeAttributeMessages(elem);
     if (!attributeMessages.isEmpty()) {
       elemToAttributeMessages.put(elem, attributeMessages);
     }
@@ -93,7 +92,9 @@ public class MessagesWriter {
 
   /**
    * Examine the children of the given element. Consume those tagged m:attribute and return a set of
-   * {@link AttributeMessage} instances. E.g.: <p>
+   * {@link AttributeMessage} instances. E.g.:
+   *
+   * <p>
    *
    * <pre>
    * &lt;img src="blueSky.jpg" alt="A blue sky">
@@ -117,21 +118,26 @@ public class MessagesWriter {
         logger.die(child, "Missing name attribute");
       }
       if (!elem.hasAttribute(attributeName)) {
-        logger.die(child, "The enclosing element needs to provide a "
-            + "default value for attribute \"%s\"", attributeName);
+        logger.die(
+            child,
+            "The enclosing element needs to provide a " + "default value for attribute \"%s\"",
+            attributeName);
       }
       XMLAttribute attribute = elem.getAttribute(attributeName);
       if (attribute.hasComputedValue()) {
-        logger.die(elem, "Attribute \"%s\" has a field reference and "
+        logger.die(
+            elem,
+            "Attribute \"%s\" has a field reference and "
                 + "so cannot be marked for localization, but found %s",
-            attributeName, child);
+            attributeName,
+            child);
       }
 
-      String defaultMessage = MessageWriter
-          .escapeMessageFormat(elem.consumeRawAttribute(attributeName));
+      String defaultMessage =
+          MessageWriter.escapeMessageFormat(elem.consumeRawAttribute(attributeName));
       defaultMessage = UiBinderWriter.escapeTextForJavaStringLiteral(defaultMessage);
-      attributeMessages.add(new AttributeMessage(attributeName, declareMessage(
-          child, defaultMessage)));
+      attributeMessages.add(
+          new AttributeMessage(attributeName, declareMessage(child, defaultMessage)));
     }
     return attributeMessages;
   }
@@ -186,8 +192,9 @@ public class MessagesWriter {
         if (!ElementKind.INTERFACE.equals(baseInterfaceType.getKind())) {
           logger.die(elem, "%s must be an interface", baseInterfaceAttr);
         }
-        TypeElement msgType = AptUtil.getElementUtils()
-            .getTypeElement(UiBinderApiPackage.current().getI18nMessagesInterfaceFqn());
+        TypeElement msgType =
+            AptUtil.getElementUtils()
+                .getTypeElement(UiBinderApiPackage.current().getI18nMessagesInterfaceFqn());
         if (msgType == null) {
           throw new RuntimeException("Internal Error: Messages interface not found");
         }
@@ -199,20 +206,17 @@ public class MessagesWriter {
       defaultLocale = consumeMessageAttribute("defaultLocale", elem);
       generateKeys = consumeMessageAttribute("generateKeys", elem);
       generate =
-          new GenerateAnnotationWriter(getMessageAttributeStringArray(
-              "generateFormat", elem), consumeMessageAttribute(
-              "generateFilename", elem), getMessageAttributeStringArray(
-              "generateLocales", elem));
+          new GenerateAnnotationWriter(
+              getMessageAttributeStringArray("generateFormat", elem),
+              consumeMessageAttribute("generateFilename", elem),
+              getMessageAttributeStringArray("generateLocales", elem));
     }
   }
 
-  /**
-   * Returns the expression that will instantiate the Messages interface.
-   */
+  /** Returns the expression that will instantiate the Messages interface. */
   public String getDeclaration() {
     return String.format(
-        "static %1$s messages = (%1$s) GWT.create(%1$s.class);",
-        getMessagesClassName());
+        "static %1$s messages = (%1$s) GWT.create(%1$s.class);", getMessagesClassName());
   }
 
   public String getMessagesClassName() {
@@ -236,9 +240,7 @@ public class MessagesWriter {
     return elem.hasAttribute(fullAttName);
   }
 
-  /**
-   * Returns true iff any messages have been declared.
-   */
+  /** Returns true iff any messages have been declared. */
   public boolean hasMessages() {
     return !messages.isEmpty();
   }
@@ -254,7 +256,8 @@ public class MessagesWriter {
    */
   public MessageWriter newMessage(XMLElement elem) {
     MessageWriter newMessage =
-        new MessageWriter(consumeMessageElementAttribute("description", elem),
+        new MessageWriter(
+            consumeMessageElementAttribute("description", elem),
             consumeMessageElementAttribute("key", elem),
             consumeMessageElementAttribute("meaning", elem),
             nextMessageName());
@@ -265,8 +268,7 @@ public class MessagesWriter {
    * Returns the set of AttributeMessages that were found in elem and stored by a previous call to
    * {@link #consumeAndStoreMessageAttributesFor}.
    */
-  public Collection<AttributeMessage> retrieveMessageAttributesFor(
-      XMLElement elem) {
+  public Collection<AttributeMessage> retrieveMessageAttributesFor(XMLElement elem) {
     return elemToAttributeMessages.get(elem);
   }
 
@@ -280,8 +282,8 @@ public class MessagesWriter {
     }
 
     // Imports.
-    writer
-        .write("import static %s.*;", UiBinderApiPackage.current().getI18nLocalizableResourceFqn());
+    writer.write(
+        "import static %s.*;", UiBinderApiPackage.current().getI18nLocalizableResourceFqn());
     writer.newline();
 
     // Open interface.
@@ -312,17 +314,20 @@ public class MessagesWriter {
     String fullAttName = getMessagesPrefix() + ":" + attName;
     if (elem.hasAttribute(fullAttName)) {
       String value = elem.consumeRawAttribute(fullAttName);
-      logger.warn(elem,
+      logger.warn(
+          elem,
           "Deprecated prefix \"%s:\" on \"%s\". Use \"%s\" instead.",
-          getMessagesPrefix(), fullAttName, attName);
+          getMessagesPrefix(),
+          fullAttName,
+          attName);
       return value;
     }
 
     return "";
   }
 
-  String consumeRequiredMessageElementAttribute(String attName,
-      XMLElement elem) throws UnableToCompleteException {
+  String consumeRequiredMessageElementAttribute(String attName, XMLElement elem)
+      throws UnableToCompleteException {
     String value = consumeMessageElementAttribute(attName, elem);
     if ("".equals(value)) {
       logger.die(elem, "Missing required attribute %s", attName);
@@ -356,25 +361,24 @@ public class MessagesWriter {
     generate.write(pw);
   }
 
-  private Collection<XMLElement> getAttributeMessageChildren(
-      final XMLElement elem) throws UnableToCompleteException {
-    return elem.consumeChildElements(new XMLElement.Interpreter<Boolean>() {
-      public Boolean interpretElement(XMLElement child)
-          throws UnableToCompleteException {
-        if (isAttributeMessage(child)) {
-          if (child.hasChildNodes()) {
-            logger.die(child, "Illegal body.", child, elem);
-          }
-          return true;
-        }
+  private Collection<XMLElement> getAttributeMessageChildren(final XMLElement elem)
+      throws UnableToCompleteException {
+    return elem.consumeChildElements(
+        new XMLElement.Interpreter<Boolean>() {
+          public Boolean interpretElement(XMLElement child) throws UnableToCompleteException {
+            if (isAttributeMessage(child)) {
+              if (child.hasChildNodes()) {
+                logger.die(child, "Illegal body.", child, elem);
+              }
+              return true;
+            }
 
-        return false;
-      }
-    });
+            return false;
+          }
+        });
   }
 
-  private String[] getMessageAttributeStringArray(String attName,
-      XMLElement elem) {
+  private String[] getMessageAttributeStringArray(String attName, XMLElement elem) {
     String value = consumeMessageAttribute(attName, elem, null);
     if (value == null) {
       return EMPTY_ARRAY;

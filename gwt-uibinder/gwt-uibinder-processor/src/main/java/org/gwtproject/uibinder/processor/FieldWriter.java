@@ -15,10 +15,9 @@
  */
 package org.gwtproject.uibinder.processor;
 
+import javax.lang.model.type.TypeMirror;
 import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
 import org.gwtproject.uibinder.processor.model.OwnerField;
-
-import javax.lang.model.type.TypeMirror;
 
 /**
  * Models a field to be written in the generated binder code. Note that this is not necessarily a
@@ -78,31 +77,21 @@ public interface FieldWriter {
    */
   void addStatement(String format, Object... args);
 
-  /**
-   * Returns the type of this field, or for generated types the type it extends.
-   */
+  /** Returns the type of this field, or for generated types the type it extends. */
   // TODO(rjrjr) When ui:style is able to implement multiple interfaces,
   // this will need to become a set
   TypeMirror getAssignableType();
 
-  /**
-   * Gets this field builder precedence.
-   */
+  /** Gets this field builder precedence. */
   int getBuildPrecedence();
 
-  /**
-   * Gets the type of this field.
-   */
+  /** Gets the type of this field. */
   FieldWriterType getFieldType();
 
-  /**
-   * Returns the string html representation of the field.
-   */
+  /** Returns the string html representation of the field. */
   String getHtml();
 
-  /**
-   * Returns the custom initializer for this field, or null if it is not set.
-   */
+  /** Returns the custom initializer for this field, or null if it is not set. */
   String getInitializer();
 
   /**
@@ -111,9 +100,7 @@ public interface FieldWriter {
    */
   TypeMirror getInstantiableType();
 
-  /**
-   * Get the name of the field.
-   */
+  /** Get the name of the field. */
   String getName();
 
   /**
@@ -123,9 +110,7 @@ public interface FieldWriter {
    */
   String getNextReference();
 
-  /**
-   * Returns the qualified source name of this type.
-   */
+  /** Returns the qualified source name of this type. */
   String getQualifiedSourceName();
 
   /**
@@ -134,14 +119,10 @@ public interface FieldWriter {
    */
   TypeMirror getReturnType(String[] path, MonitoredLogger logger);
 
-  /**
-   * Returns the string SafeHtml representation of the field.
-   */
+  /** Returns the string SafeHtml representation of the field. */
   String getSafeHtml();
 
-  /**
-   * Declares that the receiver depends upon the given field.
-   */
+  /** Declares that the receiver depends upon the given field. */
   void needs(FieldWriter f);
 
   /**
@@ -151,9 +132,7 @@ public interface FieldWriter {
    */
   void setBuildPrecedence(int precedence);
 
-  /**
-   * Sets the html representation of the field for applicable field types.
-   */
+  /** Sets the html representation of the field for applicable field types. */
   void setHtml(String html);
 
   /**
@@ -164,23 +143,24 @@ public interface FieldWriter {
    */
   void setInitializer(String initializer);
 
-  /**
-   * Used to provide the statement string for assigning back to the owner field.
-   */
+  /** Used to provide the statement string for assigning back to the owner field. */
   void setOwnerAssignmentStatement(String ownerAssignmentStatement);
 
-  /**
-   * Write the field declaration.
-   */
+  /** Write the field declaration. */
   void write(IndentedWriter w) throws UnableToCompleteException;
 
   /**
    * Write this field builder in the <b>Widgets</b> inner class. There are 3 possible situations:
    *
-   * <dl> <dt>getter never called</dt> <dd>write builder only if there's a ui:field associated</dd>
-   * <dt>getter called only once</dt> <dd>don't need to write the builder since the getter fallback
-   * to the builder when called</dd> <dt>getter called more than once</dt> <dd>in this case a field
-   * class is created, the builder is written and the getter returns the field class</dd> </dl>
+   * <dl>
+   *   <dt>getter never called
+   *   <dd>write builder only if there's a ui:field associated
+   *   <dt>getter called only once
+   *   <dd>don't need to write the builder since the getter fallback to the builder when called
+   *   <dt>getter called more than once
+   *   <dd>in this case a field class is created, the builder is written and the getter returns the
+   *       field class
+   * </dl>
    *
    * {@see FieldWriter#writeFieldGetter}.
    */
@@ -190,7 +170,8 @@ public interface FieldWriter {
   /**
    * Output the getter and builder definitions for the given field.
    *
-   * <p> <b>Example for widgets called only once:</b>
+   * <p><b>Example for widgets called only once:</b>
+   *
    * <pre>
    *  private WidgetX get_widgetX() {
    *    return build_widgetX();
@@ -201,9 +182,11 @@ public interface FieldWriter {
    *   return widgetX;
    *  }
    *  </pre>
-   * Notice that there's no field and the getter just fallback to the builder. </p>
+   *
+   * Notice that there's no field and the getter just fallback to the builder.
    *
    * <p><b>Example for widgets called more than once:</b>
+   *
    * <pre>
    *  private WidgetX widgetX;
    *  private WidgetX get_widgetX() {
@@ -215,7 +198,8 @@ public interface FieldWriter {
    *   return widgetX;
    *  }
    * </pre>
-   * Notice that the getter just returns the field. The builder is called in the Widgets ctor. </p>
+   *
+   * Notice that the getter just returns the field. The builder is called in the Widgets ctor.
    */
   void writeFieldDefinition(IndentedWriter w, OwnerField ownerField, int getterCount)
       throws UnableToCompleteException;

@@ -32,6 +32,5 @@ public interface AttributeParser {
    * @return a valid Java expression
    * @throws UnableToCompleteException on parse error
    */
-  String parse(XMLElement source, String value)
-      throws UnableToCompleteException;
+  String parse(XMLElement source, String value) throws UnableToCompleteException;
 }

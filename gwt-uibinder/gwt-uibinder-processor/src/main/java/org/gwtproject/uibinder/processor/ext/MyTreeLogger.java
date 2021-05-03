@@ -17,11 +17,9 @@ package org.gwtproject.uibinder.processor.ext;
 
 import com.google.gwt.core.ext.TreeLogger;
 import com.google.gwt.dev.util.log.PrintWriterTreeLogger;
-
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-
 import javax.annotation.processing.Messager;
 import javax.lang.model.element.Element;
 import javax.tools.Diagnostic.Kind;
@@ -32,7 +30,7 @@ import javax.tools.Diagnostic.Kind;
  * <p>This class also can provide an upstream TreeLogger instance for use of passing to other
  * modules such as Gss, etc.
  *
- * FIXME - needs implementation around branches, etc.
+ * <p>FIXME - needs implementation around branches, etc.
  */
 public class MyTreeLogger {
 
@@ -68,9 +66,7 @@ public class MyTreeLogger {
     }
   }
 
-  /**
-   * Sets the currentElement being processed.
-   */
+  /** Sets the currentElement being processed. */
   public void setCurrentElement(Element currentElement) {
     this.currentElement = currentElement;
   }
@@ -82,9 +78,7 @@ public class MyTreeLogger {
   private class LocalOutputStream extends OutputStream {
     private Kind level;
 
-    /**
-     * The internal memory for the written bytes.
-     */
+    /** The internal memory for the written bytes. */
     private String mem;
 
     private LocalOutputStream(Kind level) {
@@ -108,9 +102,7 @@ public class MyTreeLogger {
       }
     }
 
-    /**
-     * Flushes the output stream.
-     */
+    /** Flushes the output stream. */
     public void flush() {
       log(level, mem);
       mem = "";

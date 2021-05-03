@@ -15,29 +15,32 @@
  */
 package org.gwtproject.uibinder.processor.attributeparsers;
 
+import javax.lang.model.type.TypeMirror;
 import org.gwtproject.uibinder.processor.MortalLogger;
 import org.gwtproject.uibinder.processor.UiBinderApiPackage;
 import org.gwtproject.uibinder.processor.XMLElement;
 import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
-
-import javax.lang.model.type.TypeMirror;
 
 /**
  * Parses SafeUri literals or references.
  *
  * <p>Simple String literals are passed through UriUtils.fromConstantString(String)
  *
- * <p>Accepts concatenated string expressions, mainly for compatibility with legacy
- * <code>&lt;a href="{foo.bar}{baz.bang}"></code> abuses. Passes such nonsense
- * through UriUtils.fromString(String)
+ * <p>Accepts concatenated string expressions, mainly for compatibility with legacy <code>
+ * &lt;a href="{foo.bar}{baz.bang}"></code> abuses. Passes such nonsense through
+ * UriUtils.fromString(String)
  */
 public class SafeUriAttributeParser extends StrictAttributeParser {
-  public static String wrapUnsafeStringAndWarn(MortalLogger logger, XMLElement source,
-      String expression) {
-    logger.warn(source, "Escaping unsafe runtime String expression "
-        + "used for URI with UriUtils.fromString(). Use SafeUri instead");
+  public static String wrapUnsafeStringAndWarn(
+      MortalLogger logger, XMLElement source, String expression) {
+    logger.warn(
+        source,
+        "Escaping unsafe runtime String expression "
+            + "used for URI with UriUtils.fromString(). Use SafeUri instead");
     return UiBinderApiPackage.current().getSafeHtmlUriUtilsFqn()
-        + ".fromString(" + expression + ")";
+        + ".fromString("
+        + expression
+        + ")";
   }
 
   private final boolean runtimeStringsAllowed;
@@ -47,8 +50,12 @@ public class SafeUriAttributeParser extends StrictAttributeParser {
    * Constructs an instance for particular use in html contexts, where {string.references} are
    * acceptible.
    */
-  SafeUriAttributeParser(StringAttributeParser stringParser, FieldReferenceConverter converter,
-      TypeMirror safeUriType, TypeMirror stringType, MortalLogger logger) {
+  SafeUriAttributeParser(
+      StringAttributeParser stringParser,
+      FieldReferenceConverter converter,
+      TypeMirror safeUriType,
+      TypeMirror stringType,
+      MortalLogger logger) {
     super(converter, logger, safeUriType, stringType);
     this.stringParser = stringParser;
     runtimeStringsAllowed = true;
@@ -58,8 +65,11 @@ public class SafeUriAttributeParser extends StrictAttributeParser {
    * Constructs an instance for normal use, where String literals are okay but {string.references}
    * are not.
    */
-  SafeUriAttributeParser(StringAttributeParser stringParser, FieldReferenceConverter converter,
-      TypeMirror safeUriType, MortalLogger logger) {
+  SafeUriAttributeParser(
+      StringAttributeParser stringParser,
+      FieldReferenceConverter converter,
+      TypeMirror safeUriType,
+      MortalLogger logger) {
     super(converter, logger, safeUriType);
     this.stringParser = stringParser;
     runtimeStringsAllowed = false;
@@ -80,15 +90,19 @@ public class SafeUriAttributeParser extends StrictAttributeParser {
     if (howManyFieldRefs == 0) {
       // String literal, convert it for the nice people
       return UiBinderApiPackage.current().getSafeHtmlUriUtilsFqn()
-          + ".fromSafeConstant(" + stringParser.parse(source, value) + ")";
+          + ".fromSafeConstant("
+          + stringParser.parse(source, value)
+          + ")";
     }
 
     /*
      * No runtime string expressions are allowed, or they are but it
      * "{looks.like.this}". Just do the usual parsing.
      */
-    if (!runtimeStringsAllowed || howManyFieldRefs == 1 && value.substring(0, 1).equals("{")
-        && value.substring(value.length() - 1, value.length()).equals("}")) {
+    if (!runtimeStringsAllowed
+        || howManyFieldRefs == 1
+            && value.substring(0, 1).equals("{")
+            && value.substring(value.length() - 1, value.length()).equals("}")) {
       return super.parse(source, value);
     }
 

@@ -15,16 +15,13 @@
  */
 package org.gwtproject.uibinder.processor.elementparsers;
 
+import javax.lang.model.type.TypeMirror;
 import org.gwtproject.uibinder.processor.FieldWriter;
 import org.gwtproject.uibinder.processor.UiBinderWriter;
 import org.gwtproject.uibinder.processor.XMLElement;
 import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
 
-import javax.lang.model.type.TypeMirror;
-
-/**
- * Parses LayoutPanel widgets.
- */
+/** Parses LayoutPanel widgets. */
 public class LayoutPanelParser implements ElementParser {
 
   private static final String ERR_PAIRING = "'%s' must be paired with '%s' or '%s'.";
@@ -33,15 +30,14 @@ public class LayoutPanelParser implements ElementParser {
   private static final String ERR_NEGATIVE_HEIGHT = "Attribute 'height' can not be negative.";
   private static final String LAYER = "layer";
 
-  public void parse(XMLElement elem, String fieldName, TypeMirror type,
-      UiBinderWriter writer) throws UnableToCompleteException {
+  public void parse(XMLElement elem, String fieldName, TypeMirror type, UiBinderWriter writer)
+      throws UnableToCompleteException {
 
     // Parse children.
     for (XMLElement layerElem : elem.consumeChildElements()) {
       // Get the layer element.
       if (!isElementType(elem, layerElem, LAYER)) {
-        writer.die(layerElem, "Only <%s:%s> children are allowed.",
-            elem.getPrefix(), LAYER);
+        writer.die(layerElem, "Only <%s:%s> children are allowed.", elem.getPrefix(), LAYER);
       }
 
       // Get the child widget element.
@@ -61,18 +57,18 @@ public class LayoutPanelParser implements ElementParser {
           if (width != null) {
             writer.die(layerElem, ERR_TOO_MANY, "horizontal");
           }
-          generateConstraint(fieldName, childField.getNextReference(), "LeftRight", left,
-              right, writer);
+          generateConstraint(
+              fieldName, childField.getNextReference(), "LeftRight", left, right, writer);
         } else if (width != null) {
-          generateConstraint(fieldName, childField.getNextReference(), "LeftWidth", left,
-              width, writer);
+          generateConstraint(
+              fieldName, childField.getNextReference(), "LeftWidth", left, width, writer);
         } else {
           writer.die(layerElem, ERR_PAIRING, "left", "right", "width");
         }
       } else if (right != null) {
         if (width != null) {
-          generateConstraint(fieldName, childField.getNextReference(), "RightWidth", right,
-              width, writer);
+          generateConstraint(
+              fieldName, childField.getNextReference(), "RightWidth", right, width, writer);
         } else {
           writer.die(layerElem, ERR_PAIRING, "right", "left", "width");
         }
@@ -91,18 +87,18 @@ public class LayoutPanelParser implements ElementParser {
           if (height != null) {
             writer.die(layerElem, ERR_TOO_MANY, "vertical");
           }
-          generateConstraint(fieldName, childField.getNextReference(), "TopBottom", top,
-              bottom, writer);
+          generateConstraint(
+              fieldName, childField.getNextReference(), "TopBottom", top, bottom, writer);
         } else if (height != null) {
-          generateConstraint(fieldName, childField.getNextReference(), "TopHeight", top,
-              height, writer);
+          generateConstraint(
+              fieldName, childField.getNextReference(), "TopHeight", top, height, writer);
         } else {
           writer.die(layerElem, ERR_PAIRING, "top", "bottom", "height");
         }
       } else if (bottom != null) {
         if (height != null) {
-          generateConstraint(fieldName, childField.getNextReference(), "BottomHeight", bottom,
-              height, writer);
+          generateConstraint(
+              fieldName, childField.getNextReference(), "BottomHeight", bottom, height, writer);
         } else {
           writer.die(layerElem, ERR_PAIRING, "bottom", "top", "height");
         }
@@ -110,10 +106,15 @@ public class LayoutPanelParser implements ElementParser {
     }
   }
 
-  private void generateConstraint(String panelName, String widgetName,
-      String constraintName, String first, String second, UiBinderWriter writer) {
-    writer.addStatement("%s.setWidget%s(%s, %s, %s);", panelName,
-        constraintName, widgetName, first, second);
+  private void generateConstraint(
+      String panelName,
+      String widgetName,
+      String constraintName,
+      String first,
+      String second,
+      UiBinderWriter writer) {
+    writer.addStatement(
+        "%s.setWidget%s(%s, %s, %s);", panelName, constraintName, widgetName, first, second);
   }
 
   private boolean isElementType(XMLElement parent, XMLElement child, String type) {
@@ -123,11 +124,10 @@ public class LayoutPanelParser implements ElementParser {
 
   /**
    * @return <code>true</code> if in given <code>value, unit</code> expression <code>value</code>
-   * part is obviously negative.
+   *     part is obviously negative.
    */
   private boolean isNegative(String expression) {
-    if (expression != null && expression.length() >= 2
-        && expression.charAt(0) == '-') {
+    if (expression != null && expression.length() >= 2 && expression.charAt(0) == '-') {
       char secondChar = expression.charAt(1);
       return Character.isDigit(secondChar);
     }

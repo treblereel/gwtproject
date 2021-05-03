@@ -15,11 +15,18 @@
  */
 package org.gwtproject.uibinder.processor;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.TypeKind;
+import javax.lang.model.type.TypeMirror;
 import org.gwtproject.uibinder.processor.attributeparsers.AttributeParser;
 import org.gwtproject.uibinder.processor.attributeparsers.AttributeParsers;
 import org.gwtproject.uibinder.processor.elementparsers.SimpleInterpreter;
 import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
-
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -27,22 +34,14 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.lang.model.element.TypeElement;
-import javax.lang.model.type.TypeKind;
-import javax.lang.model.type.TypeMirror;
-
 /**
  * A wrapper for {@link Element} that limits the way parsers can interact with the XML document, and
- * provides some convenience methods. <p> The main function of this wrapper is to ensure that
- * parsers can only read elements and attributes by 'consuming' them, which removes the given value.
- * This allows for a natural hierarchy among parsers -- more specific parsers will run first, and if
- * they consume a value, less-specific parsers will not see it.
+ * provides some convenience methods.
+ *
+ * <p>The main function of this wrapper is to ensure that parsers can only read elements and
+ * attributes by 'consuming' them, which removes the given value. This allows for a natural
+ * hierarchy among parsers -- more specific parsers will run first, and if they consume a value,
+ * less-specific parsers will not see it.
  */
 public class XMLElement {
 
@@ -72,9 +71,7 @@ public class XMLElement {
     String postProcess(String consumedText) throws UnableToCompleteException;
   }
 
-  /**
-   * Represents the source location where the XMLElement was declared.
-   */
+  /** Represents the source location where the XMLElement was declared. */
   public static class Location {
 
     private final String systemId;
@@ -93,9 +90,7 @@ public class XMLElement {
       return systemId;
     }
 
-    /**
-     * For debugging use only.
-     */
+    /** For debugging use only. */
     @Override
     public String toString() {
       return systemId + ":" + lineNumber;
@@ -106,7 +101,7 @@ public class XMLElement {
 
   private static final Set<String> NO_END_TAG = new HashSet<>();
 
-  private static final String[] EMPTY = new String[]{};
+  private static final String[] EMPTY = new String[] {};
 
   private static void clearChildren(Element elem) {
     // TODO(rjrjr) I'm nearly positive that anywhere this is called
@@ -150,7 +145,10 @@ public class XMLElement {
     NO_END_TAG.add("wbr");
   }
 
-  XMLElement(Element elem, AttributeParsers attributeParsers, MortalLogger logger,
+  XMLElement(
+      Element elem,
+      AttributeParsers attributeParsers,
+      MortalLogger logger,
       XMLElementProvider provider) {
     this.elem = elem;
     this.attributeParsers = attributeParsers;
@@ -187,12 +185,13 @@ public class XMLElement {
    * @throws UnableToCompleteException if it isn't
    */
   public void assertNoBody() throws UnableToCompleteException {
-    consumeChildElements(new Interpreter<Boolean>() {
-      public Boolean interpretElement(XMLElement elem) throws UnableToCompleteException {
-        logger.die(elem, "Found unexpected child element");
-        return false; // unreachable
-      }
-    });
+    consumeChildElements(
+        new Interpreter<Boolean>() {
+          public Boolean interpretElement(XMLElement elem) throws UnableToCompleteException {
+            logger.die(elem, "Found unexpected child element");
+            return false; // unreachable
+          }
+        });
     assertNoText();
   }
 
@@ -234,7 +233,7 @@ public class XMLElement {
    */
   public String consumeAttributeWithDefault(String name, String defaultValue, TypeMirror type)
       throws UnableToCompleteException {
-    return consumeAttributeWithDefault(name, defaultValue, new TypeMirror[]{type});
+    return consumeAttributeWithDefault(name, defaultValue, new TypeMirror[] {type});
   }
 
   /**
@@ -256,7 +255,7 @@ public class XMLElement {
    * Convenience method for parsing the named attribute as a boolean value or reference.
    *
    * @return an expression that will evaluate to a boolean value in the generated code, or null if
-   * there is no such attribute
+   *     there is no such attribute
    * @throws UnableToCompleteException on unparseable value
    */
   public String consumeBooleanAttribute(String name) throws UnableToCompleteException {
@@ -268,7 +267,7 @@ public class XMLElement {
    *
    * @param defaultValue value to return if attribute was not set
    * @return an expression that will evaluate to a boolean value in the generated code, or
-   * defaultValue if there is no such attribute
+   *     defaultValue if there is no such attribute
    * @throws UnableToCompleteException on unparseable value
    */
   public String consumeBooleanAttribute(String name, boolean defaultValue)
@@ -312,7 +311,7 @@ public class XMLElement {
    * not elements, and so are not presented for interpretation, and are not consumed.
    *
    * @param interpreter Should return true for any child that should be consumed and returned by the
-   * consumeChildElements call
+   *     consumeChildElements call
    */
   public Collection<XMLElement> consumeChildElements(Interpreter<Boolean> interpreter)
       throws UnableToCompleteException {
@@ -341,7 +340,7 @@ public class XMLElement {
    * Convenience method for parsing the named attribute as an ImageResource value or reference.
    *
    * @return an expression that will evaluate to an ImageResource value in the generated code, or
-   * null if there is no such attribute
+   *     null if there is no such attribute
    * @throws UnableToCompleteException on unparseable value
    */
   public String consumeImageResourceAttribute(String name) throws UnableToCompleteException {
@@ -350,15 +349,19 @@ public class XMLElement {
 
   /**
    * Consumes all child elements, and returns an HTML interpretation of them. Trailing and leading
-   * whitespace is trimmed. <p> Each element encountered will be passed to the given Interpreter for
-   * possible replacement. Escaping is performed to allow the returned text to serve as a Java
-   * string literal used as input to a setInnerHTML call. <p> This call requires an interpreter to
-   * make sense of any special children. The odds are you want to use {@link
-   * org.gwtproject.uibinder.processor.elementparsers.HtmlInterpreter} for an HTML value, or {@link
-   * org.gwtproject.uibinder.processor.elementparsers.TextInterpreter} for text.
+   * whitespace is trimmed.
+   *
+   * <p>Each element encountered will be passed to the given Interpreter for possible replacement.
+   * Escaping is performed to allow the returned text to serve as a Java string literal used as
+   * input to a setInnerHTML call.
+   *
+   * <p>This call requires an interpreter to make sense of any special children. The odds are you
+   * want to use {@link org.gwtproject.uibinder.processor.elementparsers.HtmlInterpreter} for an
+   * HTML value, or {@link org.gwtproject.uibinder.processor.elementparsers.TextInterpreter} for
+   * text.
    *
    * @param interpreter Called for each element, expected to return a string replacement for it, or
-   * null if it should be left as is
+   *     null if it should be left as is
    */
   public String consumeInnerHtml(Interpreter<String> interpreter) throws UnableToCompleteException {
     if (interpreter == null) {
@@ -371,9 +374,7 @@ public class XMLElement {
     return buf.toString().trim();
   }
 
-  /**
-   * Refines {@link #consumeInnerHtml(Interpreter)} to handle PostProcessingInterpreter.
-   */
+  /** Refines {@link #consumeInnerHtml(Interpreter)} to handle PostProcessingInterpreter. */
   public String consumeInnerHtml(PostProcessingInterpreter<String> interpreter)
       throws UnableToCompleteException {
     String html = consumeInnerHtml((Interpreter<String>) interpreter);
@@ -393,10 +394,12 @@ public class XMLElement {
   /**
    * Consumes all child text nodes, and asserts that this element held only text. Trailing and
    * leading whitespace is trimmed, and escaped for use as a string literal. Notice that HTML
-   * entities in the text are also escaped <p> This call requires an interpreter to make sense of
-   * any special children. The odds are you want to use
+   * entities in the text are also escaped
    *
-   * {@link org.gwtproject.uibinder.processor.elementparsers.TextInterpreter}
+   * <p>This call requires an interpreter to make sense of any special children. The odds are you
+   * want to use
+   *
+   * <p>{@link org.gwtproject.uibinder.processor.elementparsers.TextInterpreter}
    *
    * @throws UnableToCompleteException If any elements present are not consumed by the interpreter
    */
@@ -408,10 +411,12 @@ public class XMLElement {
   /**
    * Consumes all child text nodes, and asserts that this element held only text. Trailing and
    * leading whitespace is trimmed, and escaped for use as a string literal. Notice that HTML
-   * entities in the text are NOT escaped <p> This call requires an interpreter to make sense of any
-   * special children. The odds are you want to use
+   * entities in the text are NOT escaped
    *
-   * {@link org.gwtproject.uibinder.processor.elementparsers.TextInterpreter}
+   * <p>This call requires an interpreter to make sense of any special children. The odds are you
+   * want to use
+   *
+   * <p>{@link org.gwtproject.uibinder.processor.elementparsers.TextInterpreter}
    *
    * @throws UnableToCompleteException If any elements present are not consumed by the interpreter
    */
@@ -424,12 +429,12 @@ public class XMLElement {
    * Convenience method for parsing the named attribute as a CSS length value.
    *
    * @return a (double, Unit) pair literal, an expression that will evaluate to such a pair in the
-   * generated code, or null if there is no such attribute
+   *     generated code, or null if there is no such attribute
    * @throws UnableToCompleteException on unparseable value
    */
   public String consumeLengthAttribute(String name) throws UnableToCompleteException {
-    return consumeAttributeWithDefault(name, null,
-        new TypeMirror[]{getDoubleType(), getUnitType()});
+    return consumeAttributeWithDefault(
+        name, null, new TypeMirror[] {getDoubleType(), getUnitType()});
   }
 
   /**
@@ -499,8 +504,7 @@ public class XMLElement {
    * @param name the attribute's full name (including prefix)
    * @param types the type(s) this attribute is expected to provide
    * @return the attribute's value as a Java expression
-   * @throws UnableToCompleteException on parse failure, or if the attribute is empty or
-   * unspecified
+   * @throws UnableToCompleteException on parse failure, or if the attribute is empty or unspecified
    */
   public String consumeRequiredAttribute(String name, TypeMirror... types)
       throws UnableToCompleteException {
@@ -518,9 +522,9 @@ public class XMLElement {
    * Convenience method for parsing the named required attribute as a double value or reference.
    *
    * @return a double literal, an expression that will evaluate to a double value in the generated
-   * code
+   *     code
    * @throws UnableToCompleteException on unparseable value, or if the attribute is empty or
-   * unspecified
+   *     unspecified
    */
   public String consumeRequiredDoubleAttribute(String name) throws UnableToCompleteException {
     return consumeRequiredAttribute(name, getDoubleType());
@@ -530,17 +534,15 @@ public class XMLElement {
    * Convenience method for parsing the named required attribute as a integer value or reference.
    *
    * @return a integer literal, an expression that will evaluate to a integer value in the generated
-   * code
+   *     code
    * @throws UnableToCompleteException on unparseable value, or if the attribute is empty or
-   * unspecified
+   *     unspecified
    */
   public String consumeRequiredIntAttribute(String name) throws UnableToCompleteException {
     return consumeRequiredAttribute(name, getIntType());
   }
 
-  /**
-   * Consumes the named attribute, or dies if it is missing.
-   */
+  /** Consumes the named attribute, or dies if it is missing. */
   public String consumeRequiredRawAttribute(String name) throws UnableToCompleteException {
     String value = consumeRawAttribute(name);
     if (value == null) {
@@ -552,10 +554,10 @@ public class XMLElement {
   /**
    * Convenience method for parsing the named attribute as a
    *
-   * {@link org.gwtproject.safehtml.shared.SafeHtml SafeHtml} value or reference.
+   * <p>{@link org.gwtproject.safehtml.shared.SafeHtml SafeHtml} value or reference.
    *
    * @return an expression that will evaluate to a {@link org.gwtproject.safehtml.shared.SafeHtml
-   * SafeHtml} value in the generated code, or null if there is no such attribute
+   *     SafeHtml} value in the generated code, or null if there is no such attribute
    * @throws UnableToCompleteException on unparseable value
    */
   public String consumeSafeHtmlAttribute(String name) throws UnableToCompleteException {
@@ -566,7 +568,7 @@ public class XMLElement {
    * Consumes an attribute as either a SafeUri or a String. Used in HTML contexts.
    *
    * @return an expression that will evaluate to a SafeUri value in the generated code, or null if
-   * there is no such attribute
+   *     there is no such attribute
    * @throws UnableToCompleteException on unparseable value
    */
   public String consumeSafeUriOrStringAttribute(String name) throws UnableToCompleteException {
@@ -583,8 +585,11 @@ public class XMLElement {
     XMLElement ret = null;
     for (XMLElement child : consumeChildElements()) {
       if (ret != null) {
-        logger.die(this, "Element may only contain a single child element, but "
-            + "found %s and %s.", ret, child);
+        logger.die(
+            this,
+            "Element may only contain a single child element, but " + "found %s and %s.",
+            ret,
+            child);
       }
 
       ret = child;
@@ -618,7 +623,7 @@ public class XMLElement {
    * Convenience method for parsing the named attribute as a String value or reference.
    *
    * @return an expression that will evaluate to a String value in the generated code, or null if
-   * there is no such attribute
+   *     there is no such attribute
    * @throws UnableToCompleteException on unparseable value
    */
   public String consumeStringAttribute(String name) throws UnableToCompleteException {
@@ -629,7 +634,7 @@ public class XMLElement {
    * Convenience method for parsing the named attribute as a String value or reference.
    *
    * @return an expression that will evaluate to a String value in the generated code, or the given
-   * defaultValue if there is no such attribute
+   *     defaultValue if there is no such attribute
    * @throws UnableToCompleteException on unparseable value
    */
   public String consumeStringAttribute(String name, String defaultValue)
@@ -639,9 +644,11 @@ public class XMLElement {
 
   /**
    * Returns the unprocessed, unescaped, raw inner text of the receiver. Dies if the receiver has
-   * non-text children. <p> You probably want to use
+   * non-text children.
    *
-   * {@link #consumeInnerTextEscapedAsHtmlStringLiteral} instead.
+   * <p>You probably want to use
+   *
+   * <p>{@link #consumeInnerTextEscapedAsHtmlStringLiteral} instead.
    *
    * @return the text
    * @throws UnableToCompleteException if it held anything other than text nodes
@@ -679,9 +686,7 @@ public class XMLElement {
     return new XMLAttribute(this, attr);
   }
 
-  /**
-   * Returns the number of attributes this element has.
-   */
+  /** Returns the number of attributes this element has. */
   public int getAttributeCount() {
     return elem.getAttributes().getLength();
   }
@@ -693,9 +698,7 @@ public class XMLElement {
     return String.format("</%s>", elem.getTagName());
   }
 
-  /**
-   * Gets this element's local name (sans namespace prefix).
-   */
+  /** Gets this element's local name (sans namespace prefix). */
   public String getLocalName() {
     return elem.getLocalName();
   }
@@ -704,16 +707,12 @@ public class XMLElement {
     return (Location) elem.getUserData(LOCATION_KEY);
   }
 
-  /**
-   * Gets this element's namespace URI.
-   */
+  /** Gets this element's namespace URI. */
   public String getNamespaceUri() {
     return elem.getNamespaceURI();
   }
 
-  /**
-   * Returns the parent element, or null if parent is null or a node type other than Element.
-   */
+  /** Returns the parent element, or null if parent is null or a node type other than Element. */
   public XMLElement getParent() {
     Node parent = elem.getParentNode();
     if (parent == null || Node.ELEMENT_NODE != parent.getNodeType()) {
@@ -726,9 +725,7 @@ public class XMLElement {
     return elem.getPrefix();
   }
 
-  /**
-   * Determines whether the element has a given attribute.
-   */
+  /** Determines whether the element has a given attribute. */
   public boolean hasAttribute(String name) {
     return elem.hasAttribute(name);
   }
@@ -768,15 +765,17 @@ public class XMLElement {
   /**
    * Consumes all child text nodes, and asserts that this element held only text. Trailing and
    * leading whitespace is trimmed, and escaped for use as a string literal. If escapeHtmlEntities
-   * is true, HTML Entities are also escaped. <p> This call requires an interpreter to make sense of
-   * any special children. The odds are you want to use
+   * is true, HTML Entities are also escaped.
    *
-   * {@link org.gwtproject.uibinder.processor.elementparsers.TextInterpreter}
+   * <p>This call requires an interpreter to make sense of any special children. The odds are you
+   * want to use
+   *
+   * <p>{@link org.gwtproject.uibinder.processor.elementparsers.TextInterpreter}
    *
    * @throws UnableToCompleteException If any elements present are not consumed by the interpreter
    */
-  private String consumeInnerTextEscapedAsHtmlStringLiteral(Interpreter<String> interpreter,
-      boolean escapeHtmlEntities)
+  private String consumeInnerTextEscapedAsHtmlStringLiteral(
+      Interpreter<String> interpreter, boolean escapeHtmlEntities)
       throws UnableToCompleteException {
     if (interpreter == null) {
       throw new NullPointerException("interpreter must not be null");
@@ -792,9 +791,12 @@ public class XMLElement {
     // Make sure there are no children left but empty husks
     for (XMLElement child : consumeChildElementsNoEmptyCheck()) {
       if (child.hasChildNodes() || child.getAttributeCount() > 0) {
-        logger.die(this, "Illegal child %s in a text-only context. "
-            + "Perhaps you are trying to use unescaped HTML "
-            + "where text is required, as in a HasText widget?", child);
+        logger.die(
+            this,
+            "Illegal child %s in a text-only context. "
+                + "Perhaps you are trying to use unescaped HTML "
+                + "where text is required, as in a HasText widget?",
+            child);
       }
     }
 
@@ -822,8 +824,9 @@ public class XMLElement {
 
   private TypeMirror getImageResourceType() {
     if (imageResourceType == null) {
-      TypeElement typeElement = AptUtil.getElementUtils()
-          .getTypeElement(UiBinderApiPackage.current().getImageResourceFqn());
+      TypeElement typeElement =
+          AptUtil.getElementUtils()
+              .getTypeElement(UiBinderApiPackage.current().getImageResourceFqn());
       imageResourceType = typeElement.asType();
     }
     return imageResourceType;
@@ -842,8 +845,9 @@ public class XMLElement {
     NamedNodeMap attrs = elem.getAttributes();
     for (int i = 0; i < attrs.getLength(); i++) {
       Attr attr = (Attr) attrs.item(i);
-      b.append(String.format(" %s='%s'", attr.getName(),
-          UiBinderWriter.escapeAttributeText(attr.getValue())));
+      b.append(
+          String.format(
+              " %s='%s'", attr.getName(), UiBinderWriter.escapeAttributeText(attr.getValue())));
     }
     b.append(">");
     return b.toString();
@@ -851,22 +855,25 @@ public class XMLElement {
 
   private TypeMirror getSafeHtmlType() {
     if (safeHtmlType == null) {
-      safeHtmlType = AptUtil.getElementUtils()
-          .getTypeElement(UiBinderApiPackage.current().getSafeHtmlInterfaceFqn()).asType();
+      safeHtmlType =
+          AptUtil.getElementUtils()
+              .getTypeElement(UiBinderApiPackage.current().getSafeHtmlInterfaceFqn())
+              .asType();
     }
     return safeHtmlType;
   }
 
   private TypeMirror getStringType() {
     if (stringType == null) {
-      stringType = AptUtil.getElementUtils().getTypeElement(String.class.getCanonicalName())
-          .asType();
+      stringType =
+          AptUtil.getElementUtils().getTypeElement(String.class.getCanonicalName()).asType();
     }
     return stringType;
   }
 
   private TypeMirror getUnitType() {
     return AptUtil.getElementUtils()
-        .getTypeElement(UiBinderApiPackage.current().getDomStyleUnitFqn()).asType();
+        .getTypeElement(UiBinderApiPackage.current().getDomStyleUnitFqn())
+        .asType();
   }
 }

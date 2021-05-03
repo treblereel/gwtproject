@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
 import javax.annotation.processing.Filer;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.AnnotationMirror;
@@ -55,17 +54,15 @@ import javax.tools.FileObject;
 import javax.tools.JavaFileManager.Location;
 import javax.tools.StandardLocation;
 
-/**
- *
- */
+/** */
 public class AptUtil {
 
   private AptUtil() {
     throw new UnsupportedOperationException("utility class");
   }
 
-  private static ThreadLocal<ProcessingEnvironment>
-      processingEnvironmentThreadLocal = new ThreadLocal<>();
+  private static ThreadLocal<ProcessingEnvironment> processingEnvironmentThreadLocal =
+      new ThreadLocal<>();
 
   public static void setProcessingEnvironment(ProcessingEnvironment processingEnvironment) {
     if (processingEnvironment == null) {
@@ -119,16 +116,17 @@ public class AptUtil {
     Map<String, AnnotationValue> values = new HashMap<>();
 
     // get details from real annotation (defaults)
-    List<ExecutableElement> annotationAttributes = ElementFilter
-        .methodsIn(annotationMirror.getAnnotationType().asElement().getEnclosedElements());
+    List<ExecutableElement> annotationAttributes =
+        ElementFilter.methodsIn(
+            annotationMirror.getAnnotationType().asElement().getEnclosedElements());
     for (ExecutableElement annotationAttribute : annotationAttributes) {
-      values.put(annotationAttribute.getSimpleName().toString(),
-          annotationAttribute.getDefaultValue());
+      values.put(
+          annotationAttribute.getSimpleName().toString(), annotationAttribute.getDefaultValue());
     }
 
     // get the set values set on the annotationMirror
-    for (Entry<? extends ExecutableElement, ? extends AnnotationValue> entry : annotationMirror
-        .getElementValues().entrySet()) {
+    for (Entry<? extends ExecutableElement, ? extends AnnotationValue> entry :
+        annotationMirror.getElementValues().entrySet()) {
       values.put(entry.getKey().getSimpleName().toString(), entry.getValue());
     }
     return values;
@@ -173,8 +171,10 @@ public class AptUtil {
       return null;
     }
 
-    List<ExecutableElement> matchingConstructors = findMatchingParameters(
-        ElementFilter.constructorsIn(asTypeElement(typeMirror).getEnclosedElements()), paramTypes);
+    List<ExecutableElement> matchingConstructors =
+        findMatchingParameters(
+            ElementFilter.constructorsIn(asTypeElement(typeMirror).getEnclosedElements()),
+            paramTypes);
 
     if (matchingConstructors.size() != 1) {
       return null;
@@ -183,16 +183,18 @@ public class AptUtil {
     return matchingConstructors.get(0);
   }
 
-  public static ExecutableElement findMethod(TypeMirror typeMirror, String methodName,
-      TypeMirror[] paramTypes) {
+  public static ExecutableElement findMethod(
+      TypeMirror typeMirror, String methodName, TypeMirror[] paramTypes) {
     if (typeMirror == null || asTypeElement(typeMirror) == null) {
       return null;
     }
 
-    List<ExecutableElement> matchingMethods = findMatchingParameters(
-        ElementFilter.methodsIn(asTypeElement(typeMirror).getEnclosedElements())
-            .stream().filter(method -> methodName.equals(method.getSimpleName().toString()))
-            .collect(toList()), paramTypes);
+    List<ExecutableElement> matchingMethods =
+        findMatchingParameters(
+            ElementFilter.methodsIn(asTypeElement(typeMirror).getEnclosedElements()).stream()
+                .filter(method -> methodName.equals(method.getSimpleName().toString()))
+                .collect(toList()),
+            paramTypes);
 
     if (matchingMethods.size() != 1) {
       return null;
@@ -204,8 +206,8 @@ public class AptUtil {
   /**
    * Locates a resource by searching multiple locations.
    *
-   * <p>This method assumes that the path is a full package path such as
-   * <code>org/gwtproject/uibinder/example/view/SimpleFormView.ui.xml</code>
+   * <p>This method assumes that the path is a full package path such as <code>
+   * org/gwtproject/uibinder/example/view/SimpleFormView.ui.xml</code>
    *
    * @return FileObject or null if file is not found.
    * @see #findResource(CharSequence, CharSequence)
@@ -216,8 +218,7 @@ public class AptUtil {
 
     int index = relativeName.lastIndexOf('/');
     if (index >= 0) {
-      packageName = relativeName.substring(0, index)
-          .replace('/', '.');
+      packageName = relativeName.substring(0, index).replace('/', '.');
       relativeName = relativeName.substring(index + 1);
     }
 
@@ -227,11 +228,12 @@ public class AptUtil {
   /**
    * Locates a resource by searching multiple locations.
    *
-   * <p>Searches in the order of</p>
+   * <p>Searches in the order of
+   *
    * <ul>
-   * <li>{@link StandardLocation#SOURCE_PATH}</li>
-   * <li>{@link StandardLocation#CLASS_PATH}</li>
-   * <li>{@link StandardLocation#CLASS_OUTPUT}</li>
+   *   <li>{@link StandardLocation#SOURCE_PATH}
+   *   <li>{@link StandardLocation#CLASS_PATH}
+   *   <li>{@link StandardLocation#CLASS_OUTPUT}
    * </ul>
    *
    * @return FileObject or null if file is not found.
@@ -241,8 +243,9 @@ public class AptUtil {
         Arrays.asList(
             StandardLocation.SOURCE_PATH,
             StandardLocation.CLASS_PATH,
-            StandardLocation.CLASS_OUTPUT
-        ), pkg, relativeName);
+            StandardLocation.CLASS_OUTPUT),
+        pkg,
+        relativeName);
   }
 
   /**
@@ -250,8 +253,8 @@ public class AptUtil {
    *
    * @return FileObject or null if file is not found in given locations.
    */
-  public static FileObject findResource(List<Location> searchLocations, CharSequence pkg,
-      CharSequence relativeName) {
+  public static FileObject findResource(
+      List<Location> searchLocations, CharSequence pkg, CharSequence relativeName) {
     if (searchLocations == null || searchLocations.isEmpty()) {
       return null;
     }
@@ -275,8 +278,7 @@ public class AptUtil {
     if (!ElementKind.ENUM.equals(enumTypeElement.getKind())) {
       return null;
     }
-    return enumTypeElement.getEnclosedElements()
-        .stream()
+    return enumTypeElement.getEnclosedElements().stream()
         .filter(input -> ElementKind.ENUM_CONSTANT.equals(input.getKind()))
         .collect(toList());
   }
@@ -329,10 +331,10 @@ public class AptUtil {
   /**
    * Iterates over the most-derived declaration of each unique inheritable method available in the
    * type hierarchy of the specified type, including those found in superclasses and
-   * superinterfaces. A method is inheritable if its accessibility is <code>public</code>,
-   * <code>protected</code>, or package protected.
+   * superinterfaces. A method is inheritable if its accessibility is <code>public</code>, <code>
+   * protected</code>, or package protected.
    *
-   * This method offers a convenient way for Generators to find candidate methods to call from a
+   * <p>This method offers a convenient way for Generators to find candidate methods to call from a
    * subclass.
    *
    * @param type the type to find methods on.
@@ -348,13 +350,13 @@ public class AptUtil {
     for (TypeMirror typeMirror : typeHierarchy) {
       TypeElement typeElement = asTypeElement(typeMirror);
       if (typeElement != null) {
-        List<ExecutableElement> methods = ElementFilter
-            .methodsIn(typeElement.getEnclosedElements());
+        List<ExecutableElement> methods =
+            ElementFilter.methodsIn(typeElement.getEnclosedElements());
         for (ExecutableElement method : methods) {
           // check to see if this method is overridden by anything we already have
           if (!inheritableMethods.entrySet().stream()
-              .anyMatch(entry ->
-                  getElementUtils().overrides(entry.getKey(), method, entry.getValue()))) {
+              .anyMatch(
+                  entry -> getElementUtils().overrides(entry.getKey(), method, entry.getValue()))) {
             inheritableMethods.put(method, typeElement);
           }
         }
@@ -399,15 +401,25 @@ public class AptUtil {
    * @param noFinal if true, don't print the final modifier
    * @param noAbstract if true, don't print the abstract modifier
    */
-  public static String getReadableDeclaration(ExecutableElement element, boolean noAccess,
-      boolean noNative, boolean noStatic, boolean noFinal, boolean noAbstract) {
-    return getReadableDeclaration(element, false, noAccess, noNative, noStatic, noFinal,
-        noAbstract);
+  public static String getReadableDeclaration(
+      ExecutableElement element,
+      boolean noAccess,
+      boolean noNative,
+      boolean noStatic,
+      boolean noFinal,
+      boolean noAbstract) {
+    return getReadableDeclaration(
+        element, false, noAccess, noNative, noStatic, noFinal, noAbstract);
   }
 
-  public static String getReadableDeclaration(ExecutableElement element,
-      boolean excludeParameterNames, boolean noAccess, boolean noNative, boolean noStatic,
-      boolean noFinal, boolean noAbstract) {
+  public static String getReadableDeclaration(
+      ExecutableElement element,
+      boolean excludeParameterNames,
+      boolean noAccess,
+      boolean noNative,
+      boolean noStatic,
+      boolean noFinal,
+      boolean noAbstract) {
     Set<Modifier> modifiers = new HashSet<>(element.getModifiers());
 
     if (noAccess) {
@@ -468,8 +480,9 @@ public class AptUtil {
       }
 
       if (element.isVarArgs() && i == c - 1) {
-        sb.append(getParameterizedQualifiedSourceName(
-            getTypeUtils().getArrayType(param.asType()).getComponentType()));
+        sb.append(
+            getParameterizedQualifiedSourceName(
+                getTypeUtils().getArrayType(param.asType()).getComponentType()));
         sb.append("...");
       } else {
         sb.append(getParameterizedQualifiedSourceName(param.asType()));
@@ -523,12 +536,13 @@ public class AptUtil {
    * @return true if a constructor compatible with the supplied arguments exists
    */
   public static boolean hasCompatibleConstructor(TypeMirror type, TypeMirror... argTypes) {
-    for (ExecutableElement ctor : ElementFilter
-        .constructorsIn(asTypeElement(type).getEnclosedElements())) {
+    for (ExecutableElement ctor :
+        ElementFilter.constructorsIn(asTypeElement(type).getEnclosedElements())) {
 
       if (typesAreCompatible(
           ctor.getParameters().stream().map(item -> item.asType()).collect(toList()),
-          Arrays.asList(argTypes), ctor.isVarArgs())) {
+          Arrays.asList(argTypes),
+          ctor.isVarArgs())) {
         return true;
       }
     }
@@ -574,9 +588,7 @@ public class AptUtil {
     return false;
   }
 
-  /**
-   * Determines if TypeMirror is a raw type (outcome of erasure).
-   */
+  /** Determines if TypeMirror is a raw type (outcome of erasure). */
   public static boolean isRaw(TypeMirror mirror) {
     if (TypeKind.DECLARED.equals(mirror.getKind())) {
       DeclaredType declaredType = (DeclaredType) mirror;
@@ -644,9 +656,8 @@ public class AptUtil {
    * @param varArgs true if the method is a varargs method
    * @return true if all argument types are compatible with the parameter types
    */
-  public static boolean typesAreCompatible(List<? extends TypeMirror> paramTypes,
-      List<? extends TypeMirror> argTypes,
-      boolean varArgs) {
+  public static boolean typesAreCompatible(
+      List<? extends TypeMirror> paramTypes, List<? extends TypeMirror> argTypes, boolean varArgs) {
     int expectedArgs = paramTypes.size();
     int actualArgs = argTypes.size();
     int comparedArgs = expectedArgs;
@@ -680,34 +691,38 @@ public class AptUtil {
   private static List<ExecutableElement> findMatchingParameters(
       List<ExecutableElement> executableElements, TypeMirror[] paramTypes) {
     return executableElements.stream()
-        .filter(item -> {
-          List<? extends VariableElement> elementParameters = item.getParameters();
+        .filter(
+            item -> {
+              List<? extends VariableElement> elementParameters = item.getParameters();
 
-          if (paramTypes.length != elementParameters.size()) {
-            return false;
-          }
-          for (int i = 0; i < paramTypes.length; i++) {
-            TypeMirror paramType = paramTypes[i];
-            if (!getTypeUtils().isSameType(paramType, elementParameters.get(i).asType())) {
-              return false;
-            }
-          }
-          return true;
-        }).collect(toList());
+              if (paramTypes.length != elementParameters.size()) {
+                return false;
+              }
+              for (int i = 0; i < paramTypes.length; i++) {
+                TypeMirror paramType = paramTypes[i];
+                if (!getTypeUtils().isSameType(paramType, elementParameters.get(i).asType())) {
+                  return false;
+                }
+              }
+              return true;
+            })
+        .collect(toList());
   }
 
-  private static boolean isWideningPrimitiveConversion(PrimitiveType paramType,
-      PrimitiveType argType) {
+  private static boolean isWideningPrimitiveConversion(
+      PrimitiveType paramType, PrimitiveType argType) {
     switch (paramType.getKind()) {
       case DOUBLE:
         return argType.getKind() != TypeKind.BOOLEAN;
       case FLOAT:
         return argType.getKind() != TypeKind.BOOLEAN && argType.getKind() != TypeKind.DOUBLE;
       case LONG:
-        return argType.getKind() != TypeKind.BOOLEAN && argType.getKind() != TypeKind.DOUBLE
+        return argType.getKind() != TypeKind.BOOLEAN
+            && argType.getKind() != TypeKind.DOUBLE
             && argType.getKind() != TypeKind.FLOAT;
       case INT:
-        return argType.getKind() == TypeKind.BYTE || argType.getKind() == TypeKind.SHORT
+        return argType.getKind() == TypeKind.BYTE
+            || argType.getKind() == TypeKind.SHORT
             || argType.getKind() == TypeKind.CHAR;
       case SHORT:
         return argType.getKind() == TypeKind.BYTE;

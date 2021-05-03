@@ -15,19 +15,14 @@
  */
 package org.gwtproject.uibinder.processor.model;
 
-import org.gwtproject.uibinder.processor.MortalLogger;
-
 import com.google.gwt.resources.client.ImageResource.RepeatStyle;
-
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
-
 import javax.lang.model.type.TypeMirror;
+import org.gwtproject.uibinder.processor.MortalLogger;
 
-/**
- * Models the ClientBundle to be generated from a ui.xml.
- */
+/** Models the ClientBundle to be generated from a ui.xml. */
 public class ImplicitClientBundle {
 
   // LinkedHashSets for consistent order across recompiles
@@ -43,11 +38,11 @@ public class ImplicitClientBundle {
   /**
    * @param packageName Where the bundle should live
    * @param uiBinderImplClassName The name of the generated ui binder implementation that owns the
-   * bundle
+   *     bundle
    * @param fieldName The bundle's field name
    */
-  public ImplicitClientBundle(String packageName, String uiBinderImplClassName,
-      String fieldName, MortalLogger logger) {
+  public ImplicitClientBundle(
+      String packageName, String uiBinderImplClassName, String fieldName, MortalLogger logger) {
     this.packageName = packageName;
     this.className = uiBinderImplClassName + "_GenBundle";
     this.cssBaseName = uiBinderImplClassName + "_GenCss_";
@@ -63,15 +58,28 @@ public class ImplicitClientBundle {
    * @param extendedInterface the public interface implemented by this CssResource, or null
    * @param body the inline css text
    * @param importTypes for the {@literal @}Import annotation, if any. LinkedHashSet to enforce
-   * deterministic order across recompiles
+   *     deterministic order across recompiles
    * @param gss indicates that GSS is used or not
    * @return the newly-created CssResource
    */
-  public ImplicitCssResource createCssResource(String name, String[] source,
-      TypeMirror extendedInterface, String body, LinkedHashSet<TypeMirror> importTypes,
+  public ImplicitCssResource createCssResource(
+      String name,
+      String[] source,
+      TypeMirror extendedInterface,
+      String body,
+      LinkedHashSet<TypeMirror> importTypes,
       Boolean gss) {
-    ImplicitCssResource css = new ImplicitCssResource(packageName, cssBaseName + name, name, source,
-        extendedInterface, body, logger, importTypes, gss);
+    ImplicitCssResource css =
+        new ImplicitCssResource(
+            packageName,
+            cssBaseName + name,
+            name,
+            source,
+            extendedInterface,
+            body,
+            logger,
+            importTypes,
+            gss);
     cssMethods.add(css);
     return css;
   }
@@ -101,8 +109,8 @@ public class ImplicitClientBundle {
    * @param repeatStyle value of the RepeatStyle ImageOption, or null if none was specified
    * @return the newly-created ImageResource
    */
-  public ImplicitImageResource createImageResource(String name, String source, Boolean flipRtl,
-      RepeatStyle repeatStyle) {
+  public ImplicitImageResource createImageResource(
+      String name, String source, Boolean flipRtl, RepeatStyle repeatStyle) {
     ImplicitImageResource image = new ImplicitImageResource(name, source, flipRtl, repeatStyle);
     imageMethods.add(image);
     return image;

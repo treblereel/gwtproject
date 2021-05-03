@@ -15,15 +15,12 @@
  */
 package org.gwtproject.uibinder.processor.attributeparsers;
 
+import javax.lang.model.type.TypeMirror;
 import org.gwtproject.uibinder.processor.MortalLogger;
 import org.gwtproject.uibinder.processor.XMLElement;
 import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
 
-import javax.lang.model.type.TypeMirror;
-
-/**
- * Parses an integer value.
- */
+/** Parses an integer value. */
 class IntAttributeParser extends StrictAttributeParser {
 
   IntAttributeParser(FieldReferenceConverter converter, TypeMirror intType, MortalLogger logger) {

@@ -36,17 +36,17 @@ class HtmlPlaceholderInterpreter extends PlaceholderInterpreter {
   private int serial = 0;
   private final XMLElement.Interpreter<String> fieldAndComputed;
 
-  HtmlPlaceholderInterpreter(UiBinderWriter writer,
-      MessageWriter message, String ancestorExpression) {
+  HtmlPlaceholderInterpreter(
+      UiBinderWriter writer, MessageWriter message, String ancestorExpression) {
     super(writer, message);
     fieldAndComputed =
-        InterpreterPipe.newPipe(new FieldInterpreter(writer,
-            ancestorExpression), new ComputedAttributeInterpreter(writer));
+        InterpreterPipe.newPipe(
+            new FieldInterpreter(writer, ancestorExpression),
+            new ComputedAttributeInterpreter(writer));
   }
 
   @Override
-  public String interpretElement(XMLElement elem)
-      throws UnableToCompleteException {
+  public String interpretElement(XMLElement elem) throws UnableToCompleteException {
     fieldAndComputed.interpretElement(elem);
 
     if (isDomPlaceholder(elem)) {
@@ -58,8 +58,7 @@ class HtmlPlaceholderInterpreter extends PlaceholderInterpreter {
       }
 
       String openTag = elem.consumeOpeningTag();
-      String openPlaceholder =
-          nextOpenPlaceholder(name + "Begin", uiWriter.detokenate(openTag));
+      String openPlaceholder = nextOpenPlaceholder(name + "Begin", uiWriter.detokenate(openTag));
 
       /*
        * This recursive innerHtml call has already been escaped. Hide it in a
@@ -77,8 +76,7 @@ class HtmlPlaceholderInterpreter extends PlaceholderInterpreter {
   }
 
   @Override
-  protected String consumePlaceholderInnards(XMLElement elem)
-      throws UnableToCompleteException {
+  protected String consumePlaceholderInnards(XMLElement elem) throws UnableToCompleteException {
     return elem.consumeInnerHtml(fieldAndComputed);
   }
 

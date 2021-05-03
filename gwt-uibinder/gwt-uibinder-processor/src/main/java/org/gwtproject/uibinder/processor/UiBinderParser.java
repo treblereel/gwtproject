@@ -17,6 +17,19 @@ package org.gwtproject.uibinder.processor;
 
 import static org.gwtproject.uibinder.processor.AptUtil.asTypeElement;
 
+import com.google.gwt.resources.client.ImageResource.RepeatStyle;
+import com.google.gwt.resources.rg.GssResourceGenerator.GssOptions;
+import java.util.LinkedHashSet;
+import java.util.Locale;
+import java.util.Set;
+import javax.lang.model.element.ExecutableElement;
+import javax.lang.model.element.Modifier;
+import javax.lang.model.element.TypeElement;
+import javax.lang.model.element.VariableElement;
+import javax.lang.model.type.TypeMirror;
+import javax.lang.model.util.ElementFilter;
+import javax.lang.model.util.Elements;
+import javax.lang.model.util.Types;
 import org.gwtproject.uibinder.processor.elementparsers.BeanParser;
 import org.gwtproject.uibinder.processor.elementparsers.SimpleInterpreter;
 import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
@@ -27,66 +40,42 @@ import org.gwtproject.uibinder.processor.model.ImplicitDataResource;
 import org.gwtproject.uibinder.processor.model.ImplicitImageResource;
 import org.gwtproject.uibinder.processor.model.OwnerField;
 
-import com.google.gwt.resources.client.ImageResource.RepeatStyle;
-import com.google.gwt.resources.rg.GssResourceGenerator.GssOptions;
-
-import java.util.LinkedHashSet;
-import java.util.Locale;
-import java.util.Set;
-
-import javax.lang.model.element.ExecutableElement;
-import javax.lang.model.element.Modifier;
-import javax.lang.model.element.TypeElement;
-import javax.lang.model.element.VariableElement;
-import javax.lang.model.type.TypeMirror;
-import javax.lang.model.util.ElementFilter;
-import javax.lang.model.util.Elements;
-import javax.lang.model.util.Types;
-
-/**
- * Parses the root UiBinder element, and kicks of the parsing of the rest of the document.
- */
+/** Parses the root UiBinder element, and kicks of the parsing of the rest of the document. */
 public class UiBinderParser {
 
   enum Resource {
     DATA {
       @Override
-      void create(UiBinderParser parser, XMLElement elem)
-          throws UnableToCompleteException {
+      void create(UiBinderParser parser, XMLElement elem) throws UnableToCompleteException {
         parser.createData(elem);
       }
     },
     IMAGE {
       @Override
-      void create(UiBinderParser parser, XMLElement elem)
-          throws UnableToCompleteException {
+      void create(UiBinderParser parser, XMLElement elem) throws UnableToCompleteException {
         parser.createImage(elem);
       }
     },
     IMPORT {
       @Override
-      void create(UiBinderParser parser, XMLElement elem)
-          throws UnableToCompleteException {
+      void create(UiBinderParser parser, XMLElement elem) throws UnableToCompleteException {
         parser.createImport(elem);
       }
     },
     STYLE {
       @Override
-      void create(UiBinderParser parser, XMLElement elem)
-          throws UnableToCompleteException {
+      void create(UiBinderParser parser, XMLElement elem) throws UnableToCompleteException {
         parser.createStyle(elem);
       }
     },
     WITH {
       @Override
-      void create(UiBinderParser parser, XMLElement elem)
-          throws UnableToCompleteException {
+      void create(UiBinderParser parser, XMLElement elem) throws UnableToCompleteException {
         parser.createResource(elem);
       }
     };
 
-    abstract void create(UiBinderParser parser, XMLElement elem)
-        throws UnableToCompleteException;
+    abstract void create(UiBinderParser parser, XMLElement elem) throws UnableToCompleteException;
   }
 
   private static final String FLIP_RTL_ATTRIBUTE = "flipRtl";
@@ -117,9 +106,14 @@ public class UiBinderParser {
   private final UiBinderContext uiBinderContext;
   private GssOptions gssOptions;
 
-  public UiBinderParser(UiBinderWriter writer, MessagesWriter messagesWriter,
-      FieldManager fieldManager, ImplicitClientBundle bundleClass,
-      String binderUri, UiBinderContext uiBinderContext, GssOptions gssOptions) {
+  public UiBinderParser(
+      UiBinderWriter writer,
+      MessagesWriter messagesWriter,
+      FieldManager fieldManager,
+      ImplicitClientBundle bundleClass,
+      String binderUri,
+      UiBinderContext uiBinderContext,
+      GssOptions gssOptions) {
     this.writer = writer;
 
     this.messagesWriter = messagesWriter;
@@ -127,25 +121,28 @@ public class UiBinderParser {
     this.bundleClass = bundleClass;
     this.uiBinderContext = uiBinderContext;
     Elements elementUtils = AptUtil.getElementUtils();
-    this.cssResourceType = elementUtils
-        .getTypeElement(UiBinderApiPackage.current().getCssResourceFqn()).asType();
-    this.imageResourceType = elementUtils
-        .getTypeElement(UiBinderApiPackage.current().getImageResourceFqn()).asType();
-    this.dataResourceType = elementUtils
-        .getTypeElement(UiBinderApiPackage.current().getDataResourceFqn()).asType();
+    this.cssResourceType =
+        elementUtils.getTypeElement(UiBinderApiPackage.current().getCssResourceFqn()).asType();
+    this.imageResourceType =
+        elementUtils.getTypeElement(UiBinderApiPackage.current().getImageResourceFqn()).asType();
+    this.dataResourceType =
+        elementUtils.getTypeElement(UiBinderApiPackage.current().getDataResourceFqn()).asType();
     this.binderUri = binderUri;
     this.gssOptions = gssOptions;
   }
 
-  /**
-   * Parses the root UiBinder element, and kicks off the parsing of the rest of the document.
-   */
+  /** Parses the root UiBinder element, and kicks off the parsing of the rest of the document. */
   public FieldWriter parse(XMLElement elem) throws UnableToCompleteException {
     if (!writer.isBinderElement(elem)) {
-      writer.die(elem, "Bad prefix on <%s:%s>? The root element must be in "
+      writer.die(
+          elem,
+          "Bad prefix on <%s:%s>? The root element must be in "
               + "xml namespace \"%s\" (usually with prefix \"ui:\"), "
-              + "but this has prefix \"%s\"", elem.getPrefix(),
-          elem.getLocalName(), binderUri, elem.getPrefix());
+              + "but this has prefix \"%s\"",
+          elem.getPrefix(),
+          elem.getLocalName(),
+          binderUri,
+          elem.getPrefix());
     }
 
     if (!TAG.equals(elem.getLocalName())) {
@@ -158,8 +155,7 @@ public class UiBinderParser {
     return writer.parseElementToField(uiRoot);
   }
 
-  private TypeMirror consumeCssResourceType(XMLElement elem)
-      throws UnableToCompleteException {
+  private TypeMirror consumeCssResourceType(XMLElement elem) throws UnableToCompleteException {
     String typeName = elem.consumeRawAttribute(TYPE_ATTRIBUTE, null);
     if (typeName == null) {
       return cssResourceType;
@@ -168,8 +164,7 @@ public class UiBinderParser {
     return findCssResourceType(elem, typeName);
   }
 
-  private TypeElement consumeTypeAttribute(XMLElement elem)
-      throws UnableToCompleteException {
+  private TypeElement consumeTypeAttribute(XMLElement elem) throws UnableToCompleteException {
     if (!elem.hasAttribute(TYPE_ATTRIBUTE)) {
       return null;
     }
@@ -183,9 +178,7 @@ public class UiBinderParser {
     return resourceType;
   }
 
-  /**
-   * Interprets <ui:data> elements.
-   */
+  /** Interprets <ui:data> elements. */
   private void createData(XMLElement elem) throws UnableToCompleteException {
     String name = elem.consumeRequiredRawAttribute(FIELD_ATTRIBUTE);
     String source = elem.consumeRequiredRawAttribute(SOURCE_ATTRIBUTE);
@@ -193,18 +186,16 @@ public class UiBinderParser {
     Boolean doNotEmbed = elem.consumeBooleanConstantAttribute(DO_NOT_EMBED_ATTRIBUTE);
     // mimeType is optional on DataResource
     String mimeType = elem.consumeRawAttribute(MIME_TYPE_ATTRIBUTE);
-    ImplicitDataResource dataMethod = bundleClass.createDataResource(
-        name, source, mimeType, doNotEmbed);
-    FieldWriter field = fieldManager.registerField(dataResourceType,
-        dataMethod.getName());
-    field.setInitializer(String.format("%s.%s()",
-        fieldManager.convertFieldToGetter(bundleClass.getFieldName()),
-        dataMethod.getName()));
+    ImplicitDataResource dataMethod =
+        bundleClass.createDataResource(name, source, mimeType, doNotEmbed);
+    FieldWriter field = fieldManager.registerField(dataResourceType, dataMethod.getName());
+    field.setInitializer(
+        String.format(
+            "%s.%s()",
+            fieldManager.convertFieldToGetter(bundleClass.getFieldName()), dataMethod.getName()));
   }
 
-  /**
-   * Interprets <ui:image> elements.
-   */
+  /** Interprets <ui:image> elements. */
   private void createImage(XMLElement elem) throws UnableToCompleteException {
     String name = elem.consumeRequiredRawAttribute(FIELD_ATTRIBUTE);
     // @source is optional on ImageResource
@@ -223,19 +214,17 @@ public class UiBinderParser {
       }
     }
 
-    ImplicitImageResource imageMethod = bundleClass.createImageResource(name,
-        source, flipRtl, repeatStyle);
+    ImplicitImageResource imageMethod =
+        bundleClass.createImageResource(name, source, flipRtl, repeatStyle);
 
-    FieldWriter field = fieldManager.registerField(imageResourceType,
-        imageMethod.getName());
-    field.setInitializer(String.format("%s.%s()",
-        fieldManager.convertFieldToGetter(bundleClass.getFieldName()),
-        imageMethod.getName()));
+    FieldWriter field = fieldManager.registerField(imageResourceType, imageMethod.getName());
+    field.setInitializer(
+        String.format(
+            "%s.%s()",
+            fieldManager.convertFieldToGetter(bundleClass.getFieldName()), imageMethod.getName()));
   }
 
-  /**
-   * Process <code>&lt;ui:import field="com.example.Blah.CONSTANT"></code>.
-   */
+  /** Process <code>&lt;ui:import field="com.example.Blah.CONSTANT"></code>. */
   private void createImport(XMLElement elem) throws UnableToCompleteException {
     String rawFieldName = elem.consumeRequiredRawAttribute(FIELD_ATTRIBUTE);
     if (elem.getAttributeCount() > 0) {
@@ -244,8 +233,8 @@ public class UiBinderParser {
 
     int idx = rawFieldName.lastIndexOf('.');
     if (idx < 1) {
-      writer.die(elem, "Attribute %s does not look like a static import "
-          + "reference", FIELD_ATTRIBUTE);
+      writer.die(
+          elem, "Attribute %s does not look like a static import " + "reference", FIELD_ATTRIBUTE);
     }
     String enclosingName = rawFieldName.substring(0, idx);
     String constantName = rawFieldName.substring(idx + 1);
@@ -268,30 +257,32 @@ public class UiBinderParser {
           //
 
         } else if (!AptUtil.getTypeUtils()
-            .isSameType(AptUtil.getPackageElement(enclosingType).asType(),
+            .isSameType(
+                AptUtil.getPackageElement(enclosingType).asType(),
                 AptUtil.getPackageElement(writer.getOwnerClass().getOwnerType()).asType())) {
           // package-protected in another package
           continue;
         }
-        createSingleImport(elem, enclosingType.asType(), enclosingName + "."
-            + field.getSimpleName().toString(), field.getSimpleName().toString());
+        createSingleImport(
+            elem,
+            enclosingType.asType(),
+            enclosingName + "." + field.getSimpleName().toString(),
+            field.getSimpleName().toString());
       }
     } else {
       createSingleImport(elem, enclosingType.asType(), rawFieldName, constantName);
     }
   }
 
-  /**
-   * Interprets <ui:with> elements.
-   */
+  /** Interprets <ui:with> elements. */
   private void createResource(XMLElement elem) throws UnableToCompleteException {
     String resourceName = elem.consumeRequiredRawAttribute(FIELD_ATTRIBUTE);
 
     TypeElement resourceType = consumeTypeAttribute(elem);
 
     if (elem.getAttributeCount() > 0) {
-      writer.die(elem, "Should only find attributes \"%s\" and \"%s\".", FIELD_ATTRIBUTE,
-          TYPE_ATTRIBUTE);
+      writer.die(
+          elem, "Should only find attributes \"%s\" and \"%s\".", FIELD_ATTRIBUTE, TYPE_ATTRIBUTE);
     }
 
     /* Is it a parameter passed to a render method? */
@@ -307,7 +298,8 @@ public class UiBinderParser {
     /* Perhaps it is provided via @UiField */
 
     if (writer.getOwnerClass() == null) {
-      writer.die("No owner provided for %s",
+      writer.die(
+          "No owner provided for %s",
           AptUtil.asQualifiedNameable(writer.getBaseClass()).getQualifiedName());
     }
 
@@ -317,8 +309,10 @@ public class UiBinderParser {
 
       // If the resourceType was given, it must match the one declared with @UiField
       Types types = AptUtil.getTypeUtils();
-      if (resourceType != null && !types.isSameType(types.erasure(resourceType.asType()),
-          types.erasure(ownerField.getType().getRawType()))) {
+      if (resourceType != null
+          && !types.isSameType(
+              types.erasure(resourceType.asType()),
+              types.erasure(ownerField.getType().getRawType()))) {
         writer.die(elem, "Type must match %s.", ownerField);
       }
 
@@ -358,8 +352,8 @@ public class UiBinderParser {
       }
       attributesChildFound = true;
 
-      if (!elem.getNamespaceUri().equals(child.getNamespaceUri()) || !"attributes"
-          .equals(child.getLocalName())) {
+      if (!elem.getNamespaceUri().equals(child.getNamespaceUri())
+          || !"attributes".equals(child.getLocalName())) {
         writer.die(child, "Found unknown child element.");
       }
 
@@ -367,26 +361,26 @@ public class UiBinderParser {
     }
   }
 
-  private void createResourceUiFactory(XMLElement elem, String resourceName,
-      TypeMirror resourceType) throws UnableToCompleteException {
+  private void createResourceUiFactory(
+      XMLElement elem, String resourceName, TypeMirror resourceType)
+      throws UnableToCompleteException {
     FieldWriter fieldWriter;
     ExecutableElement factoryMethod = writer.getOwnerClass().getUiFactoryMethod(resourceType);
-    TypeElement methodReturnType = asTypeElement(
-        AptUtil.getTypeUtils().erasure(factoryMethod.getReturnType()));
+    TypeElement methodReturnType =
+        asTypeElement(AptUtil.getTypeUtils().erasure(factoryMethod.getReturnType()));
     if (!AptUtil.getTypeUtils().isSameType(resourceType, methodReturnType.asType())) {
       writer.die(elem, "Type must match %s.", methodReturnType);
     }
 
     String initializer;
-//    if (writer.getDesignTime().isDesignTime()) {
-//      String typeName = factoryMethod.getReturnType().getQualifiedSourceName();
-//      initializer = writer.getDesignTime().getProvidedFactory(typeName,
-//          factoryMethod.getName(), "");
-//    } else {
+    //    if (writer.getDesignTime().isDesignTime()) {
+    //      String typeName = factoryMethod.getReturnType().getQualifiedSourceName();
+    //      initializer = writer.getDesignTime().getProvidedFactory(typeName,
+    //          factoryMethod.getName(), "");
+    //    } else {
     initializer = String.format("owner.%s()", factoryMethod.getSimpleName());
-//    }
-    fieldWriter = fieldManager.registerField(
-        FieldWriterType.IMPORTED, resourceType, resourceName);
+    //    }
+    fieldWriter = fieldManager.registerField(FieldWriterType.IMPORTED, resourceType, resourceName);
     fieldWriter.setInitializer(initializer);
   }
 
@@ -397,55 +391,62 @@ public class UiBinderParser {
 
     initializer = "owner." + ownerField.getName();
 
-    fieldWriter = fieldManager.registerField(
-        FieldWriterType.IMPORTED,
-        AptUtil.getTypeUtils().erasure(ownerField.getType().getRawType()),
-        resourceName);
+    fieldWriter =
+        fieldManager.registerField(
+            FieldWriterType.IMPORTED,
+            AptUtil.getTypeUtils().erasure(ownerField.getType().getRawType()),
+            resourceName);
     fieldWriter.setInitializer(initializer);
   }
 
-  private void createResourceUiRenderer(XMLElement elem, String resourceName,
-      TypeMirror resourceType, TypeMirror matchingResourceType) throws UnableToCompleteException {
-    // TODO implement
-//    FieldWriter fieldWriter;
-//    if (resourceType != null
-//        && !resourceType.getErasedType().isAssignableFrom(matchingResourceType.getErasedType())) {
-//      writer.die(elem, "Type must match the type of parameter %s in %s#render method.",
-//          resourceName,
-//          writer.getBaseClass().getQualifiedSourceName());
-//    }
-//
-//    fieldWriter = fieldManager.registerField(
-//        FieldWriterType.IMPORTED, matchingResourceType.getErasedType(), resourceName);
-//    // Sets initialization as a NOOP. These fields are set from
-//    // parameters passed to UiRenderer#render(), instead.
-//    fieldWriter.setInitializer(resourceName);
-  }
-
-  private void createSingleImport(XMLElement elem, TypeMirror enclosingType,
-      String rawFieldName, String constantName)
+  private void createResourceUiRenderer(
+      XMLElement elem,
+      String resourceName,
+      TypeMirror resourceType,
+      TypeMirror matchingResourceType)
       throws UnableToCompleteException {
     // TODO implement
-//    JField field = enclosingType.findField(constantName);
-//    if (field == null) {
-//      writer.die(elem, "Unable to locate a field named %s in %s", constantName,
-//          enclosingType.getQualifiedSourceName());
-//    } else if (!field.isStatic()) {
-//      writer.die(elem, "Field %s in type %s is not static", constantName,
-//          enclosingType.getQualifiedSourceName());
-//    }
-//
-//    JType importType = field.getType();
-//    JClassType fieldType;
-//    if (importType instanceof JPrimitiveType) {
-//      fieldType = oracle.findType(((JPrimitiveType) importType).getQualifiedBoxedSourceName());
-//    } else {
-//      fieldType = (JClassType) importType;
-//    }
-//
-//    FieldWriter fieldWriter = fieldManager.registerField(
-//        FieldWriterType.IMPORTED, fieldType, constantName);
-//    fieldWriter.setInitializer(rawFieldName);
+    //    FieldWriter fieldWriter;
+    //    if (resourceType != null
+    //        &&
+    // !resourceType.getErasedType().isAssignableFrom(matchingResourceType.getErasedType())) {
+    //      writer.die(elem, "Type must match the type of parameter %s in %s#render method.",
+    //          resourceName,
+    //          writer.getBaseClass().getQualifiedSourceName());
+    //    }
+    //
+    //    fieldWriter = fieldManager.registerField(
+    //        FieldWriterType.IMPORTED, matchingResourceType.getErasedType(), resourceName);
+    //    // Sets initialization as a NOOP. These fields are set from
+    //    // parameters passed to UiRenderer#render(), instead.
+    //    fieldWriter.setInitializer(resourceName);
+  }
+
+  private void createSingleImport(
+      XMLElement elem, TypeMirror enclosingType, String rawFieldName, String constantName)
+      throws UnableToCompleteException {
+    // TODO implement
+    //    JField field = enclosingType.findField(constantName);
+    //    if (field == null) {
+    //      writer.die(elem, "Unable to locate a field named %s in %s", constantName,
+    //          enclosingType.getQualifiedSourceName());
+    //    } else if (!field.isStatic()) {
+    //      writer.die(elem, "Field %s in type %s is not static", constantName,
+    //          enclosingType.getQualifiedSourceName());
+    //    }
+    //
+    //    JType importType = field.getType();
+    //    JClassType fieldType;
+    //    if (importType instanceof JPrimitiveType) {
+    //      fieldType = oracle.findType(((JPrimitiveType)
+    // importType).getQualifiedBoxedSourceName());
+    //    } else {
+    //      fieldType = (JClassType) importType;
+    //    }
+    //
+    //    FieldWriter fieldWriter = fieldManager.registerField(
+    //        FieldWriterType.IMPORTED, fieldType, constantName);
+    //    fieldWriter.setInitializer(rawFieldName);
   }
 
   private void createStyle(XMLElement elem) throws UnableToCompleteException {
@@ -466,21 +467,23 @@ public class UiBinderParser {
     }
 
     boolean gss = determineGssForFile(elem.consumeBooleanConstantAttribute(GSS_ATTRIBUTE));
-    ImplicitCssResource cssMethod = bundleClass.createCssResource(name, source,
-        publicType, body, importTypes, gss);
+    ImplicitCssResource cssMethod =
+        bundleClass.createCssResource(name, source, publicType, body, importTypes, gss);
 
     FieldWriter field = fieldManager.registerFieldForGeneratedCssResource(cssMethod);
-    field.setInitializer(String.format("%s.%s()",
-        fieldManager.convertFieldToGetter(bundleClass.getFieldName()),
-        cssMethod.getName()));
+    field.setInitializer(
+        String.format(
+            "%s.%s()",
+            fieldManager.convertFieldToGetter(bundleClass.getFieldName()), cssMethod.getName()));
   }
 
   private boolean determineGssForFile(Boolean attributeInUiBinderFile)
       throws UnableToCompleteException {
     if (attributeInUiBinderFile == null) {
       if (!gssOptions.isEnabled() && gssOptions.isGssDefaultInUiBinder()) {
-        writer.die("Invalid combination of configuration properties. "
-            + "CssResource.enableGss is false, but CssResource.uiBinderGssDefault is true");
+        writer.die(
+            "Invalid combination of configuration properties. "
+                + "CssResource.enableGss is false, but CssResource.uiBinderGssDefault is true");
       }
       return gssOptions.isGssDefaultInUiBinder();
     }
@@ -493,8 +496,9 @@ public class UiBinderParser {
     }
 
     if (gssOptions.isEnabled() && gssOptions.isAutoConversionOff()) {
-      writer.die("UiBinder file has attribute gss=\"false\", "
-          + "but CssResource.conversionMode is \"off\"");
+      writer.die(
+          "UiBinder file has attribute gss=\"false\", "
+              + "but CssResource.conversionMode is \"off\"");
     }
     return false;
   }
@@ -502,66 +506,66 @@ public class UiBinderParser {
   private TypeMirror findCssResourceType(XMLElement elem, String typeName)
       throws UnableToCompleteException {
     return null; // TODO implement
-//    JClassType publicType = oracle.findType(typeName);
-//    if (publicType == null) {
-//      writer.die(elem, "No such type %s", typeName);
-//    }
-//
-//    if (!publicType.isAssignableTo(cssResourceType)) {
-//      writer.die(elem, "Type %s does not extend %s",
-//          publicType.getQualifiedSourceName(),
-//          cssResourceType.getQualifiedSourceName());
-//    }
-//    return publicType;
+    //    JClassType publicType = oracle.findType(typeName);
+    //    if (publicType == null) {
+    //      writer.die(elem, "No such type %s", typeName);
+    //    }
+    //
+    //    if (!publicType.isAssignableTo(cssResourceType)) {
+    //      writer.die(elem, "Type %s does not extend %s",
+    //          publicType.getQualifiedSourceName(),
+    //          cssResourceType.getQualifiedSourceName());
+    //    }
+    //    return publicType;
   }
 
   private TypeMirror findRenderParameterType(String resourceName) throws UnableToCompleteException {
-    return null;// TODO implement
-//    ExecutableElement renderMethod = null;
-//    TypeMirror baseClass = writer.getBaseClass();
-//    for (JMethod method : baseClass.getInheritableMethods()) {
-//      if (method.getName().equals("render")) {
-//        if (renderMethod == null) {
-//          renderMethod = method;
-//        } else {
-//          writer.die("%s declares more than one method named render",
-//              baseClass.getQualifiedSourceName());
-//        }
-//      }
-//    }
-//    if (renderMethod == null) {
-//      return null;
-//    }
-//    TypeMirror matchingResourceType = null;
-//    for (VariableElement jParameter : renderMethod.getParameters()) {
-//      if (jParameter.getSimpleName().toString().equals(resourceName)) {
-//        matchingResourceType = AptUtil.asTypeElement(jParameter.asType()).asType();
-//        break;
-//      }
-//    }
-//    return matchingResourceType;
+    return null; // TODO implement
+    //    ExecutableElement renderMethod = null;
+    //    TypeMirror baseClass = writer.getBaseClass();
+    //    for (JMethod method : baseClass.getInheritableMethods()) {
+    //      if (method.getName().equals("render")) {
+    //        if (renderMethod == null) {
+    //          renderMethod = method;
+    //        } else {
+    //          writer.die("%s declares more than one method named render",
+    //              baseClass.getQualifiedSourceName());
+    //        }
+    //      }
+    //    }
+    //    if (renderMethod == null) {
+    //      return null;
+    //    }
+    //    TypeMirror matchingResourceType = null;
+    //    for (VariableElement jParameter : renderMethod.getParameters()) {
+    //      if (jParameter.getSimpleName().toString().equals(resourceName)) {
+    //        matchingResourceType = AptUtil.asTypeElement(jParameter.asType()).asType();
+    //        break;
+    //      }
+    //    }
+    //    return matchingResourceType;
   }
 
-  private void findResources(XMLElement binderElement)
-      throws UnableToCompleteException {
-    binderElement.consumeChildElements(new XMLElement.Interpreter<Boolean>() {
-      @Override
-      public Boolean interpretElement(XMLElement elem)
-          throws UnableToCompleteException {
+  private void findResources(XMLElement binderElement) throws UnableToCompleteException {
+    binderElement.consumeChildElements(
+        new XMLElement.Interpreter<Boolean>() {
+          @Override
+          public Boolean interpretElement(XMLElement elem) throws UnableToCompleteException {
 
-        if (writer.isBinderElement(elem)) {
-          try {
-            Resource.valueOf(elem.getLocalName().toUpperCase(Locale.ROOT)).create(
-                UiBinderParser.this, elem);
-          } catch (IllegalArgumentException e) {
-            writer.die(elem,
-                "Unknown tag %s, or is not appropriate as a top level element",
-                elem.getLocalName());
+            if (writer.isBinderElement(elem)) {
+              try {
+                Resource.valueOf(elem.getLocalName().toUpperCase(Locale.ROOT))
+                    .create(UiBinderParser.this, elem);
+              } catch (IllegalArgumentException e) {
+                writer.die(
+                    elem,
+                    "Unknown tag %s, or is not appropriate as a top level element",
+                    elem.getLocalName());
+              }
+              return true;
+            }
+            return false; // leave it be
           }
-          return true;
-        }
-        return false; // leave it be
-      }
-    });
+        });
   }
 }

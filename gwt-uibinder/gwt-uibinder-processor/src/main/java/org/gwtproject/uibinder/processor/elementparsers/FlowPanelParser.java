@@ -15,20 +15,17 @@
  */
 package org.gwtproject.uibinder.processor.elementparsers;
 
+import javax.lang.model.type.TypeMirror;
 import org.gwtproject.uibinder.processor.UiBinderWriter;
 import org.gwtproject.uibinder.processor.XMLElement;
 import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
 import org.gwtproject.uibinder.processor.model.OwnerField;
 
-import javax.lang.model.type.TypeMirror;
-
-/**
- * Parses FlowPanel widgets.
- */
+/** Parses FlowPanel widgets. */
 public class FlowPanelParser implements ElementParser {
 
-  public void parse(XMLElement elem, String fieldName, TypeMirror type,
-      final UiBinderWriter writer) throws UnableToCompleteException {
+  public void parse(XMLElement elem, String fieldName, TypeMirror type, final UiBinderWriter writer)
+      throws UnableToCompleteException {
     String customTag = elem.consumeStringAttribute("tag", null);
     if (null != customTag) {
       OwnerField uiField = writer.getOwnerClass().getUiField(fieldName);
@@ -38,5 +35,4 @@ public class FlowPanelParser implements ElementParser {
       writer.setFieldInitializerAsConstructor(fieldName, customTag);
     }
   }
-
 }

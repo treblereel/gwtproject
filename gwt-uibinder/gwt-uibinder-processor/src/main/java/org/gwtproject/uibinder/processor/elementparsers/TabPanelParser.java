@@ -15,29 +15,25 @@
  */
 package org.gwtproject.uibinder.processor.elementparsers;
 
+import javax.lang.model.type.TypeMirror;
 import org.gwtproject.uibinder.processor.FieldWriter;
 import org.gwtproject.uibinder.processor.UiBinderWriter;
 import org.gwtproject.uibinder.processor.XMLElement;
 import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
 
-import javax.lang.model.type.TypeMirror;
-
-/**
- * Parses TabPanel widgets.
- */
+/** Parses TabPanel widgets. */
 public class TabPanelParser implements ElementParser {
 
   private static final String TAG_TAB = "Tab";
   private static final String TAG_TABHTML = "TabHTML";
 
-  public void parse(XMLElement panelElem, String fieldName, TypeMirror type,
-      UiBinderWriter writer) throws UnableToCompleteException {
+  public void parse(XMLElement panelElem, String fieldName, TypeMirror type, UiBinderWriter writer)
+      throws UnableToCompleteException {
     // Parse children.
     for (XMLElement tabElem : panelElem.consumeChildElements()) {
       // TabPanel can only contain Tab elements.
       if (!isElementType(panelElem, tabElem, TAG_TAB)) {
-        writer.die(tabElem, "Only <%s:%s> children are allowed.",
-            panelElem.getPrefix(), TAG_TAB);
+        writer.die(tabElem, "Only <%s:%s> children are allowed.", panelElem.getPrefix(), TAG_TAB);
       }
 
       // Get the caption, or null if there is none
@@ -49,12 +45,14 @@ public class TabPanelParser implements ElementParser {
       for (XMLElement tabChild : tabElem.consumeChildElements()) {
         if (tabChild.getLocalName().equals(TAG_TABHTML)) {
           if (tabCaption != null || tabHTML != null) {
-            writer.die(tabElem,
+            writer.die(
+                tabElem,
                 "May have only one \"text\" attribute or <%1$s:%2$s>",
-                tabElem.getPrefix(), TAG_TABHTML);
+                tabElem.getPrefix(),
+                TAG_TABHTML);
           }
-          HtmlInterpreter interpreter = HtmlInterpreter.newInterpreterForUiObject(
-              writer, fieldName);
+          HtmlInterpreter interpreter =
+              HtmlInterpreter.newInterpreterForUiObject(writer, fieldName);
           tabHTML = tabChild.consumeInnerHtml(interpreter);
         } else {
           if (childField != null) {
@@ -71,16 +69,20 @@ public class TabPanelParser implements ElementParser {
         writer.die(tabElem, "Must have a child widget");
       }
       if (tabHTML != null) {
-        writer.addStatement("%1$s.add(%2$s, %3$s, true);", fieldName,
+        writer.addStatement(
+            "%1$s.add(%2$s, %3$s, true);",
+            fieldName,
             childField.getNextReference(),
             writer.declareTemplateCall(tabHTML, fieldName));
       } else if (tabCaption != null) {
-        writer.addStatement("%1$s.add(%2$s, %3$s);", fieldName,
-            childField.getNextReference(), tabCaption);
+        writer.addStatement(
+            "%1$s.add(%2$s, %3$s);", fieldName, childField.getNextReference(), tabCaption);
       } else {
-        writer.die(tabElem,
+        writer.die(
+            tabElem,
             "Requires either a \"text\" attribute or <%1$s:%2$s>",
-            tabElem.getPrefix(), TAG_TABHTML);
+            tabElem.getPrefix(),
+            TAG_TABHTML);
       }
     }
   }

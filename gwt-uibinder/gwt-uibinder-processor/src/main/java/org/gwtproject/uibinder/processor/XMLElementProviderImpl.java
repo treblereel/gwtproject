@@ -16,12 +16,9 @@
 package org.gwtproject.uibinder.processor;
 
 import org.gwtproject.uibinder.processor.attributeparsers.AttributeParsers;
-
 import org.w3c.dom.Element;
 
-/**
- *
- */
+/** */
 public class XMLElementProviderImpl implements XMLElementProvider {
 
   private final AttributeParsers attributeParsers;

@@ -15,12 +15,6 @@
  */
 package org.gwtproject.uibinder.processor;
 
-import org.gwtproject.uibinder.processor.attributeparsers.FieldReferenceConverter;
-import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
-import org.gwtproject.uibinder.processor.model.ImplicitCssResource;
-import org.gwtproject.uibinder.processor.model.OwnerClass;
-import org.gwtproject.uibinder.processor.model.OwnerField;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
@@ -29,12 +23,14 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.regex.Pattern;
-
 import javax.lang.model.type.TypeMirror;
+import org.gwtproject.uibinder.processor.attributeparsers.FieldReferenceConverter;
+import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
+import org.gwtproject.uibinder.processor.model.ImplicitCssResource;
+import org.gwtproject.uibinder.processor.model.OwnerClass;
+import org.gwtproject.uibinder.processor.model.OwnerField;
 
-/**
- * This class handles all {@link FieldWriter} instances created for the current template.
- */
+/** This class handles all {@link FieldWriter} instances created for the current template. */
 public class FieldManager {
 
   static class FieldAndSource {
@@ -58,8 +54,9 @@ public class FieldManager {
       new Comparator<FieldWriter>() {
         public int compare(FieldWriter field1, FieldWriter field2) {
           // First get type precedence, if ties the field precedence is used.
-          int precedence = field2.getFieldType().getBuildPrecedence()
-              - field1.getFieldType().getBuildPrecedence();
+          int precedence =
+              field2.getFieldType().getBuildPrecedence()
+                  - field1.getFieldType().getBuildPrecedence();
           if (precedence == 0) {
             precedence = field2.getBuildPrecedence() - field1.getBuildPrecedence();
           }
@@ -67,8 +64,7 @@ public class FieldManager {
         }
       };
 
-  private static final Pattern JAVA_IDENTIFIER =
-      Pattern.compile("[\\p{L}_$][\\p{L}\\p{N}_$]*");
+  private static final Pattern JAVA_IDENTIFIER = Pattern.compile("[\\p{L}_$][\\p{L}\\p{N}_$]*");
 
   public static String getFieldBuilder(String fieldName) {
     return String.format(BUILDER_PREFIX + "%s()", fieldName);
@@ -94,9 +90,7 @@ public class FieldManager {
   private final LinkedHashMap<String, FieldWriter> fieldsMap =
       new LinkedHashMap<String, FieldWriter>();
 
-  /**
-   * A stack of the fields.
-   */
+  /** A stack of the fields. */
   private final LinkedList<FieldAndSource> parsedFieldStack = new LinkedList<FieldAndSource>();
 
   private LinkedHashMap<String, FieldReference> fieldReferences =
@@ -106,13 +100,11 @@ public class FieldManager {
    * Counts the number of times a getter field is called, this important to decide which strategy to
    * take when outputing getters and builders.
    *
-   * {@link FieldWriter#writeFieldDefinition(IndentedWriter, OwnerField, int)}
+   * <p>{@link FieldWriter#writeFieldDefinition(IndentedWriter, OwnerField, int)}
    */
   private final Map<String, Integer> gettersCounter = new HashMap<String, Integer>();
 
-  /**
-   * Whether to use the new strategy of generating UiBinder code.
-   */
+  /** Whether to use the new strategy of generating UiBinder code. */
   private final boolean useLazyWidgetBuilders;
 
   public FieldManager(MortalLogger logger, boolean useLazyWidgetBuilders) {
@@ -121,8 +113,9 @@ public class FieldManager {
   }
 
   /**
-   * Converts the given field to its getter. Example: <li> myWidgetX = get_myWidgetX() <li> f_html1
-   * = get_f_html1()
+   * Converts the given field to its getter. Example:
+   * <li>myWidgetX = get_myWidgetX()
+   * <li>f_html1 = get_f_html1()
    */
   public String convertFieldToGetter(String fieldName) {
     // could this conversion can be moved to FieldWriter?
@@ -164,11 +157,10 @@ public class FieldManager {
    * Initialize with field builders the generated <b>Widgets</b> inner class. {@see
    * FieldWriter#writeFieldBuilder}.
    */
-  public void initializeWidgetsInnerClass(IndentedWriter w,
-      OwnerClass ownerClass) throws UnableToCompleteException {
+  public void initializeWidgetsInnerClass(IndentedWriter w, OwnerClass ownerClass)
+      throws UnableToCompleteException {
 
-    FieldWriter[] fields = fieldsMap.values().toArray(
-        new FieldWriter[fieldsMap.size()]);
+    FieldWriter[] fields = fieldsMap.values().toArray(new FieldWriter[fieldsMap.size()]);
     Arrays.sort(fields, BUILD_DEFINITION_SORT);
 
     for (FieldWriter field : fields) {
@@ -180,15 +172,13 @@ public class FieldManager {
   /**
    * @param fieldName the name of the {@link FieldWriter} to find
    * @return the {@link FieldWriter} instance indexed by fieldName or <b>null</b> in case fieldName
-   * is not found
+   *     is not found
    */
   public FieldWriter lookup(String fieldName) {
     return fieldsMap.get(fieldName);
   }
 
-  /**
-   * Remove the field at the top of the {@link #parsedFieldStack}.
-   */
+  /** Remove the field at the top of the {@link #parsedFieldStack}. */
   public void pop() {
     parsedFieldStack.removeFirst();
   }
@@ -203,11 +193,12 @@ public class FieldManager {
 
   /**
    * Used to declare fields of an existing type. If your field will hold a type that is being
-   * generated, see {@link #registerFieldOfGeneratedType}. <p> When making a field we peek at the
-   * {@link #parsedFieldStack} to make sure that the field that holds the widget currently being
-   * parsed will depended upon the field being declared. This ensures, for example, that dom id
-   * fields (see {@link UiBinderWriter#declareDomIdHolder(String)}) used by an HTMLPanel will be
-   * declared before it is.
+   * generated, see {@link #registerFieldOfGeneratedType}.
+   *
+   * <p>When making a field we peek at the {@link #parsedFieldStack} to make sure that the field
+   * that holds the widget currently being parsed will depended upon the field being declared. This
+   * ensures, for example, that dom id fields (see {@link
+   * UiBinderWriter#declareDomIdHolder(String)}) used by an HTMLPanel will be declared before it is.
    *
    * @param fieldWriterType the field writer type associated
    * @param fieldType the type of the new field
@@ -215,10 +206,11 @@ public class FieldManager {
    * @return a new {@link FieldWriter} instance
    * @throws UnableToCompleteException on duplicate name
    */
-  public FieldWriter registerField(FieldWriterType fieldWriterType,
-      TypeMirror fieldType, String fieldName) throws UnableToCompleteException {
-    FieldWriter field = new FieldWriterOfExistingType(this,
-        fieldWriterType, fieldType, fieldName, logger);
+  public FieldWriter registerField(
+      FieldWriterType fieldWriterType, TypeMirror fieldType, String fieldName)
+      throws UnableToCompleteException {
+    FieldWriter field =
+        new FieldWriterOfExistingType(this, fieldWriterType, fieldType, fieldName, logger);
     return registerField(fieldName, field);
   }
 
@@ -227,8 +219,7 @@ public class FieldManager {
     return registerField(FieldWriterType.DEFAULT, fieldType, fieldName);
   }
 
-  public FieldWriter registerField(String type, String fieldName)
-      throws UnableToCompleteException {
+  public FieldWriter registerField(String type, String fieldName) throws UnableToCompleteException {
     return registerField(AptUtil.getElementUtils().getTypeElement(type).asType(), fieldName);
   }
 
@@ -236,51 +227,56 @@ public class FieldManager {
    * Used to declare fields that will hold generated instances generated CssResource interfaces. If
    * your field will hold a reference of an existing type, see {@link #registerField}. For other
    * generated types, use {@link #registerFieldOfGeneratedType} {@link
-   * #registerFieldForGeneratedCssResource}. <p> When making a field we peek at the {@link
-   * #parsedFieldStack} to make sure that the field that holds the widget currently being parsed
-   * will depended upon the field being declared. This ensures, for example, that dom id fields (see
-   * {@link UiBinderWriter#declareDomIdHolder(String)}) used by an HTMLPanel will be declared before
-   * it is.
+   * #registerFieldForGeneratedCssResource}.
+   *
+   * <p>When making a field we peek at the {@link #parsedFieldStack} to make sure that the field
+   * that holds the widget currently being parsed will depended upon the field being declared. This
+   * ensures, for example, that dom id fields (see {@link
+   * UiBinderWriter#declareDomIdHolder(String)}) used by an HTMLPanel will be declared before it is.
    *
    * @return a new {@link FieldWriter} instance
    * @throws UnableToCompleteException on duplicate name
    */
-  public FieldWriter registerFieldForGeneratedCssResource(
-      ImplicitCssResource cssResource) throws UnableToCompleteException {
-    FieldWriter field = new FieldWriterOfGeneratedCssResource(this,
-        AptUtil.getElementUtils().getTypeElement(String.class.getCanonicalName()).asType(),
-        cssResource, logger);
+  public FieldWriter registerFieldForGeneratedCssResource(ImplicitCssResource cssResource)
+      throws UnableToCompleteException {
+    FieldWriter field =
+        new FieldWriterOfGeneratedCssResource(
+            this,
+            AptUtil.getElementUtils().getTypeElement(String.class.getCanonicalName()).asType(),
+            cssResource,
+            logger);
     return registerField(cssResource.getName(), field);
   }
 
   /**
    * Register a new field for LazyDomElement types. LazyDomElement fields can only be associated
    * with html elements. Example:
-   *
-   * <li>LazyDomElement&lt;DivElement&gt; -&gt; &lt;div&gt;</li> <li>LazyDomElement&lt;Element&gt;
-   * -&gt; &lt;div&gt;</li> <li>LazyDomElement&lt;SpanElement&gt; -&gt; &lt;span&gt;</li>
+   * <li>LazyDomElement&lt;DivElement&gt; -&gt; &lt;div&gt;
+   * <li>LazyDomElement&lt;Element&gt; -&gt; &lt;div&gt;
+   * <li>LazyDomElement&lt;SpanElement&gt; -&gt; &lt;span&gt;
    *
    * @param templateFieldType the html type to bind, eg, SpanElement, DivElement, etc
    * @param ownerField the field instance
    */
-  public FieldWriter registerFieldForLazyDomElement(TypeMirror templateFieldType,
-      OwnerField ownerField) throws UnableToCompleteException {
+  public FieldWriter registerFieldForLazyDomElement(
+      TypeMirror templateFieldType, OwnerField ownerField) throws UnableToCompleteException {
     if (ownerField == null) {
       throw new RuntimeException("Cannot register a null owner field for LazyDomElement.");
     }
-    FieldWriter field = new FieldWriterOfLazyDomElement(this,
-        templateFieldType, ownerField, logger);
+    FieldWriter field =
+        new FieldWriterOfLazyDomElement(this, templateFieldType, ownerField, logger);
     return registerField(ownerField.getName(), field);
   }
 
   /**
    * Used to declare fields of a type (other than CssResource) that is to be generated. If your
    * field will hold a reference of an existing type, see {@link #registerField}. For generated
-   * CssResources, see {@link #registerFieldForGeneratedCssResource}. <p> When making a field we
-   * peek at the {@link #parsedFieldStack} to make sure that the field that holds the widget
-   * currently being parsed will depended upon the field being declared. This ensures, for example,
-   * that dom id fields (see {@link UiBinderWriter#declareDomIdHolder(String)}) used by an HTMLPanel
-   * will be declared before it is.
+   * CssResources, see {@link #registerFieldForGeneratedCssResource}.
+   *
+   * <p>When making a field we peek at the {@link #parsedFieldStack} to make sure that the field
+   * that holds the widget currently being parsed will depended upon the field being declared. This
+   * ensures, for example, that dom id fields (see {@link
+   * UiBinderWriter#declareDomIdHolder(String)}) used by an HTMLPanel will be declared before it is.
    *
    * @param assignableType class or interface extened or implemented by this type
    * @param typeName the full qualified name for the class associated with the field
@@ -288,11 +284,12 @@ public class FieldManager {
    * @return a new {@link FieldWriter} instance
    * @throws UnableToCompleteException on duplicate name
    */
-  public FieldWriter registerFieldOfGeneratedType(TypeMirror assignableType,
-      String typePackage, String typeName, String fieldName)
+  public FieldWriter registerFieldOfGeneratedType(
+      TypeMirror assignableType, String typePackage, String typeName, String fieldName)
       throws UnableToCompleteException {
-    FieldWriter field = new FieldWriterOfGeneratedType(this, assignableType,
-        typePackage, typeName, fieldName, logger);
+    FieldWriter field =
+        new FieldWriterOfGeneratedType(
+            this, assignableType, typePackage, typeName, fieldName, logger);
     return registerField(fieldName, field);
   }
 
@@ -300,8 +297,8 @@ public class FieldManager {
    * Called to register a <code>{field.reference}</code> encountered during parsing, to be validated
    * against the type oracle once parsing is complete.
    */
-  public void registerFieldReference(XMLElement source, String fieldReferenceString,
-      TypeMirror... types) {
+  public void registerFieldReference(
+      XMLElement source, String fieldReferenceString, TypeMirror... types) {
     source = source != null ? source : parsedFieldStack.peek().element;
 
     FieldReference fieldReference = fieldReferences.get(fieldReferenceString);
@@ -322,8 +319,8 @@ public class FieldManager {
   public FieldWriter require(String fieldName) {
     FieldWriter fieldWriter = lookup(fieldName);
     if (fieldWriter == null) {
-      throw new RuntimeException(String.format("The required field \"%s\" doesn't exist.",
-          fieldName));
+      throw new RuntimeException(
+          String.format("The required field \"%s\" doesn't exist.", fieldName));
     }
     return fieldWriter;
   }
@@ -357,10 +354,7 @@ public class FieldManager {
     Collection<FieldWriter> fields = fieldsMap.values();
     for (FieldWriter field : fields) {
       int counter = getGetterCounter(field.getName());
-      field.writeFieldDefinition(
-          writer,
-          ownerClass.getUiField(field.getName()),
-          counter);
+      field.writeFieldDefinition(writer, ownerClass.getUiField(field.getName()), counter);
     }
   }
 
@@ -382,17 +376,13 @@ public class FieldManager {
     }
   }
 
-  /**
-   * Gets the number of times a getter for the given field is called.
-   */
+  /** Gets the number of times a getter for the given field is called. */
   private int getGetterCounter(String fieldName) {
     Integer count = gettersCounter.get(fieldName);
     return (count == null) ? 0 : count;
   }
 
-  /**
-   * Increments the number of times a getter for the given field is called.
-   */
+  /** Increments the number of times a getter for the given field is called. */
   private void incrementFieldCounter(String fieldName) {
     int count = getGetterCounter(fieldName) + 1;
     gettersCounter.put(fieldName, count);

@@ -15,9 +15,7 @@
  */
 package org.gwtproject.uibinder.processor.model;
 
-/**
- * Models a method returning a DataResource on a generated ClientBundle.
- */
+/** Models a method returning a DataResource on a generated ClientBundle. */
 public class ImplicitDataResource {
 
   private final String name;

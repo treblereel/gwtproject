@@ -21,12 +21,7 @@ import static org.gwtproject.uibinder.processor.AptUtil.asTypeElement;
 import static org.gwtproject.uibinder.processor.AptUtil.getTypeUtils;
 import static org.gwtproject.uibinder.processor.AptUtil.isAssignableFrom;
 
-import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
-import org.gwtproject.uibinder.processor.model.OwnerClass;
-import org.gwtproject.uibinder.processor.model.OwnerField;
-
 import java.util.List;
-
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.ExecutableElement;
@@ -38,12 +33,15 @@ import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
+import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
+import org.gwtproject.uibinder.processor.model.OwnerClass;
+import org.gwtproject.uibinder.processor.model.OwnerField;
 
 /**
  * This class implements an easy way to bind widget event handlers to methods annotated with
  * UiHandler so that the user doesn't need to worry about writing code to implement these bindings.
  *
- * <p> For instance, the class defined below:
+ * <p>For instance, the class defined below:
  *
  * <pre>
  *   public class MyClass {
@@ -104,10 +102,14 @@ class HandlerEvaluator {
     this.ownerClass = ownerClass;
     this.logger = logger;
 
-    handlerRegistrationJClass = AptUtil.getElementUtils()
-        .getTypeElement(UiBinderApiPackage.current().getHandlerRegistrationFqn()).asType();
-    eventHandlerJClass = AptUtil.getElementUtils()
-        .getTypeElement(UiBinderApiPackage.current().getEventHandlerFqn()).asType();
+    handlerRegistrationJClass =
+        AptUtil.getElementUtils()
+            .getTypeElement(UiBinderApiPackage.current().getHandlerRegistrationFqn())
+            .asType();
+    eventHandlerJClass =
+        AptUtil.getElementUtils()
+            .getTypeElement(UiBinderApiPackage.current().getEventHandlerFqn())
+            .asType();
   }
 
   /**
@@ -132,8 +134,7 @@ class HandlerEvaluator {
       // Retrieves both event and handler types.
       List<? extends VariableElement> parameters = method.getParameters();
       if (parameters.size() != 1) {
-        logger.die("Method '%s' must have a single event parameter defined.",
-            boundMethod);
+        logger.die("Method '%s' must have a single event parameter defined.", boundMethod);
       }
 
       TypeElement eventType = AptUtil.asTypeElement(parameters.get(0).asType());
@@ -143,20 +144,20 @@ class HandlerEvaluator {
 
       TypeMirror handlerType = getHandlerForEvent(eventType.asType());
       if (handlerType == null) {
-        logger.die("Parameter '%s' is not an event (subclass of GwtEvent).",
+        logger.die(
+            "Parameter '%s' is not an event (subclass of GwtEvent).",
             asQualifiedNameable(eventType).getQualifiedName());
       }
 
       // Cool to add the handler in the output.
       String handlerVarName = HANDLER_BASE_NAME + (++varCounter);
-      writeHandler(writer, uiOwner, handlerVarName, handlerType, eventType.asType(),
-          boundMethod);
+      writeHandler(writer, uiOwner, handlerVarName, handlerType, eventType.asType(), boundMethod);
 
       // Adds the handler created above.
-      AnnotationMirror annotation = AptUtil
-          .getAnnotation(method, UiBinderApiPackage.current().getUiHandlerFqn());
-      List<AnnotationValue> values = (List<AnnotationValue>) AptUtil.getAnnotationValues(annotation)
-          .get("value").getValue();
+      AnnotationMirror annotation =
+          AptUtil.getAnnotation(method, UiBinderApiPackage.current().getUiHandlerFqn());
+      List<AnnotationValue> values =
+          (List<AnnotationValue>) AptUtil.getAnnotationValues(annotation).get("value").getValue();
 
       for (AnnotationValue objectNameValue : values) {
         String objectName = objectNameValue.getValue().toString();
@@ -165,26 +166,33 @@ class HandlerEvaluator {
         if (fieldWriter == null) {
           logger.die(
               ("Method '%s' can not be bound. You probably missed ui:field='%s' "
-                  + "in the template."), boundMethod, objectName);
+                  + "in the template."),
+              boundMethod,
+              objectName);
         }
         TypeMirror objectType = fieldWriter.getInstantiableType();
-        List<? extends TypeParameterElement> typeParameters = asTypeElement(objectType)
-            .getTypeParameters();
+        List<? extends TypeParameterElement> typeParameters =
+            asTypeElement(objectType).getTypeParameters();
         if (!typeParameters.isEmpty()) {
           objectType = tryEnhancingTypeInfo(objectName, objectType);
         }
 
         // Retrieves the "add handler" method in the object.
-        ExecutableElement addHandlerMethodType = getAddHandlerMethodForObject(objectType,
-            handlerType);
+        ExecutableElement addHandlerMethodType =
+            getAddHandlerMethodForObject(objectType, handlerType);
         if (addHandlerMethodType == null) {
-          logger.die("Field '%s' does not have an 'add%s' method associated.",
+          logger.die(
+              "Field '%s' does not have an 'add%s' method associated.",
               objectName, asQualifiedNameable(handlerType).getSimpleName());
         }
 
         // Cool to tie the handler into the object.
-        writeAddHandler(writer, fieldManager, handlerVarName,
-            addHandlerMethodType.getSimpleName().toString(), objectName);
+        writeAddHandler(
+            writer,
+            fieldManager,
+            handlerVarName,
+            addHandlerMethodType.getSimpleName().toString(),
+            objectName);
       }
     }
   }
@@ -220,42 +228,53 @@ class HandlerEvaluator {
    * @param eventType the event associated with the handler
    * @param boundMethod the method bound in the handler
    */
-  protected void writeHandler(IndentedWriter writer, String uiOwner,
-      String handlerVarName, TypeMirror handlerType, TypeMirror eventType,
-      String boundMethod) throws UnableToCompleteException {
+  protected void writeHandler(
+      IndentedWriter writer,
+      String uiOwner,
+      String handlerVarName,
+      TypeMirror handlerType,
+      TypeMirror eventType,
+      String boundMethod)
+      throws UnableToCompleteException {
 
     // Retrieves the single method (usually 'onSomething') related to all
     // handlers. Ex: onClick in ClickHandler, onBlur in BlurHandler ...
-    List<ExecutableElement> methods = ElementFilter
-        .methodsIn(asTypeElement(handlerType).getEnclosedElements());
+    List<ExecutableElement> methods =
+        ElementFilter.methodsIn(asTypeElement(handlerType).getEnclosedElements());
     if (methods.size() != 1) {
-      logger.die("'%s' has more than one method defined.",
+      logger.die(
+          "'%s' has more than one method defined.",
           asQualifiedNameable(handlerType).getQualifiedName());
     }
 
     // Checks if the method has an Event as parameter. Ex: ClickEvent in
     // onClick, BlurEvent in onBlur ...
     List<? extends VariableElement> parameters = methods.get(0).getParameters();
-    if (parameters.size() != 1 ||
-        !AptUtil.getTypeUtils().isSameType(parameters.get(0).asType(), eventType)) {
-      logger.die("Method '%s' needs '%s' as parameter", methods.get(0).getSimpleName(),
-          asQualifiedNameable(eventType).getQualifiedName());
+    if (parameters.size() != 1
+        || !AptUtil.getTypeUtils().isSameType(parameters.get(0).asType(), eventType)) {
+      logger.die(
+          "Method '%s' needs '%s' as parameter",
+          methods.get(0).getSimpleName(), asQualifiedNameable(eventType).getQualifiedName());
     }
 
     writer.newline();
     // Create the anonymous class extending the raw type to avoid errors under the new JDT
     // if the type has a wildcard.
-    writer.write("final %1$s %2$s = new %1$s() {",
+    writer.write(
+        "final %1$s %2$s = new %1$s() {",
         asQualifiedNameable(handlerType).getQualifiedName(), handlerVarName);
     writer.indent();
-    writer.write("public void %1$s(%2$s event) {", methods.get(0).getSimpleName(),
+    writer.write(
+        "public void %1$s(%2$s event) {",
+        methods.get(0).getSimpleName(),
         // Use the event raw type to match the signature as we are using implementing the raw type
         // interface.
         asQualifiedNameable(eventType).getQualifiedName());
     writer.indent();
     // Cast the event to the parameterized type to avoid warnings..
-    writer.write("%1$s.%2$s((%3$s) event);", uiOwner, boundMethod,
-        asQualifiedNameable(eventType).getQualifiedName());
+    writer.write(
+        "%1$s.%2$s((%3$s) event);",
+        uiOwner, boundMethod, asQualifiedNameable(eventType).getQualifiedName());
     writer.outdent();
     writer.write("}");
     writer.outdent();
@@ -270,14 +289,18 @@ class HandlerEvaluator {
    * @param addHandlerMethodName the "add handler" method name associated with the object
    * @param objectName the name of the object we want to tie the handler
    */
-  void writeAddHandler(IndentedWriter writer, FieldManager fieldManager,
-      String handlerVarName, String addHandlerMethodName, String objectName) {
+  void writeAddHandler(
+      IndentedWriter writer,
+      FieldManager fieldManager,
+      String handlerVarName,
+      String addHandlerMethodName,
+      String objectName) {
     if (useLazyWidgetBuilders) {
-      fieldManager.require(objectName).addStatement("%1$s.%2$s(%3$s);",
-          objectName, addHandlerMethodName, handlerVarName);
+      fieldManager
+          .require(objectName)
+          .addStatement("%1$s.%2$s(%3$s);", objectName, addHandlerMethodName, handlerVarName);
     } else {
-      writer.write("%1$s.%2$s(%3$s);", objectName, addHandlerMethodName,
-          handlerVarName);
+      writer.write("%1$s.%2$s(%3$s);", objectName, addHandlerMethodName, handlerVarName);
     }
   }
 
@@ -285,10 +308,9 @@ class HandlerEvaluator {
    * Checks if a specific handler is valid for a given object and return the method that ties them.
    * The object must override a method that returns
    *
-   * HandlerRegistration and receives a single input parameter of the same type of
-   * handlerType.
+   * <p>HandlerRegistration and receives a single input parameter of the same type of handlerType.
    *
-   * <p> Output an error in case more than one method match the conditions described above. </p>
+   * <p>Output an error in case more than one method match the conditions described above.
    *
    * <pre>
    *   <b>Examples:</b>
@@ -302,13 +324,13 @@ class HandlerEvaluator {
    * @param handlerType the handler type we want to check in the object
    * @return the method that adds handlerType into objectType, or <b>null</b> if no method was found
    */
-  private ExecutableElement getAddHandlerMethodForObject(TypeMirror objectType,
-      TypeMirror handlerType) throws UnableToCompleteException {
+  private ExecutableElement getAddHandlerMethodForObject(
+      TypeMirror objectType, TypeMirror handlerType) throws UnableToCompleteException {
     ExecutableElement handlerMethod = null;
     ExecutableElement alternativeHandlerMethod = null;
     ExecutableElement alternativeHandlerMethod2 = null;
-    List<? extends ExecutableElement> inheritableMethods = AptUtil
-        .getInheritableMethods(objectType);
+    List<? extends ExecutableElement> inheritableMethods =
+        AptUtil.getInheritableMethods(objectType);
     for (ExecutableElement method : inheritableMethods) {
 
       // Condition 1: returns HandlerRegistration?
@@ -333,7 +355,9 @@ class HandlerEvaluator {
           if (handlerMethod != null) {
             logger.die(
                 ("This handler cannot be generated. Methods '%s' and '%s' are "
-                    + "ambiguous. Which one to pick?"), method, handlerMethod);
+                    + "ambiguous. Which one to pick?"),
+                method,
+                handlerMethod);
           }
 
           handlerMethod = method;
@@ -341,16 +365,14 @@ class HandlerEvaluator {
         }
 
         /**
-         * Normalize the parameter and check for an alternative handler method.
-         * Might be the case where the given objectType is generic. In this
-         * situation we need to normalize the method parameter to test for
-         * equality. For instance:
+         * Normalize the parameter and check for an alternative handler method. Might be the case
+         * where the given objectType is generic. In this situation we need to normalize the method
+         * parameter to test for equality. For instance:
          *
-         *   handlerType => TableHandler<String>
-         *   subjectHandler => Alt 1: TableHandler or Alt 2: TableHandler<T>
+         * <p>handlerType => TableHandler<String> subjectHandler => Alt 1: TableHandler or Alt 2:
+         * TableHandler<T>
          *
-         * This is done as an alternative handler method to preserve the
-         * original logic.
+         * <p>This is done as an alternative handler method to preserve the original logic.
          */
         if (isAssignableFrom(handlerType, methodParam)) {
           // Alt 1: TableHandler<String> => TableHandler or TableHandler<?> => TableHandler<String>
@@ -358,9 +380,10 @@ class HandlerEvaluator {
         } else if ((handlerType instanceof Parameterizable)
             && !asTypeElement(objectType).getTypeParameters().isEmpty()) {
           // Alt 2: TableHandler<String> => TableHandler<T>
-          if (AptUtil.getTypeUtils().isSameType(
-              AptUtil.getTypeUtils().erasure(methodParam),
-              AptUtil.getTypeUtils().erasure(handlerType))) {
+          if (AptUtil.getTypeUtils()
+              .isSameType(
+                  AptUtil.getTypeUtils().erasure(methodParam),
+                  AptUtil.getTypeUtils().erasure(handlerType))) {
             // Unfortunately this is overly lenient but it was always like this
             alternativeHandlerMethod2 = method;
           }
@@ -368,7 +391,8 @@ class HandlerEvaluator {
       }
     }
 
-    return (handlerMethod != null) ? handlerMethod
+    return (handlerMethod != null)
+        ? handlerMethod
         : (alternativeHandlerMethod != null) ? alternativeHandlerMethod : alternativeHandlerMethod2;
   }
 
@@ -392,8 +416,8 @@ class HandlerEvaluator {
     if (eventType == null) {
       return null;
     }
-    ExecutableElement method = AptUtil
-        .findMethod(eventType, "getAssociatedType", new TypeMirror[0]);
+    ExecutableElement method =
+        AptUtil.findMethod(eventType, "getAssociatedType", new TypeMirror[0]);
     if (method == null) {
       logger.warn(
           "Method 'getAssociatedType()' could not be found in the event '%s'.",
@@ -418,8 +442,7 @@ class HandlerEvaluator {
     DeclaredType isParameterized = asDeclaredType(returnType);
 
     List<? extends TypeMirror> argTypes = isParameterized.getTypeArguments();
-    if ((argTypes.size() != 1)
-        && !AptUtil.isAssignableTo(argTypes.get(0), eventHandlerJClass)) {
+    if ((argTypes.size() != 1) && !AptUtil.isAssignableTo(argTypes.get(0), eventHandlerJClass)) {
       logger.warn(
           "The method 'getAssociatedType()' in '%s' does not return Type<? extends EventHandler>.",
           asQualifiedNameable(eventType).getQualifiedName());

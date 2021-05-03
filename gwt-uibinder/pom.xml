@@ -4,10 +4,16 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
+  <parent>
+    <groupId>org.gwtproject</groupId>
+    <artifactId>gwt-parent</artifactId>
+    <version>dev</version>
+  </parent>
+
   <groupId>org.gwtproject.uibinder</groupId>
   <artifactId>gwt-uibinder</artifactId>
   <name>GWT UiBinder</name>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>dev</version>
 
   <packaging>pom</packaging>
 
@@ -24,25 +30,11 @@
     <url>https://github.com/vertispan/gwt-uibinder/tree/master</url>
   </scm>
 
-  <properties>
-    <!-- Global build settings -->
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-    <java.version>1.8</java.version>
-    <gwt.version>2.9.0</gwt.version>
-    <guava.version>29.0-jre</guava.version>
-
-    <license.orgName>Google Inc.</license.orgName>
-    <license.year>2018</license.year>
-  </properties>
-
-
   <build>
     <plugins>
-      <plugin>
+   <!--   <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>3.1.1</version>
         <configuration>
           <encoding>UTF-8</encoding>
           <consoleOutput>true</consoleOutput>
@@ -66,11 +58,10 @@
             <version>8.35</version>
           </dependency>
         </dependencies>
-      </plugin>
-      <plugin>
+      </plugin>-->
+   <!--   <plugin>
         <groupId>com.mycila</groupId>
         <artifactId>license-maven-plugin</artifactId>
-        <version>3.0</version>
         <configuration>
           <mapping>
             <gss>JAVADOC_STYLE</gss>
@@ -96,14 +87,13 @@
             </goals>
           </execution>
         </executions>
-      </plugin>
+      </plugin>-->
     </plugins>
     <pluginManagement>
       <plugins>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.5.1</version>
           <!-- <version>3.7.0</version> -->
           <configuration>
             <source>${java.version}</source>
@@ -113,12 +103,10 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-war-plugin</artifactId>
-          <version>3.2.0</version>
         </plugin>
         <plugin>
           <groupId>net.ltgt.gwt.maven</groupId>
           <artifactId>gwt-maven-plugin</artifactId>
-          <version>1.0-rc-9</version>
           <extensions>true</extensions>
           <configuration>
             <sourceLevel>${java.version}</sourceLevel>
@@ -128,7 +116,6 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-source-plugin</artifactId>
-          <version>3.0.1</version>
           <executions>
             <execution>
               <id>attach-sources</id>
@@ -143,57 +130,12 @@
     </pluginManagement>
   </build>
 
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>org.gwtproject.dom</groupId>
-        <artifactId>gwt-dom</artifactId>
-        <version>1.0-SNAPSHOT</version>
-        <scope>provided</scope>
-      </dependency>
-      <dependency>
-        <groupId>com.google.gwt</groupId>
-        <artifactId>gwt-codeserver</artifactId>
-        <version>${gwt.version}</version>
-        <scope>provided</scope>
-      </dependency>
-      <dependency>
-        <groupId>com.google.gwt</groupId>
-        <artifactId>gwt-servlet</artifactId>
-        <version>${gwt.version}</version>
-        <scope>provided</scope>
-      </dependency>
-      <dependency>
-        <groupId>com.google.gwt</groupId>
-        <artifactId>gwt-dev</artifactId>
-        <version>${gwt.version}</version>
-        <scope>provided</scope>
-      </dependency>
-      <dependency>
-        <groupId>com.google.gwt</groupId>
-        <artifactId>gwt-user</artifactId>
-        <version>${gwt.version}</version>
-        <scope>provided</scope>
-      </dependency>
-      <dependency>
-        <groupId>com.google.gwt</groupId>
-        <artifactId>gwt</artifactId>
-        <version>${gwt.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-      <dependency>
-        <groupId>com.google.guava</groupId>
-        <artifactId>guava</artifactId>
-        <version>${guava.version}</version>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
-
   <modules>
     <module>gwt-uibinder-client</module>
     <module>gwt-uibinder-processor</module>
+<!--
     <module>gwt-uibinder-example</module>
+-->
   </modules>
 
   <!-- Specify that we will push snapshots and releases to sonatype's repos -->
@@ -213,14 +155,14 @@
       <id>env-dev</id>
       <build>
         <plugins>
-          <plugin>
+<!--          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-checkstyle-plugin</artifactId>
             <configuration>
               <failsOnError>false</failsOnError>
               <failOnViolation>false</failOnViolation>
             </configuration>
-          </plugin>
+          </plugin>-->
         </plugins>
       </build>
     </profile>

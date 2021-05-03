@@ -15,22 +15,19 @@
  */
 package org.gwtproject.uibinder.processor.elementparsers;
 
+import javax.lang.model.type.TypeMirror;
 import org.gwtproject.uibinder.processor.FieldWriter;
 import org.gwtproject.uibinder.processor.UiBinderWriter;
 import org.gwtproject.uibinder.processor.XMLElement;
 import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
 
-import javax.lang.model.type.TypeMirror;
-
-/**
- * Parses AbsolutePanel widgets.
- */
+/** Parses AbsolutePanel widgets. */
 public class AbsolutePanelParser implements ElementParser {
 
   private static final String AT = "at";
 
-  public void parse(XMLElement elem, String fieldName, TypeMirror type,
-      UiBinderWriter writer) throws UnableToCompleteException {
+  public void parse(XMLElement elem, String fieldName, TypeMirror type, UiBinderWriter writer)
+      throws UnableToCompleteException {
 
     // Parse children.
     for (XMLElement child : elem.consumeChildElements()) {
@@ -42,8 +39,8 @@ public class AbsolutePanelParser implements ElementParser {
         // Add child widget.
         XMLElement widgetElem = child.consumeSingleChildElement();
         FieldWriter widgetField = writer.parseElementToField(widgetElem);
-        writer.addStatement("%1$s.add(%2$s, %3$s, %4$s);", fieldName,
-            widgetField.getNextReference(), left, top);
+        writer.addStatement(
+            "%1$s.add(%2$s, %3$s, %4$s);", fieldName, widgetField.getNextReference(), left, top);
         continue;
       }
 
@@ -55,8 +52,8 @@ public class AbsolutePanelParser implements ElementParser {
       }
 
       // die
-      writer.die(child, "Expecting only <%s:%s> or widget children in %s",
-          elem.getPrefix(), AT, elem);
+      writer.die(
+          child, "Expecting only <%s:%s> or widget children in %s", elem.getPrefix(), AT, elem);
     }
   }
 

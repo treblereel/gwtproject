@@ -13,7 +13,5 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-/**
- * Classes that parse XML attribute values, turning them into valid Java expressions.
- */
+/** Classes that parse XML attribute values, turning them into valid Java expressions. */
 package org.gwtproject.uibinder.processor.attributeparsers;

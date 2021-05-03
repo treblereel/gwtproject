@@ -22,17 +22,8 @@ import com.google.common.collect.ImmutableSet;
 import com.google.testing.compile.Compilation;
 import com.google.testing.compile.Compilation.Status;
 import com.google.testing.compile.JavaFileObjects;
-
-import org.junit.jupiter.api.extension.AfterEachCallback;
-import org.junit.jupiter.api.extension.BeforeEachCallback;
-import org.junit.jupiter.api.extension.ExtensionContext;
-import org.junit.jupiter.api.extension.ParameterContext;
-import org.junit.jupiter.api.extension.ParameterResolutionException;
-import org.junit.jupiter.api.extension.ParameterResolver;
-
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
-
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
@@ -41,13 +32,16 @@ import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import javax.tools.JavaFileObject;
+import org.junit.jupiter.api.extension.AfterEachCallback;
+import org.junit.jupiter.api.extension.BeforeEachCallback;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.ParameterContext;
+import org.junit.jupiter.api.extension.ParameterResolutionException;
+import org.junit.jupiter.api.extension.ParameterResolver;
 
-/**
- * Adapts the CompilationRule as a JUnit 5 extension.
- */
+/** Adapts the CompilationRule as a JUnit 5 extension. */
 public class CompilationExtension
-    implements BeforeEachCallback, AfterEachCallback,
-    ParameterResolver {
+    implements BeforeEachCallback, AfterEachCallback, ParameterResolver {
   private static final JavaFileObject DUMMY =
       JavaFileObjects.forSourceLines("Dummy", "final class Dummy {}");
 
@@ -58,15 +52,10 @@ public class CompilationExtension
   private Thread compileThread;
   private EvaluatingProcessor evaluatingProcessor;
 
-  /**
-   * Determines when thread is ready for test to run.
-   */
+  /** Determines when thread is ready for test to run. */
   private CountDownLatch readyLatch;
-  /**
-   * Determines when the thread can finalize.
-   */
+  /** Determines when the thread can finalize. */
   private CountDownLatch afterLatch;
-
 
   @Override
   public void beforeEach(ExtensionContext extensionContext) throws Exception {
@@ -75,9 +64,11 @@ public class CompilationExtension
 
     evaluatingProcessor = new EvaluatingProcessor();
     // run compilation in thread
-    compileThread = new Thread(() -> {
-      compilation = javac().withProcessors(evaluatingProcessor).compile(DUMMY);
-    });
+    compileThread =
+        new Thread(
+            () -> {
+              compilation = javac().withProcessors(evaluatingProcessor).compile(DUMMY);
+            });
     compileThread.start();
 
     // wait for processing to be in the right place.
@@ -103,19 +94,18 @@ public class CompilationExtension
   }
 
   @Override
-  public boolean supportsParameter(ParameterContext parameterContext,
-      ExtensionContext extensionContext) throws ParameterResolutionException {
-    return parameterContext.getParameter().getType()
-        .equals(ProcessingEnvironment.class)
-        || parameterContext.getParameter().getType()
-        .equals(Elements.class)
-        || parameterContext.getParameter().getType()
-        .equals(Types.class);
+  public boolean supportsParameter(
+      ParameterContext parameterContext, ExtensionContext extensionContext)
+      throws ParameterResolutionException {
+    return parameterContext.getParameter().getType().equals(ProcessingEnvironment.class)
+        || parameterContext.getParameter().getType().equals(Elements.class)
+        || parameterContext.getParameter().getType().equals(Types.class);
   }
 
   @Override
-  public Object resolveParameter(ParameterContext parameterContext,
-      ExtensionContext extensionContext) throws ParameterResolutionException {
+  public Object resolveParameter(
+      ParameterContext parameterContext, ExtensionContext extensionContext)
+      throws ParameterResolutionException {
     if (parameterContext.getParameter().getType().equals(ProcessingEnvironment.class)) {
       return processingEnvironment;
     }

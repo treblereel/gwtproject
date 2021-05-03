@@ -13,7 +13,5 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-/**
- * Classes that parse XML elements, using the context to generate widget initialization code.
- */
+/** Classes that parse XML elements, using the context to generate widget initialization code. */
 package org.gwtproject.uibinder.processor.elementparsers;

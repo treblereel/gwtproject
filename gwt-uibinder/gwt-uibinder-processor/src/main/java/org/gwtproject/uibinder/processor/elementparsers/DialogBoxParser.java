@@ -15,6 +15,9 @@
  */
 package org.gwtproject.uibinder.processor.elementparsers;
 
+import java.util.List;
+import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.TypeMirror;
 import org.gwtproject.uibinder.processor.AptUtil;
 import org.gwtproject.uibinder.processor.FieldWriter;
 import org.gwtproject.uibinder.processor.UiBinderApiPackage;
@@ -22,21 +25,14 @@ import org.gwtproject.uibinder.processor.UiBinderWriter;
 import org.gwtproject.uibinder.processor.XMLElement;
 import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
 
-import java.util.List;
-
-import javax.lang.model.element.TypeElement;
-import javax.lang.model.type.TypeMirror;
-
-/**
- * Parses DialogBox widgets.
- */
+/** Parses DialogBox widgets. */
 public class DialogBoxParser implements ElementParser {
 
   private static final String CAPTION = "caption";
   private static final String CUSTOM_CAPTION = "customCaption";
 
-  public void parse(XMLElement elem, String fieldName, TypeMirror type,
-      UiBinderWriter writer) throws UnableToCompleteException {
+  public void parse(XMLElement elem, String fieldName, TypeMirror type, UiBinderWriter writer)
+      throws UnableToCompleteException {
 
     String caption = null;
     FieldWriter body = null;
@@ -47,24 +43,20 @@ public class DialogBoxParser implements ElementParser {
     for (XMLElement child : elem.consumeChildElements()) {
       if (CAPTION.equals(child.getLocalName())) {
         if (caption != null) {
-          writer.die(elem, "May have only one <%s:%s>", prefix,
-              CAPTION);
+          writer.die(elem, "May have only one <%s:%s>", prefix, CAPTION);
         }
 
-        HtmlInterpreter interpreter = HtmlInterpreter.newInterpreterForUiObject(
-            writer, fieldName);
+        HtmlInterpreter interpreter = HtmlInterpreter.newInterpreterForUiObject(writer, fieldName);
         caption = child.consumeInnerHtml(interpreter);
       } else if (CUSTOM_CAPTION.equals(child.getLocalName())) {
         if (customCaption != null) {
-          writer.die(elem, "May only have one <%s:%s>", prefix,
-              CUSTOM_CAPTION);
+          writer.die(elem, "May only have one <%s:%s>", prefix, CUSTOM_CAPTION);
         }
         customCaption = child.consumeSingleChildElement();
 
       } else {
         if (body != null) {
-          writer.die(elem, "May have only one widget, but found %s and %s",
-              body.getName(), child);
+          writer.die(elem, "May have only one widget, but found %s and %s", body.getName(), child);
         }
         if (!writer.isWidgetElement(child)) {
           writer.die(elem, "Found non-widget %s", child);
@@ -74,49 +66,52 @@ public class DialogBoxParser implements ElementParser {
     }
 
     if (caption != null && customCaption != null) {
-      writer.die("Must choose between <%s:%s> or <%s:%s>", prefix, CAPTION,
-          prefix, CUSTOM_CAPTION);
+      writer.die("Must choose between <%s:%s> or <%s:%s>", prefix, CAPTION, prefix, CUSTOM_CAPTION);
     }
 
     handleConstructorArgs(elem, fieldName, type, writer, customCaption);
 
     if (caption != null) {
-      writer.addStatement("%s.setHTML(%s);", fieldName,
-          writer.declareTemplateCall(caption, fieldName));
+      writer.addStatement(
+          "%s.setHTML(%s);", fieldName, writer.declareTemplateCall(caption, fieldName));
     }
     if (body != null) {
       writer.addStatement("%s.setWidget(%s);", fieldName, body.getNextReference());
     }
   }
 
-  /**
-   * Determines if the element implements Caption.
-   */
+  /** Determines if the element implements Caption. */
   protected boolean isCaption(UiBinderWriter writer, XMLElement element)
       throws UnableToCompleteException {
     TypeMirror type = writer.findFieldType(element);
 
     List<? extends TypeMirror> classes = AptUtil.getFlattenedSupertypeHierarchy(type);
-    TypeElement captionType = AptUtil.getElementUtils().getTypeElement(
-        UiBinderApiPackage.current().getDialogBoxCaptionFqn());
+    TypeElement captionType =
+        AptUtil.getElementUtils()
+            .getTypeElement(UiBinderApiPackage.current().getDialogBoxCaptionFqn());
     return classes.contains(captionType);
   }
 
-  /**
-   * Checks to see if the widget extends DialogBox or is DialogBox proper.
-   */
+  /** Checks to see if the widget extends DialogBox or is DialogBox proper. */
   protected boolean isCustomWidget(UiBinderWriter writer, TypeMirror type) {
-    return !AptUtil.getTypeUtils().isSameType(type,
-        AptUtil.getElementUtils().getTypeElement(
-            UiBinderApiPackage.current().getDialogBoxFqn()).asType());
+    return !AptUtil.getTypeUtils()
+        .isSameType(
+            type,
+            AptUtil.getElementUtils()
+                .getTypeElement(UiBinderApiPackage.current().getDialogBoxFqn())
+                .asType());
   }
 
   /**
    * If this is DialogBox (not a subclass), parse constructor args and generate the constructor
    * call. For subtypes do nothing.
    */
-  void handleConstructorArgs(XMLElement elem, String fieldName,
-      TypeMirror type, UiBinderWriter writer, XMLElement customCaption)
+  void handleConstructorArgs(
+      XMLElement elem,
+      String fieldName,
+      TypeMirror type,
+      UiBinderWriter writer,
+      XMLElement customCaption)
       throws UnableToCompleteException {
     boolean custom = isCustomWidget(writer, type);
     if (!custom) {
@@ -125,18 +120,21 @@ public class DialogBoxParser implements ElementParser {
 
       if (customCaption != null) {
         if (!writer.isWidgetElement(customCaption)) {
-          writer.die(customCaption, "<%s:%s> must be a widget",
-              customCaption.getPrefix(), CUSTOM_CAPTION);
+          writer.die(
+              customCaption, "<%s:%s> must be a widget", customCaption.getPrefix(), CUSTOM_CAPTION);
         }
         if (!isCaption(writer, customCaption)) {
-          writer.die(customCaption, "<%s:%s> must implement %s",
-              customCaption.getPrefix(), CUSTOM_CAPTION,
+          writer.die(
+              customCaption,
+              "<%s:%s> must implement %s",
+              customCaption.getPrefix(),
+              CUSTOM_CAPTION,
               UiBinderApiPackage.current().getDialogBoxCaptionFqn());
         }
         FieldWriter fieldElement = writer.parseElementToField(customCaption);
 
-        writer.setFieldInitializerAsConstructor(fieldName,
-            autoHide, modal, fieldElement.getNextReference());
+        writer.setFieldInitializerAsConstructor(
+            fieldName, autoHide, modal, fieldElement.getNextReference());
       } else {
         writer.setFieldInitializerAsConstructor(fieldName, autoHide, modal);
       }

@@ -15,16 +15,15 @@
  */
 package org.gwtproject.uibinder.processor.elementparsers;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import org.gwtproject.uibinder.processor.FieldManager;
 import org.gwtproject.uibinder.processor.FieldWriter;
 import org.gwtproject.uibinder.processor.UiBinderApiPackage;
 import org.gwtproject.uibinder.processor.UiBinderWriter;
 import org.gwtproject.uibinder.processor.XMLElement;
 import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Used by {@link HTMLPanelParser} to interpret elements that call for widget instances. Declares
@@ -69,8 +68,7 @@ class WidgetInterpreter implements XMLElement.Interpreter<String> {
     this.uiWriter = writer;
   }
 
-  public String interpretElement(XMLElement elem)
-      throws UnableToCompleteException {
+  public String interpretElement(XMLElement elem) throws UnableToCompleteException {
     if (!uiWriter.isWidgetElement(elem)) {
       return null;
     }
@@ -96,13 +94,16 @@ class WidgetInterpreter implements XMLElement.Interpreter<String> {
       // Register a DOM id field.
       String lazyDomElementPath = UiBinderApiPackage.current().getLazyDomElementFqn();
       FieldWriter elementWriter = fieldManager.registerField(lazyDomElementPath, elementPointer);
-      elementWriter.setInitializer(String.format("new %s<%s>(%s)",
-          lazyDomElementPath, UiBinderApiPackage.current().getDomElementFqn(),
-          fieldManager.convertFieldToGetter(idHolder)));
+      elementWriter.setInitializer(
+          String.format(
+              "new %s<%s>(%s)",
+              lazyDomElementPath,
+              UiBinderApiPackage.current().getDomElementFqn(),
+              fieldManager.convertFieldToGetter(idHolder)));
 
       // Add attach/detach sections for this element.
-      fieldWriter.addAttachStatement("%s.get();",
-          fieldManager.convertFieldToGetter(elementPointer));
+      fieldWriter.addAttachStatement(
+          "%s.get();", fieldManager.convertFieldToGetter(elementPointer));
       fieldWriter.addDetachStatement(
           "%s.addAndReplaceElement(%s, %s.get());",
           fieldName,
@@ -115,9 +116,7 @@ class WidgetInterpreter implements XMLElement.Interpreter<String> {
       // unnecessarily
       uiWriter.addDetachStatement(
           "%1$s.addAndReplaceElement(%2$s, %3$s);",
-          fieldName,
-          childFieldWriter.getName(),
-          elementPointer);
+          fieldName, childFieldWriter.getName(), elementPointer);
     }
 
     // Create an element to hold the widget.

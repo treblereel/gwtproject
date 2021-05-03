@@ -15,23 +15,21 @@
  */
 package org.gwtproject.uibinder.processor;
 
-/**
- *
- */
+/** */
 public enum UiBinderApiPackage {
   /**
    * Completely legacy api.
    *
-   * <p>This is really intended for the "fallback" of some of the UiBinder annotations.  Since
-   * legacy widgets were most likely coded with the old namespaced @UiChild, etc, we need to be able
-   * to fallback to those as necessary.
+   * <p>This is really intended for the "fallback" of some of the UiBinder annotations. Since legacy
+   * widgets were most likely coded with the old namespaced @UiChild, etc, we need to be able to
+   * fallback to those as necessary.
    */
   LEGACY("com.google.gwt.uibinder.client"),
   /**
    * Use majority of the legacy classes for generation.
    *
-   * <p>Note that the uibinder package is the new one.  If a user wanted ALL legacy, they would
-   * have used the GWT.create mechanism rather than using the new @UiTemplate annotation.
+   * <p>Note that the uibinder package is the new one. If a user wanted ALL legacy, they would have
+   * used the GWT.create mechanism rather than using the new @UiTemplate annotation.
    */
   COM_GOOGLE_GWT_UIBINDER(
       true,
@@ -42,23 +40,19 @@ public enum UiBinderApiPackage {
       "com.google.gwt.i18n.client",
       "com.google.gwt.safehtml",
       "com.google.gwt.resources.client",
-      "com.google.gwt.event"
-  ),
+      "com.google.gwt.event"),
   ORG_GWTPROJECT_UIBINDER(
-      false, //FIXME- update- this have issues with GSS, Messages, etc.
-      "urn:ui:org.gwtproject.uibinder",// changing this will require updates to .xsd files
+      false, // FIXME- update- this have issues with GSS, Messages, etc.
+      "urn:ui:org.gwtproject.uibinder", // changing this will require updates to .xsd files
       "org.gwtproject.uibinder.client",
       "org.gwtproject.dom.client",
       "org.gwtproject.user.client.ui",
       "com.google.gwt.i18n.client",
       "org.gwtproject.safehtml",
       "org.gwtproject.resources.client",
-      "org.gwtproject.event.legacy"
-  );
+      "org.gwtproject.event.legacy");
 
-  /**
-   * This is the same irregardless of package source.
-   */
+  /** This is the same irregardless of package source. */
   public static final String UITEMPLATE = "org.gwtproject.uibinder.client.UiTemplate";
 
   /**
@@ -67,7 +61,8 @@ public enum UiBinderApiPackage {
    * <p>Rather than passing this class around, we'll keep in a thread local to be available where
    * needed.
    */
-  private static ThreadLocal<UiBinderApiPackage> uiBinderApiPackageThreadLocal = new ThreadLocal<>();
+  private static ThreadLocal<UiBinderApiPackage> uiBinderApiPackageThreadLocal =
+      new ThreadLocal<>();
 
   public static void setUiBinderApiPackage(UiBinderApiPackage api) {
     if (api == null) {
@@ -80,9 +75,7 @@ public enum UiBinderApiPackage {
     return uiBinderApiPackageThreadLocal.get();
   }
 
-  /**
-   * Determines which API by the old vs new UiBinder interface.
-   */
+  /** Determines which API by the old vs new UiBinder interface. */
   public static UiBinderApiPackage fromInterfaceName(String interfaceName) {
     if (COM_GOOGLE_GWT_UIBINDER.getUiBinderInterfaceFqn().equals(interfaceName)) {
       return COM_GOOGLE_GWT_UIBINDER;
@@ -103,17 +96,8 @@ public enum UiBinderApiPackage {
   private final String resourcesPackageName;
   private final String eventsPackageName;
 
-
   UiBinderApiPackage(String uiBinderPackageName) {
-    this(true,
-        null,
-        uiBinderPackageName,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null);
+    this(true, null, uiBinderPackageName, null, null, null, null, null, null);
   }
 
   UiBinderApiPackage(
@@ -325,7 +309,7 @@ public enum UiBinderApiPackage {
       // wrong package for lazy dom
       thePackage = LEGACY.uiBinderPackageName;
     }
-      return thePackage + ".LazyDomElement";
+    return thePackage + ".LazyDomElement";
   }
 
   public String getLazyPanelFqn() {

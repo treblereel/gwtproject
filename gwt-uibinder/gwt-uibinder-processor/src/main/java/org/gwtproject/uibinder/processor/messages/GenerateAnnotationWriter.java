@@ -15,10 +15,9 @@
  */
 package org.gwtproject.uibinder.processor.messages;
 
-import org.gwtproject.uibinder.processor.IndentedWriter;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.gwtproject.uibinder.processor.IndentedWriter;
 
 /**
  * Represents a {@literal @}Generate annotation in a Messages interface, and can write it out at

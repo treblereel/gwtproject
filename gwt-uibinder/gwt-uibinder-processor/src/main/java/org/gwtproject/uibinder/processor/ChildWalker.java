@@ -16,16 +16,13 @@
 package org.gwtproject.uibinder.processor;
 
 import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
-
 import org.w3c.dom.CDATASection;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 
-/**
- * Traverses the children of a {@link Node}.
- */
+/** Traverses the children of a {@link Node}. */
 class ChildWalker {
 
   /**
@@ -64,10 +61,11 @@ class ChildWalker {
         case Node.DOCUMENT_FRAGMENT_NODE:
         case Node.NOTATION_NODE:
         case Node.PROCESSING_INSTRUCTION_NODE:
-        default: {
-          // None of these are expected node types.
-          throw new RuntimeException("Unexpected XML node");
-        }
+        default:
+          {
+            // None of these are expected node types.
+            throw new RuntimeException("Unexpected XML node");
+          }
       }
     }
   }

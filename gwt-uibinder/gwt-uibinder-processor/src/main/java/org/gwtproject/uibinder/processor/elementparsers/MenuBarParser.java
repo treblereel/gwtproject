@@ -15,6 +15,8 @@
  */
 package org.gwtproject.uibinder.processor.elementparsers;
 
+import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.TypeMirror;
 import org.gwtproject.uibinder.processor.AptUtil;
 import org.gwtproject.uibinder.processor.FieldWriter;
 import org.gwtproject.uibinder.processor.UiBinderApiPackage;
@@ -22,21 +24,17 @@ import org.gwtproject.uibinder.processor.UiBinderWriter;
 import org.gwtproject.uibinder.processor.XMLElement;
 import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
 
-import javax.lang.model.element.TypeElement;
-import javax.lang.model.type.TypeMirror;
-
-/**
- * Parses MenuBar widgets.
- */
+/** Parses MenuBar widgets. */
 public class MenuBarParser implements ElementParser {
 
-  static final String BAD_CHILD
-      = "Only MenuItem or MenuItemSeparator subclasses are valid children";
+  static final String BAD_CHILD =
+      "Only MenuItem or MenuItemSeparator subclasses are valid children";
 
-  public void parse(XMLElement elem, String fieldName, TypeMirror type,
-      UiBinderWriter writer) throws UnableToCompleteException {
+  public void parse(XMLElement elem, String fieldName, TypeMirror type, UiBinderWriter writer)
+      throws UnableToCompleteException {
     // Generate instantiation (Vertical MenuBars require a ctor param).
-    if (UiBinderApiPackage.current().getMenuBarFqn()
+    if (UiBinderApiPackage.current()
+        .getMenuBarFqn()
         .equals(AptUtil.asQualifiedNameable(type).getQualifiedName().toString())) {
       if (elem.hasAttribute("vertical")) {
         String vertical = elem.consumeBooleanAttribute("vertical");
@@ -45,10 +43,11 @@ public class MenuBarParser implements ElementParser {
     }
 
     // Prepare base types.
-    TypeElement itemType = AptUtil.getElementUtils()
-        .getTypeElement(UiBinderApiPackage.current().getMenuItemFqn());
-    TypeElement separatorType = AptUtil.getElementUtils().getTypeElement(
-        UiBinderApiPackage.current().getMenuItemSeparatorFqn());
+    TypeElement itemType =
+        AptUtil.getElementUtils().getTypeElement(UiBinderApiPackage.current().getMenuItemFqn());
+    TypeElement separatorType =
+        AptUtil.getElementUtils()
+            .getTypeElement(UiBinderApiPackage.current().getMenuItemSeparatorFqn());
 
     // Parse children.
     for (XMLElement child : elem.consumeChildElements()) {

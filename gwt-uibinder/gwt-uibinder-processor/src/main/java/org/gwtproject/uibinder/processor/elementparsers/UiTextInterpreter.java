@@ -27,14 +27,12 @@ import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
  */
 public class UiTextInterpreter implements XMLElement.Interpreter<String> {
 
-  /**
-   * Used in {@link #interpretElement} to invoke the {@link ComputedAttributeInterpreter}.
-   */
+  /** Used in {@link #interpretElement} to invoke the {@link ComputedAttributeInterpreter}. */
   protected class Delegate implements ComputedAttributeInterpreter.Delegate {
 
     public String getAttributeToken(XMLAttribute attribute) throws UnableToCompleteException {
-      return writer
-          .tokenForStringExpression(attribute.getElement(), attribute.consumeStringValue());
+      return writer.tokenForStringExpression(
+          attribute.getElement(), attribute.consumeStringValue());
     }
   }
 
@@ -48,8 +46,7 @@ public class UiTextInterpreter implements XMLElement.Interpreter<String> {
     this.computedAttributeInterpreter = createComputedAttributeInterpreter();
   }
 
-  public String interpretElement(XMLElement elem)
-      throws UnableToCompleteException {
+  public String interpretElement(XMLElement elem) throws UnableToCompleteException {
     // Must be in the format: <ui:string from="{myMsg.message}" />
     if (writer.isBinderElement(elem) && getLocalName().equals(elem.getLocalName())) {
       if (!elem.hasAttribute("from")) {

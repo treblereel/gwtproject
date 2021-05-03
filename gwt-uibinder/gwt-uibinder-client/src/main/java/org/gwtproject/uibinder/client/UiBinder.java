@@ -16,25 +16,23 @@
 package org.gwtproject.uibinder.client;
 
 /**
- * Interface implemented by classes that generate DOM or Widget structures from
- * ui.xml template files, and which inject portions of the generated UI into the
- * fields of an owner.
- * <p>
- * The generated UiBinder implementation will be based on an xml file resource
- * in the same package as the owner class, with the same name and a "ui.xml"
- * suffix. For example, a UI owned by class {@code bar.baz.Foo} will be sought
- * in {@code /bar/baz/Foo.ui.xml}. (To use a different template file, put the
- * {@link UiTemplate} annotation on your UiBinder interface declaration to point
- * the code generator at it.)
+ * Interface implemented by classes that generate DOM or Widget structures from ui.xml template
+ * files, and which inject portions of the generated UI into the fields of an owner.
  *
- * @param <U> The type of the root object of the generated UI, typically a
- *          subclass of Element or UiObject
+ * <p>The generated UiBinder implementation will be based on an xml file resource in the same
+ * package as the owner class, with the same name and a "ui.xml" suffix. For example, a UI owned by
+ * class {@code bar.baz.Foo} will be sought in {@code /bar/baz/Foo.ui.xml}. (To use a different
+ * template file, put the {@link UiTemplate} annotation on your UiBinder interface declaration to
+ * point the code generator at it.)
+ *
+ * @param <U> The type of the root object of the generated UI, typically a subclass of Element or
+ *     UiObject
  * @param <O> The type of the object that will own the generated UI
  */
 public interface UiBinder<U, O> {
   /**
-   * Creates and returns the root object of the UI, and fills any fields of owner
-   * tagged with {@link UiField}.
+   * Creates and returns the root object of the UI, and fills any fields of owner tagged with {@link
+   * UiField}.
    *
    * @param owner the object whose {@literal @}UiField needs will be filled
    */

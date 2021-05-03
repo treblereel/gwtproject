@@ -15,9 +15,7 @@
  */
 package org.gwtproject.uibinder.processor.model;
 
-/**
- *
- */
+/** */
 public interface HasData<D extends Data> {
 
   void setData(D data);

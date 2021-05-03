@@ -15,41 +15,35 @@
  */
 package org.gwtproject.uibinder.processor.elementparsers;
 
+import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.TypeKind;
+import javax.lang.model.type.TypeMirror;
 import org.gwtproject.uibinder.processor.AptUtil;
 import org.gwtproject.uibinder.processor.UiBinderApiPackage;
 import org.gwtproject.uibinder.processor.UiBinderWriter;
 import org.gwtproject.uibinder.processor.XMLElement;
 import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
 
-import javax.lang.model.element.TypeElement;
-import javax.lang.model.type.TypeKind;
-import javax.lang.model.type.TypeMirror;
-
-/**
- * Parses DateLabel widgets.
- */
+/** Parses DateLabel widgets. */
 public class DateLabelParser implements ElementParser {
 
-  static final String AT_MOST_ONE_SPECIFIED_FORMAT
-      = "May have at most one of format, predefinedFormat and customFormat.";
-  static final String AT_MOST_ONE_SPECIFIED_TIME_ZONE
-      = "May have at most one of timezone and timezoneOffset.";
-  static final String NO_TIMEZONE_WITHOUT_SPECIFIED_FORMAT
-      = "May not specify a time zone if no format is given.";
+  static final String AT_MOST_ONE_SPECIFIED_FORMAT =
+      "May have at most one of format, predefinedFormat and customFormat.";
+  static final String AT_MOST_ONE_SPECIFIED_TIME_ZONE =
+      "May have at most one of timezone and timezoneOffset.";
+  static final String NO_TIMEZONE_WITHOUT_SPECIFIED_FORMAT =
+      "May not specify a time zone if no format is given.";
 
-  public void parse(XMLElement elem, String fieldName, TypeMirror type,
-      UiBinderWriter writer) throws UnableToCompleteException {
+  public void parse(XMLElement elem, String fieldName, TypeMirror type, UiBinderWriter writer)
+      throws UnableToCompleteException {
     boolean supportsTimeZone = hasDateTimeFormatAndTimeZoneConstructor(type);
-    if (hasDateTimeFormatConstructor(type)
-        || supportsTimeZone) {
+    if (hasDateTimeFormatConstructor(type) || supportsTimeZone) {
       String format = consumeFormat(elem, writer);
 
       if (format != null) {
-        String timeZone = (supportsTimeZone ? consumeTimeZone(elem, writer)
-            : null);
+        String timeZone = (supportsTimeZone ? consumeTimeZone(elem, writer) : null);
 
-        writer.setFieldInitializerAsConstructor(fieldName, makeArgs(
-            format, timeZone));
+        writer.setFieldInitializerAsConstructor(fieldName, makeArgs(format, timeZone));
       } else if (supportsTimeZone && hasTimeZone(elem)) {
         writer.die(elem, NO_TIMEZONE_WITHOUT_SPECIFIED_FORMAT);
       }
@@ -58,13 +52,19 @@ public class DateLabelParser implements ElementParser {
 
   private String consumeFormat(XMLElement elem, UiBinderWriter writer)
       throws UnableToCompleteException {
-    String format = elem.consumeAttribute("format",
-        AptUtil.getElementUtils()
-            .getTypeElement(UiBinderApiPackage.current().getI18nDateTimeFormatFqn()).asType());
-    String predefinedFormat = elem.consumeAttribute("predefinedFormat",
-        AptUtil.getElementUtils()
-            .getTypeElement(UiBinderApiPackage.current().getI18nDateTimeFormatPredefinedFormatFqn())
-            .asType());
+    String format =
+        elem.consumeAttribute(
+            "format",
+            AptUtil.getElementUtils()
+                .getTypeElement(UiBinderApiPackage.current().getI18nDateTimeFormatFqn())
+                .asType());
+    String predefinedFormat =
+        elem.consumeAttribute(
+            "predefinedFormat",
+            AptUtil.getElementUtils()
+                .getTypeElement(
+                    UiBinderApiPackage.current().getI18nDateTimeFormatPredefinedFormatFqn())
+                .asType());
     String customFormat = elem.consumeStringAttribute("customFormat");
 
     if (format != null) {
@@ -87,11 +87,13 @@ public class DateLabelParser implements ElementParser {
 
   private String consumeTimeZone(XMLElement elem, UiBinderWriter writer)
       throws UnableToCompleteException {
-    String timeZone = elem.consumeAttribute("timezone",
-        AptUtil.getElementUtils()
-            .getTypeElement(UiBinderApiPackage.current().getI18nTimeZoneFqn()).asType());
-    String timeZoneOffset = elem.consumeAttribute("timezoneOffset",
-        getIntType());
+    String timeZone =
+        elem.consumeAttribute(
+            "timezone",
+            AptUtil.getElementUtils()
+                .getTypeElement(UiBinderApiPackage.current().getI18nTimeZoneFqn())
+                .asType());
+    String timeZoneOffset = elem.consumeAttribute("timezoneOffset", getIntType());
     if (timeZone != null && timeZoneOffset != null) {
       writer.die(elem, AT_MOST_ONE_SPECIFIED_TIME_ZONE);
     }
@@ -99,8 +101,10 @@ public class DateLabelParser implements ElementParser {
       return timeZone;
     }
     if (timeZoneOffset != null) {
-      return UiBinderApiPackage.current().getI18nTimeZoneFqn() + ".createTimeZone("
-          + timeZoneOffset + ")";
+      return UiBinderApiPackage.current().getI18nTimeZoneFqn()
+          + ".createTimeZone("
+          + timeZoneOffset
+          + ")";
     }
     return null;
   }
@@ -110,17 +114,19 @@ public class DateLabelParser implements ElementParser {
   }
 
   private boolean hasDateTimeFormatAndTimeZoneConstructor(TypeMirror type) {
-    TypeElement dateTimeFormatType = AptUtil.getElementUtils()
-        .getTypeElement(UiBinderApiPackage.current().getI18nDateTimeFormatFqn());
-    TypeElement timeZoneType = AptUtil.getElementUtils()
-        .getTypeElement(UiBinderApiPackage.current().getI18nTimeZoneFqn());
-    return AptUtil
-        .hasCompatibleConstructor(type, dateTimeFormatType.asType(), timeZoneType.asType());
+    TypeElement dateTimeFormatType =
+        AptUtil.getElementUtils()
+            .getTypeElement(UiBinderApiPackage.current().getI18nDateTimeFormatFqn());
+    TypeElement timeZoneType =
+        AptUtil.getElementUtils().getTypeElement(UiBinderApiPackage.current().getI18nTimeZoneFqn());
+    return AptUtil.hasCompatibleConstructor(
+        type, dateTimeFormatType.asType(), timeZoneType.asType());
   }
 
   private boolean hasDateTimeFormatConstructor(TypeMirror type) {
-    TypeElement dateTimeFormatType = AptUtil.getElementUtils()
-        .getTypeElement(UiBinderApiPackage.current().getI18nDateTimeFormatFqn());
+    TypeElement dateTimeFormatType =
+        AptUtil.getElementUtils()
+            .getTypeElement(UiBinderApiPackage.current().getI18nDateTimeFormatFqn());
     return AptUtil.hasCompatibleConstructor(type, dateTimeFormatType.asType());
   }
 
@@ -130,13 +136,12 @@ public class DateLabelParser implements ElementParser {
 
   private String[] makeArgs(String format, String timeZone) {
     if (timeZone == null) {
-      return new String[]{format};
+      return new String[] {format};
     }
-    return new String[]{format, timeZone};
+    return new String[] {format, timeZone};
   }
 
   private String makeGetFormat(String format) {
-    return UiBinderApiPackage.current().getI18nDateTimeFormatFqn() + ".getFormat(" + format
-        + ")";
+    return UiBinderApiPackage.current().getI18nDateTimeFormatFqn() + ".getFormat(" + format + ")";
   }
 }

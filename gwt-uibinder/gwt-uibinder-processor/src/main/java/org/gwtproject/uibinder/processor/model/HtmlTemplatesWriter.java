@@ -15,21 +15,17 @@
  */
 package org.gwtproject.uibinder.processor.model;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import org.gwtproject.uibinder.processor.FieldManager;
 import org.gwtproject.uibinder.processor.IndentedWriter;
 import org.gwtproject.uibinder.processor.MortalLogger;
 import org.gwtproject.uibinder.processor.Tokenator;
 import org.gwtproject.uibinder.processor.UiBinderApiPackage;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-/**
- * Model class for SafeHtml templates used in generated UiBinder rendering implementation.
- */
-
+/** Model class for SafeHtml templates used in generated UiBinder rendering implementation. */
 public class HtmlTemplatesWriter {
 
   private final List<HtmlTemplateMethodWriter> htmlTemplates = new ArrayList<>();
@@ -46,8 +42,10 @@ public class HtmlTemplatesWriter {
   /**
    * Add a SafeHtml template and an instance method for invoking the template to the generated
    * BinderImpl class. These templates are declared at the beginning of the class and instantiated
-   * with a GWT.create(Template.class call. <p> Note that the UiBinder#tokenator is used to
-   * determine the arguments to the generated SafeHtml template.
+   * with a GWT.create(Template.class call.
+   *
+   * <p>Note that the UiBinder#tokenator is used to determine the arguments to the generated
+   * SafeHtml template.
    *
    * @return the object that models this template method
    */
@@ -94,11 +92,10 @@ public class HtmlTemplatesWriter {
     uriExpressions.add(expression);
   }
 
-  /**
-   * Write the SafeHtmlTemplates interface and its GWT.create() call.
-   */
+  /** Write the SafeHtmlTemplates interface and its GWT.create() call. */
   public void writeInterface(IndentedWriter w, String outerClassName) {
-    w.write("interface Template extends %s {",
+    w.write(
+        "interface Template extends %s {",
         UiBinderApiPackage.current().getSafeHtmlTemplatesInterfaceFqn());
     w.indent();
     for (HtmlTemplateMethodWriter t : htmlTemplates) {
@@ -108,10 +105,10 @@ public class HtmlTemplatesWriter {
     w.write("}");
     w.newline();
 
-
     if (UiBinderApiPackage.current().isGwtCreateSupported()) {
-      w.write("Template template = %s.create(Template.class);",
-              UiBinderApiPackage.current().getGWTFqn());
+      w.write(
+          "Template template = %s.create(Template.class);",
+          UiBinderApiPackage.current().getGWTFqn());
     } else {
       w.write("Template template = new %s_TemplateImpl();", outerClassName);
     }
@@ -135,9 +132,7 @@ public class HtmlTemplatesWriter {
     return logger;
   }
 
-  /**
-   * Increment the total number of templates.
-   */
+  /** Increment the total number of templates. */
   int nextTemplateId() {
     return htmlTemplates.size() + 1;
   }

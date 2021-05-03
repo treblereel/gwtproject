@@ -30,9 +30,7 @@ public class MonitoredLogger {
     this.logger = mortalLogger;
   }
 
-  /**
-   * Post an error. Sets the {@link #hasErrors} flag
-   */
+  /** Post an error. Sets the {@link #hasErrors} flag */
   public void error(String message, Object... params) {
     hasErrors = true;
     logger.getTreeLogger().log(Kind.ERROR, String.format(message, params));
@@ -43,9 +41,7 @@ public class MonitoredLogger {
     logger.logLocation(Kind.ERROR, context, String.format(message, params));
   }
 
-  /**
-   * Returns true if {@link #error} has ever been called.
-   */
+  /** Returns true if {@link #error} has ever been called. */
   public boolean hasErrors() {
     return hasErrors;
   }

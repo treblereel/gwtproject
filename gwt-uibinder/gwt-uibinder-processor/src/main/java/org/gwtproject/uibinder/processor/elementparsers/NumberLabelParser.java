@@ -15,34 +15,30 @@
  */
 package org.gwtproject.uibinder.processor.elementparsers;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.TypeMirror;
 import org.gwtproject.uibinder.processor.AptUtil;
 import org.gwtproject.uibinder.processor.UiBinderApiPackage;
 import org.gwtproject.uibinder.processor.UiBinderWriter;
 import org.gwtproject.uibinder.processor.XMLElement;
 import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.lang.model.element.TypeElement;
-import javax.lang.model.type.TypeMirror;
-
-/**
- * Parses DateLabel widgets.
- */
+/** Parses DateLabel widgets. */
 public class NumberLabelParser implements ElementParser {
 
-  static final String AT_MOST_ONE_SPECIFIED_FORMAT
-      = "May have only one of format, predefinedFormat and customFormat.";
-  static final String AT_MOST_ONE_SPECIFIED_CURRENCY
-      = "May have only one of currencyData and customCode.";
-  static final String NO_CURRENCY_WITH_FORMAT
-      = "May not specify both a NumberFormat and a currency code.";
-  static final String NO_CURRENCY_WITHOUT_SPECIFIED_FORMAT
-      = "May not specify a currency code if no format is given.";
-  static final String NO_CURRENCY_WITH_PREDEFINED_FORMAT
-      = "May not specify a currency code with a predefined format (except the CURRENCY format)";
+  static final String AT_MOST_ONE_SPECIFIED_FORMAT =
+      "May have only one of format, predefinedFormat and customFormat.";
+  static final String AT_MOST_ONE_SPECIFIED_CURRENCY =
+      "May have only one of currencyData and customCode.";
+  static final String NO_CURRENCY_WITH_FORMAT =
+      "May not specify both a NumberFormat and a currency code.";
+  static final String NO_CURRENCY_WITHOUT_SPECIFIED_FORMAT =
+      "May not specify a currency code if no format is given.";
+  static final String NO_CURRENCY_WITH_PREDEFINED_FORMAT =
+      "May not specify a currency code with a predefined format (except the CURRENCY format)";
   static final String UNKNOWN_PREDEFINED_FORMAT = "Unknown predefined format: %s";
 
   private static final Map<String, String> predefinedFormats;
@@ -57,8 +53,8 @@ public class NumberLabelParser implements ElementParser {
     predefinedFormats = Collections.unmodifiableMap(formats);
   }
 
-  public void parse(XMLElement elem, String fieldName, TypeMirror type,
-      UiBinderWriter writer) throws UnableToCompleteException {
+  public void parse(XMLElement elem, String fieldName, TypeMirror type, UiBinderWriter writer)
+      throws UnableToCompleteException {
     if (hasNumberFormatConstructor(type)) {
       String format = consumeFormat(elem, writer);
 
@@ -70,9 +66,12 @@ public class NumberLabelParser implements ElementParser {
 
   private String consumeCurrency(XMLElement elem, UiBinderWriter writer)
       throws UnableToCompleteException {
-    String currencyData = elem.consumeAttribute("currencyData",
-        AptUtil.getElementUtils().getTypeElement(
-            UiBinderApiPackage.current().getI18nCurrencyDataFqn()).asType());
+    String currencyData =
+        elem.consumeAttribute(
+            "currencyData",
+            AptUtil.getElementUtils()
+                .getTypeElement(UiBinderApiPackage.current().getI18nCurrencyDataFqn())
+                .asType());
     String currencyCode = elem.consumeStringAttribute("currencyCode");
 
     if (currencyData != null && currencyCode != null) {
@@ -83,9 +82,12 @@ public class NumberLabelParser implements ElementParser {
 
   private String consumeFormat(XMLElement elem, UiBinderWriter writer)
       throws UnableToCompleteException {
-    String format = elem.consumeAttribute("format",
-        AptUtil.getElementUtils().getTypeElement(
-            UiBinderApiPackage.current().getI18nNumberFormatFqn()).asType());
+    String format =
+        elem.consumeAttribute(
+            "format",
+            AptUtil.getElementUtils()
+                .getTypeElement(UiBinderApiPackage.current().getI18nNumberFormatFqn())
+                .asType());
     String predefinedFormat = elem.consumeRawAttribute("predefinedFormat");
     String customFormat = elem.consumeStringAttribute("customFormat");
 
@@ -104,8 +106,10 @@ public class NumberLabelParser implements ElementParser {
       }
       if ("CURRENCY".equals(predefinedFormat)) {
         String currency = consumeCurrency(elem, writer);
-        return UiBinderApiPackage.current().getI18nNumberFormatFqn() + ".getCurrencyFormat("
-            + (currency != null ? currency : "") + ")";
+        return UiBinderApiPackage.current().getI18nNumberFormatFqn()
+            + ".getCurrencyFormat("
+            + (currency != null ? currency : "")
+            + ")";
       }
       if (hasCurrency(elem)) {
         writer.die(elem, NO_CURRENCY_WITH_PREDEFINED_FORMAT);
@@ -118,8 +122,11 @@ public class NumberLabelParser implements ElementParser {
     }
     if (customFormat != null) {
       String currency = consumeCurrency(elem, writer);
-      return UiBinderApiPackage.current().getI18nNumberFormatFqn() + ".getFormat(" + customFormat
-          + (currency != null ? ", " + currency : "") + ")";
+      return UiBinderApiPackage.current().getI18nNumberFormatFqn()
+          + ".getFormat("
+          + customFormat
+          + (currency != null ? ", " + currency : "")
+          + ")";
     }
     if (hasCurrency(elem)) {
       writer.die(elem, NO_CURRENCY_WITHOUT_SPECIFIED_FORMAT);
@@ -128,13 +135,13 @@ public class NumberLabelParser implements ElementParser {
   }
 
   private boolean hasCurrency(XMLElement elem) {
-    return elem.hasAttribute("currencyData")
-        || elem.hasAttribute("currencyCode");
+    return elem.hasAttribute("currencyData") || elem.hasAttribute("currencyCode");
   }
 
   private boolean hasNumberFormatConstructor(TypeMirror type) {
-    TypeElement numberFormatType = AptUtil.getElementUtils()
-        .getTypeElement(UiBinderApiPackage.current().getI18nNumberFormatFqn());
-    return AptUtil.findConstructor(type, new TypeMirror[]{numberFormatType.asType()}) != null;
+    TypeElement numberFormatType =
+        AptUtil.getElementUtils()
+            .getTypeElement(UiBinderApiPackage.current().getI18nNumberFormatFqn());
+    return AptUtil.findConstructor(type, new TypeMirror[] {numberFormatType.asType()}) != null;
   }
 }

@@ -15,13 +15,12 @@
  */
 package org.gwtproject.uibinder.processor.elementparsers;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.gwtproject.uibinder.processor.UiBinderWriter;
 import org.gwtproject.uibinder.processor.XMLAttribute;
 import org.gwtproject.uibinder.processor.XMLElement;
 import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Assigns computed values to element attributes, e.g. styleName={resources.style.pretty}, which
@@ -32,16 +31,14 @@ class ComputedAttributeInterpreter implements XMLElement.Interpreter<String> {
 
   interface Delegate {
 
-    String getAttributeToken(XMLAttribute attribute)
-        throws UnableToCompleteException;
+    String getAttributeToken(XMLAttribute attribute) throws UnableToCompleteException;
   }
 
   class DefaultDelegate implements Delegate {
 
-    public String getAttributeToken(XMLAttribute attribute)
-        throws UnableToCompleteException {
-      return writer
-          .tokenForStringExpression(attribute.getElement(), attribute.consumeStringValue());
+    public String getAttributeToken(XMLAttribute attribute) throws UnableToCompleteException {
+      return writer.tokenForStringExpression(
+          attribute.getElement(), attribute.consumeStringValue());
     }
   }
 
@@ -58,8 +55,7 @@ class ComputedAttributeInterpreter implements XMLElement.Interpreter<String> {
     this.writer = writer;
   }
 
-  public String interpretElement(XMLElement elem)
-      throws UnableToCompleteException {
+  public String interpretElement(XMLElement elem) throws UnableToCompleteException {
     Map<String, String> attNameToToken = new HashMap<String, String>();
 
     for (int i = elem.getAttributeCount() - 1; i >= 0; i--) {

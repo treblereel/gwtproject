@@ -15,29 +15,24 @@
  */
 package org.gwtproject.uibinder.processor.elementparsers;
 
+import javax.lang.model.type.TypeMirror;
 import org.gwtproject.uibinder.processor.UiBinderWriter;
 import org.gwtproject.uibinder.processor.XMLElement;
 import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
 
-import javax.lang.model.type.TypeMirror;
-
-/**
- * Parses widgets that implement HasHTML.
- */
+/** Parses widgets that implement HasHTML. */
 public class HasHTMLParser implements ElementParser {
 
-  public void parse(XMLElement elem, String fieldName, TypeMirror type,
-      UiBinderWriter writer) throws UnableToCompleteException {
+  public void parse(XMLElement elem, String fieldName, TypeMirror type, UiBinderWriter writer)
+      throws UnableToCompleteException {
 
-    HtmlInterpreter interpreter =
-        HtmlInterpreter.newInterpreterForUiObject(writer, fieldName);
+    HtmlInterpreter interpreter = HtmlInterpreter.newInterpreterForUiObject(writer, fieldName);
     writer.beginAttachedSection(fieldName + ".getElement()");
     String html = elem.consumeInnerHtml(interpreter);
     writer.endAttachedSection();
     // TODO(jgw): throw an error if there's a conflicting 'html' attribute.
     if (html.trim().length() > 0) {
-      writer.genPropertySet(fieldName, "HTML", writer.declareTemplateCall(html,
-          fieldName));
+      writer.genPropertySet(fieldName, "HTML", writer.declareTemplateCall(html, fieldName));
     }
   }
 }

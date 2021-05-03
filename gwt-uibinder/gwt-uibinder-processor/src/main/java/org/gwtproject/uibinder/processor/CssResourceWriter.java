@@ -17,23 +17,18 @@ package org.gwtproject.uibinder.processor;
 
 import static org.gwtproject.uibinder.processor.AptUtil.asQualifiedNameable;
 
+import com.google.gwt.resources.client.CssResource;
+import java.io.PrintWriter;
+import java.util.Map;
+import java.util.Set;
+import javax.lang.model.element.ExecutableElement;
+import javax.lang.model.type.TypeMirror;
+import javax.lang.model.util.Elements;
 import org.gwtproject.uibinder.processor.attributeparsers.CssNameConverter;
 import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
 import org.gwtproject.uibinder.processor.model.ImplicitCssResource;
 
-import com.google.gwt.resources.client.CssResource;
-
-import java.io.PrintWriter;
-import java.util.Map;
-import java.util.Set;
-
-import javax.lang.model.element.ExecutableElement;
-import javax.lang.model.type.TypeMirror;
-import javax.lang.model.util.Elements;
-
-/**
- * Writes the source to implement an {@link ImplicitCssResource} interface.
- */
+/** Writes the source to implement an {@link ImplicitCssResource} interface. */
 public class CssResourceWriter {
 
   private static final TypeMirror[] NO_PARAMS = new TypeMirror[0];
@@ -67,13 +62,13 @@ public class CssResourceWriter {
       superType = cssResourceType;
     }
 
-    writer
-        .write("import %s;", asQualifiedNameable(superType).getQualifiedName().toString());
+    writer.write("import %s;", asQualifiedNameable(superType).getQualifiedName().toString());
     writer.newline();
 
     // Open interface
-    writer.write("public interface %s extends %s {", css.getClassName(),
-        asQualifiedNameable(superType).getSimpleName().toString());
+    writer.write(
+        "public interface %s extends %s {",
+        css.getClassName(), asQualifiedNameable(superType).getSimpleName().toString());
     writer.indent();
 
     writeCssMethods(superType);
@@ -91,8 +86,7 @@ public class CssResourceWriter {
     return false;
   }
 
-  private void writeCssMethods(TypeMirror superType)
-      throws UnableToCompleteException {
+  private void writeCssMethods(TypeMirror superType) throws UnableToCompleteException {
     Set<String> rawClassNames = css.getCssClassNames();
     Map<String, String> convertedClassNames = null;
 

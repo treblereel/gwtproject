@@ -15,19 +15,15 @@
  */
 package org.gwtproject.uibinder.processor.elementparsers;
 
+import java.util.HashMap;
+import javax.lang.model.type.TypeMirror;
 import org.gwtproject.uibinder.processor.FieldWriter;
 import org.gwtproject.uibinder.processor.UiBinderApiPackage;
 import org.gwtproject.uibinder.processor.UiBinderWriter;
 import org.gwtproject.uibinder.processor.XMLElement;
 import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
 
-import java.util.HashMap;
-
-import javax.lang.model.type.TypeMirror;
-
-/**
- * Parses DockPanel widgets.
- */
+/** Parses DockPanel widgets. */
 public class DockPanelParser implements ElementParser {
 
   private static final String TAG_DOCK = "Dock";
@@ -44,8 +40,8 @@ public class DockPanelParser implements ElementParser {
     values.put("LINE_END", dockPanelFqn + ".LINE_END");
   }
 
-  public void parse(XMLElement elem, String fieldName, TypeMirror type,
-      UiBinderWriter writer) throws UnableToCompleteException {
+  public void parse(XMLElement elem, String fieldName, TypeMirror type, UiBinderWriter writer)
+      throws UnableToCompleteException {
     // Parse children.
     for (XMLElement child : elem.consumeChildElements()) {
       // DockPanel can only contain Dock elements.
@@ -72,8 +68,8 @@ public class DockPanelParser implements ElementParser {
       // And they can only have a single child widget.
       XMLElement widget = child.consumeSingleChildElement();
       FieldWriter childField = writer.parseElementToField(widget);
-      writer.addStatement("%1$s.add(%2$s, %3$s);", fieldName,
-          childField.getNextReference(), translated);
+      writer.addStatement(
+          "%1$s.add(%2$s, %3$s);", fieldName, childField.getNextReference(), translated);
 
       // Parse the CellPanel-specific attributes on the Dock element.
       CellPanelParser.parseCellAttributes(child, fieldName, childField, writer);

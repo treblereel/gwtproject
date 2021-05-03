@@ -15,9 +15,7 @@
  */
 package org.gwtproject.uibinder.processor.model;
 
-/**
- *
- */
+/** */
 public class ParentClass {
   private String text;
   private Number number;
@@ -25,7 +23,6 @@ public class ParentClass {
   public void setText(String text) {
     this.text = text;
   }
-
 
   public void setNumber(final Number number) {
     this.number = number;
@@ -35,6 +32,5 @@ public class ParentClass {
     this.number = number;
   }
 
-  public void setData(String arg1, String arg2) {
-  }
+  public void setData(String arg1, String arg2) {}
 }

@@ -17,21 +17,17 @@ package org.gwtproject.uibinder.processor;
 
 import static org.gwtproject.uibinder.processor.AptUtil.asQualifiedNameable;
 
+import java.util.Collection;
+import java.util.Set;
+import javax.lang.model.type.TypeMirror;
+import javax.lang.model.util.Elements;
 import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
 import org.gwtproject.uibinder.processor.model.ImplicitClientBundle;
 import org.gwtproject.uibinder.processor.model.ImplicitCssResource;
 import org.gwtproject.uibinder.processor.model.ImplicitDataResource;
 import org.gwtproject.uibinder.processor.model.ImplicitImageResource;
 
-import java.util.Collection;
-import java.util.Set;
-
-import javax.lang.model.type.TypeMirror;
-import javax.lang.model.util.Elements;
-
-/**
- * Writes source implementing an {@link ImplicitClientBundle}.
- */
+/** Writes source implementing an {@link ImplicitClientBundle}. */
 public class BundleWriter {
 
   private final ImplicitClientBundle bundleClass;
@@ -50,11 +46,10 @@ public class BundleWriter {
   private final TypeMirror importAnnotationType;
   private TypeMirror resourceAnnotationType;
 
-  public BundleWriter(ImplicitClientBundle bundleClass, PrintWriterManager writerManager,
-      MortalLogger logger) {
+  public BundleWriter(
+      ImplicitClientBundle bundleClass, PrintWriterManager writerManager, MortalLogger logger) {
     this.bundleClass = bundleClass;
-    this.writer = new IndentedWriter(
-        writerManager.makePrintWriterFor(bundleClass.getClassName()));
+    this.writer = new IndentedWriter(writerManager.makePrintWriterFor(bundleClass.getClassName()));
     this.writerManager = writerManager;
     this.logger = logger;
     Elements elementUtils = AptUtil.getElementUtils();
@@ -69,7 +64,8 @@ public class BundleWriter {
     repeatStyleType = elementUtils.getTypeElement(api.getImageResourceRepeatStyleFqn()).asType();
     importAnnotationType = elementUtils.getTypeElement(api.getCssResourceImportFqn()).asType();
     if (!api.isGwtCreateSupported()) {
-      resourceAnnotationType = elementUtils.getTypeElement(api.getResourceAnnotationImportFqn()).asType();
+      resourceAnnotationType =
+          elementUtils.getTypeElement(api.getResourceAnnotationImportFqn()).asType();
     }
   }
 
@@ -97,21 +93,17 @@ public class BundleWriter {
     writer.write("import %s;", asQualifiedNameable(imageResourceType).getQualifiedName());
     writer.write("import %s;", asQualifiedNameable(imageOptionType).getQualifiedName());
     writer.write("import %s;", asQualifiedNameable(importAnnotationType).getQualifiedName());
-    if (UiBinderApiPackage.current()
-            .equals(UiBinderApiPackage.ORG_GWTPROJECT_UIBINDER)) {
+    if (UiBinderApiPackage.current().equals(UiBinderApiPackage.ORG_GWTPROJECT_UIBINDER)) {
       writer.write("import %s;", asQualifiedNameable(resourceAnnotationType).getQualifiedName());
     }
     writer.newline();
 
-
-    if (UiBinderApiPackage.current()
-            .equals(UiBinderApiPackage.ORG_GWTPROJECT_UIBINDER)) {
+    if (UiBinderApiPackage.current().equals(UiBinderApiPackage.ORG_GWTPROJECT_UIBINDER)) {
       // Add @Resource annotation,
       writer.write("@Resource");
     }
     // Open interface
-    writer.write("public interface %s extends ClientBundle {",
-        bundleClass.getClassName());
+    writer.write("public interface %s extends ClientBundle {", bundleClass.getClassName());
     writer.indent();
 
     // Write css methods
@@ -134,8 +126,8 @@ public class BundleWriter {
         writer.write("@MimeType(\"%s\")", data.getMimeType());
         writer.newline();
       }
-      writer
-          .write("%s %s();", asQualifiedNameable(dataResourceType).getSimpleName(), data.getName());
+      writer.write(
+          "%s %s();", asQualifiedNameable(dataResourceType).getSimpleName(), data.getName());
       writer.newline();
     }
 
@@ -151,7 +143,8 @@ public class BundleWriter {
     int numImports = importTypes.size();
     if (numImports > 0) {
       if (numImports == 1) {
-        writer.write("@Import(%s.class)",
+        writer.write(
+            "@Import(%s.class)",
             asQualifiedNameable(importTypes.iterator().next()).getQualifiedName());
       } else {
         StringBuffer b = new StringBuffer();
@@ -189,8 +182,8 @@ public class BundleWriter {
       }
 
       writeImageOptionsAnnotation(image.getFlipRtl(), image.getRepeatStyle());
-      writer.write("%s %s();", asQualifiedNameable(imageResourceType).getSimpleName(),
-          image.getName());
+      writer.write(
+          "%s %s();", asQualifiedNameable(imageResourceType).getSimpleName(), image.getName());
     }
   }
 
@@ -205,8 +198,9 @@ public class BundleWriter {
       }
       if (repeatStyle != null) {
         b.append(
-            String.format("repeatStyle=%s.%s", asQualifiedNameable(repeatStyleType).getSimpleName(),
-                repeatStyle.toString()));
+            String.format(
+                "repeatStyle=%s.%s",
+                asQualifiedNameable(repeatStyleType).getSimpleName(), repeatStyle.toString()));
       }
       b.append(")");
       writer.write(b.toString());

@@ -21,33 +21,28 @@ import org.gwtproject.dom.client.Node;
 import org.gwtproject.dom.client.Style.Display;
 import org.gwtproject.safehtml.shared.annotations.IsSafeHtml;
 
-
 /**
- * Static helper methods used by UiBinder. These methods are likely to move,
- * so please don't use them for non-UiBinder code.
+ * Static helper methods used by UiBinder. These methods are likely to move, so please don't use
+ * them for non-UiBinder code.
  */
 public class UiBinderUtil {
 
   /**
-   * Temporary attachment record that keeps track of where an element was
-   * before attachment.  Use the detach method to put things back.
-   *
+   * Temporary attachment record that keeps track of where an element was before attachment. Use the
+   * detach method to put things back.
    */
   public static class TempAttachment {
     private final Element element;
     private final Element origParent;
     private final Element origSibling;
 
-    private TempAttachment(Element origParent, Element origSibling,
-        Element element) {
+    private TempAttachment(Element origParent, Element origSibling, Element element) {
       this.origParent = origParent;
       this.origSibling = origSibling;
       this.element = element;
     }
 
-    /**
-     * Restore to previous DOM state before attachment.
-     */
+    /** Restore to previous DOM state before attachment. */
     public void detach() {
       // Put the panel's element back where it was.
       if (origParent != null) {
@@ -61,11 +56,10 @@ public class UiBinderUtil {
   private static Element hiddenDiv;
 
   /**
-   * Attaches the element to the dom temporarily.  Keeps track of where it is
-   * attached so that things can be put back latter.
+   * Attaches the element to the dom temporarily. Keeps track of where it is attached so that things
+   * can be put back latter.
    *
-   * @return attachment record which can be used for reverting back to previous
-   *         DOM state
+   * @return attachment record which can be used for reverting back to previous DOM state
    */
   public static TempAttachment attachToDom(Element element) {
     // TODO(rjrjr) This is copied from HTMLPanel. Reconcile
@@ -103,8 +97,6 @@ public class UiBinderUtil {
     node.getParentNode().removeChild(node);
   }
 
-  /**
-   * Not to be instantiated.
-   */
-  private UiBinderUtil() { }
+  /** Not to be instantiated. */
+  private UiBinderUtil() {}
 }

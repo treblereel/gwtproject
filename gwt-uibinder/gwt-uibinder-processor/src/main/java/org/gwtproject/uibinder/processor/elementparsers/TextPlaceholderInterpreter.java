@@ -29,14 +29,12 @@ import org.gwtproject.uibinder.processor.messages.PlaceholderInterpreter;
  */
 public final class TextPlaceholderInterpreter extends PlaceholderInterpreter {
 
-  public TextPlaceholderInterpreter(UiBinderWriter writer,
-      MessageWriter message) {
+  public TextPlaceholderInterpreter(UiBinderWriter writer, MessageWriter message) {
     super(writer, message);
   }
 
   @Override
-  protected String consumePlaceholderInnards(XMLElement elem)
-      throws UnableToCompleteException {
+  protected String consumePlaceholderInnards(XMLElement elem) throws UnableToCompleteException {
     return elem.consumeInnerTextEscapedAsHtmlStringLiteral(new NullInterpreter<>());
   }
 }

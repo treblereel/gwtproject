@@ -15,27 +15,21 @@
  */
 package org.gwtproject.uibinder.processor.elementparsers;
 
+import javax.lang.model.type.TypeMirror;
 import org.gwtproject.uibinder.processor.FieldWriter;
 import org.gwtproject.uibinder.processor.UiBinderApiPackage;
 import org.gwtproject.uibinder.processor.UiBinderWriter;
 import org.gwtproject.uibinder.processor.XMLElement;
 import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
 
-import javax.lang.model.type.TypeMirror;
-
-/**
- * Parses LazyPanel widgets.
- */
+/** Parses LazyPanel widgets. */
 public class LazyPanelParser implements ElementParser {
 
-  private static final String INITIALIZER_FORMAT = "new %s() {\n"
-      + "  protected %s createWidget() {\n"
-      + "    return %s;\n"
-      + "  }\n"
-      + "}";
+  private static final String INITIALIZER_FORMAT =
+      "new %s() {\n" + "  protected %s createWidget() {\n" + "    return %s;\n" + "  }\n" + "}";
 
-  public void parse(XMLElement elem, String fieldName, TypeMirror type,
-      UiBinderWriter writer) throws UnableToCompleteException {
+  public void parse(XMLElement elem, String fieldName, TypeMirror type, UiBinderWriter writer)
+      throws UnableToCompleteException {
 
     if (writer.getOwnerClass().getUiField(fieldName).isProvided()) {
       return;
@@ -55,8 +49,9 @@ public class LazyPanelParser implements ElementParser {
     String lazyPanelClassPath = UiBinderApiPackage.current().getLazyPanelFqn();
     String widgetClassPath = UiBinderApiPackage.current().getWidgetFqn();
 
-    String code = String.format(INITIALIZER_FORMAT, lazyPanelClassPath,
-        widgetClassPath, childField.getNextReference());
+    String code =
+        String.format(
+            INITIALIZER_FORMAT, lazyPanelClassPath, widgetClassPath, childField.getNextReference());
     writer.setFieldInitializer(fieldName, code);
   }
 }

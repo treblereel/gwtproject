@@ -15,14 +15,12 @@
  */
 package org.gwtproject.uibinder.processor;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+import javax.tools.Diagnostic.Kind;
 import org.gwtproject.uibinder.processor.XMLElement.Location;
 import org.gwtproject.uibinder.processor.ext.MyTreeLogger;
 import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-
-import javax.tools.Diagnostic.Kind;
 
 /**
  * Wraps a {@link MyTreeLogger} with handy {@link String#format} style methods and can be told to
@@ -54,8 +52,13 @@ public class MortalLogger {
         }
       }
       // Log in a way that usually triggers IDE hyperlinks
-      return ": " + context.toString() + " (" + displayFileName + ":"
-          + location.getLineNumber() + ")";
+      return ": "
+          + context.toString()
+          + " ("
+          + displayFileName
+          + ":"
+          + location.getLineNumber()
+          + ")";
     } else {
       /*
        * This shouldn't occur unless the XMLElement came from a DOM Node created
@@ -82,9 +85,7 @@ public class MortalLogger {
     throw new UnableToCompleteException();
   }
 
-  /**
-   * Returns instance of TreeLoggerAdapter.
-   */
+  /** Returns instance of TreeLoggerAdapter. */
   public final MyTreeLogger getTreeLogger() {
     return logger;
   }
@@ -94,16 +95,12 @@ public class MortalLogger {
     logger.log(kind, message);
   }
 
-  /**
-   * Post a warning message.
-   */
+  /** Post a warning message. */
   public void warn(String message, Object... params) {
     warn(null, message, params);
   }
 
-  /**
-   * Post a warning message related to a specific XMLElement.
-   */
+  /** Post a warning message related to a specific XMLElement. */
   public void warn(XMLElement context, String message, Object... params) {
     logLocation(Kind.WARNING, context, String.format(message, params));
   }

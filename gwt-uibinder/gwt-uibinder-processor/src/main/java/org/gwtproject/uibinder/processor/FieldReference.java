@@ -17,7 +17,6 @@ package org.gwtproject.uibinder.processor;
 
 import java.util.Arrays;
 import java.util.LinkedHashSet;
-
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeMirror;
 
@@ -29,13 +28,9 @@ public class FieldReference {
 
   private static class LeftHand {
 
-    /**
-     * The type of values acceptible to this LHS, in order of preference.
-     */
+    /** The type of values acceptible to this LHS, in order of preference. */
     private final TypeMirror[] types;
-    /**
-     * The element on the LHS, for error reporting.
-     */
+    /** The element on the LHS, for error reporting. */
     private final XMLElement source;
 
     LeftHand(XMLElement source, TypeMirror... types) {
@@ -126,9 +121,7 @@ public class FieldReference {
     }
   }
 
-  /**
-   * Returns a failure message if the types don't mesh, or null on success.
-   */
+  /** Returns a failure message if the types don't mesh, or null on success. */
   private void ensureAssignable(LeftHand left, TypeMirror rightHandType, MonitoredLogger logger) {
     assert left.types.length > 0;
 
@@ -172,12 +165,16 @@ public class FieldReference {
      * Every possible left hand type had some kind of failure. Log this sad
      * fact, which will halt processing.
      */
-    logger.error(left.source, "%s required, but %s returns %s", renderTypesList(left.types),
-        FieldReference.this, AptUtil.asTypeElement(rightHandType).getQualifiedName().toString());
+    logger.error(
+        left.source,
+        "%s required, but %s returns %s",
+        renderTypesList(left.types),
+        FieldReference.this,
+        AptUtil.asTypeElement(rightHandType).getQualifiedName().toString());
   }
 
-  private boolean handleMismatchedNonNumericPrimitives(TypeMirror leftType,
-      TypeMirror rightHandType, boolean[] explicitFailure) {
+  private boolean handleMismatchedNonNumericPrimitives(
+      TypeMirror leftType, TypeMirror rightHandType, boolean[] explicitFailure) {
 
     boolean leftPrimitive = leftType.getKind().isPrimitive();
     boolean rightPrimitive = rightHandType.getKind().isPrimitive();
@@ -188,15 +185,17 @@ public class FieldReference {
 
     if (leftPrimitive) {
 
-      TypeElement autobox = AptUtil.getTypeUtils()
-          .boxedClass(AptUtil.getTypeUtils().getPrimitiveType(leftType.getKind()));
+      TypeElement autobox =
+          AptUtil.getTypeUtils()
+              .boxedClass(AptUtil.getTypeUtils().getPrimitiveType(leftType.getKind()));
 
       if (rightHandType != autobox) {
         explicitFailure[0] = true;
       }
     } else { // rightPrimitive != null
-      TypeElement autobox = AptUtil.getTypeUtils()
-          .boxedClass(AptUtil.getTypeUtils().getPrimitiveType(rightHandType.getKind()));
+      TypeElement autobox =
+          AptUtil.getTypeUtils()
+              .boxedClass(AptUtil.getTypeUtils().getPrimitiveType(rightHandType.getKind()));
       if (leftType != autobox) {
         explicitFailure[0] = true;
       }
@@ -206,8 +205,8 @@ public class FieldReference {
   }
 
   private boolean isNumber(TypeMirror type) {
-    TypeElement numberType = AptUtil.getElementUtils()
-        .getTypeElement(Number.class.getCanonicalName());
+    TypeElement numberType =
+        AptUtil.getElementUtils().getTypeElement(Number.class.getCanonicalName());
 
     TypeElement asElement = AptUtil.asTypeElement(type);
     if (asElement != null) {
@@ -216,8 +215,9 @@ public class FieldReference {
 
     boolean isPrimitive = type.getKind().isPrimitive();
     if (isPrimitive) {
-      TypeElement autoboxed = AptUtil.getTypeUtils()
-          .boxedClass(AptUtil.getTypeUtils().getPrimitiveType(type.getKind()));
+      TypeElement autoboxed =
+          AptUtil.getTypeUtils()
+              .boxedClass(AptUtil.getTypeUtils().getPrimitiveType(type.getKind()));
 
       return AptUtil.isAssignableFrom(numberType, autoboxed);
     }
@@ -230,7 +230,8 @@ public class FieldReference {
      * int i = (int) 1.0 is okay Integer i = (int) 1.0 is okay int i = (int)
      * Double.valueOf(1.0) is not
      */
-    if (isNumber(leftHandType) && isNumber(rightHandType) //
+    if (isNumber(leftHandType)
+        && isNumber(rightHandType) //
         && !rightHandType.getKind().isPrimitive()) {
       return true; // They will be cast into submission
     }

@@ -15,19 +15,16 @@
  */
 package org.gwtproject.uibinder.processor.attributeparsers;
 
+import javax.lang.model.type.TypeMirror;
 import org.gwtproject.uibinder.processor.MortalLogger;
 import org.gwtproject.uibinder.processor.XMLElement;
 import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
 
-import javax.lang.model.type.TypeMirror;
-
-/**
- * Parses a single boolean attribute.
- */
+/** Parses a single boolean attribute. */
 class BooleanAttributeParser extends StrictAttributeParser {
 
-  BooleanAttributeParser(FieldReferenceConverter converter,
-      TypeMirror booleanType, MortalLogger logger) {
+  BooleanAttributeParser(
+      FieldReferenceConverter converter, TypeMirror booleanType, MortalLogger logger) {
     super(converter, logger, booleanType);
   }
 

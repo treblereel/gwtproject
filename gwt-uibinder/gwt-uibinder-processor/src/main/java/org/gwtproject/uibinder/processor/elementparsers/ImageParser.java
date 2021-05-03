@@ -15,15 +15,14 @@
  */
 package org.gwtproject.uibinder.processor.elementparsers;
 
+import javax.lang.model.element.ExecutableElement;
+import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.TypeMirror;
 import org.gwtproject.uibinder.processor.AptUtil;
 import org.gwtproject.uibinder.processor.UiBinderApiPackage;
 import org.gwtproject.uibinder.processor.UiBinderWriter;
 import org.gwtproject.uibinder.processor.XMLElement;
 import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
-
-import javax.lang.model.element.ExecutableElement;
-import javax.lang.model.element.TypeElement;
-import javax.lang.model.type.TypeMirror;
 
 /**
  * Custom parsing of Image widgets. Sets ImageResource via constructor, because Image.setResource
@@ -31,8 +30,8 @@ import javax.lang.model.type.TypeMirror;
  */
 public class ImageParser implements ElementParser {
 
-  public void parse(XMLElement elem, String fieldName, TypeMirror type,
-      UiBinderWriter writer) throws UnableToCompleteException {
+  public void parse(XMLElement elem, String fieldName, TypeMirror type, UiBinderWriter writer)
+      throws UnableToCompleteException {
     if (hasImageResourceConstructor(type)) {
       String resource = elem.consumeImageResourceAttribute("resource");
       if (null != resource) {
@@ -42,10 +41,11 @@ public class ImageParser implements ElementParser {
   }
 
   private boolean hasImageResourceConstructor(TypeMirror type) {
-    TypeElement imageResourceType = AptUtil.getElementUtils()
-        .getTypeElement(UiBinderApiPackage.current().getImageResourceFqn());
-    ExecutableElement constructor = AptUtil
-        .findConstructor(type, new TypeMirror[]{imageResourceType.asType()});
+    TypeElement imageResourceType =
+        AptUtil.getElementUtils()
+            .getTypeElement(UiBinderApiPackage.current().getImageResourceFqn());
+    ExecutableElement constructor =
+        AptUtil.findConstructor(type, new TypeMirror[] {imageResourceType.asType()});
     return constructor != null;
   }
 }

@@ -15,45 +15,38 @@
  */
 package org.gwtproject.uibinder.processor.attributeparsers;
 
-import org.gwtproject.uibinder.processor.FieldManager;
-import org.gwtproject.uibinder.processor.XMLElement;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import javax.lang.model.type.TypeMirror;
+import org.gwtproject.uibinder.processor.FieldManager;
+import org.gwtproject.uibinder.processor.XMLElement;
 
 /**
  * Deals with field references, e.g. the bits in braces here: <code>&lt;div class="{style.enabled}
  * fancy {style.impressive}" /></code>, by converting them to java expressions (with the help of a
  * {@link FieldReferenceConverter.Delegate Delegate}).
  *
- * <p>A field reference is one or more segments separated by dots. The first
- * segment is considered to be a reference to a ui field, and succeeding segments are method calls.
- * So, <code>"{able.baker.charlie}"</code> becomes
- * <code>"able.baker().charlie()"</code>.
+ * <p>A field reference is one or more segments separated by dots. The first segment is considered
+ * to be a reference to a ui field, and succeeding segments are method calls. So, <code>
+ * "{able.baker.charlie}"</code> becomes <code>"able.baker().charlie()"</code>.
  *
- * <p>A field reference starts with '{' and is followed immediately by a character
- * that can legally start a java identifier&mdash;that is a letter, $, or underscore. Braces not
- * followed by such a character are left in place.
+ * <p>A field reference starts with '{' and is followed immediately by a character that can legally
+ * start a java identifier&mdash;that is a letter, $, or underscore. Braces not followed by such a
+ * character are left in place.
  *
- * <p>For convenience when dealing with generated CssResources, field segments with
- * dashes are converted to camel case. That is, {able.baker-charlie} is the same as
- * {able.bakerCharlie}
+ * <p>For convenience when dealing with generated CssResources, field segments with dashes are
+ * converted to camel case. That is, {able.baker-charlie} is the same as {able.bakerCharlie}
  *
- * <p>Double mustaches (i.e. "{{..}}") are not matched as references to play well
- * with modern templating systems.
+ * <p>Double mustaches (i.e. "{{..}}") are not matched as references to play well with modern
+ * templating systems.
  *
- * <p>Opening braces may be escape by slash. That is, "\{foo}" will converted to
- * "{foo}", with no field reference detected.
+ * <p>Opening braces may be escape by slash. That is, "\{foo}" will converted to "{foo}", with no
+ * field reference detected.
  */
 public class FieldReferenceConverter {
-  /**
-   * May be thrown by the Delegate for badly formatted input.
-   */
+  /** May be thrown by the Delegate for badly formatted input. */
   @SuppressWarnings("serial")
-  public static class IllegalFieldReferenceException extends RuntimeException {
-  }
+  public static class IllegalFieldReferenceException extends RuntimeException {}
 
   /**
    * Responsible for the bits around and between the field references. May throw
@@ -62,19 +55,19 @@ public class FieldReferenceConverter {
   interface Delegate {
     /**
      * Returns the types any parsed field references are expected to return. Multiple values
-     * indicates an overload. E.g., in <a href={...}> either a String or a SafeUri is allowed.
+     * indicates an overload. E.g., in <a href={...}>either a String or a SafeUri is allowed.
      */
     TypeMirror[] getTypes();
 
     /**
      * Called for fragment around and between field references.
      *
-     * <p>Note that it will be called with empty strings if these surrounding bits
-     * are empty. E.g., "{style.enabled} fancy {style.impressive}" would call this method three
-     * times, with "", " fancy ", and "".
+     * <p>Note that it will be called with empty strings if these surrounding bits are empty. E.g.,
+     * "{style.enabled} fancy {style.impressive}" would call this method three times, with "", "
+     * fancy ", and "".
      *
-     * <p>A string with no field references is treated as a single fragment, and
-     * causes a single call to this method.
+     * <p>A string with no field references is treated as a single fragment, and causes a single
+     * call to this method.
      */
     String handleFragment(String fragment) throws IllegalFieldReferenceException;
 
@@ -115,9 +108,7 @@ public class FieldReferenceConverter {
   private static final Pattern LEGAL_FIRST_CHAR = Pattern.compile("^[$_a-zA-Z].*");
   private static final String DOTS_AND_PARENS = "[().]";
 
-  /**
-   * Returns the number of field references in the given string.
-   */
+  /** Returns the number of field references in the given string. */
   public static int countFieldReferences(String string) {
     Telltale telltale = new Telltale();
     new FieldReferenceConverter(null).convert(null, string, telltale);
@@ -140,9 +131,7 @@ public class FieldReferenceConverter {
     return b.toString();
   }
 
-  /**
-   * Returns true if the given string holds one or more field references.
-   */
+  /** Returns true if the given string holds one or more field references. */
   public static boolean hasFieldReferences(String string) {
     return countFieldReferences(string) > 0;
   }
@@ -150,23 +139,17 @@ public class FieldReferenceConverter {
   private final CssNameConverter cssConverter = new CssNameConverter();
   private final FieldManager fieldManager;
 
-  /**
-   * @param fieldManager to register parsed references with. May be null
-   */
+  /** @param fieldManager to register parsed references with. May be null */
   FieldReferenceConverter(FieldManager fieldManager) {
     this.fieldManager = fieldManager;
   }
 
-  /**
-   * @throws IllegalFieldReferenceException if the delegate does
-   */
+  /** @throws IllegalFieldReferenceException if the delegate does */
   public String convert(String in, Delegate delegate) {
     return convert(null, in, delegate);
   }
 
-  /**
-   * @throws IllegalFieldReferenceException if the delegate does
-   */
+  /** @throws IllegalFieldReferenceException if the delegate does */
   public String convert(XMLElement source, String in, Delegate delegate) {
     StringBuilder b = new StringBuilder();
     int nextFindStart = 0;

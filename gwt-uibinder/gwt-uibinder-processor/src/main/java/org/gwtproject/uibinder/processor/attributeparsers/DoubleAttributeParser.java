@@ -15,19 +15,16 @@
  */
 package org.gwtproject.uibinder.processor.attributeparsers;
 
+import javax.lang.model.type.TypeMirror;
 import org.gwtproject.uibinder.processor.MortalLogger;
 import org.gwtproject.uibinder.processor.XMLElement;
 import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
 
-import javax.lang.model.type.TypeMirror;
-
-/**
- * Parses a single double attribute.
- */
+/** Parses a single double attribute. */
 class DoubleAttributeParser extends StrictAttributeParser {
 
-  DoubleAttributeParser(FieldReferenceConverter converter,
-      TypeMirror doubleType, MortalLogger logger) {
+  DoubleAttributeParser(
+      FieldReferenceConverter converter, TypeMirror doubleType, MortalLogger logger) {
     super(converter, logger, doubleType);
   }
 

@@ -15,9 +15,7 @@
  */
 package org.gwtproject.uibinder.processor.model;
 
-/**
- *
- */
+/** */
 public class AmbiguousSetterExample {
   private String text;
   private Number number;

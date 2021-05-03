@@ -41,11 +41,9 @@ public class HtmlMessageInterpreter implements XMLElement.Interpreter<String> {
   private final UiBinderWriter uiWriter;
   private final PlaceholderInterpreterProvider phiProvider;
 
-  /**
-   * Build a HtmlMessageInterpreter that uses customized placeholder interpreter instances.
-   */
-  public HtmlMessageInterpreter(UiBinderWriter uiWriter,
-      PlaceholderInterpreterProvider phiProvider) {
+  /** Build a HtmlMessageInterpreter that uses customized placeholder interpreter instances. */
+  public HtmlMessageInterpreter(
+      UiBinderWriter uiWriter, PlaceholderInterpreterProvider phiProvider) {
     this.uiWriter = uiWriter;
     this.phiProvider = phiProvider;
   }
@@ -54,17 +52,17 @@ public class HtmlMessageInterpreter implements XMLElement.Interpreter<String> {
    * Build a normally configured HtmlMessageInterpreter, able to handle put placeholders around dom
    * elements with ui:ph attributes and computed attributes.
    */
-  public HtmlMessageInterpreter(final UiBinderWriter uiWriter,
-      final String ancestorExpression) {
-    this(uiWriter, new PlaceholderInterpreterProvider() {
-      public PlaceholderInterpreter get(MessageWriter message) {
-        return new HtmlPlaceholderInterpreter(uiWriter, message, ancestorExpression);
-      }
-    });
+  public HtmlMessageInterpreter(final UiBinderWriter uiWriter, final String ancestorExpression) {
+    this(
+        uiWriter,
+        new PlaceholderInterpreterProvider() {
+          public PlaceholderInterpreter get(MessageWriter message) {
+            return new HtmlPlaceholderInterpreter(uiWriter, message, ancestorExpression);
+          }
+        });
   }
 
-  public String interpretElement(XMLElement elem)
-      throws UnableToCompleteException {
+  public String interpretElement(XMLElement elem) throws UnableToCompleteException {
     MessagesWriter messages = uiWriter.getMessages();
     if (messages.isMessage(elem)) {
       if (!elem.hasChildNodes()) {

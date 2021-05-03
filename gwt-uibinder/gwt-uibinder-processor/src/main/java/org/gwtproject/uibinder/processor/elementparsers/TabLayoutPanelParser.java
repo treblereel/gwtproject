@@ -15,6 +15,8 @@
  */
 package org.gwtproject.uibinder.processor.elementparsers;
 
+import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.TypeMirror;
 import org.gwtproject.uibinder.processor.AptUtil;
 import org.gwtproject.uibinder.processor.FieldWriter;
 import org.gwtproject.uibinder.processor.UiBinderApiPackage;
@@ -22,12 +24,7 @@ import org.gwtproject.uibinder.processor.UiBinderWriter;
 import org.gwtproject.uibinder.processor.XMLElement;
 import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
 
-import javax.lang.model.element.TypeElement;
-import javax.lang.model.type.TypeMirror;
-
-/**
- * Parses TabLayoutPanel widgets.
- */
+/** Parses TabLayoutPanel widgets. */
 public class TabLayoutPanelParser implements ElementParser {
 
   private static class Children {
@@ -41,17 +38,20 @@ public class TabLayoutPanelParser implements ElementParser {
   private static final String HEADER = "header";
   private static final String TAB = "tab";
 
-  public void parse(XMLElement panelElem, String fieldName, TypeMirror type,
-      UiBinderWriter writer) throws UnableToCompleteException {
+  public void parse(XMLElement panelElem, String fieldName, TypeMirror type, UiBinderWriter writer)
+      throws UnableToCompleteException {
     // TabLayoutPanel requires tabBar size and unit ctor args.
 
     String size = panelElem.consumeRequiredDoubleAttribute("barHeight");
 
-    TypeElement unitEnumType = AptUtil.getElementUtils().getTypeElement(
-        UiBinderApiPackage.current().getDomStyleUnitFqn());
-    String unit = panelElem.consumeAttributeWithDefault("barUnit",
-        String.format("%s.%s", AptUtil.asQualifiedNameable(unitEnumType).getQualifiedName(), "PX"),
-        unitEnumType.asType());
+    TypeElement unitEnumType =
+        AptUtil.getElementUtils().getTypeElement(UiBinderApiPackage.current().getDomStyleUnitFqn());
+    String unit =
+        panelElem.consumeAttributeWithDefault(
+            "barUnit",
+            String.format(
+                "%s.%s", AptUtil.asQualifiedNameable(unitEnumType).getQualifiedName(), "PX"),
+            unitEnumType.asType());
 
     writer.setFieldInitializerAsConstructor(fieldName, size, unit);
 
@@ -59,8 +59,7 @@ public class TabLayoutPanelParser implements ElementParser {
     for (XMLElement tabElem : panelElem.consumeChildElements()) {
       // Get the tab element.
       if (!isElementType(panelElem, tabElem, TAB)) {
-        writer.die(tabElem, "Only <%s:%s> children are allowed.",
-            panelElem.getPrefix(), TAB);
+        writer.die(tabElem, "Only <%s:%s> children are allowed.", panelElem.getPrefix(), TAB);
       }
 
       // Find all the children of the <tab>.
@@ -77,12 +76,11 @@ public class TabLayoutPanelParser implements ElementParser {
 
       // Parse the header.
       if (children.header != null) {
-        HtmlInterpreter htmlInt = HtmlInterpreter.newInterpreterForUiObject(
-            writer, fieldName);
+        HtmlInterpreter htmlInt = HtmlInterpreter.newInterpreterForUiObject(writer, fieldName);
         String html = children.header.consumeInnerHtml(htmlInt);
-        writer.addStatement("%s.add(%s, %s, true);", fieldName,
-            childField.getNextReference(),
-            writer.declareTemplateCall(html, fieldName));
+        writer.addStatement(
+            "%s.add(%s, %s, true);",
+            fieldName, childField.getNextReference(), writer.declareTemplateCall(html, fieldName));
       } else if (children.customHeader != null) {
         XMLElement headerElement = children.customHeader.consumeSingleChildElement();
 
@@ -91,52 +89,59 @@ public class TabLayoutPanelParser implements ElementParser {
         }
 
         FieldWriter headerField = writer.parseElementToField(headerElement);
-        writer.addStatement("%s.add(%s, %s);", fieldName,
-            childField.getNextReference(), headerField.getNextReference());
+        writer.addStatement(
+            "%s.add(%s, %s);",
+            fieldName, childField.getNextReference(), headerField.getNextReference());
       } else {
         // Neither a header or customHeader.
-        writer.die(tabElem, "Requires either a <%1$s:%2$s> or <%1$s:%3$s>",
-            tabElem.getPrefix(), HEADER, CUSTOM);
+        writer.die(
+            tabElem,
+            "Requires either a <%1$s:%2$s> or <%1$s:%3$s>",
+            tabElem.getPrefix(),
+            HEADER,
+            CUSTOM);
       }
     }
   }
 
-  private Children findChildren(final XMLElement elem,
-      final UiBinderWriter writer) throws UnableToCompleteException {
+  private Children findChildren(final XMLElement elem, final UiBinderWriter writer)
+      throws UnableToCompleteException {
     final Children children = new Children();
 
-    elem.consumeChildElements(new XMLElement.Interpreter<Boolean>() {
-      public Boolean interpretElement(XMLElement child)
-          throws UnableToCompleteException {
+    elem.consumeChildElements(
+        new XMLElement.Interpreter<Boolean>() {
+          public Boolean interpretElement(XMLElement child) throws UnableToCompleteException {
 
-        if (isElementType(elem, child, HEADER)) {
-          assertFirstHeader();
-          children.header = child;
-          return true;
-        }
+            if (isElementType(elem, child, HEADER)) {
+              assertFirstHeader();
+              children.header = child;
+              return true;
+            }
 
-        if (isElementType(elem, child, CUSTOM)) {
-          assertFirstHeader();
-          children.customHeader = child;
-          return true;
-        }
+            if (isElementType(elem, child, CUSTOM)) {
+              assertFirstHeader();
+              children.customHeader = child;
+              return true;
+            }
 
-        // Must be the body, then
-        if (children.body != null) {
-          writer.die(children.body, "May have only one body element");
-        }
+            // Must be the body, then
+            if (children.body != null) {
+              writer.die(children.body, "May have only one body element");
+            }
 
-        children.body = child;
-        return true;
-      }
+            children.body = child;
+            return true;
+          }
 
-      void assertFirstHeader() throws UnableToCompleteException {
-        if (children.header != null || children.customHeader != null) {
-          writer.die(elem, "May have only one <%1$s:header> "
-              + "or <%1$s:customHeader>", elem.getPrefix());
-        }
-      }
-    });
+          void assertFirstHeader() throws UnableToCompleteException {
+            if (children.header != null || children.customHeader != null) {
+              writer.die(
+                  elem,
+                  "May have only one <%1$s:header> " + "or <%1$s:customHeader>",
+                  elem.getPrefix());
+            }
+          }
+        });
 
     return children;
   }

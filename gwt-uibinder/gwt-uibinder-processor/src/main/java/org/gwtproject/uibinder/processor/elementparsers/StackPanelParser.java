@@ -15,22 +15,19 @@
  */
 package org.gwtproject.uibinder.processor.elementparsers;
 
+import javax.lang.model.type.TypeMirror;
 import org.gwtproject.uibinder.processor.FieldWriter;
 import org.gwtproject.uibinder.processor.UiBinderWriter;
 import org.gwtproject.uibinder.processor.XMLElement;
 import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
 
-import javax.lang.model.type.TypeMirror;
-
-/**
- * Parses StackPanel widgets.
- */
+/** Parses StackPanel widgets. */
 public class StackPanelParser implements ElementParser {
 
   private static final String ATTRIBUTE_TEXT = "StackPanel-text";
 
-  public void parse(XMLElement elem, String fieldName, TypeMirror type,
-      UiBinderWriter writer) throws UnableToCompleteException {
+  public void parse(XMLElement elem, String fieldName, TypeMirror type, UiBinderWriter writer)
+      throws UnableToCompleteException {
     // Parse children.
     for (XMLElement child : elem.consumeChildElements()) {
       if (!writer.isWidgetElement(child)) {
@@ -46,11 +43,10 @@ public class StackPanelParser implements ElementParser {
 
       FieldWriter childField = writer.parseElementToField(child);
       if (stackItemLabel == null) {
-        writer.addStatement("%1$s.add(%2$s);", fieldName,
-            childField.getNextReference());
+        writer.addStatement("%1$s.add(%2$s);", fieldName, childField.getNextReference());
       } else {
-        writer.addStatement("%1$s.add(%2$s, \"%3$s\");", fieldName,
-            childField.getNextReference(), stackItemLabel);
+        writer.addStatement(
+            "%1$s.add(%2$s, \"%3$s\");", fieldName, childField.getNextReference(), stackItemLabel);
       }
     }
   }

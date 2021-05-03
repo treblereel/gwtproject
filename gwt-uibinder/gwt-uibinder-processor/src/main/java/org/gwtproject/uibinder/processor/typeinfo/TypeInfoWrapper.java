@@ -15,15 +15,12 @@
  */
 package org.gwtproject.uibinder.processor.typeinfo;
 
-import org.gwtproject.uibinder.processor.AptUtil;
-
 import com.google.gwt.core.ext.typeinfo.JClassType;
-
 import java.util.Set;
 import java.util.stream.Collectors;
-
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeMirror;
+import org.gwtproject.uibinder.processor.AptUtil;
 
 /**
  * Wraps APT classes into the associated GWT typeinfo classes.
@@ -33,9 +30,7 @@ import javax.lang.model.type.TypeMirror;
 public class TypeInfoWrapper {
 
   public static Set<JClassType> wrapJClassType(Set<TypeMirror> typeMirrors) {
-    return typeMirrors.stream()
-        .map(m -> wrapJClassType(m))
-        .collect(Collectors.toSet());
+    return typeMirrors.stream().map(m -> wrapJClassType(m)).collect(Collectors.toSet());
   }
 
   public static JClassType wrapJClassType(TypeMirror typeMirror) {

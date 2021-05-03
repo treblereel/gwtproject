@@ -32,24 +32,18 @@ public class IndentedWriter {
     this.pw = pw;
   }
 
-  /**
-   * Indents the generated code.
-   */
+  /** Indents the generated code. */
   public void indent() {
     ++indent;
   }
 
-  /**
-   * Outputs a new line.
-   */
+  /** Outputs a new line. */
   public void newline() {
     // Unix-style line endings for consistent behavior across platforms.
     pw.print('\n');
   }
 
-  /**
-   * Un-indents the generated code.
-   */
+  /** Un-indents the generated code. */
   public void outdent() {
     if (indent == 0) {
       throw new IllegalStateException("Tried to outdent below zero");
@@ -57,18 +51,14 @@ public class IndentedWriter {
     --indent;
   }
 
-  /**
-   * Outputs the given string.
-   */
+  /** Outputs the given string. */
   public void write(String format) {
     printIndent();
     pw.print(format);
     newline();
   }
 
-  /**
-   * Outputs the given string with replacements, using the Java message format.
-   */
+  /** Outputs the given string with replacements, using the Java message format. */
   public void write(String format, Object... args) {
     printIndent();
     pw.printf(format, args);

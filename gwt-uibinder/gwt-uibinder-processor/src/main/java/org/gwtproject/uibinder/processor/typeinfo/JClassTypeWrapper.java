@@ -32,16 +32,15 @@ import com.google.gwt.core.ext.typeinfo.JTypeParameter;
 import com.google.gwt.core.ext.typeinfo.JWildcardType;
 import com.google.gwt.core.ext.typeinfo.NotFoundException;
 import com.google.gwt.core.ext.typeinfo.TypeOracle;
-
 import java.lang.annotation.Annotation;
 import java.util.Set;
-
 import javax.lang.model.element.TypeElement;
 
 /**
  * Simple wrapper for JClassType for APT.
  *
- * Note that much of the class needs implementations.  Only the parts needed at the time were done.
+ * <p>Note that much of the class needs implementations. Only the parts needed at the time were
+ * done.
  */
 public class JClassTypeWrapper implements JClassType {
 

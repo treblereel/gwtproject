@@ -15,11 +15,10 @@
  */
 package org.gwtproject.uibinder.processor.elementparsers;
 
+import javax.lang.model.type.TypeMirror;
 import org.gwtproject.uibinder.processor.UiBinderWriter;
 import org.gwtproject.uibinder.processor.XMLElement;
 import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
-
-import javax.lang.model.type.TypeMirror;
 
 /**
  * Element parsers are classes that parse xml elements, using the context to generate widget

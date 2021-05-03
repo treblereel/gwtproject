@@ -15,22 +15,12 @@
  */
 package org.gwtproject.uibinder.processor;
 
-import org.gwtproject.uibinder.processor.ext.MyTreeLogger;
-import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
-import org.gwtproject.uibinder.processor.messages.MessagesWriter;
-import org.gwtproject.uibinder.processor.model.ImplicitClientBundle;
-
 import com.google.gwt.dev.util.Util;
 import com.google.gwt.resources.rg.GssResourceGenerator.AutoConversionMode;
 import com.google.gwt.resources.rg.GssResourceGenerator.GssOptions;
-
-import org.w3c.dom.Document;
-import org.xml.sax.SAXParseException;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Map;
-
 import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
@@ -39,10 +29,14 @@ import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 import javax.tools.FileObject;
+import org.gwtproject.uibinder.processor.ext.MyTreeLogger;
+import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
+import org.gwtproject.uibinder.processor.messages.MessagesWriter;
+import org.gwtproject.uibinder.processor.model.ImplicitClientBundle;
+import org.w3c.dom.Document;
+import org.xml.sax.SAXParseException;
 
-/**
- *
- */
+/** */
 @SupportedAnnotationTypes(UiBinderApiPackage.UITEMPLATE)
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 public class UiBinderProcessor extends BaseProcessor {
@@ -54,8 +48,8 @@ public class UiBinderProcessor extends BaseProcessor {
     String simpleSourceName = e.getSimpleName().toString() + "Impl";
 
     while (e.getEnclosingElement() instanceof TypeElement) {
-      simpleSourceName = e.getEnclosingElement()
-          .getSimpleName().toString() + "_" + simpleSourceName;
+      simpleSourceName =
+          e.getEnclosingElement().getSimpleName().toString() + "_" + simpleSourceName;
       e = e.getEnclosingElement();
     }
 
@@ -69,11 +63,11 @@ public class UiBinderProcessor extends BaseProcessor {
   private static String deduceTemplateFile(MortalLogger logger, TypeElement interfaceType)
       throws UnableToCompleteException {
     String templateName = "";
-    AnnotationMirror uiTemplate = AptUtil
-        .getAnnotation(interfaceType, UiBinderApiPackage.UITEMPLATE);
+    AnnotationMirror uiTemplate =
+        AptUtil.getAnnotation(interfaceType, UiBinderApiPackage.UITEMPLATE);
 
-    Map<String, ? extends AnnotationValue> annotationValues = AptUtil
-        .getAnnotationValues(uiTemplate);
+    Map<String, ? extends AnnotationValue> annotationValues =
+        AptUtil.getAnnotationValues(uiTemplate);
 
     if (annotationValues.containsKey("value")) {
       templateName = (String) annotationValues.get("value").getValue();
@@ -97,7 +91,8 @@ public class UiBinderProcessor extends BaseProcessor {
       String unsuffixed = templateName.substring(0, templateName.lastIndexOf(TEMPLATE_SUFFIX));
       if (!unsuffixed.contains(".")) {
         templateName =
-            slashify(AptUtil.getPackageElement(interfaceType).getQualifiedName().toString()) + "/"
+            slashify(AptUtil.getPackageElement(interfaceType).getQualifiedName().toString())
+                + "/"
                 + templateName;
       } else {
         templateName = slashify(unsuffixed) + TEMPLATE_SUFFIX;
@@ -107,14 +102,12 @@ public class UiBinderProcessor extends BaseProcessor {
     return templateName;
   }
 
-  /**
-   * Determine the api to use based on interface extension.
-   */
+  /** Determine the api to use based on interface extension. */
   private static UiBinderApiPackage deduceApi(MortalLogger logger, TypeElement interfaceType)
       throws UnableToCompleteException {
 
-    AnnotationMirror uiTemplate = AptUtil
-        .getAnnotation(interfaceType, UiBinderApiPackage.UITEMPLATE);
+    AnnotationMirror uiTemplate =
+        AptUtil.getAnnotation(interfaceType, UiBinderApiPackage.UITEMPLATE);
 
     AnnotationValue legacyWidgets = AptUtil.getAnnotationValues(uiTemplate).get("legacyWidgets");
 
@@ -134,8 +127,8 @@ public class UiBinderProcessor extends BaseProcessor {
   protected String processElement(TypeElement interfaceType, MyTreeLogger logger)
       throws UnableToCompleteException {
     String implName = deduceImplName(interfaceType);
-    String packageName = processingEnv.getElementUtils().getPackageOf(interfaceType)
-        .getQualifiedName().toString();
+    String packageName =
+        processingEnv.getElementUtils().getPackageOf(interfaceType).getQualifiedName().toString();
     PrintWriterManager writers = new PrintWriterManager(processingEnv, logger, packageName);
     PrintWriter printWriter = writers.tryToMakePrintWriterFor(implName);
 
@@ -146,22 +139,40 @@ public class UiBinderProcessor extends BaseProcessor {
     return packageName + "." + implName;
   }
 
-  private void generateOnce(TypeElement interfaceType, String implName,
-      PrintWriter binderPrintWriter, MyTreeLogger treeLogger, PrintWriterManager writerManager)
+  private void generateOnce(
+      TypeElement interfaceType,
+      String implName,
+      PrintWriter binderPrintWriter,
+      MyTreeLogger treeLogger,
+      PrintWriterManager writerManager)
       throws UnableToCompleteException {
     MortalLogger logger = new MortalLogger(treeLogger);
     UiBinderApiPackage api = deduceApi(logger, interfaceType);
     UiBinderApiPackage.setUiBinderApiPackage(api);
     String templatePath = deduceTemplateFile(logger, interfaceType);
-    MessagesWriter messages = new MessagesWriter(api.getBinderUri(), logger, templatePath,
-        AptUtil.getPackageElement(interfaceType).getQualifiedName().toString(), implName);
+    MessagesWriter messages =
+        new MessagesWriter(
+            api.getBinderUri(),
+            logger,
+            templatePath,
+            AptUtil.getPackageElement(interfaceType).getQualifiedName().toString(),
+            implName);
     FieldManager fieldManager = new FieldManager(logger, true);
 
     // TODO hardcoded gss options
     GssOptions gssOptions = new GssOptions(true, AutoConversionMode.STRICT, true);
 
-    UiBinderWriter uiBinderWriter = new UiBinderWriter(interfaceType.asType(), implName,
-        templatePath, logger, fieldManager, messages, uiBinderCtx, api.getBinderUri(), gssOptions);
+    UiBinderWriter uiBinderWriter =
+        new UiBinderWriter(
+            interfaceType.asType(),
+            implName,
+            templatePath,
+            logger,
+            fieldManager,
+            messages,
+            uiBinderCtx,
+            api.getBinderUri(),
+            gssOptions);
 
     FileObject resource = getTemplateResource(logger, templatePath);
 
@@ -195,8 +206,9 @@ public class UiBinderProcessor extends BaseProcessor {
       }
       String content = charContent.toString();
 
-      doc = new W3cDomHelper(logger.getTreeLogger(), processingEnv)
-          .documentFor(content, resource.getName());
+      doc =
+          new W3cDomHelper(logger.getTreeLogger(), processingEnv)
+              .documentFor(content, resource.getName());
     } catch (IOException iex) {
       logger.die("Error opening resource: " + resource.getName(), iex);
     } catch (SAXParseException e) {
@@ -214,5 +226,4 @@ public class UiBinderProcessor extends BaseProcessor {
     }
     return resource;
   }
-
 }

@@ -15,18 +15,14 @@
  */
 package org.gwtproject.uibinder.processor;
 
+import java.util.Set;
+import javax.lang.model.type.TypeMirror;
 import org.gwtproject.uibinder.processor.attributeparsers.CssNameConverter;
 import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
 import org.gwtproject.uibinder.processor.model.ImplicitCssResource;
 import org.gwtproject.uibinder.processor.model.OwnerField;
 
-import java.util.Set;
-
-import javax.lang.model.type.TypeMirror;
-
-/**
- * Implementation of FieldWriter for an {@link ImplicitCssResource}.
- */
+/** Implementation of FieldWriter for an {@link ImplicitCssResource}. */
 class FieldWriterOfGeneratedCssResource extends AbstractFieldWriter {
 
   private static final CssNameConverter nameConverter = new CssNameConverter();
@@ -34,8 +30,8 @@ class FieldWriterOfGeneratedCssResource extends AbstractFieldWriter {
   private final ImplicitCssResource css;
   private final TypeMirror stringType;
 
-  FieldWriterOfGeneratedCssResource(FieldManager manager, TypeMirror stringType,
-      ImplicitCssResource css, MortalLogger logger) {
+  FieldWriterOfGeneratedCssResource(
+      FieldManager manager, TypeMirror stringType, ImplicitCssResource css, MortalLogger logger) {
     super(manager, FieldWriterType.GENERATED_CSS, css.getName(), logger);
     this.stringType = stringType;
     this.css = css;
@@ -73,9 +69,9 @@ class FieldWriterOfGeneratedCssResource extends AbstractFieldWriter {
   }
 
   @Override
-  public void writeFieldBuilder(IndentedWriter w,
-      int getterCount, OwnerField ownerField) {
-    w.write("%s;  // generated css resource must be always created. Type: %s. Precedence: %s",
+  public void writeFieldBuilder(IndentedWriter w, int getterCount, OwnerField ownerField) {
+    w.write(
+        "%s;  // generated css resource must be always created. Type: %s. Precedence: %s",
         FieldManager.getFieldBuilder(getName()), getFieldType(), getBuildPrecedence());
   }
 }

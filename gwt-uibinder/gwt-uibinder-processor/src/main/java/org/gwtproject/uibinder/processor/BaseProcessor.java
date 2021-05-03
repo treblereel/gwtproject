@@ -15,20 +15,16 @@
  */
 package org.gwtproject.uibinder.processor;
 
-import org.gwtproject.uibinder.processor.ext.MyTreeLogger;
-import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
-
 import java.util.Set;
-
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic.Kind;
+import org.gwtproject.uibinder.processor.ext.MyTreeLogger;
+import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
 
-/**
- *
- */
+/** */
 public abstract class BaseProcessor extends AbstractProcessor {
 
   @Override

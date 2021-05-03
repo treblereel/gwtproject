@@ -15,8 +15,12 @@
  */
 package org.gwtproject.uibinder.processor;
 
+import java.util.Stack;
+import javax.annotation.processing.ProcessingEnvironment;
+import javax.tools.Diagnostic.Kind;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import org.gwtproject.uibinder.processor.ext.MyTreeLogger;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -26,13 +30,6 @@ import org.xml.sax.InputSource;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.ext.DefaultHandler2;
-
-import java.util.Stack;
-
-import javax.annotation.processing.ProcessingEnvironment;
-import javax.tools.Diagnostic.Kind;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 /**
  * Uses SAX events to construct a DOM Document. Each node in the Document will have a {@link
@@ -47,8 +44,8 @@ class W3cDocumentBuilder extends DefaultHandler2 {
   private final MyTreeLogger logger;
   private final GwtResourceEntityResolver resolver;
 
-  W3cDocumentBuilder(MyTreeLogger logger, String pathBase,
-      ProcessingEnvironment processingEnvironment)
+  W3cDocumentBuilder(
+      MyTreeLogger logger, String pathBase, ProcessingEnvironment processingEnvironment)
       throws ParserConfigurationException {
     this.logger = logger;
     document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
@@ -56,9 +53,7 @@ class W3cDocumentBuilder extends DefaultHandler2 {
     resolver = new GwtResourceEntityResolver(logger, processingEnvironment, pathBase);
   }
 
-  /**
-   * Appends to the existing Text node, if possible.
-   */
+  /** Appends to the existing Text node, if possible. */
   @Override
   public void characters(char[] ch, int start, int length) {
     Node current = eltStack.peek();
@@ -103,28 +98,24 @@ class W3cDocumentBuilder extends DefaultHandler2 {
     return resolver.resolveEntity(publicId, systemId);
   }
 
-  /**
-   * This is the whole reason for this mess. We want to know where a given element comes from.
-   */
+  /** This is the whole reason for this mess. We want to know where a given element comes from. */
   @Override
   public void setDocumentLocator(Locator locator) {
     this.locator = locator;
   }
 
   @Override
-  public void startElement(String uri, String localName, String qName,
-      Attributes attributes) {
+  public void startElement(String uri, String localName, String qName, Attributes attributes) {
     Element elt = document.createElementNS(uri, qName);
     eltStack.peek().appendChild(elt);
     eltStack.push(elt);
 
     for (int i = 0, j = attributes.getLength(); i < j; i++) {
-      elt.setAttributeNS(attributes.getURI(i), attributes.getQName(i),
-          attributes.getValue(i));
+      elt.setAttributeNS(attributes.getURI(i), attributes.getQName(i), attributes.getValue(i));
     }
 
-    XMLElement.Location location = new XMLElement.Location(
-        locator.getSystemId(), locator.getLineNumber());
+    XMLElement.Location location =
+        new XMLElement.Location(locator.getSystemId(), locator.getLineNumber());
     elt.setUserData(XMLElement.LOCATION_KEY, location, null);
   }
 

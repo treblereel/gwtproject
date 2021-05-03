@@ -15,14 +15,13 @@
  */
 package org.gwtproject.uibinder.processor.attributeparsers;
 
+import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.gwtproject.uibinder.processor.MortalLogger;
 import org.gwtproject.uibinder.processor.UiBinderApiPackage;
 import org.gwtproject.uibinder.processor.XMLElement;
 import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
-
-import java.util.Locale;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Parses a CSS length value (e.g., "2em", "50%"), returning a comma-separated (double, Unit) pair.
@@ -32,15 +31,15 @@ public class LengthAttributeParser implements AttributeParser {
   // This regular expression matches CSS length patterns of the form
   // (value)(unit), where the two may be separated by whitespace. Either part
   // can be a {class.method} expression.
-  private static final Pattern pattern = Pattern
-      .compile("((?:\\{[\\w\\.]+\\})|[\\+\\-]?[\\d\\.]+)\\s*(\\{?[\\w\\.\\%]*\\}?)?");
+  private static final Pattern pattern =
+      Pattern.compile("((?:\\{[\\w\\.]+\\})|[\\+\\-]?[\\d\\.]+)\\s*(\\{?[\\w\\.\\%]*\\}?)?");
 
   private final MortalLogger logger;
   private final DoubleAttributeParser doubleParser;
   private final EnumAttributeParser enumParser;
 
-  LengthAttributeParser(DoubleAttributeParser doubleParser, EnumAttributeParser enumParser,
-      MortalLogger logger) {
+  LengthAttributeParser(
+      DoubleAttributeParser doubleParser, EnumAttributeParser enumParser, MortalLogger logger) {
     this.doubleParser = doubleParser;
     this.enumParser = enumParser;
     this.logger = logger;

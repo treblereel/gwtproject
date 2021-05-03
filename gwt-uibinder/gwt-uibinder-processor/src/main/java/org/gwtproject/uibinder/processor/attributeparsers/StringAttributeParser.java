@@ -15,24 +15,20 @@
  */
 package org.gwtproject.uibinder.processor.attributeparsers;
 
+import javax.lang.model.type.TypeMirror;
 import org.gwtproject.uibinder.processor.UiBinderWriter;
 import org.gwtproject.uibinder.processor.XMLElement;
 
-import javax.lang.model.type.TypeMirror;
-
-/**
- * Parses a string attribute.
- */
+/** Parses a string attribute. */
 class StringAttributeParser implements AttributeParser {
 
   /* package private for testing */
-  static class FieldReferenceDelegate implements
-      FieldReferenceConverter.Delegate {
+  static class FieldReferenceDelegate implements FieldReferenceConverter.Delegate {
 
     private final TypeMirror[] types;
 
     FieldReferenceDelegate(TypeMirror type) {
-      this.types = new TypeMirror[]{type};
+      this.types = new TypeMirror[] {type};
     }
 
     public TypeMirror[] getTypes() {
@@ -40,8 +36,7 @@ class StringAttributeParser implements AttributeParser {
     }
 
     public String handleFragment(String literal) {
-      return "\"" + UiBinderWriter.escapeTextForJavaStringLiteral(literal)
-          + "\"";
+      return "\"" + UiBinderWriter.escapeTextForJavaStringLiteral(literal) + "\"";
     }
 
     public String handleReference(String reference) {

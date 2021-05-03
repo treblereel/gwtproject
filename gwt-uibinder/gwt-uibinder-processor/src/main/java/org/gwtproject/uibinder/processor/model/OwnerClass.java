@@ -15,19 +15,12 @@
  */
 package org.gwtproject.uibinder.processor.model;
 
-import org.gwtproject.uibinder.processor.AptUtil;
-import org.gwtproject.uibinder.processor.MortalLogger;
-import org.gwtproject.uibinder.processor.UiBinderApiPackage;
-import org.gwtproject.uibinder.processor.UiBinderContext;
-import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
@@ -35,34 +28,32 @@ import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
 import javax.lang.model.util.Types;
+import org.gwtproject.uibinder.processor.AptUtil;
+import org.gwtproject.uibinder.processor.MortalLogger;
+import org.gwtproject.uibinder.processor.UiBinderApiPackage;
+import org.gwtproject.uibinder.processor.UiBinderContext;
+import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
 
 /**
- * Model class with all attributes of the owner class. This includes factories, fields and
- * handlers.
+ * Model class with all attributes of the owner class. This includes factories, fields and handlers.
  */
 public class OwnerClass {
 
-  /**
-   * Map from field name to model.
-   */
+  /** Map from field name to model. */
   private final Map<String, OwnerField> uiFields = new TreeMap<>();
 
   /**
    * Map from field type to model.
    *
-   * This is used for binding resources - for widgets, there may be multiple widgets with the same
-   * type, in which case this becomes meaningless.
+   * <p>This is used for binding resources - for widgets, there may be multiple widgets with the
+   * same type, in which case this becomes meaningless.
    */
   private final Map<TypeMirror, OwnerField> uiFieldTypes = new HashMap<>();
 
-  /**
-   * Map from type to the method that produces it.
-   */
+  /** Map from type to the method that produces it. */
   private final Map<TypeMirror, ExecutableElement> uiFactories = new HashMap<>();
 
-  /**
-   * List of all @UiHandler methods in the owner class.
-   */
+  /** List of all @UiHandler methods in the owner class. */
   private final List<ExecutableElement> uiHandlers = new ArrayList<>();
 
   private final MortalLogger logger;
@@ -76,8 +67,7 @@ public class OwnerClass {
    *
    * @param ownerType the type of the owner class
    */
-  public OwnerClass(TypeMirror ownerType, MortalLogger logger,
-      UiBinderContext context)
+  public OwnerClass(TypeMirror ownerType, MortalLogger logger, UiBinderContext context)
       throws UnableToCompleteException {
     this.logger = logger;
     this.ownerType = ownerType;
@@ -103,7 +93,7 @@ public class OwnerClass {
 
   /**
    * Gets a field with the given name. It's important to notice that a field may not exist on the
-   * owner class even if it has a name in the XML and even has handlers attached to it -  such a
+   * owner class even if it has a name in the XML and even has handlers attached to it - such a
    * field will only exist in the generated binder class.
    *
    * @param name the name of the field to get
@@ -127,16 +117,12 @@ public class OwnerClass {
     return uiFieldTypes.get(type);
   }
 
-  /**
-   * Returns a collection of all fields in the owner class.
-   */
+  /** Returns a collection of all fields in the owner class. */
   public Collection<OwnerField> getUiFields() {
     return uiFields.values();
   }
 
-  /**
-   * Returns all the UiHandler methods defined in the owner class.
-   */
+  /** Returns all the UiHandler methods defined in the owner class. */
   public List<ExecutableElement> getUiHandlers() {
     return uiHandlers;
   }
@@ -147,8 +133,7 @@ public class OwnerClass {
    *
    * @param ownerType the type of the owner class
    */
-  private void findUiFactories(TypeMirror ownerType)
-      throws UnableToCompleteException {
+  private void findUiFactories(TypeMirror ownerType) throws UnableToCompleteException {
 
     List<ExecutableElement> methods =
         ElementFilter.methodsIn(AptUtil.getTypeUtils().asElement(ownerType).getEnclosedElements());
@@ -156,16 +141,17 @@ public class OwnerClass {
       if (AptUtil.isAnnotationPresent(method, UiBinderApiPackage.current().getUiFactoryFqn())) {
         TypeElement factoryType = AptUtil.asTypeElement(method.getReturnType());
         if (factoryType == null) {
-          logger.die("Factory return type is not a class in method "
-              + method.getSimpleName());
+          logger.die("Factory return type is not a class in method " + method.getSimpleName());
         }
 
         TypeMirror erasure = AptUtil.getTypeUtils().erasure(factoryType.asType());
 
         if (uiFactories.containsKey(erasure)) {
-          logger.die("Duplicate factory in class "
-              + method.getEnclosingElement().getSimpleName() + " for type "
-              + factoryType.getSimpleName());
+          logger.die(
+              "Duplicate factory in class "
+                  + method.getEnclosingElement().getSimpleName()
+                  + " for type "
+                  + factoryType.getSimpleName());
         }
 
         uiFactories.put(erasure, method);
@@ -189,8 +175,7 @@ public class OwnerClass {
   private void findUiFields(TypeMirror ownerType) throws UnableToCompleteException {
     Types typeUtils = AptUtil.getTypeUtils();
 
-    TypeElement ownerElement = AptUtil
-        .asTypeElement(typeUtils.asElement(ownerType));
+    TypeElement ownerElement = AptUtil.asTypeElement(typeUtils.asElement(ownerType));
 
     List<VariableElement> fields = ElementFilter.fieldsIn(ownerElement.getEnclosedElements());
     for (VariableElement field : fields) {

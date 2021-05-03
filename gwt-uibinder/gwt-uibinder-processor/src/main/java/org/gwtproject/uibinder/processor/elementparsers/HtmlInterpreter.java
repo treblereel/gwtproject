@@ -15,6 +15,11 @@
  */
 package org.gwtproject.uibinder.processor.elementparsers;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+import javax.lang.model.type.TypeMirror;
 import org.gwtproject.uibinder.processor.AptUtil;
 import org.gwtproject.uibinder.processor.FieldWriter;
 import org.gwtproject.uibinder.processor.UiBinderApiPackage;
@@ -24,19 +29,17 @@ import org.gwtproject.uibinder.processor.XMLElement;
 import org.gwtproject.uibinder.processor.XMLElement.Interpreter;
 import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.lang.model.type.TypeMirror;
-
 /**
  * This is the most generally useful interpreter, and the most likely to be used by a custom parser
- * when calling {@link XMLElement#consumeInnerHtml}. <ul> <li>Assigns computed values to element
- * attributes (e.g. class="{style.pretty}") <li>Generates fields to hold named dom elements (e.g.
- * &lt;div gwt:field="importantDiv"&gt;) <li>Turns &lt;ui:msg&gt; and &lt;ui:attr&gt; elements into
- * methods on a generated Messages interface <li>Fails if any element encountered is a widget </ul>
+ * when calling {@link XMLElement#consumeInnerHtml}.
+ *
+ * <ul>
+ *   <li>Assigns computed values to element attributes (e.g. class="{style.pretty}")
+ *   <li>Generates fields to hold named dom elements (e.g. &lt;div gwt:field="importantDiv"&gt;)
+ *   <li>Turns &lt;ui:msg&gt; and &lt;ui:attr&gt; elements into methods on a generated Messages
+ *       interface
+ *   <li>Fails if any element encountered is a widget
+ * </ul>
  */
 public class HtmlInterpreter implements XMLElement.Interpreter<String> {
 
@@ -45,12 +48,12 @@ public class HtmlInterpreter implements XMLElement.Interpreter<String> {
     @Override
     public String getAttributeToken(XMLAttribute attribute) throws UnableToCompleteException {
       if (URI_ATTRIBUTES.contains(attribute.getLocalName())) {
-        return writer.tokenForSafeUriExpression(attribute.getElement(),
-            attribute.consumeSafeUriOrStringAttribute());
+        return writer.tokenForSafeUriExpression(
+            attribute.getElement(), attribute.consumeSafeUriOrStringAttribute());
       }
 
-      return writer
-          .tokenForStringExpression(attribute.getElement(), attribute.consumeStringValue());
+      return writer.tokenForStringExpression(
+          attribute.getElement(), attribute.consumeStringValue());
     }
   }
 
@@ -66,30 +69,43 @@ public class HtmlInterpreter implements XMLElement.Interpreter<String> {
      * http://dev.w3.org/html5/spec/index.html#attributes-1
      * http://www.w3.org/TR/REC-html40/index/attributes.html
      */
-    String[] urlAttributes =
-        {
-            "action", "background", "classid", "cite", "codebase", "data", "formaction", "href",
-            "icon", "longdesc", "manifest", "profile", "poster", "src", "usemap"};
+    String[] urlAttributes = {
+      "action",
+      "background",
+      "classid",
+      "cite",
+      "codebase",
+      "data",
+      "formaction",
+      "href",
+      "icon",
+      "longdesc",
+      "manifest",
+      "profile",
+      "poster",
+      "src",
+      "usemap"
+    };
 
     URI_ATTRIBUTES = Collections.unmodifiableSet(new HashSet<String>(Arrays.asList(urlAttributes)));
   }
 
   /**
    * A convenience factory method for the most common use of this class, to work with HTML that will
-   * eventually be rendered under a UIObject (or really, any object that responds to
-   * <code>getElement()</code>). Uses an instance of {@link HtmlMessageInterpreter} to process
-   * message elements.
+   * eventually be rendered under a UIObject (or really, any object that responds to <code>
+   * getElement()</code>). Uses an instance of {@link HtmlMessageInterpreter} to process message
+   * elements.
    *
    * @param uiExpression An expression that can be evaluated at runtime to find an object whose
-   * getElement() method can be called to get an ancestor of all Elements generated from the
-   * interpreted HTML.
+   *     getElement() method can be called to get an ancestor of all Elements generated from the
+   *     interpreted HTML.
    */
-  public static HtmlInterpreter newInterpreterForUiObject(UiBinderWriter writer,
-      String uiExpression) {
+  public static HtmlInterpreter newInterpreterForUiObject(
+      UiBinderWriter writer, String uiExpression) {
     String ancestorExpression =
         writer.useLazyWidgetBuilders() ? uiExpression : uiExpression + ".getElement()";
-    return new HtmlInterpreter(writer, ancestorExpression, new HtmlMessageInterpreter(writer,
-        ancestorExpression));
+    return new HtmlInterpreter(
+        writer, ancestorExpression, new HtmlMessageInterpreter(writer, ancestorExpression));
   }
 
   private final UiBinderWriter writer;
@@ -101,16 +117,18 @@ public class HtmlInterpreter implements XMLElement.Interpreter<String> {
    * #newInterpreterForUiObject} factory method.
    *
    * @param ancestorExpression An expression that can be evaluated at runtime to find an Element
-   * that will be an ancestor of all Elements generated from the interpreted HTML.
+   *     that will be an ancestor of all Elements generated from the interpreted HTML.
    * @param messageInterpreter an interpreter to handle msg and ph elements, typically an instance
-   * of {@link HtmlMessageInterpreter}. This interpreter gets last crack
+   *     of {@link HtmlMessageInterpreter}. This interpreter gets last crack
    */
-  public HtmlInterpreter(UiBinderWriter writer, String ancestorExpression,
-      Interpreter<String> messageInterpreter) {
+  public HtmlInterpreter(
+      UiBinderWriter writer, String ancestorExpression, Interpreter<String> messageInterpreter) {
     this.writer = writer;
 
-    this.safeHtmlType = AptUtil.getElementUtils()
-        .getTypeElement(UiBinderApiPackage.current().getSafeHtmlInterfaceFqn()).asType();
+    this.safeHtmlType =
+        AptUtil.getElementUtils()
+            .getTypeElement(UiBinderApiPackage.current().getSafeHtmlInterfaceFqn())
+            .asType();
 
     this.pipe = new InterpreterPipe<String>();
 
@@ -137,8 +155,11 @@ public class HtmlInterpreter implements XMLElement.Interpreter<String> {
 
     if (elem.getNamespaceUri() != null && !writer.isBinderElement(elem)) {
       // It's not a widget, and it's not a ui: element.
-      writer.die(elem, "Prefix \"%s:\" has unrecognized xmlns \"%s\" (bad import?)",
-          elem.getPrefix(), elem.getNamespaceUri());
+      writer.die(
+          elem,
+          "Prefix \"%s:\" has unrecognized xmlns \"%s\" (bad import?)",
+          elem.getPrefix(),
+          elem.getNamespaceUri());
     }
 
     return pipe.interpretElement(elem);

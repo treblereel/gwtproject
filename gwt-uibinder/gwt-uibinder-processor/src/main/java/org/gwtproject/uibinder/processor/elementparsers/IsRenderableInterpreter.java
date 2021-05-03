@@ -37,8 +37,7 @@ class IsRenderableInterpreter implements XMLElement.Interpreter<String> {
     assert writer.useLazyWidgetBuilders();
   }
 
-  public String interpretElement(XMLElement elem)
-      throws UnableToCompleteException {
+  public String interpretElement(XMLElement elem) throws UnableToCompleteException {
     if (!uiWriter.isRenderableElement(elem)) {
       return null;
     }
@@ -65,8 +64,11 @@ class IsRenderableInterpreter implements XMLElement.Interpreter<String> {
         fieldManager.convertFieldToGetter(childFieldWriter.getName()));
 
     // TODO(rdcastro): use the render() call that receives the SafeHtmlBuilder
-    String elementHtml = fieldManager.convertFieldToGetter(childFieldWriter.getName()) + ".render("
-        + fieldManager.convertFieldToGetter(stamper) + ")";
+    String elementHtml =
+        fieldManager.convertFieldToGetter(childFieldWriter.getName())
+            + ".render("
+            + fieldManager.convertFieldToGetter(stamper)
+            + ")";
     return uiWriter.tokenForSafeHtmlExpression(elem, elementHtml);
   }
 }

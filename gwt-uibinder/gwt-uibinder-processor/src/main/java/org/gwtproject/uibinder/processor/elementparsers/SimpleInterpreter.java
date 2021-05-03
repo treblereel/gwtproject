@@ -35,4 +35,3 @@ public class SimpleInterpreter<T> implements Interpreter<T> {
     return rtn;
   }
 }
-

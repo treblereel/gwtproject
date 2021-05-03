@@ -15,13 +15,12 @@
  */
 package org.gwtproject.uibinder.processor.elementparsers;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.gwtproject.uibinder.processor.XMLElement;
 import org.gwtproject.uibinder.processor.XMLElement.Interpreter;
 import org.gwtproject.uibinder.processor.XMLElement.PostProcessingInterpreter;
 import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Pairs {@link XMLElement.Interpreter} instances.
@@ -38,8 +37,7 @@ class InterpreterPipe<T> implements PostProcessingInterpreter<T> {
     return rtn;
   }
 
-  private final List<Interpreter<T>> pipe =
-      new ArrayList<Interpreter<T>>();
+  private final List<Interpreter<T>> pipe = new ArrayList<Interpreter<T>>();
 
   public void add(Interpreter<T> i) {
     pipe.add(i);

@@ -15,6 +15,7 @@
  */
 package org.gwtproject.uibinder.processor.elementparsers;
 
+import javax.lang.model.type.TypeMirror;
 import org.gwtproject.uibinder.processor.UiBinderWriter;
 import org.gwtproject.uibinder.processor.XMLElement;
 import org.gwtproject.uibinder.processor.elementparsers.HtmlMessageInterpreter.PlaceholderInterpreterProvider;
@@ -23,15 +24,11 @@ import org.gwtproject.uibinder.processor.messages.MessageWriter;
 import org.gwtproject.uibinder.processor.messages.PlaceholderInterpreter;
 import org.gwtproject.uibinder.processor.model.OwnerField;
 
-import javax.lang.model.type.TypeMirror;
-
-/**
- * Parses RenderablePanel widgets.
- */
+/** Parses RenderablePanel widgets. */
 public class RenderablePanelParser implements ElementParser {
 
-  public void parse(XMLElement elem, String fieldName, TypeMirror type,
-      final UiBinderWriter writer) throws UnableToCompleteException {
+  public void parse(XMLElement elem, String fieldName, TypeMirror type, final UiBinderWriter writer)
+      throws UnableToCompleteException {
 
     assert writer.useLazyWidgetBuilders();
 
@@ -46,15 +43,13 @@ public class RenderablePanelParser implements ElementParser {
      * Gathers up elements that indicate nested IsRenderable objects.
      */
     IsRenderableInterpreter isRenderableInterpreter = null;
-    isRenderableInterpreter = new IsRenderableInterpreter(
-        fieldName, writer);
+    isRenderableInterpreter = new IsRenderableInterpreter(fieldName, writer);
 
     /*
      * Gathers up elements that indicate nested widgets (but only those that are
      * not inside msg elements).
      */
-    WidgetInterpreter widgetInterpreter = new WidgetInterpreter(fieldName,
-        writer);
+    WidgetInterpreter widgetInterpreter = new WidgetInterpreter(fieldName, writer);
 
     /*
      * Handles non-widget elements like msg, and dom elements with ui:field
@@ -66,8 +61,8 @@ public class RenderablePanelParser implements ElementParser {
     writer.beginAttachedSection(fieldName);
 
     final InterpreterPipe interpreters;
-    interpreters = InterpreterPipe.newPipe(
-        isRenderableInterpreter, widgetInterpreter, htmlInterpreter);
+    interpreters =
+        InterpreterPipe.newPipe(isRenderableInterpreter, widgetInterpreter, htmlInterpreter);
     String html = elem.consumeInnerHtml(interpreters);
 
     writer.endAttachedSection();
@@ -82,33 +77,33 @@ public class RenderablePanelParser implements ElementParser {
 
     // TODO(rdcastro): Add support for custom tags in RenderablePanel.
     if (customTag != null) {
-      writer.getLogger().die(elem,
-          "RenderablePanel does not support custom root elements yet.");
+      writer.getLogger().die(elem, "RenderablePanel does not support custom root elements yet.");
     }
 
-    writer.setFieldInitializerAsConstructor(fieldName, writer.declareTemplateCall(html,
-        fieldName));
+    writer.setFieldInitializerAsConstructor(fieldName, writer.declareTemplateCall(html, fieldName));
   }
 
   /**
    * Creates an HtmlInterpreter with our specialized placeholder interpreter, which will allow
    * widget instances to be declared inside of ui:msg elements.
    */
-  private HtmlInterpreter makeHtmlInterpreter(final String fieldName,
-      final UiBinderWriter uiWriter) {
+  private HtmlInterpreter makeHtmlInterpreter(
+      final String fieldName, final UiBinderWriter uiWriter) {
     final String ancestorExpression = fieldName;
 
     PlaceholderInterpreterProvider placeholderInterpreterProvider =
         new PlaceholderInterpreterProvider() {
           public PlaceholderInterpreter get(MessageWriter message) {
-            return new WidgetPlaceholderInterpreter(fieldName, uiWriter, message,
-                ancestorExpression);
+            return new WidgetPlaceholderInterpreter(
+                fieldName, uiWriter, message, ancestorExpression);
           }
         };
 
-    HtmlInterpreter htmlInterpreter = new HtmlInterpreter(uiWriter,
-        ancestorExpression, new HtmlMessageInterpreter(uiWriter,
-        placeholderInterpreterProvider));
+    HtmlInterpreter htmlInterpreter =
+        new HtmlInterpreter(
+            uiWriter,
+            ancestorExpression,
+            new HtmlMessageInterpreter(uiWriter, placeholderInterpreterProvider));
 
     return htmlInterpreter;
   }

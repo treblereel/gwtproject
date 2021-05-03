@@ -15,24 +15,19 @@
  */
 package org.gwtproject.uibinder.processor;
 
+import java.io.IOException;
+import java.io.StringReader;
+import javax.annotation.processing.ProcessingEnvironment;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 import org.gwtproject.uibinder.processor.ext.MyTreeLogger;
-
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
-import java.io.IOException;
-import java.io.StringReader;
-
-import javax.annotation.processing.ProcessingEnvironment;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
-/**
- *
- */
+/** */
 public class W3cDomHelper {
 
   private static final String LOAD_EXTERNAL_DTD =
@@ -63,8 +58,8 @@ public class W3cDomHelper {
         int pos = resourcePath.lastIndexOf('/');
         resourcePath = (pos < 0) ? "" : resourcePath.substring(0, pos + 1);
       }
-      W3cDocumentBuilder handler = new W3cDocumentBuilder(logger, resourcePath,
-          processingEnvironment);
+      W3cDocumentBuilder handler =
+          new W3cDocumentBuilder(logger, resourcePath, processingEnvironment);
       SAXParser parser = factory.newSAXParser();
       InputSource input = new InputSource(new StringReader(string));
       input.setSystemId(resourcePath);

@@ -25,14 +25,12 @@ import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
  */
 public class UiSafeHtmlInterpreter extends UiTextInterpreter {
 
-  /**
-   * Used in {@link #interpretElement} to invoke the {@link ComputedAttributeInterpreter}.
-   */
+  /** Used in {@link #interpretElement} to invoke the {@link ComputedAttributeInterpreter}. */
   private class Delegate extends UiTextInterpreter.Delegate {
 
     public String getAttributeToken(XMLAttribute attribute) throws UnableToCompleteException {
-      return writer.tokenForSafeHtmlExpression(attribute.getElement(),
-          attribute.consumeSafeHtmlValue());
+      return writer.tokenForSafeHtmlExpression(
+          attribute.getElement(), attribute.consumeSafeHtmlValue());
     }
   }
 

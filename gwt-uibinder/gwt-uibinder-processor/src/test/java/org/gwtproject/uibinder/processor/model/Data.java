@@ -15,8 +15,5 @@
  */
 package org.gwtproject.uibinder.processor.model;
 
-/**
- *
- */
-public interface Data {
-}
+/** */
+public interface Data {}

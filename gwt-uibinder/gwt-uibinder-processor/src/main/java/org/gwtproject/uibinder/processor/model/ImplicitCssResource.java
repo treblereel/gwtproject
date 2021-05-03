@@ -15,13 +15,6 @@
  */
 package org.gwtproject.uibinder.processor.model;
 
-import org.gwtproject.uibinder.processor.AptUtil;
-import org.gwtproject.uibinder.processor.MortalLogger;
-import org.gwtproject.uibinder.processor.attributeparsers.CssNameConverter;
-import org.gwtproject.uibinder.processor.ext.MyTreeLogger;
-import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
-import org.gwtproject.uibinder.processor.typeinfo.TypeInfoWrapper;
-
 import com.google.gwt.core.ext.typeinfo.JClassType;
 import com.google.gwt.resources.css.ExtractClassNamesVisitor;
 import com.google.gwt.resources.css.GenerateCssAst;
@@ -32,7 +25,6 @@ import com.google.gwt.thirdparty.common.css.SourceCode;
 import com.google.gwt.thirdparty.common.css.compiler.ast.CssTree;
 import com.google.gwt.thirdparty.common.css.compiler.ast.GssParser;
 import com.google.gwt.thirdparty.common.css.compiler.ast.GssParserException;
-
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -45,20 +37,24 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import javax.annotation.processing.Filer;
 import javax.lang.model.type.TypeMirror;
 import javax.tools.Diagnostic.Kind;
 import javax.tools.FileObject;
 import javax.tools.StandardLocation;
+import org.gwtproject.uibinder.processor.AptUtil;
+import org.gwtproject.uibinder.processor.MortalLogger;
+import org.gwtproject.uibinder.processor.attributeparsers.CssNameConverter;
+import org.gwtproject.uibinder.processor.ext.MyTreeLogger;
+import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
+import org.gwtproject.uibinder.processor.typeinfo.TypeInfoWrapper;
 
-/**
- * Models a method returning a CssResource on a generated ClientBundle.
- */
+/** Models a method returning a CssResource on a generated ClientBundle. */
 public class ImplicitCssResource {
 
-  private static Set<String> getCssClassNames(String fileName, String cssSource,
-      Set<TypeMirror> imports, MyTreeLogger logger) throws UnableToCompleteException {
+  private static Set<String> getCssClassNames(
+      String fileName, String cssSource, Set<TypeMirror> imports, MyTreeLogger logger)
+      throws UnableToCompleteException {
     SourceCode sourceCode = new SourceCode(fileName, cssSource);
     try {
       CssTree tree = new GssParser(sourceCode).parse();
@@ -84,12 +80,17 @@ public class ImplicitCssResource {
   private Set<String> cssClassNames;
   private Set<String> normalizedCssClassNames;
 
-  /**
-   * Visible for testing only, get instances from {@link ImplicitClientBundle}.
-   */
-  public ImplicitCssResource(String packageName, String className, String name,
-      String[] source, TypeMirror extendedInterface, String body,
-      MortalLogger logger, Set<TypeMirror> importTypes, boolean gss) {
+  /** Visible for testing only, get instances from {@link ImplicitClientBundle}. */
+  public ImplicitCssResource(
+      String packageName,
+      String className,
+      String name,
+      String[] source,
+      TypeMirror extendedInterface,
+      String body,
+      MortalLogger logger,
+      Set<TypeMirror> importTypes,
+      boolean gss) {
     this.packageName = packageName;
     this.className = className;
     this.name = name;
@@ -101,9 +102,7 @@ public class ImplicitCssResource {
     sources = Arrays.asList(source);
   }
 
-  /**
-   * Returns the name of the CssResource interface.
-   */
+  /** Returns the name of the CssResource interface. */
   public String getClassName() {
     return className;
   }
@@ -128,8 +127,8 @@ public class ImplicitCssResource {
 
       if (gss) {
         try {
-          String gssContent = GssResourceGenerator
-              .concatCssFiles(urls, logger.getTreeLogger().getAdapted());
+          String gssContent =
+              GssResourceGenerator.concatCssFiles(urls, logger.getTreeLogger().getAdapted());
           String fileName = bodyFile != null ? bodyFile.getName() : name;
           return getCssClassNames(fileName, gssContent, imports, logger.getTreeLogger());
         } catch (com.google.gwt.core.ext.UnableToCompleteException e) {
@@ -138,10 +137,13 @@ public class ImplicitCssResource {
         }
       } else {
         try {
-          CssStylesheet sheet = GenerateCssAst.exec(logger.getTreeLogger().getAdapted(),
-              urls.toArray(new URL[urls.size()]));
-          cssClassNames = ExtractClassNamesVisitor.exec(sheet,
-              TypeInfoWrapper.wrapJClassType(imports).toArray(new JClassType[imports.size()]));
+          CssStylesheet sheet =
+              GenerateCssAst.exec(
+                  logger.getTreeLogger().getAdapted(), urls.toArray(new URL[urls.size()]));
+          cssClassNames =
+              ExtractClassNamesVisitor.exec(
+                  sheet,
+                  TypeInfoWrapper.wrapJClassType(imports).toArray(new JClassType[imports.size()]));
         } catch (com.google.gwt.core.ext.UnableToCompleteException e) {
           // upstream UnableToCompleteException throw our own
           throw new UnableToCompleteException();
@@ -151,16 +153,12 @@ public class ImplicitCssResource {
     return cssClassNames;
   }
 
-  /**
-   * Returns the public interface that this CssResource implements.
-   */
+  /** Returns the public interface that this CssResource implements. */
   public TypeMirror getExtendedInterface() {
     return extendedInterface;
   }
 
-  /**
-   * Returns the set of CssResource types whose scopes are imported.
-   */
+  /** Returns the set of CssResource types whose scopes are imported. */
   public Set<TypeMirror> getImports() {
     return imports;
   }
@@ -173,11 +171,8 @@ public class ImplicitCssResource {
     return name;
   }
 
-  /**
-   * Returns css class names with dashed-names normalized like so: dashedNames.
-   */
-  public Set<String> getNormalizedCssClassNames()
-      throws UnableToCompleteException {
+  /** Returns css class names with dashed-names normalized like so: dashedNames. */
+  public Set<String> getNormalizedCssClassNames() throws UnableToCompleteException {
     if (normalizedCssClassNames == null) {
       Set<String> rawNames = getCssClassNames();
       normalizedCssClassNames = new HashSet<>();
@@ -188,16 +183,12 @@ public class ImplicitCssResource {
     return normalizedCssClassNames;
   }
 
-  /**
-   * Returns the package in which the generated CssResource interface should reside.
-   */
+  /** Returns the package in which the generated CssResource interface should reside. */
   public String getPackageName() {
     return packageName;
   }
 
-  /**
-   * Returns the name of the generated type.
-   */
+  /** Returns the name of the generated type. */
   public String getQualifiedSourceName() {
     if (packageName.length() == 0) {
       return name;
@@ -206,9 +197,7 @@ public class ImplicitCssResource {
     return String.format("%s.%s", packageName, className);
   }
 
-  /**
-   * Returns the name of the css or gss file(s), separate by white space.
-   */
+  /** Returns the name of the css or gss file(s), separate by white space. */
   public Collection<String> getSource() {
     if (body.length() == 0) {
       return Collections.unmodifiableCollection(sources);
@@ -220,8 +209,8 @@ public class ImplicitCssResource {
   }
 
   private String getBodyFileName() {
-    String bodyFileName = String.format("uibinder.%s.%s.%s", packageName, className,
-        getCssFileExtension());
+    String bodyFileName =
+        String.format("uibinder.%s.%s.%s", packageName, className, getCssFileExtension());
     // To verify that the resulting file can be retrieved out of zip files using a URL reference.
     assert isValidUrl("file:/" + bodyFileName);
     return bodyFileName;
@@ -239,23 +228,25 @@ public class ImplicitCssResource {
     List<URL> urls = new ArrayList<>();
 
     // TODO implement
-//    for (String s : sources) {
-//      String resourcePath = path + '/' + s;
-//      // Try to find the resource relative to the package.
-//      URL found = ResourceLocatorImpl.tryFindResourceUrl(logger.getTreeLogger(), resourceOracle,
-//          resourcePath);
-//      /*
-//       * If we didn't find the resource relative to the package, assume it
-//       * is absolute.
-//       */
-//      if (found == null) {
-//        found = ResourceLocatorImpl.tryFindResourceUrl(logger.getTreeLogger(), resourceOracle, s);
-//      }
-//      if (found == null) {
-//        logger.die("Unable to find resource: " + resourcePath);
-//      }
-//      urls.add(found);
-//    }
+    //    for (String s : sources) {
+    //      String resourcePath = path + '/' + s;
+    //      // Try to find the resource relative to the package.
+    //      URL found = ResourceLocatorImpl.tryFindResourceUrl(logger.getTreeLogger(),
+    // resourceOracle,
+    //          resourcePath);
+    //      /*
+    //       * If we didn't find the resource relative to the package, assume it
+    //       * is absolute.
+    //       */
+    //      if (found == null) {
+    //        found = ResourceLocatorImpl.tryFindResourceUrl(logger.getTreeLogger(), resourceOracle,
+    // s);
+    //      }
+    //      if (found == null) {
+    //        logger.die("Unable to find resource: " + resourcePath);
+    //      }
+    //      urls.add(found);
+    //    }
     return urls;
   }
 
@@ -267,9 +258,11 @@ public class ImplicitCssResource {
     if (generatedFile == null) {
       try {
         Filer filer = AptUtil.getFiler();
-        FileObject resource = filer.createResource(StandardLocation.SOURCE_OUTPUT,
-            packageName,
-            String.format("uibinder.%s.%s.%s", packageName, className, getCssFileExtension()));
+        FileObject resource =
+            filer.createResource(
+                StandardLocation.SOURCE_OUTPUT,
+                packageName,
+                String.format("uibinder.%s.%s.%s", packageName, className, getCssFileExtension()));
 
         BufferedWriter out = new BufferedWriter(resource.openWriter());
         out.write(body);
@@ -296,5 +289,4 @@ public class ImplicitCssResource {
   private String getCssFileExtension() {
     return gss ? "gss" : "css";
   }
-
 }

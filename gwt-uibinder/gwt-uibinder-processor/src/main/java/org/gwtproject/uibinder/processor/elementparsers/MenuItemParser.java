@@ -15,6 +15,8 @@
  */
 package org.gwtproject.uibinder.processor.elementparsers;
 
+import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.TypeMirror;
 import org.gwtproject.uibinder.processor.AptUtil;
 import org.gwtproject.uibinder.processor.FieldWriter;
 import org.gwtproject.uibinder.processor.UiBinderApiPackage;
@@ -23,34 +25,30 @@ import org.gwtproject.uibinder.processor.XMLElement;
 import org.gwtproject.uibinder.processor.XMLElement.Interpreter;
 import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
 
-import javax.lang.model.element.TypeElement;
-import javax.lang.model.type.TypeMirror;
-
-/**
- * A parser for menu items.
- */
+/** A parser for menu items. */
 public class MenuItemParser implements ElementParser {
 
-  public void parse(final XMLElement elem, String fieldName, TypeMirror type,
-      final UiBinderWriter writer) throws UnableToCompleteException {
+  public void parse(
+      final XMLElement elem, String fieldName, TypeMirror type, final UiBinderWriter writer)
+      throws UnableToCompleteException {
 
     // Use special initializer for standard MenuItem,
     // custom subclass should have default constructor.
-    if (UiBinderApiPackage.current().getMenuItemFqn()
+    if (UiBinderApiPackage.current()
+        .getMenuItemFqn()
         .equals(AptUtil.asQualifiedNameable(type).getQualifiedName().toString())) {
-      writer.setFieldInitializerAsConstructor(fieldName, "\"\"",
-          "(" + UiBinderApiPackage.current().getCommandFqn() + ") null");
+      writer.setFieldInitializerAsConstructor(
+          fieldName, "\"\"", "(" + UiBinderApiPackage.current().getCommandFqn() + ") null");
     }
 
-    final TypeElement menuBarType = AptUtil.getElementUtils().getTypeElement(
-        UiBinderApiPackage.current().getMenuBarFqn());
+    final TypeElement menuBarType =
+        AptUtil.getElementUtils().getTypeElement(UiBinderApiPackage.current().getMenuBarFqn());
 
     class MenuBarInterpreter implements Interpreter<Boolean> {
 
       FieldWriter menuBarField = null;
 
-      public Boolean interpretElement(XMLElement child)
-          throws UnableToCompleteException {
+      public Boolean interpretElement(XMLElement child) throws UnableToCompleteException {
 
         if (isMenuBar(child)) {
           if (menuBarField != null) {
@@ -72,8 +70,7 @@ public class MenuItemParser implements ElementParser {
     elem.consumeChildElements(interpreter);
 
     if (interpreter.menuBarField != null) {
-      writer.genPropertySet(fieldName, "subMenu",
-          interpreter.menuBarField.getNextReference());
+      writer.genPropertySet(fieldName, "subMenu", interpreter.menuBarField.getNextReference());
     }
   }
 }

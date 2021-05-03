@@ -15,21 +15,17 @@
  */
 package org.gwtproject.uibinder.processor.attributeparsers;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.lang.model.element.Element;
+import javax.lang.model.type.TypeMirror;
 import org.gwtproject.uibinder.processor.AptUtil;
 import org.gwtproject.uibinder.processor.MortalLogger;
 import org.gwtproject.uibinder.processor.XMLElement;
 import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.lang.model.element.Element;
-import javax.lang.model.type.TypeMirror;
-
-/**
- * Parses an enum attribute.
- */
+/** Parses an enum attribute. */
 class EnumAttributeParser extends StrictAttributeParser {
 
   private final Map<String, Element> values = new HashMap<>();
@@ -47,7 +43,8 @@ class EnumAttributeParser extends StrictAttributeParser {
   public String parse(XMLElement source, String value) throws UnableToCompleteException {
     Element c = values.get(value);
     if (c != null) {
-      return String.format("%s.%s",
+      return String.format(
+          "%s.%s",
           AptUtil.asTypeElement(c.getEnclosingElement()).getQualifiedName().toString(), value);
     }
     return super.parse(source, value);

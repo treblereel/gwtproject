@@ -15,9 +15,7 @@
  */
 package org.gwtproject.uibinder.processor.model;
 
-/**
- *
- */
+/** */
 public enum DetailData implements Data {
   FOO,
   BAR;

@@ -15,6 +15,18 @@
  */
 package org.gwtproject.uibinder.processor.elementparsers;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
+import javax.lang.model.element.ExecutableElement;
+import javax.lang.model.element.TypeElement;
+import javax.lang.model.element.VariableElement;
+import javax.lang.model.type.DeclaredType;
+import javax.lang.model.type.ExecutableType;
+import javax.lang.model.type.TypeMirror;
 import org.gwtproject.uibinder.processor.AptUtil;
 import org.gwtproject.uibinder.processor.UiBinderContext;
 import org.gwtproject.uibinder.processor.UiBinderWriter;
@@ -25,29 +37,13 @@ import org.gwtproject.uibinder.processor.messages.AttributeMessage;
 import org.gwtproject.uibinder.processor.model.OwnerField;
 import org.gwtproject.uibinder.processor.model.OwnerFieldClass;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.lang.model.element.ExecutableElement;
-import javax.lang.model.element.TypeElement;
-import javax.lang.model.element.VariableElement;
-import javax.lang.model.type.DeclaredType;
-import javax.lang.model.type.ExecutableType;
-import javax.lang.model.type.TypeMirror;
-
-/**
- * Utility methods for discovering bean-like properties and generating code to initialize them.
- */
+/** Utility methods for discovering bean-like properties and generating code to initialize them. */
 public class BeanParser implements ElementParser {
 
   /**
    * Mapping between parameters and special UIObject methods. The {@link UIObjectParser} has a few
-   * methods that extend the normal bean naming pattern. So, that implementations of IsWidget
-   * behave like UIObjects, they have to be translated.
+   * methods that extend the normal bean naming pattern. So, that implementations of IsWidget behave
+   * like UIObjects, they have to be translated.
    */
   private static final Map<String, String> ADD_PROPERTY_TO_SETTER_MAP =
       new HashMap<String, String>() {
@@ -67,20 +63,19 @@ public class BeanParser implements ElementParser {
    * Generates code to initialize all bean attributes on the given element. Includes support for
    * &lt;ui:attribute /&gt; children that will apply to setters
    */
-  public void parse(XMLElement elem, String fieldName, TypeMirror type,
-      UiBinderWriter writer) throws UnableToCompleteException {
-//    writer.getDesignTime().handleUIObject(writer, elem, fieldName);
+  public void parse(XMLElement elem, String fieldName, TypeMirror type, UiBinderWriter writer)
+      throws UnableToCompleteException {
+    //    writer.getDesignTime().handleUIObject(writer, elem, fieldName);
 
     final Map<String, String> setterValues = new HashMap<String, String>();
-    final Map<String, String> localizedValues = fetchLocalizedAttributeValues(
-        elem, writer);
+    final Map<String, String> localizedValues = fetchLocalizedAttributeValues(elem, writer);
     final Map<String, String[]> adderValues = new HashMap<>();
 
     final Map<String, String> requiredValues = new HashMap<>();
     final Map<String, TypeMirror> unfilledRequiredParams = new HashMap<>();
 
-    final OwnerFieldClass ownerFieldClass = OwnerFieldClass.getFieldClass(type,
-        writer.getLogger(), context);
+    final OwnerFieldClass ownerFieldClass =
+        OwnerFieldClass.getFieldClass(type, writer.getLogger(), context);
 
     /*
      * Handle @UiFactory and @UiConstructor, but only if the user
@@ -117,10 +112,11 @@ public class BeanParser implements ElementParser {
       TypeMirror paramType = unfilledRequiredParams.get(key);
       if (paramType != null) {
         if (!isString(writer, paramType)) {
-          writer.die(elem,
-              "In %s, cannot apply message attribute to non-string "
-                  + "constructor argument %s.",
-              AptUtil.asQualifiedNameable(paramType).getSimpleName(), key);
+          writer.die(
+              elem,
+              "In %s, cannot apply message attribute to non-string " + "constructor argument %s.",
+              AptUtil.asQualifiedNameable(paramType).getSimpleName(),
+              key);
         }
 
         requiredValues.put(key, value);
@@ -129,8 +125,7 @@ public class BeanParser implements ElementParser {
         ExecutableElement setter = ownerFieldClass.getSetter(key);
         List<? extends VariableElement> params = setter == null ? null : setter.getParameters();
 
-        if (setter == null || !(params.size() == 1)
-            || !isString(writer, params.get(0).asType())) {
+        if (setter == null || !(params.size() == 1) || !isString(writer, params.get(0).asType())) {
           writer.die(elem, "No method found to apply message attribute %s", key);
         } else {
           setterValues.put(key, value);
@@ -158,11 +153,13 @@ public class BeanParser implements ElementParser {
 
       if (unfilledRequiredParams.keySet().contains(propertyName)) {
         TypeMirror paramType = unfilledRequiredParams.get(propertyName);
-        String value = elem.consumeAttributeWithDefault(attribute.getName(),
-            null, paramType);
+        String value = elem.consumeAttributeWithDefault(attribute.getName(), null, paramType);
         if (value == null) {
-          writer.die(elem, "Unable to parse %s as constructor argument "
-              + "of type %s", attribute, AptUtil.asQualifiedNameable(paramType).getSimpleName());
+          writer.die(
+              elem,
+              "Unable to parse %s as constructor argument " + "of type %s",
+              attribute,
+              AptUtil.asQualifiedNameable(paramType).getSimpleName());
         }
         requiredValues.put(propertyName, value);
         unfilledRequiredParams.remove(propertyName);
@@ -180,8 +177,9 @@ public class BeanParser implements ElementParser {
           String addMethod = ADD_PROPERTY_TO_SETTER_MAP.get(propertyName);
           TypeElement stringType = AptUtil.getElementUtils().getTypeElement(String.class.getName());
 
-          if (AptUtil.findMethod(ownerFieldClass.getRawType(), addMethod,
-              new TypeMirror[]{stringType.asType()}) != null) {
+          if (AptUtil.findMethod(
+                  ownerFieldClass.getRawType(), addMethod, new TypeMirror[] {stringType.asType()})
+              != null) {
             String n = attribute.getName();
             String[] value = elem.consumeStringArrayAttribute(n);
 
@@ -190,19 +188,21 @@ public class BeanParser implements ElementParser {
             }
             adderValues.put(addMethod, value);
           } else {
-            writer.die(elem, "Class %s has no appropriate %s() method",
-                elem.getLocalName(), addMethod);
+            writer.die(
+                elem, "Class %s has no appropriate %s() method", elem.getLocalName(), addMethod);
           }
         } else {
-          writer.die(elem, "Class %s has no appropriate set%s() method",
-              elem.getLocalName(), initialCap(propertyName));
+          writer.die(
+              elem,
+              "Class %s has no appropriate set%s() method",
+              elem.getLocalName(),
+              initialCap(propertyName));
         }
       }
     }
 
     if (!unfilledRequiredParams.isEmpty()) {
-      StringBuilder b = new StringBuilder(String.format(
-          "%s missing required attribute(s):", elem));
+      StringBuilder b = new StringBuilder(String.format("%s missing required attribute(s):", elem));
       for (String name : unfilledRequiredParams.keySet()) {
         b.append(" ").append(name);
       }
@@ -214,15 +214,17 @@ public class BeanParser implements ElementParser {
       if (!uiConstructor) { // Factory method
         ExecutableElement factoryMethod = (ExecutableElement) creator;
         String initializer;
-//        if (writer.getDesignTime().isDesignTime()) {
-//          String typeName = factoryMethod.getReturnType().getQualifiedSourceName();
-//          initializer = writer.getDesignTime().getProvidedFactory(typeName,
-//              factoryMethod.getName(),
-//              UiBinderWriter.asCommaSeparatedList(args));
-//        } else {
-        initializer = String.format("owner.%s(%s)", factoryMethod.getSimpleName(),
-            UiBinderWriter.asCommaSeparatedList(args));
-//        }
+        //        if (writer.getDesignTime().isDesignTime()) {
+        //          String typeName = factoryMethod.getReturnType().getQualifiedSourceName();
+        //          initializer = writer.getDesignTime().getProvidedFactory(typeName,
+        //              factoryMethod.getName(),
+        //              UiBinderWriter.asCommaSeparatedList(args));
+        //        } else {
+        initializer =
+            String.format(
+                "owner.%s(%s)",
+                factoryMethod.getSimpleName(), UiBinderWriter.asCommaSeparatedList(args));
+        //        }
         writer.setFieldInitializer(fieldName, initializer);
       } else { // Annotated Constructor
         writer.setFieldInitializerAsConstructor(fieldName, args);
@@ -232,8 +234,7 @@ public class BeanParser implements ElementParser {
     for (Map.Entry<String, String> entry : setterValues.entrySet()) {
       String propertyName = entry.getKey();
       String value = entry.getValue();
-      writer.addStatement("%s.set%s(%s);", fieldName, initialCap(propertyName),
-          value);
+      writer.addStatement("%s.set%s(%s);", fieldName, initialCap(propertyName), value);
     }
 
     for (Map.Entry<String, String[]> entry : adderValues.entrySet()) {
@@ -244,16 +245,13 @@ public class BeanParser implements ElementParser {
     }
   }
 
-  /**
-   * Fetch the localized attributes that were stored by the AttributeMessageParser.
-   */
-  private Map<String, String> fetchLocalizedAttributeValues(XMLElement elem,
-      UiBinderWriter writer) {
+  /** Fetch the localized attributes that were stored by the AttributeMessageParser. */
+  private Map<String, String> fetchLocalizedAttributeValues(
+      XMLElement elem, UiBinderWriter writer) {
     final Map<String, String> localizedValues = new HashMap<String, String>();
 
-    Collection<AttributeMessage> attributeMessages = writer.getMessages()
-        .retrieveMessageAttributesFor(
-            elem);
+    Collection<AttributeMessage> attributeMessages =
+        writer.getMessages().retrieveMessageAttributesFor(elem);
 
     if (attributeMessages != null) {
       for (AttributeMessage att : attributeMessages) {
@@ -273,8 +271,7 @@ public class BeanParser implements ElementParser {
   }
 
   private String initialCap(String propertyName) {
-    return propertyName.substring(0, 1).toUpperCase(Locale.ROOT)
-        + propertyName.substring(1);
+    return propertyName.substring(0, 1).toUpperCase(Locale.ROOT) + propertyName.substring(1);
   }
 
   private boolean isString(UiBinderWriter writer, TypeMirror paramType) {
@@ -291,5 +288,4 @@ public class BeanParser implements ElementParser {
     }
     return args;
   }
-
 }

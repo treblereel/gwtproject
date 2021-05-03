@@ -15,21 +15,19 @@
  */
 package org.gwtproject.uibinder.processor;
 
-import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
-import org.gwtproject.uibinder.processor.model.OwnerField;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeMirror;
+import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
+import org.gwtproject.uibinder.processor.model.OwnerField;
 
 /**
  * Most of the implementation of {@link FieldWriter}. Subclasses are responsible for {@link
@@ -57,8 +55,8 @@ abstract class AbstractFieldWriter implements FieldWriter {
   private final FieldWriterType fieldType;
   private String html;
 
-  AbstractFieldWriter(FieldManager manager, FieldWriterType fieldType,
-      String name, MortalLogger logger) {
+  AbstractFieldWriter(
+      FieldManager manager, FieldWriterType fieldType, String name, MortalLogger logger) {
     if (name == null) {
       throw new RuntimeException("name cannot be null");
     }
@@ -115,8 +113,7 @@ abstract class AbstractFieldWriter implements FieldWriter {
 
   public TypeMirror getReturnType(String[] path, MonitoredLogger logger) {
     if (!name.equals(path[0])) {
-      throw new RuntimeException(this
-          + " asked to evaluate another field's path: " + path[0]);
+      throw new RuntimeException(this + " asked to evaluate another field's path: " + path[0]);
     }
 
     List<String> pathList = Arrays.asList(path).subList(1, path.length);
@@ -151,8 +148,7 @@ abstract class AbstractFieldWriter implements FieldWriter {
 
   @Override
   public String toString() {
-    return String.format("[%s %s = %s]", this.getClass().getName(), name,
-        initializer);
+    return String.format("[%s %s = %s]", this.getClass().getName(), name, initializer);
   }
 
   public void write(IndentedWriter w) throws UnableToCompleteException {
@@ -170,19 +166,20 @@ abstract class AbstractFieldWriter implements FieldWriter {
       if (type != null) {
         if ((ElementKind.INTERFACE.equals(typeElement))
             && (AptUtil.findConstructor(type, new TypeMirror[0]) == null)) {
-          logger.die(NO_DEFAULT_CTOR_ERROR, typeElement.getQualifiedName(),
-              typeElement.getSimpleName());
+          logger.die(
+              NO_DEFAULT_CTOR_ERROR, typeElement.getQualifiedName(), typeElement.getSimpleName());
         }
       }
     }
 
     if (null == initializer) {
       if (UiBinderApiPackage.current().isGwtCreateSupported()) {
-        initializer = String.format("(%1$s) %2$s.create(%1$s.class)",
-            getQualifiedSourceName(), UiBinderApiPackage.current().getGWTFqn());
+        initializer =
+            String.format(
+                "(%1$s) %2$s.create(%1$s.class)",
+                getQualifiedSourceName(), UiBinderApiPackage.current().getGWTFqn());
       } else {
-        initializer = String.format("new %1$s()",
-            getQualifiedSourceName());
+        initializer = String.format("new %1$s()", getQualifiedSourceName());
       }
     }
 
@@ -194,15 +191,17 @@ abstract class AbstractFieldWriter implements FieldWriter {
   @Override
   public void writeFieldBuilder(IndentedWriter w, int getterCount, OwnerField ownerField) {
     if (getterCount > 1) {
-      w.write("%s;  // more than one getter call detected. Type: %s, precedence: %s",
+      w.write(
+          "%s;  // more than one getter call detected. Type: %s, precedence: %s",
           FieldManager.getFieldBuilder(name), getFieldType(), getBuildPrecedence());
       return;
     }
 
     if (getterCount == 0 && ownerField != null) {
-      w.write("%s;  // no getter call detected but must bind to ui:field. "
-              + "Type: %s, precedence: %s", FieldManager.getFieldBuilder(name),
-          getFieldType(), getBuildPrecedence());
+      w.write(
+          "%s;  // no getter call detected but must bind to ui:field. "
+              + "Type: %s, precedence: %s",
+          FieldManager.getFieldBuilder(name), getFieldType(), getBuildPrecedence());
     }
   }
 
@@ -210,11 +209,13 @@ abstract class AbstractFieldWriter implements FieldWriter {
   public void writeFieldDefinition(IndentedWriter w, OwnerField ownerField, int getterCount)
       throws UnableToCompleteException {
 
-    TypeElement renderablePanelType = AptUtil.getElementUtils()
-        .getTypeElement(UiBinderApiPackage.current().getRenderablePanelFqn());
+    TypeElement renderablePanelType =
+        AptUtil.getElementUtils()
+            .getTypeElement(UiBinderApiPackage.current().getRenderablePanelFqn());
 
-    boolean outputAttachDetachCallbacks = getAssignableType() != null
-        && AptUtil.isAssignableTo(getAssignableType(), renderablePanelType.asType());
+    boolean outputAttachDetachCallbacks =
+        getAssignableType() != null
+            && AptUtil.isAssignableTo(getAssignableType(), renderablePanelType.asType());
 
     // Check initializer. Provided value takes precedence over initializer.
     if (ownerField != null && ownerField.isProvided()) {
@@ -225,43 +226,47 @@ abstract class AbstractFieldWriter implements FieldWriter {
         if ((ElementKind.INTERFACE.equals(type.getKind()))
             && (AptUtil.findConstructor(type, new TypeMirror[0]) == null)) {
           TypeElement typeElement = AptUtil.asTypeElement(type);
-          logger.die(NO_DEFAULT_CTOR_ERROR, typeElement.getQualifiedName(),
-              typeElement.getSimpleName());
+          logger.die(
+              NO_DEFAULT_CTOR_ERROR, typeElement.getQualifiedName(), typeElement.getSimpleName());
         }
       }
       if (UiBinderApiPackage.current().isGwtCreateSupported()) {
-        initializer = String.format("(%1$s) %2$s.create(%1$s.class)",
-            getQualifiedSourceName(), UiBinderApiPackage.current().getGWTFqn());
+        initializer =
+            String.format(
+                "(%1$s) %2$s.create(%1$s.class)",
+                getQualifiedSourceName(), UiBinderApiPackage.current().getGWTFqn());
       } else {
         if (type != null) {
           TypeElement element = AptUtil.getElementUtils().getTypeElement(getQualifiedSourceName());
-          if (type.getKind().equals(ElementKind.INTERFACE) ||
-                  AptUtil.getTypeUtils().asElement(type).getModifiers().contains(Modifier.ABSTRACT)) {
+          if (type.getKind().equals(ElementKind.INTERFACE)
+              || AptUtil.getTypeUtils()
+                  .asElement(type)
+                  .getModifiers()
+                  .contains(Modifier.ABSTRACT)) {
             StringBuffer sb = new StringBuffer();
             sb.append(AptUtil.getPackageElement(element).getQualifiedName().toString());
             sb.append(".");
-            sb.append((element.getEnclosingElement().getKind().isClass() ||
-                    element.getEnclosingElement().getKind().isInterface()) ?
-                    element.getEnclosingElement().getSimpleName().toString() + "_"
+            sb.append(
+                (element.getEnclosingElement().getKind().isClass()
+                        || element.getEnclosingElement().getKind().isInterface())
+                    ? element.getEnclosingElement().getSimpleName().toString() + "_"
                     : "");
             sb.append(element.getSimpleName().toString());
 
-            initializer = String.format("new %1$sImpl()",
-                                        sb.toString());
+            initializer = String.format("new %1$sImpl()", sb.toString());
           } else {
-            initializer = String.format("new %1$s()",
-                                        getQualifiedSourceName());
+            initializer = String.format("new %1$s()", getQualifiedSourceName());
           }
         } else {
-          initializer = String.format("new %1$s()",
-                                     getQualifiedSourceName() + "Impl");
+          initializer = String.format("new %1$s()", getQualifiedSourceName() + "Impl");
         }
       }
     }
 
     w.newline();
     w.write("/**");
-    w.write(" * Getter for %s called %s times. Type: %s. Build precedence: %s.",
+    w.write(
+        " * Getter for %s called %s times. Type: %s. Build precedence: %s.",
         name, getterCount, getFieldType(), getBuildPrecedence());
     w.write(" */");
     if (getterCount > 1) {
@@ -299,8 +304,7 @@ abstract class AbstractFieldWriter implements FieldWriter {
         w.write("%s.wrapInitializationCallback = ", getName());
         w.indent();
         w.indent();
-        w.write(
-            "new %s() {", UiBinderApiPackage.current().getCommandFqn());
+        w.write("new %s() {", UiBinderApiPackage.current().getCommandFqn());
         w.outdent();
         w.write("@Override public void execute() {");
         w.indent();
@@ -319,9 +323,11 @@ abstract class AbstractFieldWriter implements FieldWriter {
         w.write("// Attach section.");
         String elementToAttach =
             AptUtil.isAssignableTo(getInstantiableType(), getDomElement().asType())
-                ? name : name + ".getElement()";
+                ? name
+                : name + ".getElement()";
 
-        w.write("%1$s.TempAttachment %2$s = %1$s.attachToDom(%3$s);",
+        w.write(
+            "%1$s.TempAttachment %2$s = %1$s.attachToDom(%3$s);",
             UiBinderApiPackage.current().getUiBinderUtilFqn(), attachedVar, elementToAttach);
 
         w.newline();
@@ -372,8 +378,8 @@ abstract class AbstractFieldWriter implements FieldWriter {
       if (!AptUtil.isAssignableTo(rawType, getDomElement().asType())
           && rawType.getAnnotation(jsinterop.annotations.JsType.class) != null) {
         w.write(
-            "this.owner.%1$s = (%2$s) (Object) %1$s;", name,
-            AptUtil.asTypeElement(rawType).getQualifiedName());
+            "this.owner.%1$s = (%2$s) (Object) %1$s;",
+            name, AptUtil.asTypeElement(rawType).getQualifiedName());
       } else {
         w.write("this.owner.%1$s = %2$s;", name, ownerAssignmentStatement);
       }
@@ -393,18 +399,15 @@ abstract class AbstractFieldWriter implements FieldWriter {
     return null;
   }
 
-  /**
-   * Gets a reference to the type object representing Element.
-   */
+  /** Gets a reference to the type object representing Element. */
   private TypeElement getDomElement() {
-    TypeElement domElement = AptUtil.getElementUtils()
-        .getTypeElement(UiBinderApiPackage.current().getDomElementFqn());
+    TypeElement domElement =
+        AptUtil.getElementUtils().getTypeElement(UiBinderApiPackage.current().getDomElementFqn());
     assert domElement != null;
     return domElement;
   }
 
-  private TypeMirror getReturnType(TypeMirror type, List<String> path,
-      MonitoredLogger logger) {
+  private TypeMirror getReturnType(TypeMirror type, List<String> path, MonitoredLogger logger) {
     // TODO(rjrjr,bobv) This is derived from CssResourceGenerator.validateValue
     // We should find a way share code
 
@@ -414,15 +417,13 @@ abstract class AbstractFieldWriter implements FieldWriter {
 
       TypeElement referenceType = AptUtil.asTypeElement(type);
       if (referenceType == null) {
-        logger.error("Cannot resolve member " + pathElement
-            + " on non-reference type " + type);
+        logger.error("Cannot resolve member " + pathElement + " on non-reference type " + type);
         return null;
       }
 
       ExecutableElement m = findMethod(referenceType, pathElement);
       if (m == null) {
-        logger.error("Could not find no-arg method named " + pathElement
-            + " in type " + type);
+        logger.error("Could not find no-arg method named " + pathElement + " in type " + type);
         return null;
       }
 

@@ -17,7 +17,6 @@ package org.gwtproject.uibinder.processor;
 
 import org.gwtproject.uibinder.processor.XMLElement.Interpreter;
 import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
-
 import org.w3c.dom.CDATASection;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -27,14 +26,12 @@ class GetInnerTextVisitor implements NodeVisitor {
 
   /**
    * Gathers a text representation of the children of the given Elem, and stuffs it into the given
-   * StringBuffer. Applies the interpreter to each descendant, and uses the writer to report
-   * errors.
+   * StringBuffer. Applies the interpreter to each descendant, and uses the writer to report errors.
    */
-  public static void getEscapedInnerText(Element elem, StringBuffer buffer,
-      Interpreter<String> interpreter, XMLElementProvider writer)
+  public static void getEscapedInnerText(
+      Element elem, StringBuffer buffer, Interpreter<String> interpreter, XMLElementProvider writer)
       throws UnableToCompleteException {
-    new ChildWalker().accept(elem, new GetInnerTextVisitor(buffer,
-        interpreter, writer, false));
+    new ChildWalker().accept(elem, new GetInnerTextVisitor(buffer, interpreter, writer, false));
   }
 
   /**
@@ -42,11 +39,10 @@ class GetInnerTextVisitor implements NodeVisitor {
    * StringBuffer. Applies the interpreter to each descendant, and uses the writer to report errors.
    * Escapes HTML Entities.
    */
-  public static void getHtmlEscapedInnerText(Element elem, StringBuffer buffer,
-      Interpreter<String> interpreter, XMLElementProvider writer)
+  public static void getHtmlEscapedInnerText(
+      Element elem, StringBuffer buffer, Interpreter<String> interpreter, XMLElementProvider writer)
       throws UnableToCompleteException {
-    new ChildWalker().accept(elem, new GetInnerTextVisitor(buffer,
-        interpreter, writer, true));
+    new ChildWalker().accept(elem, new GetInnerTextVisitor(buffer, interpreter, writer, true));
   }
 
   protected final StringBuffer buffer;
@@ -54,13 +50,15 @@ class GetInnerTextVisitor implements NodeVisitor {
   protected final XMLElementProvider elementProvider;
   protected final boolean escapeHtmlEntities;
 
-  protected GetInnerTextVisitor(StringBuffer buffer,
-      Interpreter<String> interpreter, XMLElementProvider elementProvider) {
+  protected GetInnerTextVisitor(
+      StringBuffer buffer, Interpreter<String> interpreter, XMLElementProvider elementProvider) {
     this(buffer, interpreter, elementProvider, true);
   }
 
-  protected GetInnerTextVisitor(StringBuffer buffer,
-      Interpreter<String> interpreter, XMLElementProvider elementProvider,
+  protected GetInnerTextVisitor(
+      StringBuffer buffer,
+      Interpreter<String> interpreter,
+      XMLElementProvider elementProvider,
       boolean escapeHtmlEntities) {
     this.buffer = buffer;
     this.interpreter = interpreter;
@@ -83,8 +81,7 @@ class GetInnerTextVisitor implements NodeVisitor {
   public void visitText(Text t) {
     String escaped;
     if (escapeHtmlEntities) {
-      escaped = UiBinderWriter.escapeText(t.getTextContent(),
-          preserveWhiteSpace(t));
+      escaped = UiBinderWriter.escapeText(t.getTextContent(), preserveWhiteSpace(t));
     } else {
       escaped = t.getTextContent();
       if (!preserveWhiteSpace(t)) {
@@ -97,11 +94,10 @@ class GetInnerTextVisitor implements NodeVisitor {
   }
 
   private boolean preserveWhiteSpace(Text t) {
-    Element parent = Node.ELEMENT_NODE == t.getParentNode().getNodeType()
-        ? (Element) t.getParentNode() : null;
+    Element parent =
+        Node.ELEMENT_NODE == t.getParentNode().getNodeType() ? (Element) t.getParentNode() : null;
 
-    boolean preserveWhitespace = parent != null
-        && "pre".equals(parent.getTagName());
+    boolean preserveWhitespace = parent != null && "pre".equals(parent.getTagName());
     // TODO(rjrjr) What about script blocks?
     return preserveWhitespace;
   }

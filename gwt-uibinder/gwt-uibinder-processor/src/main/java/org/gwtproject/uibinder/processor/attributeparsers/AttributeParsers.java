@@ -15,22 +15,18 @@
  */
 package org.gwtproject.uibinder.processor.attributeparsers;
 
+import java.util.HashMap;
+import java.util.Map;
+import javax.lang.model.type.TypeKind;
+import javax.lang.model.type.TypeMirror;
+import javax.lang.model.util.Elements;
+import javax.lang.model.util.Types;
 import org.gwtproject.uibinder.processor.AptUtil;
 import org.gwtproject.uibinder.processor.FieldManager;
 import org.gwtproject.uibinder.processor.MortalLogger;
 import org.gwtproject.uibinder.processor.UiBinderApiPackage;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.lang.model.type.TypeKind;
-import javax.lang.model.type.TypeMirror;
-import javax.lang.model.util.Elements;
-import javax.lang.model.util.Types;
-
-/**
- * Managers access to all implementations of {@link AttributeParser}.
- */
+/** Managers access to all implementations of {@link AttributeParser}. */
 public class AttributeParsers {
 
   private static final String INT = "int";
@@ -41,10 +37,9 @@ public class AttributeParsers {
   private final MortalLogger logger;
   private final FieldReferenceConverter converter;
 
-  /**
-   * Class names of parsers keyed by method parameter signatures.
-   */
+  /** Class names of parsers keyed by method parameter signatures. */
   private final Map<String, AttributeParser> parsers = new HashMap<String, AttributeParser>();
+
   private final SafeUriAttributeParser safeUriInHtmlParser;
 
   public AttributeParsers(FieldManager fieldManager, MortalLogger logger) {
@@ -53,59 +48,76 @@ public class AttributeParsers {
     Types types = AptUtil.getTypeUtils();
     Elements elements = AptUtil.getElementUtils();
 
-    BooleanAttributeParser boolParser = new BooleanAttributeParser(converter,
-        types.getPrimitiveType(TypeKind.BOOLEAN), logger);
+    BooleanAttributeParser boolParser =
+        new BooleanAttributeParser(converter, types.getPrimitiveType(TypeKind.BOOLEAN), logger);
     addAttributeParser(BOOLEAN, boolParser);
     addAttributeParser(Boolean.class.getCanonicalName(), boolParser);
 
-    IntAttributeParser intParser = new IntAttributeParser(converter,
-        types.getPrimitiveType(TypeKind.BOOLEAN.INT), logger);
+    IntAttributeParser intParser =
+        new IntAttributeParser(converter, types.getPrimitiveType(TypeKind.BOOLEAN.INT), logger);
     addAttributeParser(INT, intParser);
     addAttributeParser(Integer.class.getCanonicalName(), intParser);
 
-    DoubleAttributeParser doubleParser = new DoubleAttributeParser(converter,
-        types.getPrimitiveType(TypeKind.DOUBLE), logger);
+    DoubleAttributeParser doubleParser =
+        new DoubleAttributeParser(converter, types.getPrimitiveType(TypeKind.DOUBLE), logger);
     addAttributeParser(DOUBLE, doubleParser);
     addAttributeParser(Double.class.getCanonicalName(), doubleParser);
 
-    addAttributeParser("int,int", new IntPairAttributeParser(intParser,
-        logger));
+    addAttributeParser("int,int", new IntPairAttributeParser(intParser, logger));
 
-    addAttributeParser(UiBinderApiPackage.current().getHorizontalAlignmentConstantFqn(),
-        new HorizontalAlignmentConstantParser(converter, elements
-            .getTypeElement(UiBinderApiPackage.current().getHorizontalAlignmentConstantFqn())
-            .asType(), logger));
-    addAttributeParser(UiBinderApiPackage.current().getVerticalAlignmentConstantFqn(),
+    addAttributeParser(
+        UiBinderApiPackage.current().getHorizontalAlignmentConstantFqn(),
+        new HorizontalAlignmentConstantParser(
+            converter,
+            elements
+                .getTypeElement(UiBinderApiPackage.current().getHorizontalAlignmentConstantFqn())
+                .asType(),
+            logger));
+    addAttributeParser(
+        UiBinderApiPackage.current().getVerticalAlignmentConstantFqn(),
         new VerticalAlignmentConstantParser(
-            converter, elements
-            .getTypeElement(UiBinderApiPackage.current().getVerticalAlignmentConstantFqn())
-            .asType(), logger));
-    addAttributeParser(UiBinderApiPackage.current().getTextBoxBaseTextAlignConstantFqn(),
+            converter,
+            elements
+                .getTypeElement(UiBinderApiPackage.current().getVerticalAlignmentConstantFqn())
+                .asType(),
+            logger));
+    addAttributeParser(
+        UiBinderApiPackage.current().getTextBoxBaseTextAlignConstantFqn(),
         new TextAlignConstantParser(
-            converter, elements
-            .getTypeElement(UiBinderApiPackage.current().getTextBoxBaseTextAlignConstantFqn())
-            .asType(), logger));
+            converter,
+            elements
+                .getTypeElement(UiBinderApiPackage.current().getTextBoxBaseTextAlignConstantFqn())
+                .asType(),
+            logger));
 
-    StringAttributeParser stringParser = new StringAttributeParser(converter,
-        elements.getTypeElement(STRING).asType());
+    StringAttributeParser stringParser =
+        new StringAttributeParser(converter, elements.getTypeElement(STRING).asType());
     addAttributeParser(STRING, stringParser);
 
-    EnumAttributeParser unitParser = new EnumAttributeParser(converter,
-        elements.getTypeElement(UiBinderApiPackage.current().getDomStyleUnitFqn()).asType(),
-        logger);
-    addAttributeParser(DOUBLE + "," + UiBinderApiPackage.current().getDomStyleUnitFqn(),
+    EnumAttributeParser unitParser =
+        new EnumAttributeParser(
+            converter,
+            elements.getTypeElement(UiBinderApiPackage.current().getDomStyleUnitFqn()).asType(),
+            logger);
+    addAttributeParser(
+        DOUBLE + "," + UiBinderApiPackage.current().getDomStyleUnitFqn(),
         new LengthAttributeParser(doubleParser, unitParser, logger));
 
-    SafeUriAttributeParser uriParser = new SafeUriAttributeParser(stringParser,
-        converter,
-        elements.getTypeElement(UiBinderApiPackage.current().getSafeUriInterfaceFqn()).asType(),
-        logger);
+    SafeUriAttributeParser uriParser =
+        new SafeUriAttributeParser(
+            stringParser,
+            converter,
+            elements.getTypeElement(UiBinderApiPackage.current().getSafeUriInterfaceFqn()).asType(),
+            logger);
     addAttributeParser(UiBinderApiPackage.current().getSafeUriInterfaceFqn(), uriParser);
 
-    safeUriInHtmlParser = new SafeUriAttributeParser(stringParser,
-        converter,
-        elements.getTypeElement(UiBinderApiPackage.current().getSafeUriInterfaceFqn()).asType(),
-        elements.getTypeElement(STRING).asType(), logger);
+    safeUriInHtmlParser =
+        new SafeUriAttributeParser(
+            stringParser,
+            converter,
+            elements.getTypeElement(UiBinderApiPackage.current().getSafeUriInterfaceFqn()).asType(),
+            elements.getTypeElement(STRING).asType(),
+            logger);
   }
 
   /**
@@ -142,8 +154,7 @@ public class AttributeParsers {
     return safeUriInHtmlParser;
   }
 
-  private void addAttributeParser(String signature,
-      AttributeParser attributeParser) {
+  private void addAttributeParser(String signature, AttributeParser attributeParser) {
     parsers.put(signature, attributeParser);
   }
 
@@ -151,9 +162,7 @@ public class AttributeParsers {
     return parsers.get(key);
   }
 
-  /**
-   * Given a types array, return a key for the attributeParsers table.
-   */
+  /** Given a types array, return a key for the attributeParsers table. */
   private String getParametersKey(TypeMirror[] types) {
     StringBuffer b = new StringBuffer();
     for (TypeMirror t : types) {

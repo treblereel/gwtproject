@@ -15,15 +15,8 @@
  */
 package org.gwtproject.uibinder.processor.model;
 
-import org.gwtproject.uibinder.processor.AptUtil;
-import org.gwtproject.uibinder.processor.MortalLogger;
-import org.gwtproject.uibinder.processor.UiBinderApiPackage;
-import org.gwtproject.uibinder.processor.UiBinderContext;
-import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
-
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
-
 import java.beans.Introspector;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Collection;
@@ -34,7 +27,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.Element;
@@ -47,6 +39,11 @@ import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
+import org.gwtproject.uibinder.processor.AptUtil;
+import org.gwtproject.uibinder.processor.MortalLogger;
+import org.gwtproject.uibinder.processor.UiBinderApiPackage;
+import org.gwtproject.uibinder.processor.UiBinderContext;
+import org.gwtproject.uibinder.processor.ext.UnableToCompleteException;
 
 /**
  * Descriptor for a class which can be used as a @UiField. This is usually a widget, but can also be
@@ -87,8 +84,9 @@ public class OwnerFieldClass {
    * @param logger TODO
    * @return the descriptor
    */
-  public static OwnerFieldClass getFieldClass(TypeMirror forType, MortalLogger logger,
-      UiBinderContext context) throws UnableToCompleteException {
+  public static OwnerFieldClass getFieldClass(
+      TypeMirror forType, MortalLogger logger, UiBinderContext context)
+      throws UnableToCompleteException {
     OwnerFieldClass clazz = context.getOwnerFieldClass(forType);
     if (clazz == null) {
       clazz = new OwnerFieldClass(forType, logger, context);
@@ -128,9 +126,7 @@ public class OwnerFieldClass {
     findUiChildren(forType);
   }
 
-  /**
-   * Returns the field's raw type.
-   */
+  /** Returns the field's raw type. */
   public TypeMirror getRawType() {
     return rawType;
   }
@@ -144,8 +140,10 @@ public class OwnerFieldClass {
   public ExecutableElement getSetter(String propertyName) throws UnableToCompleteException {
     if (ambiguousSetters != null && ambiguousSetters.contains(propertyName)) {
       logger.die(
-          "Ambiguous setter requested: " + AptUtil.asQualifiedNameable(rawType).getQualifiedName()
-              .toString() + "." + propertyName);
+          "Ambiguous setter requested: "
+              + AptUtil.asQualifiedNameable(rawType).getQualifiedName().toString()
+              + "."
+              + propertyName);
     }
 
     return setters.get(propertyName);
@@ -160,9 +158,7 @@ public class OwnerFieldClass {
     return uiChildren;
   }
 
-  /**
-   * Returns the constructor annotated with @UiConstructor, or null if none exists.
-   */
+  /** Returns the constructor annotated with @UiConstructor, or null if none exists. */
   public ExecutableElement getUiConstructor() {
     return uiConstructor;
   }
@@ -175,8 +171,8 @@ public class OwnerFieldClass {
    * @param propertySetters the collection of setters.
    * @return the setter to use, or null if none is good enough.
    */
-  private ExecutableElement disambiguateSetters(String propertyName,
-      Collection<ExecutableElement> propertySetters) {
+  private ExecutableElement disambiguateSetters(
+      String propertyName, Collection<ExecutableElement> propertySetters) {
 
     // if only have one overload, there is no need to rank them.
     if (propertySetters.size() == 1) {
@@ -228,8 +224,8 @@ public class OwnerFieldClass {
       allSetters.put(beanPropertyName, method);
 
       // keep backwards compatibility (i.e. hTML instead of HTML for setHTML)
-      String legacyPropertyName = propertyName.substring(0, 1).toLowerCase(Locale.ROOT)
-          + propertyName.substring(1);
+      String legacyPropertyName =
+          propertyName.substring(0, 1).toLowerCase(Locale.ROOT) + propertyName.substring(1);
       if (!legacyPropertyName.equals(beanPropertyName)) {
         allSetters.put(legacyPropertyName, method);
       }
@@ -270,18 +266,17 @@ public class OwnerFieldClass {
       TypeElement ownerElement = AptUtil.asTypeElement(ownerType);
       List<ExecutableElement> methods = ElementFilter.methodsIn(ownerElement.getEnclosedElements());
       for (ExecutableElement method : methods) {
-        AnnotationMirror annotation = AptUtil
-            .getAnnotation(method, UiBinderApiPackage.current().getUiChildFqn());
+        AnnotationMirror annotation =
+            AptUtil.getAnnotation(method, UiBinderApiPackage.current().getUiChildFqn());
         if (annotation == null) {
           // FIXME - this is only for backwards compatibility
           //  - any legacy widgets would have the old @UiChild annotation, not the new
           // if it's null, let's check for legacy annotation
-          annotation = AptUtil
-              .getAnnotation(method, UiBinderApiPackage.LEGACY.getUiChildFqn());
+          annotation = AptUtil.getAnnotation(method, UiBinderApiPackage.LEGACY.getUiChildFqn());
         }
         if (annotation != null) {
-          Map<String, ? extends AnnotationValue> annotationValues = AptUtil
-              .getAnnotationValues(annotation);
+          Map<String, ? extends AnnotationValue> annotationValues =
+              AptUtil.getAnnotationValues(annotation);
           String tag = (String) annotationValues.get("tagname").getValue();
           int limit = (int) annotationValues.get("limit").getValue();
           if ("".equals(tag)) {
@@ -289,9 +284,10 @@ public class OwnerFieldClass {
             if (name.startsWith("add")) {
               tag = name.substring(3).toLowerCase(Locale.ROOT);
             } else {
-              logger.die(method.getSimpleName()
-                  + " must either specify a UiChild tagname or begin "
-                  + "with \"add\".");
+              logger.die(
+                  method.getSimpleName()
+                      + " must either specify a UiChild tagname or begin "
+                      + "with \"add\".");
             }
           }
           List<? extends VariableElement> parameters = method.getParameters();
@@ -300,7 +296,8 @@ public class OwnerFieldClass {
           }
           TypeMirror type = parameters.get(0).asType();
           if (!TypeKind.DECLARED.equals(type.getKind())) {
-            logger.die("%s first parameter must be an object type, found %s",
+            logger.die(
+                "%s first parameter must be an object type, found %s",
                 method.getSimpleName(), type.getKind());
           }
           uiChildren.put(tag, new SimpleEntry<>(method, limit));
@@ -322,12 +319,13 @@ public class OwnerFieldClass {
 
     ElementFilter.constructorsIn(fieldElement.getEnclosedElements());
 
-    for (ExecutableElement ctor : ElementFilter
-        .constructorsIn(fieldElement.getEnclosedElements())) {
+    for (ExecutableElement ctor :
+        ElementFilter.constructorsIn(fieldElement.getEnclosedElements())) {
       if (AptUtil.isAnnotationPresent(ctor, UiBinderApiPackage.current().getUiConstructorFqn())) {
         if (uiConstructor != null) {
-          logger.die(fieldElement.getSimpleName().toString()
-              + " has more than one constructor annotated with @UiConstructor");
+          logger.die(
+              fieldElement.getSimpleName().toString()
+                  + " has more than one constructor annotated with @UiConstructor");
         }
         uiConstructor = ctor;
       }
@@ -344,7 +342,8 @@ public class OwnerFieldClass {
   private boolean isSetterMethod(ExecutableElement method) {
     // All setter methods should be public void setSomething(...)
     Set<Modifier> modifiers = method.getModifiers();
-    return modifiers.contains(Modifier.PUBLIC) && !modifiers.contains(Modifier.STATIC)
+    return modifiers.contains(Modifier.PUBLIC)
+        && !modifiers.contains(Modifier.STATIC)
         && method.getSimpleName().toString().startsWith("set")
         && method.getSimpleName().toString().length() > 3
         && method.getReturnType().getKind().equals(TypeKind.VOID);
