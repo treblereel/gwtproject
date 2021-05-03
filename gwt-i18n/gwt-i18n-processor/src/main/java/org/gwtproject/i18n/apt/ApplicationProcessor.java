@@ -82,6 +82,8 @@ public class ApplicationProcessor extends AbstractProcessor {
               .getAnnotation(I18N.class)
               .value();
 
+      Arrays.stream(locales).forEach(l -> System.out.println("LOCALE " + l));
+
       copy(processingEnv.getFiler(), locales);
 
       StringBuffer factory = new StringBuffer();
@@ -311,7 +313,6 @@ public class ApplicationProcessor extends AbstractProcessor {
 
       writeSourceFile(clazz, source, filer);
     } catch (FilerException e) {
-      // skip
     } catch (IOException e) {
       e.printStackTrace();
       throw new Error(e);

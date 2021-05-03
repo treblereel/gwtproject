@@ -76,10 +76,6 @@
         </dependency>
         <dependency>
             <groupId>org.gwtproject.i18n</groupId>
-            <artifactId>gwt-i18n-processor</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.gwtproject.i18n</groupId>
             <artifactId>gwt-datetimeformat</artifactId>
         </dependency>
         <dependency>
