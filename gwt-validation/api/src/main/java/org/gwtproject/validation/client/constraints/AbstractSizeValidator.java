@@ -23,8 +23,7 @@ import javax.validation.constraints.Size;
  *
  * @param <T>
  */
-public abstract class AbstractSizeValidator<T> implements
-    ConstraintValidator<Size, T> {
+public abstract class AbstractSizeValidator<T> implements ConstraintValidator<Size, T> {
 
   private int min;
   private int max;
@@ -36,16 +35,13 @@ public abstract class AbstractSizeValidator<T> implements
   @Override
   public final void initialize(Size annotation) {
     if (!(annotation.min() >= 0)) {
-      throw new IllegalArgumentException(
-          "@Size.min must be a nonnegative nubmer");
+      throw new IllegalArgumentException("@Size.min must be a nonnegative nubmer");
     }
     if (!(annotation.max() >= 0)) {
-      throw new IllegalArgumentException(
-          "@Size.max must be a nonnegative nubmer");
+      throw new IllegalArgumentException("@Size.max must be a nonnegative nubmer");
     }
     if (!(annotation.min() <= annotation.max())) {
-      throw new IllegalArgumentException(
-          "@Size.min must be less than or equal to @Size.max");
+      throw new IllegalArgumentException("@Size.min must be less than or equal to @Size.max");
     }
     min = annotation.min();
     max = annotation.max();

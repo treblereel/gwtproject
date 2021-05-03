@@ -16,18 +16,15 @@
 package org.gwtproject.validation.client.constraints;
 
 import java.math.BigDecimal;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.constraints.DecimalMin;
 
 /**
- * Abstract {@link DecimalMin} constraint validator implementation for a
- * <code>T</code>.
+ * Abstract {@link DecimalMin} constraint validator implementation for a <code>T</code>.
  *
  * @param <T> the type of object to validate
  */
-public abstract class AbstractDecimalMinValidator<T> implements
-    ConstraintValidator<DecimalMin, T> {
+public abstract class AbstractDecimalMinValidator<T> implements ConstraintValidator<DecimalMin, T> {
 
   private BigDecimal min;
 
@@ -36,8 +33,8 @@ public abstract class AbstractDecimalMinValidator<T> implements
     try {
       min = new BigDecimal(constraintAnnotation.value());
     } catch (NumberFormatException e) {
-      throw new IllegalArgumentException(constraintAnnotation.value()
-          + " does not represent a valid BigDecimal format", e);
+      throw new IllegalArgumentException(
+          constraintAnnotation.value() + " does not represent a valid BigDecimal format", e);
     }
   }
 

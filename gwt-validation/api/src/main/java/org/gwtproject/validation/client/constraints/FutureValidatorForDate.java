@@ -16,21 +16,15 @@
 package org.gwtproject.validation.client.constraints;
 
 import java.util.Date;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.constraints.Future;
 
-/**
- * {@link Future} constraint validator implementation for a
- * {@link java.util.Date}.
- */
-public class FutureValidatorForDate implements
-    ConstraintValidator<Future, Date> {
+/** {@link Future} constraint validator implementation for a {@link java.util.Date}. */
+public class FutureValidatorForDate implements ConstraintValidator<Future, Date> {
 
   @Override
-  public final void initialize(Future constraintAnnotation) {
-  }
+  public final void initialize(Future constraintAnnotation) {}
 
   @Override
   public final boolean isValid(Date value, ConstraintValidatorContext context) {

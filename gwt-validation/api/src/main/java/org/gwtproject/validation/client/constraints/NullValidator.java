@@ -19,14 +19,11 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.constraints.Null;
 
-/**
- * {@link Null} constraint validator implementation.
- */
+/** {@link Null} constraint validator implementation. */
 public class NullValidator implements ConstraintValidator<Null, Object> {
 
   @Override
-  public final void initialize(Null constraintAnnotation) {
-  }
+  public final void initialize(Null constraintAnnotation) {}
 
   @Override
   public final boolean isValid(Object value, ConstraintValidatorContext context) {

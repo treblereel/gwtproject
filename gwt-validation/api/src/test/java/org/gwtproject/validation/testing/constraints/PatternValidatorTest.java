@@ -15,17 +15,12 @@
  */
 package org.gwtproject.validation.testing.constraints;
 
+import java.util.Date;
+import javax.validation.constraints.Pattern;
 import org.gwtproject.validation.client.constraints.PatternValidator;
 
-import java.util.Date;
-
-import javax.validation.constraints.Pattern;
-
-/**
- * Tests for {@link PatternValidator}.
- */
-public class PatternValidatorTest extends
-    ConstraintValidatorTestCase<Pattern, String> {
+/** Tests for {@link PatternValidator}. */
+public class PatternValidatorTest extends ConstraintValidatorTestCase<Pattern, String> {
 
   @SuppressWarnings("unused")
   @Pattern(regexp = "g..d")

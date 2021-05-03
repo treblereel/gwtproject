@@ -16,14 +16,12 @@
 package org.gwtproject.validation.client.constraints;
 
 import java.lang.annotation.Annotation;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 /**
- * Masks a {@link ConstraintValidator} that is not GWT compatible. This
- * validator always fails.
- * 
+ * Masks a {@link ConstraintValidator} that is not GWT compatible. This validator always fails.
+ *
  * @param <A> the constraint to validate
  * @param <T> the type to validate
  */
@@ -31,16 +29,12 @@ public abstract class NotGwtCompatibleValidator<A extends Annotation, T>
     implements ConstraintValidator<A, T> {
 
   @Override
-  public final void initialize(A constraintAnnotation) {
-  }
+  public final void initialize(A constraintAnnotation) {}
 
-  /**
-   * Always fails.
-   */
+  /** Always fails. */
   @Override
   public final boolean isValid(T value, ConstraintValidatorContext context) {
     // TODO (nchalko) add a custom message
     return false;
   }
-
 }

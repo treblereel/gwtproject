@@ -18,11 +18,10 @@ package org.gwtproject.validation.client.constraints;
 import javax.validation.ConstraintValidatorContext;
 
 /**
- * {@link javax.validation.constraints.Size} constraint validator implementation
- * for a array of {@code long}s.
+ * {@link javax.validation.constraints.Size} constraint validator implementation for a array of
+ * {@code long}s.
  */
-public class SizeValidatorForArrayOfLong extends
-    AbstractSizeValidator<long[]> {
+public class SizeValidatorForArrayOfLong extends AbstractSizeValidator<long[]> {
 
   @Override
   public final boolean isValid(long[] value, ConstraintValidatorContext context) {

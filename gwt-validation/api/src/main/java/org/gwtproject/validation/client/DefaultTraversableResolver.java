@@ -16,28 +16,30 @@
 package org.gwtproject.validation.client;
 
 import java.lang.annotation.ElementType;
-
 import javax.validation.Path;
 import javax.validation.Path.Node;
 import javax.validation.TraversableResolver;
 
-/**
- * Default {@link TraversableResolver}. Always allows full traversal.
- */
+/** Default {@link TraversableResolver}. Always allows full traversal. */
 public final class DefaultTraversableResolver implements TraversableResolver {
 
   @Override
-  public boolean isCascadable(Object traversableObject,
-      Node traversableProperty, Class<?> rootBeanType,
-      Path pathToTraversableObject, ElementType elementType) {
+  public boolean isCascadable(
+      Object traversableObject,
+      Node traversableProperty,
+      Class<?> rootBeanType,
+      Path pathToTraversableObject,
+      ElementType elementType) {
     return true;
   }
 
   @Override
-  public boolean isReachable(Object traversableObject,
-      Node traversableProperty, Class<?> rootBeanType,
-      Path pathToTraversableObject, ElementType elementType) {
+  public boolean isReachable(
+      Object traversableObject,
+      Node traversableProperty,
+      Class<?> rootBeanType,
+      Path pathToTraversableObject,
+      ElementType elementType) {
     return true;
   }
-
 }

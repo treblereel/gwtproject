@@ -15,15 +15,12 @@
  */
 package org.gwtproject.validation.testing.constraints;
 
+import javax.validation.constraints.DecimalMax;
 import org.gwtproject.validation.client.constraints.DecimalMaxValidatorForNumber;
 
-import javax.validation.constraints.DecimalMax;
-
-/**
- * Tests for {@link DecimalMaxValidatorForNumber}.
- */
-public class DecimalMaxValidatorForNumberTest extends
-    ConstraintValidatorTestCase<DecimalMax, Number> {
+/** Tests for {@link DecimalMaxValidatorForNumber}. */
+public class DecimalMaxValidatorForNumberTest
+    extends ConstraintValidatorTestCase<DecimalMax, Number> {
   private static Double BELOW = Double.valueOf(922392239223.08);
   private static Double SAME = Double.valueOf(922392239223.09);
   private static Double ABOVE = Double.valueOf(922392239223.10);

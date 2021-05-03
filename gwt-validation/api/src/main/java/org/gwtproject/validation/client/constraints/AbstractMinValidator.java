@@ -17,7 +17,6 @@ package org.gwtproject.validation.client.constraints;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.constraints.Min;
 
@@ -26,8 +25,7 @@ import javax.validation.constraints.Min;
  *
  * @param <T> the type of object to validate
  */
-public abstract class AbstractMinValidator<T> implements
-    ConstraintValidator<Min, T> {
+public abstract class AbstractMinValidator<T> implements ConstraintValidator<Min, T> {
 
   private long min;
 

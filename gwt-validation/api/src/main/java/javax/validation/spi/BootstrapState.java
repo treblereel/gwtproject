@@ -1,4 +1,3 @@
-// $Id: BootstrapState.java 17620 2009-10-04 19:19:28Z hardy.ferentschik $
 /*
  * JBoss, Home of Professional Open Source
  * Copyright 2009, Red Hat, Inc. and/or its affiliates, and individual contributors
@@ -26,19 +25,18 @@ import javax.validation.ValidationProviderResolver;
  * @author Sebastian Thomschke
  */
 public interface BootstrapState {
-    /**
-     * User defined <code>ValidationProviderResolver</code> strategy
-     * instance or <code>null</code> if undefined.
-     *
-     * @return ValidationProviderResolver instance or null
-     */
-    ValidationProviderResolver getValidationProviderResolver();
+  /**
+   * User defined <code>ValidationProviderResolver</code> strategy instance or <code>null</code> if
+   * undefined.
+   *
+   * @return ValidationProviderResolver instance or null
+   */
+  ValidationProviderResolver getValidationProviderResolver();
 
-    /**
-     * Specification default <code>ValidationProviderResolver</code>
-     * strategy instance.
-     *
-     * @return default implementation of ValidationProviderResolver
-     */
-    ValidationProviderResolver getDefaultValidationProviderResolver();
+  /**
+   * Specification default <code>ValidationProviderResolver</code> strategy instance.
+   *
+   * @return default implementation of ValidationProviderResolver
+   */
+  ValidationProviderResolver getDefaultValidationProviderResolver();
 }

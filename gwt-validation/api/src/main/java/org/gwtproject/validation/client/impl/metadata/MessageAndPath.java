@@ -19,8 +19,8 @@ import javax.validation.Path;
 
 /**
  * Holds as Message and a Path.
- * <p>
- * Used to build a {@link javax.validation.ConstraintViolation}
+ *
+ * <p>Used to build a {@link javax.validation.ConstraintViolation}
  */
 public final class MessageAndPath {
 
@@ -41,9 +41,7 @@ public final class MessageAndPath {
     return path;
   }
 
-  /**
-   * For debugging use only.
-   */
+  /** For debugging use only. */
   @Override
   public String toString() {
     return path + "=" + message;

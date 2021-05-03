@@ -22,7 +22,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.Payload;
 import javax.validation.metadata.ConstraintDescriptor;
@@ -32,8 +31,8 @@ import javax.validation.metadata.ConstraintDescriptor;
  *
  * @param <T> the constraint annotation to describe.
  */
-public final class ConstraintDescriptorImpl<T extends Annotation> implements
-                                                                  ConstraintDescriptor<T> {
+public final class ConstraintDescriptorImpl<T extends Annotation>
+    implements ConstraintDescriptor<T> {
 
   /**
    * Builder for {@link ConstraintDescriptorImpl}.
@@ -47,28 +46,27 @@ public final class ConstraintDescriptorImpl<T extends Annotation> implements
     private List<Class<? extends ConstraintValidator<T, ?>>> constraintValidatorClasses;
     private Map<String, Object> attributes;
     private Set<ConstraintDescriptor<?>> composingConstraints =
-            new HashSet<ConstraintDescriptor<?>>();
+        new HashSet<ConstraintDescriptor<?>>();
     private boolean reportAsSingleViolation;
     private ElementType elementType;
     private ConstraintOrigin definedOn;
 
-    public Builder<T> addComposingConstraint(
-            ConstraintDescriptor<?> composingConstraint) {
+    public Builder<T> addComposingConstraint(ConstraintDescriptor<?> composingConstraint) {
       this.composingConstraints.add(composingConstraint);
       return this;
     }
 
     public ConstraintDescriptorImpl<T> build() {
-      return new ConstraintDescriptorImpl<>(//
-                                             annotation, //
-                                             groups, //
-                                             payload, //
-                                             constraintValidatorClasses, //
-                                             attributes, //
-                                             composingConstraints, //
-                                             reportAsSingleViolation, //
-                                             elementType, //
-                                             definedOn);
+      return new ConstraintDescriptorImpl<>( //
+          annotation, //
+          groups, //
+          payload, //
+          constraintValidatorClasses, //
+          attributes, //
+          composingConstraints, //
+          reportAsSingleViolation, //
+          elementType, //
+          definedOn);
     }
 
     public Builder<T> setAnnotation(T annotation) {
@@ -82,14 +80,15 @@ public final class ConstraintDescriptorImpl<T extends Annotation> implements
     }
 
     public Builder<T> setConstraintValidatorClasses(
-            Class<? extends ConstraintValidator<T, ?>>[] constraintValidatorClasses) {
-      List<Class<? extends ConstraintValidator<T, ?>>> list = Arrays.asList(constraintValidatorClasses);
+        Class<? extends ConstraintValidator<T, ?>>[] constraintValidatorClasses) {
+      List<Class<? extends ConstraintValidator<T, ?>>> list =
+          Arrays.asList(constraintValidatorClasses);
       setConstraintValidatorClasses(list);
       return this;
     }
 
     public Builder<T> setConstraintValidatorClasses(
-            List<Class<? extends ConstraintValidator<T, ?>>> constraintValidatorClasses) {
+        List<Class<? extends ConstraintValidator<T, ?>>> constraintValidatorClasses) {
       this.constraintValidatorClasses = constraintValidatorClasses;
       return this;
     }
@@ -145,15 +144,15 @@ public final class ConstraintDescriptorImpl<T extends Annotation> implements
   private final ConstraintOrigin definedOn;
 
   private ConstraintDescriptorImpl(
-          T annotation,
-          Set<Class<?>> groups,
-          Set<Class<? extends Payload>> payload,
-          List<Class<? extends ConstraintValidator<T, ?>>> constraintValidatorClasses,
-          Map<String, Object> attributes,
-          Set<ConstraintDescriptor<?>> composingConstraints,
-          boolean reportAsSingleViolation,
-          ElementType elementType,
-          ConstraintOrigin definedOn) {
+      T annotation,
+      Set<Class<?>> groups,
+      Set<Class<? extends Payload>> payload,
+      List<Class<? extends ConstraintValidator<T, ?>>> constraintValidatorClasses,
+      Map<String, Object> attributes,
+      Set<ConstraintDescriptor<?>> composingConstraints,
+      boolean reportAsSingleViolation,
+      ElementType elementType,
+      ConstraintOrigin definedOn) {
     super();
     this.annotation = annotation;
     this.groups = groups;
@@ -209,9 +208,7 @@ public final class ConstraintDescriptorImpl<T extends Annotation> implements
     return reportAsSingleViolation;
   }
 
-  /**
-   * For debugging only. Do not rely on the format. It can change at any time.
-   */
+  /** For debugging only. Do not rely on the format. It can change at any time. */
   @Override
   public String toString() {
     return String.valueOf(annotation);

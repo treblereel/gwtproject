@@ -18,8 +18,8 @@ package org.gwtproject.validation.client.constraints;
 import javax.validation.ConstraintValidatorContext;
 
 /**
- * {@link javax.validation.constraints.Size} constraint validator implementation
- * for a {@link String}.
+ * {@link javax.validation.constraints.Size} constraint validator implementation for a {@link
+ * String}.
  */
 public class SizeValidatorForString extends AbstractSizeValidator<String> {
 

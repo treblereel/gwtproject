@@ -15,15 +15,12 @@
  */
 package org.gwtproject.validation.testing.constraints;
 
+import javax.validation.constraints.DecimalMin;
 import org.gwtproject.validation.client.constraints.DecimalMinValidatorForString;
 
-import javax.validation.constraints.DecimalMin;
-
-/**
- * Tests for {@link DecimalMinValidatorForString}.
- */
-public class DecimalMinValidatorForStringTest extends
-    ConstraintValidatorTestCase<DecimalMin, String> {
+/** Tests for {@link DecimalMinValidatorForString}. */
+public class DecimalMinValidatorForStringTest
+    extends ConstraintValidatorTestCase<DecimalMin, String> {
   private static String BELOW = "922392239223.08";
   private static String SAME = "922392239223.09";
   private static String ABOVE = "922392239223.10";
@@ -57,5 +54,4 @@ public class DecimalMinValidatorForStringTest extends
   protected Class<DecimalMin> getAnnotationClass() {
     return DecimalMin.class;
   }
-
 }

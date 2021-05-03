@@ -15,19 +15,14 @@
  */
 package org.gwtproject.validation.testing.constraints;
 
-import org.gwtproject.validation.client.constraints.SizeValidatorForMap;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.validation.constraints.Size;
+import org.gwtproject.validation.client.constraints.SizeValidatorForMap;
 
-/**
- * Tests for {@link SizeValidatorForMap}.
- */
-public class SizeValidatorForMapTest extends
-    ConstraintValidatorTestCase<Size, Map<?, ?>> {
+/** Tests for {@link SizeValidatorForMap}. */
+public class SizeValidatorForMapTest extends ConstraintValidatorTestCase<Size, Map<?, ?>> {
 
   @SuppressWarnings("unused")
   @Size(min = 2, max = 5)

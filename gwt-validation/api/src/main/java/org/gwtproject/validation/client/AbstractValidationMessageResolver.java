@@ -15,13 +15,10 @@
  */
 package org.gwtproject.validation.client;
 
+import java.util.MissingResourceException;
 import org.gwtproject.i18n.client.ConstantsWithLookup;
 
-import java.util.MissingResourceException;
-
-/**
- * ValidationMessageResolver using a {@link ConstantsWithLookup} source.
- */
+/** ValidationMessageResolver using a {@link ConstantsWithLookup} source. */
 public abstract class AbstractValidationMessageResolver {
   private final ConstantsWithLookup messages;
 

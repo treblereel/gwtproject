@@ -18,26 +18,23 @@ package org.gwtproject.validation.client.spi;
 import java.io.InputStream;
 import java.util.Map;
 import java.util.Set;
-
 import javax.validation.ConstraintValidatorFactory;
 import javax.validation.MessageInterpolator;
 import javax.validation.TraversableResolver;
 
-/**
- * Only the GWT incompatible parts.
- */
+/** Only the GWT incompatible parts. */
 public final class GwtConfigurationState extends BaseConfigurationState {
 
-  public GwtConfigurationState(ConstraintValidatorFactory constraintValidatorFactory,
-                               MessageInterpolator messageInterpolator, Map<String, String> properties,
-                               TraversableResolver traversableResolver) {
+  public GwtConfigurationState(
+      ConstraintValidatorFactory constraintValidatorFactory,
+      MessageInterpolator messageInterpolator,
+      Map<String, String> properties,
+      TraversableResolver traversableResolver) {
     super(constraintValidatorFactory, messageInterpolator, properties, traversableResolver);
   }
 
   @Override
   public Set<InputStream> getMappingStreams() {
-    throw new UnsupportedOperationException(
-            "GWT Validation does not support getMappingStreams");
+    throw new UnsupportedOperationException("GWT Validation does not support getMappingStreams");
   }
-
 }

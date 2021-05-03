@@ -15,23 +15,22 @@
  */
 package org.gwtproject.validation.client.impl;
 
-
 import java.util.Set;
-
 import javax.validation.ConstraintViolation;
 
 /**
  * Does shallow group-specific validation. Group sequences and Default group overriding are not
  * directly supported by implementations of this interface. Instead, this is used by higher-level
  * validators to delegate the validation of specific areas.
- * 
  */
 public interface GroupValidator {
 
   /**
-   * Validates the given group(s) (may not include group sequences)
-   * and adds any violations to the set.
+   * Validates the given group(s) (may not include group sequences) and adds any violations to the
+   * set.
    */
-  <T> void validateGroups(GwtValidationContext<T> context, //
-      Set<ConstraintViolation<T>> violations, Group... groups);
+  <T> void validateGroups(
+      GwtValidationContext<T> context, //
+      Set<ConstraintViolation<T>> violations,
+      Group... groups);
 }

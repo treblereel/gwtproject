@@ -18,15 +18,13 @@ package org.gwtproject.validation.client.constraints;
 import javax.validation.ConstraintValidatorContext;
 
 /**
- * {@link javax.validation.constraints.Size} constraint validator implementation
- * for a array of {@code double}s.
+ * {@link javax.validation.constraints.Size} constraint validator implementation for a array of
+ * {@code double}s.
  */
-public class SizeValidatorForArrayOfDouble extends
-    AbstractSizeValidator<double[]> {
+public class SizeValidatorForArrayOfDouble extends AbstractSizeValidator<double[]> {
 
   @Override
-  public final boolean isValid(double[] value,
-      ConstraintValidatorContext context) {
+  public final boolean isValid(double[] value, ConstraintValidatorContext context) {
     if (value == null) {
       return true;
     }

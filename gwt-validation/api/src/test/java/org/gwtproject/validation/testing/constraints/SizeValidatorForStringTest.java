@@ -15,17 +15,12 @@
  */
 package org.gwtproject.validation.testing.constraints;
 
+import java.util.Date;
+import javax.validation.constraints.Size;
 import org.gwtproject.validation.client.constraints.SizeValidatorForString;
 
-import java.util.Date;
-
-import javax.validation.constraints.Size;
-
-/**
- * Tests for {@link SizeValidatorForString}.
- */
-public class SizeValidatorForStringTest extends
-    ConstraintValidatorTestCase<Size, String> {
+/** Tests for {@link SizeValidatorForString}. */
+public class SizeValidatorForStringTest extends ConstraintValidatorTestCase<Size, String> {
 
   @SuppressWarnings("unused")
   @Size(min = 2, max = 5)

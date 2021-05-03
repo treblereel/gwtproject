@@ -16,15 +16,13 @@
 package org.gwtproject.validation.client.constraints;
 
 import java.math.BigDecimal;
-
 import javax.validation.ConstraintValidatorContext;
 
 /**
- * {@link javax.validation.constraints.Digits} constraint validator
- * implementation for a {@link String}.
+ * {@link javax.validation.constraints.Digits} constraint validator implementation for a {@link
+ * String}.
  */
-public class DigitsValidatorForString extends
-    AbstractDigitsValidator<String> {
+public class DigitsValidatorForString extends AbstractDigitsValidator<String> {
 
   @Override
   public final boolean isValid(String value, ConstraintValidatorContext context) {
@@ -39,5 +37,4 @@ public class DigitsValidatorForString extends
     }
     return isValid(bigValue);
   }
-
 }

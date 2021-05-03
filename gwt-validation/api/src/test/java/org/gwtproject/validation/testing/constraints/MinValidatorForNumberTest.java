@@ -15,15 +15,11 @@
  */
 package org.gwtproject.validation.testing.constraints;
 
+import javax.validation.constraints.Min;
 import org.gwtproject.validation.client.constraints.MinValidatorForNumber;
 
-import javax.validation.constraints.Min;
-
-/**
- * Tests for {@link MinValidatorForNumber}.
- */
-public class MinValidatorForNumberTest extends
-    ConstraintValidatorTestCase<Min, Number> {
+/** Tests for {@link MinValidatorForNumber}. */
+public class MinValidatorForNumberTest extends ConstraintValidatorTestCase<Min, Number> {
   private static long SAME = 123456789L;
   private static long SMALLER = SAME - 1L;
   private static long BIGGER = SAME + 1L;

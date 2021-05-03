@@ -19,15 +19,11 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.constraints.NotNull;
 
-/**
- * {@link NotNull} constraint validator implementation.
- */
-public class NotNullValidator implements
-    ConstraintValidator<NotNull, Object> {
+/** {@link NotNull} constraint validator implementation. */
+public class NotNullValidator implements ConstraintValidator<NotNull, Object> {
 
   @Override
-  public final void initialize(NotNull constraintAnnotation) {
-  }
+  public final void initialize(NotNull constraintAnnotation) {}
 
   @Override
   public final boolean isValid(Object value, ConstraintValidatorContext context) {

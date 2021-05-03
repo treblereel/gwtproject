@@ -15,32 +15,25 @@
  */
 package org.gwtproject.validation.client;
 
-import java.util.Locale;
-
-import org.gwtproject.i18n.shared.GwtLocale;
-
-/**
- * Simple GWT {@link javax.validation.MessageInterpolator}.
- */
+/** Simple GWT {@link javax.validation.MessageInterpolator}. */
 public final class GwtMessageInterpolator extends BaseMessageInterpolator {
-    // This class only has the parts the need to overridden for GWT
+  // This class only has the parts the need to overridden for GWT
 
-    /**
-     * Creates a {@link javax.validation.MessageInterpolator MessageInterpolator}
-     * MessageInterpolator that uses the default
-     * {@link UserValidationMessagesResolver}.
-     */
-    public GwtMessageInterpolator() {
-        this(new ProviderValidationMessageResolverImpl());
-    }
+  /**
+   * Creates a {@link javax.validation.MessageInterpolator MessageInterpolator} MessageInterpolator
+   * that uses the default {@link UserValidationMessagesResolver}.
+   */
+  public GwtMessageInterpolator() {
+    this(new ProviderValidationMessageResolverImpl());
+  }
 
-    /**
-     * Creates a {@link javax.validation.MessageInterpolator MessageInterpolator}
-     * using the supplied{@link UserValidationMessagesResolver}.
-     * @param userValidationMessagesResolver
-     */
-    public GwtMessageInterpolator(
-            UserValidationMessagesResolver userValidationMessagesResolver) {
-        super(userValidationMessagesResolver);
-    }
+  /**
+   * Creates a {@link javax.validation.MessageInterpolator MessageInterpolator} using the
+   * supplied{@link UserValidationMessagesResolver}.
+   *
+   * @param userValidationMessagesResolver
+   */
+  public GwtMessageInterpolator(UserValidationMessagesResolver userValidationMessagesResolver) {
+    super(userValidationMessagesResolver);
+  }
 }

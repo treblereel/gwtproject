@@ -17,15 +17,13 @@ package org.gwtproject.validation.client.constraints;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-
 import javax.validation.ConstraintValidatorContext;
 
 /**
- * {@link javax.validation.constraints.DecimalMin} constraint validator
- * implementation for a {@link Number}.
+ * {@link javax.validation.constraints.DecimalMin} constraint validator implementation for a {@link
+ * Number}.
  */
-public class DecimalMinValidatorForNumber extends
-    AbstractDecimalMinValidator<Number> {
+public class DecimalMinValidatorForNumber extends AbstractDecimalMinValidator<Number> {
 
   @Override
   public final boolean isValid(Number value, ConstraintValidatorContext context) {
@@ -40,5 +38,4 @@ public class DecimalMinValidatorForNumber extends
       return isValid(BigDecimal.valueOf(value.doubleValue()));
     }
   }
-
 }

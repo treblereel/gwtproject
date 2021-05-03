@@ -15,17 +15,12 @@
  */
 package org.gwtproject.validation.testing.constraints;
 
+import java.util.Date;
+import javax.validation.constraints.Size;
 import org.gwtproject.validation.client.constraints.SizeValidatorForArrayOfShort;
 
-import java.util.Date;
-
-import javax.validation.constraints.Size;
-
-/**
- * Tests for {@link SizeValidatorForArrayOfShort}.
- */
-public class SizeValidatorForArrayOfShortTest extends
-    ConstraintValidatorTestCase<Size, short[]> {
+/** Tests for {@link SizeValidatorForArrayOfShort}. */
+public class SizeValidatorForArrayOfShortTest extends ConstraintValidatorTestCase<Size, short[]> {
 
   @SuppressWarnings("unused")
   @Size(min = 2, max = 5)

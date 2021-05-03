@@ -1,4 +1,3 @@
-// $Id: Scope.java 17623 2009-10-05 14:39:55Z epbernard $
 /*
  * JBoss, Home of Professional Open Source
  * Copyright 2009, Red Hat, Inc. and/or its affiliates, and individual contributors
@@ -23,16 +22,12 @@ package javax.validation.metadata;
  * @author Emmanuel Bernard
  */
 public enum Scope {
-    /**
-     * Look for constraints declared on the current class element
-     * and ignore inheritance and elements with the same name in
-     * the class hierarchy.
-     */
-    LOCAL_ELEMENT,
+  /**
+   * Look for constraints declared on the current class element and ignore inheritance and elements
+   * with the same name in the class hierarchy.
+   */
+  LOCAL_ELEMENT,
 
-    /**
-     * Look for constraints declared on all elements of the class hierarchy
-     * with the same name.
-     */
-    HIERARCHY
+  /** Look for constraints declared on all elements of the class hierarchy with the same name. */
+  HIERARCHY
 }

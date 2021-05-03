@@ -24,18 +24,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
-
 import javax.validation.groups.Default;
 
-
-/**
- * Contains all the information known about the inheritance information for validation groups.
- */
+/** Contains all the information known about the inheritance information for validation groups. */
 public class ValidationGroupsMetadata {
 
-  /**
-   * Builder for {@link ValidationGroupsMetadata}
-   */
+  /** Builder for {@link ValidationGroupsMetadata} */
   public static class Builder {
     private final Map<Class<?>, Set<Class<?>>> inheritanceinheritanceMap;
     private final Map<Class<?>, List<Class<?>>> sequenceMap;
@@ -48,9 +42,10 @@ public class ValidationGroupsMetadata {
 
     /**
      * Adds a group to the inheritance map. May optionally include parents of the group.
+     *
      * @param group The validation group to add.
      * @param parents A list of validation groups which {@code group} extends. Can be empty if the
-     * group contains no parents.
+     *     group contains no parents.
      */
     public Builder addGroup(Class<?> group, Class<?>... parents) {
       inheritanceinheritanceMap.put(group, new HashSet<Class<?>>(Arrays.asList(parents)));
@@ -59,6 +54,7 @@ public class ValidationGroupsMetadata {
 
     /**
      * Adds a group sequence to the sequence map.
+     *
      * @param groupSequence The class representing the sequence (annotated with &#064;GroupSequence)
      * @param sequenceGroups The groups in the sequence.
      */
@@ -72,9 +68,7 @@ public class ValidationGroupsMetadata {
     }
   }
 
-  /**
-   * Creates a builder populated only with the {@link Default} group.
-   */
+  /** Creates a builder populated only with the {@link Default} group. */
   public static Builder builder() {
     return new Builder();
   }
@@ -82,15 +76,14 @@ public class ValidationGroupsMetadata {
   private final Map<Class<?>, Set<Class<?>>> inheritanceMapping;
   private final Map<Class<?>, List<Class<?>>> sequenceMapping;
 
-  private ValidationGroupsMetadata(Map<Class<?>, Set<Class<?>>> inheritanceinheritanceMap,
+  private ValidationGroupsMetadata(
+      Map<Class<?>, Set<Class<?>>> inheritanceinheritanceMap,
       Map<Class<?>, List<Class<?>>> sequenceMap) {
     this.inheritanceMapping = Collections.unmodifiableMap(inheritanceinheritanceMap);
     this.sequenceMapping = Collections.unmodifiableMap(sequenceMap);
   }
 
-  /**
-   * Checks if a given group has been added to the inheritance map.
-   */
+  /** Checks if a given group has been added to the inheritance map. */
   public boolean containsGroup(Class<?> group) {
     return inheritanceMapping.containsKey(group);
   }
@@ -103,18 +96,19 @@ public class ValidationGroupsMetadata {
     if (!(other instanceof ValidationGroupsMetadata)) {
       return false;
     }
-    ValidationGroupsMetadata otherObj = (ValidationGroupsMetadata)other;
+    ValidationGroupsMetadata otherObj = (ValidationGroupsMetadata) other;
     return inheritanceMapping.equals(otherObj.inheritanceMapping)
         && sequenceMapping.equals(otherObj.sequenceMapping);
   }
 
   /**
    * Finds all of the validation groups extended by an intial set of groups.
+   *
    * @param baseGroups The initial set of groups to find parents of. These groups must have been
-   * added to the inheritance map already.
+   *     added to the inheritance map already.
    * @return A unified set of groups and their parents.
    * @throws IllegalArgumentException If an initial group has not been added to the map before
-   * calling this method.
+   *     calling this method.
    */
   public Set<Class<?>> findAllExtendedGroups(Collection<Class<?>> baseGroups)
       throws IllegalArgumentException {
@@ -123,8 +117,9 @@ public class ValidationGroupsMetadata {
     // initialize
     for (Class<?> group : baseGroups) {
       if (!inheritanceMapping.containsKey(group)) {
-        throw new IllegalArgumentException("The collection of groups contains a group which" +
-            " was not added to the map. Be sure to call addGroup() for all groups first.");
+        throw new IllegalArgumentException(
+            "The collection of groups contains a group which"
+                + " was not added to the map. Be sure to call addGroup() for all groups first.");
       }
       remaining.push(group);
     }
@@ -158,9 +153,7 @@ public class ValidationGroupsMetadata {
     return allGroups;
   }
 
-  /**
-   * Returns all the known group sequence classes.
-   */
+  /** Returns all the known group sequence classes. */
   public Set<Class<?>> getGroupSequences() {
     return sequenceMapping.keySet();
   }
@@ -176,9 +169,7 @@ public class ValidationGroupsMetadata {
     return inheritanceMapping.get(group);
   }
 
-  /**
-   * Returns all of the groups added to the map (but not their parents).
-   */
+  /** Returns all of the groups added to the map (but not their parents). */
   public Set<Class<?>> getRootGroups() {
     return inheritanceMapping.keySet();
   }
@@ -198,9 +189,7 @@ public class ValidationGroupsMetadata {
     return result;
   }
 
-  /**
-   * Checks if a group extends other groups (has parents).
-   */
+  /** Checks if a group extends other groups (has parents). */
   public boolean hasParents(Class<?> group) {
     Set<Class<?>> possibleParents = getParentsOfGroup(group);
     return possibleParents != null && !possibleParents.isEmpty();
@@ -210,9 +199,7 @@ public class ValidationGroupsMetadata {
     return inheritanceMapping.isEmpty();
   }
 
-  /**
-   * Checks if a given class is a group sequence map.
-   */
+  /** Checks if a given class is a group sequence map. */
   public boolean isSeqeuence(Class<?> sequence) {
     return sequenceMapping.containsKey(sequence);
   }
@@ -223,7 +210,11 @@ public class ValidationGroupsMetadata {
 
   @Override
   public String toString() {
-    return "ValidationGroupsMetaData{inheritanceMap=" + inheritanceMapping + ", " +
-        "sequenceMap=" + sequenceMapping + "}";
+    return "ValidationGroupsMetaData{inheritanceMap="
+        + inheritanceMapping
+        + ", "
+        + "sequenceMap="
+        + sequenceMapping
+        + "}";
   }
 }

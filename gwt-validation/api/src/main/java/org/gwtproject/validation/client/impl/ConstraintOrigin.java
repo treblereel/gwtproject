@@ -17,19 +17,14 @@ package org.gwtproject.validation.client.impl;
 
 /**
  * Visibility looked at when discovering constraints.
- * <p>
- * Exactly the same as the
- * <a href="http://docs.jboss.org/hibernate/validator/4.3/api/org/hibernate/validator/internal/metadata/core/ConstraintOrigin.html">
- * Hibernate implementation</a>.
- * Duplicated here to avoid dependency.
+ *
+ * <p>Exactly the same as the <a
+ * href="http://docs.jboss.org/hibernate/validator/4.3/api/org/hibernate/validator/internal/metadata/core/ConstraintOrigin.html">
+ * Hibernate implementation</a>. Duplicated here to avoid dependency.
  */
 public enum ConstraintOrigin {
-  /**
-   * Constraint is defined on the root class
-   */
+  /** Constraint is defined on the root class */
   DEFINED_LOCALLY,
-  /**
-   * Constraint is defined in a super-class or interface of the root class.
-   */
+  /** Constraint is defined in a super-class or interface of the root class. */
   DEFINED_IN_HIERARCHY
 }

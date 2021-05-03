@@ -16,18 +16,15 @@
 package org.gwtproject.validation.client.constraints;
 
 import java.math.BigDecimal;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.constraints.Digits;
 
 /**
- * Abstract {@link Digits} constraint validator implementation for a
- * <code>T</code>.
+ * Abstract {@link Digits} constraint validator implementation for a <code>T</code>.
  *
  * @param <T> the type of object to validate
  */
-public abstract class AbstractDigitsValidator<T> implements
-    ConstraintValidator<Digits, T> {
+public abstract class AbstractDigitsValidator<T> implements ConstraintValidator<Digits, T> {
 
   private int fraction;
   private int integer;
@@ -35,12 +32,10 @@ public abstract class AbstractDigitsValidator<T> implements
   @Override
   public final void initialize(Digits constraintAnnotation) {
     if (!(constraintAnnotation.fraction() >= 0)) {
-      throw new IllegalArgumentException(
-          "@Digits.fraction must be a nonnegative nubmer");
+      throw new IllegalArgumentException("@Digits.fraction must be a nonnegative nubmer");
     }
     if (!(constraintAnnotation.integer() >= 0)) {
-      throw new IllegalArgumentException(
-          "@Digits.integer must be a nonnegative nubmer");
+      throw new IllegalArgumentException("@Digits.integer must be a nonnegative nubmer");
     }
     fraction = constraintAnnotation.fraction();
     integer = constraintAnnotation.integer();

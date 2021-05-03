@@ -15,15 +15,11 @@
  */
 package org.gwtproject.validation.testing.constraints;
 
+import javax.validation.constraints.Digits;
 import org.gwtproject.validation.client.constraints.DigitsValidatorForString;
 
-import javax.validation.constraints.Digits;
-
-/**
- * Tests for {@link DigitsValidatorForString}.
- */
-public class DigitsValidatorForStringTest extends
-    ConstraintValidatorTestCase<Digits, String> {
+/** Tests for {@link DigitsValidatorForString}. */
+public class DigitsValidatorForStringTest extends ConstraintValidatorTestCase<Digits, String> {
 
   private static String GOOD = "1234.12";
   private static String INT_TO_BIG = "12345.12";

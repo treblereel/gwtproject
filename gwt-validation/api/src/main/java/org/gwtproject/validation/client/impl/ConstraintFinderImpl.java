@@ -15,9 +15,6 @@
  */
 package org.gwtproject.validation.client.impl;
 
-import org.gwtproject.validation.client.impl.metadata.BeanMetadata;
-import org.gwtproject.validation.client.impl.metadata.ValidationGroupsMetadata;
-
 import java.lang.annotation.ElementType;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,15 +23,14 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
 import javax.validation.groups.Default;
 import javax.validation.metadata.ConstraintDescriptor;
 import javax.validation.metadata.ElementDescriptor.ConstraintFinder;
 import javax.validation.metadata.Scope;
+import org.gwtproject.validation.client.impl.metadata.BeanMetadata;
+import org.gwtproject.validation.client.impl.metadata.ValidationGroupsMetadata;
 
-/**
- * Finds constraints declared on an element using specified criteria.
- */
+/** Finds constraints declared on an element using specified criteria. */
 public final class ConstraintFinderImpl implements ConstraintFinder {
   private Set<ConstraintDescriptorImpl<?>> constraintDescriptors;
   private ValidationGroupsMetadata validationGroupsMetadata;
@@ -43,7 +39,8 @@ public final class ConstraintFinderImpl implements ConstraintFinder {
   private Set<ElementType> elementTypes;
   private BeanMetadata beanMetadata;
 
-  public ConstraintFinderImpl(BeanMetadata beanMetadata,
+  public ConstraintFinderImpl(
+      BeanMetadata beanMetadata,
       ValidationGroupsMetadata validationGroupsMetadata,
       Set<ConstraintDescriptorImpl<?>> constraintDescriptors) {
     this.validationGroupsMetadata = validationGroupsMetadata;
@@ -70,9 +67,10 @@ public final class ConstraintFinderImpl implements ConstraintFinder {
   public Set<ConstraintDescriptor<?>> getConstraintDescriptors() {
     if (validationGroupsMetadata == null) {
       // sanity check - this could be null if the caller does not set group metadata first
-      throw new IllegalStateException("ConstraintFinderImpl not initialized properly. A " +
-          "ValidationGroupsMetadata object is required by GWT to properly find all constraint " +
-          "descriptors.");
+      throw new IllegalStateException(
+          "ConstraintFinderImpl not initialized properly. A "
+              + "ValidationGroupsMetadata object is required by GWT to properly find all constraint "
+              + "descriptors.");
     }
     Set<ConstraintDescriptor<?>> matchingDescriptors = new HashSet<ConstraintDescriptor<?>>();
     findMatchingDescriptors(matchingDescriptors);
@@ -98,16 +96,15 @@ public final class ConstraintFinderImpl implements ConstraintFinder {
     for (Class<?> clazz : groups) {
       if (Default.class.equals(clazz) && beanMetadata.defaultGroupSequenceIsRedefined()) {
         this.groups.addAll(beanMetadata.getDefaultGroupSequence());
-      }
-      else {
+      } else {
         this.groups.add(clazz);
       }
     }
     return this;
   }
 
-  private void addMatchingDescriptorsForGroup(Class<?> group,
-      Set<ConstraintDescriptor<?>> matchingDescriptors) {
+  private void addMatchingDescriptorsForGroup(
+      Class<?> group, Set<ConstraintDescriptor<?>> matchingDescriptors) {
     for (ConstraintDescriptorImpl<?> descriptor : constraintDescriptors) {
       if (definedInSet.contains(descriptor.getDefinedOn())
           && elementTypes.contains(descriptor.getElementType())
@@ -126,15 +123,13 @@ public final class ConstraintFinderImpl implements ConstraintFinder {
         Group g = groupIterator.next();
         addMatchingDescriptorsForGroup(g.getGroup(), matchingDescriptors);
       }
-    }
-    else {
+    } else {
       for (ConstraintDescriptorImpl<?> descriptor : constraintDescriptors) {
-        if (definedInSet.contains(descriptor.getDefinedOn()) &&
-            elementTypes.contains(descriptor.getElementType())) {
+        if (definedInSet.contains(descriptor.getDefinedOn())
+            && elementTypes.contains(descriptor.getElementType())) {
           matchingDescriptors.add(descriptor);
         }
       }
     }
   }
-
 }

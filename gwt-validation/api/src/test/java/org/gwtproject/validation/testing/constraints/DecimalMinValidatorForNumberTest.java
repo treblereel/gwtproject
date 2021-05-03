@@ -15,15 +15,12 @@
  */
 package org.gwtproject.validation.testing.constraints;
 
+import javax.validation.constraints.DecimalMin;
 import org.gwtproject.validation.client.constraints.DecimalMinValidatorForNumber;
 
-import javax.validation.constraints.DecimalMin;
-
-/**
- * Tests for {@link DecimalMinValidatorForNumber}.
- */
-public class DecimalMinValidatorForNumberTest extends
-    ConstraintValidatorTestCase<DecimalMin, Number> {
+/** Tests for {@link DecimalMinValidatorForNumber}. */
+public class DecimalMinValidatorForNumberTest
+    extends ConstraintValidatorTestCase<DecimalMin, Number> {
   private static Double BELOW = Double.valueOf(922392239223.08);
   private static Double ABOVE = Double.valueOf(922392239223.10);
 
@@ -50,5 +47,4 @@ public class DecimalMinValidatorForNumberTest extends
   protected Class<DecimalMin> getAnnotationClass() {
     return DecimalMin.class;
   }
-
 }

@@ -15,15 +15,11 @@
  */
 package org.gwtproject.validation.testing.constraints;
 
+import javax.validation.constraints.Min;
 import org.gwtproject.validation.client.constraints.MinValidatorForString;
 
-import javax.validation.constraints.Min;
-
-/**
- * Tests for {@link MinValidatorForString}.
- */
-public class MinValidatorForStringTest extends
-    ConstraintValidatorTestCase<Min, String> {
+/** Tests for {@link MinValidatorForString}. */
+public class MinValidatorForStringTest extends ConstraintValidatorTestCase<Min, String> {
   private static String SAME = "123456789";
   private static String SMALLER = "123456788";
   private static String BIGGER = "123456790";

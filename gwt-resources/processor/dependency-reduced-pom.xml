@@ -3,10 +3,11 @@
   <parent>
     <artifactId>gwt-resources-parent</artifactId>
     <groupId>org.gwtproject.resources</groupId>
-    <version>HEAD-SNAPSHOT</version>
+    <version>dev</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>gwt-resources-processor</artifactId>
+  <version>${revision}</version>
   <description>apt processor for gwt-resources</description>
   <developers>
     <developer>

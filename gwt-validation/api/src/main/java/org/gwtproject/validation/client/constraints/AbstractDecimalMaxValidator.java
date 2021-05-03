@@ -16,19 +16,15 @@
 package org.gwtproject.validation.client.constraints;
 
 import java.math.BigDecimal;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.constraints.DecimalMax;
 
 /**
- * <p>
- * Abstract {@link DecimalMax} constraint validator implementation for a
- * <code>T</code>.
- * 
+ * Abstract {@link DecimalMax} constraint validator implementation for a <code>T</code>.
+ *
  * @param <T> the type of object to validate
  */
-public abstract class AbstractDecimalMaxValidator<T> implements
-    ConstraintValidator<DecimalMax, T> {
+public abstract class AbstractDecimalMaxValidator<T> implements ConstraintValidator<DecimalMax, T> {
 
   private BigDecimal max;
 
@@ -41,8 +37,8 @@ public abstract class AbstractDecimalMaxValidator<T> implements
     try {
       max = new BigDecimal(constraintAnnotation.value());
     } catch (NumberFormatException e) {
-      throw new IllegalArgumentException(constraintAnnotation.value()
-          + " does not represent a valid BigDecimal format", e);
+      throw new IllegalArgumentException(
+          constraintAnnotation.value() + " does not represent a valid BigDecimal format", e);
     }
   }
 

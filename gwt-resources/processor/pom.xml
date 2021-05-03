@@ -6,11 +6,12 @@
     <parent>
         <groupId>org.gwtproject.resources</groupId>
         <artifactId>gwt-resources-parent</artifactId>
-        <version>HEAD-SNAPSHOT</version>
+        <version>dev</version>
     </parent>
 
     <artifactId>gwt-resources-processor</artifactId>
     <description>apt processor for gwt-resources</description>
+    <version>${revision}</version>
     <packaging>jar</packaging>
 
     <developers>
@@ -25,6 +26,11 @@
         <dependency>
             <groupId>org.gwtproject.resources</groupId>
             <artifactId>gwt-resources-api</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.gwtproject.i18n</groupId>
+            <artifactId>gwt-i18n</artifactId>
             <version>${revision}</version>
         </dependency>
         <dependency>

@@ -17,15 +17,12 @@ package org.gwtproject.validation.client.spi;
 
 import java.util.Collections;
 import java.util.Map;
-
 import javax.validation.ConstraintValidatorFactory;
 import javax.validation.MessageInterpolator;
 import javax.validation.TraversableResolver;
 import javax.validation.spi.ConfigurationState;
 
-/**
- * Base GWT implementation of {@link ConfigurationState}.
- */
+/** Base GWT implementation of {@link ConfigurationState}. */
 public abstract class BaseConfigurationState implements ConfigurationState {
   private final ConstraintValidatorFactory constraintValidatorFactory;
   private final MessageInterpolator messageInterpolator;
@@ -68,5 +65,4 @@ public abstract class BaseConfigurationState implements ConfigurationState {
     // Always ignore XML
     return false;
   }
-
 }

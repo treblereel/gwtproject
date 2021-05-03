@@ -18,18 +18,16 @@ package org.gwtproject.validation.client.impl;
 import java.io.Serializable;
 import java.lang.annotation.ElementType;
 import java.util.Objects;
-
 import javax.validation.ConstraintViolation;
 import javax.validation.Path;
 import javax.validation.metadata.ConstraintDescriptor;
 
 /**
  * An implementation of {@link ConstraintViolation}.
- * 
+ *
  * @param <T> the type of bean validated.
  */
-public final class ConstraintViolationImpl<T> implements ConstraintViolation<T>,
-    Serializable {
+public final class ConstraintViolationImpl<T> implements ConstraintViolation<T>, Serializable {
 
   /**
    * Builder for ConstraintViolations.
@@ -48,13 +46,19 @@ public final class ConstraintViolationImpl<T> implements ConstraintViolation<T>,
     private ConstraintDescriptor<?> constraintDescriptor;
 
     public ConstraintViolationImpl<T> build() {
-      return new ConstraintViolationImpl<T>(message, messageTemplate, rootBean,
-          rootBeanClass, leafBean, propertyPath, invalidValue, elementType,
+      return new ConstraintViolationImpl<T>(
+          message,
+          messageTemplate,
+          rootBean,
+          rootBeanClass,
+          leafBean,
+          propertyPath,
+          invalidValue,
+          elementType,
           constraintDescriptor);
     }
 
-    public Builder<T> setConstraintDescriptor(
-        ConstraintDescriptor<?> constraintDescriptor) {
+    public Builder<T> setConstraintDescriptor(ConstraintDescriptor<?> constraintDescriptor) {
       this.constraintDescriptor = constraintDescriptor;
       return this;
     }
@@ -126,9 +130,15 @@ public final class ConstraintViolationImpl<T> implements ConstraintViolation<T>,
    * @param invalidValue
    * @param constraintDescriptor
    */
-  private ConstraintViolationImpl(String message, String messageTemplate,
-      T rootBean, Class<T> rootBeanClass, Object leafBean, Path propertyPath,
-      Object invalidValue, ElementType elementType,
+  private ConstraintViolationImpl(
+      String message,
+      String messageTemplate,
+      T rootBean,
+      Class<T> rootBeanClass,
+      Object leafBean,
+      Path propertyPath,
+      Object invalidValue,
+      ElementType elementType,
       ConstraintDescriptor<?> constraintDescriptor) {
     super();
     this.message = message;
@@ -210,15 +220,19 @@ public final class ConstraintViolationImpl<T> implements ConstraintViolation<T>,
     return result;
   }
 
-  /**
-   * For debugging only. Do not rely on the format. It can change at any time.
-   */
+  /** For debugging only. Do not rely on the format. It can change at any time. */
   @Override
   public String toString() {
-    return "ConstraintViolationImpl(message= " + message //
-        + ", path= " + propertyPath //
-        + ", invalidValue=" + invalidValue //
-        + ", desc=" + constraintDescriptor //
-        + ", elementType=" + elementType + ")";
+    return "ConstraintViolationImpl(message= "
+        + message //
+        + ", path= "
+        + propertyPath //
+        + ", invalidValue="
+        + invalidValue //
+        + ", desc="
+        + constraintDescriptor //
+        + ", elementType="
+        + elementType
+        + ")";
   }
 }

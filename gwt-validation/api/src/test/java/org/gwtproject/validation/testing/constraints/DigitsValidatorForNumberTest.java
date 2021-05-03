@@ -15,17 +15,12 @@
  */
 package org.gwtproject.validation.testing.constraints;
 
+import java.math.BigDecimal;
+import javax.validation.constraints.Digits;
 import org.gwtproject.validation.client.constraints.DigitsValidatorForNumber;
 
-import java.math.BigDecimal;
-
-import javax.validation.constraints.Digits;
-
-/**
- * Tests for {@link DigitsValidatorForNumber}.
- */
-public class DigitsValidatorForNumberTest extends
-    ConstraintValidatorTestCase<Digits, Number> {
+/** Tests for {@link DigitsValidatorForNumber}. */
+public class DigitsValidatorForNumberTest extends ConstraintValidatorTestCase<Digits, Number> {
 
   private static BigDecimal GOOD = new BigDecimal("1234.12");
   private static BigDecimal INT_TO_BIG = new BigDecimal("12345.12");

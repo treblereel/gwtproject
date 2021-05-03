@@ -15,25 +15,24 @@
  */
 package org.gwtproject.validation.client.impl;
 
+import java.util.Set;
+import javax.validation.ConstraintViolation;
+import javax.validation.ValidationException;
 import org.gwtproject.validation.client.impl.metadata.BeanMetadata;
 import org.gwtproject.validation.client.impl.metadata.ValidationGroupsMetadata;
 
-import java.util.Set;
-
-import javax.validation.ConstraintViolation;
-import javax.validation.ValidationException;
-
 /**
- * Defines GWT version of {@link javax.validation.Validator}. This used by
- * generate a specific Validator for a given class G.
- * 
+ * Defines GWT version of {@link javax.validation.Validator}. This used by generate a specific
+ * Validator for a given class G.
+ *
  * @param <G> the type of bean for this validator
  */
 public interface GwtSpecificValidator<G> {
 
   /**
-   * Helper method used to first expand the Default group sequence and then 
-   * perform validation of a bean using the specific group(s).
+   * Helper method used to first expand the Default group sequence and then perform validation of a
+   * bean using the specific group(s).
+   *
    * @param context GWT validation context.
    * @param object Object being validated.
    * @param violations Set of violations to add to.
@@ -46,8 +45,9 @@ public interface GwtSpecificValidator<G> {
       Group... groups);
 
   /**
-   * Helper method used to first expand the Default group sequence and then 
-   * perform validation of a bean using the specific group(s).
+   * Helper method used to first expand the Default group sequence and then perform validation of a
+   * bean using the specific group(s).
+   *
    * @param context GWT validation context.
    * @param object Object being validated.
    * @param propertyName The name of the property being validated.
@@ -62,8 +62,9 @@ public interface GwtSpecificValidator<G> {
       Group... groups);
 
   /**
-   * Helper method used to first expand the Default group sequence and then 
-   * perform validation of a bean using the specific group(s).
+   * Helper method used to first expand the Default group sequence and then perform validation of a
+   * bean using the specific group(s).
+   *
    * @param context GWT validation context.
    * @param beanType Class being validated.
    * @param propertyName The name of the property being validated.
@@ -79,9 +80,7 @@ public interface GwtSpecificValidator<G> {
       Set<ConstraintViolation<T>> violations,
       Group... groups);
 
-  /**
-   * @return The metadata for the bean class associated with this valdiator.
-   */
+  /** @return The metadata for the bean class associated with this valdiator. */
   BeanMetadata getBeanMetadata();
 
   /**
@@ -105,22 +104,19 @@ public interface GwtSpecificValidator<G> {
    * @param<T> the type of the RootBean for this validation context
    * @param context The gwt validation context
    * @param object object to validate
-   * @param groups group or list of groups targeted for validation (default to
-   *          {@link javax.validation.groups.Default})
-   *
+   * @param groups group or list of groups targeted for validation (default to {@link
+   *     javax.validation.groups.Default})
    * @return constraint violations or an empty Set if none
-   *
-   * @throws IllegalArgumentException if object is null or if null is passed to
-   *           the varargs groups
-   * @throws ValidationException if a non recoverable error happens during the
-   *           validation process
+   * @throws IllegalArgumentException if object is null or if null is passed to the varargs groups
+   * @throws ValidationException if a non recoverable error happens during the validation process
    */
-  <T> Set<ConstraintViolation<T>> validate(GwtValidationContext<T> context,
-      G object, Class<?>... groups) throws ValidationException;
+  <T> Set<ConstraintViolation<T>> validate(
+      GwtValidationContext<T> context, G object, Class<?>... groups) throws ValidationException;
 
   /**
-   * Helper method used to perform validation of a bean using specific group(s). Does not expand
-   * the Default group seqeunce if it is redefined.
+   * Helper method used to perform validation of a bean using specific group(s). Does not expand the
+   * Default group seqeunce if it is redefined.
+   *
    * @param context GWT validation context.
    * @param object Object being validated.
    * @param violations Set of violations to add to.
@@ -133,30 +129,27 @@ public interface GwtSpecificValidator<G> {
       Class<?>... groups);
 
   /**
-   * Validates all constraints placed on the property of <code>object</code>
-   * named <code>propertyName</code>.
+   * Validates all constraints placed on the property of <code>object</code> named <code>
+   * propertyName</code>.
    *
    * @param<T> the type of the RootBean for this validation context
    * @param context The gwt validation context
    * @param object object to validate
    * @param propertyName property to validate (ie field and getter constraints)
-   * @param groups group or list of groups targeted for validation (default to
-   *          {@link javax.validation.groups.Default})
-   *
+   * @param groups group or list of groups targeted for validation (default to {@link
+   *     javax.validation.groups.Default})
    * @return constraint violations or an empty Set if none
-   *
-   * @throws IllegalArgumentException if <code>object</code> is null, if
-   *           <code>propertyName</code> null, empty or not a valid object
-   *           property or if null is passed to the varargs groups
-   * @throws ValidationException if a non recoverable error happens during the
-   *           validation process
+   * @throws IllegalArgumentException if <code>object</code> is null, if <code>propertyName</code>
+   *     null, empty or not a valid object property or if null is passed to the varargs groups
+   * @throws ValidationException if a non recoverable error happens during the validation process
    */
   <T> Set<ConstraintViolation<T>> validateProperty(
-      GwtValidationContext<T> context, G object, String propertyName,
-      Class<?>... groups) throws ValidationException;
+      GwtValidationContext<T> context, G object, String propertyName, Class<?>... groups)
+      throws ValidationException;
 
   /**
    * Helper method used to perform validation of a bean property using specific group(s).
+   *
    * @param context GWT validation context.
    * @param object Object with property being validated.
    * @param propertyName Name of property to validate.
@@ -171,37 +164,36 @@ public interface GwtSpecificValidator<G> {
       Class<?>... groups);
 
   /**
-   * Validates all constraints placed on the property named
-   * <code>propertyName</code> of the class <code>beanType</code> where the
-   * property value is <code>value</code>.
-   * <p/>
-   * <code>ConstraintViolation</code> objects return null for
-   * {@link ConstraintViolation#getRootBean()} and
-   * {@link ConstraintViolation#getLeafBean()}
+   * Validates all constraints placed on the property named <code>propertyName</code> of the class
+   * <code>beanType</code> where the property value is <code>value</code>.
+   *
+   * <p><code>ConstraintViolation</code> objects return null for {@link
+   * ConstraintViolation#getRootBean()} and {@link ConstraintViolation#getLeafBean()}
    *
    * @param<T> the type of the RootBean for this validation context
    * @param context The gwt validation context
    * @param beanType the bean type
    * @param propertyName property to validate
    * @param value property value to validate
-   * @param groups group or list of groups targeted for validation (default to
-   *          {@link javax.validation.groups.Default})
-   *
+   * @param groups group or list of groups targeted for validation (default to {@link
+   *     javax.validation.groups.Default})
    * @return constraint violations or an empty Set if none
-   *
-   * @throws IllegalArgumentException if <code>beanType</code> is null, if
-   *           <code>propertyName</code> null, empty or not a valid object
-   *           property or if null is passed to the varargs groups
-   * @throws ValidationException if a non recoverable error happens during the
-   *           validation process
+   * @throws IllegalArgumentException if <code>beanType</code> is null, if <code>propertyName</code>
+   *     null, empty or not a valid object property or if null is passed to the varargs groups
+   * @throws ValidationException if a non recoverable error happens during the validation process
    */
   <T> Set<ConstraintViolation<T>> validateValue(
-      GwtValidationContext<T> context, Class<G> beanType, String propertyName,
-      Object value, Class<?>... groups) throws ValidationException;
+      GwtValidationContext<T> context,
+      Class<G> beanType,
+      String propertyName,
+      Object value,
+      Class<?>... groups)
+      throws ValidationException;
 
   /**
-   * Helper method used to perform validation of a class property with a specified value
-   * using specific group(s).
+   * Helper method used to perform validation of a class property with a specified value using
+   * specific group(s).
+   *
    * @param context GWT validation context.
    * @param beanType Class with property being validated.
    * @param propertyName Name of property to validate.

@@ -15,9 +15,7 @@
  */
 package org.gwtproject.validation.rg.util;
 
-/**
- * Interface used for printing text output.
- */
+/** Interface used for printing text output. */
 public interface TextOutput {
 
   int getColumn();

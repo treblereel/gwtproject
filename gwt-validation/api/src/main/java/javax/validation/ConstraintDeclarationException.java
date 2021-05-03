@@ -1,4 +1,3 @@
-// $Id: ConstraintDeclarationException.java 17620 2009-10-04 19:19:28Z hardy.ferentschik $
 /*
  * JBoss, Home of Professional Open Source
  * Copyright 2009, Red Hat, Inc. and/or its affiliates, and individual contributors
@@ -23,19 +22,19 @@ package javax.validation;
  * @author Emmanuel Bernard
  */
 public class ConstraintDeclarationException extends ValidationException {
-    public ConstraintDeclarationException(String message) {
-        super( message );
-    }
+  public ConstraintDeclarationException(String message) {
+    super(message);
+  }
 
-    public ConstraintDeclarationException() {
-        super();
-    }
+  public ConstraintDeclarationException() {
+    super();
+  }
 
-    public ConstraintDeclarationException(String message, Throwable cause) {
-        super( message, cause );
-    }
+  public ConstraintDeclarationException(String message, Throwable cause) {
+    super(message, cause);
+  }
 
-    public ConstraintDeclarationException(Throwable cause) {
-        super( cause );
-    }
+  public ConstraintDeclarationException(Throwable cause) {
+    super(cause);
+  }
 }

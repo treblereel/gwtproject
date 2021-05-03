@@ -60,10 +60,6 @@
       <groupId>org.gwtproject.event</groupId>
       <artifactId>gwt-event-dom</artifactId>
     </dependency>
-    <dependency>
-      <groupId>com.google.gwt</groupId>
-      <artifactId>gwt-user</artifactId>
-    </dependency>
   </dependencies>
 
 </project>

@@ -1,4 +1,3 @@
-// $Id: Default.java 17620 2009-10-04 19:19:28Z hardy.ferentschik $
 /*
  * JBoss, Home of Professional Open Source
  * Copyright 2009, Red Hat, Inc. and/or its affiliates, and individual contributors
@@ -18,15 +17,15 @@
 package javax.validation.groups;
 
 /**
- * Default Bean Validation group.
- * Unless a list of group is explicitly defined:
+ * Default Bean Validation group. Unless a list of group is explicitly defined:
+ *
  * <ul>
- *  <li>constraints belong to the Default group</li>
- *  <li>validation apply on the Default group</li>
+ *   <li>constraints belong to the Default group
+ *   <li>validation apply on the Default group
  * </ul>
+ *
  * Most structural constraints should belong to the default group.
  *
  * @author Emmanuel Bernard
  */
-public interface Default {
-}
+public interface Default {}

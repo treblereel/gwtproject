@@ -6,19 +6,19 @@
   <parent>
     <groupId>org.gwtproject.validation</groupId>
     <artifactId>gwt-validation-parent</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>dev</version>
   </parent>
 
   <artifactId>gwt-validation-processor</artifactId>
   <description>apt processor for gwt-validation</description>
-  <version>1.0-SNAPSHOT</version>
+  <version>${revision}</version>
   <packaging>jar</packaging>
 
   <developers>
     <developer>
       <id>treblereel</id>
       <name>Dmitrii Tikhomirov</name>
-      <email>chani@me.com</email>
+      <email>chani.liet@gmail.com</email>
     </developer>
   </developers>
 
@@ -26,151 +26,72 @@
     <dependency>
       <groupId>org.gwtproject.regexp</groupId>
       <artifactId>gwt-regexp</artifactId>
-      <version>1.0-SNAPSHOT</version>
-      <exclusions>
-        <exclusion>
-          <groupId>com.vertispan.elemental2</groupId>
-          <artifactId>elemental2-core</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.gwtproject.validation</groupId>
       <artifactId>gwt-validation-api</artifactId>
-      <version>1.0-SNAPSHOT</version>
     </dependency>
 
 
     <dependency>
-      <groupId>com.vertispan.elemental2</groupId>
+      <groupId>com.google.elemental2</groupId>
       <artifactId>elemental2-dom</artifactId>
-      <version>1.0.0-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>org.gwtproject.dom</groupId>
       <artifactId>gwt-dom</artifactId>
-      <version>1.0-SNAPSHOT</version>
-      <exclusions>
-        <exclusion>
-          <groupId>org.realityforge.com.google.jsinterop</groupId>
-          <artifactId>base</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>com.google.elemental2</groupId>
-          <artifactId>elemental2-dom</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.gwtproject.safehtml</groupId>
-          <artifactId>gwt-safehtml</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
 
     <dependency>
       <groupId>org.gwtproject.safehtml</groupId>
       <artifactId>gwt-safehtml</artifactId>
-      <version>1.0-SNAPSHOT</version>
-      <exclusions>
-        <exclusion>
-          <groupId>com.google.elemental2</groupId>
-          <artifactId>elemental2-dom</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>com.google.elemental2</groupId>
-          <artifactId>elemental2-core</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
 
 
     <dependency>
       <groupId>com.google.auto</groupId>
       <artifactId>auto-common</artifactId>
-      <version>${auto.common.version}</version>
     </dependency>
     <dependency>
       <groupId>com.google.auto.service</groupId>
       <artifactId>auto-service</artifactId>
-      <version>${auto.service.version}</version>
     </dependency>
 
     <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>25.1-jre</version>
     </dependency>
 
     <dependency>
-      <groupId>org.gwtproject</groupId>
-      <artifactId>editors</artifactId>
-      <version>1.0-SNAPSHOT</version>
-      <exclusions>
-        <exclusion>
-          <groupId>org.gwtproject.uibinder</groupId>
-          <artifactId>gwt-uibinder-client</artifactId>
-        </exclusion>
-      </exclusions>
+      <groupId>org.gwtproject.editor</groupId>
+      <artifactId>gwt-editor</artifactId>
       <scope>test</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.gwtproject</groupId>
-      <artifactId>editors-processor</artifactId>
-      <version>1.0-SNAPSHOT</version>
-      <exclusions>
-        <exclusion>
-          <groupId>org.gwtproject.uibinder</groupId>
-          <artifactId>gwt-uibinder-client</artifactId>
-        </exclusion>
-      </exclusions>
+      <groupId>org.gwtproject.editor</groupId>
+      <artifactId>gwt-editor-processor</artifactId>
       <scope>test</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.gwtproject</groupId>
+      <groupId>org.gwtproject.uibinder</groupId>
       <artifactId>gwt-uibinder-processor</artifactId>
-      <version>1.0.0-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>org.gwtproject.event</groupId>
       <artifactId>gwt-event-dom</artifactId>
-      <version>1.0-SNAPSHOT</version>
-      <exclusions>
-        <exclusion>
-          <groupId>com.google.elemental2</groupId>
-          <artifactId>elemental2-dom</artifactId>
-        </exclusion>
-      </exclusions>
       <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>org.gwtproject.widgets</groupId>
       <artifactId>gwt-widgets</artifactId>
-      <version>1.0-SNAPSHOT</version>
-      <exclusions>
-        <exclusion>
-          <groupId>org.gwtproject.event</groupId>
-          <artifactId>gwt-event-dom</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.gwtproject.dom</groupId>
-          <artifactId>gwt-dom</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.gwtproject.resources</groupId>
-          <artifactId>gwt-resources-api</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>com.google.elemental2</groupId>
-          <artifactId>elemental2-dom</artifactId>
-        </exclusion>
-      </exclusions>
       <scope>test</scope>
     </dependency>
 
@@ -197,7 +118,6 @@
        <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>${maven.surefire.plugin}</version>
         <configuration>
           <additionalClasspathElements>
             <additionalClasspathElement>${project.build.sourceDirectory}</additionalClasspathElement>
@@ -218,7 +138,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
-        <version>${maven.source.plugin}</version>
         <executions>
           <execution>
             <id>attach-sources</id>
@@ -232,7 +151,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-clean-plugin</artifactId>
-        <version>${maven.clean.plugin}</version>
         <configuration>
           <filesets>
             <fileset>

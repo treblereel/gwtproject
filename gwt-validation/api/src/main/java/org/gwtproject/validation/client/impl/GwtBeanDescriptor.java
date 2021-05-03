@@ -15,14 +15,12 @@
  */
 package org.gwtproject.validation.client.impl;
 
+import javax.validation.metadata.BeanDescriptor;
 import org.gwtproject.validation.client.impl.metadata.ValidationGroupsMetadata;
 
-import javax.validation.metadata.BeanDescriptor;
-
 /**
- * Marker interface used by GWT to generate a {@link BeanDescriptor} for a
- * specific class T.
- * 
+ * Marker interface used by GWT to generate a {@link BeanDescriptor} for a specific class T.
+ *
  * @param <T>
  */
 public interface GwtBeanDescriptor<T> extends BeanDescriptor {

@@ -15,20 +15,16 @@
  */
 package org.gwtproject.validation.testing.constraints;
 
-import org.gwtproject.validation.client.constraints.SizeValidatorForCollection;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-
 import javax.validation.constraints.Size;
+import org.gwtproject.validation.client.constraints.SizeValidatorForCollection;
 
-/**
- * Tests for {@link SizeValidatorForCollection}.
- */
-public class SizeValidatorForCollectionTest extends
-    ConstraintValidatorTestCase<Size, Collection<?>> {
+/** Tests for {@link SizeValidatorForCollection}. */
+public class SizeValidatorForCollectionTest
+    extends ConstraintValidatorTestCase<Size, Collection<?>> {
 
   @SuppressWarnings("unused")
   @Size(min = 2, max = 5)

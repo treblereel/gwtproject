@@ -15,15 +15,11 @@
  */
 package org.gwtproject.validation.testing.constraints;
 
+import javax.validation.constraints.AssertFalse;
 import org.gwtproject.validation.client.constraints.AssertFalseValidator;
 
-import javax.validation.constraints.AssertFalse;
-
-/**
- * Tests for {@link AssertFalseValidator}.
- */
-public class AssertFalseValidatorTest extends
-    ConstraintValidatorTestCase<AssertFalse, Boolean> {
+/** Tests for {@link AssertFalseValidator}. */
+public class AssertFalseValidatorTest extends ConstraintValidatorTestCase<AssertFalse, Boolean> {
 
   @SuppressWarnings("unused")
   @AssertFalse

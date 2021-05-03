@@ -15,17 +15,12 @@
  */
 package org.gwtproject.validation.testing.constraints;
 
+import java.util.Date;
+import javax.validation.constraints.Past;
 import org.gwtproject.validation.client.constraints.PastValidatorForDate;
 
-import java.util.Date;
-
-import javax.validation.constraints.Past;
-
-/**
- * Tests for {@link PastValidatorForDate}.
- */
-public class PastValidatorForDateTest extends
-    ConstraintValidatorTestCase<Past, Date> {
+/** Tests for {@link PastValidatorForDate}. */
+public class PastValidatorForDateTest extends ConstraintValidatorTestCase<Past, Date> {
 
   @SuppressWarnings("unused")
   @Past

@@ -15,23 +15,21 @@
  */
 package org.gwtproject.validation.client.impl;
 
-import org.gwtproject.validation.client.impl.metadata.ValidationGroupsMetadata;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import javax.validation.GroupDefinitionException;
 import javax.validation.ValidationException;
+import org.gwtproject.validation.client.impl.metadata.ValidationGroupsMetadata;
 
 /**
- * Helper class used to resolve groups and sequences into a single chain of groups which can then
- * be validated.
- * <p>
- * Modified from the Hibernate validator for use with GWT.
+ * Helper class used to resolve groups and sequences into a single chain of groups which can then be
+ * validated.
+ *
+ * <p>Modified from the Hibernate validator for use with GWT.
  */
 public class GroupChainGenerator {
   private final ValidationGroupsMetadata validationGroupsMetadata;
@@ -46,7 +44,6 @@ public class GroupChainGenerator {
    * Generates a chain of groups to be validated given the specified validation groups.
    *
    * @param groups The groups specified at the validation call.
-   *
    * @return an instance of {@code GroupChain} defining the order in which validation has to occur.
    */
   public GroupChain getGroupChainFor(Collection<Class<?>> groups) {
@@ -65,8 +62,7 @@ public class GroupChainGenerator {
     for (Class<?> clazz : groups) {
       if (isGroupSequence(clazz)) {
         insertSequence(clazz, chain);
-      }
-      else {
+      } else {
         Group group = new Group(clazz);
         chain.insertGroup(group);
         insertInheritedGroups(clazz, chain);
@@ -100,8 +96,8 @@ public class GroupChainGenerator {
     if (inheritedGroups != null) {
       for (Class<?> inheritedGroup : inheritedGroups) {
         if (isGroupSequence(inheritedGroup)) {
-          throw new GroupDefinitionException("Sequence definitions are not allowed as composing " +
-              "parts of a sequence.");
+          throw new GroupDefinitionException(
+              "Sequence definitions are not allowed as composing " + "parts of a sequence.");
         }
         Group g = new Group(inheritedGroup, group.getSequence());
         expandedGroups.add(g);
@@ -157,12 +153,11 @@ public class GroupChainGenerator {
     }
     List<Group> resolvedGroupSequence = new ArrayList<Group>();
     List<Class<?>> sequenceList = validationGroupsMetadata.getSequenceList(group);
-    for (Class<?> clazz : sequenceList ) {
+    for (Class<?> clazz : sequenceList) {
       if (isGroupSequence(clazz)) {
         List<Group> tmpSequence = resolveSequence(clazz, processedSequences);
         addGroups(resolvedGroupSequence, tmpSequence);
-      }
-      else {
+      } else {
         List<Group> list = new ArrayList<Group>();
         list.add(new Group(clazz, group));
         addGroups(resolvedGroupSequence, list);

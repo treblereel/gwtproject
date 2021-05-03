@@ -16,12 +16,9 @@
 package org.gwtproject.validation.client.impl;
 
 import java.io.Serializable;
-
 import javax.validation.Path.Node;
 
-/**
- * An immutable GWT safe implementation of {@link Node}.
- */
+/** An immutable GWT safe implementation of {@link Node}. */
 final class NodeImpl implements Node, Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -66,8 +63,7 @@ final class NodeImpl implements Node, Serializable {
     }
     NodeImpl that = (NodeImpl) obj;
     return (this.name == null ? that.name == null : this.name.equals(that.name))
-        && (this.index == null ? that.index == null : this.index
-            .equals(that.index))
+        && (this.index == null ? that.index == null : this.index.equals(that.index))
         && (this.key == null ? that.key == null : this.key.equals(that.key))
         && this.isInIterable == that.isInIterable;
   }

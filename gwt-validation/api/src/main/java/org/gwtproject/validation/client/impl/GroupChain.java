@@ -21,20 +21,17 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
 import javax.validation.GroupDefinitionException;
 import javax.validation.groups.Default;
 
 /**
  * An instance of {@code GroupChain} defines the group order during one full validation call.
- * <p>
- * Modified from the Hibernate validator for use with GWT.
+ *
+ * <p>Modified from the Hibernate validator for use with GWT.
  */
 public final class GroupChain {
 
-  /**
-   * The list of single groups to be used this validation.
-   */
+  /** The list of single groups to be used this validation. */
   private final List<Group> groupList = new ArrayList<Group>();
 
   /**
@@ -84,10 +81,7 @@ public final class GroupChain {
 
   @Override
   public String toString() {
-    return "GroupChain{" +
-        "groupList=" + groupList +
-        ", sequenceMap=" + sequenceMap +
-        "}";
+    return "GroupChain{" + "groupList=" + groupList + ", sequenceMap=" + sequenceMap + "}";
   }
 
   private List<Group> buildTempGroupList(List<Class<?>> defaultGroupSequence, Class<?> sequence) {
@@ -104,8 +98,9 @@ public final class GroupChain {
     return groupList.indexOf(defaultGroup);
   }
 
-  private void ensureDefaultGroupSequenceIsExpandable(List<Group> groupList,
-      List<Group> defaultGroupList, int defaultGroupIndex) throws GroupDefinitionException {
+  private void ensureDefaultGroupSequenceIsExpandable(
+      List<Group> groupList, List<Group> defaultGroupList, int defaultGroupIndex)
+      throws GroupDefinitionException {
     for (int i = 0; i < defaultGroupList.size(); i++) {
       Group group = defaultGroupList.get(i);
       if (group.getGroup().equals(Default.class)) {
@@ -124,8 +119,11 @@ public final class GroupChain {
         // directly before resp after we can continue as well, since we basically have two groups
         continue;
       }
-      throw new GroupDefinitionException("Unable to expand default group list " + defaultGroupList +
-          " into sequence " + groupList);
+      throw new GroupDefinitionException(
+          "Unable to expand default group list "
+              + defaultGroupList
+              + " into sequence "
+              + groupList);
     }
   }
 }

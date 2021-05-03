@@ -19,27 +19,26 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorFactory;
 
 /**
- * GWT does not support {@link ConstraintValidatorFactory} use
- * {@link org.gwtproject.core.client.GWT#create(Class) GWT.create(Class)} instead. Using this
- * class throws a {@link UnsupportedOperationException}.
+ * GWT does not support {@link ConstraintValidatorFactory} use {@link
+ * org.gwtproject.core.client.GWT#create(Class) GWT.create(Class)} instead. Using this class throws
+ * a {@link UnsupportedOperationException}.
  */
-public final class GwtConstraintValidatorFactory implements
-    ConstraintValidatorFactory {
+public final class GwtConstraintValidatorFactory implements ConstraintValidatorFactory {
 
   /**
    * Always throws {@link UnsupportedOperationException}.
-   * 
+   *
    * @throws UnsupportedOperationException
    */
   @Override
   public <T extends ConstraintValidator<?, ?>> T getInstance(Class<T> key) {
-    throw new UnsupportedOperationException("GWT does not support "
-        + ConstraintValidatorFactory.class.getName()
-        + " use GWT.create instead");
+    throw new UnsupportedOperationException(
+        "GWT does not support "
+            + ConstraintValidatorFactory.class.getName()
+            + " use GWT.create instead");
   }
 
   public void releaseInstance(ConstraintValidator<?, ?> var1) {
     throw new UnsupportedOperationException("GWT does not support InputStreams");
   }
-
 }

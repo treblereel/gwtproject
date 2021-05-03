@@ -17,7 +17,6 @@ package org.gwtproject.validation.client.constraints;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.constraints.Max;
 
@@ -26,8 +25,7 @@ import javax.validation.constraints.Max;
  *
  * @param <T> the type of object to validate
  */
-public abstract class AbstractMaxValidator<T> implements
-    ConstraintValidator<Max, T> {
+public abstract class AbstractMaxValidator<T> implements ConstraintValidator<Max, T> {
 
   private long max;
 

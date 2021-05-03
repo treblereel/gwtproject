@@ -18,11 +18,10 @@ package org.gwtproject.validation.client.constraints;
 import javax.validation.ConstraintValidatorContext;
 
 /**
- * {@link javax.validation.constraints.Size} constraint validator implementation
- * for a array of {@code byte}s.
+ * {@link javax.validation.constraints.Size} constraint validator implementation for a array of
+ * {@code byte}s.
  */
-public class SizeValidatorForArrayOfByte extends
-    AbstractSizeValidator<byte[]> {
+public class SizeValidatorForArrayOfByte extends AbstractSizeValidator<byte[]> {
 
   @Override
   public final boolean isValid(byte[] value, ConstraintValidatorContext context) {

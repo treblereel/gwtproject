@@ -15,19 +15,15 @@
  */
 package org.gwtproject.validation.client.impl;
 
-import org.gwtproject.validation.client.impl.metadata.BeanMetadata;
-import org.gwtproject.validation.client.impl.metadata.ValidationGroupsMetadata;
-
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.validation.metadata.ConstraintDescriptor;
 import javax.validation.metadata.PropertyDescriptor;
+import org.gwtproject.validation.client.impl.metadata.BeanMetadata;
+import org.gwtproject.validation.client.impl.metadata.ValidationGroupsMetadata;
 
-/**
- * Describes a constrained bean property.
- */
+/** Describes a constrained bean property. */
 public final class PropertyDescriptorImpl implements PropertyDescriptor {
 
   private boolean cascaded;
@@ -37,14 +33,20 @@ public final class PropertyDescriptorImpl implements PropertyDescriptor {
   private ValidationGroupsMetadata validationGroupsMetadata;
   private BeanMetadata parentBeanMetadata;
 
-  public PropertyDescriptorImpl(String name, Class<?> elementClass,
-      boolean cascaded, BeanMetadata parentBeanMetadata,
+  public PropertyDescriptorImpl(
+      String name,
+      Class<?> elementClass,
+      boolean cascaded,
+      BeanMetadata parentBeanMetadata,
       ConstraintDescriptorImpl<?>... descriptors) {
     this(name, elementClass, cascaded, parentBeanMetadata, null, descriptors);
   }
 
-  public PropertyDescriptorImpl(String name, Class<?> elementClass,
-      boolean cascaded, BeanMetadata parentBeanMetadata,
+  public PropertyDescriptorImpl(
+      String name,
+      Class<?> elementClass,
+      boolean cascaded,
+      BeanMetadata parentBeanMetadata,
       ValidationGroupsMetadata validationGroupsMetadata,
       ConstraintDescriptorImpl<?>... descriptors) {
     super();
@@ -54,8 +56,7 @@ public final class PropertyDescriptorImpl implements PropertyDescriptor {
     this.name = name;
     this.validationGroupsMetadata = validationGroupsMetadata;
     this.parentBeanMetadata = parentBeanMetadata;
-    this.descriptors = new HashSet<>(
-        Arrays.asList(descriptors));
+    this.descriptors = new HashSet<>(Arrays.asList(descriptors));
   }
 
   @Override
@@ -96,12 +97,12 @@ public final class PropertyDescriptorImpl implements PropertyDescriptor {
   public PropertyDescriptorImpl shallowCopy() {
     ConstraintDescriptorImpl<?>[] desc = new ConstraintDescriptorImpl<?>[descriptors.size()];
     descriptors.toArray(desc);
-    return new PropertyDescriptorImpl( // 
-        name, // 
-        elementClass, // 
-        cascaded, // 
-        parentBeanMetadata, // 
-        validationGroupsMetadata, // 
+    return new PropertyDescriptorImpl( //
+        name, //
+        elementClass, //
+        cascaded, //
+        parentBeanMetadata, //
+        validationGroupsMetadata, //
         desc);
   }
 }

@@ -16,23 +16,19 @@
 package org.gwtproject.validation.client.constraints;
 
 import java.util.Collection;
-
 import javax.validation.ConstraintValidatorContext;
 
 /**
- * {@link javax.validation.constraints.Size} constraint validator implementation
- * for a {@link Collection}.
+ * {@link javax.validation.constraints.Size} constraint validator implementation for a {@link
+ * Collection}.
  */
-public class SizeValidatorForCollection extends
-    AbstractSizeValidator<Collection<?>> {
+public class SizeValidatorForCollection extends AbstractSizeValidator<Collection<?>> {
 
   @Override
-  public final boolean isValid(Collection<?> value,
-      ConstraintValidatorContext context) {
+  public final boolean isValid(Collection<?> value, ConstraintValidatorContext context) {
     if (value == null) {
       return true;
     }
     return isLengthValid(value.size());
   }
-
 }

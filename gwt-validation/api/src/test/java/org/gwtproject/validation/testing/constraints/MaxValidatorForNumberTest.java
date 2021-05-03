@@ -15,15 +15,11 @@
  */
 package org.gwtproject.validation.testing.constraints;
 
+import javax.validation.constraints.Max;
 import org.gwtproject.validation.client.constraints.MaxValidatorForNumber;
 
-import javax.validation.constraints.Max;
-
-/**
- * Tests for {@link MaxValidatorForNumber}.
- */
-public class MaxValidatorForNumberTest extends
-    ConstraintValidatorTestCase<Max, Number> {
+/** Tests for {@link MaxValidatorForNumber}. */
+public class MaxValidatorForNumberTest extends ConstraintValidatorTestCase<Max, Number> {
   private static long SAME = 123456789L;
   private static long SMALLER = SAME - 1L;
   private static long BIGGER = SAME + 1L;

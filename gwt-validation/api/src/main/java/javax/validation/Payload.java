@@ -1,4 +1,4 @@
-/**
+/*
  * JBoss, Home of Professional Open Source
  * Copyright 2009, Red Hat, Inc. and/or its affiliates, and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
@@ -17,15 +17,12 @@
 package javax.validation;
 
 /**
- * Payload type that can be attached to a given
- * constraint declaration.
- * Payloads are typically used to carry on metadata information
- * consumed by a validation client.
+ * Payload type that can be attached to a given constraint declaration. Payloads are typically used
+ * to carry on metadata information consumed by a validation client.
  *
- * Use of payloads is not considered portable.
+ * <p>Use of payloads is not considered portable.
  *
  * @author Emmanuel Bernard
  * @author Gerhard Petracek
  */
-public interface Payload {
-}
+public interface Payload {}

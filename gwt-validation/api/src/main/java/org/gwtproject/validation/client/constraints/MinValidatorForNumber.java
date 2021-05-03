@@ -18,8 +18,8 @@ package org.gwtproject.validation.client.constraints;
 import javax.validation.ConstraintValidatorContext;
 
 /**
- * {@link javax.validation.constraints.Min} constraint validator implementation
- * for a {@link Number}.
+ * {@link javax.validation.constraints.Min} constraint validator implementation for a {@link
+ * Number}.
  */
 public class MinValidatorForNumber extends AbstractMinValidator<Number> {
 

@@ -1,4 +1,3 @@
-// $Id: ConstraintValidatorFactory.java 17620 2009-10-04 19:19:28Z hardy.ferentschik $
 /*
  * JBoss, Home of Professional Open Source
  * Copyright 2009, Red Hat, Inc. and/or its affiliates, and individual contributors
@@ -18,9 +17,9 @@
 package javax.validation;
 
 /**
- * Instantiate a <code>ConstraintValidator</code> instance based off its class.
- * The <code>ConstraintValidatorFactory</code> is <b>not</b> responsible
- * for calling {@link ConstraintValidator#initialize(java.lang.annotation.Annotation)}.
+ * Instantiate a <code>ConstraintValidator</code> instance based off its class. The <code>
+ * ConstraintValidatorFactory</code> is <b>not</b> responsible for calling {@link
+ * ConstraintValidator#initialize(java.lang.annotation.Annotation)}.
  *
  * @author Dhanji R. Prasanna
  * @author Emmanuel Bernard
@@ -28,10 +27,9 @@ package javax.validation;
  */
 public interface ConstraintValidatorFactory {
 
-    /**
-     * @param key The class of the constraint validator to instantiate.
-     *
-     * @return A constraint validator instance of the specified class.
-     */
-    <T extends ConstraintValidator<?,?>> T getInstance(Class<T> key);
+  /**
+   * @param key The class of the constraint validator to instantiate.
+   * @return A constraint validator instance of the specified class.
+   */
+  <T extends ConstraintValidator<?, ?>> T getInstance(Class<T> key);
 }

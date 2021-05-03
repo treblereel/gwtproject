@@ -18,12 +18,9 @@ package org.gwtproject.validation.client.impl.metadata;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
 import javax.validation.groups.Default;
 
-/**
- * Describes information about a bean which is used for validation purposes.
- */
+/** Describes information about a bean which is used for validation purposes. */
 public class BeanMetadata {
   private final Class<?> beanClass;
   private final List<Class<?>> defaultGroupSequence;
@@ -32,8 +29,8 @@ public class BeanMetadata {
   public BeanMetadata(Class<?> beanClass, Class<?>... defaultGroupSequence) {
     this.beanClass = beanClass;
     this.defaultGroupSequence = Collections.unmodifiableList(Arrays.asList(defaultGroupSequence));
-    this.defaultGroupSequenceRedefined = !(defaultGroupSequence.length == 1 &&
-        defaultGroupSequence[0].equals(Default.class));
+    this.defaultGroupSequenceRedefined =
+        !(defaultGroupSequence.length == 1 && defaultGroupSequence[0].equals(Default.class));
   }
 
   public boolean defaultGroupSequenceIsRedefined() {

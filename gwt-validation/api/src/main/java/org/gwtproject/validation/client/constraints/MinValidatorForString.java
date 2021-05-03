@@ -16,12 +16,11 @@
 package org.gwtproject.validation.client.constraints;
 
 import java.math.BigDecimal;
-
 import javax.validation.ConstraintValidatorContext;
 
 /**
- * {@link javax.validation.constraints.Min} constraint validator implementation
- * for a {@link String}.
+ * {@link javax.validation.constraints.Min} constraint validator implementation for a {@link
+ * String}.
  */
 public class MinValidatorForString extends AbstractMinValidator<String> {
 

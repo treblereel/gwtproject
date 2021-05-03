@@ -1,4 +1,3 @@
-// $Id: GenericBootstrap.java 17620 2009-10-04 19:19:28Z hardy.ferentschik $
 /*
  * JBoss, Home of Professional Open Source
  * Copyright 2009, Red Hat, Inc. and/or its affiliates, and individual contributors
@@ -17,39 +16,37 @@
  */
 package javax.validation.bootstrap;
 
-import javax.validation.ValidationProviderResolver;
 import javax.validation.Configuration;
+import javax.validation.ValidationProviderResolver;
 
 /**
- * Defines the state used to bootstrap Bean Validation and
- * creates a provider agnostic <code>Configuration</code>.
+ * Defines the state used to bootstrap Bean Validation and creates a provider agnostic <code>
+ * Configuration</code>.
  *
  * @author Emmanuel Bernard
  */
 public interface GenericBootstrap {
-    /**
-     * Defines the provider resolution strategy.
-     * This resolver returns the list of providers evaluated
-     * to build the <code>Configuration</code>
-     * <p/>
-     * If no resolver is defined, the default <code>ValidationProviderResolver</code>
-     * implementation is used.
-     *
-     * @return <code>this</code> following the chaining method pattern
-     */
-    GenericBootstrap providerResolver(ValidationProviderResolver resolver);
+  /**
+   * Defines the provider resolution strategy. This resolver returns the list of providers evaluated
+   * to build the <code>Configuration</code>
+   *
+   * <p>If no resolver is defined, the default <code>ValidationProviderResolver</code>
+   * implementation is used.
+   *
+   * @return <code>this</code> following the chaining method pattern
+   */
+  GenericBootstrap providerResolver(ValidationProviderResolver resolver);
 
-    /**
-     * Returns a generic <code>Configuration</code> implementation.
-     * At this stage the provider used to build the <code>ValidatorFactory</code>
-     * is not defined.
-     * <p/>
-     * The <code>Configuration</code> implementation is provided by the first provider
-     * returned by the <code>ValidationProviderResolver</code> strategy.
-     *
-     * @return a Configuration implementation compliant with the bootstrap state
-     * @throws javax.validation.ValidationException if the Configuration object cannot be built
-     *                        this is generally due to an issue with the ValidationProviderResolver
-     */
-    Configuration<?> configure();
+  /**
+   * Returns a generic <code>Configuration</code> implementation. At this stage the provider used to
+   * build the <code>ValidatorFactory</code> is not defined.
+   *
+   * <p>The <code>Configuration</code> implementation is provided by the first provider returned by
+   * the <code>ValidationProviderResolver</code> strategy.
+   *
+   * @return a Configuration implementation compliant with the bootstrap state
+   * @throws javax.validation.ValidationException if the Configuration object cannot be built this
+   *     is generally due to an issue with the ValidationProviderResolver
+   */
+  Configuration<?> configure();
 }

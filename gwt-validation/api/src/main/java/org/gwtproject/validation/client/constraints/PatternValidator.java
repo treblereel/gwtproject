@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,22 +15,20 @@
  */
 package org.gwtproject.validation.client.constraints;
 
-import org.gwtproject.regexp.shared.MatchResult;
-import org.gwtproject.regexp.shared.RegExp;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Pattern.Flag;
+import org.gwtproject.regexp.shared.MatchResult;
+import org.gwtproject.regexp.shared.RegExp;
 
 /**
  * {@link Pattern} constraint validator implementation.
- * <p>
- * Note this implementation uses {@link RegExp} which differs from
- * {@link java.util.regex.Pattern}.
+ *
+ * <p>Note this implementation uses {@link RegExp} which differs from {@link
+ * java.util.regex.Pattern}.
  */
-public class PatternValidator implements
-    ConstraintValidator<Pattern, String> {
+public class PatternValidator implements ConstraintValidator<Pattern, String> {
   private RegExp pattern;
 
   @Override
@@ -67,8 +65,7 @@ public class PatternValidator implements
         value = "m";
         break;
       default:
-        throw new IllegalArgumentException(flag
-            + " is not a suppoted gwt Pattern (RegExp) flag");
+        throw new IllegalArgumentException(flag + " is not a suppoted gwt Pattern (RegExp) flag");
     }
     return value;
   }

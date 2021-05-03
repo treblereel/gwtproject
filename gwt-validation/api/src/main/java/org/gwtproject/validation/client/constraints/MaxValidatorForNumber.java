@@ -18,8 +18,8 @@ package org.gwtproject.validation.client.constraints;
 import javax.validation.ConstraintValidatorContext;
 
 /**
- * {@link javax.validation.constraints.Max} constraint validator implementation
- * for a {@link Number}.
+ * {@link javax.validation.constraints.Max} constraint validator implementation for a {@link
+ * Number}.
  */
 public class MaxValidatorForNumber extends AbstractMaxValidator<Number> {
 

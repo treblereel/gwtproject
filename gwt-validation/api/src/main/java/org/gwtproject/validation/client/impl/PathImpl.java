@@ -19,12 +19,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
 import javax.validation.Path;
 
-/**
- * An immutable GWT safe implementation of {@link Path}.
- */
+/** An immutable GWT safe implementation of {@link Path}. */
 public final class PathImpl implements Path, Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -32,8 +29,8 @@ public final class PathImpl implements Path, Serializable {
   private final List<Node> nodes = new ArrayList<Node>();
 
   /**
-   * Creates a new path containing only the root (<code>null</code>)
-   * {@link javax.validation.Path.Node Node}.
+   * Creates a new path containing only the root (<code>null</code>) {@link
+   * javax.validation.Path.Node Node}.
    */
   public PathImpl() {
     nodes.add(NodeImpl.ROOT_NODE);
@@ -51,8 +48,7 @@ public final class PathImpl implements Path, Serializable {
   }
 
   /**
-   * Create a new path with a node named <code>name</code> appended to the
-   * existing path.
+   * Create a new path with a node named <code>name</code> appended to the existing path.
    *
    * @param name
    * @return The new path with appended node.
@@ -62,8 +58,7 @@ public final class PathImpl implements Path, Serializable {
   }
 
   /**
-   * Create a new path with an indexed node named <code>name</code> appended to
-   * the existing path.
+   * Create a new path with an indexed node named <code>name</code> appended to the existing path.
    *
    * @param name
    * @param index
@@ -74,8 +69,7 @@ public final class PathImpl implements Path, Serializable {
   }
 
   /**
-   * Create a new path with an iterable node named <code>name</code> appended to
-   * the existing path.
+   * Create a new path with an iterable node named <code>name</code> appended to the existing path.
    *
    * @param name
    * @return The new path with appended node.
@@ -85,8 +79,7 @@ public final class PathImpl implements Path, Serializable {
   }
 
   /**
-   * Create a new path with a keyed node named <code>name</code> appended to the
-   * existing path.
+   * Create a new path with a keyed node named <code>name</code> appended to the existing path.
    *
    * @param name
    * @param key

@@ -15,17 +15,12 @@
  */
 package org.gwtproject.validation.testing.constraints;
 
+import java.util.Date;
+import javax.validation.constraints.Future;
 import org.gwtproject.validation.client.constraints.FutureValidatorForDate;
 
-import java.util.Date;
-
-import javax.validation.constraints.Future;
-
-/**
- * Tests for {@link FutureValidatorForDate}.
- */
-public class FutureValidatorForDateTest extends
-    ConstraintValidatorTestCase<Future, Date> {
+/** Tests for {@link FutureValidatorForDate}. */
+public class FutureValidatorForDateTest extends ConstraintValidatorTestCase<Future, Date> {
 
   @SuppressWarnings("unused")
   @Future

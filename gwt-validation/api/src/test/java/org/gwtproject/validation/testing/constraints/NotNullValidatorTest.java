@@ -15,24 +15,20 @@
  */
 package org.gwtproject.validation.testing.constraints;
 
-import org.gwtproject.validation.client.constraints.NotNullValidator;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.constraints.NotNull;
+import org.gwtproject.validation.client.constraints.NotNullValidator;
 
-/**
- * Tests for {@link NotNullValidator}.
- */
-public class NotNullValidatorTest extends
-    ConstraintValidatorTestCase<NotNull, Object> {
+/** Tests for {@link NotNullValidator}. */
+public class NotNullValidatorTest extends ConstraintValidatorTestCase<NotNull, Object> {
 
   @SuppressWarnings("unused")
   @NotNull
   private String defaultField;
 
   public void testIsValid_notNull() {
-    ConstraintValidatorTestCase.assertConstraintValidator(validator,
-        getDefaultAnnotation(), null, new Object(), true);
+    ConstraintValidatorTestCase.assertConstraintValidator(
+        validator, getDefaultAnnotation(), null, new Object(), true);
   }
 
   @Override

@@ -1,4 +1,3 @@
-// $Id: MessageInterpolator.java 17620 2009-10-04 19:19:28Z hardy.ferentschik $
 /*
  * JBoss, Home of Professional Open Source
  * Copyright 2009, Red Hat, Inc. and/or its affiliates, and individual contributors
@@ -18,53 +17,46 @@
 package javax.validation;
 
 import javax.validation.metadata.ConstraintDescriptor;
-
 import org.gwtproject.i18n.shared.GwtLocale;
 
 /**
- * Interpolate a given constraint violation message.
- * Implementations should be as tolerant as possible on syntax errors.
+ * Interpolate a given constraint violation message. Implementations should be as tolerant as
+ * possible on syntax errors.
+ *
  * @author Emmanuel Bernard
  * @author Hardy Ferentschik
  */
 public interface MessageInterpolator {
 
-    /**
-     * Interpolate the message template based on the contraint validation context.
-     * The locale is defaulted according to the <code>MessageInterpolator</code>
-     * implementation. See the implementation documentation for more detail.
-     * @param messageTemplate The message to interpolate.
-     * @param context contextual information related to the interpolation
-     * @return Interpolated error message.
-     */
-    String interpolate(String messageTemplate, Context context);
+  /**
+   * Interpolate the message template based on the contraint validation context. The locale is
+   * defaulted according to the <code>MessageInterpolator</code> implementation. See the
+   * implementation documentation for more detail.
+   *
+   * @param messageTemplate The message to interpolate.
+   * @param context contextual information related to the interpolation
+   * @return Interpolated error message.
+   */
+  String interpolate(String messageTemplate, Context context);
 
-    /**
-     * Interpolate the message template based on the contraint validation context.
-     * The <code>Locale</code> used is provided as a parameter.
-     * @param messageTemplate The message to interpolate.
-     * @param context contextual information related to the interpolation
-     * @param locale the locale targeted for the message
-     * @return Interpolated error message.
-     */
-    String interpolate(String messageTemplate, Context context, GwtLocale locale);
+  /**
+   * Interpolate the message template based on the contraint validation context. The <code>Locale
+   * </code> used is provided as a parameter.
+   *
+   * @param messageTemplate The message to interpolate.
+   * @param context contextual information related to the interpolation
+   * @param locale the locale targeted for the message
+   * @return Interpolated error message.
+   */
+  String interpolate(String messageTemplate, Context context, GwtLocale locale);
 
+  /** Information related to the interpolation context */
+  interface Context {
 
+    /** @return ConstraintDescriptor corresponding to the constraint being validated */
+    ConstraintDescriptor<?> getConstraintDescriptor();
 
-
-    /**
-     * Information related to the interpolation context
-     */
-    interface Context {
-
-        /**
-         * @return ConstraintDescriptor corresponding to the constraint being validated
-         */
-        ConstraintDescriptor<?> getConstraintDescriptor();
-
-        /**
-         * @return value being validated
-         */
-        Object getValidatedValue();
-    }
+    /** @return value being validated */
+    Object getValidatedValue();
+  }
 }

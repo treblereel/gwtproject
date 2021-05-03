@@ -16,12 +16,11 @@
 package org.gwtproject.validation.client.constraints;
 
 import java.math.BigDecimal;
-
 import javax.validation.ConstraintValidatorContext;
 
 /**
- * {@link javax.validation.constraints.Max} constraint validator implementation
- * for a {@link String}.
+ * {@link javax.validation.constraints.Max} constraint validator implementation for a {@link
+ * String}.
  */
 public class MaxValidatorForString extends AbstractMaxValidator<String> {
 
@@ -38,5 +37,4 @@ public class MaxValidatorForString extends AbstractMaxValidator<String> {
     }
     return isValid(bigValue);
   }
-
 }

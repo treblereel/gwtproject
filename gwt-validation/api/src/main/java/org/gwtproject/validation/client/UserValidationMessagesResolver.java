@@ -16,8 +16,7 @@
 package org.gwtproject.validation.client;
 
 /**
- * Validation Providers implement this to resolve Validation Messages. including
- * overriding the default {@link ProviderValidationMessageResolver}.
+ * Validation Providers implement this to resolve Validation Messages. including overriding the
+ * default {@link ProviderValidationMessageResolver}.
  */
-public interface UserValidationMessagesResolver extends ValidationMessageResolver {
-}
+public interface UserValidationMessagesResolver extends ValidationMessageResolver {}

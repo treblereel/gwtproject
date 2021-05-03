@@ -1,4 +1,3 @@
-// $Id: GroupDefinitionException.java 17620 2009-10-04 19:19:28Z hardy.ferentschik $
 /*
  * JBoss, Home of Professional Open Source
  * Copyright 2009, Red Hat, Inc. and/or its affiliates, and individual contributors
@@ -23,19 +22,19 @@ package javax.validation;
  * @author Emmanuel Bernard
  */
 public class GroupDefinitionException extends ValidationException {
-    public GroupDefinitionException(String message) {
-        super( message );
-    }
+  public GroupDefinitionException(String message) {
+    super(message);
+  }
 
-    public GroupDefinitionException() {
-        super();
-    }
+  public GroupDefinitionException() {
+    super();
+  }
 
-    public GroupDefinitionException(String message, Throwable cause) {
-        super( message, cause );
-    }
+  public GroupDefinitionException(String message, Throwable cause) {
+    super(message, cause);
+  }
 
-    public GroupDefinitionException(Throwable cause) {
-        super( cause );
-    }
+  public GroupDefinitionException(Throwable cause) {
+    super(cause);
+  }
 }

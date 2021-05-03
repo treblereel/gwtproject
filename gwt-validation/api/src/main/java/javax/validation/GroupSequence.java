@@ -1,4 +1,3 @@
-// $Id: GroupSequence.java 17620 2009-10-04 19:19:28Z hardy.ferentschik $
 /*
  * JBoss, Home of Professional Open Source
  * Copyright 2009, Red Hat, Inc. and/or its affiliates, and individual contributors
@@ -18,22 +17,20 @@
 package javax.validation;
 
 import static java.lang.annotation.ElementType.TYPE;
-import java.lang.annotation.Retention;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
+import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Define a group sequence
- * The interface hosting <code>@GroupSequence</code> is representing
- * the group sequence.
- * When hosted on a class, represents the <code>Default</code> group
- * for that class.
+ * Define a group sequence The interface hosting <code>@GroupSequence</code> is representing the
+ * group sequence. When hosted on a class, represents the <code>Default</code> group for that class.
  *
  * @author Emmanuel Bernard
  * @author Hardy Ferentschik
  */
-@Target({ TYPE })
+@Target({TYPE})
 @Retention(RUNTIME)
 public @interface GroupSequence {
-    Class<?>[] value();
+  Class<?>[] value();
 }

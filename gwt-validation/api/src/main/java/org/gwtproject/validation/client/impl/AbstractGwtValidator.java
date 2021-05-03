@@ -15,23 +15,21 @@
  */
 package org.gwtproject.validation.client.impl;
 
-import org.gwtproject.validation.client.impl.metadata.ValidationGroupsMetadata;
-
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.validation.ConstraintValidatorFactory;
 import javax.validation.ConstraintViolation;
 import javax.validation.MessageInterpolator;
 import javax.validation.TraversableResolver;
 import javax.validation.ValidationException;
 import javax.validation.Validator;
+import org.gwtproject.validation.client.impl.metadata.ValidationGroupsMetadata;
 
 /**
  * Base methods for implementing {@link Validator} in GWT.
- * <p>
- * All methods that do not need to be generated go here.
+ *
+ * <p>All methods that do not need to be generated go here.
  */
 public abstract class AbstractGwtValidator implements Validator {
 
@@ -43,15 +41,14 @@ public abstract class AbstractGwtValidator implements Validator {
 
   /**
    * Creates a validator initialized with the default group inheritance map.
+   *
    * @see #AbstractGwtValidator(ValidationGroupsMetadata)
    */
   public AbstractGwtValidator() {
     this(ValidationGroupsMetadata.builder().build());
   }
 
-  /**
-   * @param validationGroupsMetadata Validation group metadata.
-   */
+  /** @param validationGroupsMetadata Validation group metadata. */
   public AbstractGwtValidator(ValidationGroupsMetadata validationGroupsMetadata) {
     validGroups = validationGroupsMetadata.getAllGroupsAndSequences();
     this.validationGroupsMetadata = validationGroupsMetadata;
@@ -61,7 +58,8 @@ public abstract class AbstractGwtValidator implements Validator {
     return validationGroupsMetadata;
   }
 
-  public void init(ConstraintValidatorFactory factory,
+  public void init(
+      ConstraintValidatorFactory factory,
       MessageInterpolator messageInterpolator,
       TraversableResolver traversableResolver) {
     this.contraintValidatorFactory = factory;
@@ -83,14 +81,17 @@ public abstract class AbstractGwtValidator implements Validator {
       HashSet<Class<?>> unknown = new HashSet<Class<?>>();
       unknown.addAll(Arrays.asList(groups));
       unknown.removeAll(validGroups);
-      throw new IllegalArgumentException(this.getClass()
-          + " only processes the following groups " + validGroups + ". "
-          + "The following groups could not be processed " + unknown);
+      throw new IllegalArgumentException(
+          this.getClass()
+              + " only processes the following groups "
+              + validGroups
+              + ". "
+              + "The following groups could not be processed "
+              + unknown);
     }
   }
 
-  protected void checkNotNull(Object object, String name)
-      throws IllegalArgumentException {
+  protected void checkNotNull(Object object, String name) throws IllegalArgumentException {
     if (object == null) {
       throw new IllegalArgumentException(name + " can not be null.");
     }

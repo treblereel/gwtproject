@@ -19,22 +19,19 @@ import javax.validation.groups.Default;
 
 /**
  * Encapsulates a single validation group.
- * <p>
- * Modified from the Hibernate validator for use with GWT.
+ *
+ * <p>Modified from the Hibernate validator for use with GWT.
  */
 public class Group {
-  /**
-   * The actual group.
-   */
+  /** The actual group. */
   private final Class<?> group;
 
-  /**
-   * The sequence the group is part of ({@code null}, if this group is not part of a sequence).
-   */
+  /** The sequence the group is part of ({@code null}, if this group is not part of a sequence). */
   private final Class<?> sequence;
 
   /**
    * Creates a group that is not part of a sequence with no parents.
+   *
    * @param group The validation group.
    */
   public Group(Class<?> group) {
@@ -43,9 +40,10 @@ public class Group {
 
   /**
    * Creates a group that is part of a sequence with no parents.
+   *
    * @param group The validation group. Must not be null.
-   * @param sequence The sequence the group is a part of. Can be null if the group is not part of
-   * a sequence.
+   * @param sequence The sequence the group is a part of. Can be null if the group is not part of a
+   *     sequence.
    */
   public Group(Class<?> group, Class<?> sequence) {
     if (group == null) {

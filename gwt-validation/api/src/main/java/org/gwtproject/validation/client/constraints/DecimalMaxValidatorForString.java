@@ -16,15 +16,13 @@
 package org.gwtproject.validation.client.constraints;
 
 import java.math.BigDecimal;
-
 import javax.validation.ConstraintValidatorContext;
 
 /**
- * {@link javax.validation.constraints.DecimalMax} constraint validator
- * implementation for a {@link String}.
+ * {@link javax.validation.constraints.DecimalMax} constraint validator implementation for a {@link
+ * String}.
  */
-public class DecimalMaxValidatorForString extends
-    AbstractDecimalMaxValidator<String> {
+public class DecimalMaxValidatorForString extends AbstractDecimalMaxValidator<String> {
 
   @Override
   public final boolean isValid(String value, ConstraintValidatorContext context) {

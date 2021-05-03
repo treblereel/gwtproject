@@ -1,4 +1,4 @@
-/**
+/*
  * JBoss, Home of Professional Open Source
  * Copyright 2009, Red Hat, Inc. and/or its affiliates, and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
@@ -17,25 +17,25 @@
 package javax.validation;
 
 /**
- * Exception raised in the case that the constraint validator resolution
- * cannot determine a suitable validator for a given type.
+ * Exception raised in the case that the constraint validator resolution cannot determine a suitable
+ * validator for a given type.
  *
  * @author Hardy Ferentschik
  */
 public class UnexpectedTypeException extends ConstraintDeclarationException {
-    public UnexpectedTypeException(String message) {
-        super( message );
-    }
+  public UnexpectedTypeException(String message) {
+    super(message);
+  }
 
-    public UnexpectedTypeException() {
-        super();
-    }
+  public UnexpectedTypeException() {
+    super();
+  }
 
-    public UnexpectedTypeException(String message, Throwable cause) {
-        super( message, cause );
-    }
+  public UnexpectedTypeException(String message, Throwable cause) {
+    super(message, cause);
+  }
 
-    public UnexpectedTypeException(Throwable cause) {
-        super( cause );
-    }
+  public UnexpectedTypeException(Throwable cause) {
+    super(cause);
+  }
 }

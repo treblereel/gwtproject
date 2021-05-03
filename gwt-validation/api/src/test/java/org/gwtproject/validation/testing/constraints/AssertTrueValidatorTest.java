@@ -15,15 +15,11 @@
  */
 package org.gwtproject.validation.testing.constraints;
 
+import javax.validation.constraints.AssertTrue;
 import org.gwtproject.validation.client.constraints.AssertTrueValidator;
 
-import javax.validation.constraints.AssertTrue;
-
-/**
- * Tests for {@link AssertTrueValidator}.
- */
-public class AssertTrueValidatorTest extends
-    ConstraintValidatorTestCase<AssertTrue, Boolean> {
+/** Tests for {@link AssertTrueValidator}. */
+public class AssertTrueValidatorTest extends ConstraintValidatorTestCase<AssertTrue, Boolean> {
 
   @SuppressWarnings("unused")
   @AssertTrue

@@ -15,15 +15,11 @@
  */
 package org.gwtproject.validation.testing.constraints;
 
+import javax.validation.constraints.Null;
 import org.gwtproject.validation.client.constraints.NullValidator;
 
-import javax.validation.constraints.Null;
-
-/**
- * Tests for {@link NullValidator}.
- */
-public class NullValidatorTest extends
-    ConstraintValidatorTestCase<Null, Object> {
+/** Tests for {@link NullValidator}. */
+public class NullValidatorTest extends ConstraintValidatorTestCase<Null, Object> {
 
   @SuppressWarnings("unused")
   @Null
@@ -42,5 +38,4 @@ public class NullValidatorTest extends
   protected Class<Null> getAnnotationClass() {
     return Null.class;
   }
-
 }

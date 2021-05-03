@@ -7,11 +7,12 @@
   <parent>
     <groupId>org.gwtproject.validation</groupId>
     <artifactId>gwt-validation-parent</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>dev</version>
   </parent>
 
   <artifactId>gwt-validation-tests</artifactId>
   <packaging>jar</packaging>
+  <version>dev</version>
 
   <licenses>
     <license>
@@ -24,7 +25,7 @@
     <developer>
       <id>treblereel</id>
       <name>Dmitrii Tikhomirov</name>
-      <email>chani@me.com</email>
+      <email>chani.liet@gmail.com</email>
     </developer>
   </developers>
 
@@ -32,32 +33,22 @@
     <dependency>
       <groupId>org.gwtproject.validation</groupId>
       <artifactId>gwt-validation-api</artifactId>
-      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.gwtproject.validation</groupId>
       <artifactId>gwt-validation-processor</artifactId>
-      <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.gwtproject</groupId>
-      <artifactId>editors-processor</artifactId>
-      <version>${project.version}</version>
+      <groupId>org.gwtproject.editor</groupId>
+      <artifactId>gwt-editor-processor</artifactId>
     </dependency>
     <dependency>
       <groupId>org.gwtproject.core</groupId>
       <artifactId>gwt-core</artifactId>
-      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.gwtproject.widgets</groupId>
       <artifactId>gwt-widgets</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.vertispan.jsinterop</groupId>
-      <artifactId>base</artifactId>
-      <version>1.0.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -74,29 +65,24 @@
     <dependency>
       <groupId>com.vertispan.j2cl</groupId>
       <artifactId>junit-annotations</artifactId>
-      <version>0.3-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>com.vertispan.j2cl</groupId>
       <artifactId>gwttestcase-emul</artifactId>
-      <version>0.3-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>com.vertispan.j2cl</groupId>
       <artifactId>gwttestcase-emul</artifactId>
-      <version>0.3-SNAPSHOT</version>
       <classifier>sources</classifier>
     </dependency>
     <dependency>
       <groupId>com.vertispan.j2cl</groupId>
       <artifactId>junit-emul</artifactId>
-      <version>0.3-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.vertispan.j2cl</groupId>
       <artifactId>junit-emul</artifactId>
-      <version>0.3-SNAPSHOT</version>
       <classifier>sources</classifier>
       <scope>test</scope>
     </dependency>
@@ -104,7 +90,6 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -131,7 +116,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.6.0</version>
         <executions>
           <execution>
             <id>default-compile</id>
@@ -148,7 +132,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.12.4</version>
         <configuration>
           <skipTests>true</skipTests>
         </configuration>
@@ -158,7 +141,6 @@
       <plugin>
         <groupId>com.vertispan.j2cl</groupId>
         <artifactId>j2cl-maven-plugin</artifactId>
-        <version>0.8-SNAPSHOT</version>
         <executions>
           <execution>
             <id>build-js</id>
@@ -170,32 +152,17 @@
         </executions>
         <configuration>
           <defaultWebappDirectory>${project.build.directory}/gwt/launcherDir</defaultWebappDirectory>
-          <entrypoint>org.gwtproject.validation.App</entrypoint>
-          <compilationLevel>BUNDLE</compilationLevel>
+          <compilationLevel>ADVANCED</compilationLevel>
           <externs>
           </externs>
           <defines>
           </defines>
-          <tests>
-            <test>org.gwtproject.validation.client.BaseMessageInterpolatorTest</test>
-            <test>org.gwtproject.validation.client.SimpleSampleTest</test>
-            <test>org.gwtproject.validation.client.impl.PathImplTest</test>
-            <test>org.gwtproject.validation.client.impl.NodeImplTest</test>
-            <test>org.gwtproject.validation.client.impl.ConstraintViolationImplTest</test>
-            <test>org.gwtproject.validation.client.impl.metadata.ValidationGroupsMetadataTest</test>
-            <test>org.gwtproject.validation.client.constraints.PatternValidatorGwtTest</test>
-            <test>org.gwtproject.validation.client.constraints.GwtCompileTest</test>
-            <test>org.gwtproject.validation.example.client.BookTest</test>
-            <test>org.gwtproject.validation.example.client.NotSpecifiedGroupsTest</test>
-            <test>org.gwtproject.validation.example.client.AuthorTest</test>
-          </tests>
         </configuration>
       </plugin>
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-clean-plugin</artifactId>
-        <version>${maven.clean.plugin}</version>
         <configuration>
           <filesets>
             <fileset>

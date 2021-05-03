@@ -17,11 +17,8 @@ package org.gwtproject.validation.client.impl;
 
 import org.gwtproject.validation.client.UserValidationMessagesResolver;
 
-/**
- * Always resolves message keys to null.
- */
-public final class NullUserValidationMessageResolver implements
-    UserValidationMessagesResolver {
+/** Always resolves message keys to null. */
+public final class NullUserValidationMessageResolver implements UserValidationMessagesResolver {
 
   @Override
   public String get(String key) {

@@ -19,19 +19,14 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.constraints.AssertTrue;
 
-/**
- * {@link AssertTrue} constraint validator implementation.
- */
-public class AssertTrueValidator implements
-    ConstraintValidator<AssertTrue, Boolean> {
+/** {@link AssertTrue} constraint validator implementation. */
+public class AssertTrueValidator implements ConstraintValidator<AssertTrue, Boolean> {
 
   @Override
-  public final void initialize(AssertTrue constraintAnnotation) {
-  }
+  public final void initialize(AssertTrue constraintAnnotation) {}
 
   @Override
   public final boolean isValid(Boolean value, ConstraintValidatorContext context) {
     return value == null || value.booleanValue();
   }
-
 }
