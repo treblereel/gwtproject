@@ -35,6 +35,11 @@
 							<artifactId>org.jresearch.gwt.time.apt.processor</artifactId>
 							<version>${time.apt.ver}</version>
 						</path>
+						<path>
+							<groupId>org.jresearch.gwt.tool.emu.apt</groupId>
+							<artifactId>org.jresearch.gwt.tool.emu.apt.processor</artifactId>
+							<version>${gwt-tool-jre-apt.ver}</version>
+						</path>
 					</annotationProcessorPaths>
 				</configuration>
 			</plugin>

@@ -365,5 +365,6 @@
 		<time.apt.ver>2.0.6-SNAPSHOT</time.apt.ver>
 		<gwt-locale.ver>1.0.4-SNAPSHOT</gwt-locale.ver>
 		<gwt-locale-cldr.ver>1.0.4-SNAPSHOT</gwt-locale-cldr.ver>
+		<gwt-tool-jre-apt.ver>1.0.1-SNAPSHOT</gwt-tool-jre-apt.ver>
 	</properties>
 </project>
