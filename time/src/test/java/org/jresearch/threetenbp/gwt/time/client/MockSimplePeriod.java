@@ -31,14 +31,14 @@
  */
 package org.jresearch.threetenbp.gwt.time.client;
 
-import static java.time.temporal.ChronoUnit.DAYS;
-import static java.time.temporal.ChronoUnit.FOREVER;
-import static java.time.temporal.ChronoUnit.SECONDS;
+import static org.jresearch.threetenbp.gwt.emu.java.time.temporal.ChronoUnit.DAYS;
+import static org.jresearch.threetenbp.gwt.emu.java.time.temporal.ChronoUnit.FOREVER;
+import static org.jresearch.threetenbp.gwt.emu.java.time.temporal.ChronoUnit.SECONDS;
 
-import java.time.DateTimeException;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalAmount;
-import java.time.temporal.TemporalUnit;
+import org.jresearch.threetenbp.gwt.emu.java.time.DateTimeException;
+import org.jresearch.threetenbp.gwt.emu.java.time.temporal.Temporal;
+import org.jresearch.threetenbp.gwt.emu.java.time.temporal.TemporalAmount;
+import org.jresearch.threetenbp.gwt.emu.java.time.temporal.TemporalUnit;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -75,7 +75,7 @@ public final class MockSimplePeriod
      * @param amount  the amount of the period, measured in terms of the unit, positive or negative
      * @param unit  the unit that the period is measured in, must not be the 'Forever' unit, not null
      * @return the {@code MockSimplePeriod} instance, not null
-     * @throws DateTimeException if the period unit is {@link xjava.time.temporal.ChronoUnit#FOREVER}.
+     * @throws DateTimeException if the period unit is {@link xorg.jresearch.threetenbp.gwt.emu.java.time.temporal.ChronoUnit#FOREVER}.
      */
     public static MockSimplePeriod of(long amount, TemporalUnit unit) {
         return new MockSimplePeriod(amount, unit);

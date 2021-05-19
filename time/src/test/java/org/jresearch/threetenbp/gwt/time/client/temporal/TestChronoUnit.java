@@ -31,23 +31,23 @@
  */
 package org.jresearch.threetenbp.gwt.time.client.temporal;
 
-import static java.time.Month.AUGUST;
-import static java.time.Month.FEBRUARY;
-import static java.time.Month.JULY;
-import static java.time.Month.JUNE;
-import static java.time.Month.MARCH;
-import static java.time.Month.OCTOBER;
-import static java.time.Month.SEPTEMBER;
-import static java.time.temporal.ChronoUnit.DAYS;
-import static java.time.temporal.ChronoUnit.FOREVER;
-import static java.time.temporal.ChronoUnit.MONTHS;
-import static java.time.temporal.ChronoUnit.WEEKS;
-import static java.time.temporal.ChronoUnit.YEARS;
+import static org.jresearch.threetenbp.gwt.emu.java.time.Month.AUGUST;
+import static org.jresearch.threetenbp.gwt.emu.java.time.Month.FEBRUARY;
+import static org.jresearch.threetenbp.gwt.emu.java.time.Month.JULY;
+import static org.jresearch.threetenbp.gwt.emu.java.time.Month.JUNE;
+import static org.jresearch.threetenbp.gwt.emu.java.time.Month.MARCH;
+import static org.jresearch.threetenbp.gwt.emu.java.time.Month.OCTOBER;
+import static org.jresearch.threetenbp.gwt.emu.java.time.Month.SEPTEMBER;
+import static org.jresearch.threetenbp.gwt.emu.java.time.temporal.ChronoUnit.DAYS;
+import static org.jresearch.threetenbp.gwt.emu.java.time.temporal.ChronoUnit.FOREVER;
+import static org.jresearch.threetenbp.gwt.emu.java.time.temporal.ChronoUnit.MONTHS;
+import static org.jresearch.threetenbp.gwt.emu.java.time.temporal.ChronoUnit.WEEKS;
+import static org.jresearch.threetenbp.gwt.emu.java.time.temporal.ChronoUnit.YEARS;
 
-import java.time.LocalDate;
-import java.time.Month;
-import java.time.ZoneOffset;
-import java.time.temporal.ChronoUnit;
+import org.jresearch.threetenbp.gwt.emu.java.time.LocalDate;
+import org.jresearch.threetenbp.gwt.emu.java.time.Month;
+import org.jresearch.threetenbp.gwt.emu.java.time.ZoneOffset;
+import org.jresearch.threetenbp.gwt.emu.java.time.temporal.ChronoUnit;
 
 import org.jresearch.threetenbp.gwt.time.client.AbstractTest;
 import org.junit.Test;

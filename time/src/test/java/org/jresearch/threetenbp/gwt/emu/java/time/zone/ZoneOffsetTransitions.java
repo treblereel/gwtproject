@@ -1,7 +1,7 @@
-package java.time.zone;
+package org.jresearch.threetenbp.gwt.emu.java.time.zone;
 
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import org.jresearch.threetenbp.gwt.emu.java.time.LocalDateTime;
+import org.jresearch.threetenbp.gwt.emu.java.time.ZoneOffset;
 
 public class ZoneOffsetTransitions {
 

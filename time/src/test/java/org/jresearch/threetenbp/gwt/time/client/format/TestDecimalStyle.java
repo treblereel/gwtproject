@@ -31,8 +31,8 @@
  */
 package org.jresearch.threetenbp.gwt.time.client.format;
 
-import java.time.format.DecimalStyle;
-import java.time.format.DecimalStyles;
+import org.jresearch.threetenbp.gwt.emu.java.time.format.DecimalStyle;
+import org.jresearch.threetenbp.gwt.emu.java.time.format.DecimalStyles;
 import java.util.Locale;
 import java.util.Set;
 

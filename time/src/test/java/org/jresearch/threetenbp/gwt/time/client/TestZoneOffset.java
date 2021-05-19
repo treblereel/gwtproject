@@ -31,22 +31,22 @@
  */
 package org.jresearch.threetenbp.gwt.time.client;
 
-import static java.time.temporal.ChronoField.OFFSET_SECONDS;
+import static org.jresearch.threetenbp.gwt.emu.java.time.temporal.ChronoField.OFFSET_SECONDS;
 
-import java.time.DateTimeException;
-import java.time.Duration;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.OffsetTime;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.time.temporal.ChronoField;
-import java.time.temporal.JulianFields;
-import java.time.temporal.TemporalAccessor;
-import java.time.temporal.TemporalField;
-import java.time.temporal.TemporalQueries;
+import org.jresearch.threetenbp.gwt.emu.java.time.DateTimeException;
+import org.jresearch.threetenbp.gwt.emu.java.time.Duration;
+import org.jresearch.threetenbp.gwt.emu.java.time.Instant;
+import org.jresearch.threetenbp.gwt.emu.java.time.LocalDate;
+import org.jresearch.threetenbp.gwt.emu.java.time.LocalDateTime;
+import org.jresearch.threetenbp.gwt.emu.java.time.LocalTime;
+import org.jresearch.threetenbp.gwt.emu.java.time.OffsetTime;
+import org.jresearch.threetenbp.gwt.emu.java.time.ZoneOffset;
+import org.jresearch.threetenbp.gwt.emu.java.time.ZonedDateTime;
+import org.jresearch.threetenbp.gwt.emu.java.time.temporal.ChronoField;
+import org.jresearch.threetenbp.gwt.emu.java.time.temporal.JulianFields;
+import org.jresearch.threetenbp.gwt.emu.java.time.temporal.TemporalAccessor;
+import org.jresearch.threetenbp.gwt.emu.java.time.temporal.TemporalField;
+import org.jresearch.threetenbp.gwt.emu.java.time.temporal.TemporalQueries;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

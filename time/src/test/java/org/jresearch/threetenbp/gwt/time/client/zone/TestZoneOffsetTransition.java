@@ -31,12 +31,12 @@
  */
 package org.jresearch.threetenbp.gwt.time.client.zone;
 
-import static java.time.temporal.ChronoUnit.HOURS;
+import static org.jresearch.threetenbp.gwt.emu.java.time.temporal.ChronoUnit.HOURS;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.time.zone.ZoneOffsetTransition;
+import org.jresearch.threetenbp.gwt.emu.java.time.Duration;
+import org.jresearch.threetenbp.gwt.emu.java.time.LocalDateTime;
+import org.jresearch.threetenbp.gwt.emu.java.time.ZoneOffset;
+import org.jresearch.threetenbp.gwt.emu.java.time.zone.ZoneOffsetTransition;
 
 import org.jresearch.threetenbp.gwt.time.client.AbstractTest;
 import org.junit.Test;

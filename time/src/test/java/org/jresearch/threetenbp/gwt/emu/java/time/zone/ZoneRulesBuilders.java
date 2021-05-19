@@ -1,11 +1,11 @@
-package java.time.zone;
+package org.jresearch.threetenbp.gwt.emu.java.time.zone;
 
-import java.time.DayOfWeek;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.Month;
-import java.time.ZoneOffset;
-import java.time.zone.ZoneOffsetTransitionRule.TimeDefinition;
+import org.jresearch.threetenbp.gwt.emu.java.time.DayOfWeek;
+import org.jresearch.threetenbp.gwt.emu.java.time.LocalDateTime;
+import org.jresearch.threetenbp.gwt.emu.java.time.LocalTime;
+import org.jresearch.threetenbp.gwt.emu.java.time.Month;
+import org.jresearch.threetenbp.gwt.emu.java.time.ZoneOffset;
+import org.jresearch.threetenbp.gwt.emu.java.time.zone.ZoneOffsetTransitionRule.TimeDefinition;
 
 public class ZoneRulesBuilders {
 

@@ -31,14 +31,14 @@
  */
 package org.jresearch.threetenbp.gwt.time.client;
 
-import java.time.DateTimeException;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.Month;
-import java.time.OffsetDateTime;
-import java.time.Year;
-import java.time.ZoneOffset;
+import org.jresearch.threetenbp.gwt.emu.java.time.DateTimeException;
+import org.jresearch.threetenbp.gwt.emu.java.time.Instant;
+import org.jresearch.threetenbp.gwt.emu.java.time.LocalDate;
+import org.jresearch.threetenbp.gwt.emu.java.time.LocalTime;
+import org.jresearch.threetenbp.gwt.emu.java.time.Month;
+import org.jresearch.threetenbp.gwt.emu.java.time.OffsetDateTime;
+import org.jresearch.threetenbp.gwt.emu.java.time.Year;
+import org.jresearch.threetenbp.gwt.emu.java.time.ZoneOffset;
 
 import org.junit.Test;
 

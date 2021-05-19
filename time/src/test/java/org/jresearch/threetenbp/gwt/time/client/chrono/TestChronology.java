@@ -31,14 +31,14 @@
  */
 package org.jresearch.threetenbp.gwt.time.client.chrono;
 
-import java.time.chrono.ChronoLocalDate;
-import java.time.chrono.Chronology;
-import java.time.chrono.HijrahChronology;
-import java.time.chrono.IsoChronology;
-import java.time.chrono.JapaneseChronology;
-import java.time.chrono.MinguoChronology;
-import java.time.chrono.ThaiBuddhistChronology;
-import java.time.temporal.ChronoField;
+import org.jresearch.threetenbp.gwt.emu.java.time.chrono.ChronoLocalDate;
+import org.jresearch.threetenbp.gwt.emu.java.time.chrono.Chronology;
+import org.jresearch.threetenbp.gwt.emu.java.time.chrono.HijrahChronology;
+import org.jresearch.threetenbp.gwt.emu.java.time.chrono.IsoChronology;
+import org.jresearch.threetenbp.gwt.emu.java.time.chrono.JapaneseChronology;
+import org.jresearch.threetenbp.gwt.emu.java.time.chrono.MinguoChronology;
+import org.jresearch.threetenbp.gwt.emu.java.time.chrono.ThaiBuddhistChronology;
+import org.jresearch.threetenbp.gwt.emu.java.time.temporal.ChronoField;
 import java.util.Locale;
 import java.util.Set;
 

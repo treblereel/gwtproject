@@ -31,10 +31,10 @@
  */
 package org.jresearch.threetenbp.gwt.time.client;
 
-import java.time.DateTimeException;
-import java.time.temporal.TemporalAccessor;
-import java.time.temporal.TemporalField;
-import java.time.temporal.TemporalQuery;
+import org.jresearch.threetenbp.gwt.emu.java.time.DateTimeException;
+import org.jresearch.threetenbp.gwt.emu.java.time.temporal.TemporalAccessor;
+import org.jresearch.threetenbp.gwt.emu.java.time.temporal.TemporalField;
+import org.jresearch.threetenbp.gwt.emu.java.time.temporal.TemporalQuery;
 import java.util.List;
 
 import org.junit.Test;

@@ -31,25 +31,25 @@
  */
 package org.jresearch.threetenbp.gwt.time.client;
 
-import static java.time.temporal.ChronoUnit.DAYS;
-import static java.time.temporal.ChronoUnit.HALF_DAYS;
-import static java.time.temporal.ChronoUnit.HOURS;
-import static java.time.temporal.ChronoUnit.MICROS;
-import static java.time.temporal.ChronoUnit.MILLIS;
-import static java.time.temporal.ChronoUnit.MINUTES;
-import static java.time.temporal.ChronoUnit.NANOS;
-import static java.time.temporal.ChronoUnit.SECONDS;
-import static java.time.temporal.ChronoUnit.WEEKS;
+import static org.jresearch.threetenbp.gwt.emu.java.time.temporal.ChronoUnit.DAYS;
+import static org.jresearch.threetenbp.gwt.emu.java.time.temporal.ChronoUnit.HALF_DAYS;
+import static org.jresearch.threetenbp.gwt.emu.java.time.temporal.ChronoUnit.HOURS;
+import static org.jresearch.threetenbp.gwt.emu.java.time.temporal.ChronoUnit.MICROS;
+import static org.jresearch.threetenbp.gwt.emu.java.time.temporal.ChronoUnit.MILLIS;
+import static org.jresearch.threetenbp.gwt.emu.java.time.temporal.ChronoUnit.MINUTES;
+import static org.jresearch.threetenbp.gwt.emu.java.time.temporal.ChronoUnit.NANOS;
+import static org.jresearch.threetenbp.gwt.emu.java.time.temporal.ChronoUnit.SECONDS;
+import static org.jresearch.threetenbp.gwt.emu.java.time.temporal.ChronoUnit.WEEKS;
 
 //import java.io.ByteArrayInputStream;
 //import java.io.ByteArrayOutputStream;
 //import java.io.ObjectInputStream;
 //import java.io.ObjectOutputStream;
-import java.time.DateTimeException;
-import java.time.Duration;
-import java.time.Instant;
-import java.time.format.DateTimeParseException;
-import java.time.temporal.TemporalUnit;
+import org.jresearch.threetenbp.gwt.emu.java.time.DateTimeException;
+import org.jresearch.threetenbp.gwt.emu.java.time.Duration;
+import org.jresearch.threetenbp.gwt.emu.java.time.Instant;
+import org.jresearch.threetenbp.gwt.emu.java.time.format.DateTimeParseException;
+import org.jresearch.threetenbp.gwt.emu.java.time.temporal.TemporalUnit;
 import java.util.Locale;
 
 import org.junit.Test;

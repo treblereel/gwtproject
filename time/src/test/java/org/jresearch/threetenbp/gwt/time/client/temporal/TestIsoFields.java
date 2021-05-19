@@ -31,22 +31,22 @@
  */
 package org.jresearch.threetenbp.gwt.time.client.temporal;
 
-import static java.time.DayOfWeek.FRIDAY;
-import static java.time.DayOfWeek.MONDAY;
-import static java.time.DayOfWeek.SATURDAY;
-import static java.time.DayOfWeek.SUNDAY;
-import static java.time.DayOfWeek.THURSDAY;
-import static java.time.DayOfWeek.TUESDAY;
-import static java.time.DayOfWeek.WEDNESDAY;
-import static java.time.temporal.ChronoField.DAY_OF_WEEK;
+import static org.jresearch.threetenbp.gwt.emu.java.time.DayOfWeek.FRIDAY;
+import static org.jresearch.threetenbp.gwt.emu.java.time.DayOfWeek.MONDAY;
+import static org.jresearch.threetenbp.gwt.emu.java.time.DayOfWeek.SATURDAY;
+import static org.jresearch.threetenbp.gwt.emu.java.time.DayOfWeek.SUNDAY;
+import static org.jresearch.threetenbp.gwt.emu.java.time.DayOfWeek.THURSDAY;
+import static org.jresearch.threetenbp.gwt.emu.java.time.DayOfWeek.TUESDAY;
+import static org.jresearch.threetenbp.gwt.emu.java.time.DayOfWeek.WEDNESDAY;
+import static org.jresearch.threetenbp.gwt.emu.java.time.temporal.ChronoField.DAY_OF_WEEK;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.chrono.ChronoLocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.time.temporal.IsoFields;
-import java.time.temporal.ValueRange;
+import org.jresearch.threetenbp.gwt.emu.java.time.DayOfWeek;
+import org.jresearch.threetenbp.gwt.emu.java.time.LocalDate;
+import org.jresearch.threetenbp.gwt.emu.java.time.chrono.ChronoLocalDate;
+import org.jresearch.threetenbp.gwt.emu.java.time.format.DateTimeFormatter;
+import org.jresearch.threetenbp.gwt.emu.java.time.format.DateTimeFormatterBuilder;
+import org.jresearch.threetenbp.gwt.emu.java.time.temporal.IsoFields;
+import org.jresearch.threetenbp.gwt.emu.java.time.temporal.ValueRange;
 
 import org.jresearch.threetenbp.gwt.time.client.AbstractTest;
 import org.junit.Test;

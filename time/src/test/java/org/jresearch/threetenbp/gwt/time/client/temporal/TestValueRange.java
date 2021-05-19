@@ -31,7 +31,7 @@
  */
 package org.jresearch.threetenbp.gwt.time.client.temporal;
 
-import java.time.temporal.ValueRange;
+import org.jresearch.threetenbp.gwt.emu.java.time.temporal.ValueRange;
 
 import org.jresearch.threetenbp.gwt.time.client.AbstractTest;
 import org.junit.Test;

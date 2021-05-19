@@ -31,9 +31,9 @@
  */
 package org.jresearch.threetenbp.gwt.time.client;
 
-import java.time.Clock;
-import java.time.Instant;
-import java.time.ZoneId;
+import org.jresearch.threetenbp.gwt.emu.java.time.Clock;
+import org.jresearch.threetenbp.gwt.emu.java.time.Instant;
+import org.jresearch.threetenbp.gwt.emu.java.time.ZoneId;
 import java.util.Objects;
 
 import org.junit.Test;

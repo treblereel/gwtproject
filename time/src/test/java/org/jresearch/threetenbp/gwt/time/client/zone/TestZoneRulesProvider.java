@@ -31,10 +31,10 @@
  */
 package org.jresearch.threetenbp.gwt.time.client.zone;
 
-import java.time.ZoneOffset;
-import java.time.zone.ZoneRules;
-import java.time.zone.ZoneRulesException;
-import java.time.zone.ZoneRulesProvider;
+import org.jresearch.threetenbp.gwt.emu.java.time.ZoneOffset;
+import org.jresearch.threetenbp.gwt.emu.java.time.zone.ZoneRules;
+import org.jresearch.threetenbp.gwt.emu.java.time.zone.ZoneRulesException;
+import org.jresearch.threetenbp.gwt.emu.java.time.zone.ZoneRulesProvider;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.NavigableMap;

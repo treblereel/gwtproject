@@ -31,18 +31,18 @@
  */
 package org.jresearch.threetenbp.gwt.time.client;
 
-import java.time.DateTimeException;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.time.format.TextStyle;
-import java.time.temporal.TemporalAccessor;
-import java.time.zone.ZoneOffsetTransition;
-import java.time.zone.ZoneRules;
-import java.time.zone.ZoneRulesException;
+import org.jresearch.threetenbp.gwt.emu.java.time.DateTimeException;
+import org.jresearch.threetenbp.gwt.emu.java.time.Instant;
+import org.jresearch.threetenbp.gwt.emu.java.time.LocalDateTime;
+import org.jresearch.threetenbp.gwt.emu.java.time.LocalTime;
+import org.jresearch.threetenbp.gwt.emu.java.time.ZoneId;
+import org.jresearch.threetenbp.gwt.emu.java.time.ZoneOffset;
+import org.jresearch.threetenbp.gwt.emu.java.time.ZonedDateTime;
+import org.jresearch.threetenbp.gwt.emu.java.time.format.TextStyle;
+import org.jresearch.threetenbp.gwt.emu.java.time.temporal.TemporalAccessor;
+import org.jresearch.threetenbp.gwt.emu.java.time.zone.ZoneOffsetTransition;
+import org.jresearch.threetenbp.gwt.emu.java.time.zone.ZoneRules;
+import org.jresearch.threetenbp.gwt.emu.java.time.zone.ZoneRulesException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;

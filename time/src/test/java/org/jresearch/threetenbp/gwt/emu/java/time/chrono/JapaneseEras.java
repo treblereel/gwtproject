@@ -1,6 +1,6 @@
-package java.time.chrono;
+package org.jresearch.threetenbp.gwt.emu.java.time.chrono;
 
-import java.time.LocalDate;
+import org.jresearch.threetenbp.gwt.emu.java.time.LocalDate;
 
 public class JapaneseEras {
 
@@ -9,13 +9,10 @@ public class JapaneseEras {
 	}
 
 	public static LocalDate endDate(JapaneseEra era) {
-		//Just to JDK compilation, GWT uses super version
-		return null;
+		return era.endDate();
 	}
 
 	public static JapaneseEra registerEra(LocalDate since, String name) {
-		//Just to JDK compilation, GWT uses super version
-		return null;
+		return JapaneseEra.registerEra(since, name);
 	}
-
 }

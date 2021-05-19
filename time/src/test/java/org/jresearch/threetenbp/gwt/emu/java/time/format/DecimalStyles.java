@@ -1,4 +1,4 @@
-package java.time.format;
+package org.jresearch.threetenbp.gwt.emu.java.time.format;
 
 public class DecimalStyles {
 

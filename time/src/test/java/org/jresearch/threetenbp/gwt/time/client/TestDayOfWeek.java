@@ -31,23 +31,23 @@
  */
 package org.jresearch.threetenbp.gwt.time.client;
 
-import static java.time.DayOfWeek.MONDAY;
-import static java.time.DayOfWeek.SUNDAY;
-import static java.time.DayOfWeek.WEDNESDAY;
-import static java.time.temporal.ChronoField.DAY_OF_WEEK;
+import static org.jresearch.threetenbp.gwt.emu.java.time.DayOfWeek.MONDAY;
+import static org.jresearch.threetenbp.gwt.emu.java.time.DayOfWeek.SUNDAY;
+import static org.jresearch.threetenbp.gwt.emu.java.time.DayOfWeek.WEDNESDAY;
+import static org.jresearch.threetenbp.gwt.emu.java.time.temporal.ChronoField.DAY_OF_WEEK;
 
-import java.time.DateTimeException;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.TextStyle;
-import java.time.temporal.ChronoField;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.JulianFields;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalAccessor;
-import java.time.temporal.TemporalField;
-import java.time.temporal.TemporalQueries;
+import org.jresearch.threetenbp.gwt.emu.java.time.DateTimeException;
+import org.jresearch.threetenbp.gwt.emu.java.time.DayOfWeek;
+import org.jresearch.threetenbp.gwt.emu.java.time.LocalDate;
+import org.jresearch.threetenbp.gwt.emu.java.time.LocalTime;
+import org.jresearch.threetenbp.gwt.emu.java.time.format.TextStyle;
+import org.jresearch.threetenbp.gwt.emu.java.time.temporal.ChronoField;
+import org.jresearch.threetenbp.gwt.emu.java.time.temporal.ChronoUnit;
+import org.jresearch.threetenbp.gwt.emu.java.time.temporal.JulianFields;
+import org.jresearch.threetenbp.gwt.emu.java.time.temporal.Temporal;
+import org.jresearch.threetenbp.gwt.emu.java.time.temporal.TemporalAccessor;
+import org.jresearch.threetenbp.gwt.emu.java.time.temporal.TemporalField;
+import org.jresearch.threetenbp.gwt.emu.java.time.temporal.TemporalQueries;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

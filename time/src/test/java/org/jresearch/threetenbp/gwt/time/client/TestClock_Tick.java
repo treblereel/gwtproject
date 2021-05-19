@@ -31,13 +31,13 @@
  */
 package org.jresearch.threetenbp.gwt.time.client;
 
-import java.time.Clock;
-import java.time.Duration;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
+import org.jresearch.threetenbp.gwt.emu.java.time.Clock;
+import org.jresearch.threetenbp.gwt.emu.java.time.Duration;
+import org.jresearch.threetenbp.gwt.emu.java.time.Instant;
+import org.jresearch.threetenbp.gwt.emu.java.time.LocalDateTime;
+import org.jresearch.threetenbp.gwt.emu.java.time.ZoneId;
+import org.jresearch.threetenbp.gwt.emu.java.time.ZoneOffset;
+import org.jresearch.threetenbp.gwt.emu.java.time.ZonedDateTime;
 
 import org.jresearch.threetenbp.gwt.time.client.Support;
 import org.junit.Test;

@@ -31,16 +31,16 @@
  */
 package org.jresearch.threetenbp.gwt.time.client.temporal;
 
-import static java.time.temporal.ChronoUnit.MONTHS;
-import static java.time.temporal.ChronoUnit.WEEKS;
+import static org.jresearch.threetenbp.gwt.emu.java.time.temporal.ChronoUnit.MONTHS;
+import static org.jresearch.threetenbp.gwt.emu.java.time.temporal.ChronoUnit.WEEKS;
 
-import java.time.DateTimeException;
-import java.time.format.ResolverStyle;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalAccessor;
-import java.time.temporal.TemporalField;
-import java.time.temporal.TemporalUnit;
-import java.time.temporal.ValueRange;
+import org.jresearch.threetenbp.gwt.emu.java.time.DateTimeException;
+import org.jresearch.threetenbp.gwt.emu.java.time.format.ResolverStyle;
+import org.jresearch.threetenbp.gwt.emu.java.time.temporal.Temporal;
+import org.jresearch.threetenbp.gwt.emu.java.time.temporal.TemporalAccessor;
+import org.jresearch.threetenbp.gwt.emu.java.time.temporal.TemporalField;
+import org.jresearch.threetenbp.gwt.emu.java.time.temporal.TemporalUnit;
+import org.jresearch.threetenbp.gwt.emu.java.time.temporal.ValueRange;
 import java.util.Locale;
 import java.util.Map;
 

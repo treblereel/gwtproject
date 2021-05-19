@@ -31,27 +31,27 @@
  */
 package org.jresearch.threetenbp.gwt.time.client;
 
-import static java.time.temporal.ChronoField.INSTANT_SECONDS;
-import static java.time.temporal.ChronoField.MICRO_OF_SECOND;
-import static java.time.temporal.ChronoField.MILLI_OF_SECOND;
-import static java.time.temporal.ChronoField.NANO_OF_SECOND;
-import static java.time.temporal.ChronoUnit.DAYS;
-import static java.time.temporal.ChronoUnit.NANOS;
-import static java.time.temporal.ChronoUnit.SECONDS;
+import static org.jresearch.threetenbp.gwt.emu.java.time.temporal.ChronoField.INSTANT_SECONDS;
+import static org.jresearch.threetenbp.gwt.emu.java.time.temporal.ChronoField.MICRO_OF_SECOND;
+import static org.jresearch.threetenbp.gwt.emu.java.time.temporal.ChronoField.MILLI_OF_SECOND;
+import static org.jresearch.threetenbp.gwt.emu.java.time.temporal.ChronoField.NANO_OF_SECOND;
+import static org.jresearch.threetenbp.gwt.emu.java.time.temporal.ChronoUnit.DAYS;
+import static org.jresearch.threetenbp.gwt.emu.java.time.temporal.ChronoUnit.NANOS;
+import static org.jresearch.threetenbp.gwt.emu.java.time.temporal.ChronoUnit.SECONDS;
 
-import java.time.Clock;
-import java.time.DateTimeException;
-import java.time.Duration;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeParseException;
-import java.time.temporal.ChronoField;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.JulianFields;
-import java.time.temporal.TemporalAccessor;
-import java.time.temporal.TemporalField;
-import java.time.temporal.TemporalQueries;
+import org.jresearch.threetenbp.gwt.emu.java.time.Clock;
+import org.jresearch.threetenbp.gwt.emu.java.time.DateTimeException;
+import org.jresearch.threetenbp.gwt.emu.java.time.Duration;
+import org.jresearch.threetenbp.gwt.emu.java.time.Instant;
+import org.jresearch.threetenbp.gwt.emu.java.time.LocalDateTime;
+import org.jresearch.threetenbp.gwt.emu.java.time.ZoneOffset;
+import org.jresearch.threetenbp.gwt.emu.java.time.format.DateTimeParseException;
+import org.jresearch.threetenbp.gwt.emu.java.time.temporal.ChronoField;
+import org.jresearch.threetenbp.gwt.emu.java.time.temporal.ChronoUnit;
+import org.jresearch.threetenbp.gwt.emu.java.time.temporal.JulianFields;
+import org.jresearch.threetenbp.gwt.emu.java.time.temporal.TemporalAccessor;
+import org.jresearch.threetenbp.gwt.emu.java.time.temporal.TemporalField;
+import org.jresearch.threetenbp.gwt.emu.java.time.temporal.TemporalQueries;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

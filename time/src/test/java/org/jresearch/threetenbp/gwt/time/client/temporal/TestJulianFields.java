@@ -31,10 +31,10 @@
  */
 package org.jresearch.threetenbp.gwt.time.client.temporal;
 
-import java.time.LocalDate;
-import java.time.temporal.ChronoField;
-import java.time.temporal.JulianFields;
-import java.time.temporal.TemporalField;
+import org.jresearch.threetenbp.gwt.emu.java.time.LocalDate;
+import org.jresearch.threetenbp.gwt.emu.java.time.temporal.ChronoField;
+import org.jresearch.threetenbp.gwt.emu.java.time.temporal.JulianFields;
+import org.jresearch.threetenbp.gwt.emu.java.time.temporal.TemporalField;
 
 import org.jresearch.threetenbp.gwt.time.client.AbstractTest;
 import org.junit.Test;

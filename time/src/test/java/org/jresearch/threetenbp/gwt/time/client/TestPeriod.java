@@ -31,8 +31,8 @@
  */
 package org.jresearch.threetenbp.gwt.time.client;
 
-import java.time.LocalDate;
-import java.time.Period;
+import org.jresearch.threetenbp.gwt.emu.java.time.LocalDate;
+import org.jresearch.threetenbp.gwt.emu.java.time.Period;
 
 import org.junit.Test;
 

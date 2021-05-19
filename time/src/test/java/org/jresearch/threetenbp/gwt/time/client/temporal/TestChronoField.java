@@ -32,7 +32,7 @@
 package org.jresearch.threetenbp.gwt.time.client.temporal;
 
 
-import java.time.temporal.ChronoField;
+import org.jresearch.threetenbp.gwt.emu.java.time.temporal.ChronoField;
 
 import org.jresearch.threetenbp.gwt.time.client.AbstractTest;
 import org.junit.Test;

@@ -31,16 +31,16 @@
  */
 package org.jresearch.threetenbp.gwt.time.client.temporal;
 
-import static java.time.DayOfWeek.MONDAY;
-import static java.time.DayOfWeek.TUESDAY;
-import static java.time.Month.DECEMBER;
-import static java.time.Month.JANUARY;
+import static org.jresearch.threetenbp.gwt.emu.java.time.DayOfWeek.MONDAY;
+import static org.jresearch.threetenbp.gwt.emu.java.time.DayOfWeek.TUESDAY;
+import static org.jresearch.threetenbp.gwt.emu.java.time.Month.DECEMBER;
+import static org.jresearch.threetenbp.gwt.emu.java.time.Month.JANUARY;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.Month;
-import java.time.MonthDay;
-import java.time.temporal.TemporalAdjusters;
+import org.jresearch.threetenbp.gwt.emu.java.time.DayOfWeek;
+import org.jresearch.threetenbp.gwt.emu.java.time.LocalDate;
+import org.jresearch.threetenbp.gwt.emu.java.time.Month;
+import org.jresearch.threetenbp.gwt.emu.java.time.MonthDay;
+import org.jresearch.threetenbp.gwt.emu.java.time.temporal.TemporalAdjusters;
 
 import org.jresearch.threetenbp.gwt.time.client.AbstractTest;
 import org.junit.Test;
