@@ -63,6 +63,8 @@ import org.jresearch.threetenbp.gwt.emu.java.time.temporal.TemporalQuery;
 import org.jresearch.threetenbp.gwt.emu.java.time.temporal.ValueRange;
 import org.jresearch.threetenbp.gwt.emu.java.time.temporal.WeekFields;
 import org.jresearch.threetenbp.gwt.emu.java.time.zone.ZoneRulesProvider;
+import org.jresearch.threetenbp.gwt.emu.org.jresearch.threetenbp.gwt.time.client.Support;
+
 import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -78,7 +80,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
 
-import org.jresearch.threetenbp.gwt.time.client.Support;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

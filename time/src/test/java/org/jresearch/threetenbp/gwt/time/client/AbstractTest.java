@@ -31,7 +31,7 @@
  */
 package org.jresearch.threetenbp.gwt.time.client;
 
-import org.jresearch.threetenbp.gwt.time.client.Support;
+import org.jresearch.threetenbp.gwt.emu.org.jresearch.threetenbp.gwt.time.client.Support;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
@@ -44,7 +44,7 @@ public abstract class AbstractTest extends GWTTestCase {
 
 	@Override
 	public String getModuleName() {
-		return "org.jresearch.threetenbp.gwt.time.module";
+		return "org.jresearch.threetenbp.gwt.time.module_test";
 	}
 
 	@Override

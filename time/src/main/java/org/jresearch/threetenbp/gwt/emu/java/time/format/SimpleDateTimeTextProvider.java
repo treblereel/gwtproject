@@ -40,6 +40,8 @@ import org.jresearch.threetenbp.gwt.emu.java.time.Month;
 import org.jresearch.threetenbp.gwt.emu.java.time.chrono.IsoEra;
 import org.jresearch.threetenbp.gwt.emu.java.time.temporal.IsoFields;
 import org.jresearch.threetenbp.gwt.emu.java.time.temporal.TemporalField;
+import org.jresearch.threetenbp.gwt.emu.org.jresearch.threetenbp.gwt.time.client.Support;
+
 //import java.text.DateFormatSymbols;
 import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.ArrayList;
@@ -56,7 +58,6 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import org.jresearch.threetenbp.gwt.time.client.Support;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -38,8 +38,7 @@ import org.jresearch.threetenbp.gwt.emu.java.time.LocalDateTime;
 import org.jresearch.threetenbp.gwt.emu.java.time.ZoneId;
 import org.jresearch.threetenbp.gwt.emu.java.time.ZoneOffset;
 import org.jresearch.threetenbp.gwt.emu.java.time.ZonedDateTime;
-
-import org.jresearch.threetenbp.gwt.time.client.Support;
+import org.jresearch.threetenbp.gwt.emu.org.jresearch.threetenbp.gwt.time.client.Support;
 import org.junit.Test;
 
 /**

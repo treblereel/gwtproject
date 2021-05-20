@@ -1,6 +1,5 @@
-package org.jresearch.threetenbp.gwt.time.client;
+package org.jresearch.threetenbp.gwt.emu.org.jresearch.threetenbp.gwt.time.client;
 
-import java.time.zone.ZoneRulesProvider;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -8,6 +7,9 @@ import java.util.stream.Stream;
 
 import javax.annotation.Nonnull;
 
+import org.jresearch.threetenbp.gwt.emu.java.time.zone.ZoneRulesProvider;
+import org.jresearch.threetenbp.gwt.time.client.DecimalProperty;
+import org.jresearch.threetenbp.gwt.time.client.SupportJs;
 import org.jresearch.threetenbp.gwt.time.client.loader.TimeJsBundle;
 import org.jresearch.threetenbp.gwt.time.client.zone.GwtZoneRuleProvider;
 import org.slf4j.Logger;
@@ -16,7 +18,6 @@ import org.slf4j.LoggerFactory;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.ScriptInjector;
 
-@SuppressWarnings("nls")
 public class Support {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(Support.class);

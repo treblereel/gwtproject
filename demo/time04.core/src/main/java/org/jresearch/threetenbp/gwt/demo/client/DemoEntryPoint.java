@@ -5,7 +5,7 @@ import java.time.ZoneId;
 import java.time.format.DecimalStyle;
 import java.util.Locale;
 
-import org.jresearch.threetenbp.gwt.time.client.Support;
+import org.jresearch.threetenbp.gwt.emu.org.jresearch.threetenbp.gwt.time.client.Support;
 
 import com.google.gwt.core.client.EntryPoint;
 

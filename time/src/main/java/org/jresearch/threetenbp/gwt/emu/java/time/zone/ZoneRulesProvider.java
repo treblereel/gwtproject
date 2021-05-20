@@ -34,6 +34,8 @@ package org.jresearch.threetenbp.gwt.emu.java.time.zone;
 import org.jresearch.threetenbp.gwt.emu.java.time.DateTimeException;
 import org.jresearch.threetenbp.gwt.emu.java.time.ZoneId;
 import org.jresearch.threetenbp.gwt.emu.java.time.ZonedDateTime;
+import org.jresearch.threetenbp.gwt.emu.org.jresearch.threetenbp.gwt.time.client.Support;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.NavigableMap;
@@ -41,8 +43,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-
-import org.jresearch.threetenbp.gwt.time.client.Support;
 
 /**
  * Provider of time-zone rules to the system.

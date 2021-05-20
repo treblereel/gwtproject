@@ -39,10 +39,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Stream;
 
+import org.jresearch.gwt.time.apt.base.Bases;
 import org.jresearch.gwt.time.apt.base.Chrono;
 import org.jresearch.threetenbp.gwt.emu.java.time.chrono.Chronology;
-import org.jresearch.threetenbp.gwt.emu.org.jresearch.threetenbp.gwt.time.client.BasesWrapper;
-import org.jresearch.threetenbp.gwt.time.client.Support;
+import org.jresearch.threetenbp.gwt.emu.org.jresearch.threetenbp.gwt.time.client.Support;
 import org.jresearch.threetenbp.gwt.time.client.cldr.PatternCoordinates;
 import org.jresearch.threetenbp.gwt.time.client.cldr.PatternInfo;
 
@@ -54,7 +54,6 @@ import org.jresearch.threetenbp.gwt.time.client.cldr.PatternInfo;
  * <h3>Specification for implementors</h3>
  * This class is immutable and thread-safe.
  */
-@SuppressWarnings("nls")
 final class SimpleDateTimeFormatStyleProvider extends DateTimeFormatStyleProvider {
     // TODO: Better implementation based on CLDR
 
@@ -84,7 +83,7 @@ final class SimpleDateTimeFormatStyleProvider extends DateTimeFormatStyleProvide
 
 //GWT Specific Localized patterns
 		String pattern = null;
-		Chrono c = BasesWrapper.ofJavaTime(chrono).orElse(Chrono.ISO);
+		Chrono c = Bases.ofJavaTime(chrono.getId()).orElse(Chrono.ISO);
 		if (dateStyle != null) {
 			Map<String, PatternCoordinates[]> dateMap = getDateMap(dateStyle);
 			String datePattern = getPattern(dateMap, c, locale);

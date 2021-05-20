@@ -42,12 +42,6 @@ import static org.jresearch.threetenbp.gwt.emu.java.time.temporal.ChronoUnit.WEE
 import static org.jresearch.threetenbp.gwt.emu.java.time.temporal.ChronoUnit.YEARS;
 
 import java.io.Serializable;
-import org.jresearch.threetenbp.gwt.emu.java.time.DateTimeException;
-import org.jresearch.threetenbp.gwt.emu.java.time.DayOfWeek;
-import org.jresearch.threetenbp.gwt.emu.java.time.Year;
-import org.jresearch.threetenbp.gwt.emu.java.time.chrono.ChronoLocalDate;
-import org.jresearch.threetenbp.gwt.emu.java.time.chrono.Chronology;
-import org.jresearch.threetenbp.gwt.emu.java.time.format.ResolverStyle;
 import java.util.EnumSet;
 import java.util.Locale;
 import java.util.Map;
@@ -56,6 +50,12 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import org.jresearch.threetenbp.gwt.emu.java.time.DateTimeException;
+import org.jresearch.threetenbp.gwt.emu.java.time.DayOfWeek;
+import org.jresearch.threetenbp.gwt.emu.java.time.Year;
+import org.jresearch.threetenbp.gwt.emu.java.time.chrono.ChronoLocalDate;
+import org.jresearch.threetenbp.gwt.emu.java.time.chrono.Chronology;
+import org.jresearch.threetenbp.gwt.emu.java.time.format.ResolverStyle;
 import org.jresearch.threetenbp.gwt.time.client.cldr.Cldrs;
 import org.jresearch.threetenbp.gwt.time.client.cldr.Region;
 import org.jresearch.threetenbp.gwt.time.client.cldr.WeekInfo;
@@ -202,7 +202,7 @@ public final class WeekFields implements Serializable {
     public static WeekFields of(Locale locale) {
         Objects.requireNonNull(locale, "locale");
 		Region region = Cldrs.regionOf(locale);
-		DayOfWeek dow = filter(WeekInfo.FIRST_DAY, region, WeekInfo.DEFAULT_FIRST_DAY);
+		DayOfWeek dow = DayOfWeek.of(filter(WeekInfo.FIRST_DAY, region, WeekInfo.DEFAULT_FIRST_DAY));
 		int minDays = filter(WeekInfo.MIN_DAYS, region, WeekInfo.DEFAULT_MIN_DAYS).intValue();
 		return WeekFields.of(dow, minDays);
 	}
