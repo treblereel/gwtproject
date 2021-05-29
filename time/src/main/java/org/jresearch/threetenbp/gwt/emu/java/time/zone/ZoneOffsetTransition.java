@@ -32,14 +32,15 @@
 package org.jresearch.threetenbp.gwt.emu.java.time.zone;
 
 import java.io.Serializable;
-import org.jresearch.threetenbp.gwt.emu.java.time.Duration;
-import org.jresearch.threetenbp.gwt.emu.java.time.Instant;
-import org.jresearch.threetenbp.gwt.emu.java.time.LocalDateTime;
-import org.jresearch.threetenbp.gwt.emu.java.time.ZoneOffset;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+
+import org.jresearch.threetenbp.gwt.emu.java.time.Duration;
+import org.jresearch.threetenbp.gwt.emu.java.time.Instant;
+import org.jresearch.threetenbp.gwt.emu.java.time.LocalDateTime;
+import org.jresearch.threetenbp.gwt.emu.java.time.ZoneOffset;
 
 /**
  * A transition between two offsets caused by a discontinuity in the local time-line.
@@ -114,7 +115,8 @@ public final class ZoneOffsetTransition
      * @param offsetBefore  the offset before the transition, not null
      * @param offsetAfter  the offset at and after the transition, not null
      */
-    ZoneOffsetTransition(LocalDateTime transition, ZoneOffset offsetBefore, ZoneOffset offsetAfter) {
+	// GWT Specific
+	public ZoneOffsetTransition(LocalDateTime transition, ZoneOffset offsetBefore, ZoneOffset offsetAfter) {
         this.transition = transition;
         this.offsetBefore = offsetBefore;
         this.offsetAfter = offsetAfter;
@@ -320,7 +322,8 @@ public final class ZoneOffsetTransition
      *
      * @return the list of valid offsets
      */
-    List<ZoneOffset> getValidOffsets() {
+	// GWT Specific
+	public List<ZoneOffset> getValidOffsets() {
         if (isGap()) {
             return Collections.emptyList();
         }

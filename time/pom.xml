@@ -35,7 +35,7 @@
 									<filtering>false</filtering>
 								</resource>
 							</resources>
-							<outputDirectory>${project.build.directory}/generated-sources/annotations/org/jresearch/threetenbp/gwt/eml/time</outputDirectory>
+							<outputDirectory>${project.build.directory}/generated-sources/annotations/org/jresearch/threetenbp/gwt/time/super</outputDirectory>
 						</configuration>
 					</execution>
 				</executions>
@@ -51,7 +51,7 @@
 							<goal>replace</goal>
 						</goals>
 						<configuration>
-							<filesToInclude>${project.build.directory}/generated-sources/annotations/**/*.java</filesToInclude>
+							<filesToInclude>${project.build.directory}/generated-sources/annotations/org/jresearch/threetenbp/gwt/time/super/**/*.java</filesToInclude>
 							<replacements>
 								<replacement>
 									<token>org\.jresearch\.threetenbp\.gwt\.emu\.</token>
@@ -62,7 +62,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
+			<!-- <plugin>
 				<artifactId>maven-clean-plugin</artifactId>
 				<executions>
 					<execution>
@@ -81,26 +81,14 @@
 						</configuration>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin> -->
 			<!-- ⬆️package relocation section⬆️ -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<!-- <source>13</source>
-					<target>13</target> -->
 					<showWarnings>true</showWarnings>
 					<annotationProcessorPaths>
-						<path>
-							<groupId>org.immutables</groupId>
-							<artifactId>value</artifactId>
-							<version>${immutables.ver}</version>
-						</path>
-						<path>
-							<groupId>org.jresearch.gwt.time</groupId>
-							<artifactId>org.jresearch.gwt.time.apt.processor</artifactId>
-							<version>${time.apt.ver}</version>
-						</path>
 						<path>
 							<groupId>org.jresearch.gwt.tool.emu.apt</groupId>
 							<artifactId>org.jresearch.gwt.tool.emu.apt.processor</artifactId>
@@ -115,7 +103,6 @@
 				<configuration>
 					<ignoredUnusedDeclaredDependencies>
 						<ignoredUnusedDeclaredDependency>org.dominokit:domino-slf4j-logger</ignoredUnusedDeclaredDependency>
-						<!-- <ignoredUnusedDeclaredDependency>org.jresearch.gwt.time:org.jresearch.gwt.time.apt.annotation</ignoredUnusedDeclaredDependency> -->
 						<ignoredUnusedDeclaredDependency>org.jresearch.gwt.locale:org.jresearch.gwt.locale</ignoredUnusedDeclaredDependency>
 					</ignoredUnusedDeclaredDependencies>
 				</configuration>
@@ -126,8 +113,6 @@
 				<configuration>
 					<moduleName>org.jresearch.threetenbp.gwt.time.module</moduleName>
 					<moduleShortName>threetenbpGwt</moduleShortName>
-					<relocateSuperSource>true</relocateSuperSource>
-					<relocateTestSuperSource>true</relocateTestSuperSource>
 					<testArgs>
 						<testArg>-testMethodTimeout</testArg>
 						<testArg>30</testArg>
@@ -144,12 +129,12 @@
 			<artifactId>org.jresearch.gwt.locale</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.google.errorprone</groupId>
-			<artifactId>error_prone_annotations</artifactId>
+			<groupId>org.jresearch.gwt.time</groupId>
+			<artifactId>org.jresearch.gwt.time.apt.annotation</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.jresearch.gwt.time</groupId>
-			<artifactId>org.jresearch.gwt.time.apt.annotation</artifactId>
+			<artifactId>org.jresearch.gwt.time.apt.data</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.google.code.findbugs</groupId>
@@ -197,10 +182,6 @@
 			<groupId>org.eclipse.jetty.websocket</groupId>
 			<artifactId>websocket-client</artifactId>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.immutables</groupId>
-			<artifactId>value-annotations</artifactId>
 		</dependency>
 	</dependencies>
 </project>

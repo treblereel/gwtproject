@@ -29,22 +29,27 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.jresearch.threetenbp.gwt.emu.java.time.zone;
+package org.jresearch.threetenbp.gwt.emu.org.jresearch.threetenbp.gwt.time.client.zone;
 
 import java.io.IOException;
 import java.io.Serializable;
-import org.jresearch.threetenbp.gwt.emu.java.time.Duration;
-import org.jresearch.threetenbp.gwt.emu.java.time.Instant;
-import org.jresearch.threetenbp.gwt.emu.java.time.LocalDate;
-import org.jresearch.threetenbp.gwt.emu.java.time.LocalDateTime;
-import org.jresearch.threetenbp.gwt.emu.java.time.Year;
-import org.jresearch.threetenbp.gwt.emu.java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
+import org.jresearch.gwt.tool.emu.apt.annotation.Wrap;
+import org.jresearch.threetenbp.gwt.emu.java.time.Duration;
+import org.jresearch.threetenbp.gwt.emu.java.time.Instant;
+import org.jresearch.threetenbp.gwt.emu.java.time.LocalDate;
+import org.jresearch.threetenbp.gwt.emu.java.time.LocalDateTime;
+import org.jresearch.threetenbp.gwt.emu.java.time.Year;
+import org.jresearch.threetenbp.gwt.emu.java.time.ZoneOffset;
+import org.jresearch.threetenbp.gwt.emu.java.time.zone.ZoneOffsetTransition;
+import org.jresearch.threetenbp.gwt.emu.java.time.zone.ZoneOffsetTransitionRule;
+import org.jresearch.threetenbp.gwt.emu.java.time.zone.ZoneRules;
 
 /**
  * The rules describing how the zone offset varies through the year and historically.
@@ -55,6 +60,7 @@ import java.util.concurrent.ConcurrentMap;
  * This class is immutable and thread-safe.
  */
 //GWT Specific
+@Wrap("org.jresearch.threetenbp.gwt.emu")
 public final class StandardZoneRules extends ZoneRules implements Serializable {
 
     /**
@@ -107,7 +113,8 @@ public final class StandardZoneRules extends ZoneRules implements Serializable {
      * @param transitionList  the list of transitions, not null
      * @param lastRules  the recurring last rules, size 15 or less, not null
      */
-    StandardZoneRules(
+	// GWT Specific
+	public StandardZoneRules(
             ZoneOffset baseStandardOffset,
             ZoneOffset baseWallOffset,
             List<ZoneOffsetTransition> standardOffsetTransitionList,

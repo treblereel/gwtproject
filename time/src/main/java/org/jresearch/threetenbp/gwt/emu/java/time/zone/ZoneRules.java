@@ -32,18 +32,16 @@
 package org.jresearch.threetenbp.gwt.emu.java.time.zone;
 
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+
 import org.jresearch.threetenbp.gwt.emu.java.time.Duration;
 import org.jresearch.threetenbp.gwt.emu.java.time.Instant;
 import org.jresearch.threetenbp.gwt.emu.java.time.LocalDateTime;
 import org.jresearch.threetenbp.gwt.emu.java.time.ZoneId;
 import org.jresearch.threetenbp.gwt.emu.java.time.ZoneOffset;
-import org.jresearch.threetenbp.gwt.emu.java.time.zone.ZoneOffsetTransition;
-import org.jresearch.threetenbp.gwt.emu.java.time.zone.ZoneOffsetTransitionRule;
-import org.jresearch.threetenbp.gwt.emu.java.time.zone.ZoneRules;
-import org.jresearch.threetenbp.gwt.emu.java.time.zone.ZoneRulesProvider;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import org.jresearch.threetenbp.gwt.emu.org.jresearch.threetenbp.gwt.time.client.zone.StandardZoneRules;
 
 /**
  * The rules defining how the zone offset varies for a single time-zone.
@@ -110,7 +108,8 @@ public abstract class ZoneRules {
     /**
      * Restricted constructor.
      */
-    ZoneRules() {
+	// GWT Specific
+	protected ZoneRules() {
     }
 
     //-----------------------------------------------------------------------
@@ -402,7 +401,8 @@ public abstract class ZoneRules {
     /**
      * Fixed time-zone.
      */
-    static final class Fixed extends ZoneRules implements Serializable {
+	// GWT Specific
+	protected static final class Fixed extends ZoneRules implements Serializable {
         /** A serialization identifier for this class. */
         private static final long serialVersionUID = -8733721350312276297L;
         /** The offset. */

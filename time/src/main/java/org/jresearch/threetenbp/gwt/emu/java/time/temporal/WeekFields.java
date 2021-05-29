@@ -50,6 +50,8 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import org.jresearch.gwt.time.apt.data.client.Region;
+import org.jresearch.gwt.time.apt.data.client.WeekInfo;
 import org.jresearch.threetenbp.gwt.emu.java.time.DateTimeException;
 import org.jresearch.threetenbp.gwt.emu.java.time.DayOfWeek;
 import org.jresearch.threetenbp.gwt.emu.java.time.Year;
@@ -57,8 +59,6 @@ import org.jresearch.threetenbp.gwt.emu.java.time.chrono.ChronoLocalDate;
 import org.jresearch.threetenbp.gwt.emu.java.time.chrono.Chronology;
 import org.jresearch.threetenbp.gwt.emu.java.time.format.ResolverStyle;
 import org.jresearch.threetenbp.gwt.time.client.cldr.Cldrs;
-import org.jresearch.threetenbp.gwt.time.client.cldr.Region;
-import org.jresearch.threetenbp.gwt.time.client.cldr.WeekInfo;
 
 /**
  * Localized definitions of the day-of-week, week-of-month and week-of-year fields.

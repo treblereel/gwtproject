@@ -17,21 +17,19 @@
 	<build>
 		<!-- define build -->
 		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
+			<!-- <plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<!-- <source>13</source>
-					<target>13</target> -->
+					<showWarnings>true</showWarnings>
 					<annotationProcessorPaths>
 						<path>
-							<groupId>org.immutables</groupId>
-							<artifactId>value</artifactId>
-							<version>${immutables.ver}</version>
+							<groupId>org.jresearch.gwt.tool.emu.apt</groupId>
+							<artifactId>org.jresearmch.gwt.tool.emu.apt.processor</artifactId>
+							<version>${gwt-tool-jre-apt.ver}</version>
 						</path>
 					</annotationProcessorPaths>
 				</configuration>
-			</plugin>
+			</plugin> -->
 			<plugin>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<!-- To correct work of GWT Super source -->

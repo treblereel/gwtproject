@@ -35,6 +35,13 @@ import static org.jresearch.threetenbp.gwt.emu.java.time.temporal.ChronoField.YE
 import static org.jresearch.threetenbp.gwt.emu.java.time.temporal.TemporalAdjusters.nextOrSame;
 import static org.jresearch.threetenbp.gwt.emu.java.time.temporal.TemporalAdjusters.previousOrSame;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
 import org.jresearch.threetenbp.gwt.emu.java.time.DateTimeException;
 import org.jresearch.threetenbp.gwt.emu.java.time.DayOfWeek;
 import org.jresearch.threetenbp.gwt.emu.java.time.LocalDate;
@@ -44,16 +51,8 @@ import org.jresearch.threetenbp.gwt.emu.java.time.Month;
 import org.jresearch.threetenbp.gwt.emu.java.time.Year;
 import org.jresearch.threetenbp.gwt.emu.java.time.ZoneOffset;
 import org.jresearch.threetenbp.gwt.emu.java.time.chrono.IsoChronology;
-import org.jresearch.threetenbp.gwt.emu.java.time.zone.ZoneOffsetTransition;
-import org.jresearch.threetenbp.gwt.emu.java.time.zone.ZoneOffsetTransitionRule;
-import org.jresearch.threetenbp.gwt.emu.java.time.zone.ZoneRules;
 import org.jresearch.threetenbp.gwt.emu.java.time.zone.ZoneOffsetTransitionRule.TimeDefinition;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import org.jresearch.threetenbp.gwt.emu.org.jresearch.threetenbp.gwt.time.client.zone.StandardZoneRules;
 
 /**
  * A mutable builder used to create all the rules for a historic time-zone.
@@ -730,7 +729,8 @@ class ZoneRulesBuilder {
                     standardOffset, trans.getOffsetBefore(), trans.getOffsetAfter());
         }
 
-        public int compareTo(TZRule other) {
+        @Override
+		public int compareTo(TZRule other) {
             int cmp = year - other.year;
             cmp = (cmp == 0 ? month.compareTo(other.month) : cmp);
             if (cmp == 0) {

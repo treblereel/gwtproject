@@ -212,6 +212,11 @@
 			</dependency>
 			<dependency>
 				<groupId>org.jresearch.gwt.time</groupId>
+				<artifactId>org.jresearch.gwt.time.apt.data</artifactId>
+				<version>${time.apt.ver}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jresearch.gwt.time</groupId>
 				<artifactId>org.jresearch.gwt.time.apt.annotation</artifactId>
 				<version>${time.apt.ver}</version>
 			</dependency>

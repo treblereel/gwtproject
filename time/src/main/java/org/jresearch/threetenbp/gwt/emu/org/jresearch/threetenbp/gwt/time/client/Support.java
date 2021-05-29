@@ -7,6 +7,7 @@ import java.util.stream.Stream;
 
 import javax.annotation.Nonnull;
 
+import org.jresearch.gwt.tool.emu.apt.annotation.Wrap;
 import org.jresearch.threetenbp.gwt.emu.java.time.zone.ZoneRulesProvider;
 import org.jresearch.threetenbp.gwt.time.client.DecimalProperty;
 import org.jresearch.threetenbp.gwt.time.client.SupportJs;
@@ -18,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.ScriptInjector;
 
+@Wrap("org.jresearch.threetenbp.gwt.emu")
 public class Support {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(Support.class);
