@@ -7,7 +7,7 @@
     <stringAttribute key="com.gwtplugins.gwt.eclipse.core.STYLE" value="OBFUSCATED"/>
     <stringAttribute key="com.gwtplugins.gwt.eclipse.core.WEB_MODE" value="true"/>
     <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-        <listEntry value="/org.jresearch.gwt.time/src/test/java/org/jresearch/threetenbp/gwt/time/client/GwtTreetenBpSuite.java"/>
+        <listEntry value="/org.jresearch.gwt.time/src/test/java/org/jresearch/threetenbp/gwt/emu/java/time/GwtTreetenBpSuite.java"/>
     </listAttribute>
     <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
         <listEntry value="1"/>
@@ -20,6 +20,6 @@
     <booleanAttribute key="org.eclipse.jdt.launching.ATTR_SHOW_CODEDETAILS_IN_EXCEPTION_MESSAGES" value="true"/>
     <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_CLASSPATH_ONLY_JAR" value="false"/>
     <stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="com.gwtplugins.gdt.eclipse.maven.mavenClasspathProvider"/>
-    <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.jresearch.threetenbp.gwt.time.client.GwtTreetenBpSuite"/>
+    <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.jresearch.threetenbp.gwt.emu.java.time.GwtTreetenBpSuite"/>
     <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="org.jresearch.gwt.time"/>
 </launchConfiguration>

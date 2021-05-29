@@ -292,7 +292,7 @@ public final class DecimalStyle {
 	 * @param ch the character to check
 	 * @return the value, 0 to 9, of the character, or -1 if not a digit
 	 */
-	int convertToDigit(char ch) {
+	public int convertToDigit(char ch) {
 		int val = ch - zeroDigit;
 		return (val >= 0 && val <= 9) ? val : -1;
 	}
