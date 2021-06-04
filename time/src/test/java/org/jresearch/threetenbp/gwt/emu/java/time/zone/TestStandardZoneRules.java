@@ -31,6 +31,9 @@
  */
 package org.jresearch.threetenbp.gwt.emu.java.time.zone;
 
+import java.util.Iterator;
+import java.util.List;
+
 import org.jresearch.threetenbp.gwt.emu.java.time.AbstractTest;
 import org.jresearch.threetenbp.gwt.emu.java.time.DayOfWeek;
 import org.jresearch.threetenbp.gwt.emu.java.time.Duration;
@@ -43,19 +46,13 @@ import org.jresearch.threetenbp.gwt.emu.java.time.Year;
 import org.jresearch.threetenbp.gwt.emu.java.time.ZoneId;
 import org.jresearch.threetenbp.gwt.emu.java.time.ZoneOffset;
 import org.jresearch.threetenbp.gwt.emu.java.time.ZonedDateTime;
-import org.jresearch.threetenbp.gwt.emu.java.time.zone.ZoneOffsetTransition;
-import org.jresearch.threetenbp.gwt.emu.java.time.zone.ZoneOffsetTransitionRule;
 import org.jresearch.threetenbp.gwt.emu.java.time.zone.ZoneOffsetTransitionRule.TimeDefinition;
-import org.jresearch.threetenbp.gwt.emu.java.time.zone.ZoneRules;
-import java.util.Iterator;
-import java.util.List;
-
 import org.junit.Test;
 
 /**
  * Test ZoneRules.
  */
-//@Test
+// @Test
 public class TestStandardZoneRules extends AbstractTest {
 
 	private static final ZoneOffset OFFSET_ZERO = ZoneOffset.ofHours(0);
@@ -68,25 +65,25 @@ public class TestStandardZoneRules extends AbstractTest {
 	// -----------------------------------------------------------------------
 	// Basics
 	// -----------------------------------------------------------------------
-//    public void test_serialization_loaded() throws Exception {
-//        assertSerialization(europeLondon());
-//        assertSerialization(europeParis());
-//        assertSerialization(americaNewYork());
-//    }
+	// public void test_serialization_loaded() throws Exception {
+	// assertSerialization(europeLondon());
+	// assertSerialization(europeParis());
+	// assertSerialization(americaNewYork());
+	// }
 
-//    private void assertSerialization(ZoneRules test) throws Exception {
-//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//        ObjectOutputStream out = new ObjectOutputStream(baos);
-//        out.writeObject(test);
-//        baos.close();
-//        byte[] bytes = baos.toByteArray();
-//
-//        ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
-//        ObjectInputStream in = new ObjectInputStream(bais);
-//        ZoneRules result = (ZoneRules) in.readObject();
-//
-//        assertEquals(result, test);
-//    }
+	// private void assertSerialization(ZoneRules test) throws Exception {
+	// ByteArrayOutputStream baos = new ByteArrayOutputStream();
+	// ObjectOutputStream out = new ObjectOutputStream(baos);
+	// out.writeObject(test);
+	// baos.close();
+	// byte[] bytes = baos.toByteArray();
+	//
+	// ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
+	// ObjectInputStream in = new ObjectInputStream(bais);
+	// ZoneRules result = (ZoneRules) in.readObject();
+	//
+	// assertEquals(result, test);
+	// }
 
 	// -----------------------------------------------------------------------
 	// Etc/GMT
@@ -291,19 +288,19 @@ public class TestStandardZoneRules extends AbstractTest {
 		List<ZoneOffsetTransition> trans = test.getTransitions();
 
 		ZoneOffsetTransition first = trans.get(0);
-		assertEquals(first.getDateTimeBefore(), LocalDateTime.of(1847, 12, 1, 0, 0));
+		assertEquals(LocalDateTime.of(1847, 12, 1, 0, 0), first.getDateTimeBefore());
 		assertEquals(first.getOffsetBefore(), ZoneOffset.ofHoursMinutesSeconds(0, -1, -15));
-		assertEquals(first.getOffsetAfter(), OFFSET_ZERO);
+		assertEquals(OFFSET_ZERO, first.getOffsetAfter());
 
 		ZoneOffsetTransition spring1916 = trans.get(1);
-		assertEquals(spring1916.getDateTimeBefore(), LocalDateTime.of(1916, 5, 21, 2, 0));
-		assertEquals(spring1916.getOffsetBefore(), OFFSET_ZERO);
-		assertEquals(spring1916.getOffsetAfter(), OFFSET_PONE);
+		assertEquals(LocalDateTime.of(1916, 5, 21, 2, 0), spring1916.getDateTimeBefore());
+		assertEquals(OFFSET_ZERO, spring1916.getOffsetBefore());
+		assertEquals(OFFSET_PONE, spring1916.getOffsetAfter());
 
 		ZoneOffsetTransition autumn1916 = trans.get(2);
-		assertEquals(autumn1916.getDateTimeBefore(), LocalDateTime.of(1916, 10, 1, 3, 0));
-		assertEquals(autumn1916.getOffsetBefore(), OFFSET_PONE);
-		assertEquals(autumn1916.getOffsetAfter(), OFFSET_ZERO);
+		assertEquals(LocalDateTime.of(1916, 10, 1, 3, 0), autumn1916.getDateTimeBefore());
+		assertEquals(OFFSET_PONE, autumn1916.getOffsetBefore());
+		assertEquals(OFFSET_ZERO, autumn1916.getOffsetAfter());
 
 		ZoneOffsetTransition zot = null;
 		Iterator<ZoneOffsetTransition> it = trans.iterator();
@@ -659,14 +656,20 @@ public class TestStandardZoneRules extends AbstractTest {
 		assertEquals(test.getDaylightSavings(createZDT(2016, 7, 1, ZoneOffset.UTC).toInstant()), Duration.ofHours(1));
 
 		// TZDB data is messed up, comment out tests until better fix available
-		//GWT specific TODO test in real browser (should work)
-//		DateTimeFormatter formatter1 = new DateTimeFormatterBuilder().appendZoneText(TextStyle.FULL).toFormatter();
-//		assertEquals("Greenwich Mean Time", formatter1.format(createZDT(2016, 1, 1, ZoneId.of("Europe/Dublin"))));
-//		assertEquals(formatter1.format(createZDT(2016, 7, 1, ZoneId.of("Europe/Dublin"))).startsWith("Irish S"), true);
-//
-//		DateTimeFormatter formatter2 = new DateTimeFormatterBuilder().appendZoneText(TextStyle.SHORT).toFormatter();
-//		assertEquals("GMT", formatter2.format(createZDT(2016, 1, 1, ZoneId.of("Europe/Dublin"))));
-//		assertEquals("IST", formatter2.format(createZDT(2016, 7, 1, ZoneId.of("Europe/Dublin"))));
+		// GWT specific TODO test in real browser (should work)
+		// DateTimeFormatter formatter1 = new
+		// DateTimeFormatterBuilder().appendZoneText(TextStyle.FULL).toFormatter();
+		// assertEquals("Greenwich Mean Time", formatter1.format(createZDT(2016, 1, 1,
+		// ZoneId.of("Europe/Dublin"))));
+		// assertEquals(formatter1.format(createZDT(2016, 7, 1,
+		// ZoneId.of("Europe/Dublin"))).startsWith("Irish S"), true);
+		//
+		// DateTimeFormatter formatter2 = new
+		// DateTimeFormatterBuilder().appendZoneText(TextStyle.SHORT).toFormatter();
+		// assertEquals("GMT", formatter2.format(createZDT(2016, 1, 1,
+		// ZoneId.of("Europe/Dublin"))));
+		// assertEquals("IST", formatter2.format(createZDT(2016, 7, 1,
+		// ZoneId.of("Europe/Dublin"))));
 	}
 
 	// -----------------------------------------------------------------------
@@ -686,7 +689,7 @@ public class TestStandardZoneRules extends AbstractTest {
 		ZonedDateTime old = createZDT(1800, 1, 1, ZoneOffset.UTC);
 		Instant instant = old.toInstant();
 		ZoneOffset offset = ZoneOffset.ofHoursMinutesSeconds(0, 9, 21);
-		assertEquals(test.getOffset(instant), offset);
+		assertEquals(offset, test.getOffset(instant));
 		checkOffset(test, old.toLocalDateTime(), offset, 1);
 		assertEquals(test.getStandardOffset(instant), offset);
 		assertEquals(test.getDaylightSavings(instant), Duration.ZERO);
@@ -838,15 +841,15 @@ public class TestStandardZoneRules extends AbstractTest {
 		while (zdt.getYear() < 2010) {
 			Instant instant = zdt.toInstant();
 			if (zdt.toLocalDate().isBefore(LocalDate.of(1911, 3, 11))) {
-				assertEquals(test.getStandardOffset(instant), ZoneOffset.ofHoursMinutesSeconds(0, 9, 21));
+				assertEquals(ZoneOffset.ofHoursMinutesSeconds(0, 9, 21), test.getStandardOffset(instant));
 			} else if (zdt.toLocalDate().isBefore(LocalDate.of(1940, 6, 14))) {
-				assertEquals(test.getStandardOffset(instant), OFFSET_ZERO);
+				assertEquals(OFFSET_ZERO, test.getStandardOffset(instant));
 			} else if (zdt.toLocalDate().isBefore(LocalDate.of(1944, 8, 25))) {
-				assertEquals(test.getStandardOffset(instant), OFFSET_PONE);
+				assertEquals(OFFSET_PONE, test.getStandardOffset(instant));
 			} else if (zdt.toLocalDate().isBefore(LocalDate.of(1945, 9, 16))) {
-				assertEquals(test.getStandardOffset(instant), OFFSET_ZERO);
+				assertEquals(OFFSET_ZERO, test.getStandardOffset(instant));
 			} else {
-				assertEquals(test.getStandardOffset(instant), OFFSET_PONE);
+				assertEquals(OFFSET_PONE, test.getStandardOffset(instant));
 			}
 			zdt = zdt.plusMonths(6);
 		}
@@ -869,7 +872,7 @@ public class TestStandardZoneRules extends AbstractTest {
 		ZonedDateTime old = createZDT(1800, 1, 1, ZoneOffset.UTC);
 		Instant instant = old.toInstant();
 		ZoneOffset offset = ZoneOffset.of("-04:56:02");
-		assertEquals(test.getOffset(instant), offset);
+		assertEquals(offset, test.getOffset(instant));
 		checkOffset(test, old.toLocalDateTime(), offset, 1);
 		assertEquals(test.getStandardOffset(instant), offset);
 		assertEquals(test.getDaylightSavings(instant), Duration.ZERO);

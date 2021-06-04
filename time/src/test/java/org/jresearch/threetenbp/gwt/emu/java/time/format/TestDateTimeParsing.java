@@ -40,6 +40,8 @@ import static org.jresearch.threetenbp.gwt.emu.java.time.temporal.ChronoField.OF
 import static org.jresearch.threetenbp.gwt.emu.java.time.temporal.ChronoField.SECOND_OF_DAY;
 import static org.jresearch.threetenbp.gwt.emu.java.time.temporal.ChronoField.SECOND_OF_MINUTE;
 
+import java.util.Locale;
+
 import org.jresearch.threetenbp.gwt.emu.java.time.AbstractTest;
 import org.jresearch.threetenbp.gwt.emu.java.time.DateTimeException;
 import org.jresearch.threetenbp.gwt.emu.java.time.Instant;
@@ -47,11 +49,7 @@ import org.jresearch.threetenbp.gwt.emu.java.time.LocalDateTime;
 import org.jresearch.threetenbp.gwt.emu.java.time.ZoneId;
 import org.jresearch.threetenbp.gwt.emu.java.time.ZoneOffset;
 import org.jresearch.threetenbp.gwt.emu.java.time.ZonedDateTime;
-import org.jresearch.threetenbp.gwt.emu.java.time.format.DateTimeFormatter;
-import org.jresearch.threetenbp.gwt.emu.java.time.format.DateTimeFormatterBuilder;
 import org.jresearch.threetenbp.gwt.emu.java.time.temporal.TemporalAccessor;
-import java.util.Locale;
-
 import org.junit.Test;
 
 /**
@@ -112,31 +110,31 @@ public class TestDateTimeParsing extends AbstractTest {
 	// @DataProvider(name = "instantZones")
 	Object[][] data_instantZones() {
 		return new Object[][] {
-				{ LOCALFIELDS_ZONEID, "2014-06-30 01:02:03 Europe/Paris",
-						ZonedDateTime.of(2014, 6, 30, 1, 2, 3, 0, PARIS) },
-				{ LOCALFIELDS_ZONEID, "2014-06-30 01:02:03 +02:30",
+			{ LOCALFIELDS_ZONEID, "2014-06-30 01:02:03 Europe/Paris",
+				ZonedDateTime.of(2014, 6, 30, 1, 2, 3, 0, PARIS) },
+			{ LOCALFIELDS_ZONEID, "2014-06-30 01:02:03 +02:30",
+					ZonedDateTime.of(2014, 6, 30, 1, 2, 3, 0, OFFSET_0230) },
+			{ LOCALFIELDS_OFFSETID, "2014-06-30 01:02:03 +02:30",
 						ZonedDateTime.of(2014, 6, 30, 1, 2, 3, 0, OFFSET_0230) },
-				{ LOCALFIELDS_OFFSETID, "2014-06-30 01:02:03 +02:30",
-						ZonedDateTime.of(2014, 6, 30, 1, 2, 3, 0, OFFSET_0230) },
-				{ LOCALFIELDS_WITH_PARIS, "2014-06-30 01:02:03", ZonedDateTime.of(2014, 6, 30, 1, 2, 3, 0, PARIS) },
-				{ LOCALFIELDS_WITH_0230, "2014-06-30 01:02:03",
-						ZonedDateTime.of(2014, 6, 30, 1, 2, 3, 0, OFFSET_0230) },
-				{ INSTANT_WITH_PARIS, "2014-06-30T01:02:03Z",
-						ZonedDateTime.of(2014, 6, 30, 1, 2, 3, 0, ZoneOffset.UTC).withZoneSameInstant(PARIS) },
-				{ INSTANT_WITH_0230, "2014-06-30T01:02:03Z",
+			{ LOCALFIELDS_WITH_PARIS, "2014-06-30 01:02:03", ZonedDateTime.of(2014, 6, 30, 1, 2, 3, 0, PARIS) },
+			{ LOCALFIELDS_WITH_0230, "2014-06-30 01:02:03",
+				ZonedDateTime.of(2014, 6, 30, 1, 2, 3, 0, OFFSET_0230) },
+			{ INSTANT_WITH_PARIS, "2014-06-30T01:02:03Z",
+					ZonedDateTime.of(2014, 6, 30, 1, 2, 3, 0, ZoneOffset.UTC).withZoneSameInstant(PARIS) },
+			{ INSTANT_WITH_0230, "2014-06-30T01:02:03Z",
 						ZonedDateTime.of(2014, 6, 30, 1, 2, 3, 0, ZoneOffset.UTC).withZoneSameInstant(OFFSET_0230) },
-				{ INSTANT_OFFSETID, "2014-06-30T01:02:03Z +02:30",
-						ZonedDateTime.of(2014, 6, 30, 1, 2, 3, 0, ZoneOffset.UTC).withZoneSameInstant(OFFSET_0230) },
-				{ INSTANT_OFFSETSECONDS, "2014-06-30T01:02:03Z 9000",
-						ZonedDateTime.of(2014, 6, 30, 1, 2, 3, 0, ZoneOffset.UTC).withZoneSameInstant(OFFSET_0230) },
-				{ INSTANTSECONDS_WITH_PARIS, "86402", Instant.ofEpochSecond(86402).atZone(PARIS) },
-				{ INSTANTSECONDS_NOS_WITH_PARIS, "86402.123456789",
-						Instant.ofEpochSecond(86402, 123456789).atZone(PARIS) },
-				{ INSTANTSECONDS_OFFSETSECONDS, "86402 9000", Instant.ofEpochSecond(86402).atZone(OFFSET_0230) },
-				{ INSTANT_OFFSETSECONDS_ZONE, "2016-10-30T00:30:00Z 7200 Europe/Paris",
-						ZonedDateTime.ofStrict(LocalDateTime.of(2016, 10, 30, 2, 30), ZoneOffset.ofHours(2), PARIS) },
-				{ INSTANT_OFFSETSECONDS_ZONE, "2016-10-30T01:30:00Z 3600 Europe/Paris", ZonedDateTime
-						.ofStrict(LocalDateTime.of(2016, 10, 30, 2, 30), ZoneOffset.ofHours(1), PARIS) }, };
+			{ INSTANT_OFFSETID, "2014-06-30T01:02:03Z +02:30",
+							ZonedDateTime.of(2014, 6, 30, 1, 2, 3, 0, ZoneOffset.UTC).withZoneSameInstant(OFFSET_0230) },
+			{ INSTANT_OFFSETSECONDS, "2014-06-30T01:02:03Z 9000",
+								ZonedDateTime.of(2014, 6, 30, 1, 2, 3, 0, ZoneOffset.UTC).withZoneSameInstant(OFFSET_0230) },
+			{ INSTANTSECONDS_WITH_PARIS, "86402", Instant.ofEpochSecond(86402).atZone(PARIS) },
+			{ INSTANTSECONDS_NOS_WITH_PARIS, "86402.123456789",
+				Instant.ofEpochSecond(86402, 123456789).atZone(PARIS) },
+			{ INSTANTSECONDS_OFFSETSECONDS, "86402 9000", Instant.ofEpochSecond(86402).atZone(OFFSET_0230) },
+			{ INSTANT_OFFSETSECONDS_ZONE, "2016-10-30T00:30:00Z 7200 Europe/Paris",
+				ZonedDateTime.ofStrict(LocalDateTime.of(2016, 10, 30, 2, 30), ZoneOffset.ofHours(2), PARIS) },
+			{ INSTANT_OFFSETSECONDS_ZONE, "2016-10-30T01:30:00Z 3600 Europe/Paris", ZonedDateTime
+					.ofStrict(LocalDateTime.of(2016, 10, 30, 2, 30), ZoneOffset.ofHours(1), PARIS) }, };
 	}
 
 	@Test(/* dataProvider = "instantZones" */)
@@ -212,10 +210,10 @@ public class TestDateTimeParsing extends AbstractTest {
 	// @DataProvider(name = "instantNoZone")
 	Object[][] data_instantNoZone() {
 		return new Object[][] {
-				{ INSTANT, "2014-06-30T01:02:03Z",
-						ZonedDateTime.of(2014, 6, 30, 1, 2, 3, 0, ZoneOffset.UTC).toInstant() },
-				{ INSTANTSECONDS, "86402", Instant.ofEpochSecond(86402) },
-				{ INSTANTSECONDS_NOS, "86402.123456789", Instant.ofEpochSecond(86402, 123456789) }, };
+			{ INSTANT, "2014-06-30T01:02:03Z",
+				ZonedDateTime.of(2014, 6, 30, 1, 2, 3, 0, ZoneOffset.UTC).toInstant() },
+			{ INSTANTSECONDS, "86402", Instant.ofEpochSecond(86402) },
+			{ INSTANTSECONDS_NOS, "86402.123456789", Instant.ofEpochSecond(86402, 123456789) }, };
 	}
 
 	@Test(/* dataProvider = "instantNoZone", */ expected = DateTimeException.class)
@@ -387,19 +385,19 @@ public class TestDateTimeParsing extends AbstractTest {
 	}
 
 	@Test
-    public void disable_test_parse_tzdbGmtZoneEtc() {
-        String dateString = "2015,7,21,0,0,0,Etc/GMT-2";
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy,M,d,H,m,s,z", Locale.US);
-        ZonedDateTime parsed = ZonedDateTime.parse(dateString, formatter);
-        assertEquals(ZonedDateTime.of(2015, 7, 21, 0, 0, 0, 0, ZoneId.of("Etc/GMT-2")), parsed);
-    }
+	public void disable_test_parse_tzdbGmtZoneEtc() {
+		String dateString = "2015,7,21,0,0,0,Etc/GMT-2";
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy,M,d,H,m,s,z", Locale.US);
+		ZonedDateTime parsed = ZonedDateTime.parse(dateString, formatter);
+		assertEquals(ZonedDateTime.of(2015, 7, 21, 0, 0, 0, 0, ZoneId.of("Etc/GMT-2")), parsed);
+	}
 
-    @Test
-    public void disable_test_parse_tzdbGmtZone() {
+	@Test
+	public void test_parse_tzdbGmtZone() {
 		String dateString = "2015,7,21,0,0,0,GMT+02:00";
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy,M,d,H,m,s,z", Locale.US);
 		ZonedDateTime parsed = ZonedDateTime.parse(dateString, formatter);
-        assertEquals(ZonedDateTime.of(2015, 7, 21, 0, 0, 0, 0, ZoneId.of("GMT+02:00")), parsed);
+		assertEquals(ZonedDateTime.of(2015, 7, 21, 0, 0, 0, 0, ZoneId.of("GMT+02:00")), parsed);
 	}
 
 }

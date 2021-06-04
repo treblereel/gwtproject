@@ -17,19 +17,6 @@
 	<build>
 		<!-- define build -->
 		<plugins>
-			<!-- <plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<showWarnings>true</showWarnings>
-					<annotationProcessorPaths>
-						<path>
-							<groupId>org.jresearch.gwt.tool.emu.apt</groupId>
-							<artifactId>org.jresearmch.gwt.tool.emu.apt.processor</artifactId>
-							<version>${gwt-tool-jre-apt.ver}</version>
-						</path>
-					</annotationProcessorPaths>
-				</configuration>
-			</plugin> -->
 			<plugin>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<!-- To correct work of GWT Super source -->
@@ -45,8 +32,6 @@
 				<configuration>
 					<moduleName>org.jresearch.threetenbp.gwt.tzdb.module</moduleName>
 					<moduleShortName>threetenbpTzdbGwt</moduleShortName>
-					<relocateSuperSource>true</relocateSuperSource>
-					<relocateTestSuperSource>true</relocateTestSuperSource>
 					<testArgs>
 						<testArg>-testMethodTimeout</testArg>
 						<testArg>30</testArg>
