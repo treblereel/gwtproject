@@ -23,7 +23,7 @@
                 <executions>
                     <execution>
                         <id>copy-emu</id>
-                        <phase>prepare-package</phase>
+                        <phase>validate</phase>
                         <goals>
                             <goal>copy-resources</goal>
                         </goals>
@@ -46,7 +46,7 @@
                 <executions>
                     <execution>
                         <id>repackage-emu</id>
-                        <phase>prepare-package</phase>
+                        <phase>validate</phase>
                         <goals>
                             <goal>replace</goal>
                         </goals>
