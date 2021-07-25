@@ -44,38 +44,20 @@
 
   <inceptionYear>2018</inceptionYear>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
-
-    <auto.common.version>1.1</auto.common.version>
-    <auto.service.version>1.0</auto.service.version>
-    <compile.testing.version>0.19</compile.testing.version>
-    <gwt.version>2.9.0</gwt.version>
-    <javapoet.version>1.13.0</javapoet.version>
-    <org.truth.version>0.23</org.truth.version>
-    <truth.version>1.0</truth.version>
-  </properties>
-
   <dependencies>
     <dependency>
       <groupId>org.gwtproject.safehtml</groupId>
       <artifactId>gwt-safecss</artifactId>
-      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.gwtproject.safehtml</groupId>
       <artifactId>gwt-safehtml</artifactId>
-      <version>${project.version}</version>
     </dependency>
 
     <!-- HTML parser used to read template contents -->
     <dependency>
       <groupId>com.google.jsilver</groupId>
       <artifactId>jsilver</artifactId>
-      <version>${jsilver.version}</version>
       <exclusions>
         <exclusion>
           <groupId>com.google.guava</groupId>
@@ -87,37 +69,31 @@
     <dependency>
       <groupId>com.squareup</groupId>
       <artifactId>javapoet</artifactId>
-      <version>${javapoet.version}</version>
     </dependency>
     <dependency>
       <groupId>com.google.auto</groupId>
       <artifactId>auto-common</artifactId>
-      <version>${auto.common.version}</version>
     </dependency>
     <dependency>
       <groupId>com.google.auto.service</groupId>
       <artifactId>auto-service</artifactId>
-      <version>${auto.service.version}</version>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>${guava.version}</version>
     </dependency>
 
     <!-- only for testing -->
     <dependency>
       <groupId>com.google.testing.compile</groupId>
       <artifactId>compile-testing</artifactId>
-      <version>${compile.testing.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -170,7 +146,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.21.0</version>
         <executions>
           <execution>
             <id>unit-tests</id>
@@ -233,7 +208,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-deploy-plugin</artifactId>
-        <version>${maven.deploy.plugin}</version>
         <configuration>
           <skip>false</skip>
         </configuration>

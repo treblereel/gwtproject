@@ -50,12 +50,10 @@
     <dependency>
       <groupId>org.gwtproject.dom</groupId>
       <artifactId>gwt-dom-style-definitions</artifactId>
-      <version>${revision}</version>
     </dependency>
     <dependency>
       <groupId>org.gwtproject.safehtml</groupId>
       <artifactId>gwt-safehtml</artifactId>
-      <version>${revision}</version>
     </dependency>
   </dependencies>
 
@@ -64,7 +62,6 @@
       <plugin>
         <groupId>net.ltgt.gwt.maven</groupId>
         <artifactId>gwt-maven-plugin</artifactId>
-        <version>${maven.gwt.plugin}</version>
         <extensions>true</extensions>
         <configuration>
           <moduleName>org.gwtproject.safecss.SafeCss</moduleName>
