@@ -46,7 +46,7 @@ public class MediaElement extends Element {
   public static int HAVE_NOTHING;
 
   /** Constant returned from {@link #getReadyState()}. */
-  @JsProperty(namespace = JsPackage.GLOBAL, name = "HTMLMediaElement.HAVE_NOTHING")
+  @JsProperty(namespace = JsPackage.GLOBAL, name = "HTMLMediaElement.HAVE_METADATA")
   public static int HAVE_METADATA;
 
   /** Constant returned from {@link #getReadyState()}. */
