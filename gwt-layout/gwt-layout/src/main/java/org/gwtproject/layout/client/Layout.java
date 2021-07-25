@@ -15,13 +15,14 @@
  */
 package org.gwtproject.layout.client;
 
-import static org.gwtproject.dom.style.shared.Unit.PX;
-
-import java.util.ArrayList;
-import java.util.List;
 import org.gwtproject.animation.client.Animation;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.style.shared.Unit;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.gwtproject.dom.style.shared.Unit.PX;
 
 /**
  * Helper class for laying out a container element and its children.
@@ -44,8 +45,6 @@ import org.gwtproject.dom.style.shared.Unit;
  *
  * <p>On most browsers, this is implemented using absolute positioning. It also contains extra logic
  * to make IE6 work properly.
- *
- * <p>
  *
  * <h3>Example</h3>
  *
@@ -503,6 +502,7 @@ public class Layout {
      * Called at each step of the animation, for each layer being laid out.
      *
      * @param layer the layer being laid out
+     * @param progress progress of animation
      */
     void onLayout(Layer layer, double progress);
   }
@@ -616,7 +616,14 @@ public class Layout {
       return this.userObject;
     }
 
-    /** Sets the layer's bottom and height values. */
+    /**
+     * Sets the layer's bottom and height values.
+     *
+     * @param bottom value of layer's bottom height
+     * @param bottomUnit unit of layer's bottom height
+     * @param height value of layer's height
+     * @param heightUnit unit of layer's height
+     */
     public void setBottomHeight(double bottom, Unit bottomUnit, double height, Unit heightUnit) {
       this.setTargetBottom = this.setTargetHeight = true;
       this.setTargetTop = false;
@@ -626,17 +633,32 @@ public class Layout {
       this.targetHeightUnit = heightUnit;
     }
 
-    /** Sets the child element's horizontal position within the layer. */
+    /**
+     * Sets the child element's horizontal position within the layer.
+     *
+     * @param position horizontal alignment
+     */
     public void setChildHorizontalPosition(Alignment position) {
       this.hPos = position;
     }
 
-    /** Sets the child element's vertical position within the layer. */
+    /**
+     * Sets the child element's vertical position within the layer
+     *
+     * @param position vertical alignment
+     */
     public void setChildVerticalPosition(Alignment position) {
       this.vPos = position;
     }
 
-    /** Sets the layer's left and right values. */
+    /**
+     * Sets the layer's left and right values.
+     *
+     * @param left value of layer's left side
+     * @param leftUnit unit of layer's left side
+     * @param right value of layer's right side
+     * @param rightUnit unit of layer's right side
+     */
     public void setLeftRight(double left, Unit leftUnit, double right, Unit rightUnit) {
       this.setTargetLeft = this.setTargetRight = true;
       this.setTargetWidth = false;
@@ -646,7 +668,14 @@ public class Layout {
       this.targetRightUnit = rightUnit;
     }
 
-    /** Sets the layer's left and width values. */
+    /**
+     * Sets the layer's left and width values.
+     *
+     * @param left value of layer's left side
+     * @param leftUnit unit of layer's left side
+     * @param width value of layer's left width
+     * @param widthUnit unit of layer's left width
+     */
     public void setLeftWidth(double left, Unit leftUnit, double width, Unit widthUnit) {
       this.setTargetLeft = this.setTargetWidth = true;
       this.setTargetRight = false;
@@ -656,7 +685,14 @@ public class Layout {
       this.targetWidthUnit = widthUnit;
     }
 
-    /** Sets the layer's right and width values. */
+    /**
+     * Sets the layer's right and width values.
+     *
+     * @param right value of layer's right side
+     * @param rightUnit unit of layer's right side
+     * @param width value of layer's right width
+     * @param widthUnit unit of layer's right width
+     */
     public void setRightWidth(double right, Unit rightUnit, double width, Unit widthUnit) {
       this.setTargetRight = this.setTargetWidth = true;
       this.setTargetLeft = false;
@@ -666,7 +702,14 @@ public class Layout {
       this.targetWidthUnit = widthUnit;
     }
 
-    /** Sets the layer's top and bottom values. */
+    /**
+     * Sets the layer's top and bottom values.
+     *
+     * @param top value of layer's top side
+     * @param topUnit unit of layer's top side
+     * @param bottom value of layer's bottom width
+     * @param bottomUnit unit of layer's bottom width
+     */
     public void setTopBottom(double top, Unit topUnit, double bottom, Unit bottomUnit) {
       this.setTargetTop = this.setTargetBottom = true;
       this.setTargetHeight = false;
@@ -676,7 +719,14 @@ public class Layout {
       this.targetBottomUnit = bottomUnit;
     }
 
-    /** Sets the layer's top and height values. */
+    /**
+     * Sets the layer's top and height values.
+     *
+     * @param top value of layer's top side
+     * @param topUnit unit of layer's top side
+     * @param height value of layer's height
+     * @param heightUnit unit of layer's height
+     */
     public void setTopHeight(double top, Unit topUnit, double height, Unit heightUnit) {
       this.setTargetTop = this.setTargetHeight = true;
       this.setTargetBottom = false;
@@ -686,7 +736,11 @@ public class Layout {
       this.targetHeightUnit = heightUnit;
     }
 
-    /** Sets the layer's visibility. */
+    /**
+     * Sets the layer's visibility.
+     *
+     * @param visible sets the visibility
+     */
     public void setVisible(boolean visible) {
       this.visible = visible;
     }
