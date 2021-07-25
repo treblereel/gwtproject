@@ -34,7 +34,7 @@ public class LocaleInfo_en_Test {
 
   @Before
   public void setUp() {
-    LocaleInfoFactory.locale = "en";  }
+    //LocaleInfoFactory.locale = "en";  }
 
 /*  public void testAvailableLocales() {
     String[] locales = LocaleInfo.getAvailableLocaleNames();
@@ -48,12 +48,12 @@ public class LocaleInfo_en_Test {
 /*  public void testCookieName() {
     String cookieName = LocaleInfo.getCurrentLocale().getLocaleCookieName();
     assertEquals("LOCALE", cookieName);
-  }*/
+  }
 
-/*  public void testQueryParam() {
+  public void testQueryParam() {
     String queryParam = LocaleInfo.getCurrentLocale().getLocaleQueryParam();
-    assertNull(queryParam);
-  }*/
+    assertNull(queryParam); */
+  }
 
   @Test
   public void testRTL() {

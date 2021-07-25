@@ -1,5 +1,5 @@
 /*
- * Copyright © 2021 The GWT Authors
+ * Copyright © 2021 The GWT Project Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,10 +14,26 @@
  * limitations under the License.
  */
 
-// Provide the define in a gwt-specfic namespace so it is easy to request that closure include this file
-goog.provide('gwt');
+package org.gwtproject.i18n.shared.cldr.impl.gwt2;
 
-/**
- * @define {string} The locale string that the app should use
- */
-gwt.locale = goog.define('gwt.locale', "default");
+import jsinterop.annotations.JsFunction;
+import jsinterop.annotations.JsType;
+
+@JsType
+class Functions {
+
+  @JsFunction
+  interface Callback {
+    String onCallback(String msg, String msg2);
+  }
+
+  @JsFunction
+  interface CallbackRtrnStringArray {
+    String[] onCallback();
+  }
+
+  @JsFunction
+  interface CallbackRtrnString {
+    String onCallback(String arg);
+  }
+}

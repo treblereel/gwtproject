@@ -31,7 +31,7 @@ public class NumberParse_en_Test {
 
   @Before
   public void setUp() {
-    LocaleInfoFactory.locale = "en";
+    //LocaleInfoFactory.locale = "en";
   }
 
   private static Number numberParse(String pattern, String toParse) {

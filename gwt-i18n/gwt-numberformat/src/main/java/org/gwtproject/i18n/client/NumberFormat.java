@@ -277,7 +277,7 @@ import org.gwtproject.i18n.shared.cldr.NumberConstants;
  *
  * <h3>Example</h3>
  *
- * <p>{@example com.google.gwt.examples.NumberFormatExample}
+ * {@example com.google.gwt.examples.NumberFormatExample}
  */
 public class NumberFormat {
 
@@ -286,13 +286,30 @@ public class NumberFormat {
   // LocaleInfo.getCurrentLocale().getNumberConstants();
   protected static final NumberConstants localizedNumberConstants =
       LocaleInfo.getCurrentLocale().getNumberConstants();
+
+  /**
+   * Current NumberConstants interface to use, see {@link #setForcedLatinDigits(boolean)} for
+   * changing it.
+   */
+  protected static NumberConstants defaultNumberConstants = localizedNumberConstants;
+
+  // Cached instances of standard formatters.
+  private static NumberFormat cachedCurrencyFormat;
+  private static NumberFormat cachedDecimalFormat;
+  private static NumberFormat cachedPercentFormat;
+  private static NumberFormat cachedScientificFormat;
+
   // Constants for characters used in programmatic (unlocalized) patterns.
   private static final char CURRENCY_SIGN = '\u00A4';
+
+  // Number constants mapped to use latin digits/separators.
+  private static NumberConstants latinNumberConstants = null;
   // Localized characters for dot and comma in number patterns, used to produce
   // the latin mapping for arbitrary locales.  Any separator not in either of
   // these strings will be mapped to non-breaking space (U+00A0).
   private static final String LOCALIZED_COMMA_EQUIVALENTS =
       ",\u060C\u066B\u3001\uFE10\uFE11\uFE50\uFE51\uFF0C\uFF64";
+
   private static final String LOCALIZED_DOT_EQUIVALENTS = ".\u2024\u3002\uFE12\uFE52\uFF0E\uFF61";
   private static final char PATTERN_DECIMAL_SEPARATOR = '.';
   private static final char PATTERN_DIGIT = '#';
@@ -303,348 +320,15 @@ public class NumberFormat {
   private static final char PATTERN_PERCENT = '%';
   private static final char PATTERN_SEPARATOR = ';';
   private static final char PATTERN_ZERO_DIGIT = '0';
+
   private static final char QUOTE = '\'';
-  /**
-   * Current NumberConstants interface to use, see {@link #setForcedLatinDigits(boolean)} for
-   * changing it.
-   */
-  protected static NumberConstants defaultNumberConstants = localizedNumberConstants;
-  // Cached instances of standard formatters.
-  private static NumberFormat cachedCurrencyFormat;
-  private static NumberFormat cachedDecimalFormat;
-  private static NumberFormat cachedPercentFormat;
-  private static NumberFormat cachedScientificFormat;
-  // Number constants mapped to use latin digits/separators.
-  private static NumberConstants latinNumberConstants = null;
-  private static boolean forcedLatinDigits = false;
-  // Locale specific symbol collection.
-  private final NumberConstants numberConstants;
-  // The pattern to use for formatting and parsing.
-  private final String pattern;
-  /** Information about the currency being used. */
-  private CurrencyData currencyData;
-  /**
-   * Holds the current decimal position during one call to {@link #format(boolean, StringBuilder,
-   * int)}.
-   */
-  private transient int decimalPosition;
-  /** Forces the decimal separator to always appear in a formatted number. */
-  private boolean decimalSeparatorAlwaysShown = false;
-  /**
-   * Holds the current digits length during one call to {@link #format(boolean, StringBuilder,
-   * int)}.
-   */
-  private transient int digitsLength;
-  /** Holds the current exponent during one call to {@link #format(boolean, StringBuilder, int)}. */
-  private transient int exponent;
-  /** The number of digits between grouping separators in the integer portion of a number. */
-  private int groupingSize = 3;
-
-  private boolean isCurrencyFormat = false;
-  private int maximumFractionDigits = 3; // invariant, >= minFractionDigits.
-  private int maximumIntegerDigits = 40;
-  private int minExponentDigits;
-  private int minimumFractionDigits = 0;
-  private int minimumIntegerDigits = 1;
-  // The multiplier for use in percent, per mille, etc.
-  private int multiplier = 1;
-  private String negativePrefix = "-";
-  private String negativeSuffix = "";
-  private String positivePrefix = "";
-  private String positiveSuffix = "";
-  // True to force the use of exponential (i.e. scientific) notation.
-  private boolean useExponentialNotation = false;
 
   /**
-   * Constructs a format object for the default locale based on the specified settings.
-   *
-   * @param pattern pattern that specify how number should be formatted
-   * @param cdata currency data that should be used
-   * @param userSuppliedPattern true if the pattern was supplied by the user
+   * Returns true if all new NumberFormat instances will use latin digits and related characters
+   * rather than the localized ones.
    */
-  protected NumberFormat(String pattern, CurrencyData cdata, boolean userSuppliedPattern) {
-    this(defaultNumberConstants, pattern, cdata, userSuppliedPattern);
-  }
-
-  /**
-   * Constructs a format object based on the specified settings.
-   *
-   * @param numberConstants the locale-specific number constants to use for this format -- **NOTE**
-   *     subclasses passing their own instance here should pay attention to {@link
-   *     #forcedLatinDigits()} and remap localized symbols using {@link
-   *     #createLatinNumberConstants(NumberConstants)}
-   * @param pattern pattern that specify how number should be formatted
-   * @param cdata currency data that should be used
-   * @param userSuppliedPattern true if the pattern was supplied by the user
-   */
-  protected NumberFormat(
-      NumberConstants numberConstants,
-      String pattern,
-      CurrencyData cdata,
-      boolean userSuppliedPattern) {
-    if (cdata == null) {
-      throw new IllegalArgumentException("Unknown currency code");
-    }
-    this.numberConstants = numberConstants;
-    this.pattern = pattern;
-    currencyData = cdata;
-
-    // TODO: handle per-currency flags, such as symbol prefix/suffix and spacing
-    parsePattern(this.pattern);
-    if (!userSuppliedPattern && isCurrencyFormat) {
-      minimumFractionDigits = currencyData.getDefaultFractionDigits();
-      maximumFractionDigits = minimumFractionDigits;
-    }
-  }
-
-  /**
-   * Method parses provided pattern, result is stored in member variables.
-   *
-   * @param pattern
-   */
-  private void parsePattern(String pattern) {
-    int pos = 0;
-    StringBuilder affix = new StringBuilder();
-
-    pos += parseAffix(pattern, pos, affix, false);
-    positivePrefix = affix.toString();
-    pos += parseTrunk(pattern, pos, false);
-    pos += parseAffix(pattern, pos, affix, false);
-    positiveSuffix = affix.toString();
-
-    if (pos < pattern.length() && pattern.charAt(pos) == PATTERN_SEPARATOR) {
-      ++pos;
-      pos += parseAffix(pattern, pos, affix, true);
-      negativePrefix = affix.toString();
-      // the negative pattern is only used for prefix/suffix
-      pos += parseTrunk(pattern, pos, true);
-      pos += parseAffix(pattern, pos, affix, true);
-      negativeSuffix = affix.toString();
-    } else {
-      negativePrefix = numberConstants.minusSign() + positivePrefix;
-      negativeSuffix = positiveSuffix;
-    }
-  }
-
-  /**
-   * This method parses affix part of pattern.
-   *
-   * @param pattern pattern string that need to be parsed
-   * @param start start position to parse
-   * @param affix store the parsed result
-   * @param inNegativePattern true if we are parsing the negative pattern and therefore only care
-   *     about the prefix and suffix
-   * @return how many characters parsed
-   */
-  private int parseAffix(
-      String pattern, int start, StringBuilder affix, boolean inNegativePattern) {
-    affix.delete(0, affix.length());
-    boolean inQuote = false;
-    int len = pattern.length();
-
-    for (int pos = start; pos < len; ++pos) {
-      char ch = pattern.charAt(pos);
-      if (ch == QUOTE) {
-        if ((pos + 1) < len && pattern.charAt(pos + 1) == QUOTE) {
-          ++pos;
-          affix.append("'"); // 'don''t'
-        } else {
-          inQuote = !inQuote;
-        }
-        continue;
-      }
-
-      if (inQuote) {
-        affix.append(ch);
-      } else {
-        switch (ch) {
-          case PATTERN_DIGIT:
-          case PATTERN_ZERO_DIGIT:
-          case PATTERN_GROUPING_SEPARATOR:
-          case PATTERN_DECIMAL_SEPARATOR:
-          case PATTERN_SEPARATOR:
-            return pos - start;
-          case CURRENCY_SIGN:
-            isCurrencyFormat = true;
-            if ((pos + 1) < len && pattern.charAt(pos + 1) == CURRENCY_SIGN) {
-              ++pos;
-              if (pos < len - 2
-                  && pattern.charAt(pos + 1) == CURRENCY_SIGN
-                  && pattern.charAt(pos + 2) == CURRENCY_SIGN) {
-                pos += 2;
-                affix.append(currencyData.getSimpleCurrencySymbol());
-              } else {
-                affix.append(currencyData.getCurrencyCode());
-              }
-            } else {
-              affix.append(currencyData.getCurrencySymbol());
-            }
-            break;
-          case PATTERN_PERCENT:
-            if (!inNegativePattern) {
-              if (multiplier != 1) {
-                throw new IllegalArgumentException(
-                    "Too many percent/per mille characters in pattern \"" + pattern + '"');
-              }
-              multiplier = 100;
-            }
-            affix.append(numberConstants.percent());
-            break;
-          case PATTERN_PER_MILLE:
-            if (!inNegativePattern) {
-              if (multiplier != 1) {
-                throw new IllegalArgumentException(
-                    "Too many percent/per mille characters in pattern \"" + pattern + '"');
-              }
-              multiplier = 1000;
-            }
-            affix.append(numberConstants.perMill());
-            break;
-          case PATTERN_MINUS:
-            affix.append("-");
-            break;
-          default:
-            affix.append(ch);
-        }
-      }
-    }
-    return len - start;
-  }
-
-  /**
-   * This method parses the trunk part of a pattern.
-   *
-   * @param pattern pattern string that need to be parsed
-   * @param start where parse started
-   * @param ignorePattern true if we are only parsing this for length and correctness, such as in
-   *     the negative portion of the pattern
-   * @return how many characters parsed
-   */
-  private int parseTrunk(String pattern, int start, boolean ignorePattern) {
-    int decimalPos = -1;
-    int digitLeftCount = 0, zeroDigitCount = 0, digitRightCount = 0;
-    byte groupingCount = -1;
-
-    int len = pattern.length();
-    int pos = start;
-    boolean loop = true;
-    for (; (pos < len) && loop; ++pos) {
-      char ch = pattern.charAt(pos);
-      switch (ch) {
-        case PATTERN_DIGIT:
-          if (zeroDigitCount > 0) {
-            ++digitRightCount;
-          } else {
-            ++digitLeftCount;
-          }
-          if (groupingCount >= 0 && decimalPos < 0) {
-            ++groupingCount;
-          }
-          break;
-        case PATTERN_ZERO_DIGIT:
-          if (digitRightCount > 0) {
-            throw new IllegalArgumentException("Unexpected '0' in pattern \"" + pattern + '"');
-          }
-          ++zeroDigitCount;
-          if (groupingCount >= 0 && decimalPos < 0) {
-            ++groupingCount;
-          }
-          break;
-        case PATTERN_GROUPING_SEPARATOR:
-          groupingCount = 0;
-          break;
-        case PATTERN_DECIMAL_SEPARATOR:
-          if (decimalPos >= 0) {
-            throw new IllegalArgumentException(
-                "Multiple decimal separators in pattern \"" + pattern + '"');
-          }
-          decimalPos = digitLeftCount + zeroDigitCount + digitRightCount;
-          break;
-        case PATTERN_EXPONENT:
-          if (!ignorePattern) {
-            if (useExponentialNotation) {
-              throw new IllegalArgumentException(
-                  "Multiple exponential " + "symbols in pattern \"" + pattern + '"');
-            }
-            useExponentialNotation = true;
-            minExponentDigits = 0;
-          }
-
-          // Use lookahead to parse out the exponential part
-          // of the pattern, then jump into phase 2.
-          while ((pos + 1) < len && pattern.charAt(pos + 1) == PATTERN_ZERO_DIGIT) {
-            ++pos;
-            if (!ignorePattern) {
-              ++minExponentDigits;
-            }
-          }
-
-          if (!ignorePattern && (digitLeftCount + zeroDigitCount) < 1 || minExponentDigits < 1) {
-            throw new IllegalArgumentException(
-                "Malformed exponential " + "pattern \"" + pattern + '"');
-          }
-          loop = false;
-          break;
-        default:
-          --pos;
-          loop = false;
-          break;
-      }
-    }
-
-    if (zeroDigitCount == 0 && digitLeftCount > 0 && decimalPos >= 0) {
-      // Handle "###.###" and "###." and ".###".
-      int n = decimalPos;
-      if (n == 0) { // Handle ".###"
-        ++n;
-      }
-      digitRightCount = digitLeftCount - n;
-      digitLeftCount = n - 1;
-      zeroDigitCount = 1;
-    }
-
-    // Do syntax checking on the digits.
-    if ((decimalPos < 0 && digitRightCount > 0)
-        || (decimalPos >= 0
-            && (decimalPos < digitLeftCount || decimalPos > (digitLeftCount + zeroDigitCount)))
-        || groupingCount == 0) {
-      throw new IllegalArgumentException("Malformed pattern \"" + pattern + '"');
-    }
-
-    if (ignorePattern) {
-      return pos - start;
-    }
-
-    int totalDigits = digitLeftCount + zeroDigitCount + digitRightCount;
-
-    maximumFractionDigits = (decimalPos >= 0 ? (totalDigits - decimalPos) : 0);
-    if (decimalPos >= 0) {
-      minimumFractionDigits = digitLeftCount + zeroDigitCount - decimalPos;
-      if (minimumFractionDigits < 0) {
-        minimumFractionDigits = 0;
-      }
-    }
-
-    /*
-     * The effectiveDecimalPos is the position the decimal is at or would be at
-     * if there is no decimal. Note that if decimalPos<0, then digitTotalCount ==
-     * digitLeftCount + zeroDigitCount.
-     */
-    int effectiveDecimalPos = decimalPos >= 0 ? decimalPos : totalDigits;
-    minimumIntegerDigits = effectiveDecimalPos - digitLeftCount;
-    if (useExponentialNotation) {
-      maximumIntegerDigits = digitLeftCount + minimumIntegerDigits;
-
-      // In exponential display, integer part can't be empty.
-      if (maximumFractionDigits == 0 && minimumIntegerDigits == 0) {
-        minimumIntegerDigits = 1;
-      }
-    }
-
-    this.groupingSize = (groupingCount > 0) ? groupingCount : 0;
-    decimalSeparatorAlwaysShown = (decimalPos == 0 || decimalPos == totalDigits);
-
-    return pos - start;
+  public static boolean forcedLatinDigits() {
+    return defaultNumberConstants != localizedNumberConstants;
   }
 
   /**
@@ -682,25 +366,6 @@ public class NumberFormat {
    */
   public static NumberFormat getCurrencyFormat(String currencyCode) {
     return getCurrencyFormat(lookupCurrency(currencyCode));
-  }
-
-  /**
-   * Lookup a currency code.
-   *
-   * @param currencyCode ISO4217 currency code
-   * @return a CurrencyData instance
-   * @throws IllegalArgumentException if the currency code is unknown
-   */
-  private static CurrencyData lookupCurrency(String currencyCode) {
-    CurrencyData currencyData = CurrencyList.get().lookup(currencyCode);
-    if (currencyData == null) {
-      throw new IllegalArgumentException(
-          "Currency code "
-              + currencyCode
-              + " is unkown in locale "
-              + LocaleInfo.getCurrentLocale().getLocaleName());
-    }
-    return currencyData;
   }
 
   /**
@@ -884,15 +549,6 @@ public class NumberFormat {
   }
 
   /**
-   * Returns true if all new NumberFormat instances will use latin digits and related characters
-   * rather than the localized ones.
-   */
-  public static boolean forcedLatinDigits() {
-    // return defaultNumberConstants != localizedNumberConstants;
-    return forcedLatinDigits;
-  }
-
-  /**
    * Create a delocalized NumberConstants instance from a localized one.
    *
    * @param orig localized NumberConstants instance
@@ -904,11 +560,6 @@ public class NumberFormat {
     final String monetaryGroupingSeparator = remapSeparator(orig.monetaryGroupingSeparator());
     final String monetarySeparator = remapSeparator(orig.monetarySeparator());
     return new NumberConstants() {
-      @Override
-      public String notANumber() {
-        return orig.notANumber();
-      }
-
       @Override
       public String currencyPattern() {
         return orig.currencyPattern();
@@ -962,6 +613,11 @@ public class NumberFormat {
       @Override
       public String monetarySeparator() {
         return monetarySeparator;
+      }
+
+      @Override
+      public String notANumber() {
+        return orig.notANumber();
       }
 
       @Override
@@ -1059,6 +715,25 @@ public class NumberFormat {
   }
 
   /**
+   * Lookup a currency code.
+   *
+   * @param currencyCode ISO4217 currency code
+   * @return a CurrencyData instance
+   * @throws IllegalArgumentException if the currency code is unknown
+   */
+  private static CurrencyData lookupCurrency(String currencyCode) {
+    CurrencyData currencyData = CurrencyList.get().lookup(currencyCode);
+    if (currencyData == null) {
+      throw new IllegalArgumentException(
+          "Currency code "
+              + currencyCode
+              + " is unkown in locale "
+              + LocaleInfo.getCurrentLocale().getLocaleName());
+    }
+    return currencyData;
+  }
+
+  /**
    * Convert a double to a string with {@code digits} precision. The resulting string may still be
    * in exponential notation.
    *
@@ -1068,6 +743,102 @@ public class NumberFormat {
    */
   private static String toPrecision(double d, int digits) {
     return Js.<JsNumber>uncheckedCast(d).toPrecision(digits);
+  }
+
+  /** Information about the currency being used. */
+  private CurrencyData currencyData;
+
+  /**
+   * Holds the current decimal position during one call to {@link #format(boolean, StringBuilder,
+   * int)}.
+   */
+  private transient int decimalPosition;
+
+  /** Forces the decimal separator to always appear in a formatted number. */
+  private boolean decimalSeparatorAlwaysShown = false;
+
+  /**
+   * Holds the current digits length during one call to {@link #format(boolean, StringBuilder,
+   * int)}.
+   */
+  private transient int digitsLength;
+
+  /** Holds the current exponent during one call to {@link #format(boolean, StringBuilder, int)}. */
+  private transient int exponent;
+  /** The number of digits between grouping separators in the integer portion of a number. */
+  private int groupingSize = 3;
+
+  private boolean isCurrencyFormat = false;
+  private int maximumFractionDigits = 3; // invariant, >= minFractionDigits.
+
+  private int maximumIntegerDigits = 40;
+
+  private int minExponentDigits;
+
+  private int minimumFractionDigits = 0;
+
+  private int minimumIntegerDigits = 1;
+
+  // The multiplier for use in percent, per mille, etc.
+  private int multiplier = 1;
+
+  private String negativePrefix = "-";
+
+  private String negativeSuffix = "";
+
+  // Locale specific symbol collection.
+  private final NumberConstants numberConstants;
+
+  // The pattern to use for formatting and parsing.
+  private final String pattern;
+
+  private String positivePrefix = "";
+
+  private String positiveSuffix = "";
+
+  // True to force the use of exponential (i.e. scientific) notation.
+  private boolean useExponentialNotation = false;
+
+  /**
+   * Constructs a format object based on the specified settings.
+   *
+   * @param numberConstants the locale-specific number constants to use for this format -- **NOTE**
+   *     subclasses passing their own instance here should pay attention to {@link
+   *     #forcedLatinDigits()} and remap localized symbols using {@link
+   *     #createLatinNumberConstants(NumberConstants)}
+   * @param pattern pattern that specify how number should be formatted
+   * @param cdata currency data that should be used
+   * @param userSuppliedPattern true if the pattern was supplied by the user
+   */
+  protected NumberFormat(
+      NumberConstants numberConstants,
+      String pattern,
+      CurrencyData cdata,
+      boolean userSuppliedPattern) {
+    if (cdata == null) {
+      throw new IllegalArgumentException("Unknown currency code");
+    }
+    this.numberConstants = numberConstants;
+    this.pattern = pattern;
+    currencyData = cdata;
+
+    // TODO: handle per-currency flags, such as symbol prefix/suffix and spacing
+    parsePattern(this.pattern);
+    if (!userSuppliedPattern && isCurrencyFormat) {
+      minimumFractionDigits = currencyData.getDefaultFractionDigits();
+      maximumFractionDigits = minimumFractionDigits;
+    }
+  }
+
+  /**
+   * Constructs a format object for the default locale based on the specified settings.
+   *
+   * @param pattern pattern that specify how number should be formatted
+   * @param cdata currency data that should be used
+   * @param userSuppliedPattern true if the pattern was supplied by the user
+   */
+  protected NumberFormat(String pattern, CurrencyData cdata, boolean userSuppliedPattern) {
+    this(defaultNumberConstants, pattern, cdata, userSuppliedPattern);
   }
 
   /**
@@ -1182,37 +953,6 @@ public class NumberFormat {
    * Parses text to produce a numeric value. A {@link NumberFormatException} is thrown if either the
    * text is empty or if the parse does not consume all characters of the text.
    *
-   * <p>param text the string to be parsed return a parsed number value, which may be a Double,
-   * BigInteger, or BigDecimal throws NumberFormatException if the text segment could not be
-   * converted into a number
-   */
-  //  public Number parseBig(String text) throws NumberFormatException {
-  //    // TODO(jat): implement
-  //    return Double.valueOf(parse(text));
-  //  }
-
-  /**
-   * Parses text to produce a numeric value.
-   *
-   * <p>The method attempts to parse text starting at the index given by pos. If parsing succeeds,
-   * then the index of <code>pos</code> is updated to the index after the last character used
-   * (parsing does not necessarily use all characters up to the end of the string), and the parsed
-   * number is returned. The updated <code>pos</code> can be used to indicate the starting point for
-   * the next call to this method. If an error occurs, then the index of <code>pos</code> is not
-   * changed. param text the string to be parsed pparam inOutPos position to pass in and get back
-   * return a parsed number value, which may be a Double, BigInteger, or BigDecimal throws
-   * NumberFormatException if the text segment could not be converted into a number
-   */
-  //  public Number parseBig(String text, int[] inOutPos)
-  //      throws NumberFormatException {
-  //    // TODO(jat): implement
-  //    return Double.valueOf(parse(text, inOutPos));
-  //  }
-
-  /**
-   * Parses text to produce a numeric value. A {@link NumberFormatException} is thrown if either the
-   * text is empty or if the parse does not consume all characters of the text.
-   *
    * @param text the string being parsed
    * @return a double value representing the parsed number
    * @throws NumberFormatException if the entire text could not be converted into a double
@@ -1309,103 +1049,6 @@ public class NumberFormat {
   }
 
   /**
-   * This function parses a "localized" text into a <code>double</code>. It needs to handle locale
-   * specific decimal, grouping, exponent and digit.
-   *
-   * @param text the text that need to be parsed
-   * @param pos in/out parsing position. in case of failure, this shouldn't be changed
-   * @return double value, could be 0.0 if nothing can be parsed
-   */
-  private double parseNumber(String text, int[] pos) {
-    double ret;
-    boolean sawDecimal = false;
-    boolean sawExponent = false;
-    boolean sawDigit = false;
-    int scale = 1;
-    String decimal =
-        isCurrencyFormat ? numberConstants.monetarySeparator() : numberConstants.decimalSeparator();
-    String grouping =
-        isCurrencyFormat
-            ? numberConstants.monetaryGroupingSeparator()
-            : numberConstants.groupingSeparator();
-    String exponentChar = numberConstants.exponentialSymbol();
-
-    StringBuilder normalizedText = new StringBuilder();
-    for (; pos[0] < text.length(); ++pos[0]) {
-      char ch = text.charAt(pos[0]);
-      int digit = getDigit(ch);
-      if (digit >= 0 && digit <= 9) {
-        normalizedText.append((char) (digit + '0'));
-        sawDigit = true;
-      } else if (ch == decimal.charAt(0)) {
-        if (sawDecimal || sawExponent) {
-          break;
-        }
-        normalizedText.append('.');
-        sawDecimal = true;
-      } else if (ch == grouping.charAt(0)) {
-        if (sawDecimal || sawExponent) {
-          break;
-        }
-        continue;
-      } else if (ch == exponentChar.charAt(0)) {
-        if (sawExponent) {
-          break;
-        }
-        normalizedText.append('E');
-        sawExponent = true;
-      } else if (ch == '+' || ch == '-') {
-        normalizedText.append(ch);
-      } else if (ch == numberConstants.percent().charAt(0)) {
-        if (scale != 1) {
-          break;
-        }
-        scale = 100;
-        if (sawDigit) {
-          ++pos[0];
-          break;
-        }
-      } else if (ch == numberConstants.perMill().charAt(0)) {
-        if (scale != 1) {
-          break;
-        }
-        scale = 1000;
-        if (sawDigit) {
-          ++pos[0];
-          break;
-        }
-      } else {
-        break;
-      }
-    }
-
-    // parseDouble could throw NumberFormatException, rethrow with correct text.
-    try {
-      ret = Double.parseDouble(normalizedText.toString());
-    } catch (NumberFormatException e) {
-      throw new NumberFormatException(text);
-    }
-    ret = ret / scale;
-    return ret;
-  }
-
-  /**
-   * This method return the digit that represented by current character, it could be either '0' to
-   * '9', or a locale specific digit.
-   *
-   * @param ch character that represents a digit
-   * @return the digit value
-   */
-  private int getDigit(char ch) {
-    if ('0' <= ch && ch <= '0' + 9) {
-      return (ch - '0');
-    } else {
-      char zeroChar = numberConstants.zeroDigit().charAt(0);
-      return ((zeroChar <= ch && ch <= zeroChar + 9) ? (ch - zeroChar) : -1);
-    }
-  }
-
-  /**
    * Format a number with its significant digits already represented in string form. This is done so
    * both double and BigInteger/Decimal formatting can share code without requiring all users to pay
    * the code size penalty for BigDecimal/etc.
@@ -1472,6 +1115,37 @@ public class NumberFormat {
     digits.insert(0, isNegative ? negativePrefix : positivePrefix);
     digits.append(isNegative ? negativeSuffix : positiveSuffix);
   }
+
+  /**
+   * Parses text to produce a numeric value. A {@link NumberFormatException} is thrown if either the
+   * text is empty or if the parse does not consume all characters of the text.
+   *
+   * <p>param text the string to be parsed return a parsed number value, which may be a Double,
+   * BigInteger, or BigDecimal throws NumberFormatException if the text segment could not be
+   * converted into a number
+   */
+  //  public Number parseBig(String text) throws NumberFormatException {
+  //    // TODO(jat): implement
+  //    return Double.valueOf(parse(text));
+  //  }
+
+  /**
+   * Parses text to produce a numeric value.
+   *
+   * <p>The method attempts to parse text starting at the index given by pos. If parsing succeeds,
+   * then the index of <code>pos</code> is updated to the index after the last character used
+   * (parsing does not necessarily use all characters up to the end of the string), and the parsed
+   * number is returned. The updated <code>pos</code> can be used to indicate the starting point for
+   * the next call to this method. If an error occurs, then the index of <code>pos</code> is not
+   * changed. param text the string to be parsed pparam inOutPos position to pass in and get back
+   * return a parsed number value, which may be a Double, BigInteger, or BigDecimal throws
+   * NumberFormatException if the text segment could not be converted into a number
+   */
+  //  public Number parseBig(String text, int[] inOutPos)
+  //      throws NumberFormatException {
+  //    // TODO(jat): implement
+  //    return Double.valueOf(parse(text, inOutPos));
+  //  }
 
   /**
    * Format a possibly scaled long value.
@@ -1637,6 +1311,22 @@ public class NumberFormat {
   }
 
   /**
+   * This method return the digit that represented by current character, it could be either '0' to
+   * '9', or a locale specific digit.
+   *
+   * @param ch character that represents a digit
+   * @return the digit value
+   */
+  private int getDigit(char ch) {
+    if ('0' <= ch && ch <= '0' + 9) {
+      return (ch - '0');
+    } else {
+      char zeroChar = numberConstants.zeroDigit().charAt(0);
+      return ((zeroChar <= ch && ch <= zeroChar + 9) ? (ch - zeroChar) : -1);
+    }
+  }
+
+  /**
    * Insert grouping separators if needed.
    *
    * @param digits
@@ -1668,6 +1358,337 @@ public class NumberFormat {
         digits.setCharAt(i, (char) (ch - '0' + zero));
       }
     }
+  }
+
+  /**
+   * This method parses affix part of pattern.
+   *
+   * @param pattern pattern string that need to be parsed
+   * @param start start position to parse
+   * @param affix store the parsed result
+   * @param inNegativePattern true if we are parsing the negative pattern and therefore only care
+   *     about the prefix and suffix
+   * @return how many characters parsed
+   */
+  private int parseAffix(
+      String pattern, int start, StringBuilder affix, boolean inNegativePattern) {
+    affix.delete(0, affix.length());
+    boolean inQuote = false;
+    int len = pattern.length();
+
+    for (int pos = start; pos < len; ++pos) {
+      char ch = pattern.charAt(pos);
+      if (ch == QUOTE) {
+        if ((pos + 1) < len && pattern.charAt(pos + 1) == QUOTE) {
+          ++pos;
+          affix.append("'"); // 'don''t'
+        } else {
+          inQuote = !inQuote;
+        }
+        continue;
+      }
+
+      if (inQuote) {
+        affix.append(ch);
+      } else {
+        switch (ch) {
+          case PATTERN_DIGIT:
+          case PATTERN_ZERO_DIGIT:
+          case PATTERN_GROUPING_SEPARATOR:
+          case PATTERN_DECIMAL_SEPARATOR:
+          case PATTERN_SEPARATOR:
+            return pos - start;
+          case CURRENCY_SIGN:
+            isCurrencyFormat = true;
+            if ((pos + 1) < len && pattern.charAt(pos + 1) == CURRENCY_SIGN) {
+              ++pos;
+              if (pos < len - 2
+                  && pattern.charAt(pos + 1) == CURRENCY_SIGN
+                  && pattern.charAt(pos + 2) == CURRENCY_SIGN) {
+                pos += 2;
+                affix.append(currencyData.getSimpleCurrencySymbol());
+              } else {
+                affix.append(currencyData.getCurrencyCode());
+              }
+            } else {
+              affix.append(currencyData.getCurrencySymbol());
+            }
+            break;
+          case PATTERN_PERCENT:
+            if (!inNegativePattern) {
+              if (multiplier != 1) {
+                throw new IllegalArgumentException(
+                    "Too many percent/per mille characters in pattern \"" + pattern + '"');
+              }
+              multiplier = 100;
+            }
+            affix.append(numberConstants.percent());
+            break;
+          case PATTERN_PER_MILLE:
+            if (!inNegativePattern) {
+              if (multiplier != 1) {
+                throw new IllegalArgumentException(
+                    "Too many percent/per mille characters in pattern \"" + pattern + '"');
+              }
+              multiplier = 1000;
+            }
+            affix.append(numberConstants.perMill());
+            break;
+          case PATTERN_MINUS:
+            affix.append("-");
+            break;
+          default:
+            affix.append(ch);
+        }
+      }
+    }
+    return len - start;
+  }
+
+  /**
+   * This function parses a "localized" text into a <code>double</code>. It needs to handle locale
+   * specific decimal, grouping, exponent and digit.
+   *
+   * @param text the text that need to be parsed
+   * @param pos in/out parsing position. in case of failure, this shouldn't be changed
+   * @return double value, could be 0.0 if nothing can be parsed
+   */
+  private double parseNumber(String text, int[] pos) {
+    double ret;
+    boolean sawDecimal = false;
+    boolean sawExponent = false;
+    boolean sawDigit = false;
+    int scale = 1;
+    String decimal =
+        isCurrencyFormat ? numberConstants.monetarySeparator() : numberConstants.decimalSeparator();
+    String grouping =
+        isCurrencyFormat
+            ? numberConstants.monetaryGroupingSeparator()
+            : numberConstants.groupingSeparator();
+    String exponentChar = numberConstants.exponentialSymbol();
+
+    StringBuilder normalizedText = new StringBuilder();
+    for (; pos[0] < text.length(); ++pos[0]) {
+      char ch = text.charAt(pos[0]);
+      int digit = getDigit(ch);
+      if (digit >= 0 && digit <= 9) {
+        normalizedText.append((char) (digit + '0'));
+        sawDigit = true;
+      } else if (ch == decimal.charAt(0)) {
+        if (sawDecimal || sawExponent) {
+          break;
+        }
+        normalizedText.append('.');
+        sawDecimal = true;
+      } else if (ch == grouping.charAt(0)) {
+        if (sawDecimal || sawExponent) {
+          break;
+        }
+        continue;
+      } else if (ch == exponentChar.charAt(0)) {
+        if (sawExponent) {
+          break;
+        }
+        normalizedText.append('E');
+        sawExponent = true;
+      } else if (ch == '+' || ch == '-') {
+        normalizedText.append(ch);
+      } else if (ch == numberConstants.percent().charAt(0)) {
+        if (scale != 1) {
+          break;
+        }
+        scale = 100;
+        if (sawDigit) {
+          ++pos[0];
+          break;
+        }
+      } else if (ch == numberConstants.perMill().charAt(0)) {
+        if (scale != 1) {
+          break;
+        }
+        scale = 1000;
+        if (sawDigit) {
+          ++pos[0];
+          break;
+        }
+      } else {
+        break;
+      }
+    }
+
+    // parseDouble could throw NumberFormatException, rethrow with correct text.
+    try {
+      ret = Double.parseDouble(normalizedText.toString());
+    } catch (NumberFormatException e) {
+      throw new NumberFormatException(text);
+    }
+    ret = ret / scale;
+    return ret;
+  }
+
+  /**
+   * Method parses provided pattern, result is stored in member variables.
+   *
+   * @param pattern
+   */
+  private void parsePattern(String pattern) {
+    int pos = 0;
+    StringBuilder affix = new StringBuilder();
+
+    pos += parseAffix(pattern, pos, affix, false);
+    positivePrefix = affix.toString();
+    pos += parseTrunk(pattern, pos, false);
+    pos += parseAffix(pattern, pos, affix, false);
+    positiveSuffix = affix.toString();
+
+    if (pos < pattern.length() && pattern.charAt(pos) == PATTERN_SEPARATOR) {
+      ++pos;
+      pos += parseAffix(pattern, pos, affix, true);
+      negativePrefix = affix.toString();
+      // the negative pattern is only used for prefix/suffix
+      pos += parseTrunk(pattern, pos, true);
+      pos += parseAffix(pattern, pos, affix, true);
+      negativeSuffix = affix.toString();
+    } else {
+      negativePrefix = numberConstants.minusSign() + positivePrefix;
+      negativeSuffix = positiveSuffix;
+    }
+  }
+
+  /**
+   * This method parses the trunk part of a pattern.
+   *
+   * @param pattern pattern string that need to be parsed
+   * @param start where parse started
+   * @param ignorePattern true if we are only parsing this for length and correctness, such as in
+   *     the negative portion of the pattern
+   * @return how many characters parsed
+   */
+  private int parseTrunk(String pattern, int start, boolean ignorePattern) {
+    int decimalPos = -1;
+    int digitLeftCount = 0, zeroDigitCount = 0, digitRightCount = 0;
+    byte groupingCount = -1;
+
+    int len = pattern.length();
+    int pos = start;
+    boolean loop = true;
+    for (; (pos < len) && loop; ++pos) {
+      char ch = pattern.charAt(pos);
+      switch (ch) {
+        case PATTERN_DIGIT:
+          if (zeroDigitCount > 0) {
+            ++digitRightCount;
+          } else {
+            ++digitLeftCount;
+          }
+          if (groupingCount >= 0 && decimalPos < 0) {
+            ++groupingCount;
+          }
+          break;
+        case PATTERN_ZERO_DIGIT:
+          if (digitRightCount > 0) {
+            throw new IllegalArgumentException("Unexpected '0' in pattern \"" + pattern + '"');
+          }
+          ++zeroDigitCount;
+          if (groupingCount >= 0 && decimalPos < 0) {
+            ++groupingCount;
+          }
+          break;
+        case PATTERN_GROUPING_SEPARATOR:
+          groupingCount = 0;
+          break;
+        case PATTERN_DECIMAL_SEPARATOR:
+          if (decimalPos >= 0) {
+            throw new IllegalArgumentException(
+                "Multiple decimal separators in pattern \"" + pattern + '"');
+          }
+          decimalPos = digitLeftCount + zeroDigitCount + digitRightCount;
+          break;
+        case PATTERN_EXPONENT:
+          if (!ignorePattern) {
+            if (useExponentialNotation) {
+              throw new IllegalArgumentException(
+                  "Multiple exponential " + "symbols in pattern \"" + pattern + '"');
+            }
+            useExponentialNotation = true;
+            minExponentDigits = 0;
+          }
+
+          // Use lookahead to parse out the exponential part
+          // of the pattern, then jump into phase 2.
+          while ((pos + 1) < len && pattern.charAt(pos + 1) == PATTERN_ZERO_DIGIT) {
+            ++pos;
+            if (!ignorePattern) {
+              ++minExponentDigits;
+            }
+          }
+
+          if (!ignorePattern && (digitLeftCount + zeroDigitCount) < 1 || minExponentDigits < 1) {
+            throw new IllegalArgumentException(
+                "Malformed exponential " + "pattern \"" + pattern + '"');
+          }
+          loop = false;
+          break;
+        default:
+          --pos;
+          loop = false;
+          break;
+      }
+    }
+
+    if (zeroDigitCount == 0 && digitLeftCount > 0 && decimalPos >= 0) {
+      // Handle "###.###" and "###." and ".###".
+      int n = decimalPos;
+      if (n == 0) { // Handle ".###"
+        ++n;
+      }
+      digitRightCount = digitLeftCount - n;
+      digitLeftCount = n - 1;
+      zeroDigitCount = 1;
+    }
+
+    // Do syntax checking on the digits.
+    if ((decimalPos < 0 && digitRightCount > 0)
+        || (decimalPos >= 0
+            && (decimalPos < digitLeftCount || decimalPos > (digitLeftCount + zeroDigitCount)))
+        || groupingCount == 0) {
+      throw new IllegalArgumentException("Malformed pattern \"" + pattern + '"');
+    }
+
+    if (ignorePattern) {
+      return pos - start;
+    }
+
+    int totalDigits = digitLeftCount + zeroDigitCount + digitRightCount;
+
+    maximumFractionDigits = (decimalPos >= 0 ? (totalDigits - decimalPos) : 0);
+    if (decimalPos >= 0) {
+      minimumFractionDigits = digitLeftCount + zeroDigitCount - decimalPos;
+      if (minimumFractionDigits < 0) {
+        minimumFractionDigits = 0;
+      }
+    }
+
+    /*
+     * The effectiveDecimalPos is the position the decimal is at or would be at
+     * if there is no decimal. Note that if decimalPos<0, then digitTotalCount ==
+     * digitLeftCount + zeroDigitCount.
+     */
+    int effectiveDecimalPos = decimalPos >= 0 ? decimalPos : totalDigits;
+    minimumIntegerDigits = effectiveDecimalPos - digitLeftCount;
+    if (useExponentialNotation) {
+      maximumIntegerDigits = digitLeftCount + minimumIntegerDigits;
+
+      // In exponential display, integer part can't be empty.
+      if (maximumFractionDigits == 0 && minimumIntegerDigits == 0) {
+        minimumIntegerDigits = 1;
+      }
+    }
+
+    this.groupingSize = (groupingCount > 0) ? groupingCount : 0;
+    decimalSeparatorAlwaysShown = (decimalPos == 0 || decimalPos == totalDigits);
+
+    return pos - start;
   }
 
   /**

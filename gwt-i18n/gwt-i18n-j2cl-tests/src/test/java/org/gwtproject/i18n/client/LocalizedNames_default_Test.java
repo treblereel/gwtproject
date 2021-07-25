@@ -34,7 +34,7 @@ public class LocalizedNames_default_Test {
 
   @Before
   public void setUp() {
-    LocaleInfoFactory.locale = "default";
+    //LocaleInfoFactory.locale = "default";
     names = LocaleInfo.getCurrentLocale().getLocalizedNames();
   }
 

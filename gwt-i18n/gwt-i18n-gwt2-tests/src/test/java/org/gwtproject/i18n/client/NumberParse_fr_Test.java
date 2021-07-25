@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -18,14 +18,10 @@ package org.gwtproject.i18n.client;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
-/**
- * GWT JUnit tests must extend GWTTestCase.
- */
+/** GWT JUnit tests must extend GWTTestCase. */
 public class NumberParse_fr_Test extends GWTTestCase {
 
-  /**
-   * Must refer to a valid module that inherits from org.gwtproject.junit.JUnit.
-   */
+  /** Must refer to a valid module that inherits from org.gwtproject.junit.JUnit. */
   @Override
   public String getModuleName() {
     return "org.gwtproject.i18n.I18NTest_fr";
@@ -121,5 +117,4 @@ public class NumberParse_fr_Test extends GWTTestCase {
     value = numberParse("0.0;(0.0)", "(123,4579)");
     assertEquals(-123.4579, value.doubleValue(), 0.0);
   }
-
 }

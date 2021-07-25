@@ -47,7 +47,7 @@ public class DateTimeFormat_en_Test extends DateTimeFormatTestBase {
 
   @Before
   public void setUp() {
-    LocaleInfoFactory.locale = "en";
+    //LocaleInfoFactory.locale = "en";
   }
 
   @Test

@@ -12,55 +12,33 @@
 
     <artifactId>gwt-numberformat</artifactId>
     <packaging>gwt-lib</packaging>
-
     <version>${revision}</version>
 
     <name>GWT NumberFormat</name>
-
     <dependencies>
-        <dependency>
-            <groupId>com.google.gwt</groupId>
-            <artifactId>gwt-user</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.google.gwt</groupId>
-            <artifactId>gwt-dev</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.gwtproject.i18n</groupId>
-            <artifactId>gwt-i18n</artifactId>
-            <version>${revision}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.gwtproject.i18n</groupId>
-            <artifactId>gwt-i18n-processor</artifactId>
-            <scope>provided</scope>
-            <version>${revision}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.elemental2</groupId>
-            <artifactId>elemental2-core</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>org.gwtproject.i18n</groupId>
             <artifactId>gwt-datetimeformat</artifactId>
-            <version>${revision}</version>
         </dependency>
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.java</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>net.ltgt.gwt.maven</groupId>
                 <artifactId>gwt-maven-plugin</artifactId>
-                <version>1.0-rc-9</version>
                 <extensions>true</extensions>
                 <configuration>
                     <moduleName>org.gwtproject.i18n.NumberFormat</moduleName>

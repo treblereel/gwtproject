@@ -34,7 +34,7 @@ public class NumberFormat_en_Test {
 
   @Before
   public void setUp() {
-    LocaleInfoFactory.locale = "en";
+    //LocaleInfoFactory.locale = "en";
   }
 
   @Test

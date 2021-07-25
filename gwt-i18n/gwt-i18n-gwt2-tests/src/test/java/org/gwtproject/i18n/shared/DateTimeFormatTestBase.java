@@ -16,59 +16,46 @@
 package org.gwtproject.i18n.shared;
 
 import com.google.gwt.junit.client.GWTTestCase;
-
 import java.util.Date;
 
-/**
- * Base class for date/time format tests.
- */
+/** Base class for date/time format tests. */
 public abstract class DateTimeFormatTestBase extends GWTTestCase {
 
-  /**
-   * The timezone used by any tests which use a fixed timezone.
-   */
-  protected static final TimeZone TEST_TIMEZONE = org.gwtproject.i18n.client.TimeZone.createTimeZone(300);
+  /** The timezone used by any tests which use a fixed timezone. */
+  protected static final TimeZone TEST_TIMEZONE =
+      org.gwtproject.i18n.client.TimeZone.createTimeZone(300);
 
-  /**
-   * Class for getting customized date/time formats.
-   */
-/*
+  /** Class for getting customized date/time formats. */
+  /*
   public interface MyFormats extends CustomDateTimeFormat {
 
     */
-/**
-     * Returns a pattern for abbreviated year, month, and date.
-     *//*
+  /** Returns a pattern for abbreviated year, month, and date. */
+  /*
 
-    @Pattern("yMMMd")
-    DateTimeFormat yearMonthDayAbbrev();
+  @Pattern("yMMMd")
+  DateTimeFormat yearMonthDayAbbrev();
 
-    */
-/**
-     * Returns a pattern for full year, month, and date.
-     *//*
+  */
+  /** Returns a pattern for full year, month, and date. */
+  /*
 
-    @Pattern("yyyyMMMMd")
-    DateTimeFormat yearMonthDayFull();
+  @Pattern("yyyyMMMMd")
+  DateTimeFormat yearMonthDayFull();
 
-    */
-/**
-     * Returns a pattern for full year, month, and date.
-     *//*
+  */
+  /** Returns a pattern for full year, month, and date. */
+  /*
 
-    @Pattern("MMMM d, yyyy")
-    DateTimeFormat yearMonthDayFull2();
-  }
-*/
-
-  /**
-   * Test date/time formats in messages.
-  public interface MyMessages extends Messages {
-    @DefaultMessage("It is {0,localdatetime,dMMMy}")
-    String getCustomizedDate(Date date);
-  }
+      @Pattern("MMMM d, yyyy")
+      DateTimeFormat yearMonthDayFull2();
+    }
   */
 
+  /**
+   * Test date/time formats in messages. public interface MyMessages extends Messages
+   * { @DefaultMessage("It is {0,localdatetime,dMMMy}") String getCustomizedDate(Date date); }
+   */
   @SuppressWarnings("deprecation")
   public void testIso8601() {
     DateTimeFormat dtf = DateTimeFormat.getFormat(DateTimeFormat.PredefinedFormat.ISO_8601);

@@ -15,6 +15,8 @@
  */
 package org.gwtproject.i18n;
 
+import com.google.gwt.junit.tools.GWTTestSuite;
+import junit.framework.Test;
 import org.gwtproject.i18n.client.DateTimeFormat_de_Test;
 import org.gwtproject.i18n.client.DateTimeFormat_en_Test;
 import org.gwtproject.i18n.client.DateTimeFormat_fil_Test;
@@ -23,22 +25,12 @@ import org.gwtproject.i18n.client.DateTimeParse_en_Test;
 import org.gwtproject.i18n.client.DateTimeParse_zh_CN_Test;
 import org.gwtproject.i18n.client.LocaleInfoTest;
 import org.gwtproject.i18n.client.LocaleInfo_ar_Test;
-import org.gwtproject.i18n.client.LocalizedNames_default_Test;
-import org.gwtproject.i18n.client.LocalizedNames_en_Test;
 import org.gwtproject.i18n.client.NumberFormat_ar_Test;
 import org.gwtproject.i18n.client.NumberFormat_en_Test;
-import org.gwtproject.i18n.client.NumberFormat_fr_Test;
 import org.gwtproject.i18n.client.NumberParse_en_Test;
 import org.gwtproject.i18n.client.NumberParse_fr_Test;
-import com.google.gwt.junit.tools.GWTTestSuite;
 
-import junit.framework.Test;
-import org.gwtproject.i18n.shared.cldr.I18N;
-
-/**
- * I18N tests for client code running as a GWT test.
- */
-@I18N
+/** I18N tests for client code running as a GWT test. */
 public class I18NSuite {
   public static Test suite() {
     GWTTestSuite suite = new GWTTestSuite("I18N client tests");
@@ -53,14 +45,14 @@ public class I18NSuite {
     suite.addTestSuite(LocaleInfo_ar_Test.class);
     suite.addTestSuite(LocaleInfoTest.class);
 
-    suite.addTestSuite(LocalizedNames_default_Test.class);
-    suite.addTestSuite(LocalizedNames_en_Test.class);
+    // suite.addTestSuite(LocalizedNames_default_Test.class);
+    // suite.addTestSuite(LocalizedNames_en_Test.class);
 
-/*    suite.addTestSuite(NumberFormat_ar_Test.class);
+    suite.addTestSuite(NumberFormat_ar_Test.class);
     suite.addTestSuite(NumberFormat_en_Test.class);
-    suite.addTestSuite(NumberFormat_fr_Test.class);
+    // suite.addTestSuite(NumberFormat_fr_Test.class); TODO
     suite.addTestSuite(NumberParse_en_Test.class);
-    suite.addTestSuite(NumberParse_fr_Test.class);*/
+    suite.addTestSuite(NumberParse_fr_Test.class);
 
     return suite;
   }

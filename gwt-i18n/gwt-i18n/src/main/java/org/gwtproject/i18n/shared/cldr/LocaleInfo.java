@@ -15,7 +15,6 @@
  */
 package org.gwtproject.i18n.shared.cldr;
 
-import elemental2.dom.DomGlobal;
 import org.gwtproject.i18n.shared.cldr.impl.LocaleInfoFactory;
 
 /** Provides access to the currently-active locale and the list of available locales. */
@@ -34,9 +33,7 @@ public class LocaleInfo {
    * Currently we only support getting the currently running locale, so this is a static. In the
    * future, we would need a hash map from locale names to LocaleInfo instances.
    */
-  // TODO replace with generated implementations
-  private static LocaleInfo instance =
-      new LocaleInfo(LocaleInfoFactory.get(System.getProperty("locale")));
+  private static LocaleInfo instance = new LocaleInfo(LocaleInfoFactory.create());
 
   /** Returns a LocaleInfo instance for the current locale. */
   public static final LocaleInfo getCurrentLocale() {
@@ -70,8 +67,6 @@ public class LocaleInfo {
    * @param impl LocaleInfoImpl instance to use
    */
   private LocaleInfo(LocaleInfoImpl impl) {
-    DomGlobal.console.log("?? 1 " + impl.getLocaleName());
-
     this.infoImpl = impl;
   }
 

@@ -2,6 +2,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.gwtproject.i18n</groupId>
+    <artifactId>gwt-i18n-parent</artifactId>
+    <version>dev</version>
+  </parent>
 
   <groupId>org.gwtproject.i18n</groupId>
   <artifactId>gwt-i18n-j2cl-tests</artifactId>
@@ -9,49 +14,29 @@
 
   <name>GWT I18N - J2CL Tests</name>
   <description>Test cases for the J2Cl tests</description>
-  <url>https://github.com/gwtproject/gwt-storage</url>
-
-  <properties>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
-
-    <maven.j2cl.plugin>0.17-SNAPSHOT</maven.j2cl.plugin>
-    <plugin.surfire.version>3.0.0-M1</plugin.surfire.version>
-
-    <!-- CI -->
-    <vertispan.j2cl.repo.url>https://repo.vertispan.com/j2cl/</vertispan.j2cl.repo.url>
-
-    <gwt.timer.version>HEAD-SNAPSHOT</gwt.timer.version>
-    <j2cl.version>0.9-SNAPSHOT</j2cl.version>
-  </properties>
 
   <dependencies>
-
     <!-- test dependencies -->
     <dependency>
       <groupId>com.vertispan.j2cl</groupId>
       <artifactId>junit-annotations</artifactId>
-      <version>${j2cl.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.vertispan.j2cl</groupId>
       <artifactId>gwttestcase-emul</artifactId>
-      <version>${j2cl.version}</version>
       <classifier>sources</classifier>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.vertispan.j2cl</groupId>
       <artifactId>junit-emul</artifactId>
-      <version>${j2cl.version}</version>
       <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>org.gwtproject.timer</groupId>
       <artifactId>gwt-timer</artifactId>
-      <version>${gwt.timer.version}</version>
       <scope>test</scope>
     </dependency>
 
@@ -59,60 +44,60 @@
       <groupId>org.gwtproject.core</groupId>
       <artifactId>gwt-core</artifactId>
       <scope>test</scope>
-      <version>HEAD-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>org.gwtproject.safehtml</groupId>
       <artifactId>gwt-safehtml</artifactId>
       <scope>test</scope>
-      <version>HEAD-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>org.gwtproject.i18n</groupId>
       <artifactId>gwt-i18n</artifactId>
       <scope>test</scope>
-      <version>HEAD-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.gwtproject.i18n</groupId>
       <artifactId>gwt-datetimeformat</artifactId>
       <scope>test</scope>
-      <version>HEAD-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.gwtproject.i18n</groupId>
       <artifactId>gwt-numberformat</artifactId>
       <scope>test</scope>
-      <version>HEAD-SNAPSHOT</version>
     </dependency>
-    <dependency>
-      <groupId>org.gwtproject.i18n</groupId>
-      <artifactId>gwt-i18n-processor</artifactId>
-      <scope>provided</scope>
-      <version>HEAD-SNAPSHOT</version>
-    </dependency>
-    <dependency>
+<!--    <dependency>
       <groupId>org.gwtproject.i18n</groupId>
       <artifactId>gwt-localizable-processor</artifactId>
       <scope>provided</scope>
-      <version>HEAD-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.gwtproject.i18n</groupId>
       <artifactId>gwt-datetimeformat-processor</artifactId>
       <scope>provided</scope>
       <version>HEAD-SNAPSHOT</version>
-    </dependency>
+    </dependency>-->
   </dependencies>
 
   <build>
     <plugins>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <annotationProcessorPaths>
+            <path>
+                <groupId>org.gwtproject.i18n</groupId>
+                <artifactId>gwt-i18n-processor</artifactId>
+                <version>${revision}</version>
+            </path>
+          </annotationProcessorPaths>
+        </configuration>
+      </plugin>
+      <plugin>
         <groupId>com.vertispan.j2cl</groupId>
         <artifactId>j2cl-maven-plugin</artifactId>
-        <version>${maven.j2cl.plugin}</version>
         <configuration>
           <compilationLevel>ADVANCED</compilationLevel>
         </configuration>
@@ -129,27 +114,10 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>${plugin.surfire.version}</version>
         <configuration>
           <skipTests>true</skipTests>
         </configuration>
       </plugin>
     </plugins>
   </build>
-
-  <repositories>
-    <repository>
-      <id>vertispan-snapshots</id>
-      <name>Vertispan hosted artifacts-releases</name>
-      <url>${vertispan.j2cl.repo.url}</url>
-    </repository>
-  </repositories>
-
-  <pluginRepositories>
-    <pluginRepository>
-      <id>vertispan-releases</id>
-      <name>Vertispan hosted artifacts-releases</name>
-      <url>${vertispan.j2cl.repo.url}</url>
-    </pluginRepository>
-  </pluginRepositories>
 </project>

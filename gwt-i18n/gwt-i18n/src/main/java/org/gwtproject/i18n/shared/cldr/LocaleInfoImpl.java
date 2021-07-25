@@ -29,7 +29,7 @@ public class LocaleInfoImpl {
 
   /** Returns the current locale name, such as "default, "en_US", etc. */
   public String getLocaleName() {
-    return null;
+    return "default";
   }
 
   /**

@@ -32,7 +32,7 @@ public class NumberFormat_fr_Test {
 
   @Before
   public void setUp() {
-    LocaleInfoFactory.locale = "fr";
+    //LocaleInfoFactory.locale = "fr";
   }
 
   /**

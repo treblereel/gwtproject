@@ -3,6 +3,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>org.gwtproject.i18n</groupId>
+        <artifactId>gwt-i18n-parent</artifactId>
+        <version>dev</version>
+    </parent>
+
     <groupId>org.gwtproject.i18n</groupId>
     <artifactId>gwt-i18n-gwt2-tests</artifactId>
     <version>dev</version>
@@ -11,50 +17,34 @@
     <name>GWT I18N - GWT 2 Tests</name>
     <description>Test cases for the GWT 2</description>
 
-    <properties>
-        <maven.gwt.plugin>1.0.0</maven.gwt.plugin>
-        <gwt.version>2.9.0</gwt.version>
-        <junit.version>4.13.1</junit.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.gwtproject.safehtml</groupId>
             <artifactId>gwt-safehtml</artifactId>
             <scope>test</scope>
-            <version>HEAD-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>org.gwtproject.i18n</groupId>
             <artifactId>gwt-i18n</artifactId>
             <scope>test</scope>
-            <version>HEAD-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.gwtproject.safehtml</groupId>
             <artifactId>gwt-safehtml</artifactId>
             <scope>test</scope>
-            <version>HEAD-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.gwtproject.i18n</groupId>
             <artifactId>gwt-datetimeformat</artifactId>
             <scope>test</scope>
-            <version>HEAD-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.gwtproject.i18n</groupId>
             <artifactId>gwt-numberformat</artifactId>
             <scope>test</scope>
-            <version>HEAD-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>org.gwtproject.i18n</groupId>
-            <artifactId>gwt-i18n-processor</artifactId>
-            <version>HEAD-SNAPSHOT</version>
-        </dependency>
-        <dependency>
+<!--        <dependency>
             <groupId>org.gwtproject.i18n</groupId>
             <artifactId>gwt-localizable-processor</artifactId>
             <scope>provided</scope>
@@ -65,24 +55,21 @@
             <artifactId>gwt-datetimeformat-processor</artifactId>
             <scope>provided</scope>
             <version>HEAD-SNAPSHOT</version>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-user</artifactId>
-            <version>${gwt.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-dev</artifactId>
-            <version>${gwt.version}</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>com.google.elemental2</groupId>
             <artifactId>elemental2-dom</artifactId>
-            <version>1.1.0</version>
             <scope>test</scope>
         </dependency>
 
@@ -90,7 +77,6 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -98,17 +84,16 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>net.ltgt.gwt.maven</groupId>
                 <artifactId>gwt-maven-plugin</artifactId>
-                <version>${maven.gwt.plugin}</version>
                 <extensions>true</extensions>
                 <configuration>
                     <failOnError>true</failOnError>

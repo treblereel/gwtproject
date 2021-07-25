@@ -11,9 +11,8 @@
     </parent>
 
     <artifactId>gwt-i18n</artifactId>
-    <packaging>gwt-lib</packaging>
     <version>${revision}</version>
-
+    <packaging>jar</packaging>
     <name>GWT i18n</name>
 
     <dependencies>
@@ -42,16 +41,6 @@
             <artifactId>elemental2-dom</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.google.gwt</groupId>
-            <artifactId>gwt-user</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.google.gwt</groupId>
-            <artifactId>gwt-dev</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
@@ -59,14 +48,26 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.java</include>
+                    <include>**/*.js</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>net.ltgt.gwt.maven</groupId>
                 <artifactId>gwt-maven-plugin</artifactId>
                 <extensions>true</extensions>
                 <configuration>
-                    <moduleName>org.gwtproject.i18n</moduleName>
-                    <moduleShortName>i18n</moduleShortName>
+                    <moduleName>org.gwtproject.i18n.I18N</moduleName>
+                    <moduleShortName>I18N</moduleShortName>
                     <sourceLevel>${maven.compiler.source}</sourceLevel>
                     <failOnError>true</failOnError>
                 </configuration>

@@ -4,4 +4,5 @@
     <inherits name="elemental2.dom.Dom"/>
     <source path="client"/>
     <source path="shared"/>
+
 </module>

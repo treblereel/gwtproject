@@ -34,7 +34,7 @@ public class DateTimeFormat_pl_Test {
 
   @Before
   public void setUp() {
-    LocaleInfoFactory.locale = "pl";
+    //LocaleInfoFactory.locale = "pl";
   }
 
   @Test

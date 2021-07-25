@@ -33,7 +33,7 @@ import java.util.Date;
 public class DateTimeParse_zh_CN_Test {
 
   public void setUp() {
-    LocaleInfoFactory.locale = "zh_CN";
+    //LocaleInfoFactory.locale = "zh_CN";
   }
 
 

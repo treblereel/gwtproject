@@ -31,7 +31,7 @@ public class NumberFormat_ar_Test {
 
   @Before
   public void setUp() {
-    LocaleInfoFactory.locale = "ar";
+    //LocaleInfoFactory.locale = "ar";
   }
 
   @Test

@@ -34,7 +34,7 @@ public class DateTimeFormat_fil_Test {
 
   @Before
   public void setUp() {
-    LocaleInfoFactory.locale = "fil";
+    //LocaleInfoFactory.locale = "fil";
   }
 
   @Test

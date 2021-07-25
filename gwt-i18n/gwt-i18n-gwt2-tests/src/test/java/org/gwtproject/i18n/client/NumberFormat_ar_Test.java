@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -18,37 +18,30 @@ package org.gwtproject.i18n.client;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
-/**
- * Validate NumberFormat handles Arabic numbers properly.
- */
+/** Validate NumberFormat handles Arabic numbers properly. */
 public class NumberFormat_ar_Test extends GWTTestCase {
 
-  /**
-   * Use a module which forces the Arabic locale.
-   */
+  /** Use a module which forces the Arabic locale. */
   @Override
   public String getModuleName() {
     return "org.gwtproject.i18n.I18NTest_ar";
   }
-  
+
   public void testDefault() {
     NumberFormat fmt = NumberFormat.getDecimalFormat();
 
     assertEquals("\u0663\u066B\u0661\u0664", fmt.format(3.14));
     assertEquals("\u200F-\u0663\u066B\u0661\u0664", fmt.format(-3.14));
   }
-  
+
   public void testExponent() {
     NumberFormat fmt = NumberFormat.getScientificFormat();
 
-    assertEquals("\u0663\u0627\u0633\u0660",
-        fmt.format(3.14));
-    assertEquals("\u0663\u0627\u0633\u0662",
-        fmt.format(314.0));
-    assertEquals("\u200F-\u0663\u0627\u0633\u0662",
-        fmt.format(-314.0));
+    assertEquals("\u0663\u0627\u0633\u0660", fmt.format(3.14));
+    assertEquals("\u0663\u0627\u0633\u0662", fmt.format(314.0));
+    assertEquals("\u200F-\u0663\u0627\u0633\u0662", fmt.format(-314.0));
   }
-  
+
   public void testForceLatin() {
     assertFalse(NumberFormat.forcedLatinDigits());
     NumberFormat.setForcedLatinDigits(true);
@@ -62,7 +55,7 @@ public class NumberFormat_ar_Test extends GWTTestCase {
     NumberFormat decArabic = NumberFormat.getDecimalFormat();
     assertEquals("\u0663\u066B\u0661\u0664", decArabic.format(3.14));
   }
-  
+
   public void testParse() {
     NumberFormat fmt = NumberFormat.getDecimalFormat();
 

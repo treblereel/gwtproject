@@ -22,13 +22,14 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
+  <organization>
+    <name>Treblereel</name>
+    <url>https://github.com/treblereel</url>
+  </organization>
   <build>
     <resources>
       <resource>
         <directory>src/main/resources</directory>
-        <includes>
-          <include>**/*.bak</include>
-        </includes>
       </resource>
     </resources>
     <plugins>
@@ -57,6 +58,12 @@
               <minimizeJar>true</minimizeJar>
               <filters>
                 <filter>
+                  <excludes>
+                    <exclude>org/treblereel/gwt/crysknife/client/**</exclude>
+                    <exclude>org/treblereel/gwt/crysknife/logger/**</exclude>
+                  </excludes>
+                </filter>
+                <filter>
                   <artifact>*:*</artifact>
                   <excludes>
                     <exclude>**/*.java</exclude>
@@ -73,11 +80,11 @@
               <relocations>
                 <relocation>
                   <pattern>com.google.common</pattern>
-                  <shadedPattern>org.gwtproject.i18n.com.google.common</shadedPattern>
+                  <shadedPattern>org.treblereel.i18n.com.google.common</shadedPattern>
                 </relocation>
                 <relocation>
                   <pattern>com.google.auto</pattern>
-                  <shadedPattern>org.gwtproject.i18n.com.google.auto</shadedPattern>
+                  <shadedPattern>org.treblereel.i18n.com.google.auto</shadedPattern>
                 </relocation>
               </relocations>
             </configuration>
