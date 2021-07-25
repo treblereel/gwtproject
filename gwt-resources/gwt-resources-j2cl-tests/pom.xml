@@ -22,15 +22,6 @@
         </developer>
     </developers>
 
-    <properties>
-        <maven.surefire.plugin>2.22.1</maven.surefire.plugin>
-        <maven.properties.plugin>1.0.0</maven.properties.plugin>
-        <maven.clean.plugin>3.1.0</maven.clean.plugin>
-        <maven.deploy.skip>true</maven.deploy.skip>
-        <maven.j2cl.version>0.16-SNAPSHOT</maven.j2cl.version>
-        <vertispan.j2cl.version>0.8-SNAPSHOT</vertispan.j2cl.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.gwtproject.resources</groupId>
