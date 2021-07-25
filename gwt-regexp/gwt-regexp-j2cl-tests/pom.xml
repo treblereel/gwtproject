@@ -48,7 +48,6 @@
         <artifactId>j2cl-maven-plugin</artifactId>
         <configuration>
           <compilationLevel>ADVANCED</compilationLevel>
-          <testJsZip>com.vertispan.j2cl:closure-test:zip:jszip:0.7-20200424.004055-5</testJsZip>
         </configuration>
         <executions>
           <!-- to run this from command line, use mvn j2cl:test@j2cl-test -->
