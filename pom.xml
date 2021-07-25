@@ -302,6 +302,11 @@
       </dependency>
       <dependency>
         <groupId>org.gwtproject.i18n</groupId>
+        <artifactId>gwt-cldr</artifactId>
+        <version>${revision}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.gwtproject.i18n</groupId>
         <artifactId>gwt-i18n</artifactId>
         <version>${revision}</version>
       </dependency>

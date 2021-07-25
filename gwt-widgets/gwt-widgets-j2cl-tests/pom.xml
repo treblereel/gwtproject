@@ -50,22 +50,8 @@
             <artifactId>gwt-i18n</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.gwtproject.i18n</groupId>
-            <artifactId>gwt-i18n-processor</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.gwtproject.resources</groupId>
             <artifactId>gwt-resources-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.gwtproject.safehtml</groupId>
-            <artifactId>gwt-safehtml-processor</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.gwtproject.editor</groupId>
-            <artifactId>gwt-editor-processor</artifactId>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.google.elemental2</groupId>
@@ -101,13 +87,35 @@
         <dependency>
             <groupId>org.gwtproject.widgets</groupId>
             <artifactId>gwt-widgets</artifactId>
-            <version>${revision}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.gwtproject.safehtml</groupId>
+                            <artifactId>gwt-safehtml-processor</artifactId>
+                            <version>${revision}</version>
+                        </path>
+                        <path>
+                            <groupId>org.gwtproject.editor</groupId>
+                            <artifactId>gwt-editor-processor</artifactId>
+                            <version>${revision}</version>
+                        </path>
+                        <path>
+                            <groupId>org.gwtproject.i18n</groupId>
+                            <artifactId>gwt-i18n-processor</artifactId>
+                            <version>${revision}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>com.vertispan.j2cl</groupId>
                 <artifactId>j2cl-maven-plugin</artifactId>
@@ -116,7 +124,6 @@
                     <compilationLevel>ADVANCED</compilationLevel>
                     <defines>
                         <gwt.enableDebugId>true</gwt.enableDebugId>
-                        <gwt.cspCompatModeEnabled>true</gwt.cspCompatModeEnabled>
                         <gwt.cspCompatModeEnabled>true</gwt.cspCompatModeEnabled>
                         <gwt.strictCspTestingEnabled>true</gwt.strictCspTestingEnabled>
                     </defines>

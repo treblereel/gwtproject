@@ -64,7 +64,6 @@
         <dependency>
             <groupId>org.gwtproject.user.window</groupId>
             <artifactId>gwt-window</artifactId>
-            <version>1.0.0-RC2</version>
         </dependency>
         <dependency>
             <groupId>org.gwtproject.editor</groupId>
@@ -109,7 +108,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.0</version>
                 <executions>
                     <execution>
                         <id>default-compile</id>
@@ -131,7 +129,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>${maven.source.plugin}</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>

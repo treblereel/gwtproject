@@ -8,11 +8,10 @@
         <artifactId>gwt-parent</artifactId>
         <version>dev</version>
     </parent>
+
     <groupId>org.gwtproject.widgets</groupId>
     <artifactId>gwt-widgets-parent</artifactId>
-
     <version>dev</version>
-
     <packaging>pom</packaging>
 
     <name>GWT Widgets parent</name>

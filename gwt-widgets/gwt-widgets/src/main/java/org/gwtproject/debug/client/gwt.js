@@ -13,6 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-goog.provide('gwt');
+//goog.provide('gwt');
 /** @define {string} */
 gwt.enableDebugId = goog.define('gwt.enableDebugId', 'false');
