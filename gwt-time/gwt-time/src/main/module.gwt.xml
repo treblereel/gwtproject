@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module>
 	<inherits name="com.google.gwt.regexp.RegExp" />
-	<inherits name="com.google.gwt.resources.Resources" />
-	<inherits name="org.dominokit.domino.logger.Logging"/>
+	<inherits name="org.gwtproject.nio.GwtNioSupport" />
+	<inherits name="org.jresearch.gwt.time.TimeBase" />
+	<inherits name="org.gwtproject.i18n.I18N" />
 
-	<entry-point class="org.jresearch.threetenbp.gwt.time.client.TimeEntryPoint" />
+	<source path="client" />
+	<super-source path="super" />
+
 </module>

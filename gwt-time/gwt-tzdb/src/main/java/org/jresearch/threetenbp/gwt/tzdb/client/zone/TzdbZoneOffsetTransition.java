@@ -31,11 +31,12 @@
  */
 package org.jresearch.threetenbp.gwt.tzdb.client.zone;
 
+import org.jresearch.threetenbp.gwt.emu.java.time.LocalDateTime;
+import org.jresearch.threetenbp.gwt.emu.java.time.ZoneOffset;
+import org.jresearch.threetenbp.gwt.emu.java.time.zone.ZoneOffsetTransition;
+
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.time.zone.ZoneOffsetTransition;
 
 public final class TzdbZoneOffsetTransition {
 

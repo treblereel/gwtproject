@@ -1,0 +1,5 @@
+let LocaleInfo = goog.require('org.gwtproject.i18n.client.LocaleInfo');
+
+java_util_Locale.getCurrentLocale = function() {
+    return LocaleInfo.getCurrentLocale().getLocaleName();
+};

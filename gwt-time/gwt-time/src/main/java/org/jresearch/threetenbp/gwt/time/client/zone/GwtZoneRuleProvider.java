@@ -2,10 +2,9 @@ package org.jresearch.threetenbp.gwt.time.client.zone;
 
 public interface GwtZoneRuleProvider {
 
-	String getProviderId();
+  String getProviderId();
 
-	boolean isInitialized();
+  boolean isInitialized();
 
-	void initialize();
-
+  void initialize();
 }

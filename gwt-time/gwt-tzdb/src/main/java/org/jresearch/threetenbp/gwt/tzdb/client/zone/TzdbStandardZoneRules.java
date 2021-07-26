@@ -31,12 +31,12 @@
  */
 package org.jresearch.threetenbp.gwt.tzdb.client.zone;
 
+import org.jresearch.threetenbp.gwt.emu.java.time.ZoneOffset;
+import org.jresearch.threetenbp.gwt.emu.java.time.zone.ZoneOffsetTransitionRule;
+import org.jresearch.threetenbp.gwt.emu.org.jresearch.threetenbp.gwt.time.client.zone.StandardZoneRules;
+
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.time.ZoneOffset;
-import java.time.zone.ZoneOffsetTransitionRule;
-
-import org.jresearch.threetenbp.gwt.time.client.zone.StandardZoneRules;
 
 public final class TzdbStandardZoneRules {
 

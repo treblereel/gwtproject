@@ -1,12 +1,9 @@
 package org.jresearch.threetenbp.gwt.time.client;
 
-import com.google.gwt.core.client.EntryPoint;
+public class TimeEntryPoint {
 
-public class TimeEntryPoint implements EntryPoint {
-
-	@Override
-	public void onModuleLoad() {
-		Support.init();
-	}
-
+  // @Override
+  public void onModuleLoad() {
+    Support.init();
+  }
 }

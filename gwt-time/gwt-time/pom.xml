@@ -1,119 +1,204 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
     <parent>
-        <groupId>org.jresearch.gwt.time</groupId>
-        <artifactId>org.jresearch.gwt.time.pom</artifactId>
-        <version>1.4.20-SNAPSHOT</version>
-        <relativePath>../pom/pom.xml</relativePath>
+        <groupId>org.gwtproject.time</groupId>
+        <artifactId>gwt-time-parent</artifactId>
+        <version>dev</version>
     </parent>
-    <artifactId>org.jresearch.gwt.time</artifactId>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>gwt-time</artifactId>
     <packaging>gwt-lib</packaging>
+    <version>${revision}</version>
 
-    <name>JRS: GWT port of JSR-310 (java.time), implementation</name>
-    <description>JRS: GWT port of JSR-310 (java.time) based on ThreeTen backport project (https://www.threeten.org/threetenbp)</description>
+    <name>JRS: GWT port of JSR-310 (java.time)</name>
+    <description>JRS: GWT port of JSR-310 (java.time) based on ThreeTen backport project
+        (https://www.threeten.org/threetenbp)
+    </description>
+    <url>https://github.com/foal/gwt-time</url>
 
-	<!-- ==================================================================== -->
+    <!-- ==================================================================== -->
+    <developers>
+        <developer>
+            <id>jodastephen</id>
+            <name>Stephen Colebourne</name>
+            <roles>
+                <role>Project Lead</role>
+            </roles>
+            <timezone>0</timezone>
+            <url>https://github.com/jodastephen</url>
+        </developer>
+    </developers>
+    <contributors>
+        <contributor>
+            <name>Martin Baker</name>
+            <url>https://github.com/kemokid</url>
+        </contributor>
+        <contributor>
+            <name>Graham Borland</name>
+            <url>https://github.com/GrahamBorland</url>
+        </contributor>
+        <contributor>
+            <name>Keith Harris</name>
+            <url>https://github.com/keithharris</url>
+        </contributor>
+        <contributor>
+            <name>Ludovic Hochet</name>
+            <url>https://github.com/lhochet</url>
+        </contributor>
+        <contributor>
+            <name>Tomislav Hofman</name>
+            <url>https://github.com/tomislavhofman</url>
+        </contributor>
+        <contributor>
+            <name>Matias Irland</name>
+            <url>https://github.com/matir91</url>
+        </contributor>
+        <contributor>
+            <name>David van Leusen</name>
+            <url>https://github.com/Kiskae</url>
+        </contributor>
+        <contributor>
+            <name>Eric Li</name>
+            <url>https://github.com/ericksli</url>
+        </contributor>
+        <contributor>
+            <name>Pap Lorinc</name>
+            <url>https://github.com/paplorinc</url>
+        </contributor>
+        <contributor>
+            <name>Philippe Marschall</name>
+            <url>https://github.com/marschall</url>
+        </contributor>
+        <contributor>
+            <name>Michael Nascimento Santos</name>
+            <url>https://github.com/sjmisterm</url>
+        </contributor>
+        <contributor>
+            <name>Roger Riggs</name>
+            <url>https://github.com/RogerRiggs</url>
+        </contributor>
+        <contributor>
+            <name>Siebe Schaap</name>
+            <url>https://github.com/sschaap</url>
+        </contributor>
+        <contributor>
+            <name>Sherman Shen</name>
+        </contributor>
+        <contributor>
+            <name>Philipp Thuerwaechter</name>
+            <url>https://github.com/pithu</url>
+        </contributor>
+        <contributor>
+            <name>Jake Wharton</name>
+            <url>https://github.com/JakeWharton</url>
+        </contributor>
+    </contributors>
+    <licenses>
+        <license>
+            <name>BSD 3-clause</name>
+            <url>https://raw.githubusercontent.com/ThreeTen/threetenbp/master/LICENSE.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <scm>
+        <connection>scm:hg:https://helixteamhub.cloud/JRS/projects/gwtTime/repositories/mercurial/gwt-time</connection>
+        <developerConnection>scm:hg:ssh://hth@helixteamhub.cloud/JRS/projects/gwtTime/repositories/mercurial/gwt-time
+        </developerConnection>
+        <url>https://github.com/foal/gwt-time</url>
+        <tag>v2.0.0</tag>
+    </scm>
+    <repositories>
+        <repository>
+            <id>oss.sonatype.org-snapshot</id>
+            <url>http://oss.sonatype.org/content/repositories/snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+    <!-- ==================================================================== -->
     <build>
-		<!-- define build -->
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.java</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
         <plugins>
-			<!-- ⬇️package relocation section⬇️ -->
             <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
+                <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>${maven.license.plugin}</version>
+                <configuration>
+                    <header>LICENSE.header</header>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <skipExistingHeaders>true</skipExistingHeaders>
+                    <mapping>
+                        <java>SLASHSTAR_STYLE</java>
+                    </mapping>
+                    <excludes>
+                        <exclude>**/README.md</exclude>
+                        <exclude>**/LICENSE</exclude>
+                        <exclude>**/LICENSE.header</exclude>
+                        <exclude>**/AUTHORS</exclude>
+                        <exclude>**/src/test/resources/**</exclude>
+                        <exclude>**/src/main/resources/**</exclude>
+                        <exclude>**/gwt-time/gwt-time/src/**/</exclude>
+                        <exclude>gwt-time/gwt-time/src/**/</exclude>
+                        <exclude>gwt-time/**/</exclude>
+                        <exclude>gwt-time/**</exclude>
+                        <exclude>**/pom.xml</exclude>
+                        <exclude>**/.flattened-pom.xml</exclude>
+                        <exclude>**/war</exclude>
+                        <exclude>**/gwt-unitcache</exclude>
+                        <exclude>gwt-event/</exclude>
+                        <exclude>gwt-places/</exclude>
+                        <exclude>gwt-http/</exclude>
+                        <exclude>gwt-history/</exclude>
+                        <exclude>gwt-window/</exclude>
+                    </excludes>
+                    <properties>
+                        <year>${project.inceptionYear}</year>
+                        <name>${project.organization.name}</name>
+                    </properties>
+                </configuration>
                 <executions>
                     <execution>
-                        <id>copy-emu</id>
-                        <phase>validate</phase>
                         <goals>
-                            <goal>copy-resources</goal>
+                            <goal>check</goal>
                         </goals>
-                        <configuration>
-                            <overwrite>true</overwrite>
-                            <resources>
-                                <resource>
-                                    <directory>src/main/java/org/jresearch/threetenbp/gwt/emu</directory>
-                                    <filtering>false</filtering>
-                                </resource>
-                            </resources>
-                            <outputDirectory>${project.basedir}/src/main/super</outputDirectory>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>com.google.code.maven-replacer-plugin</groupId>
-                <artifactId>replacer</artifactId>
-                <executions>
-                    <execution>
-                        <id>repackage-emu</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>replace</goal>
-                        </goals>
-                        <configuration>
-                            <filesToInclude>${project.basedir}/src/main/super/**/*.java</filesToInclude>
-                            <replacements>
-                                <replacement>
-                                    <token>org\.jresearch\.threetenbp\.gwt\.emu\.</token>
-                                    <value />
-                                </replacement>
-                            </replacements>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-clean-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>remove-emu</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>clean</goal>
-                        </goals>
-                        <configuration>
-                            <excludeDefaultDirectories>true</excludeDefaultDirectories>
-                            <filesets>
-                                <fileset>
-                                    <directory>${project.build.directory}/classes/org/jresearch/threetenbp/gwt/emu</directory>
-                                </fileset>
-                            </filesets>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-			<!-- ⬆️package relocation section⬆️ -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <showWarnings>true</showWarnings>
-                    <annotationProcessorPaths>
-                        <path>
-                            <groupId>org.jresearch.gwt.tool.emu.apt</groupId>
-                            <artifactId>org.jresearch.gwt.tool.emu.apt.processor</artifactId>
-                            <version>${gwt-tool-jre-apt.ver}</version>
-                        </path>
-                    </annotationProcessorPaths>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-dependency-plugin</artifactId>
-				<!-- To correct work of GWT Super source -->
-                <configuration>
-                    <ignoredUnusedDeclaredDependencies>
-                        <ignoredUnusedDeclaredDependency>org.dominokit:domino-slf4j-logger</ignoredUnusedDeclaredDependency>
-                        <ignoredUnusedDeclaredDependency>org.jresearch.gwt.locale:org.jresearch.gwt.locale</ignoredUnusedDeclaredDependency>
-                    </ignoredUnusedDeclaredDependencies>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>net.ltgt.gwt.maven</groupId>
                 <artifactId>gwt-maven-plugin</artifactId>
+                <extensions>true</extensions>
                 <configuration>
-                    <moduleName>org.jresearch.threetenbp.gwt.time.module</moduleName>
+                    <moduleName>org.jresearch.threetenbp.gwt.time.Time</moduleName>
                     <moduleShortName>threetenbpGwt</moduleShortName>
                     <relocateSuperSource>true</relocateSuperSource>
+                    <relocateTestSuperSource>true</relocateTestSuperSource>
+                    <enableAssertions>false</enableAssertions>
                     <testArgs>
                         <testArg>-testMethodTimeout</testArg>
                         <testArg>30</testArg>
@@ -122,20 +207,11 @@
             </plugin>
         </plugins>
     </build>
-
-	<!-- ==================================================================== -->
+    <!-- ==================================================================== -->
     <dependencies>
         <dependency>
-            <groupId>org.jresearch.gwt.locale</groupId>
-            <artifactId>org.jresearch.gwt.locale</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jresearch.gwt.time</groupId>
-            <artifactId>org.jresearch.gwt.time.apt.data</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jresearch.gwt.time</groupId>
-            <artifactId>org.jresearch.gwt.time.apt.annotation</artifactId>
+            <groupId>org.gwtproject.core</groupId>
+            <artifactId>gwt-core</artifactId>
         </dependency>
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
@@ -143,26 +219,24 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
+            <groupId>org.gwtproject.typedarrays</groupId>
+            <artifactId>gwt-typedarrays</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.dominokit</groupId>
-            <artifactId>domino-slf4j-logger</artifactId>
+            <groupId>com.google.elemental2</groupId>
+            <artifactId>elemental2-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.treblereel.gwt.nio</groupId>
+            <artifactId>gwt-nio</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.gwtproject.xhr</groupId>
+            <artifactId>gwt-xhr</artifactId>
         </dependency>
         <dependency>
             <groupId>com.google.jsinterop</groupId>
             <artifactId>jsinterop-annotations</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.google.gwt</groupId>
-            <artifactId>gwt-user</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.google.gwt</groupId>
-            <artifactId>gwt-dev</artifactId>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -182,6 +256,24 @@
         <dependency>
             <groupId>org.eclipse.jetty.websocket</groupId>
             <artifactId>websocket-client</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.jsinterop</groupId>
+            <artifactId>base</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.gwtproject.regexp</groupId>
+            <artifactId>gwt-regexp</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-user</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-dev</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

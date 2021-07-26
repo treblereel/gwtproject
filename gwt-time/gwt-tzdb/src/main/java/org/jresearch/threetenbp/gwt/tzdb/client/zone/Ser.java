@@ -31,9 +31,10 @@
  */
 package org.jresearch.threetenbp.gwt.tzdb.client.zone;
 
+import org.jresearch.threetenbp.gwt.emu.java.time.ZoneOffset;
+
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.time.ZoneOffset;
 
 /**
  * The shared serialization delegate for this package.

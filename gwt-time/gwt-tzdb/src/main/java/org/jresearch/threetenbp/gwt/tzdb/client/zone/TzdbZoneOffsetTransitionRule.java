@@ -31,14 +31,14 @@
  */
 package org.jresearch.threetenbp.gwt.tzdb.client.zone;
 
+import org.jresearch.threetenbp.gwt.emu.java.time.DayOfWeek;
+import org.jresearch.threetenbp.gwt.emu.java.time.LocalTime;
+import org.jresearch.threetenbp.gwt.emu.java.time.Month;
+import org.jresearch.threetenbp.gwt.emu.java.time.ZoneOffset;
+import org.jresearch.threetenbp.gwt.emu.java.time.zone.ZoneOffsetTransitionRule;
+
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.time.DayOfWeek;
-import java.time.LocalTime;
-import java.time.Month;
-import java.time.ZoneOffset;
-import java.time.zone.ZoneOffsetTransitionRule;
-import java.time.zone.ZoneOffsetTransitionRule.TimeDefinition;
 
 public final class TzdbZoneOffsetTransitionRule {
 
@@ -65,7 +65,7 @@ public final class TzdbZoneOffsetTransitionRule {
         int dowByte = (data & (7 << 19)) >>> 19;
         DayOfWeek dow = dowByte == 0 ? null : DayOfWeek.of(dowByte);
         int timeByte = (data & (31 << 14)) >>> 14;
-        TimeDefinition defn = TimeDefinition.values()[(data & (3 << 12)) >>> 12];
+        ZoneOffsetTransitionRule.TimeDefinition defn = ZoneOffsetTransitionRule.TimeDefinition.values()[(data & (3 << 12)) >>> 12];
         int stdByte = (data & (255 << 4)) >>> 4;
         int beforeByte = (data & (3 << 2)) >>> 2;
         int afterByte = (data & 3);

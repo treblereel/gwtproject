@@ -1,0 +1,6 @@
+let Locale = goog.require('java.util.Locale');
+
+org_jresearch_threetenbp_gwt_client_locale_Locales.getCurrentLocale = function(language, region, script, variant) {
+		return new Locale(language,region, script, variant);
+};
+
