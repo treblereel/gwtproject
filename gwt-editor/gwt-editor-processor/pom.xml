@@ -43,30 +43,10 @@
 
     <inceptionYear>2018</inceptionYear>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-
-        <auto.common.version>1.1</auto.common.version>
-        <auto.service.version>1.0</auto.service.version>
-        <compile-testing.version>0.18</compile-testing.version>
-        <gwt.version>2.9.0</gwt.version>
-        <javapoet.version>1.12.1</javapoet.version>
-        <compile.testing.version>0.18</compile.testing.version>
-        <junit.version>4.13.1</junit.version>
-        <org.truth.version>0.23</org.truth.version>
-        <truth.version>1.0</truth.version>
-
-        <maven.shade.plugin>3.2.4</maven.shade.plugin>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.gwtproject.editor</groupId>
             <artifactId>gwt-editor</artifactId>
-            <version>${project.version}</version>
         </dependency>
 
         <dependency>
@@ -77,17 +57,14 @@
         <dependency>
             <groupId>com.squareup</groupId>
             <artifactId>javapoet</artifactId>
-            <version>${javapoet.version}</version>
         </dependency>
         <dependency>
             <groupId>com.google.auto</groupId>
             <artifactId>auto-common</artifactId>
-            <version>${auto.common.version}</version>
         </dependency>
         <dependency>
             <groupId>com.google.auto.service</groupId>
             <artifactId>auto-service</artifactId>
-            <version>${auto.service.version}</version>
             <optional>true</optional>
         </dependency>
 
@@ -95,37 +72,31 @@
         <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-user</artifactId>
-            <version>${gwt.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-dev</artifactId>
-            <version>${gwt.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.google.testing.compile</groupId>
             <artifactId>compile-testing</artifactId>
-            <version>${compile.testing.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.truth0</groupId>
             <artifactId>truth</artifactId>
-            <version>${org.truth.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.google.truth</groupId>
             <artifactId>truth</artifactId>
-            <version>${truth.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -135,7 +106,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.1</version>
                 <configuration>
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
@@ -179,7 +149,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.21.0</version>
                 <executions>
                     <execution>
                         <id>unit-tests</id>
@@ -199,8 +168,8 @@
                 </configuration>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>${maven.shade.plugin}</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -281,7 +250,6 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
-                        <version>${maven.source.plugin}</version>
                         <executions>
                             <execution>
                                 <id>attach-sources</id>
@@ -294,7 +262,6 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>${maven.javadoc.plugin}</version>
                         <executions>
                             <execution>
                                 <id>attach-javadocs</id>
@@ -308,7 +275,6 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>${maven.gpg.plugin}</version>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>

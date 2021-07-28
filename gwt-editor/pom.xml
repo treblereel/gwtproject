@@ -54,33 +54,11 @@
         <module>gwt-editor-j2cl-tests</module>
     </modules>
 
-    <properties>
-        <revision>HEAD-SNAPSHOT</revision>
-
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-
-        <maven.compiler.plugin>3.8.1</maven.compiler.plugin>
-        <maven.deploy.plugin>3.0.0-M1</maven.deploy.plugin>
-        <maven.flatten.plugin>1.2.2</maven.flatten.plugin>
-        <maven.fmt.plugin>2.9</maven.fmt.plugin>
-        <maven.gpg.plugin>1.6</maven.gpg.plugin>
-        <maven.install.plugin>3.0.0-M1</maven.install.plugin>
-        <maven.javadoc.plugin>3.2.0</maven.javadoc.plugin>
-        <maven.license.plugin>3.0</maven.license.plugin>
-        <maven.shade.version>3.2.4</maven.shade.version>
-        <maven.source.plugin>3.2.1</maven.source.plugin>
-        <maven.surfire.plugin>3.0.0-M1</maven.surfire.plugin>
-    </properties>
-
     <build>
         <plugins>
             <plugin>
                 <groupId>com.coveo</groupId>
                 <artifactId>fmt-maven-plugin</artifactId>
-                <version>${maven.fmt.plugin}</version>
                 <executions>
                     <execution>
                         <goals>
@@ -92,7 +70,6 @@
             <plugin>
                 <groupId>com.mycila</groupId>
                 <artifactId>license-maven-plugin</artifactId>
-                <version>${maven.license.plugin}</version>
                 <configuration>
                     <header>LICENSE.header</header>
                     <encoding>${project.build.sourceEncoding}</encoding>
@@ -128,7 +105,6 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>flatten-maven-plugin</artifactId>
-                <version>${maven.flatten.plugin}</version>
                 <configuration>
                     <flattenMode>oss</flattenMode>
                 </configuration>
@@ -152,7 +128,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-deploy-plugin</artifactId>
-                <version>${maven.deploy.plugin}</version>
                 <configuration>
                     <skip>true</skip>
                 </configuration>
@@ -163,7 +138,6 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>${maven.compiler.plugin}</version>
                     <configuration>
                         <source>${maven.compiler.source}</source>
                         <target>${maven.compiler.target}</target>
@@ -172,22 +146,6 @@
             </plugins>
         </pluginManagement>
     </build>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>gwt-editor</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>gwt-editor-processor</artifactId>
-                <version>${revision}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
 
     <distributionManagement>
         <snapshotRepository>

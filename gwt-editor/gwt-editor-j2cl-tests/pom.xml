@@ -20,32 +20,27 @@
     <dependency>
       <groupId>com.vertispan.j2cl</groupId>
       <artifactId>junit-annotations</artifactId>
-      <version>${j2cl.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.vertispan.j2cl</groupId>
       <artifactId>gwttestcase-emul</artifactId>
-      <version>${j2cl.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.vertispan.j2cl</groupId>
       <artifactId>junit-emul</artifactId>
-      <version>${j2cl.version}</version>
       <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>org.gwtproject.editor</groupId>
       <artifactId>gwt-editor</artifactId>
-      <version>${revision}</version>
 <!--      <scope>test</scope>-->
     </dependency>
     <dependency>
       <groupId>org.gwtproject.editor</groupId>
       <artifactId>gwt-editor-processor</artifactId>
-      <version>${revision}</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>
@@ -55,7 +50,6 @@
       <plugin>
         <groupId>com.vertispan.j2cl</groupId>
         <artifactId>j2cl-maven-plugin</artifactId>
-        <version>${maven.j2cl.plugin}</version>
         <configuration>
           <compilationLevel>ADVANCED</compilationLevel>
         </configuration>
@@ -87,7 +81,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>${maven.surfire.plugin}</version>
         <configuration>
           <skipTests>true</skipTests>
         </configuration>
@@ -95,27 +88,10 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-deploy-plugin</artifactId>
-        <version>${maven.deploy.plugin}</version>
         <configuration>
           <skip>true</skip>
         </configuration>
       </plugin>
     </plugins>
   </build>
-
-  <repositories>
-    <repository>
-      <id>${vertispan.j2cl.repo.id}</id>
-      <name>${vertispan.j2cl.repo.name}</name>
-      <url>${vertispan.j2cl.repo.url}</url>
-    </repository>
-  </repositories>
-
-  <pluginRepositories>
-    <pluginRepository>
-      <id>vertispan-releases</id>
-      <name>Vertispan hosted artifacts-releases</name>
-      <url>${vertispan.j2cl.repo.url}</url>
-    </pluginRepository>
-  </pluginRepositories>
 </project>
