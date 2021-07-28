@@ -80,7 +80,6 @@
       </plugin>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.21.0</version>
         <executions>
           <execution>
             <id>unit-tests</id>
@@ -141,7 +140,6 @@
       </plugin>
       <plugin>
         <artifactId>maven-deploy-plugin</artifactId>
-        <version>${maven.deploy.plugin}</version>
         <configuration>
           <skip>false</skip>
         </configuration>
@@ -164,13 +162,13 @@
     <dependency>
       <groupId>com.google.auto.service</groupId>
       <artifactId>auto-service</artifactId>
-      <version>1.0</version>
+      <version>1.0-rc6</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>com.google.testing.compile</groupId>
       <artifactId>compile-testing</artifactId>
-      <version>0.19</version>
+      <version>0.18</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>
@@ -196,16 +194,4 @@
       </exclusions>
     </dependency>
   </dependencies>
-  <properties>
-    <maven.compiler.target>1.8</maven.compiler.target>
-    <auto.service.version>1.0</auto.service.version>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <org.truth.version>0.23</org.truth.version>
-    <auto.common.version>1.1</auto.common.version>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <compile.testing.version>0.19</compile.testing.version>
-    <javapoet.version>1.13.0</javapoet.version>
-    <gwt.version>2.9.0</gwt.version>
-    <truth.version>1.0</truth.version>
-  </properties>
 </project>

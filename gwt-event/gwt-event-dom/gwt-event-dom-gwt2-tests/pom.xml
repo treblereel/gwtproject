@@ -15,12 +15,6 @@
   <name>GWT Event DOM - GWT 2 Tests</name>
   <description>Test cases for the GWT 2 tests</description>
 
-  <properties>
-    <maven.gwt.plugin>1.0.0</maven.gwt.plugin>
-
-    <gwt.version>2.9.0</gwt.version>
-  </properties>
-
   <dependencies>
     <dependency>
       <groupId>com.google.gwt</groupId>

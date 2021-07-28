@@ -12,10 +12,6 @@
     <artifactId>gwt-localizable-processor</artifactId>
     <version>${revision}</version>
 
-    <properties>
-        <javapoet.version>1.4.0</javapoet.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.gwtproject.i18n</groupId>

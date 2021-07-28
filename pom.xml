@@ -50,6 +50,7 @@
     <module>gwt-dom</module>
     <module>gwt-dom-style-definitions</module>
     <module>gwt-editor</module>
+    <module>gwt-history</module>
 <!--
     <module>gwt-event</module>
 -->
@@ -61,11 +62,12 @@
     <module>gwt-safehtml</module>
     <module>gwt-storage</module>
     <module>gwt-timer</module>
+    <module>gwt-typedarrays</module>
     <module>gwt-xhr</module>
     <module>gwt-xml</module>
+    <module>gwt-i18n</module>
     <module>gwt-resources</module>
     <module>gwt-widgets</module>
-    <module>gwt-i18n</module>
     <module>gwt-uibinder</module>
     <module>gwt-validation</module>
     <module>gwt-time</module>
@@ -500,6 +502,16 @@
         <version>0.18</version>
       </dependency>
       <dependency>
+        <groupId>org.truth0</groupId>
+        <artifactId>truth</artifactId>
+        <version>${org.truth.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.google.truth</groupId>
+        <artifactId>truth</artifactId>
+        <version>${truth.version}</version>
+      </dependency>
+      <dependency>
         <groupId>com.google.code.findbugs</groupId>
         <artifactId>jsr305</artifactId>
         <scope>provided</scope>
@@ -593,6 +605,7 @@
           <version>${maven.surfire.plugin}</version>
         </plugin>
         <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-shade-plugin</artifactId>
           <version>${maven.shade.plugin}</version>
         </plugin>

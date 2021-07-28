@@ -78,7 +78,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>${maven.source.plugin}</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
@@ -92,7 +91,6 @@
             <plugin>
                 <groupId>com.mycila</groupId>
                 <artifactId>license-maven-plugin</artifactId>
-                <version>${maven.licence.plugin}</version>
                 <executions>
                     <execution>
                         <goals>
@@ -102,8 +100,8 @@
                 </executions>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clean-plugin</artifactId>
-                <version>${maven.clean.plugin}</version>
                 <configuration>
                     <filesets>
                         <fileset>
