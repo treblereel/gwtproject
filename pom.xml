@@ -181,6 +181,9 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <version>${maven.javadoc.plugin}</version>
+                    <configuration>
+                        <failOnError>false</failOnError>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -200,7 +203,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-gpg-plugin</artifactId>
-                    <version>${maven.gp}</version>
+                    <version>${maven.gpg.plugin}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -345,12 +348,12 @@
 
     <distributionManagement>
         <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <id>treblereel</id>
+            <url>https://repo.treblereel.org/snapshots</url>
         </snapshotRepository>
         <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <id>treblereel</id>
+            <url>https://repo.treblereel.org/releases</url>
         </repository>
     </distributionManagement>
 
@@ -359,14 +362,6 @@
             <id>vertispan-snapshots</id>
             <name>Vertispan hosted artifacts-releases</name>
             <url>${vertispan.j2cl.repo.url}</url>
-        </repository>
-        <repository>
-            <id>gwt-snapshot</id>
-            <url>https://repo.vertispan.com/gwt-snapshot/</url>
-        </repository>
-        <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </repository>
     </repositories>
 

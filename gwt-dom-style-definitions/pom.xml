@@ -57,7 +57,6 @@
       <plugin>
         <groupId>com.coveo</groupId>
         <artifactId>fmt-maven-plugin</artifactId>
-        <version>${maven.fmt.plugin}</version>
         <executions>
           <execution>
             <goals>
@@ -69,7 +68,6 @@
       <plugin>
         <groupId>com.mycila</groupId>
         <artifactId>license-maven-plugin</artifactId>
-        <version>${maven.license.plugin}</version>
         <configuration>
           <header>LICENSE.header</header>
           <encoding>${project.build.sourceEncoding}</encoding>
@@ -106,7 +104,6 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>flatten-maven-plugin</artifactId>
-        <version>${maven.flatten.plugin}</version>
         <configuration>
           <flattenMode>oss</flattenMode>
         </configuration>
@@ -135,19 +132,6 @@
         </configuration>
       </plugin>
     </plugins>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>${maven.compiler.plugin}</version>
-          <configuration>
-            <source>${maven.compiler.source}</source>
-            <target>${maven.compiler.target}</target>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
   </build>
 
 </project>

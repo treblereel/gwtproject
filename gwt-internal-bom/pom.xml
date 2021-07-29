@@ -48,7 +48,6 @@
         <maven.compiler.target>1.8</maven.compiler.target>
 
         <javaparser.core.version>3.20.2</javaparser.core.version>
-        <revision>HEAD-SNAPSHOT</revision>
         <auto.common.version>0.10</auto.common.version>
         <auto.service.version>1.0-rc6</auto.service.version>
         <compile-testing.version>0.18</compile-testing.version>
@@ -283,12 +282,12 @@
 
     <distributionManagement>
         <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <id>treblereel</id>
+            <url>https://repo.treblereel.org/snapshots</url>
         </snapshotRepository>
         <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <id>treblereel</id>
+            <url>https://repo.treblereel.org/releases</url>
         </repository>
     </distributionManagement>
 

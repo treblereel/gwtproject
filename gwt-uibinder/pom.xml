@@ -32,102 +32,14 @@
 
   <build>
     <plugins>
-   <!--   <plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
+        <artifactId>maven-deploy-plugin</artifactId>
         <configuration>
-          <encoding>UTF-8</encoding>
-          <consoleOutput>true</consoleOutput>
-          <failsOnError>true</failsOnError>
-          <failOnViolation>true</failOnViolation>
-          <configLocation>gwt-checkstyle.xml</configLocation>
+          <skip>true</skip>
         </configuration>
-        <executions>
-          <execution>
-            <id>validate</id>
-            <phase>validate</phase>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
-        <dependencies>
-          <dependency>
-            <groupId>com.puppycrawl.tools</groupId>
-            <artifactId>checkstyle</artifactId>
-            <version>8.35</version>
-          </dependency>
-        </dependencies>
-      </plugin>-->
-   <!--   <plugin>
-        <groupId>com.mycila</groupId>
-        <artifactId>license-maven-plugin</artifactId>
-        <configuration>
-          <mapping>
-            <gss>JAVADOC_STYLE</gss>
-            <java>SLASHSTAR_STYLE</java>
-          </mapping>
-          <includes>
-            <include>**/*.java</include>
-            <include>**/*.gss</include>
-            <include>**/*.gwt.xml</include>
-          </includes>
-          <header>src/main/docs/license/license.txt</header>
-          <properties>
-            <license.year>${license.year}</license.year>
-            <license.orgName>${license.orgName}</license.orgName>
-          </properties>
-        </configuration>
-        <executions>
-          <execution>
-            <id>apply-license</id>
-            <phase>process-sources</phase>
-            <goals>
-              <goal>format</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>-->
+      </plugin>
     </plugins>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <!-- <version>3.7.0</version> -->
-          <configuration>
-            <source>${maven.compiler.source}</source>
-            <source>${maven.compiler.target}</source>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-war-plugin</artifactId>
-        </plugin>
-        <plugin>
-          <groupId>net.ltgt.gwt.maven</groupId>
-          <artifactId>gwt-maven-plugin</artifactId>
-          <extensions>true</extensions>
-          <configuration>
-            <sourceLevel>${java.version}</sourceLevel>
-            <failOnError>true</failOnError>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-source-plugin</artifactId>
-          <executions>
-            <execution>
-              <id>attach-sources</id>
-              <phase>package</phase>
-              <goals>
-                <goal>jar-no-fork</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-      </plugins>
-    </pluginManagement>
   </build>
 
   <modules>
@@ -137,69 +49,5 @@
     <module>gwt-uibinder-example</module>
 -->
   </modules>
-
-  <!-- Specify that we will push snapshots and releases to sonatype's repos -->
-  <distributionManagement>
-    <snapshotRepository>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </snapshotRepository>
-    <repository>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-    </repository>
-  </distributionManagement>
-
-  <profiles>
-    <profile>
-      <id>env-dev</id>
-      <build>
-        <plugins>
-<!--          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-checkstyle-plugin</artifactId>
-            <configuration>
-              <failsOnError>false</failsOnError>
-              <failOnViolation>false</failOnViolation>
-            </configuration>
-          </plugin>-->
-        </plugins>
-      </build>
-    </profile>
-    <!-- release profile to create sources, javadoc, and sign all artifacts before uploading -->
-    <profile>
-      <id>release</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>attach-javadocs</id>
-                <goals>
-                  <goal>jar</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-          <!-- see http://central.sonatype.org/pages/working-with-pgp-signatures.html for more detail -->
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-gpg-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>sign-artifacts</id>
-                <phase>verify</phase>
-                <goals>
-                  <goal>sign</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
 
 </project>

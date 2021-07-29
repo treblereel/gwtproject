@@ -38,33 +38,7 @@ import org.gwtproject.user.client.rpc.AsyncCallback;
  * call the corresponding {@link AsyncCallback#onFailure(Throwable)} method. See {@link
  * #setFailureCallbackParam(String)}.
  *
- * <p>Example using <a href="http://code.google.com/apis/gdata/json.html#Request">JSON Google
- * Calendar GData API</a>:
- *
- * <pre>
- * String url = "http://www.google.com/calendar/feeds/developer-calendar@google.com/public/full" +
- *     "?alt=json-in-script";
- * JsonpRequestBuilder jsonp = new JsonpRequestBuilder();
- * jsonp.requestObject(url,
- *     new AsyncCallback&lt;Feed&gt;() {
- *       public void onFailure(Throwable throwable) {
- *         Log.severe("Error: " + throwable);
- *       }
- *
- *       public void onSuccess(Feed feed) {
- *         JsArray&lt;Entry&gt; entries = feed.getEntries();
- *         for (int i = 0; i &lt; entries.length(); i++) {
- *           Entry entry = entries.get(i);
- *           Log.info(entry.getTitle() +
- *                    " (" + entry.getWhere() + "): " +
- *                    entry.getStartTime() + " -> " +
- *                    entry.getEndTime());
- *         }
- *       }
- *     });
- * </pre>
- *
- * This example uses these overlay types:
+ * <p>This example uses these overlay types:
  *
  * <pre>
  * class Entry extends JavaScriptObject {

@@ -269,12 +269,12 @@
 
     <distributionManagement>
         <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <id>treblereel</id>
+            <url>https://repo.treblereel.org/snapshots</url>
         </snapshotRepository>
         <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <id>treblereel</id>
+            <url>https://repo.treblereel.org/releases</url>
         </repository>
     </distributionManagement>
 

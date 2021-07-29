@@ -87,32 +87,6 @@
         </configuration>
       </plugin>
     </plugins>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <configuration>
-            <source>${maven.compiler.source}</source>
-            <target>${maven.compiler.target}</target>
-          </configuration>
-        </plugin>
-<!--        <plugin>
-          <groupId>org.eclipse.jetty</groupId>
-          <artifactId>jetty-maven-plugin</artifactId>
-          <configuration>
-            <stopPort>9998</stopPort>
-            <stopKey>STOP</stopKey>
-            <httpConnector>
-              <port>9999</port>
-            </httpConnector>
-            <webApp>
-              <contextPath>/</contextPath>
-            </webApp>
-          </configuration>
-        </plugin>-->
-      </plugins>
-    </pluginManagement>
   </build>
 
 </project>
