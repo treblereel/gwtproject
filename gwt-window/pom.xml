@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.gwtproject</groupId>
+    <artifactId>gwt-parent</artifactId>
+    <version>dev</version>
+  </parent>
+
+  <groupId>org.gwtproject.user.window</groupId>
+  <artifactId>gwt-window-parent</artifactId>
+
+  <version>dev</version>
+
+  <packaging>pom</packaging>
+
+  <name>GWT Window Parent</name>
+  <description>Parent POM containing the gwt-window module and the test modules (gwt2-tests and j2cl-tests)</description>
+  <url>https://github.com/gwtproject/gwt-layout</url>
+
+  <organization>
+    <name>The GWT Authors</name>
+    <url>https://github.com/gwtproject</url>
+  </organization>
+
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <name>The GWT Authors</name>
+      <organization>The GWT Project Authors</organization>
+      <url>https://github.com/gwtproject</url>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:git://github.com/gwtproject/gwt-window.git</connection>
+    <developerConnection>scm:git:ssh://github.com/gwtproject/gwt-window.git</developerConnection>
+    <url>https://github.com/gwtproject/gwt-window/tree/master</url>
+  </scm>
+
+  <inceptionYear>2019</inceptionYear>
+
+  <modules>
+    <module>gwt-window</module>
+<!--    <module>gwt-window-gwt2-tests</module>
+    <module>gwt-window-j2cl-tests</module>-->
+  </modules>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>flatten-maven-plugin</artifactId>
+        <configuration>
+          <flattenMode>oss</flattenMode>
+        </configuration>
+        <executions>
+          <execution>
+            <id>flatten</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>flatten</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>flatten.clean</id>
+            <phase>clean</phase>
+            <goals>
+              <goal>clean</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

@@ -51,9 +51,8 @@
         <module>gwt-event</module>
         <module>gwt-event-dom</module>
         <module>gwt-event-compat</module>
-<!--        <module>gwt-event-c</module>
-        <module>gwt-event</module>
-        <module>gwt-event</module>-->
+        <module>gwt-event-legacy</module>
+        <module>gwt-event-logical</module>
     </modules>
 
     <build>

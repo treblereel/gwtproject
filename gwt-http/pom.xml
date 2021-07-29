@@ -8,7 +8,7 @@
         <version>dev</version>
     </parent>
 
-    <groupId>org.gwtproject.dom</groupId>
+    <groupId>org.gwtproject.http</groupId>
     <artifactId>gwt-http-parent</artifactId>
 
     <version>dev</version>

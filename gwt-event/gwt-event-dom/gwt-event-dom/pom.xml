@@ -21,7 +21,6 @@
     <dependency>
       <groupId>org.gwtproject.dom</groupId>
       <artifactId>gwt-dom</artifactId>
-      <version>${gwt-dom.version}</version>
     </dependency>
     <dependency>
       <groupId>com.google.elemental2</groupId>

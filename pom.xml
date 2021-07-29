@@ -50,10 +50,10 @@
     <module>gwt-dom</module>
     <module>gwt-dom-style-definitions</module>
     <module>gwt-editor</module>
-    <module>gwt-history</module>
-<!--
     <module>gwt-event</module>
--->
+    <module>gwt-http</module>
+    <module>gwt-history</module>
+    <module>gwt-window</module>
     <module>gwt-geolocation</module>
     <module>gwt-json</module>
     <module>gwt-jsonp</module>
@@ -148,27 +148,27 @@
       <dependency>
         <groupId>org.gwtproject.event</groupId>
         <artifactId>gwt-event</artifactId>
-        <version>1.0.0-RC1</version>
+        <version>${revision}</version>
       </dependency>
       <dependency>
         <groupId>org.gwtproject.event</groupId>
         <artifactId>gwt-event-dom</artifactId>
-        <version>1.0.0-RC1</version>
+        <version>${revision}</version>
       </dependency>
       <dependency>
         <groupId>org.gwtproject.event</groupId>
         <artifactId>gwt-event-legacy</artifactId>
-        <version>1.0.0-RC1</version>
+        <version>${revision}</version>
       </dependency>
       <dependency>
         <groupId>org.gwtproject.event</groupId>
-        <artifactId>gwt-logical-event</artifactId>
-        <version>1.0.0-RC1</version>
+        <artifactId>gwt-event-logical</artifactId>
+        <version>${revision}</version>
       </dependency>
       <dependency>
         <groupId>org.gwtproject.event</groupId>
         <artifactId>gwt-event-compat</artifactId>
-        <version>1.0.0-RC1</version>
+        <version>${revision}</version>
       </dependency>
       <dependency>
         <groupId>org.gwtproject.timer</groupId>
@@ -288,7 +288,7 @@
       <dependency>
         <groupId>org.gwtproject.user.window</groupId>
         <artifactId>gwt-window</artifactId>
-        <version>1.0.0-RC2</version>
+        <version>${revision}</version>
       </dependency>
       <dependency>
         <groupId>org.gwtproject.widgets</groupId>

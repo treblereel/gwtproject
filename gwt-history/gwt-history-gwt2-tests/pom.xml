@@ -34,7 +34,7 @@
 
     <dependency>
       <groupId>org.gwtproject.event</groupId>
-      <artifactId>gwt-logical-event</artifactId>
+      <artifactId>gwt-event-logical</artifactId>
       <scope>test</scope>
     </dependency>
 
