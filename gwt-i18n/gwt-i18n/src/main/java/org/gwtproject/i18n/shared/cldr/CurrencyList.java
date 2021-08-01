@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
-import org.gwtproject.i18n.shared.cldr.impl.CurrencyList_factory;
+import org.gwtproject.i18n.shared.cldr.impl.CurrencyListFactory;
 
 /**
  * Generated class containing all the CurrencyImpl instances. This is just the fallback in case the
@@ -37,7 +37,7 @@ public class CurrencyList implements Iterable<CurrencyData> {
     // TODO Create the instance using the APT generated factory
     //        private static CurrencyList instance = GWT.create(CurrencyList.class);
 
-    private static CurrencyList instance = CurrencyList_factory.create();
+    private static CurrencyList instance = CurrencyListFactory.create();
   }
 
   /** Return the singleton instance of CurrencyList. */

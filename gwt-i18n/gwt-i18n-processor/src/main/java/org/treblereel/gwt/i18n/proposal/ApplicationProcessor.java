@@ -99,6 +99,15 @@ public class ApplicationProcessor extends AbstractProcessor {
             .append(locale)
             .append("());")
             .append(newLine);
+
+        starter
+            .append("   org.gwtproject.i18n.shared.cldr.impl.CurrencyListFactory.holder.set(")
+            .append("\"" + locale + "\"")
+            .append(", ")
+            .append("new org.gwtproject.i18n.shared.cldr.impl.CurrencyList_")
+            .append(locale)
+            .append("());")
+            .append(newLine);
       }
 
       starter.append(" }").append(newLine);

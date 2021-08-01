@@ -332,7 +332,7 @@ public class LocaleInfoFactory {
     return impl;
   }-*/;
 
-  private static String getLocale() {
+  public static String getLocale() {
     return "default";
   }
 }
