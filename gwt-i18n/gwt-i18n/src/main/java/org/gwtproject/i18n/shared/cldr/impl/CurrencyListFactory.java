@@ -17,7 +17,6 @@
 package org.gwtproject.i18n.shared.cldr.impl;
 
 import elemental2.core.JsMap;
-import elemental2.dom.DomGlobal;
 import javax.annotation.Generated;
 import jsinterop.annotations.JsMethod;
 import org.gwtproject.i18n.shared.cldr.CurrencyList;
@@ -30,14 +29,77 @@ public class CurrencyListFactory {
       new JsMap<String, org.gwtproject.i18n.shared.cldr.CurrencyList>();
 
   public static org.gwtproject.i18n.shared.cldr.CurrencyList create() {
-    DomGlobal.console.log("CurrencyList create " + getLocale());
     return get(getLocale());
   }
 
   @JsMethod
   public static native org.gwtproject.i18n.shared.cldr.CurrencyList get(String locale) /*-{
+        var currencyList = @com.google.gwt.i18n.client.CurrencyList::get()();
+        var currencyListDefault = currencyList.@com.google.gwt.i18n.client.CurrencyList::getDefault()();
+
+        var getCurrencyCode = currencyListDefault.@com.google.gwt.i18n.client.CurrencyData::getCurrencyCode()();
+        var getCurrencySymbol = currencyListDefault.@com.google.gwt.i18n.client.CurrencyData::getCurrencySymbol()();
+        var getDefaultFractionDigits = currencyListDefault.@com.google.gwt.i18n.client.CurrencyData::getDefaultFractionDigits()();
+        var getPortableCurrencySymbol = currencyListDefault.@com.google.gwt.i18n.client.CurrencyData::getPortableCurrencySymbol()();
+        var getSimpleCurrencySymbol = currencyListDefault.@com.google.gwt.i18n.client.CurrencyData::getSimpleCurrencySymbol()();
+        var isDeprecated = currencyListDefault.@com.google.gwt.i18n.client.CurrencyData::isDeprecated()();
+
+        var bridgedCurrencyDataDefault = @org.gwtproject.i18n.shared.cldr.impl.gwt2.BridgedCurrencyData::new(Ljava/lang/String;
+                                                                                                        Ljava/lang/String;
+                                                                                                        I
+                                                                                                        Ljava/lang/String;
+                                                                                                        Ljava/lang/String;
+                                                                                                        Ljava/lang/Boolean;)
+                                                                                                        (getCurrencyCode,
+                                                                                                         getCurrencySymbol,
+                                                                                                         getDefaultFractionDigits,
+                                                                                                         getPortableCurrencySymbol,
+                                                                                                         getSimpleCurrencySymbol,
+                                                                                                         isDeprecated);
 
 
+        var loadNamesMap = currencyList.@com.google.gwt.i18n.client.CurrencyList::loadNamesMapNative()();
+        var loadCurrencyMapNative = currencyList.@com.google.gwt.i18n.client.CurrencyList::loadCurrencyMapNative()();
+        var loadNamesHashMap = new Map();
+        var loadCurrencyHashMap = new Map();
+
+        for (var k in loadNamesMap) {
+          if (loadNamesMap.hasOwnProperty(k)) {
+            loadNamesHashMap.set(k,loadNamesMap[k]);
+          }
+        }
+
+        for (var k in loadCurrencyMapNative) {
+          if (loadCurrencyMapNative.hasOwnProperty(k)) {
+            var arr = loadCurrencyMapNative[k];
+
+            var getCurrencyCode = arr[0];
+            var getCurrencySymbol = arr[1];
+            var getDefaultFractionDigits = arr[2];
+            var getPortableCurrencySymbol = arr[3];
+            var getSimpleCurrencySymbol = arr[4];
+
+
+
+            var currencyData = @org.gwtproject.i18n.shared.cldr.impl.gwt2.BridgedCurrencyData::new(Ljava/lang/String;
+                                                                                                            Ljava/lang/String;
+                                                                                                            I
+                                                                                                            Ljava/lang/String;
+                                                                                                            Ljava/lang/String;)
+                                                                                                            (getCurrencyCode,
+                                                                                                             getCurrencySymbol,
+                                                                                                             getDefaultFractionDigits,
+                                                                                                             getPortableCurrencySymbol,
+                                                                                                             getSimpleCurrencySymbol);
+            loadCurrencyHashMap.set(k, currencyData);
+          }
+        }
+
+        var result = @org.gwtproject.i18n.shared.cldr.impl.gwt2.BridgedCurrencyList::new(Lorg/gwtproject/i18n/shared/cldr/CurrencyData;
+                                                                                          Lelemental2/core/JsMap;
+                                                                                          Lelemental2/core/JsMap;)
+                                                                                          (bridgedCurrencyDataDefault, loadCurrencyHashMap, loadNamesHashMap);
+      return result;
   }-*/;
 
   public static String getLocale() {
