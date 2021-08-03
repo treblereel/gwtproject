@@ -29,6 +29,7 @@ public class LocaleInfoFactory {
   }
 
   @JsMethod
+  @SuppressWarnings("unusable-by-js")
   public static native org.gwtproject.i18n.shared.cldr.LocaleInfoImpl get(String locale) /*-{
 
       var getCurrentLocale = @com.google.gwt.i18n.client.LocaleInfo::getCurrentLocale()();

@@ -115,6 +115,11 @@
                 <version>${revision}</version>
             </dependency>
             <dependency>
+                <groupId>org.gwtproject.resources</groupId>
+                <artifactId>gwt-resources-processor</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.gwtproject.core</groupId>
                 <artifactId>gwt-core</artifactId>
                 <version>${revision}</version>

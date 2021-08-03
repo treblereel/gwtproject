@@ -33,6 +33,7 @@ public class CurrencyListFactory {
   }
 
   @JsMethod
+  @SuppressWarnings("unusable-by-js")
   public static native org.gwtproject.i18n.shared.cldr.CurrencyList get(String locale) /*-{
         var currencyList = @com.google.gwt.i18n.client.CurrencyList::get()();
         var currencyListDefault = currencyList.@com.google.gwt.i18n.client.CurrencyList::getDefault()();

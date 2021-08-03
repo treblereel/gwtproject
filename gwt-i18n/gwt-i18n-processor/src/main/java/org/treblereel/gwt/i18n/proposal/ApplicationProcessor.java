@@ -88,11 +88,14 @@ public class ApplicationProcessor extends AbstractProcessor {
 
       StringBuffer starter = new StringBuffer();
       starter.append("package org.gwtproject.i18n.shared.cldr.impl;").append(newLine);
+      starter
+          .append("import org.gwtproject.i18n.shared.cldr.impl.LocaleInfoFactory;")
+          .append(newLine);
       starter.append("class LocaleInfoStarter {").append(newLine);
       starter.append(" LocaleInfoStarter() {").append(newLine);
       for (String locale : locales) {
         starter
-            .append("   org.gwtproject.i18n.shared.cldr.impl.LocaleInfoFactory.holder.set(")
+            .append("   LocaleInfoFactory.holder.set(")
             .append("\"" + locale + "\"")
             .append(", ")
             .append("new org.gwtproject.i18n.shared.cldr.impl.LocaleInfoImpl_")

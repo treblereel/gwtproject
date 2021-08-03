@@ -32,8 +32,8 @@
 
     <modules>
         <module>api</module>
-<!--        <module>processor</module>
-        <module>test-generators</module>
+        <module>processor</module>
+ <!--       <module>test-generators</module>
         <module>gwt-resources-gwt2-tests</module>-->
 <!--
         <module>gwt-resources-j2cl-tests</module>  //TODO CDLR TOO BIG
