@@ -16,6 +16,7 @@
  */
 package org.gwtproject.resources.client.impl;
 
+import elemental2.core.Global;
 import elemental2.core.JsArray;
 import elemental2.core.JsObject;
 import jsinterop.base.Js;
@@ -74,7 +75,7 @@ public class ExternalTextResourcePrototype implements ExternalTextResource {
    * @return the evaluated JSON object, or <code>null</code> if there is an error.
    */
   private static JsObject evalObject(String data) {
-    return JSON.parse(data);
+    return Js.uncheckedCast(Global.JSON.parse(data));
   }
 
   /**
