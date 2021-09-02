@@ -18,7 +18,7 @@ let currencyListImpl = goog.forwardDeclare('org.gwtproject.i18n.shared.cldr.impl
 
 org_gwtproject_i18n_shared_cldr_impl_CurrencyListFactory.get = function(locale) {
   CurrencyListFactory.$clinit();
-  if (CurrencyListFactory.$static_holder__org_gwtproject_i18n_shared_cldr_impl_CurrencyListFactory.has(locale)) {
+  if (CurrencyListFactory.$static_holder__org_gwtproject_i18n_shared_cldr_impl_CurrencyListFactory && CurrencyListFactory.$static_holder__org_gwtproject_i18n_shared_cldr_impl_CurrencyListFactory.has(locale)) {
    return CurrencyListFactory.$static_holder__org_gwtproject_i18n_shared_cldr_impl_CurrencyListFactory.get(locale);
   }
   currencyListImpl = goog.module.get('org.gwtproject.i18n.shared.cldr.impl.CurrencyList_$impl');

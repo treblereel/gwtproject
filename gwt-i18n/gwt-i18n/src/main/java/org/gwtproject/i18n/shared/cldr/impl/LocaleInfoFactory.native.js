@@ -18,7 +18,7 @@ let localeInfoImpl = goog.forwardDeclare('org.gwtproject.i18n.shared.cldr.impl.L
 
 org_gwtproject_i18n_shared_cldr_impl_LocaleInfoFactory.get = function(locale) {
   LocaleInfoFactory.$clinit();
-  if (LocaleInfoFactory.$static_holder__org_gwtproject_i18n_shared_cldr_impl_LocaleInfoFactory.has(locale)) {
+  if (LocaleInfoFactory.$static_holder__org_gwtproject_i18n_shared_cldr_impl_LocaleInfoFactory && LocaleInfoFactory.$static_holder__org_gwtproject_i18n_shared_cldr_impl_LocaleInfoFactory.has(locale)) {
    return LocaleInfoFactory.$static_holder__org_gwtproject_i18n_shared_cldr_impl_LocaleInfoFactory.get(locale);
   }
   localeInfoImpl = goog.module.get('org.gwtproject.i18n.shared.cldr.impl.LocaleInfoImpl$impl');
