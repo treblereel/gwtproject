@@ -67,10 +67,6 @@
           </testArgs>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>com.mycila</groupId>
-        <artifactId>license-maven-plugin</artifactId>
-      </plugin>
     </plugins>
   </build>
 </project>

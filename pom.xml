@@ -90,6 +90,7 @@
         <maven.license.plugin>3.0</maven.license.plugin>
         <maven.surfire.plugin>3.0.0-M1</maven.surfire.plugin>
         <maven.source.plugin>3.2.1</maven.source.plugin>
+        <maven.directory.plugin>0.1</maven.directory.plugin>
         <maven.javadoc.plugin>3.2.0</maven.javadoc.plugin>
         <maven.jetty.plugin>9.4.28.v20200408</maven.jetty.plugin>
         <maven.gwt.plugin>1.0.0</maven.gwt.plugin>
@@ -133,49 +134,14 @@
                     <version>${maven.source.plugin}</version>
                 </plugin>
                 <plugin>
+                    <groupId>org.commonjava.maven.plugins</groupId>
+                    <artifactId>directory-maven-plugin</artifactId>
+                    <version>${maven.directory.plugin}</version>
+                </plugin>
+                <plugin>
                     <groupId>com.mycila</groupId>
                     <artifactId>license-maven-plugin</artifactId>
                     <version>${maven.license.plugin}</version>
-                    <configuration>
-                        <header>LICENSE.header</header>
-                        <encoding>${project.build.sourceEncoding}</encoding>
-                        <skipExistingHeaders>true</skipExistingHeaders>
-                        <mapping>
-                            <java>SLASHSTAR_STYLE</java>
-                        </mapping>
-                        <excludes>
-                            <exclude>**/README.md</exclude>
-                            <exclude>**/LICENSE</exclude>
-                            <exclude>**/LICENSE.header</exclude>
-                            <exclude>**/AUTHORS</exclude>
-                            <exclude>**/src/test/resources/**</exclude>
-                            <exclude>**/src/main/resources/**</exclude>
-                            <exclude>**/gwt-time/gwt-time/src/**/</exclude>
-                            <exclude>gwt-time/gwt-time/src/**/</exclude>
-                            <exclude>gwt-time/**/</exclude>
-                            <exclude>gwt-time/**</exclude>
-                            <exclude>**/pom.xml</exclude>
-                            <exclude>**/.flattened-pom.xml</exclude>
-                            <exclude>**/war</exclude>
-                            <exclude>**/gwt-unitcache</exclude>
-                            <exclude>gwt-event/</exclude>
-                            <exclude>gwt-places/</exclude>
-                            <exclude>gwt-http/</exclude>
-                            <exclude>gwt-history/</exclude>
-                            <exclude>gwt-window/</exclude>
-                        </excludes>
-                        <properties>
-                            <year>${project.inceptionYear}</year>
-                            <name>${project.organization.name}</name>
-                        </properties>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>check</goal>
-                            </goals>
-                        </execution>
-                    </executions>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -260,10 +226,26 @@
                 </executions>
             </plugin>
             <plugin>
+                <groupId>org.commonjava.maven.plugins</groupId>
+                <artifactId>directory-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>directories</id>
+                        <goals>
+                            <goal>highest-basedir</goal>
+                        </goals>
+                        <phase>initialize</phase>
+                        <configuration>
+                            <property>rootDir</property>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>com.mycila</groupId>
                 <artifactId>license-maven-plugin</artifactId>
                 <configuration>
-                    <header>LICENSE.header</header>
+                    <header>${rootDir}/LICENSE.header</header>
                     <encoding>${project.build.sourceEncoding}</encoding>
                     <skipExistingHeaders>true</skipExistingHeaders>
                     <mapping>
