@@ -3,9 +3,9 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>gwt-resources-parent</artifactId>
         <groupId>org.gwtproject.resources</groupId>
-        <version>HEAD-SNAPSHOT</version>
+        <artifactId>gwt-resources-parent</artifactId>
+        <version>dev</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -28,12 +28,10 @@
         <dependency>
             <groupId>org.gwtproject.resources</groupId>
             <artifactId>gwt-resources-api</artifactId>
-            <version>${revision}</version>
         </dependency>
         <dependency>
             <groupId>org.gwtproject.resources</groupId>
             <artifactId>gwt-resources-processor</artifactId>
-            <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -44,13 +42,11 @@
         <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-user</artifactId>
-            <version>${gwt.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-dev</artifactId>
-            <version>${gwt.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -182,7 +178,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>${maven.surefire.plugin}</version>
                 <configuration>
                     <additionalClasspathElements>
                         <additionalClasspathElement>${project.build.sourceDirectory}</additionalClasspathElement>

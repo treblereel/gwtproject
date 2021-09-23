@@ -97,6 +97,7 @@
         <maven.gpg.plugin>1.6</maven.gpg.plugin>
         <maven.shade.plugin>3.2.4</maven.shade.plugin>
         <maven.resource.plugin>3.2.0</maven.resource.plugin>
+        <maven.properties.plugin>1.0.0</maven.properties.plugin>
         <maven.failsafe.plugin>3.0.0-M5</maven.failsafe.plugin>
         <maven.clean.plugin>3.1.0</maven.clean.plugin>
         <maven.j2cl.plugin>0.17-SNAPSHOT</maven.j2cl.plugin>
@@ -187,8 +188,14 @@
                     <version>${maven.gwt.plugin}</version>
                 </plugin>
                 <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-resources-plugin</artifactId>
                     <version>${maven.resource.plugin}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>properties-maven-plugin</artifactId>
+                    <version>${maven.properties.plugin}</version>
                 </plugin>
                 <plugin>
                     <groupId>com.vertispan.j2cl</groupId>
@@ -262,10 +269,14 @@
                         <exclude>**/*.css</exclude>
                         <exclude>**/*.bin</exclude>
                         <exclude>**/*.bak</exclude>
+                        <exclude>**/*.dat</exclude>
                         <exclude>**/*.xml</exclude>
                         <exclude>LICENSE.txt</exclude>
                         <exclude>**/.flattened-pom.xml</exclude>
                         <exclude>**/war</exclude>
+                        <exclude>**/*.css</exclude>
+                        <exclude>**/*.gss</exclude>
+                        <exclude>**/*.txt</exclude>
                         <exclude>**/gwt-unitcache</exclude>
                         <exclude>gwt-event/</exclude>
                         <exclude>gwt-places/</exclude>
@@ -273,6 +284,8 @@
                         <exclude>gwt-history/</exclude>
                         <exclude>gwt-window/</exclude>
                         <exclude>gwt-time/**</exclude>
+                        <exclude>**/gwt-unitCache/**</exclude>
+                        <exclude>**/war/**</exclude>
                     </excludes>
                     <properties>
                         <year>${project.inceptionYear}</year>
