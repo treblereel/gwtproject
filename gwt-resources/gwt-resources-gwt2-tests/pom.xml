@@ -89,27 +89,6 @@
                                     <value>obf</value>
                                 </property>
                                 <property>
-                                    <name>CssResource.enableGss</name>
-                                    <value>true</value>
-                                </property>
-                                <property>
-                                    <!-- CssResourceTest empty -->
-                                    <name>CssResource.obfuscationPrefix</name>
-                                    <value>empty</value>
-                                </property>
-                                <property>
-                                    <name>CssResource.conversionMode</name>
-                                    <value>lenient</value>
-                                </property>
-                                <property>
-                                    <name>CssResource.allowedAtRules</name>
-                                    <value>extenal dontIgnoreThis dontIgnoreThisToo</value>
-                                </property>
-                                <property>
-                                    <name>CssResource.enableInlining</name>
-                                    <value>false</value>
-                                </property>
-                                <property>
                                     <name>test.property</name>
                                     <value>true</value>
                                 </property>
@@ -136,14 +115,6 @@
                                 <property>
                                     <name>TRUE_PROPERTY</name>
                                     <value>true</value>
-                                </property>
-                                <property>
-                                    <name>ClientBundle.cacheLocation</name>
-                                    <value>gwt2-tests/src/test/java/org/gwtproject/resources/cache/gwt-cache</value>
-                                </property>
-                                <property>
-                                    <name>ClientBundle.cacheUrl</name>
-                                    <value>/org.gwtproject.resources.ResourcesTestsModule.JUnit/gwt-cache/</value>
                                 </property>
                             </properties>
                         </configuration>

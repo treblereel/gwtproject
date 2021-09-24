@@ -16,7 +16,7 @@
 
 package org.gwtproject.resources.ext;
 
-import java.util.List;
+import java.util.Set;
 
 /** A named configuration (property, values) pair. */
 public interface ConfigurationProperty {
@@ -33,7 +33,7 @@ public interface ConfigurationProperty {
    *
    * @return the property values as a List of Strings.
    */
-  List<String> getValues();
+  Set<String> getValues();
 
   String asSingleValue() throws UnableToCompleteException;
 

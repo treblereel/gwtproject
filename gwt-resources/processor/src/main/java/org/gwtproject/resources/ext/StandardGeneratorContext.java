@@ -84,6 +84,11 @@ public class StandardGeneratorContext implements GeneratorContext {
         propertyOracle
             .getConfigurationProperty(logger, KEY_CLIENT_BUNDLE_CACHE_LOCATION)
             .asSingleValue();
+    File gwtCacheDirFile = new File(gwtCacheDir);
+    if (!gwtCacheDirFile.exists()) {
+      gwtCacheDirFile.mkdirs();
+    }
+
     try (OutputStream outputStream =
         new FileOutputStream(new File(gwtCacheDir, pendingResource.partialPath))) {
       pendingResource.baos.writeTo(outputStream);

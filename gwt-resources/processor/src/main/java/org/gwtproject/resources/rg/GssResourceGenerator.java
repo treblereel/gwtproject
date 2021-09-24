@@ -251,7 +251,7 @@ public class GssResourceGenerator extends AbstractCssResourceGenerator {
 
   private static boolean checkPropertyIsSingleValueAndBoolean(
       ConfigurationProperty property, TreeLogger logger) {
-    List<String> values = property.getValues();
+    Set<String> values = property.getValues();
 
     if (values.size() > 1) {
       logger.log(
@@ -263,7 +263,7 @@ public class GssResourceGenerator extends AbstractCssResourceGenerator {
       return false;
     }
 
-    String value = values.get(0);
+    String value = values.iterator().next();
     if (!"true".equals(value) && !"false".equals(value)) {
       logger.log(
           Type.ERROR,
@@ -811,7 +811,11 @@ public class GssResourceGenerator extends AbstractCssResourceGenerator {
     ImmutableSet.Builder<String> setBuilder = ImmutableSet.builder();
     PropertyOracle oracle = context.getGeneratorContext().getPropertyOracle();
     for (String property : configurationProperties) {
+
+      System.out.println("getTrueConfigurationProperties " + property);
+
       SelectionProperty confProp = oracle.getSelectionProperty(logger, property);
+
       if (!"true".equals(confProp.getCurrentValue())
           && !"false".equals(confProp.getCurrentValue())) {
         logger.log(
@@ -836,7 +840,11 @@ public class GssResourceGenerator extends AbstractCssResourceGenerator {
     PropertyOracle oracle = context.getGeneratorContext().getPropertyOracle();
     ImmutableSet.Builder<String> setBuilder = ImmutableSet.builder();
     for (String permutationAxis : permutationAxes) {
+
+      System.out.println("getTrueConfigurationProperties " + permutationAxis);
+
       SelectionProperty selProp = oracle.getSelectionProperty(logger, permutationAxis);
+
       String propValue = selProp.getCurrentValue();
       setBuilder.add(permutationAxis + ":" + propValue);
     }
@@ -1452,8 +1460,11 @@ public class GssResourceGenerator extends AbstractCssResourceGenerator {
         logger.log(Type.WARN, "No such property " + booleanCondition);
         return false;
       }
+      Set<String> rez = new HashSet<>();
+      rez.add(value);
+
       DefaultConfigurationProperty configurationProperty =
-          new DefaultConfigurationProperty(booleanCondition, Collections.singletonList(value));
+          new DefaultConfigurationProperty(booleanCondition, Collections.unmodifiableSet(rez));
       boolean valid = checkPropertyIsSingleValueAndBoolean(configurationProperty, logger);
       error |= !valid;
       return valid;

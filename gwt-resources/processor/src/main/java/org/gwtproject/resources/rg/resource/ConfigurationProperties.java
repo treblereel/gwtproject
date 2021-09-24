@@ -16,17 +16,16 @@
  */
 package org.gwtproject.resources.rg.resource;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 import javax.annotation.processing.Filer;
-import javax.tools.FileObject;
-import javax.tools.StandardLocation;
+import javax.lang.model.element.Element;
+import org.gwtproject.resources.client.GWT3ResourcesConfiguration;
+import org.gwtproject.resources.context.AptContext;
 import org.gwtproject.resources.ext.BadPropertyValueException;
 import org.gwtproject.resources.ext.ConfigurationProperty;
 import org.gwtproject.resources.ext.DefaultConfigurationProperty;
+import org.gwtproject.resources.ext.UnableToCompleteException;
 
 /** @author Dmitrii Tikhomirov Created by treblereel 11/7/18 */
 public final class ConfigurationProperties {
@@ -48,85 +47,130 @@ public final class ConfigurationProperties {
   private static final String CLIENT_BUNDLE_DEFAULT_CACHE_LOCATION = "src/main/webapp/gwt-cache";
   private static final String CLIENT_BUNDLE_DEFAULT_CACHE_URL = "/gwt-cache/";
   private final Map<String, ConfigurationProperty> holder = new HashMap<>();
+  private final AptContext context;
   private final Filer filer;
 
-  public ConfigurationProperties(Filer filer) {
-    this.filer = filer;
+  public ConfigurationProperties(AptContext context) {
+    this.context = context;
+    this.filer = context.filer;
     setDefaultProperties();
-    setGWTCacheLocation();
+    setAnnotationProperties();
+  }
+
+  private void setAnnotationProperties() {
+    Set<Element> elements =
+        context.roundEnvironment.getElementsAnnotatedWith(GWT3ResourcesConfiguration.class).stream()
+            .collect(Collectors.toSet());
+
+    if (elements.size() > 1) {
+      String classes =
+          elements.stream().map(elm -> elm.toString()).collect(Collectors.joining(", "));
+      throw new Error(
+          new UnableToCompleteException(
+              "There is must be only one class annotated with @GWT3ResourcesConfiguration,"
+                  + " check ["
+                  + classes
+                  + "]"));
+    }
+
+    if (elements.size() == 1) {
+      GWT3ResourcesConfiguration gwt3ResourcesConfiguration =
+          elements.iterator().next().getAnnotation(GWT3ResourcesConfiguration.class);
+      set(
+          KEY_CLIENT_BUNDLE_ENABLE_INLINING,
+          Arrays.asList(gwt3ResourcesConfiguration.clientBundle().enableInlining() + ""),
+          true);
+      set(
+          KEY_CLIENT_BUNDLE_ENABLE_RENAMING,
+          Arrays.asList(gwt3ResourcesConfiguration.clientBundle().enableRenaming() + ""),
+          true);
+      set(
+          KEY_CSS_RESOURCE_ALLOWED_FUNCTIONS,
+          Arrays.asList(gwt3ResourcesConfiguration.cssResource().allowedFunctions()),
+          false);
+      set(
+          KEY_CSS_RESOURCE_ALLOWED_AT_RULES,
+          Arrays.asList(gwt3ResourcesConfiguration.cssResource().allowedAtRules()),
+          false);
+      set(
+          KEY_GSS_DEFAULT_IN_UIBINDER,
+          Arrays.asList(gwt3ResourcesConfiguration.cssResource().gssDefaultInUiBinder() + ""),
+          true);
+      set(
+          KEY_CSS_RESOURCE_MERGE_ENABLED,
+          Arrays.asList(gwt3ResourcesConfiguration.cssResource().mergeEnabled() + ""),
+          true);
+      set(
+          KEY_CSS_RESOURCE_ENABLE_GSS,
+          Arrays.asList(gwt3ResourcesConfiguration.cssResource().enableGss() + ""),
+          true);
+      set(
+          KEY_CSS_RESOURCE_CONVERSION_MODE,
+          Arrays.asList(gwt3ResourcesConfiguration.cssResource().conversionMode()),
+          true);
+      set(
+          KEY_CSS_RESOURCE_STYLE,
+          Arrays.asList(gwt3ResourcesConfiguration.cssResource().style()),
+          true);
+      set(
+          KEY_CSS_RESOURCE_OBFUSCATION_PREFIX,
+          Arrays.asList(gwt3ResourcesConfiguration.cssResource().obfuscationPrefix()),
+          true);
+      set(
+          KEY_CSS_RESOURCE_RESERVED_CLASS_PREFIXES,
+          Arrays.asList(gwt3ResourcesConfiguration.cssResource().reservedClassPrefixes()),
+          false);
+
+      if (!gwt3ResourcesConfiguration.clientBundle().cacheLocation().equals("")) {
+        set(
+            KEY_CLIENT_BUNDLE_CACHE_LOCATION,
+            Arrays.asList(gwt3ResourcesConfiguration.clientBundle().cacheLocation()),
+            false);
+      }
+
+      if (!gwt3ResourcesConfiguration.clientBundle().cacheUrl().equals("")) {
+        set(
+            KEY_CLIENT_BUNDLE_CACHE_URL,
+            Arrays.asList(gwt3ResourcesConfiguration.clientBundle().cacheUrl()),
+            false);
+      }
+    }
   }
 
   private void setDefaultProperties() {
-    lookupAndSet(KEY_CLIENT_BUNDLE_ENABLE_INLINING, Arrays.asList("true"), true);
-    lookupAndSet(KEY_CLIENT_BUNDLE_ENABLE_RENAMING, Arrays.asList("true"), true);
-    lookupAndSet(KEY_CSS_RESOURCE_ALLOWED_FUNCTIONS, new ArrayList<>(), false);
-    lookupAndSet(
-        KEY_CSS_RESOURCE_ALLOWED_AT_RULES, Arrays.asList("-moz-document", "supports"), false);
-    lookupAndSet(KEY_GSS_DEFAULT_IN_UIBINDER, Arrays.asList("false"), true);
-    lookupAndSet(KEY_CSS_RESOURCE_MERGE_ENABLED, Arrays.asList("true"), true);
-    lookupAndSet(KEY_CSS_RESOURCE_ENABLE_GSS, Arrays.asList("true"), true);
-    lookupAndSet(KEY_CSS_RESOURCE_CONVERSION_MODE, Arrays.asList("off"), true);
-    lookupAndSet(KEY_CSS_RESOURCE_STYLE, Arrays.asList("obf"), true);
-    lookupAndSet(KEY_CSS_RESOURCE_OBFUSCATION_PREFIX, Arrays.asList("default"), true);
-    lookupAndSet(KEY_CSS_RESOURCE_RESERVED_CLASS_PREFIXES, Arrays.asList("gwt-"), false);
-
-    lookupAndSet(KEY_CLIENT_BUNDLE_CACHE_URL, Arrays.asList(CLIENT_BUNDLE_DEFAULT_CACHE_URL), true);
+    set(KEY_CLIENT_BUNDLE_ENABLE_INLINING, Arrays.asList("true"), true);
+    set(KEY_CLIENT_BUNDLE_ENABLE_RENAMING, Arrays.asList("true"), true);
+    set(KEY_CSS_RESOURCE_ALLOWED_FUNCTIONS, new ArrayList<>(), false);
+    set(KEY_CSS_RESOURCE_ALLOWED_AT_RULES, Arrays.asList("-moz-document", "supports"), false);
+    set(KEY_GSS_DEFAULT_IN_UIBINDER, Arrays.asList("false"), true);
+    set(KEY_CSS_RESOURCE_MERGE_ENABLED, Arrays.asList("true"), true);
+    set(KEY_CSS_RESOURCE_ENABLE_GSS, Arrays.asList("true"), true);
+    set(KEY_CSS_RESOURCE_CONVERSION_MODE, Arrays.asList("off"), true);
+    set(KEY_CSS_RESOURCE_STYLE, Arrays.asList("obf"), true);
+    set(KEY_CSS_RESOURCE_OBFUSCATION_PREFIX, Arrays.asList("default"), true);
+    set(KEY_CSS_RESOURCE_RESERVED_CLASS_PREFIXES, Arrays.asList("gwt-"), false);
   }
 
-  private void lookupAndSet(String propertyName, List<String> defaulValues, boolean override) {
-    List<String> list = new ArrayList<>(defaulValues);
-    holder.put(
-        propertyName, lookup(new DefaultConfigurationProperty(propertyName, list), override));
-  }
-
-  private ConfigurationProperty lookup(ConfigurationProperty holder, boolean override) {
-    String values = System.getProperty(holder.getName());
-    if (values != null) {
+  private void set(String propertyName, List<String> defaulValues, boolean override) {
+    Set<String> list = new HashSet<>(defaulValues);
+    if (holder.containsKey(propertyName)) {
       if (override) {
-        holder.getValues().clear();
-      }
-      Arrays.stream(values.split("\\s+")).forEach(e -> holder.getValues().add(e));
-    }
-    return holder;
-  }
-
-  private void setGWTCacheLocation() {
-    File gwtCacheDir;
-    try {
-      FileObject fileObject =
-          filer.createResource(
-              StandardLocation.SOURCE_OUTPUT, "", "dummy" + System.currentTimeMillis());
-
-      Path path =
-          Paths.get(fileObject.toUri())
-              .getParent() // {PROJECT_ROOT}/target/generated-sources/annotations
-              .getParent() // {PROJECT_ROOT}/target/generated-sources
-              .getParent() // {PROJECT_ROOT}/target
-              .getParent(); // {PROJECT_ROOT}
-
-      String cacheLocation = System.getProperty(KEY_CLIENT_BUNDLE_CACHE_LOCATION);
-      if (cacheLocation != null) {
-        gwtCacheDir = new File(cacheLocation);
+        holder.put(propertyName, new DefaultConfigurationProperty(propertyName, list));
       } else {
-        gwtCacheDir = new File(path.toUri().getPath() + CLIENT_BUNDLE_DEFAULT_CACHE_LOCATION);
+        holder.get(propertyName).getValues().addAll(defaulValues);
       }
-
-      if (!gwtCacheDir.exists()) {
-        gwtCacheDir.mkdirs();
-      }
-      holder.put(
-          KEY_CLIENT_BUNDLE_CACHE_LOCATION,
-          new DefaultConfigurationProperty(
-              KEY_CLIENT_BUNDLE_CACHE_LOCATION, Arrays.asList(gwtCacheDir.toString())));
-
-    } catch (IOException e) {
-      throw new Error("Unable to locate gwt cache folder " + e.getMessage());
+    } else {
+      holder.put(propertyName, new DefaultConfigurationProperty(propertyName, list));
     }
   }
 
   public ConfigurationProperty getConfigurationProperty(String key)
       throws BadPropertyValueException {
+
+    System.out.println("getConfigurationProperty " + key);
+
     if (holder.containsKey(key)) {
+      System.out.println("          " + holder.get(key));
       return holder.get(key);
     }
     throw new BadPropertyValueException(key);
