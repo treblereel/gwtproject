@@ -17,6 +17,8 @@
 package org.gwtproject.i18n.shared.cldr.impl;
 
 import elemental2.core.JsMap;
+import elemental2.dom.DomGlobal;
+import elemental2.dom.URLSearchParams;
 import jsinterop.annotations.JsMethod;
 
 public class LocaleInfoFactory {
@@ -24,8 +26,20 @@ public class LocaleInfoFactory {
   public static final JsMap<String, org.gwtproject.i18n.shared.cldr.LocaleInfoImpl> holder =
       new JsMap<String, org.gwtproject.i18n.shared.cldr.LocaleInfoImpl>();
 
+  private static String current;
+
+  static {
+    String queryString = DomGlobal.window.location.search;
+    URLSearchParams params = new URLSearchParams(queryString);
+    if (params.has("locale")) {
+      current = params.get("locale");
+    } else {
+      current = getLocale();
+    }
+  }
+
   public static org.gwtproject.i18n.shared.cldr.LocaleInfoImpl create() {
-    return get(getLocale());
+    return get(current);
   }
 
   @JsMethod
