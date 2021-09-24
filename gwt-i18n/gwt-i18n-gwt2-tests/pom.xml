@@ -44,18 +44,6 @@
             <artifactId>gwt-numberformat</artifactId>
             <scope>test</scope>
         </dependency>
-<!--        <dependency>
-            <groupId>org.gwtproject.i18n</groupId>
-            <artifactId>gwt-localizable-processor</artifactId>
-            <scope>provided</scope>
-            <version>HEAD-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.gwtproject.i18n</groupId>
-            <artifactId>gwt-datetimeformat-processor</artifactId>
-            <scope>provided</scope>
-            <version>HEAD-SNAPSHOT</version>
-        </dependency>-->
         <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-user</artifactId>

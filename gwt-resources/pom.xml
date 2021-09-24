@@ -33,8 +33,8 @@
     <modules>
         <module>api</module>
         <module>processor</module>
- <!--       <module>test-generators</module>
-        <module>gwt-resources-gwt2-tests</module>-->
+        <module>test-generators</module>
+        <module>gwt-resources-gwt2-tests</module>
 <!--
         <module>gwt-resources-j2cl-tests</module>  //TODO CDLR TOO BIG
 -->
@@ -70,6 +70,20 @@
                 <artifactId>maven-deploy-plugin</artifactId>
                 <configuration>
                     <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>${basedir}</directory>
+                            <includes>
+                                <include>gwt2-tests/</include>
+                            </includes>
+                        </fileset>
+                    </filesets>
                 </configuration>
             </plugin>
         </plugins>

@@ -43,30 +43,25 @@
         <dependency>
             <groupId>org.gwtproject.timer</groupId>
             <artifactId>gwt-timer</artifactId>
-            <version>${gwtproject.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.vertispan.j2cl</groupId>
             <artifactId>junit-annotations</artifactId>
-            <version>${vertispan.j2cl.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.vertispan.j2cl</groupId>
             <artifactId>gwttestcase-emul</artifactId>
-            <version>${vertispan.j2cl.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.vertispan.j2cl</groupId>
             <artifactId>junit-emul</artifactId>
-            <version>${vertispan.j2cl.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -89,7 +84,6 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>properties-maven-plugin</artifactId>
-                <version>${maven.properties.plugin}</version>
                 <executions>
                     <execution>
                         <id>test</id>
@@ -168,7 +162,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>${maven.surefire.plugin}</version>
                 <configuration>
                     <skipTests>true</skipTests>
                 </configuration>
@@ -177,7 +170,6 @@
             <plugin>
                 <groupId>com.vertispan.j2cl</groupId>
                 <artifactId>j2cl-maven-plugin</artifactId>
-                <version>${maven.j2cl.version}</version>
                 <executions>
                     <execution>
                         <id>j2cl-test</id>

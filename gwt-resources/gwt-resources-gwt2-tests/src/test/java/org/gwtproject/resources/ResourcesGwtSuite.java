@@ -21,6 +21,18 @@ import org.gwtproject.resources.client.*;
 import org.gwtproject.resources.client.gss.*;
 
 /** Test suite for SafeHtml GWTTestCases. */
+@GWT3ResourcesConfiguration(
+    clientBundle =
+        @GWT3ResourcesConfiguration.ClientBundle(
+            cacheLocation =
+                "../../../../gwt2-tests/src/test/java/org/gwtproject/resources/cache/gwt-cache",
+            cacheUrl = "/org.gwtproject.resources.ResourcesTestsModule.JUnit/gwt-cache/"),
+    cssResource =
+        @GWT3ResourcesConfiguration.CssResource(
+            enableGss = true,
+            obfuscationPrefix = "obfuscationPrefix",
+            conversionMode = "lenient",
+            allowedAtRules = {"extenal", "dontIgnoreThis", "dontIgnoreThisToo"}))
 public class ResourcesGwtSuite {
   private ResourcesGwtSuite() {}
 

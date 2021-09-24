@@ -6,8 +6,6 @@
     <inherits name="org.gwtproject.http.HTTP"/>
     <inherits name="org.gwtproject.user.AsyncCallback"/>
     <inherits name="org.gwtproject.dom.DOM"/>
-    <!-- not ready yet
-    <inherits name="org.gwtproject.i18n.I18n"/> -->
+    <inherits name="org.gwtproject.i18n.I18N"/>
 
-    <inherits name="org.gwtproject.i18n.CLDR"/>
 </module>

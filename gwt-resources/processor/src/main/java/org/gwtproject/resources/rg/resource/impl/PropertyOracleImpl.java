@@ -26,7 +26,7 @@ public class PropertyOracleImpl implements PropertyOracle {
   public final ConfigurationProperties configurationProperties;
 
   public PropertyOracleImpl(AptContext aptContext) {
-    configurationProperties = new ConfigurationProperties(aptContext.filer);
+    configurationProperties = new ConfigurationProperties(aptContext);
   }
 
   @Override

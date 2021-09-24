@@ -15,7 +15,7 @@
  */
 package org.gwtproject.resources.ext;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * Default immutable implementation of ConfigurationProperty that receives its values in its
@@ -24,7 +24,7 @@ import java.util.List;
 public class DefaultConfigurationProperty implements ConfigurationProperty {
 
   private final String name;
-  private final List<String> values;
+  private final Set<String> values;
 
   /**
    * Construct a configuration property.
@@ -33,7 +33,7 @@ public class DefaultConfigurationProperty implements ConfigurationProperty {
    * @param values the list of possible values, must not be null and will be returned to callers, so
    *     a copy should be passed into this ctor if the caller will use this set later
    */
-  public DefaultConfigurationProperty(String name, List<String> values) {
+  public DefaultConfigurationProperty(String name, Set<String> values) {
     assert name != null;
     assert values != null;
     this.name = name;
@@ -56,7 +56,7 @@ public class DefaultConfigurationProperty implements ConfigurationProperty {
   }
 
   @Override
-  public List<String> getValues() {
+  public Set<String> getValues() {
     return values;
   }
 
@@ -66,7 +66,7 @@ public class DefaultConfigurationProperty implements ConfigurationProperty {
       throw new UnableToCompleteException(
           "The configuration property " + getName() + " cannot be a multi-valued property");
     }
-    return values.get(0);
+    return values.iterator().next();
   }
 
   @Override
