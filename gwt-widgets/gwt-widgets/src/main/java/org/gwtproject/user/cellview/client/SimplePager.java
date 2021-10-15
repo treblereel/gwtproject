@@ -15,7 +15,6 @@
  */
 package org.gwtproject.user.cellview.client;
 
-import elemental2.dom.DomGlobal;
 import jsinterop.base.Js;
 import org.gwtproject.aria.client.Roles;
 import org.gwtproject.i18n.client.Constants;
@@ -544,9 +543,6 @@ public class SimplePager extends AbstractPager {
     int endIndex = Math.min(dataSize, pageStart + pageSize - 1);
     endIndex = Math.max(pageStart, endIndex);
     boolean exact = display.isRowCountExact();
-
-    DomGlobal.console.log("createText 1 " + pageSize);
-    DomGlobal.console.log("createText 2 " + endIndex);
 
     return formatter.format(Js.uncheckedCast(pageStart))
         + "-"
