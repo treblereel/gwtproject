@@ -191,6 +191,9 @@ public class ResourceOracleImpl implements ResourceOracle {
    */
   @Override
   public URL findResource(CharSequence pkg, CharSequence relativeName) {
+    URL resource = getUrlClassLoader(pkg.toString().replaceAll("\\.", "/") + relativeName);
+    if (resource != null) return resource;
+
     return findResource(
         Arrays.asList(
             StandardLocation.SOURCE_PATH,
@@ -238,6 +241,15 @@ public class ResourceOracleImpl implements ResourceOracle {
       }
     }
     // unable to locate, return null.
+    return null;
+  }
+
+  private URL getUrlClassLoader(String path) {
+    ClassLoader classLoader = getClass().getClassLoader();
+    URL resource = classLoader.getResource(path);
+    if (resource != null) {
+      return resource;
+    }
     return null;
   }
 }
