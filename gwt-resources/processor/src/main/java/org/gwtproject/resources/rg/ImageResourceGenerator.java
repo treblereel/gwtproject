@@ -69,7 +69,7 @@ public class ImageResourceGenerator extends AbstractResourceGenerator {
 
   @Override
   public String createAssignment(
-      TreeLogger logger, ResourceContext context, ExecutableElement method) {
+      TreeLogger logger, ResourceContext context, ExecutableElement method, String locale) {
     String name = method.getSimpleName().toString();
 
     ImageResourceDeclaration image = new ImageResourceDeclaration(method);
@@ -187,16 +187,17 @@ public class ImageResourceGenerator extends AbstractResourceGenerator {
    * reencode an external image.
    */
   @Override
-  public void prepare(TreeLogger logger, ResourceContext context, ExecutableElement method)
+  public void prepare(
+      TreeLogger logger, ResourceContext context, ExecutableElement method, String locale)
       throws UnableToCompleteException {
 
     ImageResourceDeclaration image = new ImageResourceDeclaration(method);
 
-    LocalizedImage localized = LocalizedImage.create(logger, context, image);
+    LocalizedImage localized = LocalizedImage.create(logger, context, image, locale);
 
     ResourceOracle resourceOracle = context.getGeneratorContext().getResourcesOracle();
 
-    URL[] resources = resourceOracle.findResources(logger, image.getMethod());
+    URL[] resources = resourceOracle.findResources(logger, image.getMethod(), locale);
 
     if (resources.length != 1) {
       logger.log(TreeLogger.ERROR, "Exactly one image may be specified", null);
@@ -792,12 +793,12 @@ public class ImageResourceGenerator extends AbstractResourceGenerator {
     }
 
     public static LocalizedImage create(
-        TreeLogger logger, ResourceContext context, ImageResourceDeclaration image)
+        TreeLogger logger, ResourceContext context, ImageResourceDeclaration image, String locale)
         throws UnableToCompleteException {
 
       ResourceOracle resourceOracle = context.getGeneratorContext().getResourcesOracle();
 
-      URL[] resources = resourceOracle.findResources(logger, image.getMethod());
+      URL[] resources = resourceOracle.findResources(logger, image.getMethod(), locale);
 
       if (resources.length != 1) {
         logger.log(

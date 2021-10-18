@@ -25,11 +25,11 @@ import org.gwtproject.safehtml.shared.UriUtils;
 public class CustomDataResourceGenerator extends AbstractResourceGenerator {
   @Override
   public String createAssignment(
-      TreeLogger logger, ResourceContext context, ExecutableElement method)
+      TreeLogger logger, ResourceContext context, ExecutableElement method, String locale)
       throws UnableToCompleteException {
 
     ResourceOracle resourceOracle = context.getGeneratorContext().getResourcesOracle();
-    URL[] resources = resourceOracle.findResources(logger, method);
+    URL[] resources = resourceOracle.findResources(logger, method, locale);
 
     if (resources.length != 1) {
       logger.log(TreeLogger.ERROR, "Exactly one resource must be specified", null);

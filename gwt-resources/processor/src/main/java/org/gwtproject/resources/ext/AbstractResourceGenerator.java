@@ -27,7 +27,7 @@ public abstract class AbstractResourceGenerator implements ResourceGenerator {
       System.getProperty("gwt.resourceBundle.stripComments") != null;
 
   public abstract String createAssignment(
-      TreeLogger logger, ResourceContext context, ExecutableElement method)
+      TreeLogger logger, ResourceContext context, ExecutableElement method, String locale)
       throws UnableToCompleteException;
 
   /** A no-op implementation. */
@@ -41,6 +41,7 @@ public abstract class AbstractResourceGenerator implements ResourceGenerator {
   public void init(TreeLogger logger, ResourceContext context) throws UnableToCompleteException {}
 
   /** A no-op implementation. */
-  public void prepare(TreeLogger logger, ResourceContext context, ExecutableElement method)
+  public void prepare(
+      TreeLogger logger, ResourceContext context, ExecutableElement method, String locale)
       throws UnableToCompleteException {}
 }

@@ -30,7 +30,7 @@ public final class StaticClientBundleGenerator extends AbstractClientBundleGener
 
   @Override
   protected AbstractResourceContext createResourceContext(
-      TreeLogger logger, GeneratorContext context, TypeElement resourceBundleType) {
+      TreeLogger logger, GeneratorContext context, TypeElement resourceBundleType, String locale) {
     return new StaticResourceContext(
         logger.branch(TreeLogger.DEBUG, "Using static resources", null),
         context,

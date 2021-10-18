@@ -278,7 +278,8 @@ public class GssResourceGenerator extends AbstractCssResourceGenerator {
   }
 
   @Override
-  public void prepare(TreeLogger logger, ResourceContext context, ExecutableElement method)
+  public void prepare(
+      TreeLogger logger, ResourceContext context, ExecutableElement method, String locale)
       throws UnableToCompleteException {
 
     if (!MoreTypes.asElement(method.getReturnType()).getKind().equals(ElementKind.INTERFACE)) {
@@ -286,7 +287,7 @@ public class GssResourceGenerator extends AbstractCssResourceGenerator {
       throw new UnableToCompleteException();
     }
 
-    URL[] resourceUrls = findResources(logger, context, method, gssOptions.isEnabled());
+    URL[] resourceUrls = findResources(logger, context, method, gssOptions.isEnabled(), locale);
     if (resourceUrls.length == 0) {
       logger.log(ERROR, "At least one source must be specified");
       throw new UnableToCompleteException();
@@ -308,7 +309,11 @@ public class GssResourceGenerator extends AbstractCssResourceGenerator {
    * directly ResourceGeneratorUtil.findResources().
    */
   static URL[] findResources(
-      TreeLogger logger, ResourceContext context, ExecutableElement method, boolean gssEnabled)
+      TreeLogger logger,
+      ResourceContext context,
+      ExecutableElement method,
+      boolean gssEnabled,
+      String locale)
       throws UnableToCompleteException {
 
     boolean isSourceAnnotationUsed = method.getAnnotation(Source.class) != null;
@@ -320,10 +325,10 @@ public class GssResourceGenerator extends AbstractCssResourceGenerator {
       // extension to use first
       String[] extensions =
           gssEnabled ? new String[] {".gss", ".css"} : new String[] {".css", ".gss"};
-      return resourceOracle.findResources(logger, method, extensions);
+      return resourceOracle.findResources(logger, method, extensions, locale);
     }
     // find the original resource files specified by the @Source annotation
-    URL[] originalResources = resourceOracle.findResources(logger, method);
+    URL[] originalResources = resourceOracle.findResources(logger, method, locale);
     URL[] resourcesToUse = new URL[originalResources.length];
 
     String preferredExtension = gssEnabled ? ".gss" : ".css";
@@ -341,11 +346,11 @@ public class GssResourceGenerator extends AbstractCssResourceGenerator {
         // try to find the resource relative to the package
         String path =
             MoreElements.getPackage(method).getQualifiedName().toString().replace('.', '/') + '/';
-        URL preferredUrl = resourceOracle.findResource(path + preferredFile);
+        URL preferredUrl = resourceOracle.findResource(path + preferredFile, locale);
 
         if (preferredUrl == null) {
           // if it doesn't exist, assume it is absolute
-          preferredUrl = resourceOracle.findResource(preferredFile);
+          preferredUrl = resourceOracle.findResource(preferredFile, locale);
         }
 
         if (preferredUrl == null) {
@@ -658,7 +663,7 @@ public class GssResourceGenerator extends AbstractCssResourceGenerator {
 
   @Override
   public String createAssignment(
-      TreeLogger logger, ResourceContext context, ExecutableElement method)
+      TreeLogger logger, ResourceContext context, ExecutableElement method, String locale)
       throws UnableToCompleteException {
     CssParsingResult cssParsingResult = cssParsingResultMap.get(method);
     CssTree cssTree = cssParsingResult.tree;

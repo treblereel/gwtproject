@@ -33,7 +33,7 @@ public final class InlineClientBundleGenerator extends AbstractClientBundleGener
 
   @Override
   protected AbstractResourceContext createResourceContext(
-      TreeLogger logger, GeneratorContext context, TypeElement resourceBundleType) {
+      TreeLogger logger, GeneratorContext context, TypeElement resourceBundleType, String locale) {
     return new InlineResourceContext(
         logger.branch(TreeLogger.DEBUG, "Using inline resources", null),
         context,

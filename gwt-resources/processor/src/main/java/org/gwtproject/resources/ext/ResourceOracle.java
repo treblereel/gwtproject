@@ -31,14 +31,16 @@ import javax.lang.model.element.ExecutableElement;
 public interface ResourceOracle {
 
   /** Returns the resource for the given path name or null if there is no such resource. */
-  URL[] findResources(CharSequence packageName, CharSequence[] pathName);
+  URL[] findResources(CharSequence packageName, CharSequence[] pathName, String locale);
 
-  URL findResource(CharSequence pkg, CharSequence relativeName);
+  URL findResource(CharSequence pkg, CharSequence relativeName, String locale);
 
-  URL findResource(CharSequence fullPath);
+  URL findResource(CharSequence fullPath, String locale);
 
-  URL[] findResources(TreeLogger logger, ExecutableElement method) throws UnableToCompleteException;
+  URL[] findResources(TreeLogger logger, ExecutableElement method, String locale)
+      throws UnableToCompleteException;
 
-  URL[] findResources(TreeLogger logger, ExecutableElement method, String[] defaultSuffixes)
+  URL[] findResources(
+      TreeLogger logger, ExecutableElement method, String[] defaultSuffixes, String locale)
       throws UnableToCompleteException;
 }

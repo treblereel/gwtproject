@@ -108,7 +108,8 @@ public class ResourceGeneratorUtil {
    * Given a user-defined type name, determine the type name for the generated class based on
    * accumulated requirements.
    */
-  public static String generateSimpleSourceName(TreeLogger logger, TypeElement element) {
+  public static String generateSimpleSourceName(
+      TreeLogger logger, TypeElement element, String locale) {
     List<String> hierarchy = new ArrayList<>();
     Element enclosingElement = element;
     while (!enclosingElement.getKind().equals(ElementKind.PACKAGE)) {
@@ -116,7 +117,7 @@ public class ResourceGeneratorUtil {
       enclosingElement = enclosingElement.getEnclosingElement();
     }
     Collections.reverse(hierarchy);
-    return Joiner.on("_").join(hierarchy) + "Impl";
+    return Joiner.on("_").join(hierarchy) + (locale != null ? ("_" + locale + "_") : "") + "Impl";
   }
 
   public static Set<TypeMirror> getAllParents(TypeElement candidate) {

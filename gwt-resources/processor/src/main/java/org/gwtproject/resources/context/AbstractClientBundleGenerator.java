@@ -20,6 +20,7 @@ import com.google.auto.common.MoreTypes;
 import com.google.common.collect.ImmutableSet;
 import java.io.PrintWriter;
 import java.util.*;
+import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
@@ -27,6 +28,7 @@ import javax.lang.model.type.ArrayType;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
+import org.gwtproject.i18n.shared.cldr.I18N;
 import org.gwtproject.resources.client.ClientBundleWithLookup;
 import org.gwtproject.resources.client.Resource;
 import org.gwtproject.resources.client.ResourcePrototype;
@@ -107,16 +109,28 @@ public abstract class AbstractClientBundleGenerator extends Generator {
       TreeLogger logger, GeneratorContext generatorContext, Set<TypeElement> bundles)
       throws UnableToCompleteException {
     this.aptContext = generatorContext.getAptContext();
+    String[] locales = dirtyLocales(generatorContext.getAptContext().roundEnvironment);
+
+    // default resources
     for (TypeElement bundle : bundles) {
-      initAndPrepare(logger, generatorContext, bundle);
+      initAndPrepare(logger, generatorContext, bundle, null);
     }
     for (TypeElement bundle : bundles) {
-      process(logger, generatorContext, bundle);
+      process(logger, generatorContext, bundle, null);
+    }
+
+    for (String locale : locales) {
+      for (TypeElement bundle : bundles) {
+        initAndPrepare(logger, generatorContext, bundle, locale);
+      }
+      for (TypeElement bundle : bundles) {
+        process(logger, generatorContext, bundle, locale);
+      }
     }
   }
 
   private void initAndPrepare(
-      TreeLogger logger, GeneratorContext generatorContext, TypeElement bundle)
+      TreeLogger logger, GeneratorContext generatorContext, TypeElement bundle, String locale)
       throws UnableToCompleteException {
     // Ensure that the requested type exists
     if (bundle == null) {
@@ -143,7 +157,7 @@ public abstract class AbstractClientBundleGenerator extends Generator {
      * Additional objects that hold state during the generation process.
      */
     AbstractResourceContext resourceContext =
-        createResourceContext(logger, generatorContext, bundle);
+        createResourceContext(logger, generatorContext, bundle, locale);
     typeElementResourceContextsMap.put(bundle, resourceContext);
     FieldsImpl fields = new FieldsImpl();
     typeElementFieldsMap.put(bundle, fields);
@@ -153,7 +167,7 @@ public abstract class AbstractClientBundleGenerator extends Generator {
      * generation.
      */
     Map<ResourceGenerator, List<ExecutableElement>> generators =
-        initAndPrepare(logger, taskList, resourceContext);
+        initAndPrepare(logger, taskList, resourceContext, locale);
     typeElementResourceGeneratorsMap.put(bundle, generators);
   }
 
@@ -162,7 +176,7 @@ public abstract class AbstractClientBundleGenerator extends Generator {
    * This is the primary way to implement custom logic in the resource generation pass.
    */
   protected abstract AbstractResourceContext createResourceContext(
-      TreeLogger logger, GeneratorContext context, TypeElement resourceBundleType)
+      TreeLogger logger, GeneratorContext context, TypeElement resourceBundleType, String locale)
       throws UnableToCompleteException;
 
   /**
@@ -290,7 +304,8 @@ public abstract class AbstractClientBundleGenerator extends Generator {
   private Map<ResourceGenerator, List<ExecutableElement>> initAndPrepare(
       TreeLogger logger,
       Map<Class<? extends ResourceGenerator>, List<ExecutableElement>> taskList,
-      AbstractResourceContext resourceContext)
+      AbstractResourceContext resourceContext,
+      String locale)
       throws UnableToCompleteException {
 
     // Try to provide as many errors as possible before failing.
@@ -302,7 +317,7 @@ public abstract class AbstractClientBundleGenerator extends Generator {
         taskList.entrySet()) {
       ResourceGenerator rg = instantiateResourceGenerator(logger, entry.getKey());
       toReturn.put(rg, entry.getValue());
-      success &= initAndPrepare(logger, resourceContext, rg, entry.getValue());
+      success &= initAndPrepare(logger, resourceContext, rg, entry.getValue(), locale);
     }
 
     if (!success) {
@@ -316,7 +331,8 @@ public abstract class AbstractClientBundleGenerator extends Generator {
       TreeLogger logger,
       AbstractResourceContext resourceContext,
       ResourceGenerator rg,
-      List<ExecutableElement> generatorMethods) {
+      List<ExecutableElement> generatorMethods,
+      String locale) {
     try {
       resourceContext.setCurrentResourceGenerator(rg);
       rg.init(
@@ -337,7 +353,8 @@ public abstract class AbstractClientBundleGenerator extends Generator {
         rg.prepare(
             logger.branch(TreeLogger.DEBUG, "Preparing method " + m.getSimpleName().toString()),
             resourceContext,
-            m);
+            m,
+            locale);
       } catch (UnableToCompleteException e) {
         fail = true;
       }
@@ -362,8 +379,10 @@ public abstract class AbstractClientBundleGenerator extends Generator {
     throw new UnableToCompleteException();
   }
 
-  private void process(TreeLogger logger, GeneratorContext generatorContext, TypeElement bundle)
+  private void process(
+      TreeLogger logger, GeneratorContext generatorContext, TypeElement bundle, String locale)
       throws UnableToCompleteException {
+
     Map<Class<? extends ResourceGenerator>, List<ExecutableElement>> taskList =
         taskListByTypeElement.get(bundle);
     FieldsImpl fields = typeElementFieldsMap.get(bundle);
@@ -375,7 +394,7 @@ public abstract class AbstractClientBundleGenerator extends Generator {
      * can compute the actual name of the implementation class in order to
      * ensure that we use a distinct name between permutations.
      */
-    String generatedSimpleSourceName = generateSimpleSourceName(logger, resourceContext);
+    String generatedSimpleSourceName = generateSimpleSourceName(logger, resourceContext, locale);
     String packageName = MoreElements.getPackage(bundle).getQualifiedName().toString();
     PrintWriter out = generatorContext.tryCreate(logger, packageName, generatedSimpleSourceName);
     // If an implementation already exists, we don't need to do any work
@@ -405,7 +424,7 @@ public abstract class AbstractClientBundleGenerator extends Generator {
       sw.println(INSTANCE_NAME + " = new " + generatedSimpleSourceName + "();");
 
       // Write the generated code to disk
-      createFieldsAndAssignments(logger, sw, generators, resourceContext, fields);
+      createFieldsAndAssignments(logger, sw, generators, resourceContext, fields, locale);
 
       // Print the accumulated field definitions
       sw.println(fields.getCode());
@@ -467,8 +486,10 @@ public abstract class AbstractClientBundleGenerator extends Generator {
    * Given a user-defined type name, determine the type name for the generated class based on
    * accumulated requirements.
    */
-  public String generateSimpleSourceName(TreeLogger logger, ResourceContext context) {
-    return ResourceGeneratorUtil.generateSimpleSourceName(logger, context.getClientBundleType());
+  public String generateSimpleSourceName(
+      TreeLogger logger, ResourceContext context, String locale) {
+    return ResourceGeneratorUtil.generateSimpleSourceName(
+        logger, context.getClientBundleType(), locale);
   }
 
   /** Create fields and assignments for multiple ResourceGenerators. */
@@ -477,7 +498,8 @@ public abstract class AbstractClientBundleGenerator extends Generator {
       SourceWriter sw,
       Map<ResourceGenerator, List<ExecutableElement>> generators,
       AbstractResourceContext resourceContext,
-      ClientBundleFields fields)
+      ClientBundleFields fields,
+      String locale)
       throws UnableToCompleteException {
     // Try to provide as many errors as possible before failing.
     boolean success = true;
@@ -486,7 +508,7 @@ public abstract class AbstractClientBundleGenerator extends Generator {
     for (Map.Entry<ResourceGenerator, List<ExecutableElement>> entry : generators.entrySet()) {
       success &=
           createFieldsAndAssignments(
-              logger, resourceContext, entry.getKey(), entry.getValue(), sw, fields);
+              logger, resourceContext, entry.getKey(), entry.getValue(), sw, fields, locale);
     }
 
     if (!success) {
@@ -501,7 +523,8 @@ public abstract class AbstractClientBundleGenerator extends Generator {
       ResourceGenerator rg,
       List<ExecutableElement> generatorMethods,
       SourceWriter sw,
-      ClientBundleFields fields) {
+      ClientBundleFields fields,
+      String locale) {
     // Defer failure until this phase has ended
     boolean fail = false;
     resourceContext.setCurrentResourceGenerator(rg);
@@ -524,7 +547,8 @@ public abstract class AbstractClientBundleGenerator extends Generator {
                     TreeLogger.DEBUG,
                     "Creating assignment for " + m.getSimpleName().toString() + "()"),
                 resourceContext,
-                m);
+                m,
+                locale);
       } catch (UnableToCompleteException e) {
         fail = true;
         continue;
@@ -726,5 +750,20 @@ public abstract class AbstractClientBundleGenerator extends Generator {
       }
       return sb.toString();
     }
+  }
+
+  public static String[] dirtyLocales(RoundEnvironment roundEnvironment) {
+    if (!roundEnvironment.getElementsAnnotatedWith(I18N.class).isEmpty()) {
+      if (roundEnvironment.getElementsAnnotatedWith(I18N.class).size() > 1) {
+        throw new Error("App must has only one class annotated with @I18N");
+      }
+      return roundEnvironment
+          .getElementsAnnotatedWith(I18N.class)
+          .iterator()
+          .next()
+          .getAnnotation(I18N.class)
+          .value();
+    }
+    return new String[0];
   }
 }

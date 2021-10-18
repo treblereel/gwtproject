@@ -26,13 +26,13 @@ public final class BundleResourceGenerator extends AbstractResourceGenerator {
 
   @Override
   public String createAssignment(
-      TreeLogger logger, ResourceContext context, ExecutableElement method) {
+      TreeLogger logger, ResourceContext context, ExecutableElement method, String locale) {
     TypeMirror toReturn = method.getReturnType();
     String implName =
         MoreElements.getPackage(MoreTypes.asTypeElement(toReturn))
             + "."
             + ResourceGeneratorUtil.generateSimpleSourceName(
-                logger, MoreTypes.asTypeElement(toReturn));
+                logger, MoreTypes.asTypeElement(toReturn), locale);
     return "new " + implName + "();";
   }
 }

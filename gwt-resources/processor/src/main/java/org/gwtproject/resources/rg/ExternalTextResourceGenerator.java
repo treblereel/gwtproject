@@ -53,7 +53,7 @@ public final class ExternalTextResourceGenerator extends AbstractResourceGenerat
 
   @Override
   public String createAssignment(
-      TreeLogger logger, ResourceContext context, ExecutableElement method) {
+      TreeLogger logger, ResourceContext context, ExecutableElement method, String locale) {
     String name = method.getSimpleName().toString();
 
     SourceWriter sw = new StringSourceWriter();
@@ -112,11 +112,12 @@ public final class ExternalTextResourceGenerator extends AbstractResourceGenerat
   }
 
   @Override
-  public void prepare(TreeLogger logger, ResourceContext resourceContext, ExecutableElement method)
+  public void prepare(
+      TreeLogger logger, ResourceContext resourceContext, ExecutableElement method, String locale)
       throws UnableToCompleteException {
     ResourceOracle resourceOracle = resourceContext.getGeneratorContext().getResourcesOracle();
 
-    URL[] urls = resourceOracle.findResources(logger, method);
+    URL[] urls = resourceOracle.findResources(logger, method, locale);
 
     if (urls.length != 1) {
       logger.log(TreeLogger.ERROR, "Exactly one resource must be specified", null);

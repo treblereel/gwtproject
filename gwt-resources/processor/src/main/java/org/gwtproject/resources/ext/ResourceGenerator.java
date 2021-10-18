@@ -61,7 +61,8 @@ public interface ResourceGenerator {
    * new MySampleResource() { public Foo getFoo() { ... } }
    * </pre>
    */
-  String createAssignment(TreeLogger logger, ResourceContext context, ExecutableElement method)
+  String createAssignment(
+      TreeLogger logger, ResourceContext context, ExecutableElement method, String locale)
       throws UnableToCompleteException;
 
   /**
@@ -89,6 +90,6 @@ public interface ResourceGenerator {
    * Called once for each method the ResourceGenerator is expected to handle. This allows
    * cross-resource state to be accumulated, such as for data aggregation.
    */
-  void prepare(TreeLogger logger, ResourceContext context, ExecutableElement method)
+  void prepare(TreeLogger logger, ResourceContext context, ExecutableElement method, String locale)
       throws UnableToCompleteException;
 }

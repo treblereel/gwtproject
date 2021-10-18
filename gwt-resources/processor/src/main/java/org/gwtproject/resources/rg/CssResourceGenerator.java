@@ -496,11 +496,11 @@ public class CssResourceGenerator extends AbstractCssResourceGenerator {
 
   @Override
   public String createAssignment(
-      TreeLogger logger, ResourceContext context, ExecutableElement method)
+      TreeLogger logger, ResourceContext context, ExecutableElement method, String locale)
       throws UnableToCompleteException {
     // if Gss is enabled, defer the call to the Gss generator.
     if (gssEnabled) {
-      return gssResourceGenerator.createAssignment(logger, context, method);
+      return gssResourceGenerator.createAssignment(logger, context, method, locale);
     }
 
     TypeMirror cssResourceSubtype = method.getReturnType();
@@ -1133,11 +1133,12 @@ public class CssResourceGenerator extends AbstractCssResourceGenerator {
   }
 
   @Override
-  public void prepare(TreeLogger logger, ResourceContext context, ExecutableElement method)
+  public void prepare(
+      TreeLogger logger, ResourceContext context, ExecutableElement method, String locale)
       throws UnableToCompleteException {
     // if Gss is enabled, defer the call to the Gss generator.
     if (gssEnabled) {
-      gssResourceGenerator.prepare(logger, context, method);
+      gssResourceGenerator.prepare(logger, context, method, locale);
       return;
     }
 
@@ -1145,7 +1146,7 @@ public class CssResourceGenerator extends AbstractCssResourceGenerator {
       logger.log(TreeLogger.ERROR, "Return type must be an interface");
       throw new UnableToCompleteException();
     }
-    URL[] resources = getResources(logger, context, method);
+    URL[] resources = getResources(logger, context, method, locale);
     if (resources.length == 0) {
       logger.log(TreeLogger.ERROR, "At least one source must be specified");
       throw new UnableToCompleteException();
@@ -1177,9 +1178,10 @@ public class CssResourceGenerator extends AbstractCssResourceGenerator {
     }
   }
 
-  protected URL[] getResources(TreeLogger logger, ResourceContext context, ExecutableElement method)
+  protected URL[] getResources(
+      TreeLogger logger, ResourceContext context, ExecutableElement method, String locale)
       throws UnableToCompleteException {
-    return GssResourceGenerator.findResources(logger, context, method, false);
+    return GssResourceGenerator.findResources(logger, context, method, false, locale);
   }
 
   @SuppressWarnings("serial")
