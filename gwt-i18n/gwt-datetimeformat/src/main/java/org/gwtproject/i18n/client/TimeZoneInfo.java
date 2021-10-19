@@ -37,9 +37,9 @@ public class TimeZoneInfo {
     TimeZoneInfo timeZoneInfo = new TimeZoneInfo();
     JsPropertyMap<?> parsed = Js.cast(Global.JSON.parse(json));
     timeZoneInfo.id = Js.cast(parsed.get("id"));
-    timeZoneInfo.std_offset = Js.cast(parsed.get("std_offset"));
-    timeZoneInfo.names = Js.cast(parsed.get("names"));
-    JsArray<Any> jsTransitions = Js.cast(parsed.get("transitions"));
+    timeZoneInfo.std_offset = Integer.parseInt(parsed.get("std_offset").toString());
+    timeZoneInfo.names = Js.uncheckedCast(parsed.get("names"));
+    JsArray<Any> jsTransitions = Js.uncheckedCast(parsed.get("transitions"));
     for (int i = 0; i < jsTransitions.length; i++) {
       timeZoneInfo.transitions.push(jsTransitions.getAt(i).asInt());
     }

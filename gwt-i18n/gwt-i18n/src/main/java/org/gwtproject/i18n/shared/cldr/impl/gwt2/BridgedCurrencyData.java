@@ -17,15 +17,11 @@
 package org.gwtproject.i18n.shared.cldr.impl.gwt2;
 
 import org.gwtproject.i18n.shared.cldr.CurrencyData;
+import org.gwtproject.i18n.shared.cldr.CurrencyDataImpl;
 
 public class BridgedCurrencyData implements CurrencyData {
 
-  private final String currencyCode;
-
-  private final String currencySymbol;
-  private final int defaultFractionDigits;
-  private final String portableCurrencySymbol;
-  private final String simpleCurrencySymbol;
+  private final CurrencyDataImpl holder;
   private final Boolean isDeprecated;
 
   BridgedCurrencyData(
@@ -50,37 +46,40 @@ public class BridgedCurrencyData implements CurrencyData {
       String portableCurrencySymbol,
       String simpleCurrencySymbol,
       Boolean isDeprecated) {
-    this.currencyCode = currencyCode;
-    this.currencySymbol = currencySymbol;
-    this.defaultFractionDigits = defaultFractionDigits;
-    this.portableCurrencySymbol = portableCurrencySymbol;
-    this.simpleCurrencySymbol = simpleCurrencySymbol;
+
+    holder =
+        new CurrencyDataImpl(
+            currencyCode,
+            currencySymbol,
+            defaultFractionDigits,
+            portableCurrencySymbol,
+            simpleCurrencySymbol);
     this.isDeprecated = isDeprecated;
   }
 
   @Override
   public String getCurrencyCode() {
-    return currencyCode;
+    return holder.getCurrencyCode();
   }
 
   @Override
   public String getCurrencySymbol() {
-    return currencySymbol;
+    return holder.getCurrencySymbol();
   }
 
   @Override
   public int getDefaultFractionDigits() {
-    return defaultFractionDigits;
+    return holder.getDefaultFractionDigits();
   }
 
   @Override
   public String getPortableCurrencySymbol() {
-    return portableCurrencySymbol;
+    return holder.getPortableCurrencySymbol();
   }
 
   @Override
   public String getSimpleCurrencySymbol() {
-    return simpleCurrencySymbol;
+    return holder.getSimpleCurrencySymbol();
   }
 
   @Override
@@ -112,18 +111,18 @@ public class BridgedCurrencyData implements CurrencyData {
   public String toString() {
     return "BridgedCurrencyData{"
         + "getCurrencyCode='"
-        + currencyCode
+        + holder.getCurrencyCode()
         + '\''
         + ", getCurrencySymbol='"
-        + currencySymbol
+        + holder.getCurrencySymbol()
         + '\''
         + ", getDefaultFractionDigits="
-        + defaultFractionDigits
+        + holder.getDefaultFractionDigits()
         + ", getPortableCurrencySymbol='"
-        + portableCurrencySymbol
+        + holder.getPortableCurrencySymbol()
         + '\''
         + ", getSimpleCurrencySymbol='"
-        + simpleCurrencySymbol
+        + holder.getSimpleCurrencySymbol()
         + '\''
         + ", isDeprecated="
         + isDeprecated

@@ -326,7 +326,7 @@ public class LocaleInfoFactory {
                                                                                                    monetaryGroupingSeparator,
                                                                                                    monetarySeparator,
                                                                                                    percent,
-                                                                                                   percent,
+                                                                                                   percentPattern,
                                                                                                    perMill,
                                                                                                    plusSign,
                                                                                                    scientificPattern,

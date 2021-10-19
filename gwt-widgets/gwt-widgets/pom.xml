@@ -44,6 +44,10 @@
         </dependency>
         <dependency>
             <groupId>org.gwtproject.event</groupId>
+            <artifactId>gwt-event-dom</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.gwtproject.event</groupId>
             <artifactId>gwt-event-logical</artifactId>
         </dependency>
         <dependency>
