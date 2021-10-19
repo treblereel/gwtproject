@@ -1,0 +1,12 @@
+package org.gwtproject.i18n.shared.cldr.impl;
+
+import java.lang.Override;
+import java.lang.String;
+import java.util.HashMap;
+import javax.annotation.Generated;
+import org.gwtproject.i18n.shared.cldr.CurrencyData;
+import org.gwtproject.i18n.shared.cldr.CurrencyDataImpl;
+
+public class CurrencyList_pa_PK extends CurrencyList_pa_Arab {
+
+}

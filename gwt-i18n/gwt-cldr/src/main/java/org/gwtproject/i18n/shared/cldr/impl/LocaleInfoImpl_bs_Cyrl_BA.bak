@@ -1,0 +1,8 @@
+package org.gwtproject.i18n.shared.cldr.impl;
+
+import javax.annotation.Generated;
+
+@Generated("gwt-cldr-importer : org.gwtproject.tools.cldr.LocalesNativeNamesProcessor, CLDR version : release-34")
+public class LocaleInfoImpl_bs_Cyrl_BA extends LocaleInfoImpl_bs_Cyrl {
+
+}
