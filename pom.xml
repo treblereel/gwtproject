@@ -341,6 +341,14 @@
         </pluginRepository>
     </pluginRepositories>
 
+    <repositories>
+        <repository>
+            <id>vertispan-snapshots</id>
+            <name>Vertispan hosted artifacts-releases</name>
+            <url>${vertispan.j2cl.repo.url}</url>
+        </repository>
+    </repositories>
+
     <distributionManagement>
         <snapshotRepository>
             <id>treblereel</id>
@@ -351,13 +359,5 @@
             <url>https://repo.treblereel.org/releases</url>
         </repository>
     </distributionManagement>
-
-    <repositories>
-        <repository>
-            <id>vertispan-snapshots</id>
-            <name>Vertispan hosted artifacts-releases</name>
-            <url>${vertispan.j2cl.repo.url}</url>
-        </repository>
-    </repositories>
 
 </project>

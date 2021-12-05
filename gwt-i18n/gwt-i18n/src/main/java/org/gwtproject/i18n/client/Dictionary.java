@@ -15,13 +15,11 @@
  */
 package org.gwtproject.i18n.client;
 
-import elemental2.core.JsObject;
+import elemental2.core.JsMap;
 import elemental2.dom.DomGlobal;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.Set;
 import jsinterop.base.Js;
@@ -66,7 +64,7 @@ import jsinterop.base.JsPropertyMap;
  */
 public final class Dictionary {
 
-  private static Map<String, Dictionary> cache = new HashMap<String, Dictionary>();
+  private static JsMap<String, Dictionary> cache = new JsMap<>();
   private static final int MAX_KEYS_TO_SHOW = 20;
 
   /**
@@ -80,7 +78,7 @@ public final class Dictionary {
     Dictionary target = cache.get(name);
     if (target == null) {
       target = new Dictionary(name);
-      cache.put(name, target);
+      cache.set(name, target);
     }
     return target;
   }
@@ -90,7 +88,7 @@ public final class Dictionary {
         "'" + name + "' is not a JavaScript object and cannot be used as a Dictionary", null, name);
   }
 
-  private JsObject dict;
+  private JsPropertyMap<String> dict;
 
   private String label;
 
@@ -122,9 +120,9 @@ public final class Dictionary {
    * @throws MissingResourceException if the value is not found
    */
   public String get(String key) {
-    JsPropertyMap<String> map = Js.cast(this.dict);
+    JsPropertyMap<String> map = dict;
     String value = map.get(key);
-    if (value == null || !dict.hasOwnProperty(key)) {
+    if (value == null || !dict.has(key)) {
       this.resourceError(key);
     }
     return value;
@@ -136,7 +134,7 @@ public final class Dictionary {
    * @return the Dictionary set
    */
   public Set<String> keySet() {
-    HashSet<String> s = new HashSet<String>();
+    HashSet<String> s = new HashSet<>();
     addKeys(s);
     return s;
   }
@@ -152,7 +150,7 @@ public final class Dictionary {
    * @return the values
    */
   public Collection<String> values() {
-    ArrayList<String> s = new ArrayList<String>();
+    ArrayList<String> s = new ArrayList<>();
     addValues(s);
     return s;
   }
@@ -163,20 +161,20 @@ public final class Dictionary {
   }
 
   private void addKeys(HashSet<String> s) {
-    JsPropertyMap<String> map = Js.cast(dict);
+    JsPropertyMap<String> map = dict;
     map.forEach(
         key -> {
-          if (dict.hasOwnProperty(key)) {
+          if (dict.has(key)) {
             s.add(key);
           }
         });
   }
 
   private void addValues(ArrayList<String> s) {
-    JsPropertyMap<String> map = Js.cast(dict);
+    JsPropertyMap<String> map = dict;
     map.forEach(
         key -> {
-          if (dict.hasOwnProperty(key)) {
+          if (dict.has(key)) {
             String value = this.get(key);
             s.add(value);
           }
@@ -185,11 +183,11 @@ public final class Dictionary {
 
   private void attach(String name) {
     try {
-      JsPropertyMap<String> map = Js.cast(DomGlobal.window);
+      JsPropertyMap<String> map = Js.uncheckedCast(DomGlobal.window);
       if (!Js.typeof(map.get(name)).equals("object")) {
         resourceErrorBadType(name);
       }
-      this.dict = Js.cast(map.get(name));
+      this.dict = Js.uncheckedCast(map.get(name));
     } catch (Exception e) {
       resourceErrorBadType(name);
     }

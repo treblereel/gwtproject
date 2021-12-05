@@ -20,7 +20,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import javax.annotation.processing.Filer;
 import javax.lang.model.element.Element;
-import org.gwtproject.resources.client.GWT3ResourcesConfiguration;
+import org.gwtproject.resources.client.GWT3Resources;
 import org.gwtproject.resources.context.AptContext;
 import org.gwtproject.resources.ext.BadPropertyValueException;
 import org.gwtproject.resources.ext.ConfigurationProperty;
@@ -59,7 +59,7 @@ public final class ConfigurationProperties {
 
   private void setAnnotationProperties() {
     Set<Element> elements =
-        context.roundEnvironment.getElementsAnnotatedWith(GWT3ResourcesConfiguration.class).stream()
+        context.roundEnvironment.getElementsAnnotatedWith(GWT3Resources.class).stream()
             .collect(Collectors.toSet());
 
     if (elements.size() > 1) {
@@ -67,15 +67,15 @@ public final class ConfigurationProperties {
           elements.stream().map(elm -> elm.toString()).collect(Collectors.joining(", "));
       throw new Error(
           new UnableToCompleteException(
-              "There is must be only one class annotated with @GWT3ResourcesConfiguration,"
+              "There is must be only one class annotated with @GWT3Resources,"
                   + " check ["
                   + classes
                   + "]"));
     }
 
     if (elements.size() == 1) {
-      GWT3ResourcesConfiguration gwt3ResourcesConfiguration =
-          elements.iterator().next().getAnnotation(GWT3ResourcesConfiguration.class);
+      GWT3Resources gwt3ResourcesConfiguration =
+          elements.iterator().next().getAnnotation(GWT3Resources.class);
       set(
           KEY_CLIENT_BUNDLE_ENABLE_INLINING,
           Arrays.asList(gwt3ResourcesConfiguration.clientBundle().enableInlining() + ""),

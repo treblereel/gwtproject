@@ -37,31 +37,17 @@
     <dependency>
       <groupId>org.gwtproject.validation</groupId>
       <artifactId>gwt-validation-processor</artifactId>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.gwtproject.editor</groupId>
       <artifactId>gwt-editor-processor</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.gwtproject.core</groupId>
-      <artifactId>gwt-core</artifactId>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.gwtproject.widgets</groupId>
       <artifactId>gwt-widgets</artifactId>
     </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>1.7.5</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-simple</artifactId>
-      <version>1.6.4</version>
-    </dependency>
-
     <dependency>
       <groupId>com.vertispan.j2cl</groupId>
       <artifactId>junit-annotations</artifactId>

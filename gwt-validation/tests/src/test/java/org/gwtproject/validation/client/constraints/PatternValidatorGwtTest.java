@@ -41,7 +41,7 @@ public class PatternValidatorGwtTest extends ValidationClientGwtTestCase {
       return name;
     }
 
-    @Pattern(regexp = "g..d", flags = Flag.CASE_INSENSITIVE)
+    @Pattern(regexp = "g..d", flags = {Flag.CASE_INSENSITIVE})
     public String name;
   }
 

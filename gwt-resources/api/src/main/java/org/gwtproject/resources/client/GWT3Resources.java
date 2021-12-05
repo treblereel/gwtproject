@@ -28,7 +28,7 @@ import java.lang.annotation.Target;
 @Inherited
 @Retention(RetentionPolicy.SOURCE)
 @Target(ElementType.TYPE)
-public @interface GWT3ResourcesConfiguration {
+public @interface GWT3Resources {
 
   ClientBundle clientBundle() default @ClientBundle();
 

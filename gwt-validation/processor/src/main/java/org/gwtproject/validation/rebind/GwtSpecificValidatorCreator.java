@@ -831,11 +831,11 @@ public final class GwtSpecificValidatorCreator extends AbstractCreator {
       } else {
         if (value.isEnumArray) {
           Object[] asArray = (Object[]) value.value;
-          sw.print("new java.lang.Object[] {");
+          sw.print("new ");
+          sw.print(value.type);
+          sw.print("{");
           sw.print(
-              Arrays.stream(asArray)
-                  .map(elm -> value.enumArrayType + "." + elm)
-                  .collect(Collectors.joining(",")));
+              Arrays.stream(asArray).map(elm -> elm.toString()).collect(Collectors.joining(",")));
 
           sw.print("}");
         } else {
@@ -1290,14 +1290,17 @@ public final class GwtSpecificValidatorCreator extends AbstractCreator {
     sb.append(" ");
     if (holder.value.getClass().isArray()) {
       sb.append("new ");
-      sb.append(
-          holder.type.contains("?") ? holder.value.getClass().getCanonicalName() : holder.type);
+      if (holder.enumArrayType != null) {
+        sb.append(holder.type);
+      } else {
+        sb.append(
+            holder.type.contains("?") ? holder.value.getClass().getCanonicalName() : holder.type);
+      }
       sb.append("{");
       Object[] asArray = (Object[]) holder.value;
       sb.append(
           Arrays.stream(asArray)
               .map(GwtSpecificValidatorCreator::asLiteral)
-              .map(elm -> (holder.isEnumArray ? (holder.enumArrayType + ".") : " ") + elm)
               .collect(Collectors.joining(",")));
       sb.append("}");
     } else {
