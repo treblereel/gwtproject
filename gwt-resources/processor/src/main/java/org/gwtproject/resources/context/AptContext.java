@@ -16,13 +16,21 @@
  */
 package org.gwtproject.resources.context;
 
+import io.github.classgraph.ClassGraph;
+import io.github.classgraph.ClassInfo;
+import io.github.classgraph.ClassInfoList;
+import io.github.classgraph.ScanResult;
+import java.lang.annotation.Annotation;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 import javax.annotation.processing.Filer;
 import javax.annotation.processing.Messager;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.Element;
+import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import org.gwtproject.resources.client.ClientBundle;
@@ -48,6 +56,7 @@ public class AptContext {
   public final Types types;
   public final RoundEnvironment roundEnvironment;
   public final ProcessingEnvironment processingEnv;
+  private final ScanResult scanResult = new ClassGraph().enableAllInfo().scan();
 
   public final Map<Element, Class<? extends ResourceGenerator>> generators = new HashMap<>();
 
@@ -61,6 +70,32 @@ public class AptContext {
 
     this.processingEnv = processingEnv;
     initGenerators();
+  }
+
+  public Set<TypeElement> getClassesWithAnnotation(Class<? extends Annotation> annotation) {
+    System.out.println("a? " + annotation.getName());
+
+    ClassInfoList routeClassInfoList = scanResult.getClassesWithAnnotation(annotation);
+    for (ClassInfo routeClassInfo : routeClassInfoList) {
+      TypeElement type = elements.getTypeElement(routeClassInfo.getName());
+      System.out.println("TYPE " + type);
+    }
+
+    scanResult
+        .getAllClasses()
+        .forEach(
+            a -> {
+              System.out.println("anno " + a.getName());
+            });
+    scanResult.getClassesWithAnnotation(annotation.getName()).stream()
+        .forEach(
+            e -> {
+              System.out.println("E " + e.getName());
+            });
+
+    return scanResult.getClassesWithAnnotation(annotation.getName()).stream()
+        .map(classInfo -> elements.getTypeElement(classInfo.getName()))
+        .collect(Collectors.toSet());
   }
 
   private void initGenerators() {

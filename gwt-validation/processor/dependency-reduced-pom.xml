@@ -3,17 +3,17 @@
   <parent>
     <artifactId>gwt-validation-parent</artifactId>
     <groupId>org.gwtproject.validation</groupId>
-    <version>1.0-SNAPSHOT</version>
+    <version>dev</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>gwt-validation-processor</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>${revision}</version>
   <description>apt processor for gwt-validation</description>
   <developers>
     <developer>
       <id>treblereel</id>
       <name>Dmitrii Tikhomirov</name>
-      <email>chani@me.com</email>
+      <email>chani.liet@gmail.com</email>
     </developer>
   </developers>
   <build>
@@ -34,52 +34,6 @@
       </testResource>
     </testResources>
     <plugins>
-      <plugin>
-        <artifactId>maven-shade-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>shade</goal>
-            </goals>
-            <configuration>
-              <artifactSet>
-                <excludes>
-                  <exclude>org.easymock:easymock</exclude>
-                  <exclude>org.mockito:mockito-core</exclude>
-                  <exclude>org.gwtproject:gwt-user</exclude>
-                  <exclude>org.gwtproject:gwt-core</exclude>
-                  <exclude>com.google.jsinterop:base</exclude>
-                  <exclude>org.realityforge.com.google.jsinterop:base</exclude>
-                  <exclude>net.java.dev.javacc:javacc</exclude>
-                  <exclude>com.google.code.findbugs:jsr305</exclude>
-                  <exclude>javax.validation:validation-api</exclude>
-                  <exclude>javax.servlet:javax.servlet-api</exclude>
-                  <exclude>com.google.jsinterop:base</exclude>
-                </excludes>
-              </artifactSet>
-              <relocations>
-                <relocation>
-                  <pattern>com.google.auto.common</pattern>
-                  <shadedPattern>org.gwtproject.resources.shaded.auto.common</shadedPattern>
-                </relocation>
-                <relocation>
-                  <pattern>com.google.auto.service</pattern>
-                  <shadedPattern>org.gwtproject.resources.shaded.auto.service</shadedPattern>
-                </relocation>
-                <relocation>
-                  <pattern>com.google.common.base</pattern>
-                  <shadedPattern>org.gwtproject.resources.shaded.com.google.common.base</shadedPattern>
-                </relocation>
-                <relocation>
-                  <pattern>com.google.common.collect</pattern>
-                  <shadedPattern>org.gwtproject.resources.shaded.com.google.common.collect</shadedPattern>
-                </relocation>
-              </relocations>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <executions>
@@ -102,33 +56,44 @@
         </executions>
       </plugin>
       <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>${maven.surefire.plugin}</version>
-        <configuration>
-          <additionalClasspathElements>
-            <additionalClasspathElement>${project.build.sourceDirectory}</additionalClasspathElement>
-            <additionalClasspathElement>${project.build.testSourceDirectory}</additionalClasspathElement>
-            <additionalClasspathElement>${project.build.directory}/generated-test-sources/test-annotations</additionalClasspathElement>
-          </additionalClasspathElements>
-          <useManifestOnlyJar>false</useManifestOnlyJar>
-          <forkMode>always</forkMode>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-source-plugin</artifactId>
-        <version>${maven.source.plugin}</version>
+        <artifactId>maven-shade-plugin</artifactId>
         <executions>
           <execution>
-            <id>attach-sources</id>
             <phase>package</phase>
             <goals>
-              <goal>jar</goal>
+              <goal>shade</goal>
             </goals>
+            <configuration>
+              <minimizeJar>true</minimizeJar>
+              <artifactSet>
+                <excludes>
+                  <exclude>classworlds:classworlds</exclude>
+                  <exclude>junit:junit</exclude>
+                  <exclude>org.mockito:mockito-core</exclude>
+                  <exclude>jmock:*</exclude>
+                  <exclude>*:xml-apis</exclude>
+                  <exclude>org.apache.maven:lib:tests</exclude>
+                  <exclude>log4j:log4j:jar:</exclude>
+                </excludes>
+              </artifactSet>
+              <filters>
+                <filter>
+                  <artifact>*:*:*:*</artifact>
+                  <excludes>
+                    <exclude>**/*.java</exclude>
+                    <exclude>**/*.js</exclude>
+                  </excludes>
+                </filter>
+              </filters>
+            </configuration>
           </execution>
         </executions>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>flatten-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
         <artifactId>maven-clean-plugin</artifactId>
         <configuration>
           <filesets>
@@ -147,104 +112,94 @@
   </build>
   <dependencies>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.11</version>
+      <groupId>com.google.elemental2</groupId>
+      <artifactId>elemental2-dom</artifactId>
+      <version>1.1.0</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.gwtproject.editor</groupId>
+      <artifactId>gwt-editor</artifactId>
+      <version>HEAD-SNAPSHOT</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.gwtproject.editor</groupId>
+      <artifactId>gwt-editor-processor</artifactId>
+      <version>HEAD-SNAPSHOT</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>
-          <artifactId>hamcrest-core</artifactId>
-          <groupId>org.hamcrest</groupId>
+          <artifactId>validation-api</artifactId>
+          <groupId>javax.validation</groupId>
         </exclusion>
       </exclusions>
     </dependency>
     <dependency>
-      <groupId>org.gwtproject.timer</groupId>
-      <artifactId>gwt-timer</artifactId>
-      <version>1.0-SNAPSHOT</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.google.gwt</groupId>
-      <artifactId>gwt-user</artifactId>
-      <version>2.8.2</version>
+      <groupId>org.gwtproject.uibinder</groupId>
+      <artifactId>gwt-uibinder-processor</artifactId>
+      <version>HEAD-SNAPSHOT</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>
-          <artifactId>javax.servlet-api</artifactId>
-          <groupId>javax.servlet</groupId>
+          <artifactId>gwt-user</artifactId>
+          <groupId>com.google.gwt</groupId>
         </exclusion>
         <exclusion>
-          <artifactId>sac</artifactId>
-          <groupId>org.w3c.css</groupId>
+          <artifactId>gwt-dev</artifactId>
+          <groupId>com.google.gwt</groupId>
         </exclusion>
       </exclusions>
     </dependency>
     <dependency>
-      <groupId>com.google.gwt</groupId>
-      <artifactId>gwt-dev</artifactId>
-      <version>2.8.2</version>
+      <groupId>org.gwtproject.event</groupId>
+      <artifactId>gwt-event-dom</artifactId>
+      <version>HEAD-SNAPSHOT</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>
-          <artifactId>gson</artifactId>
-          <groupId>com.google.code.gson</groupId>
+          <artifactId>gwt-event-legacy</artifactId>
+          <groupId>org.gwtproject.event</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.gwtproject.widgets</groupId>
+      <artifactId>gwt-widgets</artifactId>
+      <version>HEAD-SNAPSHOT</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>gwt-event-logical</artifactId>
+          <groupId>org.gwtproject.event</groupId>
         </exclusion>
         <exclusion>
-          <artifactId>asm</artifactId>
-          <groupId>org.ow2.asm</groupId>
+          <artifactId>gwt-history</artifactId>
+          <groupId>org.gwtproject.user.history</groupId>
         </exclusion>
         <exclusion>
-          <artifactId>asm-util</artifactId>
-          <groupId>org.ow2.asm</groupId>
+          <artifactId>gwt-layout</artifactId>
+          <groupId>org.gwtproject.layout</groupId>
         </exclusion>
         <exclusion>
-          <artifactId>asm-commons</artifactId>
-          <groupId>org.ow2.asm</groupId>
+          <artifactId>gwt-window</artifactId>
+          <groupId>org.gwtproject.user.window</groupId>
         </exclusion>
         <exclusion>
-          <artifactId>colt</artifactId>
-          <groupId>colt</groupId>
+          <artifactId>gwt-numberformat</artifactId>
+          <groupId>org.gwtproject.i18n</groupId>
         </exclusion>
         <exclusion>
-          <artifactId>ant</artifactId>
-          <groupId>ant</groupId>
+          <artifactId>gwt-resources-api</artifactId>
+          <groupId>org.gwtproject.resources</groupId>
         </exclusion>
         <exclusion>
-          <artifactId>commons-collections</artifactId>
-          <groupId>commons-collections</groupId>
+          <artifactId>gwt-uibinder-client</artifactId>
+          <groupId>org.gwtproject.uibinder</groupId>
         </exclusion>
         <exclusion>
-          <artifactId>commons-io</artifactId>
-          <groupId>commons-io</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>icu4j</artifactId>
-          <groupId>com.ibm.icu</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>tapestry</artifactId>
-          <groupId>tapestry</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>htmlunit</artifactId>
-          <groupId>net.sourceforge.htmlunit</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>jetty-webapp</artifactId>
-          <groupId>org.eclipse.jetty</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>jetty-servlets</artifactId>
-          <groupId>org.eclipse.jetty</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>jetty-annotations</artifactId>
-          <groupId>org.eclipse.jetty</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>apache-jsp</artifactId>
-          <groupId>org.eclipse.jetty</groupId>
+          <artifactId>gwt-event-legacy</artifactId>
+          <groupId>org.gwtproject.event</groupId>
         </exclusion>
       </exclusions>
     </dependency>

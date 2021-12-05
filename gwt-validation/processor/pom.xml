@@ -57,6 +57,7 @@
     <dependency>
       <groupId>com.google.auto.service</groupId>
       <artifactId>auto-service</artifactId>
+      <optional>true</optional>
     </dependency>
 
     <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
@@ -115,38 +116,66 @@
       </testResource>
     </testResources>
     <plugins>
-       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <additionalClasspathElements>
-            <additionalClasspathElement>${project.build.sourceDirectory}</additionalClasspathElement>
-            <additionalClasspathElement>${project.build.testSourceDirectory}</additionalClasspathElement>
-            <additionalClasspathElement>${project.build.directory}/generated-test-sources/test-annotations
-            </additionalClasspathElement>
-          </additionalClasspathElements>
-          <useManifestOnlyJar>false</useManifestOnlyJar>
-          <forkMode>always</forkMode>
-          <systemProperties>
-            <property>
-              <name>gwt.args</name>
-              <value>-out ${webAppDirectory}</value>
-            </property>
-          </systemProperties>
-        </configuration>
-      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
+        <artifactId>maven-compiler-plugin</artifactId>
         <executions>
           <execution>
-            <id>attach-sources</id>
-            <phase>package</phase>
+            <id>default-compile</id>
             <goals>
-              <goal>jar</goal>
+              <goal>compile</goal>
+            </goals>
+            <configuration>
+              <showWarnings>true</showWarnings>
+              <compilerArgument>-proc:none</compilerArgument>
+            </configuration>
+          </execution>
+          <execution>
+            <id>default-testCompile</id>
+            <goals>
+              <goal>testCompile</goal>
             </goals>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <minimizeJar>true</minimizeJar>
+              <artifactSet>
+                <excludes>
+                  <exclude>classworlds:classworlds</exclude>
+                  <exclude>junit:junit</exclude>
+                  <exclude>org.mockito:mockito-core</exclude>
+                  <exclude>jmock:*</exclude>
+                  <exclude>*:xml-apis</exclude>
+                  <exclude>org.apache.maven:lib:tests</exclude>
+                  <exclude>log4j:log4j:jar:</exclude>
+                </excludes>
+              </artifactSet>
+              <filters>
+                <filter>
+                  <artifact>*:*:*:*</artifact>
+                  <excludes>
+                    <exclude>**/*.java</exclude>
+                    <exclude>**/*.js</exclude>
+                  </excludes>
+                </filter>
+              </filters>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>flatten-maven-plugin</artifactId>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -166,61 +195,5 @@
       </plugin>
     </plugins>
   </build>
-
-  <profiles>
-    <!-- release profile to create sources, javadoc, and sign all artifacts before uploading -->
-    <profile>
-      <id>release</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-source-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>attach-sources</id>
-                <goals>
-                  <goal>jar-no-fork</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>attach-javadocs</id>
-                <goals>
-                  <goal>jar</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-          <!-- see http://central.sonatype.org/pages/working-with-pgp-signatures.html for more detail -->
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-gpg-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>sign-artifacts</id>
-                <phase>verify</phase>
-                <goals>
-                  <goal>sign</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-deploy-plugin</artifactId>
-            <configuration>
-              <skip>false</skip>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
 
 </project>

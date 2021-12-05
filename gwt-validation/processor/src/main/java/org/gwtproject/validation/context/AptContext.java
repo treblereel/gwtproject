@@ -34,7 +34,7 @@ import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import javax.validation.Constraint;
 
-/** @author Dmitrii Tikhomirov <chani@me.com> Created by treblereel on 10/26/18. */
+/** @author Dmitrii Tikhomirov <chani.liet@gmail.com> Created by treblereel on 10/26/18. */
 public class AptContext {
 
   public final Messager messager;
@@ -75,7 +75,7 @@ public class AptContext {
         annotationMirrors);
   }
 
-  private void processCustomConstraint(
+  public void processCustomConstraint(
       AnnotationMirror annotation, Set<AnnotationMirror> processed) {
     if (isConstraint(annotation) && !processed.contains(annotation)) {
       processed.add(annotation);

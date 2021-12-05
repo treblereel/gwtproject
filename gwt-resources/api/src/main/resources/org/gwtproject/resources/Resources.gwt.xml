@@ -7,5 +7,6 @@
     <inherits name="org.gwtproject.user.AsyncCallback"/>
     <inherits name="org.gwtproject.dom.DOM"/>
     <inherits name="org.gwtproject.i18n.I18N"/>
+    <inherits name="org.gwtproject.safecss.SafeCss"/>
 
 </module>

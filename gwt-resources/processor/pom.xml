@@ -72,6 +72,10 @@
             <artifactId>auto-service</artifactId>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>io.github.classgraph</groupId>
+            <artifactId>classgraph</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
