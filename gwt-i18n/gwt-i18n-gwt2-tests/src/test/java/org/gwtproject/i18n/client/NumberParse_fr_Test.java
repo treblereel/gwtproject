@@ -21,7 +21,7 @@ import com.google.gwt.junit.client.GWTTestCase;
 /** GWT JUnit tests must extend GWTTestCase. */
 public class NumberParse_fr_Test extends GWTTestCase {
 
-  /** Must refer to a valid module that inherits from org.gwtproject.junit.JUnit. */
+  /** Must refer to a valid module that inherits from com.google.gwt.junit.JUnit. */
   @Override
   public String getModuleName() {
     return "org.gwtproject.i18n.I18NTest_fr";
@@ -90,21 +90,128 @@ public class NumberParse_fr_Test extends GWTTestCase {
     assertEquals(Double.NEGATIVE_INFINITY, value.doubleValue(), 0.0);
   }
 
-  public void testPrecentParse() {
+  public void testPercentParse() {
 
     Number value;
 
+    value = numberParse("#.##", "123,4579%");
+    assertTrue(value.doubleValue() == (123.4579 / 100));
+
+    value = numberParse("#.##", "%123,4579");
+    assertTrue(value.doubleValue() == (123.4579 / 100));
+
+    value = numberParse("#.##%", "123,4579%");
+    assertTrue(value.doubleValue() == (123.4579 / 100));
+
+    value = numberParse("%#.##", "%123,4579");
+    assertTrue(value.doubleValue() == (123.4579 / 100));
+
+    value = numberParse("#.##;(#.##)", "(123,4579%)");
+    assertTrue(value.doubleValue() == (-123.4579 / 100));
+
+    value = numberParse("#.##;(#.##)", "(%123,4579)");
+    assertTrue(value.doubleValue() == (-123.4579 / 100));
+
+    value = numberParse("#.##%;(#.##%)", "(123,4579%)");
+    assertTrue(value.doubleValue() == (-123.4579 / 100));
+
+    value = numberParse("%#.##;(%#.##)", "(%123,4579)");
+    assertTrue(value.doubleValue() == (-123.4579 / 100));
+
+    // --------------
+    value = numberParse("#.##", "123,4579\u2030");
+    assertTrue(value.doubleValue() == (123.4579 / 1000));
+
+    value = numberParse("#.##\u2030", "123,4579\u2030");
+    assertTrue(value.doubleValue() == (123.4579 / 1000));
+
+    value = numberParse("\u2030#.##", "\u2030123,4579");
+    assertTrue(value.doubleValue() == (123.4579 / 1000));
+
+    value = numberParse("#.##;(#.##)", "(123,4579\u2030)");
+    assertTrue(value.doubleValue() == (-123.4579 / 1000));
+
+    value = numberParse("#.##\u2030;(#.##\u2030)", "(123,4579\u2030)");
+    assertTrue(value.doubleValue() == (-123.4579 / 1000));
+
+    value = numberParse("#.##;(#.##)", "(\u2030123,4579)");
+    assertTrue(value.doubleValue() == (-123.4579 / 1000));
+
+    value = numberParse("\u2030#.##;(\u2030#.##)", "(\u2030123,4579)");
+    assertTrue(value.doubleValue() == (-123.4579 / 1000));
+
     value = numberParse("0.0;(0.0)", "123,4579%");
-    assertEquals((123.4579 / 100), value.doubleValue(), 0.0);
+    assertTrue(value.doubleValue() == (123.4579 / 100));
 
     value = numberParse("0.0;(0.0)", "(%123,4579)");
-    assertEquals((-123.4579 / 100), value.doubleValue(), 0.0);
+    assertTrue(value.doubleValue() == (-123.4579 / 100));
 
     value = numberParse("0.0;(0.0)", "123,4579\u2030");
-    assertEquals((123.4579 / 1000), value.doubleValue(), 0.0);
+    assertTrue(value.doubleValue() == (123.4579 / 1000));
 
     value = numberParse("0.0;(0.0)", "(\u2030123,4579)");
-    assertEquals((-123.4579 / 1000), value.doubleValue(), 0.0);
+    assertTrue(value.doubleValue() == (-123.4579 / 1000));
+
+    try {
+      numberParse("#.##%", "123,4579");
+      fail("should throw number format exception for missing % in input string.");
+    } catch (NumberFormatException e) {
+    }
+
+    try {
+      numberParse("%#.##", "123,4579");
+      fail("should throw number format exception for missing % in input string.");
+    } catch (NumberFormatException e) {
+    }
+
+    try {
+      numberParse("#.##%;(#.##%)", "(123,4579)");
+      fail("should throw number format exception for missing % in input string.");
+    } catch (NumberFormatException e) {
+    }
+
+    try {
+      numberParse("%#.##;(%#.##)", "(123,4579)");
+      fail("should throw number format exception for missing % in input string.");
+    } catch (NumberFormatException e) {
+    }
+
+    try {
+      numberParse("%0.0;(%0.0)", "(123,4579)");
+      fail("should throw number format exception for missing % in input string.");
+    } catch (NumberFormatException e) {
+    }
+
+    // ---------------
+    try {
+      numberParse("#.##\u2030", "123,4579");
+      fail("should throw number format exception for missing \u2030 in input string.");
+    } catch (NumberFormatException e) {
+    }
+
+    try {
+      numberParse("\u2030#.##", "123,4579");
+      fail("should throw number format exception for missing \u2030 in input string.");
+    } catch (NumberFormatException e) {
+    }
+
+    try {
+      numberParse("#.##\u2030;(#.##\u2030)", "(123,4579)");
+      fail("should throw number format exception for missing \u2030 in input string.");
+    } catch (NumberFormatException e) {
+    }
+
+    try {
+      numberParse("\u2030#.##;(\u2030#.##)", "(123,4579)");
+      fail("should throw number format exception for missing \u2030 in input string.");
+    } catch (NumberFormatException e) {
+    }
+
+    try {
+      numberParse("\u20300.0;(\u20300.0)", "(123,4579)");
+      fail("should throw number format exception for missing \u2030 in input string.");
+    } catch (NumberFormatException e) {
+    }
   }
 
   public void testPrefixParse() {

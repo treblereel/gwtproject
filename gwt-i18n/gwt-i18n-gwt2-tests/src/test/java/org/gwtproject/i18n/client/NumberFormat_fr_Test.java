@@ -21,7 +21,7 @@ import com.google.gwt.junit.client.GWTTestCase;
 /** GWT JUnit tests must extend GWTTestCase. */
 public class NumberFormat_fr_Test extends GWTTestCase {
 
-  /** Must refer to a valid module that inherits from org.gwtproject.junit.JUnit. */
+  /** Must refer to a valid module that inherits from com.google.gwt.junit.JUnit. */
   @Override
   public String getModuleName() {
     return "org.gwtproject.i18n.I18NTest_fr";

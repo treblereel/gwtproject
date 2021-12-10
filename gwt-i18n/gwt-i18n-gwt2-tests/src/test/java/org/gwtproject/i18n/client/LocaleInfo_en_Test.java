@@ -28,28 +28,28 @@ public class LocaleInfo_en_Test extends GWTTestCase {
   }
 
   /*  public void testAvailableLocales() {
-    String[] locales = LocaleInfo.getAvailableLocaleNames();
-    ArrayList<String> localeList = new ArrayList<String>();
-    Collections.addAll(localeList, locales);
-    assertTrue(localeList.contains("ar"));
-    assertTrue(localeList.contains("default"));
-    assertTrue(localeList.contains("en_US"));
-  }
+      String[] locales = LocaleInfo.getAvailableLocaleNames();
+      ArrayList<String> localeList = new ArrayList<String>();
+      Collections.addAll(localeList, locales);
+      assertTrue(localeList.contains("ar"));
+      assertTrue(localeList.contains("default"));
+      assertTrue(localeList.contains("en_US"));
+    }
 
-  public void testCookieName() {
-    String cookieName = LocaleInfo.getCurrentLocale().getLocaleCookieName();
-    assertEquals("LOCALE", cookieName);
-  }*/
+    public void testCookieName() {
+      String cookieName = LocaleInfo.getCurrentLocale().getLocaleCookieName();
+      assertEquals("locale.new", cookieName);
+    }
 
-  /*  public void testQueryParam() {
-    String queryParam = LocaleInfo.getCurrentLocale().getLocaleQueryParam();
-    assertNull(queryParam);
-  }
-
+    public void testQueryParam() {
+      String queryParam = LocaleInfo.getCurrentLocale().getLocaleQueryParam();
+      assertNull(queryParam);
+    }
+  */
   public void testRTL() {
     boolean isRTL = LocaleInfo.getCurrentLocale().isRTL();
     assertFalse(isRTL);
-    boolean hasRTL = LocaleInfo.hasAnyRTL();
-    assertTrue(hasRTL);
-  }*/
+    // boolean hasRTL = LocaleInfo.hasAnyRTL();
+    // assertTrue(hasRTL);
+  }
 }
