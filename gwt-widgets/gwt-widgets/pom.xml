@@ -71,14 +71,6 @@
             <artifactId>gwt-i18n</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.gwtproject.i18n</groupId>
-            <artifactId>gwt-datetimeformat</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.gwtproject.i18n</groupId>
-            <artifactId>gwt-numberformat</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.gwtproject.resources</groupId>
             <artifactId>gwt-resources-api</artifactId>
         </dependency>

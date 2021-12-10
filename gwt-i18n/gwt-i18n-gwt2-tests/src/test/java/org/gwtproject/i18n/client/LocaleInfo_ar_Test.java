@@ -16,7 +16,6 @@
 package org.gwtproject.i18n.client;
 
 import com.google.gwt.junit.client.GWTTestCase;
-import org.gwtproject.i18n.shared.cldr.LocaleInfo;
 
 /** Tests the LocaleInfo class and the associated generator. */
 public class LocaleInfo_ar_Test extends GWTTestCase {
@@ -31,16 +30,15 @@ public class LocaleInfo_ar_Test extends GWTTestCase {
     assertEquals("ar", locale);
   }
 
-  // TODO
   /*  public void testAvailableLocales() {
     String[] locales = LocaleInfo.getAvailableLocaleNames();
     ArrayList<String> localeList = new ArrayList<String>();
     Collections.addAll(localeList, locales);
     assertTrue(localeList.contains("ar"));
     assertTrue(localeList.contains("default"));
-  }*/
+  }
 
-  /*  public void testNativeDisplayNames() {
+  public void testNativeDisplayNames() {
     // verify ar is known
     String displayName = LocaleInfo.getLocaleNativeDisplayName("ar");
     assertTrue("ar language name should contain العربية: " + displayName,
@@ -51,8 +49,6 @@ public class LocaleInfo_ar_Test extends GWTTestCase {
     boolean isRTL = LocaleInfo.getCurrentLocale().isRTL();
     assertTrue(isRTL);
     boolean hasRTL = LocaleInfo.hasAnyRTL();
-    //assertTrue(hasRTL); //TODO
-  }
-  */
-
+    assertTrue(hasRTL);
+  }*/
 }

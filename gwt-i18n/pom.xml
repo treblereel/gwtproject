@@ -44,8 +44,6 @@
         <module>gwt-cldr</module>
         <module>gwt-i18n</module>
         <module>gwt-i18n-processor</module>
-        <module>gwt-datetimeformat</module>
-        <module>gwt-numberformat</module>
         <module>gwt-i18n-gwt2-tests</module>
 <!--
         <module>gwt-i18n-j2cl-tests</module>

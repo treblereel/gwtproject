@@ -16,7 +16,6 @@
 package org.gwtproject.i18n.client;
 
 import com.google.gwt.junit.client.GWTTestCase;
-import org.gwtproject.i18n.shared.cldr.LocaleInfo;
 
 /** Tests the LocaleInfo class and the associated generator. */
 public class LocaleInfoTest extends GWTTestCase {
@@ -26,36 +25,10 @@ public class LocaleInfoTest extends GWTTestCase {
     return "org.gwtproject.i18n.I18NTest";
   }
 
-  /*  public void testAvailableLocales() {
-    String[] locales = LocaleInfo.getAvailableLocaleNames();
-    assertArrayEquals(new String[] {
-        "default", "piglatin", "piglatin_UK", "piglatin_UK_WINDOWS"}, locales);
-  }*/
-
-  /*  public void testCookieName() {
-    String cookieName = LocaleInfo.getCurrentLocale().getLocaleCookieName();
-    assertNull(cookieName);
-  }*/
-
   public void testCurrentLocale() {
     String locale = LocaleInfo.getCurrentLocale().getLocaleName();
     assertEquals("piglatin_UK_WINDOWS", locale);
   }
-
-  /*  public void testNativeDisplayNames() {
-    // en isn't in the property set for this module so should return null
-    String displayName = LocaleInfo.getLocaleNativeDisplayName("en");
-    assertNull(displayName);
-
-    // verify piglatin is known
-    displayName = LocaleInfo.getLocaleNativeDisplayName("piglatin");
-    assertEquals("Igpay Atinlay", displayName);
-  }
-
-  public void testQueryParam() {
-    String queryParam = LocaleInfo.getCurrentLocale().getLocaleQueryParam();
-    assertEquals("locale", queryParam);
-  }*/
 
   public void testRTL() {
     boolean isRTL = LocaleInfo.getCurrentLocale().isRTL();

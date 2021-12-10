@@ -133,6 +133,10 @@
           <artifactId>validation-api</artifactId>
           <groupId>javax.validation</groupId>
         </exclusion>
+        <exclusion>
+          <artifactId>javapoet</artifactId>
+          <groupId>com.squareup</groupId>
+        </exclusion>
       </exclusions>
     </dependency>
     <dependency>
@@ -184,10 +188,6 @@
         <exclusion>
           <artifactId>gwt-window</artifactId>
           <groupId>org.gwtproject.user.window</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>gwt-numberformat</artifactId>
-          <groupId>org.gwtproject.i18n</groupId>
         </exclusion>
         <exclusion>
           <artifactId>gwt-resources-api</artifactId>

@@ -277,6 +277,7 @@
                         <exclude>**/*.css</exclude>
                         <exclude>**/*.gss</exclude>
                         <exclude>**/*.txt</exclude>
+                        <exclude>**/*.properties</exclude>
                         <exclude>**/gwt-unitcache</exclude>
                         <exclude>gwt-event/</exclude>
                         <exclude>gwt-places/</exclude>
