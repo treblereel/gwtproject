@@ -34,18 +34,19 @@ import org.gwtproject.resources.logger.PrintWriterTreeLogger;
 /** @author Dmitrii Tikhomirov Created by treblereel on 9/30/18. */
 @AutoService(Processor.class)
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
-@SupportedAnnotationTypes({"org.gwtproject.resources.client.GWT3Resources"})
+@SupportedAnnotationTypes({
+  "org.gwtproject.resources.client.GWT3Resources",
+  "org.gwtproject.resources.client.Resource"
+})
 public class ClientBundleAnnotationProcessor extends AbstractProcessor {
 
   @Override
   public boolean process(
       Set<? extends TypeElement> annotations, RoundEnvironment roundEnvironment) {
-    System.out.println("START");
     if (annotations.isEmpty()) {
       return false;
     }
 
-    System.out.println("START 1");
     AptContext context = new AptContext(processingEnv, roundEnvironment);
     TreeLogger logger = new PrintWriterTreeLogger();
     ((PrintWriterTreeLogger) logger).setMaxDetail(TreeLogger.Type.INFO);

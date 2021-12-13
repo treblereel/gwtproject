@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
@@ -54,6 +55,9 @@ abstract class AbstractFieldWriter implements FieldWriter {
   private final MortalLogger logger;
   private final FieldWriterType fieldType;
   private String html;
+
+  private static ThreadLocal<ProcessingEnvironment> processingEnvironmentThreadLocal =
+      new ThreadLocal<>();
 
   AbstractFieldWriter(
       FieldManager manager, FieldWriterType fieldType, String name, MortalLogger logger) {
@@ -253,7 +257,19 @@ abstract class AbstractFieldWriter implements FieldWriter {
                     : "");
             sb.append(element.getSimpleName().toString());
 
-            initializer = String.format("new %1$sImpl()", sb.toString());
+            TypeElement Messages =
+                AptUtil.getProcessingEnvironment()
+                    .getElementUtils()
+                    .getTypeElement("org.gwtproject.i18n.client.Messages");
+            // TODO
+            if (Messages != null
+                && AptUtil.getProcessingEnvironment()
+                    .getTypeUtils()
+                    .isSubtype(type, Messages.asType())) {
+              initializer = String.format("%1$sFactory.get()", sb.toString());
+            } else {
+              initializer = String.format("new %1$sImpl()", sb.toString());
+            }
           } else {
             initializer = String.format("new %1$s()", getQualifiedSourceName());
           }

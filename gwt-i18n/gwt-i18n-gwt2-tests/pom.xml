@@ -12,7 +12,7 @@
     <groupId>org.gwtproject.i18n</groupId>
     <artifactId>gwt-i18n-gwt2-tests</artifactId>
     <version>dev</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <name>GWT I18N - GWT 2 Tests</name>
     <description>Test cases for the GWT 2</description>
@@ -138,4 +138,17 @@
             </snapshots>
         </pluginRepository>
     </pluginRepositories>
+    <repositories>
+        <repository>
+            <id>vertispan-releases</id>
+            <name>Vertispan hosted artifacts-releases</name>
+            <url>https://repo.vertispan.com/gwt-snapshot/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 </project>

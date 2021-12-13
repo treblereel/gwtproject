@@ -207,8 +207,6 @@ class ConstantsWithLookupImplCreator extends ConstantsImplCreator {
   @Override
   protected void emitMethodBody(TreeLogger logger, ExecutableElement method, GwtLocale locale)
       throws UnableToCompleteException {
-    System.out.println("emitMethodBody " + method + " " + locale);
-
     checkMethod(logger, method);
     if (method.getParameters().size() == 1) {
       String name = method.getSimpleName().toString();
