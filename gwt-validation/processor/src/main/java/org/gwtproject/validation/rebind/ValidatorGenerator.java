@@ -25,6 +25,7 @@ import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
+import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.validation.Validator;
 import org.gwtproject.validation.client.GwtValidation;
@@ -49,6 +50,8 @@ public final class ValidatorGenerator extends Generator {
 
   private Set<TypeElement> values = new HashSet<>();
 
+  private TypeElement object;
+
   // called by the compiler via reflection
   public ValidatorGenerator() {
     this.cache = new BeanHelperCache();
@@ -57,6 +60,8 @@ public final class ValidatorGenerator extends Generator {
   @Override
   public String generate(TreeLogger logger, GeneratorContext context, TypeElement type)
       throws UnableToCompleteException {
+
+    object = context.getAptContext().elements.getTypeElement(Object.class.getCanonicalName());
     TypeElement genericType =
         context.getAptContext().elements.getTypeElement(Validator.class.getCanonicalName());
     if (context.getAptContext().types.isAssignable(type.asType(), genericType.asType())) {
@@ -83,7 +88,10 @@ public final class ValidatorGenerator extends Generator {
     values.addAll(beans);
 
     for (TypeElement bean : beans) {
-      checkInheritance(bean.getSuperclass(), context.getAptContext());
+      if (!context.getAptContext().types.isSameType(object.asType(), bean.asType())
+          && !bean.getSuperclass().getKind().equals(TypeKind.NONE)) {
+        checkInheritance(bean.getSuperclass(), context.getAptContext());
+      }
     }
 
     if (values.isEmpty()) {
@@ -137,9 +145,13 @@ public final class ValidatorGenerator extends Generator {
   }
 
   private void checkInheritance(TypeMirror bean, AptContext context) {
-    TypeElement object = context.elements.getTypeElement(Object.class.getCanonicalName());
+
     if (!context.types.isSameType(object.asType(), bean)) {
-      checkInheritance(MoreTypes.asTypeElement(bean).getSuperclass(), context);
+      TypeMirror superclass = MoreTypes.asTypeElement(bean).getSuperclass();
+      if (!(context.types.isSameType(object.asType(), superclass)
+          || !superclass.getKind().equals(TypeKind.NONE))) {
+        checkInheritance(MoreTypes.asTypeElement(bean).getSuperclass(), context);
+      }
       if (!values.contains(MoreTypes.asTypeElement(bean))) {
         Set<VariableElement> fields =
             MoreTypes.asTypeElement(bean).getEnclosedElements().stream()

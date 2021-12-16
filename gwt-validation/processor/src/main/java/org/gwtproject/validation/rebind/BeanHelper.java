@@ -100,7 +100,7 @@ public final class BeanHelper {
     if (useField) {
       return getField(p.getPropertyName()).asType();
     } else {
-      return findMethod(GwtSpecificValidatorCreator.asGetter(p), Collections.emptyList())
+      return findMethod(GwtSpecificValidatorCreator.asGetter(p, context), Collections.emptyList())
           .getReturnType();
     }
   }
@@ -139,7 +139,7 @@ public final class BeanHelper {
   }
 
   boolean hasGetter(String name, TypeMirror type) {
-    String getter = GwtSpecificValidatorCreator.asGetter(name, type);
+    String getter = GwtSpecificValidatorCreator.asGetter(name, type, context);
     jClass.getEnclosedElements().stream()
         .filter(elm -> (elm.getKind().equals(ElementKind.METHOD)))
         .filter(elm -> (elm).getSimpleName().toString().equals(getter))

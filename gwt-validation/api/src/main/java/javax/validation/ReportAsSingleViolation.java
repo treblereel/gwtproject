@@ -14,7 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package javax.validation.metadata;
+package javax.validation;
 
-/** @author Dmitrii Tikhomirov Created by treblereel 8/30/19 */
-public class ConstraintFinder {}
+import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+
+/**
+ * A constraint annotation hosting this annotation will return the composed annotation error report
+ * if any of the composing annotations fail. The error reports of each individual composing
+ * constraint is ignored.
+ *
+ * @author Emmanuel Bernard
+ */
+@Target({ANNOTATION_TYPE})
+@Retention(RUNTIME)
+public @interface ReportAsSingleViolation {}

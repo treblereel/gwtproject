@@ -100,6 +100,7 @@ public final class GwtSpecificValidatorCreator extends AbstractCreator {
   private final Set<TypeElement> validGroups;
   private final Map<ConstraintDescriptor, Boolean> validConstraintsMap = Maps.newHashMap();
   private Set<ExecutableElement> gettersToWrap = Sets.newHashSet();
+  private TypeElement object;
 
   public GwtSpecificValidatorCreator(
       TypeElement beanType,
@@ -117,17 +118,28 @@ public final class GwtSpecificValidatorCreator extends AbstractCreator {
         context.getAptContext().elements.getTypeElement(Default.class.getCanonicalName()));
 
     this.validGroups = Collections.unmodifiableSet(tempValidGroups);
+
+    this.object = context.getAptContext().elements.getTypeElement(Object.class.getCanonicalName());
   }
 
-  public static String asGetter(PropertyDescriptor p) {
-    return asGetter(p.getPropertyName(), p.getElementClass());
+  public static String asGetter(PropertyDescriptor p, AptContext context) {
+    return asGetter(p.getPropertyName(), p.getElementClass(), context);
   }
 
-  public static String asGetter(String name, TypeMirror type) {
+  public static String asGetter(String name, TypeMirror type, AptContext context) {
     if (type.getKind().equals(TypeKind.BOOLEAN)
         || (type.getKind().equals(TypeKind.DECLARED)
             && type.toString().equals(Boolean.class.getCanonicalName()))) {
-      return "is" + capitalizeFirstLetter(name);
+      String candidate = "is" + capitalizeFirstLetter(name);
+
+      if (Util.getMethods(context.elements, MoreTypes.asTypeElement(type)).stream()
+              .filter(
+                  executableElement ->
+                      executableElement.getSimpleName().toString().equals(candidate))
+              .count()
+          > 0) {
+        return candidate;
+      }
     }
     return "get" + capitalizeFirstLetter(name);
   }
@@ -458,7 +470,8 @@ public final class GwtSpecificValidatorCreator extends AbstractCreator {
                 .orElse(null);
       }
     } else {
-      ExecutableElement method = beanHelper.findMethod(asGetter(p), Collections.emptyList());
+      ExecutableElement method =
+          beanHelper.findMethod(asGetter(p, context.getAptContext()), Collections.emptyList());
       if (method.getEnclosingElement().equals(beanType)) {
         throw new Error(
             "Unable to process method " + method + " in " + method.getEnclosingElement());
@@ -596,7 +609,9 @@ public final class GwtSpecificValidatorCreator extends AbstractCreator {
     if (useField && beanHelper.getField(p.getPropertyName()).getAnnotation(Valid.class) != null) {
       return true;
     } else if (!useField
-        && beanHelper.findMethod(asGetter(p), Collections.emptyList()).getAnnotation(Valid.class)
+        && beanHelper
+                .findMethod(asGetter(p, context.getAptContext()), Collections.emptyList())
+                .getAnnotation(Valid.class)
             != null) {
       return true;
     }
@@ -1162,7 +1177,10 @@ public final class GwtSpecificValidatorCreator extends AbstractCreator {
     sw.indent();
 
     if (beanHelper.hasGetter(field.getSimpleName().toString(), field.asType())) {
-      sw.print("return object." + asGetter(field.getSimpleName().toString(), field.asType()));
+      sw.print(
+          "return object."
+              + asGetter(
+                  field.getSimpleName().toString(), field.asType(), context.getAptContext()));
       sw.println("();");
     } else {
       throw new Error("unsupport operation");
@@ -1662,10 +1680,11 @@ public final class GwtSpecificValidatorCreator extends AbstractCreator {
       sw.print(") value");
     } else {
       sw.print("object, ");
-      ExecutableElement method = beanHelper.findMethod(asGetter(p), Collections.emptyList());
+      ExecutableElement method =
+          beanHelper.findMethod(asGetter(p, context.getAptContext()), Collections.emptyList());
       if (method.getModifiers().contains(Modifier.PUBLIC)) {
         sw.print("object.");
-        sw.print(asGetter(p));
+        sw.print(asGetter(p, context.getAptContext()));
         sw.print("()");
       } else {
         gettersToWrap.add(method);
@@ -1707,9 +1726,8 @@ public final class GwtSpecificValidatorCreator extends AbstractCreator {
   }
 
   private Optional<TypeMirror> findParent(TypeMirror bean) {
-    TypeElement object =
-        context.getAptContext().elements.getTypeElement(Object.class.getCanonicalName());
-    if (!context.getAptContext().types.isSameType(object.asType(), bean)) {
+    if (!(context.getAptContext().types.isSameType(object.asType(), bean)
+        || bean.getKind().equals(TypeKind.NONE))) {
       Set<VariableElement> fields =
           MoreTypes.asTypeElement(bean).getEnclosedElements().stream()
               .filter(elm -> elm.getKind().equals(ElementKind.FIELD))
