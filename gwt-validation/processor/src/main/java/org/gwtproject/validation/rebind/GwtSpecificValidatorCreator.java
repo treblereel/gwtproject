@@ -152,6 +152,7 @@ public final class GwtSpecificValidatorCreator extends AbstractCreator {
    * @throws IllegalArgumentException if the type of the object does not have a java literal form.
    */
   public static String asLiteral(Object value) {
+
     Class<?> clazz = value.getClass();
     if (clazz.isArray()) {
       if (clazz.getComponentType().equals(ClassWrapper.class)) {
@@ -199,7 +200,7 @@ public final class GwtSpecificValidatorCreator extends AbstractCreator {
     } else if (value instanceof Integer) {
       return ((Integer) value).intValue() + "";
     } else if (value instanceof Long) {
-      return ((Long) value).longValue() + "";
+      return ((Long) value).longValue() + "L";
     } else if (value instanceof String) {
       return '"' + Generator.escape((String) value) + '"';
     } else if (value
@@ -844,7 +845,9 @@ public final class GwtSpecificValidatorCreator extends AbstractCreator {
       if ("groups".equals(key) && value.type.equals("java.lang.Class<?>[]")) {
         sw.print("new Class[]{javax.validation.groups.Default.class}");
       } else {
-        if (value.isEnumArray) {
+        sw.print(value.value.toString());
+
+        /*        if (value.isEnumArray) {
           Object[] asArray = (Object[]) value.value;
           sw.print("new ");
           sw.print(value.type);
@@ -855,7 +858,7 @@ public final class GwtSpecificValidatorCreator extends AbstractCreator {
           sw.print("}");
         } else {
           sw.print(asLiteral(value.value));
-        }
+        }*/
       }
       sw.println(")");
     }
@@ -1293,7 +1296,8 @@ public final class GwtSpecificValidatorCreator extends AbstractCreator {
               sw.print(name);
               sw.print("() { return ");
               // sw.print(asLiteral(holder.value));
-              sw.print(prepareAnnotation(holder));
+              // sw.print(prepareAnnotation(holder));
+              sw.print(holder.value.toString());
 
               sw.println(";}");
             });
@@ -1727,7 +1731,9 @@ public final class GwtSpecificValidatorCreator extends AbstractCreator {
 
   private Optional<TypeMirror> findParent(TypeMirror bean) {
     if (!(context.getAptContext().types.isSameType(object.asType(), bean)
-        || bean.getKind().equals(TypeKind.NONE))) {
+        || bean.getKind().equals(TypeKind.NONE)
+        || MoreTypes.asTypeElement(bean).getKind().isInterface()
+        || MoreTypes.asTypeElement(bean).getModifiers().contains(Modifier.ABSTRACT))) {
       Set<VariableElement> fields =
           MoreTypes.asTypeElement(bean).getEnclosedElements().stream()
               .filter(elm -> elm.getKind().equals(ElementKind.FIELD))
@@ -2225,6 +2231,9 @@ public final class GwtSpecificValidatorCreator extends AbstractCreator {
       beansToValidate.add(helper);
       switch (stage) {
         case OBJECT:
+          if (type.getKind().isInterface() || type.getModifiers().contains(Modifier.ABSTRACT)) {
+            return;
+          }
           // myValidator
           sw.print(helper.getValidatorInstanceName());
           if (expandDefaultGroupSequence) {

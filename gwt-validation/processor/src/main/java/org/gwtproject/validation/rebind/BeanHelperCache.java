@@ -20,6 +20,7 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
 import org.gwtproject.validation.client.impl.GwtSpecificValidator;
 import org.gwtproject.validation.context.AptContext;
@@ -114,6 +115,11 @@ public class BeanHelperCache { // public for testing
    */
   private void writeInterface(GeneratorContext context, TreeLogger logger, BeanHelper bean)
       throws UnableToCompleteException {
+    if (bean.getClazz().getKind().isInterface()
+        || bean.getClazz().getKind().equals(ElementKind.ANNOTATION_TYPE)) {
+      return;
+    }
+
     PrintWriter pw = context.tryCreate(logger, bean.getPackage(), bean.getValidatorName());
     if (pw != null) {
       TreeLogger interfaceLogger =
