@@ -15,6 +15,7 @@
  */
 package org.gwtproject.validation.client.impl;
 
+import elemental2.dom.DomGlobal;
 import java.io.Serializable;
 import java.lang.annotation.ElementType;
 import java.util.Objects;
@@ -141,6 +142,19 @@ public final class ConstraintViolationImpl<T> implements ConstraintViolation<T>,
       ElementType elementType,
       ConstraintDescriptor<?> constraintDescriptor) {
     super();
+
+    DomGlobal.console.log(
+        "ConstraintViolationImpl "
+            + message
+            + " "
+            + messageTemplate
+            + " "
+            + rootBean.getClass().getCanonicalName()
+            + " "
+            + propertyPath
+            + " "
+            + elementType);
+
     this.message = message;
     this.messageTemplate = messageTemplate;
     this.rootBean = rootBean;

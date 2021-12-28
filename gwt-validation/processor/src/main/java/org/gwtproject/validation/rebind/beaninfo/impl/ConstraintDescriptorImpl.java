@@ -18,17 +18,13 @@ package org.gwtproject.validation.rebind.beaninfo.impl;
 
 import com.google.auto.common.MoreElements;
 import com.google.auto.common.MoreTypes;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import javax.lang.model.element.*;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
 import javax.validation.Payload;
+import javax.validation.ReportAsSingleViolation;
 import javax.validation.groups.Default;
 import org.gwtproject.validation.context.AptContext;
 import org.gwtproject.validation.rebind.beaninfo.ConstraintDescriptor;
@@ -41,6 +37,8 @@ public class ConstraintDescriptorImpl implements ConstraintDescriptor {
   private Element source;
 
   private Map<String, DefaultValueHolder> holder = new HashMap<>();
+
+  private Set<ConstraintDescriptor> composingConstraints = new HashSet<>();
 
   private AptContext context;
 
@@ -113,12 +111,16 @@ public class ConstraintDescriptorImpl implements ConstraintDescriptor {
 
   @Override
   public Set<ConstraintDescriptor> getComposingConstraints() {
-    return Collections.emptySet();
+    return composingConstraints;
   }
 
   @Override
   public boolean isReportAsSingleViolation() {
-    return false;
+    return context
+            .elements
+            .getTypeElement(annotation.getAnnotationType().toString())
+            .getAnnotation(ReportAsSingleViolation.class)
+        != null;
   }
 
   public Element getSource() {

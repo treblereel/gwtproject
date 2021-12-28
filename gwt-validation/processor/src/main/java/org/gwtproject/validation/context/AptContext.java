@@ -17,6 +17,8 @@
 package org.gwtproject.validation.context;
 
 import com.google.auto.common.MoreTypes;
+import io.github.classgraph.ClassGraph;
+import io.github.classgraph.ScanResult;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -29,6 +31,7 @@ import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
@@ -44,6 +47,7 @@ public class AptContext {
   public final RoundEnvironment roundEnvironment;
   public final ProcessingEnvironment processingEnv;
   final ConstraintHelper constraints = new ConstraintHelper();
+  private final ScanResult scanResult = new ClassGraph().enableAllInfo().scan();
 
   public AptContext(
       final ProcessingEnvironment processingEnv, final RoundEnvironment roundEnvironment) {
@@ -58,8 +62,19 @@ public class AptContext {
   }
 
   private void findCustomConstraint() {
-    roundEnvironment.getElementsAnnotatedWith(Constraint.class).stream()
-        .filter(elm -> elm.getKind().equals(ElementKind.ANNOTATION_TYPE))
+    Set<TypeElement> constrains =
+        roundEnvironment.getElementsAnnotatedWith(Constraint.class).stream()
+            .filter(elm -> elm.getKind().equals(ElementKind.ANNOTATION_TYPE))
+            .map(element -> (TypeElement) element)
+            .collect(Collectors.toSet());
+
+    scanResult.getClassesWithAnnotation(Constraint.class.getName()).stream()
+        .map(classInfo -> elements.getTypeElement(classInfo.getName()))
+        .forEach(constrains::add);
+
+    constrains.stream()
+        .filter(a -> a.getKind().equals(ElementKind.ANNOTATION_TYPE))
+        .filter(a -> constraints.get(a.getQualifiedName().toString()) == null)
         .forEach(this::processCustomConstraint);
   }
 

@@ -133,6 +133,10 @@
           <artifactId>validation-api</artifactId>
           <groupId>javax.validation</groupId>
         </exclusion>
+        <exclusion>
+          <artifactId>javapoet</artifactId>
+          <groupId>com.squareup</groupId>
+        </exclusion>
       </exclusions>
     </dependency>
     <dependency>

@@ -51,7 +51,7 @@ public class ResourceOracleImpl implements ResourceOracle {
    * @see #findResource(CharSequence, CharSequence)
    */
   @Override
-  public URL findResource(CharSequence path) {
+  public URL findResource(String path) {
     String packageName = "";
     String relativeName = path.toString();
 
@@ -142,7 +142,7 @@ public class ResourceOracleImpl implements ResourceOracle {
   }
 
   @Override
-  public URL[] findResources(CharSequence packageName, CharSequence[] pathName) {
+  public URL[] findResources(String packageName, String[] pathName) {
     List<URL> result = new ArrayList<>();
     for (int i = 0; i < pathName.length; i++) {
       URL resource = findResource(packageName, pathName[i]);
@@ -176,7 +176,12 @@ public class ResourceOracleImpl implements ResourceOracle {
    * @return FileObject or null if file is not found.
    */
   @Override
-  public URL findResource(CharSequence pkg, CharSequence relativeName) {
+  public URL findResource(String pkg, String relativeName) {
+    URL url = readFileFromClasspath(pkg, relativeName);
+    if (url != null) {
+      return url;
+    }
+
     return findResource(
         Arrays.asList(
             StandardLocation.SOURCE_PATH,

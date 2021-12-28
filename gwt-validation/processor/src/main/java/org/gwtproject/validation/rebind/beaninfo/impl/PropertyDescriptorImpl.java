@@ -54,14 +54,18 @@ public class PropertyDescriptorImpl implements PropertyDescriptor {
               .getQualifiedName()
               .toString();
       if (context.isSupported(annotation)) {
-        constraintDescriptors.add(new ConstraintDescriptorImpl(annotationMirror, field, context));
+        ConstraintDescriptorImpl descriptor =
+            new ConstraintDescriptorImpl(annotationMirror, field, context);
+        constraintDescriptors.add(descriptor);
+
         context
             .getConstraint(annotation)
             .getInheritedConstraint()
             .forEach(
-                i -> {
-                  constraintDescriptors.add(new ConstraintDescriptorImpl(i, field, context));
-                });
+                i ->
+                    descriptor
+                        .getComposingConstraints()
+                        .add(new ConstraintDescriptorImpl(i, field, context)));
       }
     }
   }

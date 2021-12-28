@@ -795,12 +795,8 @@ public class MessagesMethodCreator extends AbstractMethodCreator {
       // MessagesMethodCreator.class.getPackage().getName().replace('.', '/')
       //    + "/cldr/ListPatterns_";
 
-      System.out.println("baseName " + baseName);
-
       for (GwtLocale search : locale.getCompleteSearchList()) {
-        System.out.println("  search " + search);
         String propFile = baseName + search.getAsString() + ".bak";
-        System.out.println("  propFile " + propFile);
 
         URL url = oracle.findResource(propFile);
         if (url != null) {
