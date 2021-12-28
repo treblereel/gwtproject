@@ -16,9 +16,8 @@
  */
 package org.gwtproject.resources.context;
 
+import com.google.auto.common.MoreElements;
 import io.github.classgraph.ClassGraph;
-import io.github.classgraph.ClassInfo;
-import io.github.classgraph.ClassInfoList;
 import io.github.classgraph.ScanResult;
 import java.lang.annotation.Annotation;
 import java.util.HashMap;
@@ -73,29 +72,16 @@ public class AptContext {
   }
 
   public Set<TypeElement> getClassesWithAnnotation(Class<? extends Annotation> annotation) {
-    System.out.println("a? " + annotation.getName());
+    Set<TypeElement> rez =
+        roundEnvironment.getElementsAnnotatedWith(annotation).stream()
+            .map(element -> MoreElements.asType(element))
+            .collect(Collectors.toSet());
 
-    ClassInfoList routeClassInfoList = scanResult.getClassesWithAnnotation(annotation);
-    for (ClassInfo routeClassInfo : routeClassInfoList) {
-      TypeElement type = elements.getTypeElement(routeClassInfo.getName());
-      System.out.println("TYPE " + type);
-    }
-
-    scanResult
-        .getAllClasses()
-        .forEach(
-            a -> {
-              System.out.println("anno " + a.getName());
-            });
     scanResult.getClassesWithAnnotation(annotation.getName()).stream()
-        .forEach(
-            e -> {
-              System.out.println("E " + e.getName());
-            });
-
-    return scanResult.getClassesWithAnnotation(annotation.getName()).stream()
         .map(classInfo -> elements.getTypeElement(classInfo.getName()))
-        .collect(Collectors.toSet());
+        .forEach(rez::add);
+
+    return rez;
   }
 
   private void initGenerators() {

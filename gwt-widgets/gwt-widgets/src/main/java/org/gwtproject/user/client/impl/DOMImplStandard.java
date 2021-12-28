@@ -381,10 +381,6 @@ public abstract class DOMImplStandard extends DOMImpl {
       map.set("onlosecapture", ((bits & 0x02000) != 0) ? (Fn) event -> dispatchEvent(event) : null);
     }
 
-    if ((chMask & 0x02000) != 0) {
-      map.set("onlosecapture", ((bits & 0x02000) != 0) ? (Fn) event -> dispatchEvent(event) : null);
-    }
-
     if ((chMask & 0x04000) != 0) {
       map.set("onscroll", ((bits & 0x04000) != 0) ? (Fn) event -> dispatchEvent(event) : null);
     }

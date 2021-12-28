@@ -64,6 +64,23 @@ public class ProviderValidationMessageResolverImpl implements UserValidationMess
         " must be greater than or equal to 0");
     holder.put(
         "javax.validation.constraints.Size.message", " size must be between {min} and {max}");
+
+    holder.put(
+        "org.hibernate.validator.constraints.Email.messag", " not a well-formed email address");
+    holder.put(
+        "org.hibernate.validator.constraints.Length.message",
+        " length must be between {min} and {max}");
+    holder.put("org.hibernate.validator.constraints.NotBlank.message", " may not be empty");
+    holder.put("org.hibernate.validator.constraints.NotEmpty.message", " may not be empty");
+    holder.put(
+        "org.hibernate.validator.constraints.Range.message", " must be between {min} and {max}");
+    holder.put("org.hibernate.validator.constraints.URL.message", " must be a valid URL");
+    holder.put(
+        "org.hibernate.validator.constraints.CreditCardNumber.message",
+        " invalid credit card number");
+    holder.put(
+        "org.hibernate.validator.constraints.ScriptAssert.message",
+        " script expression \"{script}\" didn't evaluate to true");
   }
 
   @Override

@@ -99,8 +99,6 @@ public abstract class ResourceFactory {
     // public interface Foo_es_MX extends Foo { ... }
     ResourceList allResources = new ResourceList();
     ResourceFactoryContext localizableCtx = getResourceFactoryContext(context);
-    System.out.println("getBundle " + topClass + " " + bundleLocale);
-
     for (GwtLocale locale : locales) {
       for (TypeElement clazz : classes) {
         ClassLocale key = new ClassLocale(clazz, locale);
@@ -108,9 +106,6 @@ public abstract class ResourceFactory {
         resources = localizableCtx.getResourceList(key);
         if (resources == null) {
           resources = new ResourceList();
-
-          System.out.println("             " + locale + " find");
-
           addFileResources(logger, context, clazz, locale, resources);
           AnnotationsResource annotationsResource = annotations.get(key);
           if (annotationsResource != null) {

@@ -32,6 +32,7 @@ import org.gwtproject.validation.context.AptContext;
 import org.gwtproject.validation.rebind.beaninfo.BeanInfo;
 import org.gwtproject.validation.rebind.beaninfo.PropertyDescriptor;
 import org.gwtproject.validation.rebind.ext.NotFoundException;
+import org.gwtproject.validation.rg.util.Util;
 
 /** A simple struct for the various values associated with a Bean that can be validated. */
 public final class BeanHelper {
@@ -100,7 +101,7 @@ public final class BeanHelper {
     if (useField) {
       return getField(p.getPropertyName()).asType();
     } else {
-      return findMethod(GwtSpecificValidatorCreator.asGetter(p), Collections.emptyList())
+      return findMethod(GwtSpecificValidatorCreator.asGetter(p, context), Collections.emptyList())
           .getReturnType();
     }
   }
@@ -119,19 +120,17 @@ public final class BeanHelper {
   }
 
   public VariableElement getField(String name) {
-    return MoreElements.asVariable(
-        jClass.getEnclosedElements().stream()
-            .filter(elm -> (elm.getKind().equals(ElementKind.FIELD)))
-            .filter(field -> field.getSimpleName().toString().equals(name))
-            .findFirst()
-            .orElseThrow(
-                () ->
-                    new Error(
-                        new NotFoundException(
-                            "No field"
-                                + name
-                                + " presented in "
-                                + jClass.getQualifiedName().toString()))));
+    return Util.getAllFieldsIn(context.elements, jClass).stream()
+        .filter(field -> field.getSimpleName().toString().equals(name))
+        .findFirst()
+        .orElseThrow(
+            () ->
+                new Error(
+                    new NotFoundException(
+                        "No field"
+                            + name
+                            + " presented in "
+                            + jClass.getQualifiedName().toString())));
   }
 
   boolean hasGetter(PropertyDescriptor p) {
@@ -139,9 +138,8 @@ public final class BeanHelper {
   }
 
   boolean hasGetter(String name, TypeMirror type) {
-    String getter = GwtSpecificValidatorCreator.asGetter(name, type);
-    jClass.getEnclosedElements().stream()
-        .filter(elm -> (elm.getKind().equals(ElementKind.METHOD)))
+    String getter = GwtSpecificValidatorCreator.asGetter(name, type, context);
+    Util.getAllMethodsIn(context.elements, jClass).stream()
         .filter(elm -> (elm).getSimpleName().toString().equals(getter))
         .filter(elm -> MoreElements.asExecutable(elm).getParameters().isEmpty())
         .findFirst()
@@ -153,19 +151,17 @@ public final class BeanHelper {
   }
 
   public ExecutableElement findMethod(String name) {
-    return MoreElements.asExecutable(
-        jClass.getEnclosedElements().stream()
-            .filter(elm -> (elm.getKind().equals(ElementKind.METHOD)))
-            .filter(elm -> (elm).getSimpleName().toString().equals(name))
-            .findFirst()
-            .orElseThrow(
-                () ->
-                    new Error(
-                        new NotFoundException(
-                            "No method"
-                                + name
-                                + " presented in "
-                                + jClass.getQualifiedName().toString()))));
+    return Util.getAllMethodsIn(context.elements, jClass).stream()
+        .filter(elm -> elm.getSimpleName().toString().equals(name))
+        .findFirst()
+        .orElseThrow(
+            () ->
+                new Error(
+                    new NotFoundException(
+                        "No method"
+                            + name
+                            + " presented in "
+                            + jClass.getQualifiedName().toString())));
   }
 
   public ExecutableElement findMethod(String name, List<? extends VariableElement> params) {

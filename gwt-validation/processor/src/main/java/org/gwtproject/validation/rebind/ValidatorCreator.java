@@ -265,7 +265,9 @@ public final class ValidatorCreator extends AbstractCreator {
     sw.println("checkGroups(groups);");
 
     for (BeanHelper bean : cache.getAllBeans()) {
-      writeGwtValidate(sw, bean);
+      if (!bean.getClazz().getKind().isInterface()) {
+        writeGwtValidate(sw, bean);
+      }
     }
 
     // TODO(nchalko) log warning instead.

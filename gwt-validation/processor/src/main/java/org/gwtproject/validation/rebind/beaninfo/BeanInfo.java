@@ -23,9 +23,10 @@ import java.util.Set;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
-import javax.lang.model.util.ElementFilter;
+import javax.validation.Valid;
 import org.gwtproject.validation.context.AptContext;
 import org.gwtproject.validation.rebind.beaninfo.impl.PropertyDescriptorImpl;
+import org.gwtproject.validation.rg.util.Util;
 
 /** @author Dmitrii Tikhomirov Created by treblereel 8/20/19 */
 public class BeanInfo implements BeanDescriptor {
@@ -39,9 +40,13 @@ public class BeanInfo implements BeanDescriptor {
   public BeanInfo(AptContext context, TypeElement bean) {
     this.bean = bean;
     this.context = context;
-
-    for (VariableElement field : ElementFilter.fieldsIn(bean.getEnclosedElements())) {
+    for (VariableElement field : Util.getAllFieldsIn(context.elements, bean)) {
       Set<AnnotationMirror> annotations = new HashSet<>();
+
+      if (field.getAnnotation(Valid.class) != null) {
+        propertyDescriptors.add(PropertyDescriptorImpl.of(field, annotations, context));
+        continue;
+      }
       for (AnnotationMirror annotationMirror : field.getAnnotationMirrors()) {
         String annotation =
             MoreElements.asType(annotationMirror.getAnnotationType().asElement())
