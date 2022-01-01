@@ -31,7 +31,6 @@
         <artifactId>maven-surefire-plugin</artifactId>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
         <executions>
           <execution>
@@ -40,24 +39,44 @@
               <goal>shade</goal>
             </goals>
             <configuration>
-              <minimizeJar>true</minimizeJar>
               <artifactSet>
                 <excludes>
-                  <exclude>classworlds:classworlds</exclude>
-                  <exclude>junit:junit</exclude>
-                  <exclude>org.mockito:mockito-core</exclude>
-                  <exclude>jmock:*</exclude>
-                  <exclude>*:xml-apis</exclude>
-                  <exclude>org.apache.maven:lib:tests</exclude>
-                  <exclude>log4j:log4j:jar:</exclude>
+                  <exclude>com.google.auto.service:*</exclude>
+                  <exclude>javax.annotation:javax.annotation-api</exclude>
+                  <exclude>javax.validation:validation-api</exclude>
+                  <exclude>com.google.code.findbugs:jsr305</exclude>
+                  <exclude>com.google.j2objc:j2objc-annotations</exclude>
+                  <exclude>com.google.errorprone:error_prone_annotations</exclude>
                 </excludes>
               </artifactSet>
+              <relocations>
+                <relocation>
+                  <pattern>com</pattern>
+                  <shadedPattern>org.gwtproject.uibinder.shaded.com</shadedPattern>
+                </relocation>
+                <relocation>
+                  <pattern>afu</pattern>
+                  <shadedPattern>org.gwtproject.uibinder.shaded.afu</shadedPattern>
+                </relocation>
+                <relocation>
+                  <pattern>org.codehaus</pattern>
+                  <shadedPattern>org.gwtproject.uibinder.shaded.org.codehaus</shadedPattern>
+                </relocation>
+                <relocation>
+                  <pattern>org.checkerframework</pattern>
+                  <shadedPattern>org.gwtproject.uibinder.shaded.org.checkerframework</shadedPattern>
+                </relocation>
+              </relocations>
               <filters>
                 <filter>
                   <artifact>*:*:*:*</artifact>
                   <excludes>
                     <exclude>**/*.java</exclude>
                     <exclude>**/*.js</exclude>
+                    <exclude>**/*.txt</exclude>
+                    <exclude>**/*.css</exclude>
+                    <exclude>**/*.html</exclude>
+                    <exclude>**/LICENSE</exclude>
                   </excludes>
                 </filter>
               </filters>
