@@ -6,7 +6,7 @@
 
   <parent>
     <groupId>org.gwtproject.uibinder</groupId>
-    <artifactId>gwt-uibinder</artifactId>
+    <artifactId>gwt-uibinder-parent</artifactId>
     <version>dev</version>
   </parent>
 
@@ -84,6 +84,10 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>flatten-maven-plugin</artifactId>
+      </plugin>
     </plugins>
   </build>
 
@@ -140,18 +144,6 @@
       <id>release</id>
       <build>
         <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-source-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>attach-sources</id>
-                <goals>
-                  <goal>jar-no-fork</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>

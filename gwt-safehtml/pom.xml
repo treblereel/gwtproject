@@ -80,7 +80,7 @@
         <executions>
           <execution>
             <id>flatten</id>
-            <phase>process-resources</phase>
+            <phase>package</phase>
             <goals>
               <goal>flatten</goal>
             </goals>
