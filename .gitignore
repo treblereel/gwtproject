@@ -4,6 +4,7 @@
 
 target/
 .flattened-pom.xml
+dependency-reduced-pom.xml
 .idea
 *.iml
 # gwt caches and compiled units #
