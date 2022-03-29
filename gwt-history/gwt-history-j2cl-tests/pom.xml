@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.gwtproject.user.history</groupId>
+    <groupId>org.treblereel.gwt.gwtproject.user.history</groupId>
     <artifactId>gwt-history-parent</artifactId>
     <version>dev</version>
   </parent>
@@ -16,7 +16,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.gwtproject.user.history</groupId>
+      <groupId>org.treblereel.gwt.gwtproject.user.history</groupId>
       <artifactId>gwt-history</artifactId>
     </dependency>
     <!-- transitive dependencies that aren't correctly available at runtime -->
@@ -32,7 +32,7 @@
     </dependency>
 
     <dependency>
-      <groupId>org.gwtproject.timer</groupId>
+      <groupId>org.treblereel.gwt.gwtproject.timer</groupId>
       <artifactId>gwt-timer</artifactId>
       <scope>test</scope>
     </dependency>

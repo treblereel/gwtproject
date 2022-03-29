@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.gwtproject.resources</groupId>
+        <groupId>org.treblereel.gwt.gwtproject.resources</groupId>
         <artifactId>gwt-resources-parent</artifactId>
         <version>dev</version>
     </parent>
@@ -24,11 +24,11 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.gwtproject.resources</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.resources</groupId>
             <artifactId>gwt-resources-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.gwtproject.i18n</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.i18n</groupId>
             <artifactId>gwt-i18n</artifactId>
         </dependency>
         <dependency>

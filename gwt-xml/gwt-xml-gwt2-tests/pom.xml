@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.gwtproject.xml</groupId>
+        <groupId>org.treblereel.gwt.gwtproject.xml</groupId>
         <artifactId>gwt-xml-parent</artifactId>
         <version>dev</version>
     </parent>
@@ -34,7 +34,7 @@
         </dependency>
 
         <dependency>
-            <groupId>org.gwtproject.xml</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.xml</groupId>
             <artifactId>gwt-xml</artifactId>
             <scope>test</scope>
         </dependency>

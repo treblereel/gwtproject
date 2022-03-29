@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.gwtproject.event</groupId>
+    <groupId>org.treblereel.gwt.gwtproject.event</groupId>
     <artifactId>gwt-event-dom-parent</artifactId>
     <version>dev</version>
   </parent>
@@ -34,7 +34,7 @@
     </dependency>
 
     <dependency>
-      <groupId>org.gwtproject.event</groupId>
+      <groupId>org.treblereel.gwt.gwtproject.event</groupId>
       <artifactId>gwt-event-dom</artifactId>
       <scope>test</scope>
     </dependency>

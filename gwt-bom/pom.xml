@@ -3,9 +3,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.gwtproject</groupId>
+    <groupId>org.treblereel.gwt.gwtproject</groupId>
     <artifactId>gwt-bom</artifactId>
-    <version>HEAD-SNAPSHOT</version>
+    <version>202203291</version>
     <packaging>pom</packaging>
     <name>GWTPROJECT BOM (Bill Of Materials)</name>
 
@@ -37,17 +37,13 @@
         </developer>
     </developers>
 
-    <properties>
-        <revision>${project.version}</revision>
-    </properties>
-
     <!-- IMPORTANT: Do not declare any build things here! -->
     <build/>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.gwtproject</groupId>
+                <groupId>org.treblereel.gwt.gwtproject</groupId>
                 <artifactId>gwt-internal-bom</artifactId>
                 <version>${project.version}</version>
                 <type>pom</type>
@@ -55,214 +51,214 @@
             </dependency>
 
             <dependency>
-                <groupId>org.gwtproject.animation</groupId>
+                <groupId>org.treblereel.gwt.gwtproject.animation</groupId>
                 <artifactId>gwt-animation</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.gwtproject.aria</groupId>
+                <groupId>org.treblereel.gwt.gwtproject.aria</groupId>
                 <artifactId>gwt-aria</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.gwtproject.callback</groupId>
+                <groupId>org.treblereel.gwt.gwtproject.callback</groupId>
                 <artifactId>gwt-callback</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.gwtproject.event</groupId>
+                <groupId>org.treblereel.gwt.gwtproject.event</groupId>
                 <artifactId>gwt-event</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.gwtproject.event</groupId>
+                <groupId>org.treblereel.gwt.gwtproject.event</groupId>
                 <artifactId>gwt-event-dom</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.gwtproject.event</groupId>
+                <groupId>org.treblereel.gwt.gwtproject.event</groupId>
                 <artifactId>gwt-event-legacy</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.gwtproject.event</groupId>
+                <groupId>org.treblereel.gwt.gwtproject.event</groupId>
                 <artifactId>gwt-event-logical</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.gwtproject.event</groupId>
+                <groupId>org.treblereel.gwt.gwtproject.event</groupId>
                 <artifactId>gwt-event-compat</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.gwtproject.time</groupId>
+                <groupId>org.treblereel.gwt.gwtproject.time</groupId>
                 <artifactId>gwt-time</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.gwtproject.timer</groupId>
+                <groupId>org.treblereel.gwt.gwtproject.timer</groupId>
                 <artifactId>gwt-timer</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.gwtproject.regexp</groupId>
+                <groupId>org.treblereel.gwt.gwtproject.regexp</groupId>
                 <artifactId>gwt-regexp</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.gwtproject.resources</groupId>
+                <groupId>org.treblereel.gwt.gwtproject.resources</groupId>
                 <artifactId>gwt-resources-api</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.gwtproject.resources</groupId>
+                <groupId>org.treblereel.gwt.gwtproject.resources</groupId>
                 <artifactId>gwt-resources-processor</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.gwtproject.core</groupId>
+                <groupId>org.treblereel.gwt.gwtproject.core</groupId>
                 <artifactId>gwt-core</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.gwtproject.dom</groupId>
+                <groupId>org.treblereel.gwt.gwtproject.dom</groupId>
                 <artifactId>gwt-dom</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.gwtproject.dom</groupId>
+                <groupId>org.treblereel.gwt.gwtproject.dom</groupId>
                 <artifactId>gwt-dom-style-definitions</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.gwtproject.geolocation</groupId>
+                <groupId>org.treblereel.gwt.gwtproject.geolocation</groupId>
                 <artifactId>gwt-geolocation</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.gwtproject.user.history</groupId>
+                <groupId>org.treblereel.gwt.gwtproject.user.history</groupId>
                 <artifactId>gwt-history</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.gwtproject.http</groupId>
+                <groupId>org.treblereel.gwt.gwtproject.http</groupId>
                 <artifactId>gwt-http</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.gwtproject.json</groupId>
+                <groupId>org.treblereel.gwt.gwtproject.json</groupId>
                 <artifactId>gwt-json</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.gwtproject.jsonp</groupId>
+                <groupId>org.treblereel.gwt.gwtproject.jsonp</groupId>
                 <artifactId>gwt-jsonp</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.gwtproject.safehtml</groupId>
+                <groupId>org.treblereel.gwt.gwtproject.safehtml</groupId>
                 <artifactId>gwt-safecss</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.gwtproject.safehtml</groupId>
+                <groupId>org.treblereel.gwt.gwtproject.safehtml</groupId>
                 <artifactId>gwt-safehtml</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.gwtproject.safehtml</groupId>
+                <groupId>org.treblereel.gwt.gwtproject.safehtml</groupId>
                 <artifactId>gwt-safehtml-processor</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.gwtproject.editor</groupId>
+                <groupId>org.treblereel.gwt.gwtproject.editor</groupId>
                 <artifactId>gwt-editor</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.gwtproject.editor</groupId>
+                <groupId>org.treblereel.gwt.gwtproject.editor</groupId>
                 <artifactId>gwt-editor-processor</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.gwtproject.validation</groupId>
+                <groupId>org.treblereel.gwt.gwtproject.validation</groupId>
                 <artifactId>gwt-validation-api</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.gwtproject.validation</groupId>
+                <groupId>org.treblereel.gwt.gwtproject.validation</groupId>
                 <artifactId>gwt-validation-processor</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.gwtproject.layout</groupId>
+                <groupId>org.treblereel.gwt.gwtproject.layout</groupId>
                 <artifactId>gwt-layout</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.gwtproject.storage</groupId>
+                <groupId>org.treblereel.gwt.gwtproject.storage</groupId>
                 <artifactId>gwt-storage</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.gwtproject.typedarrays</groupId>
+                <groupId>org.treblereel.gwt.gwtproject.typedarrays</groupId>
                 <artifactId>gwt-typedarrays</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.gwtproject.uibinder</groupId>
+                <groupId>org.treblereel.gwt.gwtproject.uibinder</groupId>
                 <artifactId>gwt-uibinder-client</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.gwtproject.uibinder</groupId>
+                <groupId>org.treblereel.gwt.gwtproject.uibinder</groupId>
                 <artifactId>gwt-uibinder-processor</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.gwtproject.user.window</groupId>
+                <groupId>org.treblereel.gwt.gwtproject.user.window</groupId>
                 <artifactId>gwt-window</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.gwtproject.widgets</groupId>
+                <groupId>org.treblereel.gwt.gwtproject.widgets</groupId>
                 <artifactId>gwt-widgets</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.gwtproject.xhr</groupId>
+                <groupId>org.treblereel.gwt.gwtproject.xhr</groupId>
                 <artifactId>gwt-xhr</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.gwtproject.xml</groupId>
+                <groupId>org.treblereel.gwt.gwtproject.xml</groupId>
                 <artifactId>gwt-xml</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.gwtproject.i18n</groupId>
+                <groupId>org.treblereel.gwt.gwtproject.i18n</groupId>
                 <artifactId>gwt-cldr</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.gwtproject.i18n</groupId>
+                <groupId>org.treblereel.gwt.gwtproject.i18n</groupId>
                 <artifactId>gwt-i18n</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.gwtproject.i18n</groupId>
+                <groupId>org.treblereel.gwt.gwtproject.i18n</groupId>
                 <artifactId>gwt-i18n-processor</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.gwtproject.i18n</groupId>
+                <groupId>org.treblereel.gwt.gwtproject.i18n</groupId>
                 <artifactId>gwt-datetimeformat</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.gwtproject.i18n</groupId>
+                <groupId>org.treblereel.gwt.gwtproject.i18n</groupId>
                 <artifactId>gwt-numberformat</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.treblereel.gwt.nio</groupId>

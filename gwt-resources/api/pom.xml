@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.gwtproject.resources</groupId>
+        <groupId>org.treblereel.gwt.gwtproject.resources</groupId>
         <artifactId>gwt-resources-parent</artifactId>
         <version>dev</version>
     </parent>
@@ -33,31 +33,31 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.gwtproject.core</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.core</groupId>
             <artifactId>gwt-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.gwtproject.safehtml</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.safehtml</groupId>
             <artifactId>gwt-safecss</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.gwtproject.safehtml</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.safehtml</groupId>
             <artifactId>gwt-safehtml</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.gwtproject.regexp</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.regexp</groupId>
             <artifactId>gwt-regexp</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.gwtproject.dom</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.dom</groupId>
             <artifactId>gwt-dom</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.gwtproject.http</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.http</groupId>
             <artifactId>gwt-http</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.gwtproject.callback</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.callback</groupId>
             <artifactId>gwt-callback</artifactId>
         </dependency>
     </dependencies>

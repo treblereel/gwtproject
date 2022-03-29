@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <parent>
-        <groupId>org.gwtproject.time</groupId>
+        <groupId>org.treblereel.gwt.gwtproject.time</groupId>
         <artifactId>gwt-time-parent</artifactId>
         <version>dev</version>
     </parent>
@@ -153,7 +153,7 @@
     <!-- ==================================================================== -->
     <dependencies>
         <dependency>
-            <groupId>org.gwtproject.core</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.core</groupId>
             <artifactId>gwt-core</artifactId>
         </dependency>
         <dependency>
@@ -162,7 +162,7 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.gwtproject.typedarrays</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.typedarrays</groupId>
             <artifactId>gwt-typedarrays</artifactId>
         </dependency>
         <dependency>
@@ -174,7 +174,7 @@
             <artifactId>gwt-nio</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.gwtproject.xhr</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.xhr</groupId>
             <artifactId>gwt-xhr</artifactId>
         </dependency>
         <dependency>
@@ -206,7 +206,7 @@
             <artifactId>base</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.gwtproject.regexp</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.regexp</groupId>
             <artifactId>gwt-regexp</artifactId>
         </dependency>
         <dependency>

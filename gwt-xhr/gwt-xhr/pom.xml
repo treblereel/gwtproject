@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.gwtproject.xhr</groupId>
+    <groupId>org.treblereel.gwt.gwtproject.xhr</groupId>
     <artifactId>gwt-xhr-parent</artifactId>
     <version>dev</version>
   </parent>
@@ -45,7 +45,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.gwtproject.typedarrays</groupId>
+      <groupId>org.treblereel.gwt.gwtproject.typedarrays</groupId>
       <artifactId>gwt-typedarrays</artifactId>
     </dependency>
   </dependencies>

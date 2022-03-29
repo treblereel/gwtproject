@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.gwtproject.layout</groupId>
+    <groupId>org.treblereel.gwt.gwtproject.layout</groupId>
     <artifactId>gwt-layout-parent</artifactId>
     <version>dev</version>
   </parent>
@@ -15,7 +15,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.gwtproject.layout</groupId>
+      <groupId>org.treblereel.gwt.gwtproject.layout</groupId>
       <artifactId>gwt-layout</artifactId>
       <scope>test</scope>
     </dependency>
@@ -37,17 +37,17 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.gwtproject.dom</groupId>
+      <groupId>org.treblereel.gwt.gwtproject.dom</groupId>
       <artifactId>gwt-dom</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.gwtproject.dom</groupId>
+      <groupId>org.treblereel.gwt.gwtproject.dom</groupId>
       <artifactId>gwt-dom-style-definitions</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.gwtproject.regexp</groupId>
+      <groupId>org.treblereel.gwt.gwtproject.regexp</groupId>
       <artifactId>gwt-regexp</artifactId>
       <scope>test</scope>
     </dependency>

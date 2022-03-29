@@ -3,12 +3,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.gwtproject</groupId>
+    <groupId>org.treblereel.gwt.gwtproject</groupId>
     <artifactId>gwt-parent</artifactId>
     <version>dev</version>
   </parent>
 
-  <groupId>org.gwtproject.callback</groupId>
+  <groupId>org.treblereel.gwt.gwtproject.callback</groupId>
   <artifactId>gwt-callback-parent</artifactId>
 
   <version>dev</version>

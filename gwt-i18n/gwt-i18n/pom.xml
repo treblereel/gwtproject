@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.gwtproject.i18n</groupId>
+        <groupId>org.treblereel.gwt.gwtproject.i18n</groupId>
         <artifactId>gwt-i18n-parent</artifactId>
         <version>dev</version>
     </parent>
@@ -17,19 +17,19 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.gwtproject.safehtml</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.safehtml</groupId>
             <artifactId>gwt-safehtml</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.gwtproject.regexp</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.regexp</groupId>
             <artifactId>gwt-regexp</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.gwtproject.dom</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.dom</groupId>
             <artifactId>gwt-dom</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.gwtproject.event</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.event</groupId>
             <artifactId>gwt-event</artifactId>
         </dependency>
         <dependency>

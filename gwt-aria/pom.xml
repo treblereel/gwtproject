@@ -4,12 +4,12 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.gwtproject</groupId>
+    <groupId>org.treblereel.gwt.gwtproject</groupId>
     <artifactId>gwt-parent</artifactId>
     <version>dev</version>
   </parent>
 
-  <groupId>org.gwtproject.aria</groupId>
+  <groupId>org.treblereel.gwt.gwtproject.aria</groupId>
   <artifactId>gwt-aria-parent</artifactId>
 
   <version>dev</version>

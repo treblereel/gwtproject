@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.gwtproject.animation</groupId>
+    <groupId>org.treblereel.gwt.gwtproject.animation</groupId>
     <artifactId>gwt-animation-parent</artifactId>
     <version>dev</version>
   </parent>
@@ -34,7 +34,7 @@
     </dependency>
 
     <dependency>
-      <groupId>org.gwtproject.animation</groupId>
+      <groupId>org.treblereel.gwt.gwtproject.animation</groupId>
       <artifactId>gwt-animation</artifactId>
       <scope>test</scope>
     </dependency>

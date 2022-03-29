@@ -4,7 +4,7 @@
 <modelVersion>4.0.0</modelVersion>
 
 <parent>
-  <groupId>org.gwtproject.aria</groupId>
+  <groupId>org.treblereel.gwt.gwtproject.aria</groupId>
   <artifactId>gwt-aria-parent</artifactId>
   <version>dev</version>
 </parent>
@@ -34,7 +34,7 @@
   </dependency>
 
   <dependency>
-    <groupId>org.gwtproject.aria</groupId>
+    <groupId>org.treblereel.gwt.gwtproject.aria</groupId>
     <artifactId>gwt-aria</artifactId>
     <scope>test</scope>
   </dependency>

@@ -3,12 +3,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.gwtproject.i18n</groupId>
+    <groupId>org.treblereel.gwt.gwtproject.i18n</groupId>
     <artifactId>gwt-i18n-parent</artifactId>
     <version>dev</version>
   </parent>
 
-  <groupId>org.gwtproject.i18n</groupId>
+  <groupId>org.treblereel.gwt.gwtproject.i18n</groupId>
   <artifactId>gwt-i18n-j2cl-tests</artifactId>
   <version>${revision}</version>
 
@@ -35,45 +35,45 @@
     </dependency>
 
     <dependency>
-      <groupId>org.gwtproject.timer</groupId>
+      <groupId>org.treblereel.gwt.gwtproject.timer</groupId>
       <artifactId>gwt-timer</artifactId>
       <scope>test</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.gwtproject.core</groupId>
+      <groupId>org.treblereel.gwt.gwtproject.core</groupId>
       <artifactId>gwt-core</artifactId>
       <scope>test</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.gwtproject.safehtml</groupId>
+      <groupId>org.treblereel.gwt.gwtproject.safehtml</groupId>
       <artifactId>gwt-safehtml</artifactId>
       <scope>test</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.gwtproject.i18n</groupId>
+      <groupId>org.treblereel.gwt.gwtproject.i18n</groupId>
       <artifactId>gwt-i18n</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.gwtproject.i18n</groupId>
+      <groupId>org.treblereel.gwt.gwtproject.i18n</groupId>
       <artifactId>gwt-datetimeformat</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.gwtproject.i18n</groupId>
+      <groupId>org.treblereel.gwt.gwtproject.i18n</groupId>
       <artifactId>gwt-numberformat</artifactId>
       <scope>test</scope>
     </dependency>
 <!--    <dependency>
-      <groupId>org.gwtproject.i18n</groupId>
+      <groupId>org.treblereel.gwt.gwtproject.i18n</groupId>
       <artifactId>gwt-localizable-processor</artifactId>
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.gwtproject.i18n</groupId>
+      <groupId>org.treblereel.gwt.gwtproject.i18n</groupId>
       <artifactId>gwt-datetimeformat-processor</artifactId>
       <scope>provided</scope>
       <version>HEAD-SNAPSHOT</version>
@@ -88,7 +88,7 @@
         <configuration>
           <annotationProcessorPaths>
             <path>
-                <groupId>org.gwtproject.i18n</groupId>
+                <groupId>org.treblereel.gwt.gwtproject.i18n</groupId>
                 <artifactId>gwt-i18n-processor</artifactId>
                 <version>${revision}</version>
             </path>

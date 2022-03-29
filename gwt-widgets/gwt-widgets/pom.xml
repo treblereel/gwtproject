@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.gwtproject.widgets</groupId>
+        <groupId>org.treblereel.gwt.gwtproject.widgets</groupId>
         <artifactId>gwt-widgets-parent</artifactId>
         <version>dev</version>
     </parent>
@@ -19,11 +19,11 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.gwtproject.regexp</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.regexp</groupId>
             <artifactId>gwt-regexp</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.gwtproject.dom</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.dom</groupId>
             <artifactId>gwt-dom</artifactId>
         </dependency>
         <dependency>
@@ -31,51 +31,51 @@
             <artifactId>elemental2-dom</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.gwtproject.event</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.event</groupId>
             <artifactId>gwt-event</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.gwtproject.event</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.event</groupId>
             <artifactId>gwt-event-legacy</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.gwtproject.event</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.event</groupId>
             <artifactId>gwt-event-dom</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.gwtproject.event</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.event</groupId>
             <artifactId>gwt-event-dom</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.gwtproject.event</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.event</groupId>
             <artifactId>gwt-event-logical</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.gwtproject.user.history</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.user.history</groupId>
             <artifactId>gwt-history</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.gwtproject.layout</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.layout</groupId>
             <artifactId>gwt-layout</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.gwtproject.user.window</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.user.window</groupId>
             <artifactId>gwt-window</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.gwtproject.editor</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.editor</groupId>
             <artifactId>gwt-editor</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.gwtproject.i18n</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.i18n</groupId>
             <artifactId>gwt-i18n</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.gwtproject.resources</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.resources</groupId>
             <artifactId>gwt-resources-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.gwtproject.uibinder</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.uibinder</groupId>
             <artifactId>gwt-uibinder-client</artifactId>
         </dependency>
     </dependencies>

@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.gwtproject.widgets</groupId>
+    <groupId>org.treblereel.gwt.gwtproject.widgets</groupId>
     <artifactId>gwt-widgets-parent</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
@@ -30,12 +30,12 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.gwtproject.widgets</groupId>
+      <groupId>org.treblereel.gwt.gwtproject.widgets</groupId>
       <artifactId>gwt-widgets</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.gwtproject.core</groupId>
+      <groupId>org.treblereel.gwt.gwtproject.core</groupId>
       <artifactId>gwt-core</artifactId>
       <version>${project.version}</version>
       <exclusions>
@@ -51,18 +51,18 @@
       <version>1.0.0-SNAPSHOT</version>
     </dependency>
     <dependency>
-      <groupId>org.gwtproject.resources</groupId>
+      <groupId>org.treblereel.gwt.gwtproject.resources</groupId>
       <artifactId>gwt-resources-api</artifactId>
       <version>${revision}</version>
       <exclusions>
         <exclusion>
-          <groupId>org.gwtproject.http</groupId>
+          <groupId>org.treblereel.gwt.gwtproject.http</groupId>
           <artifactId>gwt-http</artifactId>
         </exclusion>
       </exclusions>
     </dependency>
     <dependency>
-      <groupId>org.gwtproject.regexp</groupId>
+      <groupId>org.treblereel.gwt.gwtproject.regexp</groupId>
       <artifactId>gwt-regexp</artifactId>
       <version>${project.version}</version>
       <exclusions>
@@ -73,12 +73,12 @@
       </exclusions>
     </dependency>
     <dependency>
-      <groupId>org.gwtproject</groupId>
+      <groupId>org.treblereel.gwt.gwtproject</groupId>
       <artifactId>editors-processor</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.gwtproject.safehtml</groupId>
+      <groupId>org.treblereel.gwt.gwtproject.safehtml</groupId>
       <artifactId>gwt-safehtml-template-processor</artifactId>
       <version>${project.version}</version>
       <exclusions>
