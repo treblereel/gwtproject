@@ -11,10 +11,16 @@
     </parent>
 
     <artifactId>gwt-validation-api</artifactId>
+    <name>client api for gwt-validation</name>
     <description>client api for gwt-validation</description>
     <packaging>jar</packaging>
     <version>${revision}</version>
 
+    <scm>
+        <connection>scm:git:git://github.com/org.gwtproject/gwt-validation.git</connection>
+        <developerConnection>scm:git:ssh://github.com/org.gwtproject/gwt-validation.git</developerConnection>
+        <url>https://github.com/org.gwtproject/gwt-validation/tree/master</url>
+    </scm>
 
     <developers>
         <developer>

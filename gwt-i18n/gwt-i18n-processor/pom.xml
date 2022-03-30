@@ -12,6 +12,15 @@
     <packaging>jar</packaging>
     <version>${revision}</version>
 
+    <name>GWT i18n processor</name>
+    <description>gwt-i18n processor</description>
+
+    <scm>
+        <connection>scm:git:git://github.com/org.gwtproject/gwt-i18n.git</connection>
+        <developerConnection>scm:git:ssh://github.com/org.gwtproject/gwt-i18n.git</developerConnection>
+        <url>https://github.com/org.gwtproject/gwt-i18n/tree/master</url>
+    </scm>
+
     <developers>
         <developer>
             <id>treblereel</id>
