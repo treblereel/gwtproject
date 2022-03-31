@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.gwtproject.i18n</groupId>
+        <groupId>org.treblereel.gwt.gwtproject.i18n</groupId>
         <artifactId>gwt-i18n-parent</artifactId>
         <version>dev</version>
     </parent>
@@ -28,12 +28,12 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>org.gwtproject.i18n</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.i18n</groupId>
             <artifactId>gwt-i18n-processor-util</artifactId>
             <version>${revision}</version>
         </dependency>
         <dependency>
-            <groupId>org.gwtproject.i18n</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.i18n</groupId>
             <artifactId>gwt-datetimeformat</artifactId>
             <version>${revision}</version>
         </dependency>

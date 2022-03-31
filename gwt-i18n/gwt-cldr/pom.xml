@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.gwtproject.i18n</groupId>
+    <groupId>org.treblereel.gwt.gwtproject.i18n</groupId>
     <artifactId>gwt-i18n-parent</artifactId>
     <version>dev</version>
   </parent>
@@ -12,6 +12,14 @@
   <artifactId>gwt-cldr</artifactId>
   <packaging>jar</packaging>
   <version>${revision}</version>
+  <name>gwt-cldr</name>
+  <description>gwt-cldr</description>
+
+  <scm>
+    <connection>scm:git:git://github.com/org.gwtproject/gwt-cldr.git</connection>
+    <developerConnection>scm:git:ssh://github.com/org.gwtproject/gwt-cldr.git</developerConnection>
+    <url>https://github.com/org.gwtproject/gwt-cldr/tree/master</url>
+  </scm>
 
   <build>
     <resources>

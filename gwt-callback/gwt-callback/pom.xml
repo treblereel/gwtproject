@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.gwtproject.callback</groupId>
+    <groupId>org.treblereel.gwt.gwtproject.callback</groupId>
     <artifactId>gwt-callback-parent</artifactId>
     <version>dev</version>
   </parent>

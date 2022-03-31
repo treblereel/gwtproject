@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.gwtproject.typedarrays</groupId>
+        <groupId>org.treblereel.gwt.gwtproject.typedarrays</groupId>
         <artifactId>gwt-typedarrays-parent</artifactId>
         <version>dev</version>
     </parent>
@@ -62,7 +62,7 @@
         </dependency>
 
         <dependency>
-            <groupId>org.gwtproject.typedarrays</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.typedarrays</groupId>
             <artifactId>gwt-typedarrays</artifactId>
             <scope>test</scope>
         </dependency>

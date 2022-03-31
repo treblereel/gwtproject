@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.gwtproject.timer</groupId>
+    <groupId>org.treblereel.gwt.gwtproject.timer</groupId>
     <artifactId>gwt-timer-parent</artifactId>
     <version>dev</version>
   </parent>
@@ -40,7 +40,7 @@
     </dependency>
 
     <dependency>
-      <groupId>org.gwtproject.timer</groupId>
+      <groupId>org.treblereel.gwt.gwtproject.timer</groupId>
       <artifactId>gwt-timer</artifactId>
       <scope>test</scope>
     </dependency>

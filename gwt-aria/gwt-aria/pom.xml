@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.gwtproject.aria</groupId>
+    <groupId>org.treblereel.gwt.gwtproject.aria</groupId>
     <artifactId>gwt-aria-parent</artifactId>
     <version>dev</version>
   </parent>
@@ -45,7 +45,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.gwtproject.dom</groupId>
+      <groupId>org.treblereel.gwt.gwtproject.dom</groupId>
       <artifactId>gwt-dom</artifactId>
     </dependency>
     <dependency>

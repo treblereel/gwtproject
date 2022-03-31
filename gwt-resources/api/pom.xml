@@ -5,12 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.gwtproject.resources</groupId>
+        <groupId>org.treblereel.gwt.gwtproject.resources</groupId>
         <artifactId>gwt-resources-parent</artifactId>
         <version>dev</version>
     </parent>
 
     <artifactId>gwt-resources-api</artifactId>
+    <name>client api for gwt-resources</name>
     <description>client api for gwt-resources</description>
     <version>${revision}</version>
     <packaging>jar</packaging>
@@ -23,6 +24,12 @@
         </developer>
     </developers>
 
+    <scm>
+        <connection>scm:git:git://github.com/org.gwtproject/gwt-resources.git</connection>
+        <developerConnection>scm:git:ssh://github.com/org.gwtproject/gwt-resources.git</developerConnection>
+        <url>https://github.com/org.gwtproject/gwt-resources/tree/master</url>
+    </scm>
+
     <licenses>
         <license>
             <name>Apache License Version 2.0</name>
@@ -33,31 +40,31 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.gwtproject.core</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.core</groupId>
             <artifactId>gwt-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.gwtproject.safehtml</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.safehtml</groupId>
             <artifactId>gwt-safecss</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.gwtproject.safehtml</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.safehtml</groupId>
             <artifactId>gwt-safehtml</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.gwtproject.regexp</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.regexp</groupId>
             <artifactId>gwt-regexp</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.gwtproject.dom</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.dom</groupId>
             <artifactId>gwt-dom</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.gwtproject.http</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.http</groupId>
             <artifactId>gwt-http</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.gwtproject.callback</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.callback</groupId>
             <artifactId>gwt-callback</artifactId>
         </dependency>
     </dependencies>
@@ -112,5 +119,61 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <!-- release profile to create sources, javadoc, and sign all artifacts before uploading -->
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- see http://central.sonatype.org/pages/working-with-pgp-signatures.html for more detail -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-deploy-plugin</artifactId>
+                        <configuration>
+                            <skip>false</skip>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>

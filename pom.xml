@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.gwtproject</groupId>
+    <groupId>org.treblereel.gwt.gwtproject</groupId>
     <artifactId>gwt-parent</artifactId>
 
     <version>dev</version>
@@ -77,7 +77,7 @@
     </modules>
 
     <properties>
-        <revision>HEAD-SNAPSHOT</revision>
+        <revision>202203291</revision>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -100,10 +100,9 @@
         <maven.properties.plugin>1.0.0</maven.properties.plugin>
         <maven.failsafe.plugin>3.0.0-M5</maven.failsafe.plugin>
         <maven.clean.plugin>3.1.0</maven.clean.plugin>
-        <maven.j2cl.plugin>0.17-SNAPSHOT</maven.j2cl.plugin>
+        <maven.j2cl.plugin>0.19</maven.j2cl.plugin>
 
         <junit.version>4.13.1</junit.version>
-        <vertispan.j2cl.repo.url>https://repo.vertispan.com/j2cl/</vertispan.j2cl.repo.url>
         <license.orgName>Google Inc.</license.orgName>
         <license.year>2018</license.year>
     </properties>
@@ -111,7 +110,7 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.gwtproject</groupId>
+                <groupId>org.treblereel.gwt.gwtproject</groupId>
                 <artifactId>gwt-bom</artifactId>
                 <version>${revision}</version>
                 <type>pom</type>
@@ -334,30 +333,14 @@
         </plugins>
     </build>
 
-    <pluginRepositories>
-        <pluginRepository>
-            <id>vertispan-releases</id>
-            <name>Vertispan hosted artifacts-releases</name>
-            <url>${vertispan.j2cl.repo.url}</url>
-        </pluginRepository>
-    </pluginRepositories>
-
-    <repositories>
-        <repository>
-            <id>vertispan-snapshots</id>
-            <name>Vertispan hosted artifacts-releases</name>
-            <url>${vertispan.j2cl.repo.url}</url>
-        </repository>
-    </repositories>
-
     <distributionManagement>
         <snapshotRepository>
-            <id>treblereel</id>
-            <url>https://repo.treblereel.org/snapshots</url>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
         <repository>
-            <id>treblereel</id>
-            <url>https://repo.treblereel.org/releases</url>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
 

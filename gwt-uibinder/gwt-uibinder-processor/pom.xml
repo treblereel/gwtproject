@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.gwtproject.uibinder</groupId>
+    <groupId>org.treblereel.gwt.gwtproject.uibinder</groupId>
     <artifactId>gwt-uibinder-parent</artifactId>
     <version>dev</version>
   </parent>
@@ -93,7 +93,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.gwtproject.dom</groupId>
+      <groupId>org.treblereel.gwt.gwtproject.dom</groupId>
       <artifactId>gwt-dom</artifactId>
       <scope>compile</scope>
     </dependency>
@@ -144,6 +144,18 @@
       <id>release</id>
       <build>
         <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>attach-sources</id>
+                <goals>
+                  <goal>jar-no-fork</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>

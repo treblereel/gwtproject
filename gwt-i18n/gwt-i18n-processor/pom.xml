@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.gwtproject.i18n</groupId>
+        <groupId>org.treblereel.gwt.gwtproject.i18n</groupId>
         <artifactId>gwt-i18n-parent</artifactId>
         <version>dev</version>
     </parent>
@@ -11,6 +11,15 @@
     <artifactId>gwt-i18n-processor</artifactId>
     <packaging>jar</packaging>
     <version>${revision}</version>
+
+    <name>GWT i18n processor</name>
+    <description>gwt-i18n processor</description>
+
+    <scm>
+        <connection>scm:git:git://github.com/org.gwtproject/gwt-i18n.git</connection>
+        <developerConnection>scm:git:ssh://github.com/org.gwtproject/gwt-i18n.git</developerConnection>
+        <url>https://github.com/org.gwtproject/gwt-i18n/tree/master</url>
+    </scm>
 
     <developers>
         <developer>
@@ -51,11 +60,11 @@
             <artifactId>commons-io</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.gwtproject.i18n</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.i18n</groupId>
             <artifactId>gwt-cldr</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.gwtproject.i18n</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.i18n</groupId>
             <artifactId>gwt-i18n</artifactId>
         </dependency>
         <dependency>

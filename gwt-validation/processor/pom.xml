@@ -4,12 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.gwtproject.validation</groupId>
+    <groupId>org.treblereel.gwt.gwtproject.validation</groupId>
     <artifactId>gwt-validation-parent</artifactId>
     <version>dev</version>
   </parent>
 
   <artifactId>gwt-validation-processor</artifactId>
+  <name>apt processor for gwt-validation</name>
   <description>apt processor for gwt-validation</description>
   <version>${revision}</version>
   <packaging>jar</packaging>
@@ -22,23 +23,29 @@
     </developer>
   </developers>
 
+  <scm>
+    <connection>scm:git:git://github.com/org.gwtproject/gwt-validation.git</connection>
+    <developerConnection>scm:git:ssh://github.com/org.gwtproject/gwt-validation.git</developerConnection>
+    <url>https://github.com/org.gwtproject/gwt-validation/tree/master</url>
+  </scm>
+
   <dependencies>
     <dependency>
-      <groupId>org.gwtproject.regexp</groupId>
+      <groupId>org.treblereel.gwt.gwtproject.regexp</groupId>
       <artifactId>gwt-regexp</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.gwtproject.validation</groupId>
+      <groupId>org.treblereel.gwt.gwtproject.validation</groupId>
       <artifactId>gwt-validation-api</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>org.gwtproject.dom</groupId>
+      <groupId>org.treblereel.gwt.gwtproject.dom</groupId>
       <artifactId>gwt-dom</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>org.gwtproject.safehtml</groupId>
+      <groupId>org.treblereel.gwt.gwtproject.safehtml</groupId>
       <artifactId>gwt-safehtml</artifactId>
     </dependency>
 
@@ -172,6 +179,30 @@
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>flatten-maven-plugin</artifactId>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>attach-sources</id>
+                <goals>
+                  <goal>jar-no-fork</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>attach-javadocs</id>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
           </plugin>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>

@@ -5,16 +5,22 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.gwtproject.validation</groupId>
+        <groupId>org.treblereel.gwt.gwtproject.validation</groupId>
         <artifactId>gwt-validation-parent</artifactId>
         <version>dev</version>
     </parent>
 
     <artifactId>gwt-validation-api</artifactId>
+    <name>client api for gwt-validation</name>
     <description>client api for gwt-validation</description>
     <packaging>jar</packaging>
     <version>${revision}</version>
 
+    <scm>
+        <connection>scm:git:git://github.com/org.gwtproject/gwt-validation.git</connection>
+        <developerConnection>scm:git:ssh://github.com/org.gwtproject/gwt-validation.git</developerConnection>
+        <url>https://github.com/org.gwtproject/gwt-validation/tree/master</url>
+    </scm>
 
     <developers>
         <developer>
@@ -34,15 +40,15 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.gwtproject.i18n</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.i18n</groupId>
             <artifactId>gwt-i18n</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.gwtproject.core</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.core</groupId>
             <artifactId>gwt-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.gwtproject.regexp</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.regexp</groupId>
             <artifactId>gwt-regexp</artifactId>
         </dependency>
 

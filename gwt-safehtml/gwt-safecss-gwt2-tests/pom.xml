@@ -4,11 +4,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.gwtproject.safehtml</groupId>
+    <groupId>org.treblereel.gwt.gwtproject.safehtml</groupId>
     <artifactId>gwt-safehtml-parent</artifactId>
     <version>dev</version>
   </parent>
-  <groupId>org.gwtproject.safehtml</groupId>
+  <groupId>org.treblereel.gwt.gwtproject.safehtml</groupId>
   <artifactId>gwt-safecss-gwt2-tests</artifactId>
   <version>${revision}</version>
   <packaging>gwt-lib</packaging>
@@ -35,7 +35,7 @@
     </dependency>
 
     <dependency>
-      <groupId>org.gwtproject.safehtml</groupId>
+      <groupId>org.treblereel.gwt.gwtproject.safehtml</groupId>
       <artifactId>gwt-safecss</artifactId>
       <scope>test</scope>
     </dependency>

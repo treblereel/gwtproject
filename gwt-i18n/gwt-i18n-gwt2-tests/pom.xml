@@ -4,12 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.gwtproject.i18n</groupId>
+        <groupId>org.treblereel.gwt.gwtproject.i18n</groupId>
         <artifactId>gwt-i18n-parent</artifactId>
         <version>dev</version>
     </parent>
 
-    <groupId>org.gwtproject.i18n</groupId>
+    <groupId>org.treblereel.gwt.gwtproject.i18n</groupId>
     <artifactId>gwt-i18n-gwt2-tests</artifactId>
     <version>dev</version>
     <packaging>jar</packaging>
@@ -19,15 +19,15 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.gwtproject.i18n</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.i18n</groupId>
             <artifactId>gwt-i18n</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.gwtproject.i18n</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.i18n</groupId>
             <artifactId>gwt-i18n-processor</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.gwtproject.safehtml</groupId>
+            <groupId>org.treblereel.gwt.gwtproject.safehtml</groupId>
             <artifactId>gwt-safehtml</artifactId>
             <scope>test</scope>
         </dependency>
@@ -124,31 +124,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>vertispan-releases</id>
-            <name>Vertispan hosted artifacts-releases</name>
-            <url>https://repo.vertispan.com/gwt-snapshot/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
-    <repositories>
-        <repository>
-            <id>vertispan-releases</id>
-            <name>Vertispan hosted artifacts-releases</name>
-            <url>https://repo.vertispan.com/gwt-snapshot/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
 </project>

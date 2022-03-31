@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.gwtproject.user.history</groupId>
+    <groupId>org.treblereel.gwt.gwtproject.user.history</groupId>
     <artifactId>gwt-history-parent</artifactId>
     <version>dev</version>
   </parent>
@@ -18,7 +18,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.gwtproject.user.history</groupId>
+      <groupId>org.treblereel.gwt.gwtproject.user.history</groupId>
       <artifactId>gwt-history</artifactId>
     </dependency>
     <dependency>
@@ -33,7 +33,7 @@
     </dependency>
 
     <dependency>
-      <groupId>org.gwtproject.event</groupId>
+      <groupId>org.treblereel.gwt.gwtproject.event</groupId>
       <artifactId>gwt-event-logical</artifactId>
       <scope>test</scope>
     </dependency>
