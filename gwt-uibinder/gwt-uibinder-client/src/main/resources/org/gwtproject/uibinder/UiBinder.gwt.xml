@@ -17,7 +17,7 @@
 
 -->
 <module>
-  <inherits name="com.google.gwt.resources.Resources"/>
+  <inherits name="org.gwtproject.resources.Resources"/>
 
   <inherits name="org.gwtproject.dom.DOM"/>
 
