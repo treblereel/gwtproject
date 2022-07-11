@@ -39,7 +39,6 @@ public class ClippedImagePrototype extends AbstractImagePrototype {
   private int width = 0;
   private boolean isDraggable = false;
 
-  @JsConstructor
   public ClippedImagePrototype(SafeUri url, int left, int top, int width, int height) {
     this.url = url;
     this.left = left;
