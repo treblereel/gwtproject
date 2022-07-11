@@ -750,14 +750,11 @@ public class TreeItem extends UIObject implements IsTreeItem, HasTreeItems, HasH
    * @return the focusable item
    */
   protected Focusable getFocusable() {
-    Focusable focus = getFocusable();
-    if (focus == null) {
-      Widget w = getWidget();
-      if (w instanceof Focusable) {
-        focus = (Focusable) w;
-      }
+    Widget w = getWidget();
+    if (w instanceof Focusable) {
+      return (Focusable) w;
     }
-    return focus;
+    return null;
   }
 
   /**

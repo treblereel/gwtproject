@@ -1171,7 +1171,7 @@ public class Tree extends Widget
       DOM.appendChild(holder, proto.createElement());
     } else {
       // Otherwise, simply apply the prototype to the existing element.
-      proto.applyTo(Js.<Image>uncheckedCast(child));
+      proto.applyTo(Js.<AbstractImagePrototype.ImagePrototypeElement>uncheckedCast(child));
     }
   }
 
