@@ -89,8 +89,8 @@ public final class LocaleWrapper {
 
   @jsinterop.annotations.JsMethod
   private static native String getCurrentLocale() /* {
- 		var currentLocale =  @com.google.gwt.i18n.client.LocaleInfo::getCurrentLocale()();
- 		return currentLocale.@com.google.gwt.i18n.client.LocaleInfo::getLocaleName()();
+ 		var currentLocale =  @org.gwtproject.i18n.client.LocaleInfo::getCurrentLocale()();
+ 		return currentLocale.@org.gwtproject.i18n.client.LocaleInfo::getLocaleName()();
  	} */;
 
   public static Locale getDefault() {

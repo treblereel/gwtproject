@@ -35,15 +35,15 @@ public class CurrencyListFactory {
   @JsMethod
   @SuppressWarnings("unusable-by-js")
   public static native org.gwtproject.i18n.shared.cldr.CurrencyList get(String locale) /*-{
-        var currencyList = @com.google.gwt.i18n.client.CurrencyList::get()();
-        var currencyListDefault = currencyList.@com.google.gwt.i18n.client.CurrencyList::getDefault()();
+        var currencyList = @org.gwtproject.i18n.client.CurrencyList::get()();
+        var currencyListDefault = currencyList.@org.gwtproject.i18n.client.CurrencyList::getDefault()();
 
-        var getCurrencyCode = currencyListDefault.@com.google.gwt.i18n.client.CurrencyData::getCurrencyCode()();
-        var getCurrencySymbol = currencyListDefault.@com.google.gwt.i18n.client.CurrencyData::getCurrencySymbol()();
-        var getDefaultFractionDigits = currencyListDefault.@com.google.gwt.i18n.client.CurrencyData::getDefaultFractionDigits()();
-        var getPortableCurrencySymbol = currencyListDefault.@com.google.gwt.i18n.client.CurrencyData::getPortableCurrencySymbol()();
-        var getSimpleCurrencySymbol = currencyListDefault.@com.google.gwt.i18n.client.CurrencyData::getSimpleCurrencySymbol()();
-        var isDeprecated = currencyListDefault.@com.google.gwt.i18n.client.CurrencyData::isDeprecated()();
+        var getCurrencyCode = currencyListDefault.@org.gwtproject.i18n.client.CurrencyData::getCurrencyCode()();
+        var getCurrencySymbol = currencyListDefault.@org.gwtproject.i18n.client.CurrencyData::getCurrencySymbol()();
+        var getDefaultFractionDigits = currencyListDefault.@org.gwtproject.i18n.client.CurrencyData::getDefaultFractionDigits()();
+        var getPortableCurrencySymbol = currencyListDefault.@org.gwtproject.i18n.client.CurrencyData::getPortableCurrencySymbol()();
+        var getSimpleCurrencySymbol = currencyListDefault.@org.gwtproject.i18n.client.CurrencyData::getSimpleCurrencySymbol()();
+        var isDeprecated = currencyListDefault.@org.gwtproject.i18n.client.CurrencyData::isDeprecated()();
 
         var bridgedCurrencyDataDefault = @org.gwtproject.i18n.shared.cldr.impl.gwt2.BridgedCurrencyData::new(Ljava/lang/String;
                                                                                                         Ljava/lang/String;
@@ -59,8 +59,8 @@ public class CurrencyListFactory {
                                                                                                          isDeprecated);
 
 
-        var loadNamesMap = currencyList.@com.google.gwt.i18n.client.CurrencyList::loadNamesMapNative()();
-        var loadCurrencyMapNative = currencyList.@com.google.gwt.i18n.client.CurrencyList::loadCurrencyMapNative()();
+        var loadNamesMap = currencyList.@org.gwtproject.i18n.client.CurrencyList::loadNamesMapNative()();
+        var loadCurrencyMapNative = currencyList.@org.gwtproject.i18n.client.CurrencyList::loadCurrencyMapNative()();
         var loadNamesHashMap = new Map();
         var loadCurrencyHashMap = new Map();
 
