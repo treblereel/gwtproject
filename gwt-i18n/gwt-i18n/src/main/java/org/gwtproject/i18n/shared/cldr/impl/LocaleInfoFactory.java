@@ -46,86 +46,86 @@ public class LocaleInfoFactory {
   @SuppressWarnings("unusable-by-js")
   public static native org.gwtproject.i18n.shared.cldr.LocaleInfoImpl get(String locale) /*-{
 
-      var getCurrentLocale = @com.google.gwt.i18n.client.LocaleInfo::getCurrentLocale()();
-      var isRTL = getCurrentLocale.@com.google.gwt.i18n.client.LocaleInfo::isRTL()();
-      var name = getCurrentLocale.@com.google.gwt.i18n.client.LocaleInfo::getLocaleName()();
+      var getCurrentLocale = @org.gwtproject.i18n.client.LocaleInfo::getCurrentLocale()();
+      var isRTL = getCurrentLocale.@org.gwtproject.i18n.client.LocaleInfo::isRTL()();
+      var name = getCurrentLocale.@org.gwtproject.i18n.client.LocaleInfo::getLocaleName()();
 
 
-        var dateTimeFormatInfo = getCurrentLocale.@com.google.gwt.i18n.client.LocaleInfo::getDateTimeFormatInfo()();
+        var dateTimeFormatInfo = getCurrentLocale.@org.gwtproject.i18n.client.LocaleInfo::getDateTimeFormatInfo()();
 
-        var ampms = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::ampms()();
-        var dateFormat = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::dateFormat()();
-        var dateFormatFull = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::dateFormatFull()();
-        var dateFormatLong = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::dateFormatLong()();
-        var dateFormatMedium = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::dateFormatMedium()();
-        var dateFormatShort = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::dateFormatShort()();
+        var ampms = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::ampms()();
+        var dateFormat = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::dateFormat()();
+        var dateFormatFull = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::dateFormatFull()();
+        var dateFormatLong = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::dateFormatLong()();
+        var dateFormatMedium = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::dateFormatMedium()();
+        var dateFormatShort = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::dateFormatShort()();
 
         var dateTime = function(obj1, obj2) {
-            return dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::dateTime(Ljava/lang/String;Ljava/lang/String;)(obj1,obj2);
+            return dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::dateTime(Ljava/lang/String;Ljava/lang/String;)(obj1,obj2);
         }
         var dateTimeFull = function(obj1, obj2) {
-            return dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::dateTimeFull(Ljava/lang/String;Ljava/lang/String;)(obj1,obj2);
+            return dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::dateTimeFull(Ljava/lang/String;Ljava/lang/String;)(obj1,obj2);
         }
         var dateTimeLong = function(obj1, obj2) {
-            return dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::dateTimeLong(Ljava/lang/String;Ljava/lang/String;)(obj1,obj2);
+            return dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::dateTimeLong(Ljava/lang/String;Ljava/lang/String;)(obj1,obj2);
         }
         var dateTimeMedium = function(obj1, obj2) {
-            return dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::dateTimeMedium(Ljava/lang/String;Ljava/lang/String;)(obj1,obj2);
+            return dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::dateTimeMedium(Ljava/lang/String;Ljava/lang/String;)(obj1,obj2);
         }
         var dateTimeShort = function(obj1, obj2) {
-            return dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::dateTimeShort(Ljava/lang/String;Ljava/lang/String;)(obj1,obj2);
+            return dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::dateTimeShort(Ljava/lang/String;Ljava/lang/String;)(obj1,obj2);
         }
 
-        var erasFull = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::erasFull()();
-        var erasShort = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::erasShort()();
-        var firstDayOfTheWeek = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::firstDayOfTheWeek()();
-        var formatDay = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::formatDay()();
-        var formatHour12Minute = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::formatHour12Minute()();
-        var formatHour12MinuteSecond = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::formatHour12MinuteSecond()();
-        var formatHour24Minute = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::formatHour24Minute()();
-        var formatHour24MinuteSecond = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::formatHour24MinuteSecond()();
-        var formatMinuteSecond = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::formatMinuteSecond()();
-        var formatMonthAbbrev = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::formatMonthAbbrev()();
-        var formatMonthAbbrevDay = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::formatMonthAbbrevDay()();
-        var formatMonthFull = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::formatMonthFull()();
-        var formatMonthFullDay = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::formatMonthFullDay()();
-        var formatMonthFullWeekdayDay = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::formatMonthFullWeekdayDay()();
-        var formatMonthNumDay = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::formatMonthNumDay()();
-        var formatYear = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::formatYear()();
-        var formatYearMonthAbbrev = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::formatYearMonthAbbrev()();
-        var formatYearMonthAbbrevDay = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::formatYearMonthAbbrevDay()();
-        var formatYearMonthFull = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::formatYearMonthFull()();
-        var formatYearMonthFullDay = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::formatYearMonthFullDay()();
-        var formatYearMonthNum = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::formatYearMonthNum()();
-        var formatYearMonthNumDay = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::formatYearMonthNumDay()();
-        var formatYearMonthWeekdayDay = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::formatYearMonthWeekdayDay()();
-        var formatYearQuarterFull = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::formatYearQuarterFull()();
-        var formatYearQuarterShort = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::formatYearQuarterShort()();
+        var erasFull = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::erasFull()();
+        var erasShort = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::erasShort()();
+        var firstDayOfTheWeek = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::firstDayOfTheWeek()();
+        var formatDay = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::formatDay()();
+        var formatHour12Minute = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::formatHour12Minute()();
+        var formatHour12MinuteSecond = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::formatHour12MinuteSecond()();
+        var formatHour24Minute = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::formatHour24Minute()();
+        var formatHour24MinuteSecond = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::formatHour24MinuteSecond()();
+        var formatMinuteSecond = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::formatMinuteSecond()();
+        var formatMonthAbbrev = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::formatMonthAbbrev()();
+        var formatMonthAbbrevDay = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::formatMonthAbbrevDay()();
+        var formatMonthFull = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::formatMonthFull()();
+        var formatMonthFullDay = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::formatMonthFullDay()();
+        var formatMonthFullWeekdayDay = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::formatMonthFullWeekdayDay()();
+        var formatMonthNumDay = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::formatMonthNumDay()();
+        var formatYear = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::formatYear()();
+        var formatYearMonthAbbrev = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::formatYearMonthAbbrev()();
+        var formatYearMonthAbbrevDay = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::formatYearMonthAbbrevDay()();
+        var formatYearMonthFull = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::formatYearMonthFull()();
+        var formatYearMonthFullDay = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::formatYearMonthFullDay()();
+        var formatYearMonthNum = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::formatYearMonthNum()();
+        var formatYearMonthNumDay = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::formatYearMonthNumDay()();
+        var formatYearMonthWeekdayDay = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::formatYearMonthWeekdayDay()();
+        var formatYearQuarterFull = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::formatYearQuarterFull()();
+        var formatYearQuarterShort = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::formatYearQuarterShort()();
 
-        var monthsFull = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::monthsFull()();
-        var monthsFullStandalone = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::monthsFullStandalone()();
-        var monthsNarrow = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::monthsNarrow()();
-        var monthsNarrowStandalone = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::monthsNarrowStandalone()();
-        var monthsShort = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::monthsShort()();
-        var monthsShortStandalone = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::monthsShortStandalone()();
-        var quartersFull = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::quartersFull()();
-        var quartersShort = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::quartersShort()();
+        var monthsFull = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::monthsFull()();
+        var monthsFullStandalone = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::monthsFullStandalone()();
+        var monthsNarrow = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::monthsNarrow()();
+        var monthsNarrowStandalone = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::monthsNarrowStandalone()();
+        var monthsShort = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::monthsShort()();
+        var monthsShortStandalone = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::monthsShortStandalone()();
+        var quartersFull = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::quartersFull()();
+        var quartersShort = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::quartersShort()();
 
-        var timeFormat = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::timeFormat()();
-        var timeFormatFull = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::timeFormatFull()();
-        var timeFormatLong = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::timeFormatLong()();
-        var timeFormatMedium = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::timeFormatMedium()();
-        var timeFormatShort = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::timeFormatShort()();
+        var timeFormat = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::timeFormat()();
+        var timeFormatFull = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::timeFormatFull()();
+        var timeFormatLong = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::timeFormatLong()();
+        var timeFormatMedium = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::timeFormatMedium()();
+        var timeFormatShort = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::timeFormatShort()();
 
-        var weekdaysFull = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::weekdaysFull()();
-        var weekdaysFullStandalone = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::weekdaysFullStandalone()();
-        var weekdaysNarrow = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::weekdaysNarrow()();
-        var weekdaysNarrowStandalone = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::weekdaysNarrowStandalone()();
-        var weekdaysShort = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::weekdaysShort()();
-        var weekdaysShortStandalone = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::weekdaysShortStandalone()();
+        var weekdaysFull = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::weekdaysFull()();
+        var weekdaysFullStandalone = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::weekdaysFullStandalone()();
+        var weekdaysNarrow = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::weekdaysNarrow()();
+        var weekdaysNarrowStandalone = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::weekdaysNarrowStandalone()();
+        var weekdaysShort = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::weekdaysShort()();
+        var weekdaysShortStandalone = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::weekdaysShortStandalone()();
 
-        var weekendEnd = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::weekendEnd()();
-        var weekendStart = dateTimeFormatInfo.@com.google.gwt.i18n.shared.DateTimeFormatInfo::weekendStart()();
+        var weekendEnd = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::weekendEnd()();
+        var weekendStart = dateTimeFormatInfo.@org.gwtproject.i18n.shared.DateTimeFormatInfo::weekendStart()();
 
 
         var newDateTimeFormatInfo = @org.gwtproject.i18n.shared.cldr.impl.gwt2.BridgedDateTimeFormatInfo::new([Ljava/lang/String;
@@ -253,7 +253,7 @@ public class LocaleInfoFactory {
 
                                                                                                    );
 
-        var localizedNames = getCurrentLocale.@com.google.gwt.i18n.client.LocaleInfo::getLocalizedNames()();
+        var localizedNames = getCurrentLocale.@org.gwtproject.i18n.client.LocaleInfo::getLocalizedNames()();
 
         var getLikelyRegionCodes = function() {
             return localizedNames.@org.gwtproject.i18n.shared.cldr.LocalizedNames::getLikelyRegionCodes()();
@@ -272,27 +272,27 @@ public class LocaleInfoFactory {
                                                                                                            Lorg/gwtproject/i18n/shared/cldr/impl/gwt2/Functions$CallbackRtrnStringArray;)
                                                                                                            (getLikelyRegionCodes, getRegionName, getSortedRegionCodes);
 
-        var numberConstants = getCurrentLocale.@com.google.gwt.i18n.client.LocaleInfo::getNumberConstants()();
+        var numberConstants = getCurrentLocale.@org.gwtproject.i18n.client.LocaleInfo::getNumberConstants()();
 
-        var notANumber = numberConstants.@com.google.gwt.i18n.client.constants.NumberConstants::notANumber()();
-        var currencyPattern = numberConstants.@com.google.gwt.i18n.client.constants.NumberConstants::currencyPattern()();
-        var decimalPattern = numberConstants.@com.google.gwt.i18n.client.constants.NumberConstants::decimalPattern()();
-        var decimalSeparator = numberConstants.@com.google.gwt.i18n.client.constants.NumberConstants::decimalSeparator()();
-        var defCurrencyCode = numberConstants.@com.google.gwt.i18n.client.constants.NumberConstants::defCurrencyCode()();
-        var exponentialSymbol = numberConstants.@com.google.gwt.i18n.client.constants.NumberConstants::exponentialSymbol()();
-        var globalCurrencyPattern = numberConstants.@com.google.gwt.i18n.client.constants.NumberConstants::globalCurrencyPattern()();
-        var groupingSeparator = numberConstants.@com.google.gwt.i18n.client.constants.NumberConstants::groupingSeparator()();
-        var infinity = numberConstants.@com.google.gwt.i18n.client.constants.NumberConstants::infinity()();
-        var minusSign = numberConstants.@com.google.gwt.i18n.client.constants.NumberConstants::minusSign()();
-        var monetaryGroupingSeparator = numberConstants.@com.google.gwt.i18n.client.constants.NumberConstants::monetaryGroupingSeparator()();
-        var monetarySeparator = numberConstants.@com.google.gwt.i18n.client.constants.NumberConstants::monetarySeparator()();
-        var percent = numberConstants.@com.google.gwt.i18n.client.constants.NumberConstants::percent()();
-        var percentPattern = numberConstants.@com.google.gwt.i18n.client.constants.NumberConstants::percentPattern()();
-        var perMill = numberConstants.@com.google.gwt.i18n.client.constants.NumberConstants::perMill()();
-        var plusSign = numberConstants.@com.google.gwt.i18n.client.constants.NumberConstants::plusSign()();
-        var scientificPattern = numberConstants.@com.google.gwt.i18n.client.constants.NumberConstants::scientificPattern()();
-        var simpleCurrencyPattern = numberConstants.@com.google.gwt.i18n.client.constants.NumberConstants::simpleCurrencyPattern()();
-        var zeroDigit = numberConstants.@com.google.gwt.i18n.client.constants.NumberConstants::zeroDigit()();
+        var notANumber = numberConstants.@org.gwtproject.i18n.client.constants.NumberConstants::notANumber()();
+        var currencyPattern = numberConstants.@org.gwtproject.i18n.client.constants.NumberConstants::currencyPattern()();
+        var decimalPattern = numberConstants.@org.gwtproject.i18n.client.constants.NumberConstants::decimalPattern()();
+        var decimalSeparator = numberConstants.@org.gwtproject.i18n.client.constants.NumberConstants::decimalSeparator()();
+        var defCurrencyCode = numberConstants.@org.gwtproject.i18n.client.constants.NumberConstants::defCurrencyCode()();
+        var exponentialSymbol = numberConstants.@org.gwtproject.i18n.client.constants.NumberConstants::exponentialSymbol()();
+        var globalCurrencyPattern = numberConstants.@org.gwtproject.i18n.client.constants.NumberConstants::globalCurrencyPattern()();
+        var groupingSeparator = numberConstants.@org.gwtproject.i18n.client.constants.NumberConstants::groupingSeparator()();
+        var infinity = numberConstants.@org.gwtproject.i18n.client.constants.NumberConstants::infinity()();
+        var minusSign = numberConstants.@org.gwtproject.i18n.client.constants.NumberConstants::minusSign()();
+        var monetaryGroupingSeparator = numberConstants.@org.gwtproject.i18n.client.constants.NumberConstants::monetaryGroupingSeparator()();
+        var monetarySeparator = numberConstants.@org.gwtproject.i18n.client.constants.NumberConstants::monetarySeparator()();
+        var percent = numberConstants.@org.gwtproject.i18n.client.constants.NumberConstants::percent()();
+        var percentPattern = numberConstants.@org.gwtproject.i18n.client.constants.NumberConstants::percentPattern()();
+        var perMill = numberConstants.@org.gwtproject.i18n.client.constants.NumberConstants::perMill()();
+        var plusSign = numberConstants.@org.gwtproject.i18n.client.constants.NumberConstants::plusSign()();
+        var scientificPattern = numberConstants.@org.gwtproject.i18n.client.constants.NumberConstants::scientificPattern()();
+        var simpleCurrencyPattern = numberConstants.@org.gwtproject.i18n.client.constants.NumberConstants::simpleCurrencyPattern()();
+        var zeroDigit = numberConstants.@org.gwtproject.i18n.client.constants.NumberConstants::zeroDigit()();
 
         var bridgedNumberConstants = new @org.gwtproject.i18n.shared.cldr.impl.gwt2.BridgedNumberConstants::new(Ljava/lang/String;
                                                                                                    Ljava/lang/String;
