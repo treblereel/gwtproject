@@ -123,9 +123,9 @@ public class AptContext {
   private void addType(Element e, ResourceGeneratorType resourceGeneratorType) {
     String resourceGeneratorName = resourceGeneratorType.value();
     try {
-      Class<? extends ResourceGenerator> value = (Class<? extends ResourceGenerator>) Class.forName(resourceGeneratorName);
-      generators.put(
-              e, value);
+      Class<? extends ResourceGenerator> value =
+          (Class<? extends ResourceGenerator>) Class.forName(resourceGeneratorName);
+      generators.put(e, value);
     } catch (ClassNotFoundException e1) {
       e1.printStackTrace();
       throw new Error(e1);
